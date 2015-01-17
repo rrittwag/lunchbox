@@ -16,8 +16,8 @@ public class LunchProviderRepository {
     static {
         list.add(new LunchProvider(1, "Schweinestall", "Neubrandenburg"));
         list.add(new LunchProvider(2, "Hotel am Ring", "Neubrandenburg"));
-        list.add(new LunchProvider(3, "AOK", "Neubrandenburg"));
-        list.add(new LunchProvider(4, "Suppenkultur", "Neubrandenburg"));
+        list.add(new LunchProvider(3, "AOK Cafeteria", "Neubrandenburg"));
+        list.add(new LunchProvider(4, "Suppenkulttour", "Neubrandenburg"));
         list.add(new LunchProvider(5, "Bistro \"Salt 'n' pepper\"", "Berlin"));
     }
 
