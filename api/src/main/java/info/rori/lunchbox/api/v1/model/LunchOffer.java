@@ -26,15 +26,15 @@ public class LunchOffer {
         this.provider = provider;
     }
 
-    @ApiModelProperty(value = "ID", required = true)
+    @ApiModelProperty(value = "ID", dataType = "[0-9]+", required = true)
     public int id;
     @ApiModelProperty(value = "Bezeichnung des Mittagsangebots (mitsamt allen Beilagen)", dataType = "string(1024)", required = true)
     public String name;
     @ApiModelProperty(value = "Tag, an dem das Mittagsangebot gilt", dataType = "ISO 8601-Format 'YYYY-MM-DD'", required = true)
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
-    public LocalDate day; // ISO 8601 format: "JJJJ-MM-TT"
+    public LocalDate day;
     @ApiModelProperty(value = "Preis in EURO-Cent", dataType = "[0-9]+", required = true)
     public int price;
     @ApiModelProperty(value = "Anbieter des Angebots", dataType = "[0-9]+", required = true)
-    public int provider; // ID of lunch provider
+    public int provider;
 }

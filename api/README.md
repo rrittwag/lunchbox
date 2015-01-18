@@ -22,8 +22,8 @@ Benutzung
 ---------
 
 * WAR-File deployen: `gradle jettyRun`.
-* [Abruf der Swagger-Dokumentation](http://localhost:8080/api-docs)
-* [Abruf der Mock-Implementierung](http://localhost:8080/api/v1)
+* [Abruf der Dokumentation](http://localhost:8080/api/v1-docs)
+* [Root der Mock-Implementierung](http://localhost:8080/api/v1/)
 
 
 
@@ -33,3 +33,4 @@ Wissen
 * [Tutorial: Jersey & JAX-RS](http://www.vogella.com/tutorials/REST/article.html#restjersey)
 * [Tutorial: Jersey & Servlet 2](https://jersey.java.net/documentation/latest/user-guide.html#deployment.servlet.2)
 * Tutorial: Swagger-Konfiguration [Quelle 1](http://aredko.blogspot.de/2013/09/swagger-make-developers-to-love-working.html) + [Quelle 2](https://github.com/swagger-api/swagger-core/wiki/Swagger-Core-Jersey-2.X-Project-Setup)
+* [Tutorial für Swagger UI](https://github.com/swagger-api/swagger-ui)

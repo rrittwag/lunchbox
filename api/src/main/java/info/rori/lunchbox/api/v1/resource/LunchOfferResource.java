@@ -21,13 +21,13 @@ public class LunchOfferResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Liefert alle Mittagsangebote, ggf. gefiltert nach Tag")
+    @ApiOperation(value = "Liefert alle Mittagsangebote, ggf. gefiltert nach Gültigkeits-Tag")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 500, message = "Serverfehler")})
     public List<LunchOffer> get(
             @QueryParam("day")
-            @ApiParam(value = "Tag, an dem die Mittagsangebote gültig sein sollen", allowableValues = "ISO 8601-Format 'YYYY-MM-DD'", required = false)
+            @ApiParam(value = "Tag, an dem die Mittagsangebote gültig sein sollen. Format: 'YYYY-MM-DD' (ISO 8601)", required = false)
             String dayString) {
         LocalDate day = TypeConverter.toDate(dayString);
         if (day == null)
@@ -46,9 +46,9 @@ public class LunchOfferResource {
             @ApiResponse(code = 500, message = "Serverfehler")})
     public LunchOffer getById(
             @PathParam("id")
-            @ApiParam(value = "ID des gesuchten Mittagsangebots", allowableValues = "[0-9]+", required = true)
-            String id) {
-        return repo.findById(Integer.parseInt(id));
+            @ApiParam(value = "ID des gesuchten Mittagsangebots", required = true)
+            int id) {
+        return repo.findById(id);
     }
 
 }

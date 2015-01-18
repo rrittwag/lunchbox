@@ -38,8 +38,8 @@ public class LunchProviderResource {
     public LunchProvider getById(
             @PathParam("id")
             @ApiParam(value = "ID des gesuchten Mittagsanbieters", required = true)
-            String id) {
-        return repo.findById(Integer.parseInt(id));
+            int id) {
+        return repo.findById(id);
     }
 
 }
