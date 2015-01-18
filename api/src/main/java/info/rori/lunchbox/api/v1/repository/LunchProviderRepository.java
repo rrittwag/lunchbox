@@ -4,7 +4,6 @@ import info.rori.lunchbox.api.v1.model.LunchProvider;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Stellt Beispieldaten für Mittagsanbieter bereit.
@@ -27,9 +26,5 @@ public class LunchProviderRepository {
 
     public LunchProvider findById(int id) {
         return list.stream().filter(x -> x.id == id).findFirst().orElse(null);
-    }
-
-    public List<LunchProvider> findByLocation(String location) {
-        return list.stream().filter(x -> location.equals(x.location)).collect(Collectors.toList());
     }
 }

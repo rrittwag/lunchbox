@@ -2,10 +2,7 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 apply plugin: 'war'
-
-// the default jetty plugin is outdated. The gretty plugin supports Jetty 9 & hot deployment.
-apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
-
+apply plugin: 'jetty'
 
 
 sourceCompatibility = '1.8'
@@ -20,4 +17,5 @@ dependencies {
      	exclude module: 'scala-compiler'
      }
      compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.1'
+     compile 'org.scala-lang:scala-xml:2.11.+'
 }
