@@ -28,41 +28,9 @@ Ideen für weitere Versionen:
 * "kurzentschlossener" Nutzer findet spontan Essengruppe in seiner Nähe
 * ...
 
+Status:
 
-
-Projektstruktur
----------------
-
-* `api` - Dokumentation der REST API für Client-Aufrufe. Das Projekt hält eine Mock-Implementierung mit Beispieldaten.
-* `server_*` - Sub-Projekte mit Server-Implementierung (z.B. `server_scala_spray` für Implementierung mit Scala & Spray).
-* `client_*` - Sub-Projekte mit Client-Implementierung (z.B. `client_web_angular`, `client_android`, `client_ios`, ...).
-
-
-
-Status
-------
-
-**early early alpha**
-
-DONE
-
-* api - REST API Version 1 beschrieben
-
-TODO
-
-* server(s)
-* clients: web, android, ios, ...
-
-
-
-Build
------
-
-Siehe Sub-Projekt.
-
-
-
-Benutzung
----------
-
-Siehe Sub-Projekt.
+* Das Projekt wird via [Github](https://github.com/rori-dev/lunchbox) verwaltet.
+* Die Umsetzung des Servers und der Clients ist in Arbeit.
+* Die REST API ist in Version 1 [hier](http://lunchbox.rori.info/api/v1-docs) dokumentiert.
+* Eine Mock-Implementierung der API ist [hier](http://lunchbox.rori.info/api/v1) abrufbar.
