@@ -21,10 +21,12 @@ public class LunchProvider {
         this.location = location;
     }
 
-    @ApiModelProperty(value = "ID", dataType = "[0-9]+", required = true)
+    @ApiModelProperty(value = "ID", dataType = "integer", required = true)
     public int id;
+
     @ApiModelProperty(value = "Bezeichnung des Mittagsanbieters", dataType = "string", required = true)
     public String name;
+
     @ApiModelProperty(value = "Der Umkreis, der vom Mittagsanbieter bedient wird", dataType = "string", required = true)
     public String location; // city or district
 }
