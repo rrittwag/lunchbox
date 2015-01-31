@@ -26,6 +26,11 @@ release.properties
 build/
 .gradle/
 
+# SBT
+target/
+tmp/
+dist/
+
 # other
 .DS_Store
 *~
