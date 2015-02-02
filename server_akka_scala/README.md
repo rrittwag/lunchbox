@@ -8,7 +8,7 @@ Dieses Sub-Projekt beschreibt eine Implementierung des Lunchbox-Servers. Die Ums
 Build
 -----
 
-* Projektdateien für IntelliJ IDEA generieren: `sbt idea`
+* Projektdateien für IntelliJ IDEA generieren: `sbt gen-idea`
 * Projektdateien für Eclipse generieren: `sbt eclipse`
 
 * Projekt übersetzen: `sbt compile`
