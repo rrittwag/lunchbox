@@ -18,7 +18,7 @@ Build
 Benutzung
 ---------
 
-* Server starten mit: `sbt run`
+* Server starten: `sbt run`
 * Die REST API ist unter [http://localhost:8080/api/v1/](http://localhost:8080/api/v1/) erreichbar
 
 
@@ -27,4 +27,4 @@ Wissen
 ------
 
 * [Akka Dokumentation](http://akka.io/docs/)
-* 
+* [Beispiel für Akka HTTP-Server](https://github.com/hseeberger/reactive-flows)

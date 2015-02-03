@@ -1,23 +1,14 @@
-package info.rori.lunchbox.server.akka.scala.resources
+package info.rori.lunchbox.server.akka.scala.service
 
-import akka.actor.{ActorLogging, Props, Actor}
+import akka.actor.{Actor, ActorLogging, Props}
 import akka.http.Http
 import akka.http.model.HttpResponse
 import akka.http.server.{Directives, Route}
 import akka.stream.scaladsl.ImplicitFlowMaterializer
 import akka.util.Timeout
-import info.rori.lunchbox.server.akka.scala.resources
-import scala.concurrent.duration._
-import akka.http.server.Directives._
-import akka.actor.{ Actor, ActorLogging, ActorRef, Props }
-import akka.http.Http
-import akka.http.model.StatusCodes
-import akka.http.server.{ Directives, Route }
-import akka.stream.actor.ActorPublisher
-import akka.stream.scaladsl.{ ImplicitFlowMaterializer, Source }
-import akka.util.Timeout
-import scala.concurrent.Future
-import scala.concurrent.duration.{ DurationInt, FiniteDuration }
+import info.rori.lunchbox.server.akka.scala.service
+
+import scala.concurrent.duration.DurationInt
 
 object HttpService {
   val Name = "http-service"
@@ -33,18 +24,18 @@ class HttpService(host: String, port: Int)(implicit askTimeout: Timeout)
   with Directives
   with ImplicitFlowMaterializer {
 
-  import HttpService._
   import context.dispatcher
+  import info.rori.lunchbox.server.akka.scala.service.HttpService._
 
   log.info(s"Starting server at $host:$port")
-  log.info(s"To shutdown, send GET request to http://$host:$port/shutdown")
+  log.info(s"To shutdown, send http://$host:$port/shutdown")
 
   Http(context.system).bind(host, port).startHandlingWith(route)
 
 
-  private def route: Route = resources.route ~ routeShutdown
+  private def route: Route = service.httpRoute ~ shutdownRoute
 
-  private def routeShutdown: Route =
+  private def shutdownRoute: Route =
     path("shutdown") {
       get {
         complete {

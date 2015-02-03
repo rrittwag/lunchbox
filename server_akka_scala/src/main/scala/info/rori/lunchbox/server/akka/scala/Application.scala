@@ -2,7 +2,7 @@ package info.rori.lunchbox.server.akka.scala
 
 import akka.actor._
 import akka.event.Logging
-import info.rori.lunchbox.server.akka.scala.resources.HttpService
+import info.rori.lunchbox.server.akka.scala.service.HttpService
 
 object Application extends App {
   val system = ActorSystem("lunchbox-server")
@@ -14,6 +14,9 @@ object Application extends App {
 }
 
 
+/**
+ * Supervisor für essenzielle Services (z.B. HTTP-Server). Beendet bei deren Abbruch das Aktoren-System.
+ */
 object Reaper {
   val Name = "reaper"
   def props = Props(new Reaper)
