@@ -2,40 +2,41 @@ package info.rori.lunchbox.server.akka.scala
 
 import akka.actor._
 import akka.event.Logging
-import info.rori.lunchbox.server.akka.scala.service.HttpService
+import info.rori.lunchbox.server.akka.scala.domain.DomainRoot
+import info.rori.lunchbox.server.akka.scala.service.ServiceRoot
 
 object Application extends App {
   val system = ActorSystem("lunchbox-server")
   val log = Logging.apply(system, getClass)
 
-  system.actorOf(Reaper.props, Reaper.Name)
+  system.actorOf(ApplicationRoot.props, ApplicationRoot.Name)
 
   system.awaitTermination()
 }
 
 
 /**
- * Supervisor für essenzielle Services (z.B. HTTP-Server). Beendet bei deren Abbruch das Aktoren-System.
+ * Erzeugt und überwacht DomainRoot & ServiceRoot
  */
-object Reaper {
-  val Name = "reaper"
-  def props = Props(new Reaper)
+object ApplicationRoot {
+  val Name = "app"
+
+  def props = Props(new ApplicationRoot)
+
+  case object Shutdown
 }
 
-class Reaper
+class ApplicationRoot
   extends Actor
   with ActorLogging {
 
-  override val supervisorStrategy = SupervisorStrategy.stoppingStrategy
-  context.watch(createHttpService())
+  import ApplicationRoot._
 
-  override def receive: Receive = {
-    case Terminated(actorRef) =>
-      log.warning("Shutting down, because {} has been terminated!", actorRef.path)
-      context.system.shutdown()
-  }
+  val domainRoot = context.actorOf(DomainRoot.props, DomainRoot.Name)
+  val serviceRoot = context.actorOf(ServiceRoot.props, ServiceRoot.Name)
 
-  protected def createHttpService(): ActorRef = {
-    context.actorOf(HttpService.props(), HttpService.Name)
+  override def receive = {
+    case Shutdown => context.system.shutdown()
+    case msg => log.warning("unhandled message in ApplicationRoot: " + msg)
   }
 }
