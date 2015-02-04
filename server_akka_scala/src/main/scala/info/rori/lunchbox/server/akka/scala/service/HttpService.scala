@@ -13,7 +13,7 @@ import info.rori.lunchbox.server.akka.scala.{ApplicationRoot, service}
 import scala.concurrent.duration.DurationInt
 
 object HttpService {
-  val Name = "http-service"
+  val Name = "http"
 
   def props() = Props(new HttpService("localhost", 8080)(5.seconds))
 }
