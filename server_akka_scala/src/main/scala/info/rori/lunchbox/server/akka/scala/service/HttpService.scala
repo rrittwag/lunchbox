@@ -6,9 +6,9 @@ import akka.http.model.HttpResponse
 import akka.http.server.{Directives, Route}
 import akka.stream.scaladsl.ImplicitFlowMaterializer
 import akka.util.Timeout
+import info.rori.lunchbox.server.akka.scala.ApplicationRoot
 import info.rori.lunchbox.server.akka.scala.service.api.v1.ApiRouteV1
 import info.rori.lunchbox.server.akka.scala.service.feed.FeedRoute
-import info.rori.lunchbox.server.akka.scala.{ApplicationRoot, service}
 
 import scala.concurrent.duration.DurationInt
 
