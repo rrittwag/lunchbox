@@ -43,7 +43,10 @@ class HttpService(host: String, port: Int)(implicit askTimeout: Timeout)
 trait HttpRoute
   extends Actor
   with ActorLogging
-  with Directives
+  with Directives {
+
+  implicit val timeout: Timeout = 1.second
+}
 
 
 trait MaintenanceRoute
