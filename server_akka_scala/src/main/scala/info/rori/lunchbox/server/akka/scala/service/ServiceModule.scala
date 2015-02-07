@@ -5,13 +5,13 @@ import akka.actor._
 /**
  * Erstellt und überwacht die Services, die Daten nach außen bereitstellen.
  */
-object ServiceRoot {
+object ServiceModule {
   val Name = "service"
 
-  def props = Props(new ServiceRoot)
+  def props = Props(new ServiceModule)
 }
 
-class ServiceRoot
+class ServiceModule
   extends Actor
   with ActorLogging {
 

@@ -6,13 +6,13 @@ import info.rori.lunchbox.server.akka.scala.domain.service.LunchProviderService
 /**
  * Erstellt und überwacht die Domain-Services.
  */
-object DomainRoot {
+object DomainModule {
   val Name = "domain"
 
-  def props = Props(new DomainRoot)
+  def props = Props(new DomainModule)
 }
 
-class DomainRoot
+class DomainModule
   extends Actor
   with ActorLogging {
 

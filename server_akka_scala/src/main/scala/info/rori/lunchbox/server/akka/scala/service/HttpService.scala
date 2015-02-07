@@ -4,10 +4,9 @@ import akka.actor.{Actor, ActorLogging, Props}
 import akka.http.Http
 import akka.http.model.HttpResponse
 import akka.http.server.{Directives, Route}
-import akka.stream.{ActorFlowMaterializer, FlowMaterializer}
 import akka.stream.scaladsl.ImplicitFlowMaterializer
 import akka.util.Timeout
-import info.rori.lunchbox.server.akka.scala.ApplicationRoot
+import info.rori.lunchbox.server.akka.scala.ApplicationModule
 import info.rori.lunchbox.server.akka.scala.service.api.v1.ApiRouteV1
 import info.rori.lunchbox.server.akka.scala.service.feed.FeedRoute
 
@@ -65,7 +64,7 @@ trait MaintenanceRoute
       get {
         complete {
           // TODO: Shutdown an ApplicationRoot schicken
-          context.system.scheduler.scheduleOnce(500.millis, self, ApplicationRoot.Shutdown)
+          context.system.scheduler.scheduleOnce(500.millis, self, ApplicationModule.Shutdown)
           log.info("Shutting down now ...")
           HttpResponse(entity = "Shutting down now ...")
         }

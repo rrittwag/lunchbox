@@ -2,14 +2,14 @@ package info.rori.lunchbox.server.akka.scala
 
 import akka.actor._
 import akka.event.Logging
-import info.rori.lunchbox.server.akka.scala.domain.DomainRoot
-import info.rori.lunchbox.server.akka.scala.service.ServiceRoot
+import info.rori.lunchbox.server.akka.scala.domain.DomainModule
+import info.rori.lunchbox.server.akka.scala.service.ServiceModule
 
 object Application extends App {
   val system = ActorSystem("lunchbox-server")
   val log = Logging.apply(system, getClass)
 
-  system.actorOf(ApplicationRoot.props, ApplicationRoot.Name)
+  system.actorOf(ApplicationModule.props, ApplicationModule.Name)
 
   system.awaitTermination()
 }
@@ -18,22 +18,22 @@ object Application extends App {
 /**
  * Erzeugt und überwacht DomainRoot & ServiceRoot
  */
-object ApplicationRoot {
+object ApplicationModule {
   val Name = "app"
 
-  def props = Props(new ApplicationRoot)
+  def props = Props(new ApplicationModule)
 
   case object Shutdown
 }
 
-class ApplicationRoot
+class ApplicationModule
   extends Actor
   with ActorLogging {
 
-  import ApplicationRoot._
+  import ApplicationModule._
 
-  val domainRoot = context.actorOf(DomainRoot.props, DomainRoot.Name)
-  val serviceRoot = context.actorOf(ServiceRoot.props, ServiceRoot.Name)
+  val domainRoot = context.actorOf(DomainModule.props, DomainModule.Name)
+  val serviceRoot = context.actorOf(ServiceModule.props, ServiceModule.Name)
 
   override def receive = {
     case Shutdown => context.system.shutdown()
