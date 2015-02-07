@@ -34,7 +34,7 @@ Projektstruktur
 ---------------
 
 * `api` - Dokumentation der REST API für Client-Aufrufe. Das Projekt hält eine Mock-Implementierung mit Beispieldaten.
-* `server_*` - Sub-Projekte mit Server-Implementierung (z.B. `server_scala_spray` für Implementierung mit Scala & Spray).
+* `server_*` - Sub-Projekte mit Server-Implementierung (z.B. `server_akka_scala` für Implementierung mit Scala & Akka).
 * `client_*` - Sub-Projekte mit Client-Implementierung (z.B. `client_web_angular`, `client_android`, `client_ios`, ...).
 
 

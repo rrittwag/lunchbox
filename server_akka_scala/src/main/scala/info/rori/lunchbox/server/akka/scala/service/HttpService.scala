@@ -4,12 +4,14 @@ import akka.actor.{Actor, ActorLogging, Props}
 import akka.http.Http
 import akka.http.model.HttpResponse
 import akka.http.server.{Directives, Route}
+import akka.stream.{ActorFlowMaterializer, FlowMaterializer}
 import akka.stream.scaladsl.ImplicitFlowMaterializer
 import akka.util.Timeout
 import info.rori.lunchbox.server.akka.scala.ApplicationRoot
 import info.rori.lunchbox.server.akka.scala.service.api.v1.ApiRouteV1
 import info.rori.lunchbox.server.akka.scala.service.feed.FeedRoute
 
+import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration.DurationInt
 
 object HttpService {
@@ -24,8 +26,6 @@ class HttpService(host: String, port: Int)(implicit askTimeout: Timeout)
   with MaintenanceRoute
   with ApiRouteV1
   with FeedRoute {
-
-  import context.dispatcher
 
   log.info(s"Starting server at $host:$port")
   log.info(s"To shutdown, send http://$host:$port/shutdown")
@@ -45,14 +45,20 @@ trait HttpRoute
   with ActorLogging
   with Directives {
 
+  val NotFound = akka.http.model.StatusCodes.NotFound
+  val InternalServerError = akka.http.model.StatusCodes.InternalServerError
+
   implicit val timeout: Timeout = 1.second
+  implicit def executor: ExecutionContextExecutor = context.dispatcher
+//  implicit val materializer: FlowMaterializer = ActorFlowMaterializer() // necessary for unmarshelling !?
 }
 
 
+/**
+ * Stellt Wartungsroutinen über die HTTP-Schnittstelle bereit.
+ */
 trait MaintenanceRoute
   extends HttpRoute {
-
-  import context.dispatcher
 
   def maintenanceRoute =
     path("shutdown") {
@@ -66,3 +72,5 @@ trait MaintenanceRoute
       }
     }
 }
+
+

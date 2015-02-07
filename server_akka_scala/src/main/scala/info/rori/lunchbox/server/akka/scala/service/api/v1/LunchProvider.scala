@@ -1,58 +1,73 @@
 package info.rori.lunchbox.server.akka.scala.service.api.v1
 
-import akka.http.model.{StatusCodes, HttpResponse}
+import akka.http.marshallers.sprayjson.SprayJsonSupport._
+import akka.http.marshalling.ToResponseMarshallable
 import akka.pattern.ask
 import info.rori.lunchbox.server.akka.scala.domain.model.LunchProvider
 import info.rori.lunchbox.server.akka.scala.domain.service.LunchProviderService
-import info.rori.lunchbox.server.akka.scala.domain.service.LunchProviderService.{SingleResult, MultiResult}
+import info.rori.lunchbox.server.akka.scala.domain.service.LunchProviderService.{MultiResult, SingleResult}
 import info.rori.lunchbox.server.akka.scala.service.HttpRoute
+import spray.json._
 
-import scala.util.{Success, Failure}
 
+/**
+ * Model für LunchProvider in API v1.
+ */
+private[v1] case class LunchProvider_ApiV1(id: Int, name: String, location: String)
 
-case object LunchProvider_ApiV1 {
-  def apply(prov: LunchProvider): LunchProvider_ApiV1 = apply(id = prov.id, name = prov.name, location = prov.location)
+private[v1] case object LunchProvider_ApiV1 {
+  def apply(p: LunchProvider): LunchProvider_ApiV1 = apply(id = p.id, name = p.name, location = p.location)
 }
 
-case class LunchProvider_ApiV1(id: Int, name: String, location: String)
+private[v1] object LunchProviderJsonSupport extends DefaultJsonProtocol {
+  implicit val lunchProviderFormat = jsonFormat3(LunchProvider_ApiV1.apply)
+  implicit val printer : spray.json.JsonPrinter = CompactPrinter // remove line, if you want to print pretty JSON
+}
 
 
+/**
+ * HTTP-Route für LunchProvider in API v1.
+ */
 trait LunchProviderRoute_ApiV1
   extends HttpRoute {
+
+  import info.rori.lunchbox.server.akka.scala.service.api.v1.LunchProviderJsonSupport._
 
   private def lunchboxProviderService = context.actorSelection("/user/app/domain/LunchProviderService")
 
   val lunchProviderRoute =
     path("lunchProvider") {
       get {
-        val response = lunchboxProviderService
-          .ask(LunchProviderService.GetAll)
-          .mapTo[MultiResult]
-        onComplete(response) {
-          case Success(msg) => complete(toHttpResponse(msg.providers))
-          case Failure(exc) => complete(toHttpResponse(exc))
+        complete {
+          lunchboxProviderService
+            .ask(LunchProviderService.GetAll).mapTo[MultiResult]
+            .map(msg => toResponse(msg.providers))
+            .recover[ToResponseMarshallable] { case _ => InternalServerError}
         }
       }
     } ~
     path("lunchProvider" / IntNumber) { id =>
       get {
-        val response = lunchboxProviderService
-          .ask(LunchProviderService.GetById(id))
-          .mapTo[SingleResult]
-        onComplete(response) {
-          case Success(msg) => complete(toHttpResponse(msg.provider))
-          case Failure(exc) => complete(toHttpResponse(exc))
+        complete {
+          lunchboxProviderService
+            .ask(LunchProviderService.GetById(id)).mapTo[SingleResult]
+            .map(msg => toResponse(msg.provider))
+            .recover[ToResponseMarshallable] { case _ => InternalServerError}
         }
-      }
+      } /*~
+      post {
+        entity(as[LunchProvider_ApiV1]) {
+          obj => complete(obj.toString)
+        }
+      }*/
+
     }
 
-  def toHttpResponse(value: Option[LunchProvider]): HttpResponse = value match {
-    case Some(provider) => HttpResponse(entity = LunchProvider_ApiV1(provider).toString)
-    case None => HttpResponse(StatusCodes.NotFound)
+  def toResponse(value: Option[LunchProvider]): ToResponseMarshallable = value match {
+    case Some(provider) => LunchProvider_ApiV1(provider)
+    case None => NotFound
   }
 
-  def toHttpResponse(providers: Seq[LunchProvider]): HttpResponse = HttpResponse(entity = providers.map(p => LunchProvider_ApiV1(p)).toString())
-
-  def toHttpResponse(t: Throwable): HttpResponse = HttpResponse(status = StatusCodes.InternalServerError, entity = t.toString)
+  def toResponse(providers: Seq[LunchProvider]): ToResponseMarshallable = providers.map(p => LunchProvider_ApiV1(p)).toJson
 
 }
