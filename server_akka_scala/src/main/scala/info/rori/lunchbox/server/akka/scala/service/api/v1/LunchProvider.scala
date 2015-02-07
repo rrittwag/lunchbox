@@ -4,8 +4,7 @@ import akka.http.marshallers.sprayjson.SprayJsonSupport._
 import akka.http.marshalling.ToResponseMarshallable
 import akka.pattern.ask
 import info.rori.lunchbox.server.akka.scala.domain.model.LunchProvider
-import info.rori.lunchbox.server.akka.scala.domain.service.LunchProviderService
-import info.rori.lunchbox.server.akka.scala.domain.service.LunchProviderService.{MultiResult, SingleResult}
+import info.rori.lunchbox.server.akka.scala.domain.service.LunchProviderService._
 import info.rori.lunchbox.server.akka.scala.service.HttpRoute
 import spray.json._
 
@@ -33,14 +32,17 @@ trait LunchProviderRoute_ApiV1
 
   import info.rori.lunchbox.server.akka.scala.service.api.v1.LunchProviderJsonSupport._
 
-  private def lunchboxProviderService = context.actorSelection("/user/app/domain/LunchProviderService")
+  private def domainService = context.actorSelection("/user/app/domain/LunchProviderService")
 
   val lunchProviderRoute =
     path("lunchProvider") {
-      get {
+      (get & parameters('location.?)) { locationParam =>
         complete {
-          lunchboxProviderService
-            .ask(LunchProviderService.GetAll).mapTo[MultiResult]
+          val domainMsg = locationParam match {
+            case Some(location) => GetByLocation(location)
+            case _ => GetAll
+          }
+          domainService.ask(domainMsg).mapTo[MultiResult]
             .map(msg => toResponse(msg.providers))
             .recover[ToResponseMarshallable] { case _ => InternalServerError}
         }
@@ -49,8 +51,7 @@ trait LunchProviderRoute_ApiV1
     path("lunchProvider" / IntNumber) { id =>
       get {
         complete {
-          lunchboxProviderService
-            .ask(LunchProviderService.GetById(id)).mapTo[SingleResult]
+          domainService.ask(GetById(id)).mapTo[SingleResult]
             .map(msg => toResponse(msg.provider))
             .recover[ToResponseMarshallable] { case _ => InternalServerError}
         }
