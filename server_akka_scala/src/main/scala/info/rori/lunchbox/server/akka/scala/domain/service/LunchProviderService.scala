@@ -13,6 +13,10 @@ object LunchProviderService {
   case class GetById(id: Id)
 
   case class GetByLocation(location: Location)
+
+  case class MultiResult(providers: Seq[LunchProvider])
+
+  case class SingleResult(provider: Option[LunchProvider])
 }
 
 class LunchProviderService extends Actor {
@@ -27,8 +31,8 @@ class LunchProviderService extends Actor {
   import LunchProviderService._
 
   override def receive = {
-    case GetAll => sender ! providers
-    case GetById(id) => sender ! providers.find(_.id == id)
-    case GetByLocation(location) => sender ! providers.find(_.location == location)
+    case GetAll => sender ! MultiResult(providers)
+    case GetById(id) => sender ! SingleResult(providers.find(_.id == id))
+    case GetByLocation(location) => sender ! MultiResult(providers.filter(_.location == location))
   }
 }

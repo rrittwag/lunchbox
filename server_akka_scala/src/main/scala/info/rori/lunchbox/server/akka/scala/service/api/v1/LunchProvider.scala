@@ -1,19 +1,23 @@
 package info.rori.lunchbox.server.akka.scala.service.api.v1
 
-import akka.actor.ActorSelection
 import akka.http.model.{StatusCodes, HttpResponse}
 import akka.pattern.ask
 import info.rori.lunchbox.server.akka.scala.domain.model.LunchProvider
 import info.rori.lunchbox.server.akka.scala.domain.service.LunchProviderService
+import info.rori.lunchbox.server.akka.scala.domain.service.LunchProviderService.{SingleResult, MultiResult}
 import info.rori.lunchbox.server.akka.scala.service.HttpRoute
 
 import scala.util.{Success, Failure}
 
 
-case class ApiV1LunchProvider(id: Int, name: String, location: String)
+case object LunchProvider_ApiV1 {
+  def apply(prov: LunchProvider): LunchProvider_ApiV1 = apply(id = prov.id, name = prov.name, location = prov.location)
+}
+
+case class LunchProvider_ApiV1(id: Int, name: String, location: String)
 
 
-trait LunchProviderRoute
+trait LunchProviderRoute_ApiV1
   extends HttpRoute {
 
   private def lunchboxProviderService = context.actorSelection("/user/app/domain/LunchProviderService")
@@ -23,9 +27,9 @@ trait LunchProviderRoute
       get {
         val response = lunchboxProviderService
           .ask(LunchProviderService.GetAll)
-          .mapTo[Seq[LunchProvider]]
+          .mapTo[MultiResult]
         onComplete(response) {
-          case Success(value) => complete(HttpResponse(entity = value.toString))
+          case Success(msg) => complete(toHttpResponse(msg.providers))
           case Failure(exc) => complete(toHttpResponse(exc))
         }
       }
@@ -34,19 +38,21 @@ trait LunchProviderRoute
       get {
         val response = lunchboxProviderService
           .ask(LunchProviderService.GetById(id))
-          .mapTo[Option[LunchProvider]]
+          .mapTo[SingleResult]
         onComplete(response) {
-          case Success(value) => complete(toHttpResponse(value))
+          case Success(msg) => complete(toHttpResponse(msg.provider))
           case Failure(exc) => complete(toHttpResponse(exc))
         }
       }
     }
 
   def toHttpResponse(value: Option[LunchProvider]): HttpResponse = value match {
-    case Some(provider) => HttpResponse(entity = provider.toString)
+    case Some(provider) => HttpResponse(entity = LunchProvider_ApiV1(provider).toString)
     case None => HttpResponse(StatusCodes.NotFound)
   }
 
-  def toHttpResponse(t: Throwable): HttpResponse = HttpResponse(status = StatusCodes.InternalServerError, entity = "error: " + t.toString)
+  def toHttpResponse(providers: Seq[LunchProvider]): HttpResponse = HttpResponse(entity = providers.map(p => LunchProvider_ApiV1(p)).toString())
+
+  def toHttpResponse(t: Throwable): HttpResponse = HttpResponse(status = StatusCodes.InternalServerError, entity = t.toString)
 
 }
