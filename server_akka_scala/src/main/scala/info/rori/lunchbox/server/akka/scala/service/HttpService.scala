@@ -2,6 +2,7 @@ package info.rori.lunchbox.server.akka.scala.service
 
 import akka.actor.{Actor, ActorLogging, Props}
 import akka.http.Http
+import akka.http.marshalling.ToResponseMarshallable
 import akka.http.model.HttpResponse
 import akka.http.server.{Directives, Route}
 import akka.stream.scaladsl.ImplicitFlowMaterializer
@@ -10,7 +11,7 @@ import info.rori.lunchbox.server.akka.scala.ApplicationModule
 import info.rori.lunchbox.server.akka.scala.service.api.v1.ApiRouteV1
 import info.rori.lunchbox.server.akka.scala.service.feed.FeedRoute
 
-import scala.concurrent.ExecutionContextExecutor
+import scala.concurrent.{Future, ExecutionContextExecutor}
 import scala.concurrent.duration.DurationInt
 
 object HttpService {
@@ -47,9 +48,20 @@ trait HttpRoute
   val NotFound = akka.http.model.StatusCodes.NotFound
   val InternalServerError = akka.http.model.StatusCodes.InternalServerError
 
-  implicit val timeout: Timeout = 1.second
+  implicit val timeout: Timeout = 1.second // Timeout for domain actor calls in path
+
   implicit def executor: ExecutionContextExecutor = context.dispatcher
-//  implicit val materializer: FlowMaterializer = ActorFlowMaterializer() // necessary for unmarshelling !?
+
+  //  implicit val materializer: FlowMaterializer = ActorFlowMaterializer() // necessary for unmarshelling !?
+
+  implicit class RichFutureToResponseMarshallable(val f: Future[ToResponseMarshallable]) {
+    def recoverOnError(message: String) = f.recover[ToResponseMarshallable] {
+      case exc: Throwable =>
+        log.error(exc, s"HTTP call: $message")
+        InternalServerError
+    }
+  }
+
 }
 
 

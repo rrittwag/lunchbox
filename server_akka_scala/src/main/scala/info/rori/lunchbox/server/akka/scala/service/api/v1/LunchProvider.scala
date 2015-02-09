@@ -36,15 +36,15 @@ trait LunchProviderRoute_ApiV1
 
   val lunchProviderRoute =
     path("lunchProvider") {
-      (get & parameters('location.?)) { locationParam =>
+      (get & parameters('location.?)) { optLocation =>
         complete {
-          val domainMsg = locationParam match {
+          val domainMsg = optLocation match {
             case Some(location) => GetByLocation(location)
-            case _ => GetAll
+            case None => GetAll
           }
           domainService.ask(domainMsg).mapTo[MultiResult]
             .map(msg => toResponse(msg.providers))
-            .recover[ToResponseMarshallable] { case _ => InternalServerError}
+            .recoverOnError(s"api/v1/lunchProvider?$optLocation")
         }
       }
     } ~
@@ -53,7 +53,7 @@ trait LunchProviderRoute_ApiV1
         complete {
           domainService.ask(GetById(id)).mapTo[SingleResult]
             .map(msg => toResponse(msg.provider))
-            .recover[ToResponseMarshallable] { case _ => InternalServerError}
+            .recoverOnError(s"api/v1/lunchProvider/$id")
         }
       } /*~
       post {
