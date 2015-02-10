@@ -31,7 +31,9 @@ target/
 tmp/
 dist/
 
+# runtime
+logs/
+
 # other
 .DS_Store
 *~
-
