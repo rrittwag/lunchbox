@@ -29,3 +29,4 @@ Wissen
 * [Akka Dokumentation](http://akka.io/docs/)
 * [Beispiel für Akka HTTP-Server](https://github.com/hseeberger/reactive-flows)
 * [kompaktes Beispiel für Akka-HTTP-Service (inkl JSON-Marshalling)](https://typesafe.com/activator/template/akka-http-microservice)
+* [Akka Logging](http://doc.akka.io/docs/akka/2.3.9/scala/logging.html)
