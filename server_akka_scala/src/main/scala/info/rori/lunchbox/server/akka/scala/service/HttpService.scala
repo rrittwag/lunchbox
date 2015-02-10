@@ -17,7 +17,7 @@ import scala.concurrent.duration.DurationInt
 object HttpService {
   val Name = "http"
 
-  def props() = Props(new HttpService("localhost", 8080)(5.seconds))
+  def props(interface: String, port: Int) = Props(new HttpService(interface, port)(5.seconds))
 }
 
 class HttpService(host: String, port: Int)(implicit askTimeout: Timeout)
@@ -72,13 +72,15 @@ trait MaintenanceRoute
   extends HttpRoute {
 
   def maintenanceRoute =
-    path("shutdown") {
-      get {
-        complete {
-          // TODO: Shutdown an ApplicationRoot schicken
-          context.system.scheduler.scheduleOnce(500.millis, self, ApplicationModule.Shutdown)
-          log.info("Shutting down now ...")
-          HttpResponse(entity = "Shutting down now ...")
+    logRequest(context.system.name) {
+      path("shutdown") {
+        get {
+          complete {
+            // TODO: Shutdown an ApplicationRoot schicken
+            context.system.scheduler.scheduleOnce(500.millis, self, ApplicationModule.Shutdown)
+            log.info("Shutting down now ...")
+            HttpResponse(entity = "Shutting down now ...")
+          }
         }
       }
     }

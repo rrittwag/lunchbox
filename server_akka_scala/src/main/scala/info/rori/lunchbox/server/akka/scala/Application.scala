@@ -7,7 +7,7 @@ import info.rori.lunchbox.server.akka.scala.service.ServiceModule
 
 object Application extends App {
   val system = ActorSystem("lunchbox-server")
-  val log = Logging.apply(system, getClass)
+  val log = Logging(system, getClass)
 
   system.actorOf(ApplicationModule.props, ApplicationModule.Name)
 

@@ -4,8 +4,9 @@ trait ApiRouteV1
   extends LunchProviderRoute_ApiV1 {
 
   def apiRouteV1 =
-    pathPrefix("api" / "v1") {
-      lunchProviderRoute
+    logRequest(context.system.name) {
+      pathPrefix("api" / "v1") {
+        lunchProviderRoute
+      }
     }
-
 }

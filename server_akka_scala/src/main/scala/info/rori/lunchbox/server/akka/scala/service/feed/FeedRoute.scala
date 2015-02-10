@@ -7,9 +7,11 @@ trait FeedRoute
   extends HttpRoute {
 
   def feedRoute =
-    path("feed") {
-      get {
-        complete(HttpResponse(entity = "feed"))
+    logRequest(context.system.name) {
+      path("feed") {
+        get {
+          complete(HttpResponse(entity = "feed"))
+        }
       }
     }
 }
