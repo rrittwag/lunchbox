@@ -20,7 +20,7 @@ private[v1] case object LunchProvider_ApiV1 {
 
 private[v1] object LunchProviderJsonSupport extends DefaultJsonProtocol {
   implicit val lunchProviderFormat = jsonFormat3(LunchProvider_ApiV1.apply)
-  implicit val printer : spray.json.JsonPrinter = CompactPrinter // remove line, if you want to print pretty JSON
+  implicit val printer: spray.json.JsonPrinter = CompactPrinter // remove line, if you want to print pretty JSON
 }
 
 
@@ -30,7 +30,7 @@ private[v1] object LunchProviderJsonSupport extends DefaultJsonProtocol {
 trait LunchProviderRoute_ApiV1
   extends HttpRoute {
 
-  import info.rori.lunchbox.server.akka.scala.service.api.v1.LunchProviderJsonSupport._
+  import LunchProviderJsonSupport._
 
   private def domainService = context.actorSelection("/user/app/domain/LunchProviderService")
 

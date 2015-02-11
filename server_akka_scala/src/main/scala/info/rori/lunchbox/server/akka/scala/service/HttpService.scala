@@ -48,11 +48,11 @@ trait HttpRoute
   val NotFound = akka.http.model.StatusCodes.NotFound
   val InternalServerError = akka.http.model.StatusCodes.InternalServerError
 
-  implicit val timeout: Timeout = 1.second // Timeout for domain actor calls in path
+  implicit val timeout: Timeout = 1.second // Timeout for domain actor calls in route
 
   implicit def executor: ExecutionContextExecutor = context.dispatcher
 
-  //  implicit val materializer: FlowMaterializer = ActorFlowMaterializer() // necessary for unmarshelling !?
+  //  implicit val materializer: FlowMaterializer = ActorFlowMaterializer() // necessary for unmarshelling
 
   implicit class RichFutureToResponseMarshallable(val f: Future[ToResponseMarshallable]) {
     def recoverOnError(message: String) = f.recover[ToResponseMarshallable] {
