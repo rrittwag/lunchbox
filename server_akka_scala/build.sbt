@@ -16,7 +16,9 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "1.0-M3",
     "io.spray"          %% "spray-json" % "1.3.1",
     "com.typesafe.akka" %% "akka-slf4j"   % akkaV,
-    "ch.qos.logback"    %  "logback-classic" % "1.1.2"
+    "ch.qos.logback"    %  "logback-classic" % "1.1.2",
+    "com.github.nscala-time" %% "nscala-time" % "1.8.0",
+    "org.joda"               %  "joda-money"  % "0.10.0"
     //    "com.typesafe.akka" %% "akka-testkit" % akkaV   % "test",
     //    "org.specs2"        %% "specs2-core"  % "2.3.7" % "test"
   )

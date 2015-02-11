@@ -5,17 +5,12 @@ import info.rori.lunchbox.server.akka.scala.domain.model._
 
 object LunchProviderService {
   val Name = "LunchProviderService"
-
   def props = Props(new LunchProviderService)
 
   case object GetAll
-
   case class GetById(id: Id)
-
   case class GetByLocation(location: Location)
-
   case class MultiResult(providers: Seq[LunchProvider])
-
   case class SingleResult(provider: Option[LunchProvider])
 }
 
