@@ -8,7 +8,7 @@ object LunchProviderService {
   def props = Props(new LunchProviderService)
 
   case object GetAll
-  case class GetById(id: Id)
+  case class GetById(id: LunchProviderId)
   case class GetByLocation(location: Location)
   case class MultiResult(providers: Seq[LunchProvider])
   case class SingleResult(provider: Option[LunchProvider])

@@ -9,5 +9,5 @@ case class LunchOffer(
                        name: String,
                        day: LocalDate,
                        price: Money,
-                       provider: LunchProvider
+                       provider: LunchProviderId
                        )
