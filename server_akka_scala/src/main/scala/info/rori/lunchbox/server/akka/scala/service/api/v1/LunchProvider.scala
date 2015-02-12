@@ -42,11 +42,11 @@ trait LunchProviderRoute_ApiV1
     path("lunchProvider") {
       (get & parameters('location.?)) { optLocation =>
         complete {
-          val domainMsg = optLocation match {
+          val domainReqMsg = optLocation match {
             case Some(location) => GetByLocation(location)
             case None => GetAll
           }
-          domainService.ask(domainMsg).mapTo[MultiResult]
+          domainService.ask(domainReqMsg).mapTo[MultiResult]
             .mapSeqToResponse(domainResMsg => domainResMsg.providers)
             .recoverOnError(s"api/v1/lunchProvider?location=$optLocation")
         }
