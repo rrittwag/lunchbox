@@ -10,9 +10,10 @@ import akka.util.Timeout
 import info.rori.lunchbox.server.akka.scala.ApplicationModule
 import info.rori.lunchbox.server.akka.scala.service.api.v1.ApiRouteV1
 import info.rori.lunchbox.server.akka.scala.service.feed.FeedRoute
+import org.joda.time.format.DateTimeFormat
 
-import scala.concurrent.{Future, ExecutionContextExecutor}
 import scala.concurrent.duration.DurationInt
+import scala.concurrent.{ExecutionContextExecutor, Future}
 
 object HttpService {
   val Name = "http"
@@ -40,13 +41,15 @@ class HttpService(host: String, port: Int)(implicit askTimeout: Timeout)
 }
 
 
+object HttpRoute {
+  val NotFound = akka.http.model.StatusCodes.NotFound
+  val InternalServerError = akka.http.model.StatusCodes.InternalServerError
+}
+
 trait HttpRoute
   extends Actor
   with ActorLogging
   with Directives {
-
-  val NotFound = akka.http.model.StatusCodes.NotFound
-  val InternalServerError = akka.http.model.StatusCodes.InternalServerError
 
   implicit val timeout: Timeout = 1.second // Timeout for domain actor calls in route
 
@@ -58,7 +61,20 @@ trait HttpRoute
     def recoverOnError(message: String) = f.recover[ToResponseMarshallable] {
       case exc: Throwable =>
         log.error(exc, s"HTTP call: $message")
-        InternalServerError
+        HttpRoute.InternalServerError
+    }
+  }
+
+  implicit class OptionStringValidation(val optStr: Option[String]) {
+    def isValidLocalDate = optStr match {
+      case Some(string) =>
+        try {
+          DateTimeFormat.forPattern("yyyy-MM-dd").parseLocalDate(string)
+          true
+        } catch {
+          case _: Throwable => false
+        }
+      case None => true
     }
   }
 
