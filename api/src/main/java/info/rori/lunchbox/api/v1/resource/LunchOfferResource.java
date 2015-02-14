@@ -24,12 +24,20 @@ public class LunchOfferResource {
     @ApiOperation(value = "Liefert alle Mittagsangebote, ggf. gefiltert nach Gültigkeits-Tag")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request - der Parameter 'day' ist nicht valide"),
             @ApiResponse(code = 500, message = "Serverfehler")})
     public List<LunchOffer> get(
             @QueryParam("day")
             @ApiParam(value = "Tag, an dem die Mittagsangebote gültig sein sollen. Format: 'YYYY-MM-DD' (ISO 8601)", required = false)
             String dayString) {
-        LocalDate day = TypeConverter.toDate(dayString);
+
+        LocalDate day = null;
+        if (dayString != null) {
+            day = TypeConverter.toDate(dayString);
+            if (day == null)
+                throw new BadRequestException("'day' ist nicht valide");
+        }
+
         if (day == null)
             return repo.findAll();
         else

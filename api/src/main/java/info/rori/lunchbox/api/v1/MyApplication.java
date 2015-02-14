@@ -40,7 +40,7 @@ public class MyApplication extends ResourceConfig {
 
         // Swagger konfigurieren
         BeanConfig beanConfig = new BeanConfig();
-        beanConfig.setVersion("1.0.0");
+        beanConfig.setVersion("1.1.0");
         beanConfig.setBasePath("http://localhost:8080/api/v1");
         beanConfig.setResourcePackage(RESOURCE_PACKAGE);
 
