@@ -11,6 +11,7 @@ import info.rori.lunchbox.server.akka.scala.ApplicationModule
 import info.rori.lunchbox.server.akka.scala.service.api.v1.ApiRouteV1
 import info.rori.lunchbox.server.akka.scala.service.feed.FeedRoute
 import org.joda.time.format.DateTimeFormat
+import spray.json.DefaultJsonProtocol
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContextExecutor, Future}
@@ -76,6 +77,54 @@ trait HttpRoute
           case _: Throwable => false
         }
       case None => true
+    }
+  }
+
+}
+
+trait HttpConversions extends DefaultJsonProtocol {
+
+  import akka.http.marshalling.ToResponseMarshallable
+  import spray.json._
+  import akka.http.marshallers.sprayjson.SprayJsonSupport
+
+  /**
+   * Konvertiert zwischen Domain Model & API Model
+   * <p>
+   *
+   * @param model2apiModel Methode zum Konvertieren von Domain Model zu API Model
+   * @tparam DM Typ des Domain Models
+   * @tparam AM Typ des API Models
+   */
+  class DomainModelConverter[DM, AM](model2apiModel: Function[DM, AM]) {
+    def toApiModel(modelEntity: DM) = model2apiModel(modelEntity)
+  }
+
+  /**
+   * Wandelt Domain-Messages in HTTP um.
+   * <p>
+   *
+   * @param resultFuture domain result as future
+   * @tparam R type of resulting domain message
+   */
+  implicit class DomainResult2HttpJsonResponse[R <: Any, DM <: Any, AM <: Any]
+  (resultFuture: Future[R])
+  (implicit val model2apiModel: DomainModelConverter[DM, AM], implicit val jsonFormatter: spray.json.RootJsonFormat[AM], implicit val executor: ExecutionContextExecutor) {
+
+    // remove this line, if you want to print pretty JSON
+    implicit val printer: spray.json.JsonPrinter = CompactPrinter
+
+    implicit val marshaller = SprayJsonSupport.sprayJsValueMarshaller[AM]
+
+    def mapSeqToJsonResponse(f: R => Seq[DM]) = resultFuture.map(msg => toResponse(f(msg)))
+
+    def mapOptionToJsonResponse(f: R => Option[DM]) = resultFuture.map(msg => toResponse(f(msg)))
+
+    private def toResponse(providers: Seq[DM]): ToResponseMarshallable = providers.map(p => model2apiModel.toApiModel(p)).toJson
+
+    private def toResponse(optProvider: Option[DM]): ToResponseMarshallable = optProvider match {
+      case Some(provider) => model2apiModel.toApiModel(provider).toJson
+      case None => HttpRoute.NotFound
     }
   }
 
