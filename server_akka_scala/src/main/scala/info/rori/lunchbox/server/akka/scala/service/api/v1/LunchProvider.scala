@@ -24,7 +24,18 @@ private[v1] case object LunchProvider_ApiV1 {
 }
 
 private[v1] object LunchProviderConverter extends DefaultJsonProtocol {
-  implicit val model2apiModel: Function[LunchProvider, LunchProvider_ApiV1] = LunchProvider_ApiV1.apply
+
+  /**
+   * Konvertiert zwischen Domain Model & API Model
+   * @param model2apiModel Methode zum Konvertieren von Domain Model zu API Model
+   * @tparam DM Typ des Domain Models
+   * @tparam AM Typ des API Models
+   */
+  class DomainModelConverter[DM, AM](model2apiModel: Function[DM, AM]) {
+    def toApiModel(modelEntity: DM) = model2apiModel(modelEntity)
+  }
+
+  implicit val domainModelConverter = new DomainModelConverter(LunchProvider_ApiV1.apply)
   implicit val json2apiModel = jsonFormat3(LunchProvider_ApiV1.apply)
 }
 
@@ -35,7 +46,7 @@ private[v1] object LunchProviderConverter extends DefaultJsonProtocol {
 trait LunchProviderRoute_ApiV1
   extends HttpRoute {
 
-  import info.rori.lunchbox.server.akka.scala.service.api.v1.LunchProviderConverter._
+  import LunchProviderConverter._
 
   private def domainService = context.actorSelection("/user/app/domain/LunchProviderService")
 
@@ -73,21 +84,21 @@ trait LunchProviderRoute_ApiV1
    * @param resultFuture domain result as future
    * @tparam R type of resulting domain message
    */
-  implicit class DomainResult2HttpJsonResponse[R <: Any, M <: LunchProvider, MA <: LunchProvider_ApiV1]
+  implicit class DomainResult2HttpJsonResponse[R <: Any, DM <: Any, AM <: ApiModel]
   (resultFuture: Future[R])
-  (implicit val model2apiModel: M => MA, implicit val jsonFormatter: spray.json.RootJsonFormat[MA], implicit val executor: ExecutionContextExecutor) {
+  (implicit val model2apiModel: DomainModelConverter[DM, AM], implicit val jsonFormatter: spray.json.RootJsonFormat[AM], implicit val executor: ExecutionContextExecutor) {
 
     implicit val printer: spray.json.JsonPrinter = CompactPrinter // remove line, if you want to print pretty JSON
-    implicit val marshaller = SprayJsonSupport.sprayJsValueMarshaller[MA]
+    implicit val marshaller = SprayJsonSupport.sprayJsValueMarshaller[AM]
 
-    def mapSeqToJsonResponse(f: R => Seq[M]) = resultFuture.map(msg => toResponse(f(msg)))
+    def mapSeqToJsonResponse(f: R => Seq[DM]) = resultFuture.map(msg => toResponse(f(msg)))
 
-    def mapOptionToJsonResponse(f: R => Option[M]) = resultFuture.map(msg => toResponse(f(msg)))
+    def mapOptionToJsonResponse(f: R => Option[DM]) = resultFuture.map(msg => toResponse(f(msg)))
 
-    private def toResponse(providers: Seq[M]): ToResponseMarshallable = providers.map(p => model2apiModel(p)).toJson
+    private def toResponse(providers: Seq[DM]): ToResponseMarshallable = providers.map(p => model2apiModel.toApiModel(p)).toJson
 
-    private def toResponse(optProvider: Option[M]): ToResponseMarshallable = optProvider match {
-      case Some(provider) => model2apiModel(provider).toJson
+    private def toResponse(optProvider: Option[DM]): ToResponseMarshallable = optProvider match {
+      case Some(provider) => model2apiModel.toApiModel(provider).toJson
       case None => HttpRoute.NotFound
     }
   }

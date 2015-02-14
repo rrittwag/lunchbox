@@ -45,7 +45,7 @@ trait LunchOfferRoute_ApiV1
   val lunchOfferRoute =
     path("lunchOffer") {
       (get & parameters('day.?)) { optDayString =>
-        validate(optDayString.isValidLocalDate, s"${optDayString.get} is no valid date") {
+        validate(optDayString.isValidLocalDate, s"${optDayString.getOrElse("")} is no valid date") {
           complete {
             val domainReqMsg = optDayString match {
               case Some(dayString) => GetByDay(LocalDate.parse(dayString))
