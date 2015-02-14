@@ -78,7 +78,7 @@ trait LunchOfferRoute_ApiV1
    * @param resultFuture domain result as future
    * @tparam M type of domain message
    */
-  implicit class DomainResult2HttpResponse[M <: Object](resultFuture: Future[M]) {
+  implicit class DomainResult2HttpResponseBla[M <: Object](resultFuture: Future[M]) {
     def mapSeqToResponse(f: M => Seq[LunchOffer]) = resultFuture.map(msg => toResponse(f(msg)))
 
     def mapOptionToResponse(f: M => Option[LunchOffer]) = resultFuture.map(msg => toResponse(f(msg)))

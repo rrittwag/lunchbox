@@ -57,6 +57,7 @@ trait HttpRoute
 
   //  implicit val materializer: FlowMaterializer = ActorFlowMaterializer() // necessary for unmarshelling
 
+
   implicit class RichFutureToResponseMarshallable(val f: Future[ToResponseMarshallable]) {
     def recoverOnError(message: String) = f.recover[ToResponseMarshallable] {
       case exc: Throwable =>
