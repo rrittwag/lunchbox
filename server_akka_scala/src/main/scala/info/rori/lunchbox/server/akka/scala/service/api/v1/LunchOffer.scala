@@ -23,7 +23,7 @@ private[v1] case object LunchOffer_ApiV1 {
 
 private[v1] object LunchOfferConversions extends HttpConversions {
   implicit val json2apiModel = jsonFormat5(LunchOffer_ApiV1.apply)
-  implicit val domainModelConverter = new DomainModelConverter(LunchOffer_ApiV1.apply)
+  implicit val domainModelConverter = new ModelConverter(LunchOffer_ApiV1.apply)
 }
 
 

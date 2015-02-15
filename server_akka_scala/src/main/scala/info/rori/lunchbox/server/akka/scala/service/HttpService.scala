@@ -92,12 +92,12 @@ trait HttpConversions extends DefaultJsonProtocol {
    * Konvertiert zwischen Domain Model & API Model
    * <p>
    *
-   * @param model2apiModel Methode zum Konvertieren von Domain Model zu API Model
-   * @tparam DM Typ des Domain Models
-   * @tparam AM Typ des API Models
+   * @param domain2api Methode zum Konvertieren von Domain Model zu API Model
+   * @tparam D Typ des Domain Models
+   * @tparam A Typ des API Models
    */
-  class DomainModelConverter[DM, AM](model2apiModel: Function[DM, AM]) {
-    def toApiModel(modelEntity: DM) = model2apiModel(modelEntity)
+  class ModelConverter[D, A](domain2api: Function[D, A]) {
+    def toApiModel(modelEntity: D) = domain2api(modelEntity)
   }
 
   /**
@@ -106,24 +106,25 @@ trait HttpConversions extends DefaultJsonProtocol {
    *
    * @param resultFuture domain result as future
    * @tparam R type of resulting domain message
+   * @tparam D type of domain model
+   * @tparam A type of api model
    */
-  implicit class DomainResult2HttpJsonResponse[R <: Any, DM <: Any, AM <: Any]
+  implicit class DomainResult2HttpJsonResponse[R <: Any, D <: Any, A <: Any]
   (resultFuture: Future[R])
-  (implicit val model2apiModel: DomainModelConverter[DM, AM], implicit val jsonFormatter: spray.json.RootJsonFormat[AM], implicit val executor: ExecutionContextExecutor) {
+  (implicit val domain2api: ModelConverter[D, A], implicit val jsonFormatter: spray.json.RootJsonFormat[A], implicit val executor: ExecutionContextExecutor) {
 
-    // remove this line, if you want to print pretty JSON
     implicit val printer: spray.json.JsonPrinter = CompactPrinter
 
-    implicit val marshaller = SprayJsonSupport.sprayJsValueMarshaller[AM]
+    implicit val marshaller = SprayJsonSupport.sprayJsValueMarshaller[A]
 
-    def mapSeqToJsonResponse(f: R => Seq[DM]) = resultFuture.map(msg => toResponse(f(msg)))
+    def mapSeqToJsonResponse(f: R => Seq[D]) = resultFuture.map(msg => toResponse(f(msg)))
 
-    def mapOptionToJsonResponse(f: R => Option[DM]) = resultFuture.map(msg => toResponse(f(msg)))
+    def mapOptionToJsonResponse(f: R => Option[D]) = resultFuture.map(msg => toResponse(f(msg)))
 
-    private def toResponse(providers: Seq[DM]): ToResponseMarshallable = providers.map(p => model2apiModel.toApiModel(p)).toJson
+    private def toResponse(elems: Seq[D]): ToResponseMarshallable = elems.map(elem => domain2api.toApiModel(elem)).toJson
 
-    private def toResponse(optProvider: Option[DM]): ToResponseMarshallable = optProvider match {
-      case Some(provider) => model2apiModel.toApiModel(provider).toJson
+    private def toResponse(optElem: Option[D]): ToResponseMarshallable = optElem match {
+      case Some(elem) => domain2api.toApiModel(elem).toJson
       case None => HttpRoute.NotFound
     }
   }
@@ -151,5 +152,3 @@ trait MaintenanceRoute
       }
     }
 }
-
-
