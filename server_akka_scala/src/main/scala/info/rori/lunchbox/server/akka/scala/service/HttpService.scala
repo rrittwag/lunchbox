@@ -117,11 +117,11 @@ trait HttpConversions extends DefaultJsonProtocol {
 
     implicit val marshaller = SprayJsonSupport.sprayJsValueMarshaller[A]
 
-    def mapSeqToJsonResponse(f: R => Seq[D]) = resultFuture.map(msg => toResponse(f(msg)))
+    def mapSeqToJsonResponse(f: R => Iterable[D]) = resultFuture.map(msg => toResponse(f(msg)))
 
     def mapOptionToJsonResponse(f: R => Option[D]) = resultFuture.map(msg => toResponse(f(msg)))
 
-    private def toResponse(elems: Seq[D]): ToResponseMarshallable = elems.map(elem => domain2api.toApiModel(elem)).toJson
+    private def toResponse(elems: Iterable[D]): ToResponseMarshallable = elems.map(elem => domain2api.toApiModel(elem)).toJson
 
     private def toResponse(optElem: Option[D]): ToResponseMarshallable = optElem match {
       case Some(elem) => domain2api.toApiModel(elem).toJson

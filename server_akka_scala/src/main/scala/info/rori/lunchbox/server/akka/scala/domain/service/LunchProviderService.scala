@@ -10,18 +10,12 @@ object LunchProviderService {
   case object GetAll
   case class GetById(id: LunchProviderId)
   case class GetByLocation(location: Location)
-  case class MultiResult(providers: Seq[LunchProvider])
+  case class MultiResult(providers: Set[LunchProvider])
   case class SingleResult(provider: Option[LunchProvider])
 }
 
 class LunchProviderService extends Actor {
-  private val providers = Seq(
-    LunchProvider(1, "Schweinestall", "Neubrandenburg"),
-    LunchProvider(2, "Hotel am Ring", "Neubrandenburg"),
-    LunchProvider(3, "AOK Cafeteria", "Neubrandenburg"),
-    LunchProvider(4, "Suppenkulttour", "Neubrandenburg"),
-    LunchProvider(5, "Salt 'n' Pepper", "Berlin")
-  )
+  private val providers = LunchProvider.values
 
   import LunchProviderService._
 
