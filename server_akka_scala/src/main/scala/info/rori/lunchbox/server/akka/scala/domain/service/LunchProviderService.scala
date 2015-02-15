@@ -3,6 +3,7 @@ package info.rori.lunchbox.server.akka.scala.domain.service
 import akka.actor.{Actor, Props}
 import info.rori.lunchbox.server.akka.scala.domain.model._
 
+// TODO: LunchProvider ist nun ein ValueObject. Ist der Service noch sinnvoll?
 object LunchProviderService {
   val Name = "LunchProviderService"
   def props = Props(new LunchProviderService)
