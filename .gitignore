@@ -33,6 +33,7 @@ dist/
 
 # runtime
 logs/
+*.log
 
 # other
 .DS_Store
