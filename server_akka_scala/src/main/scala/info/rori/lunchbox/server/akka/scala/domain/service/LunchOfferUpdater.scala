@@ -15,6 +15,7 @@ object LunchOfferUpdater {
   def props(lunchOfferService: ActorRef) = Props(new LunchOfferUpdater(lunchOfferService))
 
   case object StartUpdate
+
   case class WorkerFinished(offers: Seq[LunchOffer])
 
 }
@@ -24,9 +25,9 @@ class LunchOfferUpdater(lunchOfferService: ActorRef) extends Actor with ActorLog
   import LunchOfferUpdater._
   import LunchOfferService._
 
-  // update LunchOffers on boot
+  // update LunchOffers on boot and every 24 hours
   import context.dispatcher
-  context.system.scheduler.scheduleOnce(50.milliseconds) {
+  val dailyUpdate = context.system.scheduler.schedule(50.milliseconds, 24.hours) {
     self ! StartUpdate
   }
 
@@ -42,9 +43,9 @@ class LunchOfferUpdater(lunchOfferService: ActorRef) extends Actor with ActorLog
     log.info("LunchOfferUpdater.startUpdate()")
 
     for (provider <- LunchProvider.values) {
-      val nameForProviderWorker = LunchOfferUpdateWorker.NamePrefix + provider.getClass.getSimpleName
-      if (!context.child(nameForProviderWorker).isDefined)
-        context.actorOf(LunchOfferUpdateWorker.props(self, provider), nameForProviderWorker)
+      val nameForWorker = LunchOfferUpdateWorker.NamePrefix + provider.getClass.getSimpleName
+      if (!context.child(nameForWorker).isDefined)
+        context.actorOf(LunchOfferUpdateWorker.props(self, provider), nameForWorker)
     }
   }
 
@@ -53,6 +54,7 @@ class LunchOfferUpdater(lunchOfferService: ActorRef) extends Actor with ActorLog
   }
 
   override def postStop(): Unit = {
+    dailyUpdate.cancel()
     log.info("Actor stopped")
   }
 }
@@ -66,6 +68,7 @@ object LunchOfferUpdateWorker {
 }
 
 class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchProvider) extends Actor with ActorLogging {
+
   import scala.concurrent._
   import ExecutionContext.Implicits.global
   import LunchOfferUpdater._

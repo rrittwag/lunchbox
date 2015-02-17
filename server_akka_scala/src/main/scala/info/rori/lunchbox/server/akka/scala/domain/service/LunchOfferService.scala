@@ -31,9 +31,17 @@ class LunchOfferService extends Actor with ActorLogging {
     case UpdateOffers(offersForUpdate) => updateOffers(offersForUpdate)
   }
 
-  def updateOffers(offersForUpdate: Seq[LunchOffer]): Unit = {
-    // TODO: mit bestehenden Offers abgleichen
-    offers ++= offersForUpdate
-    log.info(s"updated offers $offersForUpdate")
+  def updateOffers(newOffers: Seq[LunchOffer]): Unit = {
+    val updatedKeys = newOffers.map(o => (o.provider, o.day)).toSet
+    val (offersToReplace, offersToKeep) = offers.partition(o => updatedKeys.contains((o.provider, o.day)))
+
+    val oldIDs = offersToReplace.map(_.id)
+    val maxId = offers.foldLeft(0)((curMaxId, offer) => curMaxId.max(offer.id))
+    val idsForNewOffers = oldIDs ++ Stream.from(maxId + 1).take(newOffers.size)
+
+    val newOffersWithIds = newOffers.zip(idsForNewOffers).map{ case (offer, newId) => offer.copy(id = newId) }
+    offers = offersToKeep ++ newOffersWithIds
+
+    log.info(s"updateOffers: added $newOffersWithIds, removed $offersToReplace")
   }
 }
