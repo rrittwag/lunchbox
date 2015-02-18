@@ -10,4 +10,8 @@ case class LunchOffer(
                        day: LocalDate,
                        price: Money,
                        provider: LunchProviderId
-                       )
+                       ) extends Ordered[LunchOffer] {
+
+  import scala.math.Ordered.orderingToOrdered
+  def compare(that: LunchOffer): Int = (this.provider, this.price) compare(that.provider, that.price)
+}
