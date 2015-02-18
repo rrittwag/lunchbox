@@ -36,7 +36,7 @@ class LunchOfferService extends Actor with ActorLogging {
     val (offersToReplace, offersToKeep) = offers.partition(o => updatedKeys.contains((o.provider, o.day)))
 
     val reusableIDs = offersToReplace.map(_.id)
-    val maxId = offers.foldLeft(0)((curMaxId, offer) => curMaxId.max(offer.id))
+    val maxId = offers.foldLeft(0)(_ max _.id)
     val availableIDs = reusableIDs ++ Stream.from(maxId + 1).take(newOffers.size)
 
     val newOffersWithIds = newOffers.zip(availableIDs).map { case (offer, newId) => offer.copy(id = newId)}
