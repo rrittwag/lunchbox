@@ -37,9 +37,9 @@ class LunchOfferService extends Actor with ActorLogging {
 
     val reusableIDs = offersToReplace.map(_.id)
     val maxId = offers.foldLeft(0)((curMaxId, offer) => curMaxId.max(offer.id))
-    val idsForNewOffers = reusableIDs ++ Stream.from(maxId + 1).take(newOffers.size)
+    val availableIDs = reusableIDs ++ Stream.from(maxId + 1).take(newOffers.size)
 
-    val newOffersWithIds = newOffers.zip(idsForNewOffers).map { case (offer, newId) => offer.copy(id = newId)}
+    val newOffersWithIds = newOffers.zip(availableIDs).map { case (offer, newId) => offer.copy(id = newId)}
     offers = (offersToKeep ++ newOffersWithIds).sorted
 
     log.info(s"updateOffers: added $newOffersWithIds, removed $offersToReplace")
