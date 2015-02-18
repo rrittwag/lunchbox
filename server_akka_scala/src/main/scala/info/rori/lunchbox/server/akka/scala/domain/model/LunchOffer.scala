@@ -13,5 +13,5 @@ case class LunchOffer(
                        ) extends Ordered[LunchOffer] {
 
   import scala.math.Ordered.orderingToOrdered
-  def compare(that: LunchOffer): Int = (this.provider, this.price) compare(that.provider, that.price)
+  def compare(that: LunchOffer): Int = (this.provider, this.price.getAmountMinorInt) compare(that.provider, that.price.getAmountMinorInt)
 }
