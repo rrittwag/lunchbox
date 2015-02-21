@@ -12,10 +12,6 @@ import org.joda.time.format.DateTimeFormat
 
 import util.matching.Regex
 
-trait LunchResolverStrategy {
-  def resolve: Seq[LunchOffer]
-}
-
 class LunchResolverStrategySchweinestall extends LunchResolverStrategy {
 
   implicit class RegexContext(sc: StringContext) {

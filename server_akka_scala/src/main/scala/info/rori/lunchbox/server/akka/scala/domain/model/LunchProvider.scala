@@ -13,7 +13,6 @@ sealed abstract class LunchProvider(
 }
 
 object LunchProvider {
-
   case object SCHWEINESTALL extends LunchProvider(1, "Schweinestall", "Neubrandenburg")
   case object HOTEL_AM_RING extends LunchProvider(2, "Hotel am Ring", "Neubrandenburg")
   case object AOK_CAFETERIA extends LunchProvider(3, "AOK Cafeteria", "Neubrandenburg")
