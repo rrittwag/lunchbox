@@ -3,7 +3,7 @@ package info.rori.lunchbox.server.akka.scala.service.api.v1
 import akka.pattern.ask
 import info.rori.lunchbox.server.akka.scala.domain.model.LunchProvider
 import info.rori.lunchbox.server.akka.scala.domain.service.LunchProviderService._
-import info.rori.lunchbox.server.akka.scala.service.{HttpConversions, HttpRoute}
+import info.rori.lunchbox.server.akka.scala.service.{HttpJsonConversions, HttpRoute}
 
 /**
  * Model für LunchProvider in API v1.
@@ -16,7 +16,7 @@ private[v1] case object LunchProvider_ApiV1 {
   def apply(p: LunchProvider): LunchProvider_ApiV1 = apply(id = p.id, name = p.name, location = p.location)
 }
 
-private[v1] object LunchProviderConversions extends HttpConversions {
+private[v1] object LunchProviderConversions extends HttpJsonConversions {
   implicit val json2apiModel = jsonFormat3(LunchProvider_ApiV1.apply)
   implicit val domainModelConverter = new ModelConverter(LunchProvider_ApiV1.apply)
 }

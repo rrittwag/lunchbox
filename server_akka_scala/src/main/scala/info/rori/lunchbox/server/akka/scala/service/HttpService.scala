@@ -2,8 +2,10 @@ package info.rori.lunchbox.server.akka.scala.service
 
 import akka.actor.{Actor, ActorLogging, Props}
 import akka.http.Http
-import akka.http.marshalling.ToResponseMarshallable
-import akka.http.model.HttpResponse
+import akka.http.marshallers.xml.ScalaXmlSupport
+import akka.http.marshalling._
+import akka.http.model.{ContentType, HttpResponse}
+import akka.http.model.MediaTypes._
 import akka.http.server.{Directives, Route}
 import akka.stream.scaladsl.ImplicitFlowMaterializer
 import akka.util.Timeout
@@ -14,7 +16,8 @@ import org.joda.time.format.DateTimeFormat
 import spray.json.DefaultJsonProtocol
 
 import scala.concurrent.duration.DurationInt
-import scala.concurrent.{ExecutionContextExecutor, Future}
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor, Future}
+import scala.xml.Node
 
 object HttpService {
   val Name = "http"
@@ -82,7 +85,7 @@ trait HttpRoute
 
 }
 
-trait HttpConversions extends DefaultJsonProtocol {
+trait HttpJsonConversions extends DefaultJsonProtocol {
 
   import akka.http.marshalling.ToResponseMarshallable
   import spray.json._
@@ -128,6 +131,34 @@ trait HttpConversions extends DefaultJsonProtocol {
       case None => HttpRoute.NotFound
     }
   }
+
+}
+
+trait HttpXmlConversions {
+
+  def atomFeedMarshaller(implicit ec: ExecutionContext): ToEntityMarshaller[Node] = {
+    // different clients accept different types
+    val atomFeedTypes = List(`application/atom+xml`, `application/xml`, `text/xml`)
+    Marshaller.oneOf(atomFeedTypes.map(ContentType(_)).map(xmlNodeMarshaller): _*)
+  }
+
+  /**
+   * Wandelt einen Scala XML-Node in ein Response um.
+   * <p>
+   * Dieser Marshaller ist eine Erweiterung der beiden Marshaller in <code>ScalaXmlSupport</code> und bietet eine kompakte XML-Umwandlung (ohne Whitespaces) und das Voranstellen des <code>?xml</code>-Tags.
+   * <p>
+   *
+   * @param contentType Typ, der in Response zurückgegeben wird.
+   * @param ec Execution Context
+   * @return
+   */
+  def xmlNodeMarshaller(contentType: ContentType)(implicit ec: ExecutionContext): ToEntityMarshaller[Node] =
+    Marshaller.StringMarshaller.wrap(contentType) { rootNode: Node =>
+      import xml.XML
+      val writer = new java.io.StringWriter
+      XML.write(writer, scala.xml.Utility.trim(rootNode), "utf-8", true, null)
+      writer.toString
+    }
 
 }
 

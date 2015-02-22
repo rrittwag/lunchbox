@@ -3,7 +3,7 @@ package info.rori.lunchbox.server.akka.scala.service.api.v1
 import akka.pattern.ask
 import info.rori.lunchbox.server.akka.scala.domain.model.LunchOffer
 import info.rori.lunchbox.server.akka.scala.domain.service.LunchOfferService._
-import info.rori.lunchbox.server.akka.scala.service.{HttpConversions, HttpRoute}
+import info.rori.lunchbox.server.akka.scala.service.{HttpJsonConversions, HttpRoute}
 import org.joda.time.LocalDate
 
 
@@ -21,7 +21,7 @@ private[v1] case object LunchOffer_ApiV1 {
     apply(id = o.id, name = o.name, day = o.day.toString, price = o.price.getAmountMinorInt, provider = o.provider)
 }
 
-private[v1] object LunchOfferConversions extends HttpConversions {
+private[v1] object LunchOfferConversions extends HttpJsonConversions {
   implicit val json2apiModel = jsonFormat5(LunchOffer_ApiV1.apply)
   implicit val domainModelConverter = new ModelConverter(LunchOffer_ApiV1.apply)
 }

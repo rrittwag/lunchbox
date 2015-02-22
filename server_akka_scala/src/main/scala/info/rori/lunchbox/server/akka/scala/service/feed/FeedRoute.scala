@@ -1,33 +1,19 @@
 package info.rori.lunchbox.server.akka.scala.service.feed
 
 import akka.http.marshalling._
-import akka.http.marshalling.{ToEntityMarshaller, ToResponseMarshallable}
-import akka.http.model.MediaTypes._
-import info.rori.lunchbox.server.akka.scala.service.HttpRoute
-import akka.http.model.ContentType
+import info.rori.lunchbox.server.akka.scala.service.{HttpRoute, HttpXmlConversions}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.xml.Node
 
+object AtomFeedConversion extends HttpXmlConversions {
+  implicit def defaultNodeSeqMarshaller(implicit ec: ExecutionContext): ToEntityMarshaller[Node] = atomFeedMarshaller
+}
+
 trait FeedRoute
   extends HttpRoute {
 
-  //  import akka.http.marshallers.xml.ScalaXmlSupport
-  //  implicit def atomFeedMarshaller = ScalaXmlSupport.nodeSeqMarshaller(`application/atom+xml`)
-  implicit def atomFeedMarshaller(implicit ec: ExecutionContext): ToEntityMarshaller[Node] = {
-    // different clients accept different types
-    val atomFeedTypes = List(`application/atom+xml`, `application/xml`, `text/xml`)
-    Marshaller.oneOf(atomFeedTypes.map(ContentType(_)).map(xmlNodeMarshaller): _*)
-  }
-
-  def xmlNodeMarshaller(contentType: ContentType)(implicit ec: ExecutionContext): ToEntityMarshaller[Node] =
-    Marshaller.StringMarshaller.wrap(contentType) { rootNode: Node =>
-      import xml.XML
-      val writer = new java.io.StringWriter
-      XML.write(writer, scala.xml.Utility.trim(rootNode), "utf-8", true, null)
-      writer.toString
-    }
-
+  import AtomFeedConversion._
 
   def feedRoute =
     logRequest(context.system.name) {
