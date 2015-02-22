@@ -27,6 +27,7 @@ Wissen
 ------
 
 * [Akka Dokumentation](http://akka.io/docs/)
-* [Beispiel für Akka HTTP-Server](https://github.com/hseeberger/reactive-flows)
-* [kompaktes Beispiel für Akka-HTTP-Service (inkl JSON-Marshalling)](https://typesafe.com/activator/template/akka-http-microservice)
 * [Akka Logging](http://doc.akka.io/docs/akka/2.3.9/scala/logging.html)
+* [Akka HTTP: kompaktes Beispiel inkl. JSON-Marshalling](https://typesafe.com/activator/template/akka-http-microservice)
+* [Akka HTTP: Beispiel für XML-Marshalling + Authentication](https://github.com/akka/akka/blob/release-2.3-dev/akka-http-tests/src/test/scala/akka/http/server/TestServer.scala)
+* [Akka HTTP: Beispiel für Streams + Server-Side-Events](https://github.com/hseeberger/reactive-flows)

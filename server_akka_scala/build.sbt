@@ -9,16 +9,19 @@ version := "0.1"
 scalaVersion := "2.11.5"
 
 libraryDependencies ++= {
-  val akkaV = "2.3.9"
+  val akkaVersion = "2.3.9"
+  val akkaHttpVersion = "1.0-M3"
   Seq(
     // Akka
-    "com.typesafe.akka" %% "akka-actor"   % akkaV,
-    "com.typesafe.akka" %% "akka-slf4j"   % akkaV,
+    "com.typesafe.akka" %% "akka-actor"   % akkaVersion,
+    "com.typesafe.akka" %% "akka-slf4j"   % akkaVersion,
     "ch.qos.logback"    %  "logback-classic" % "1.1.2",
     // service dependencies
-    "com.typesafe.akka" %% "akka-http-experimental"            % "1.0-M3",
-    "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "1.0-M3",
-    "io.spray"          %% "spray-json" % "1.3.1",
+    "com.typesafe.akka"      %% "akka-http-experimental"            % akkaHttpVersion,
+    "com.typesafe.akka"      %% "akka-http-spray-json-experimental" % akkaHttpVersion,
+    "io.spray"               %% "spray-json"                        % "1.3.1",
+    "com.typesafe.akka"      %% "akka-http-xml-experimental"        % akkaHttpVersion,
+    "org.scala-lang.modules" %% "scala-xml"                         % "1.0.3",
     // domain model
     "com.github.nscala-time" %% "nscala-time" % "1.8.0",
     "org.joda"               %  "joda-money"  % "0.10.0",
