@@ -57,15 +57,7 @@ class LunchResolverStrategyHotelAmRing extends LunchResolverStrategy {
   }
 
   private def parseFromPDF(pdfUrl: URL, friday: LocalDate):Seq[LunchOffer] = {
-    var pdfContent = ""
-    try {
-      val pdf = PDDocument.load(pdfUrl)
-      val stripper = new PDFTextStripper
-      pdfContent = stripper.getText(pdf)
-    } catch {
-      case fnf: FileNotFoundException => System.out.println(s"file $pdfUrl not found")
-      case t: Throwable => System.out.println(t.getMessage) // TODO: loggen
-    }
+    val pdfContent = extractPdfContent(pdfUrl)
 
     val sectionStarts = PdfSection.values.map { section =>
       pdfContent.indexOf(section.sectionStartPattern) match {
@@ -100,7 +92,6 @@ class LunchResolverStrategyHotelAmRing extends LunchResolverStrategy {
       case r"""(.+)$text(\d{1,},\d{2})$priceString {0,1}""" =>
         for (day <- daysForOffer(friday, section))
         yield LunchOffer(0, parseName(text), day, parsePrice(priceString).get, LunchProvider.HOTEL_AM_RING.id)
-      //        System.out.println(s"${} - ${} - ${} ÄÄ")
       case _ => Nil
     }
   }
@@ -142,6 +133,26 @@ class LunchResolverStrategyHotelAmRing extends LunchResolverStrategy {
     } catch {
       case exc: Throwable => None
     }
+
+  private def extractPdfContent(pdfUrl: URL):String = {
+    var optPdfDoc: Option[PDDocument] = None
+    var pdfContent = ""
+
+    try {
+      optPdfDoc = Some(PDDocument.load(pdfUrl))
+      for (pdfDoc <- optPdfDoc) {
+        val stripper = new PDFTextStripper
+        pdfContent = stripper.getText(pdfDoc)
+      }
+    } catch {
+      case fnf: FileNotFoundException => System.out.println(s"file $pdfUrl not found") // TODO: loggen
+      case t: Throwable => System.out.println(t.getMessage) // TODO: loggen
+    } finally {
+      optPdfDoc.map(_.close())
+    }
+    pdfContent
+  }
+
 }
 
 object RunStrategy extends App {
