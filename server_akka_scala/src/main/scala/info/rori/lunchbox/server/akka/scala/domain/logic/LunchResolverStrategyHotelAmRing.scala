@@ -59,18 +59,18 @@ class LunchResolverStrategyHotelAmRing extends LunchResolverStrategy {
   private def parseFromPDF(pdfUrl: URL, friday: LocalDate):Seq[LunchOffer] = {
     val pdfContent = extractPdfContent(pdfUrl)
 
-    val sectionStarts = PdfSection.values.map { section =>
+    val section2StartIndex = PdfSection.values.map { section =>
       pdfContent.indexOf(section.sectionStartPattern) match {
         case index if index > -1 => Some((section, index))
         case _ => None
       }
     }.flatten
 
-    val sections = sectionStarts.sliding(2).toList.map {
+    val section2content = section2StartIndex.sliding(2).toList.map {
       case List((sec1, idx1), (sec2, idx2)) => (sec1, pdfContent.substring(idx1, idx2))
     }
 
-    sections.flatMap {
+    section2content.flatMap {
       case (section, secContent) => parseOffersFromSectionString(secContent, section, friday)
     }
   }
