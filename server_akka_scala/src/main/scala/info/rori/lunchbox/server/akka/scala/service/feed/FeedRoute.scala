@@ -39,12 +39,12 @@ trait FeedRoute
 
             offerFuture.zip(providerFuture)
               .map {
-              case (offerResMsg, providerResMsg) =>
-                val offers = offerResMsg.offers
-                val providers = providerResMsg.providers
-                val providerIDs = providers.map(_.id)
-                createLunchOfferAtomFeed(offers.filter(offer => providerIDs.contains(offer.provider)), providers)
-            }
+                case (offerResMsg, providerResMsg) =>
+                  val offers = offerResMsg.offers
+                  val providers = providerResMsg.providers
+                  val providerIDs = providers.map(_.id)
+                  createLunchOfferAtomFeed(offers.filter(offer => providerIDs.contains(offer.provider)), providers)
+              }
             //  .recoverOnError(s"feed") // TODO: recover
           }
         }
