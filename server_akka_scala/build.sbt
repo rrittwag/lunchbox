@@ -13,8 +13,8 @@ libraryDependencies ++= {
   val akkaHttpVersion = "1.0-M3"
   Seq(
     // Akka
-    "com.typesafe.akka" %% "akka-actor"   % akkaVersion,
-    "com.typesafe.akka" %% "akka-slf4j"   % akkaVersion,
+    "com.typesafe.akka" %% "akka-actor"      % akkaVersion,
+    "com.typesafe.akka" %% "akka-slf4j"      % akkaVersion,
     "ch.qos.logback"    %  "logback-classic" % "1.1.2",
     // service dependencies
     "com.typesafe.akka"      %% "akka-http-experimental"            % akkaHttpVersion,
