@@ -39,10 +39,12 @@ trait FeedRoute
             offerFuture.zip(providerFuture)
               .map {
                 case (offerResMsg, providerResMsg) =>
-                  val offers = offerResMsg.offers
+                  val allOffers = offerResMsg.offers
                   val providers = providerResMsg.providers
                   val providerIDs = providers.map(_.id)
-                  createLunchOfferAtomFeed(offers.filter(offer => providerIDs.contains(offer.provider)), providers)
+                  val offersForProviders = allOffers.filter(offer => providerIDs.contains(offer.provider))
+                  val offersTilToday = offersForProviders.filter(_.day.compareTo(LocalDate.now()) <= 0)
+                  createLunchOfferAtomFeed(offersTilToday, providers)
               }
             //  .recoverOnError(s"feed") // TODO: recover
           }
@@ -56,7 +58,8 @@ trait FeedRoute
       <title>Lunchbox - Mittagsangebote</title>
       <updated>{toISODateTimeString(todayMidnight)}</updated>
       {
-        for ((day, offersForDay) <- offers.groupBy(_.day)) yield {
+        val offersGroupedAndSortedByDay = offers.groupBy(_.day).toList.sortWith((x,y) => x._1.compareTo(y._1) > 0)
+        for ((day, offersForDay) <- offersGroupedAndSortedByDay) yield {
           <entry>
             <id>{"urn:date:" + day.toString}</id>
             <title>{toWeekdayDateString(day)}</title>
