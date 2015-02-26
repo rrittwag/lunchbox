@@ -42,9 +42,9 @@ class LunchResolverStrategyHotelAmRing extends LunchResolverStrategy {
     props.setCharset("utf-8")
     val rootNode = new HtmlCleaner(props).clean(new URL("http://www.hotel-am-ring.de/restaurant-rethra.html"))
 
-    val nodesWithLinks = rootNode.evaluateXPath("//a/@href").map { case n: String => n}.toSet
+    val linkNodes = rootNode.evaluateXPath("//a/@href").map { case n: String => n}.toSet
 
-    nodesWithLinks.foreach {
+    linkNodes.foreach {
       case relativePdfPath@r""".*/Mittagspause_.+(\d{2}.\d{2}.\d{4})$fridayString.+.pdf""" =>
         parseDay(fridayString) match {
           case Some(friday) => result ++= parseFromPDF(new URL("http://www.hotel-am-ring.de/" + relativePdfPath), friday)
@@ -154,7 +154,8 @@ class LunchResolverStrategyHotelAmRing extends LunchResolverStrategy {
   }
 
 }
-
+/*
 object RunStrategy extends App {
   System.out.println(new LunchResolverStrategyHotelAmRing().resolve)
 }
+*/
