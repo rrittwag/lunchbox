@@ -23,6 +23,13 @@ Benutzung
 
 
 
+Distribution
+------------
+
+* `tar.gz`-File im Verzeichnis `target/universal/` erzeugen: `sbt universal:package-zip-tarball`
+
+
+
 Wissen
 ------
 
@@ -32,3 +39,4 @@ Wissen
 * [Akka HTTP: Beispiel für XML-Marshalling + Authentication](https://github.com/akka/akka/blob/release-2.3-dev/akka-http-tests/src/test/scala/akka/http/server/TestServer.scala)
 * [Akka HTTP: Beispiel für Streams + Server-Side-Events](https://github.com/hseeberger/reactive-flows)
 * [Feed: Beschreibung des Atom-Formats](http://atomenabled.org/developers/syndication)
+* [Packaging/Distribution: Tutorial für einfache Applikationen](http://www.scala-sbt.org/sbt-native-packager/archetypes/java_app/my-first-project.html)
