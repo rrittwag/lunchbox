@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringEscapeUtils
 import org.joda.time.{DateTimeZone, LocalDate, LocalTime}
 
 import scala.concurrent.ExecutionContext
-import scala.xml.Node
+import scala.xml.{NodeSeq, Node}
 
 object AtomFeedConversion extends HttpXmlConversions {
   implicit def defaultNodeSeqMarshaller(implicit ec: ExecutionContext):ToEntityMarshaller[Node] = atomFeedMarshaller
@@ -56,6 +56,7 @@ trait FeedRoute
     <feed xmlns="http://www.w3.org/2005/Atom">
       <id>urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157</id>
       <title>Lunchbox - Mittagsangebote</title>
+      <link rel="self" href={ "http://lunchbox.rori.info/feed" /* TODO: in Config schieben */ }/>
       <updated>{toISODateTimeString(todayMidnight)}</updated>
       {
         val offersGroupedAndSortedByDay = offers.groupBy(_.day).toList.sortWith((x,y) => x._1.compareTo(y._1) > 0)
@@ -63,33 +64,47 @@ trait FeedRoute
           <entry>
             <id>{"urn:date:" + day.toString}</id>
             <title>{toWeekdayDateString(day)}</title>
-            <content type="html">{toHtmlContent(offersForDay, providers)}</content>
-            <updated>{toISODateTimeString(todayMidnight)}</updated>
+            <author>
+              <name>Lunchbox</name>
+            </author>
+            <content type="html">{
+              val offersAsHtml = scala.xml.Utility.trim(toHtml(offersForDay, providers))
+              scala.xml.Unparsed("<![CDATA[%s]]>".format(offersAsHtml)) }
+            </content>
+            <updated>{toISODateTimeString(day)}</updated>
           </entry>
         }
       }
     </feed>
 
-  def toHtmlContent(offers: Seq[LunchOffer], providers: Set[LunchProvider]) =
-    for ((providerId, provOffers) <- offers.groupBy(_.provider)) yield {
-      val providerName = providers.find(_.id == providerId).get.name
-      <table border="0">
-        <tr><th>{StringEscapeUtils.escapeHtml4(providerName)}</th><th></th></tr>
-        {
+  def toHtml(offers: Seq[LunchOffer], providers: Set[LunchProvider]) = {
+    <div>
+      {
+      for ((providerId, provOffers) <- offers.groupBy(_.provider)) yield {
+        val providerName = providers.find(_.id == providerId).get.name
+        <table border="0">
+          <tr>
+            <th>{providerName}</th>
+            <th></th>
+          </tr>
+          {
           for (offer <- provOffers) yield {
             val moneyStr = "%d,%02d €".format(offer.price.getAmountMajorInt, offer.price.getMinorPart)
             <tr>
-              <td>{StringEscapeUtils.escapeHtml4(offer.name)}</td>
-              <td>{StringEscapeUtils.escapeHtml4(moneyStr)}</td>
+              <td>{offer.name}</td>
+              <td>{moneyStr}</td>
             </tr>
           }
-        }
-      </table>
-    }
+          }
+        </table>
+      }
+      }
+    </div>
+  }
 
   def toISODateTimeString(date:LocalDate):String = {
     val time = new LocalTime(0L, timeZoneBerlin)
-    date.toLocalDateTime(time).toString
+    date.toDateTime(time).toString
   }
 
   def toWeekdayDateString(date: LocalDate):String = {
