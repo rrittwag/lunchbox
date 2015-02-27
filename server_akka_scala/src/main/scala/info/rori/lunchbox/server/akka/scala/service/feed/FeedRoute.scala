@@ -6,11 +6,10 @@ import info.rori.lunchbox.server.akka.scala.domain.model.{LunchProvider, LunchOf
 import info.rori.lunchbox.server.akka.scala.domain.service.{LunchOfferService => LOS}
 import info.rori.lunchbox.server.akka.scala.domain.service.{LunchProviderService => LPS}
 import info.rori.lunchbox.server.akka.scala.service.{HttpRoute, HttpXmlConversions}
-import org.apache.commons.lang3.StringEscapeUtils
 import org.joda.time.{DateTimeZone, LocalDate, LocalTime}
 
 import scala.concurrent.ExecutionContext
-import scala.xml.{NodeSeq, Node}
+import scala.xml.Node
 
 object AtomFeedConversion extends HttpXmlConversions {
   implicit def defaultNodeSeqMarshaller(implicit ec: ExecutionContext):ToEntityMarshaller[Node] = atomFeedMarshaller
