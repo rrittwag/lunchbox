@@ -42,8 +42,8 @@ trait FeedRoute
                   val providers = providerResMsg.providers
                   val providerIDs = providers.map(_.id)
                   val offersForProviders = allOffers.filter(offer => providerIDs.contains(offer.provider))
-                  val offersTilToday = offersForProviders.filter(_.day.compareTo(LocalDate.now()) <= 0)
-                  createLunchOfferAtomFeed(offersTilToday, providers)
+                  val offersTilToday = offersForProviders.filter(_.day.compareTo(LocalDate.now) <= 0)
+                  createLunchOfferAtomFeed(offersTilToday, providers, optLocation)
               }
             //  .recoverOnError(s"feed") // TODO: recover
           }
@@ -51,12 +51,12 @@ trait FeedRoute
       }
     }
 
-  def createLunchOfferAtomFeed(offers: Seq[LunchOffer], providers: Set[LunchProvider]): ToResponseMarshallable =
+  def createLunchOfferAtomFeed(offers: Seq[LunchOffer], providers: Set[LunchProvider], optLocation: Option[String]): ToResponseMarshallable =
     <feed xmlns="http://www.w3.org/2005/Atom">
       <id>urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157</id>
-      <title>Lunchbox - Mittagsangebote</title>
+      <title>{ optLocation.foldLeft("Mittagsangebote")(_ + " " + _) }</title>
       <link rel="self" href={ "http://lunchbox.rori.info/feed" /* TODO: in Config schieben */ }/>
-      <updated>{toISODateTimeString(todayMidnight)}</updated>
+      <updated>{toISODateTimeString(LocalDate.now)}</updated>
       {
         val offersGroupedAndSortedByDay = offers.groupBy(_.day).toList.sortWith((x,y) => x._1.compareTo(y._1) > 0)
         for ((day, offersForDay) <- offersGroupedAndSortedByDay) yield {
@@ -68,7 +68,7 @@ trait FeedRoute
             </author>
             <content type="html">{
               val offersAsHtml = scala.xml.Utility.trim(toHtml(offersForDay, providers))
-              scala.xml.Unparsed("<![CDATA[%s]]>".format(offersAsHtml)) }
+              scala.xml.Unparsed(cdata(offersAsHtml)) }
             </content>
             <updated>{toISODateTimeString(day)}</updated>
           </entry>
@@ -111,7 +111,7 @@ trait FeedRoute
     weekdayStrings(date.getDayOfWeek-1) + ", " + date.toString("dd.MM.yyyy")
   }
 
-  def todayMidnight = LocalDate.now(timeZoneBerlin)
+  def cdata(data: Any): String = s"<![CDATA[$data]]>"
 
   def timeZoneBerlin = DateTimeZone.forID("Europe/Berlin")
 }
