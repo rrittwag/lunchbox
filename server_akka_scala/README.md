@@ -39,4 +39,26 @@ Wissen
 * [Akka HTTP: Beispiel für XML-Marshalling + Authentication](https://github.com/akka/akka/blob/release-2.3-dev/akka-http-tests/src/test/scala/akka/http/server/TestServer.scala)
 * [Akka HTTP: Beispiel für Streams + Server-Side-Events](https://github.com/hseeberger/reactive-flows)
 * [Feed: Beschreibung des Atom-Formats](http://atomenabled.org/developers/syndication)
+* [Feed: Validator](http://validator.w3.org/feed/)
 * [Packaging/Distribution: Tutorial für einfache Applikationen](http://www.scala-sbt.org/sbt-native-packager/archetypes/java_app/my-first-project.html)
+
+
+
+TODOs
+-----
+
+* LunchOfferResolver für verbleibende Provider implementieren
+* Packaging: RAM-Verbrauch senken
+* Packaging: Config-File heraustrennen
+* Packaging: Log-File positionieren
+* DI für LunchProviderService => vergleiche https://github.com/ehalpern/sandbox/tree/master/src/main/scala/twine
+* Unit-Tests (siehe Fowler)
+* Supervisioning beschreiben
+* Caching des Feeds (spray-caching?)
+* in Docker deployen => http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/my-first-project.html
+* Publish: sbt-release einsetzen + privates Maven-Repo?
+* systemd-Skript?
+* TODOs in Code abarbeiten
+* schnelles Re-Deployment mit sbt-revolver ??
+* Stoppen per Maintenance ermöglichen
+* one actor per http connection => http://mogproject.blogspot.de/2014/07/scala-getting-started-with-akka-http.html
