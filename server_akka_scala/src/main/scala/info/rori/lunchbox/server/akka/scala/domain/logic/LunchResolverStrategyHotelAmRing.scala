@@ -36,27 +36,21 @@ class LunchResolverStrategyHotelAmRing extends LunchResolverStrategy {
 
 
   override def resolve: Seq[LunchOffer] = {
-    var result = Seq[LunchOffer]()
-
     val props = new CleanerProperties
     props.setCharset("utf-8")
     val rootNode = new HtmlCleaner(props).clean(new URL("http://www.hotel-am-ring.de/restaurant-rethra.html"))
 
-    val linkNodes = rootNode.evaluateXPath("//a/@href").map { case n: String => n}.toSet
+    val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n}.toSet
+    val linksAufMittagsPdf = links.filter( _ matches """.*/Mittagspause_.+(\d{2}.\d{2}.\d{2,4})\D*.pdf""" ).toSeq
 
-    linkNodes.foreach {
-      case relativePdfPath@r""".*/Mittagspause_.+(\d{2}.\d{2}.\d{4})$fridayString.+.pdf""" =>
-        parseDay(fridayString) match {
-          case Some(friday) => result ++= parseFromPDF(new URL("http://www.hotel-am-ring.de/" + relativePdfPath), friday)
-          case None => // TODO: loggen!
-        }
-      case _ =>
-    }
-
-    result
+    linksAufMittagsPdf.flatMap( relativePdfLink =>
+      resolveByPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfLink))
+    )
   }
 
-  private def parseFromPDF(pdfUrl: URL, friday: LocalDate):Seq[LunchOffer] = {
+  private def resolveByPdf(pdfUrl: URL):Seq[LunchOffer] = {
+    val optMonday = parseMondayFromUrl(pdfUrl)
+
     val pdfContent = extractPdfContent(pdfUrl)
 
     val section2StartIndex = PdfSection.values.map { section =>
@@ -71,16 +65,21 @@ class LunchResolverStrategyHotelAmRing extends LunchResolverStrategy {
     }
 
     section2content.flatMap {
-      case (section, secContent) => parseOffersFromSectionString(secContent, section, friday)
+      case (section, secContent) => parseOffersFromSectionString(secContent, section, optMonday)
     }
   }
 
-  def parseOffersFromSectionString(sectionContent: String, section: PdfSection, friday: LocalDate): List[LunchOffer] = {
-    val offersContent = sectionContent.substring(sectionContent.indexOf("\n") + 1)
-    offersContent.split("€").flatMap(offerString => parseOfferFromOfferString(offerString, section, friday)).toList
+  def parseMondayFromUrl(pdfUrl: URL) : Option[LocalDate] = pdfUrl.getFile match {
+    case r""".*(\d{2}.\d{2}.\d{2,4})$fridayString\D*.pdf""" => parseDay(fridayString).map(_.minusDays(4))
+    case _ => None
   }
 
-  def parseOfferFromOfferString(offerString: String, section: PdfSection, friday: LocalDate): List[LunchOffer] = {
+  def parseOffersFromSectionString(sectionContent: String, section: PdfSection, optMonday: Option[LocalDate]): List[LunchOffer] = {
+    val offersContent = sectionContent.substring(sectionContent.indexOf("\n") + 1)
+    offersContent.split("€").flatMap(offerString => parseOfferFromOfferString(offerString, section, optMonday)).toList
+  }
+
+  def parseOfferFromOfferString(offerString: String, section: PdfSection, optMonday: Option[LocalDate]): List[LunchOffer] = {
     var rows = offerString.split("\n")
 
     if (section == PdfSection.MITTWOCH)
@@ -90,27 +89,24 @@ class LunchResolverStrategyHotelAmRing extends LunchResolverStrategy {
 
     offerStringWithoutWhitespaces match {
       case r"""(.+)$text(\d{1,},\d{2})$priceString {0,1}""" =>
-        for (day <- daysForOffer(friday, section))
+        for (day <- daysForOffer(optMonday, section))
         yield LunchOffer(0, parseName(text), day, parsePrice(priceString).get, LunchProvider.HOTEL_AM_RING.id)
       case _ => Nil
     }
   }
 
-  private def daysForOffer(friday: LocalDate, section: PdfSection) = {
+  private def daysForOffer(optMonday: Option[LocalDate], section: PdfSection): List[LocalDate] = {
     var dayNumbers = List(section.order)
     if (section == PdfSection.SALAT_DER_WOCHE)
-      dayNumbers = List(0, 1, 2, 3, 4)
+      dayNumbers = List(0, 1, 2, 3, 4) // TODO: Feiertage müssen außen vor bleiben
 
-    for (curDayNr <- dayNumbers) yield friday.minusDays(4 - curDayNr)
+    for (curDayNr <- dayNumbers;
+         monday <- optMonday) yield monday.plusDays(curDayNr)
   }
 
-  /**
-   * Erzeugt ein LocalDate aus dem Format "*dd.mm.yyyy*"
-   * @param dayString String im Format "*dd.mm.yyyy*"
-   * @return
-   */
   private def parseDay(dayString: String): Option[LocalDate] = dayString match {
     case r""".*(\d{2}.\d{2}.\d{4})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yyyy")
+    case r""".*(\d{2}.\d{2}.\d{2})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yy")
     case _ => None
   }
 
@@ -152,7 +148,6 @@ class LunchResolverStrategyHotelAmRing extends LunchResolverStrategy {
     }
     pdfContent
   }
-
 }
 /*
 object RunStrategy extends App {
