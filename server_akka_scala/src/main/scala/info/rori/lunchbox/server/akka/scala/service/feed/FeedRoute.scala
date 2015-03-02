@@ -54,8 +54,8 @@ trait FeedRoute
   def createLunchOfferAtomFeed(offers: Seq[LunchOffer], providers: Set[LunchProvider], optLocation: Option[String]): ToResponseMarshallable =
     <feed xmlns="http://www.w3.org/2005/Atom">
       <id>urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157</id>
-      <title>{ optLocation.foldLeft("Mittagsangebote")(_ + " " + _) }</title>
-      <link rel="self" href={ "http://lunchbox.rori.info/feed" /* TODO: in Config schieben */ }/>
+      <title>{ optLocation.foldLeft("Mittagstisch")(_ + " " + _) }</title>
+      <link rel="self" href={ optLocation.foldLeft("http://lunchbox.rori.info/feed")(_ + "?location=" + _) /* TODO: in Config schieben */ }/>
       <updated>{toISODateTimeString(LocalDate.now)}</updated>
       {
         val offersGroupedAndSortedByDay = offers.groupBy(_.day).toList.sortWith((x,y) => x._1.compareTo(y._1) > 0)
@@ -70,6 +70,7 @@ trait FeedRoute
               val offersAsHtml = scala.xml.Utility.trim(toHtml(offersForDay, providers))
               scala.xml.Unparsed(cdata(offersAsHtml)) }
             </content>
+            <published>{toISODateTimeString(day)}</published>
             <updated>{toISODateTimeString(day)}</updated>
           </entry>
         }
@@ -78,10 +79,13 @@ trait FeedRoute
 
   def toHtml(offers: Seq[LunchOffer], providers: Set[LunchProvider]) = {
     <div>
+      <style type="text/css">
+        { "table { border:0px; } td { vertical-align: top; } span { white-space: nowrap; } tr { padding-bottom: 1em; }" }
+      </style>
       {
       for ((providerId, provOffers) <- offers.groupBy(_.provider)) yield {
         val providerName = providers.find(_.id == providerId).get.name
-        <table border="0">
+        <table>
           <tr>
             <th>{providerName}</th>
             <th></th>
@@ -91,7 +95,7 @@ trait FeedRoute
             val moneyStr = "%d,%02d €".format(offer.price.getAmountMajorInt, offer.price.getMinorPart)
             <tr>
               <td>{offer.name}</td>
-              <td>{moneyStr}</td>
+              <td><span>{moneyStr}</span></td>
             </tr>
           }
           }
