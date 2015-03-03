@@ -41,14 +41,14 @@ class LunchResolverStrategyHotelAmRing extends LunchResolverStrategy {
     val rootNode = new HtmlCleaner(props).clean(new URL("http://www.hotel-am-ring.de/restaurant-rethra.html"))
 
     val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n}.toSet
-    val linksAufMittagsPdf = links.filter( _ matches """.*/Mittagspause_.+(\d{2}.\d{2}.\d{2,4})\D*.pdf""" ).toSeq
+    val linksToPdf = links.filter( _ matches """.*/Mittagspause_.+(\d{2}.\d{2}.\d{2,4})\D*.pdf""" ).toSeq
 
-    linksAufMittagsPdf.flatMap( relativePdfLink =>
-      resolveByPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfLink))
+    linksToPdf.flatMap( relativePdfPath =>
+      resolveFromPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfPath))
     )
   }
 
-  private def resolveByPdf(pdfUrl: URL):Seq[LunchOffer] = {
+  private def resolveFromPdf(pdfUrl: URL):Seq[LunchOffer] = {
     val optMonday = parseMondayFromUrl(pdfUrl)
 
     val pdfContent = extractPdfContent(pdfUrl)
