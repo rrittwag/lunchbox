@@ -13,7 +13,7 @@ import org.joda.time.format.DateTimeFormat
 
 import scala.util.matching.Regex
 
-class LunchResolverStrategyHotelAmRing extends LunchResolverStrategy {
+class LunchResolverHotelAmRing extends LunchResolver {
 
   implicit class RegexContext(sc: StringContext) {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)

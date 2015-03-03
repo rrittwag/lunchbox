@@ -12,7 +12,7 @@ import org.joda.time.format.DateTimeFormat
 
 import util.matching.Regex
 
-class LunchResolverStrategySchweinestall extends LunchResolverStrategy {
+class LunchResolverSchweinestall extends LunchResolver {
 
   implicit class RegexContext(sc: StringContext) {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)

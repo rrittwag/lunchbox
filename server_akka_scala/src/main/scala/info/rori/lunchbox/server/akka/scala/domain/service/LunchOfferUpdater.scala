@@ -1,9 +1,9 @@
 package info.rori.lunchbox.server.akka.scala.domain.service
 
 import akka.actor._
-import info.rori.lunchbox.server.akka.scala.domain.logic.{LunchResolverStrategyHotelAmRing, LunchResolverStrategySchweinestall}
+import info.rori.lunchbox.server.akka.scala.domain.logic._
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchOffer, LunchProvider}
-import info.rori.lunchbox.server.akka.scala.domain.model.LunchProvider.{HOTEL_AM_RING, SCHWEINESTALL}
+import info.rori.lunchbox.server.akka.scala.domain.model.LunchProvider.{SUPPENKULTTOUR, HOTEL_AM_RING, SCHWEINESTALL}
 import scala.concurrent.duration._
 
 import scala.util.{Failure, Success}
@@ -75,8 +75,8 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
 
   Future {
     lunchProvider match {
-      case SCHWEINESTALL => new LunchResolverStrategySchweinestall().resolve
-      case HOTEL_AM_RING => new LunchResolverStrategyHotelAmRing().resolve
+      case SCHWEINESTALL => new LunchResolverSchweinestall().resolve
+      case HOTEL_AM_RING => new LunchResolverHotelAmRing().resolve
       case _ => Nil
     }
   } onComplete {

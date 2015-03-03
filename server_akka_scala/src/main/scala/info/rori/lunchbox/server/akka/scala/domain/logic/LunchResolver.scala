@@ -2,7 +2,7 @@ package info.rori.lunchbox.server.akka.scala.domain.logic
 
 import info.rori.lunchbox.server.akka.scala.domain.model.LunchOffer
 
-trait LunchResolverStrategy {
+trait LunchResolver {
   def resolve: Seq[LunchOffer]
 }
 
