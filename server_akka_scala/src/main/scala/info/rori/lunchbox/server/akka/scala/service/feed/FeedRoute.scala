@@ -80,7 +80,7 @@ trait FeedRoute
   def toHtml(offers: Seq[LunchOffer], providers: Set[LunchProvider]) = {
     <div>
       <style type="text/css">
-        { "table { border:0px; } td { vertical-align: top; } span { white-space: nowrap; } tr { padding-bottom: 1em; }" }
+        { "table { border:0px; } td { vertical-align: top; } span { white-space: nowrap; } tr { padding-bottom: 1.5em; }" }
       </style>
       {
       for ((providerId, provOffers) <- offers.groupBy(_.provider)) yield {
