@@ -19,11 +19,15 @@ class LunchResolverSchweinestall extends LunchResolver {
   }
 
   override def resolve: Seq[LunchOffer] = {
+    resolve(new URL("http://www.schweinestall-nb.de/index.php?id=159"))
+  }
+
+  private[logic] def resolve(url: URL): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
 
     val props = new CleanerProperties
     props.setCharset("iso-8859-1")
-    val rootNode = new HtmlCleaner(props).clean(new URL("http://www.schweinestall-nb.de/index.php?id=159"))
+    val rootNode = new HtmlCleaner(props).clean(url)
 
     // Die Tabelle 'cal_content' enthält die Wochenangebote
     val tdsInOffersTable = rootNode.evaluateXPath("//table[@id='cal_content']//td").map { case n: TagNode => n}

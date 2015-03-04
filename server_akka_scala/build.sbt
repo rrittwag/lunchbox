@@ -25,7 +25,8 @@ libraryDependencies ++= {
     "org.apache.pdfbox"           % "pdfbox"        % "1.8.8",
     // test
 //    "com.typesafe.akka" %% "akka-testkit" % akkaV   % "test",
-//    "org.specs2"        %% "specs2-core"  % "2.3.7" % "test"
+    "org.scalatest" %% "scalatest" % "2.2.2" % "test",
+    "org.scalamock" %% "scalamock-scalatest-support" % "3.2" % "test",
     // service
     "com.typesafe.akka"      %% "akka-http-experimental"            % akkaHttpVersion,
     "com.typesafe.akka"      %% "akka-http-spray-json-experimental" % akkaHttpVersion,
