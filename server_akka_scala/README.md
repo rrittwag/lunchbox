@@ -49,7 +49,7 @@ TODOs
 
 * LunchOfferResolver für verbleibende Provider implementieren
 * Packaging: RAM-Verbrauch senken => http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/customize.html#customize-java-server-applications
-* Packaging: Config-File heraustrennen => https://github.com/muuki88/sbt-native-packager-examples
+* Packaging: Config-File heraustrennen => https://github.com/muuki88/sbt-native-packager-examples     oder via Akka Microkernel ?
 * Packaging: Log-File positionieren => https://github.com/pussinboots/sbt-rpm/blob/master/project/packaging.scala
 * DI für LunchProviderService => vergleiche https://github.com/ehalpern/sandbox/tree/master/src/main/scala/twine
 * Unit-Tests (siehe Fowler)
