@@ -62,3 +62,10 @@ TODOs
 * schnelles Re-Deployment mit sbt-revolver ??
 * Stoppen per Maintenance ermöglichen
 * one actor per http connection => http://mogproject.blogspot.de/2014/07/scala-getting-started-with-akka-http.html
+
+
+
+Urheberrecht
+------------
+
+Dieses Projekt beinhaltet beispielhafte Mittagspläne im HTML- & PDF-Format. Sie dienen dem automatisierten Test der Lunchbox-Server-Funktionalität. Urheber und Eigentümer der Dateien ist der jeweilige Anbieter. Die Dateien waren im betroffenen Zeitraum frei zugänglich über die Internetseite des Anbieters abrufbar.
