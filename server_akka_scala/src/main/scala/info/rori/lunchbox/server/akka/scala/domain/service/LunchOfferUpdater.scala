@@ -77,6 +77,7 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
     lunchProvider match {
       case SCHWEINESTALL => new LunchResolverSchweinestall().resolve
       case HOTEL_AM_RING => new LunchResolverHotelAmRing().resolve
+      case SUPPENKULTTOUR => new LunchResolverSuppenkulttour().resolve
       case _ => Nil
     }
   } onComplete {
@@ -84,7 +85,7 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
       lunchOfferUpdater ! WorkerFinished(offers)
       self ! PoisonPill
     case Failure(t) =>
-      log.error(t, s"LunchResolverStrategy with $lunchProvider terminated") // TODO: Fehler besser loggen
+      log.error(t, s"LunchResolver for $lunchProvider terminated") // TODO: Fehler besser loggen
       lunchOfferUpdater ! WorkerFinished(Seq())
       self ! PoisonPill
   }
