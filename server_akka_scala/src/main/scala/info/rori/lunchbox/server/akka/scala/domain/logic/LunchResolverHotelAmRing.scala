@@ -154,8 +154,3 @@ class LunchResolverHotelAmRing extends LunchResolver {
     pdfContent
   }
 }
-/*
-object RunStrategy extends App {
-  System.out.println(new LunchResolverStrategyHotelAmRing().resolve)
-}
-*/

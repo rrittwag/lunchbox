@@ -153,20 +153,4 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     } catch {
       case exc: Throwable => None
     }
-
-  def log[T](param: T): T = {
-    println(param)
-    param
-  }
-
-  def printSystemInfo(): Unit = {
-    println("Free memory (bytes): " + Runtime.getRuntime.freeMemory)
-    val maxMemory = Runtime.getRuntime.maxMemory
-    println("Maximum memory (bytes): " + (if (maxMemory == Long.MaxValue) "no limit" else maxMemory))
-    println("Total memory available to JVM (bytes): " + Runtime.getRuntime.totalMemory)
-  }
-}
-
-object RunStrategy extends App {
-  println(new LunchResolverSuppenkulttour().resolve)
 }
