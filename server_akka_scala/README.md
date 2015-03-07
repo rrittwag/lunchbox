@@ -41,6 +41,7 @@ Wissen
 * [Feed: Beschreibung des Atom-Formats](http://atomenabled.org/developers/syndication)
 * [Feed: Validator](http://validator.w3.org/feed/)
 * [Packaging/Distribution: Tutorial für einfache Applikationen](http://www.scala-sbt.org/sbt-native-packager/archetypes/java_app/my-first-project.html)
+* [Testing: ScalaTest User Guide](http://www.scalatest.org/user_guide)
 
 
 
