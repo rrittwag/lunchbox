@@ -52,17 +52,17 @@ class LunchResolverHotelAmRing extends LunchResolver {
     )
   }
 
-  private[logic] def resolvePdfLinks(htmlUrl: URL): Seq[String] = {
+  private[logic] def resolvePdfLinks(htmlUrl: URL): List[String] = {
     val props = new CleanerProperties
     props.setCharset("utf-8")
 
     val rootNode = new HtmlCleaner(props).clean(htmlUrl)
     val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n}.toSet
 
-    links.filter(_ matches """.*/Mittagspause_.+(\d{2}.\d{2}.\d{2,4})\D*.pdf""").toSeq
+    links.filter(_ matches """.*/Mittagspause_.+(\d{2}.\d{2}.\d{2,4})\D*.pdf""").toList
   }
 
-  private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] = {
+  private[logic] def resolveFromPdf(pdfUrl: URL): List[LunchOffer] = {
     val optMonday = parseMondayFromUrl(pdfUrl)
 
     val pdfContent = extractPdfContent(pdfUrl)
