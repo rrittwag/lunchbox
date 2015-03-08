@@ -22,16 +22,32 @@ class LunchResolverHotelAmRing extends LunchResolver {
   sealed abstract class PdfSection(val sectionStartPattern: String, val order: Int)
 
   object PdfSection {
+
     case object MONTAG extends PdfSection("Montag,", 0)
+
     case object DIENSTAG extends PdfSection("Dienstag,", 1)
+
     case object MITTWOCH extends PdfSection("Mittwoch,", 2)
+
     case object DONNERSTAG extends PdfSection("Donnerstag,", 3)
+
     case object FREITAG extends PdfSection("Freitag,", 4)
+
     case object SALAT_DER_WOCHE extends PdfSection("Salat der Woche", 6)
+
     case object FOOTER extends PdfSection("Alle Gerichte beinhalten", 7)
 
     // TODO: improve with macro, see https://github.com/d6y/enumeration-examples & http://underscore.io/blog/posts/2014/09/03/enumerations.html
     val values = List[PdfSection](MONTAG, DIENSTAG, MITTWOCH, DONNERSTAG, FREITAG, SALAT_DER_WOCHE, FOOTER)
+  }
+
+  case class OfferRow(name: String, priceOpt: Option[Money]) {
+    def merge(otherRow: OfferRow): OfferRow = {
+      val newName = List(name, otherRow.name).filter(!_.isEmpty) mkString (" ")
+      OfferRow(newName, priceOpt.orElse(otherRow.priceOpt))
+    }
+
+    def isValid = !name.isEmpty && priceOpt.isDefined
   }
 
 
@@ -80,24 +96,54 @@ class LunchResolverHotelAmRing extends LunchResolver {
   }
 
   private def parseOffersFromSectionString(sectionContent: String, section: PdfSection, optMonday: Option[LocalDate]): List[LunchOffer] = {
-    val offersContent = sectionContent.substring(sectionContent.indexOf("\n") + 1)
-    offersContent.split("€").flatMap(offerString => parseOfferFromOfferString(offerString, section, optMonday)).toList
-  }
+    val _ :: offersContent = sectionContent.split("\n").map(_.trim).toList
 
-  private def parseOfferFromOfferString(offerString: String, section: PdfSection, optMonday: Option[LocalDate]): List[LunchOffer] = {
-    var rows = offerString.split("\n")
-
-    if (section == PdfSection.MITTWOCH)
-      rows = s"${parseName(rows.head)}:" +: rows.tail
-
-    val offerStringWithoutWhitespaces = rows.map(parseName).mkString(" ")
-
-    offerStringWithoutWhitespaces match {
-      case r"""(.+)$text(\d{1,},\d{2})$priceString {0,1}""" =>
-        for (day <- daysForOffer(optMonday, section))
-        yield LunchOffer(0, parseName(text), day, parsePrice(priceString).get, LunchProvider.HOTEL_AM_RING.id)
-      case _ => Nil
+    var rows = offersContent.map {
+      case r"""(.+)$text(\d{1,},\d{2})$priceString {0,1} *€""" => OfferRow(parseName(text), parsePrice(priceString))
+      case text => OfferRow(parseName(text), None)
     }
+
+    // Mittwochs-Titelzeile "Buffettag" mit nächster Zeile mergen
+    if (section == PdfSection.MITTWOCH)
+      rows = rows match {
+        case first :: second :: remain =>
+          OfferRow(s"${first.name}: ${second.name}", first.priceOpt.orElse(second.priceOpt)) :: remain
+        case r => r
+      }
+
+    // Rows mergen
+    var mergedRows = List[OfferRow]()
+    var curMergedRowOpt: Option[OfferRow] = None
+    rows.foreach(row =>
+      curMergedRowOpt match {
+        case None => curMergedRowOpt = Some(row)
+        case Some(mixedRow) =>
+          mixedRow.priceOpt match {
+            case None =>
+              curMergedRowOpt = Some(mixedRow.merge(row))
+            case Some(money) =>
+              // wenn nächste Zeile leer oder ebenfalls mit Preis belegt, neues Offer beginnen
+              if (row.name.isEmpty || row.priceOpt.isDefined) {
+                mergedRows :+= mixedRow
+                curMergedRowOpt = Some(row)
+              }
+              // wenn die Zeilen auf eine Fortsetzung hindeuten, mergen
+              else if (mixedRow.name.endsWith(",") || row.name(0).isLower || "&(".contains(row.name(0))) {
+                curMergedRowOpt = Some(mixedRow.merge(row))
+              }
+              // andernfalls neues Offer beginnen
+              else {
+                mergedRows :+= mixedRow
+                curMergedRowOpt = Some(row)
+              }
+          }
+      }
+    )
+    curMergedRowOpt.foreach(mixedRow => if (mixedRow.isValid) mergedRows :+= mixedRow)
+
+    for (day <- daysForOffer(optMonday, section);
+         row <- mergedRows)
+    yield LunchOffer(0, row.name, day, row.priceOpt.get, LunchProvider.HOTEL_AM_RING.id)
   }
 
   private def daysForOffer(optMonday: Option[LocalDate], section: PdfSection): List[LocalDate] = {
@@ -126,7 +172,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
   }
 
 
-  private def parseName(text: String): String = text.toString.trim.replaceAll("  ", " ")
+  private def parseName(text: String): String = text.trim.replaceAll("  ", " ")
 
   private def parseLocalDate(dateString: String, dateFormat: String): Option[LocalDate] =
     try {

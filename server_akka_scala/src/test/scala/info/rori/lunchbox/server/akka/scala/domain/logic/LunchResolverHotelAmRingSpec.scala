@@ -47,11 +47,11 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
     offers should contain (LunchOffer(0,"Pasta Pfanne mit Hähnchenfleisch an leichtem Gemüse",date("2015-02-19"),euro("5.50"),Id))
     offers should contain (LunchOffer(0,"Bauernroulade mit Speckbohnen und Salzkartoffeln",date("2015-02-20"),euro("5.20"),Id))
     offers should contain (LunchOffer(0,"Cordon Bleu mit Kaisergemüse und Salzkartoffeln",date("2015-02-20"),euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen",date("2015-02-16"),euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen",date("2015-02-17"),euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen",date("2015-02-18"),euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen",date("2015-02-19"),euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen",date("2015-02-20"),euro("5.50"),Id))
+    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",date("2015-02-16"),euro("5.50"),Id))
+    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",date("2015-02-17"),euro("5.50"),Id))
+    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",date("2015-02-18"),euro("5.50"),Id))
+    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",date("2015-02-19"),euro("5.50"),Id))
+    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",date("2015-02-20"),euro("5.50"),Id))
   }
 
   it should "resolve offers for week of 2015-02-23" in {
@@ -78,11 +78,11 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
     offers should contain(LunchOffer(0,"Schweinebraten mit Rotkohl und Kartoffelklößen",date("2015-03-05"),euro("5.50"),Id))
     offers should contain(LunchOffer(0,"Gefüllte Kartoffeltaschen mit Kräuterfrischkäse an Sour Cream und Salat",date("2015-03-06"),euro("5.10"),Id))
     offers should contain(LunchOffer(0,"Grünkohltopf mit pikanter Knacker und Salzkartoffeln",date("2015-03-06"),euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen",date("2015-03-02"),euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen",date("2015-03-03"),euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen",date("2015-03-04"),euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen",date("2015-03-05"),euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen",date("2015-03-06"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",date("2015-03-02"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",date("2015-03-03"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",date("2015-03-04"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",date("2015-03-05"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",date("2015-03-06"),euro("5.50"),Id))
   }
 
   it should "resolve offers for week of 2015-03-09" in {
