@@ -22,19 +22,12 @@ class LunchResolverHotelAmRing extends LunchResolver {
   sealed abstract class PdfSection(val sectionStartPattern: String, val order: Int)
 
   object PdfSection {
-
     case object MONTAG extends PdfSection("Montag,", 0)
-
     case object DIENSTAG extends PdfSection("Dienstag,", 1)
-
     case object MITTWOCH extends PdfSection("Mittwoch,", 2)
-
     case object DONNERSTAG extends PdfSection("Donnerstag,", 3)
-
     case object FREITAG extends PdfSection("Freitag,", 4)
-
     case object SALAT_DER_WOCHE extends PdfSection("Salat der Woche", 6)
-
     case object FOOTER extends PdfSection("Alle Gerichte beinhalten", 7)
 
     // TODO: improve with macro, see https://github.com/d6y/enumeration-examples & http://underscore.io/blog/posts/2014/09/03/enumerations.html
@@ -43,7 +36,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
 
   case class OfferRow(name: String, priceOpt: Option[Money]) {
     def merge(otherRow: OfferRow): OfferRow = {
-      val newName = List(name, otherRow.name).filter(!_.isEmpty) mkString (" ")
+      val newName = List(name, otherRow.name).filter(!_.isEmpty).mkString(" ")
       OfferRow(newName, priceOpt.orElse(otherRow.priceOpt))
     }
 
