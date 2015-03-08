@@ -38,7 +38,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
   override def resolve: Seq[LunchOffer] = {
     val pdfLinks = resolvePdfLinks(new URL("http://www.hotel-am-ring.de/restaurant-rethra.html"))
 
-    pdfLinks.flatMap( relativePdfPath =>
+    pdfLinks.flatMap(relativePdfPath =>
       resolveFromPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfPath))
     )
   }
@@ -50,7 +50,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
     val rootNode = new HtmlCleaner(props).clean(htmlUrl)
     val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n}.toSet
 
-    links.filter( _ matches """.*/Mittagspause_.+(\d{2}.\d{2}.\d{2,4})\D*.pdf""" ).toSeq
+    links.filter(_ matches """.*/Mittagspause_.+(\d{2}.\d{2}.\d{2,4})\D*.pdf""").toSeq
   }
 
   private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] = {
@@ -74,7 +74,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
     }
   }
 
-  private[logic] def parseMondayFromUrl(pdfUrl: URL) : Option[LocalDate] = pdfUrl.getFile match {
+  private[logic] def parseMondayFromUrl(pdfUrl: URL): Option[LocalDate] = pdfUrl.getFile match {
     case r""".*(\d{2}.\d{2}.\d{2,4})$fridayString\D*.pdf""" => parseDay(fridayString).map(_.minusDays(4))
     case _ => None
   }
@@ -135,7 +135,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
       case exc: Throwable => None
     }
 
-  private def extractPdfContent(pdfUrl: URL):String = {
+  private def extractPdfContent(pdfUrl: URL): String = {
     var optPdfDoc: Option[PDDocument] = None
     var pdfContent = ""
 
