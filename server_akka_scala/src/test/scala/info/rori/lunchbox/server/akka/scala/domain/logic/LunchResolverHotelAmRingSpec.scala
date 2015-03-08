@@ -10,7 +10,7 @@ import org.scalatest._
 
 class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
 
-  "LunchResolver for Hotel am Ring" should "resolve PDF links for 2015-02-16" in {
+  it should "resolve PDF links for 2015-02-16" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring_2015-02-16.html")
 
     val links = new LunchResolverHotelAmRing().resolvePdfLinks(url)
