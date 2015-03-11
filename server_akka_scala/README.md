@@ -41,6 +41,7 @@ Wissen
 * [Feed: Beschreibung des Atom-Formats](http://atomenabled.org/developers/syndication)
 * [Feed: Validator](http://validator.w3.org/feed/)
 * [Packaging/Distribution: Tutorial für einfache Applikationen](http://www.scala-sbt.org/sbt-native-packager/archetypes/java_app/my-first-project.html)
+* [Packaging/Distribution: viele Beispiele für sbt-native-packager](https://github.com/muuki88/sbt-native-packager-examples)
 * [Testing: ScalaTest User Guide](http://www.scalatest.org/user_guide)
 
 
@@ -49,14 +50,12 @@ TODOs
 -----
 
 * LunchOfferResolver für verbleibende Provider implementieren
-* Packaging: Config-File heraustrennen => https://github.com/muuki88/sbt-native-packager-examples     oder via Akka Microkernel ?
-* Packaging: Log-File positionieren => https://github.com/pussinboots/sbt-rpm/blob/master/project/packaging.scala
 * LunchOfferResolver: Wochenangebote gelten nicht für Feiertage
 * DI für LunchProviderService => vergleiche https://github.com/ehalpern/sandbox/tree/master/src/main/scala/twine
 * Unit-Tests (siehe Fowler)
 * Akka-Supervisioning beschreiben
 * Caching des Feeds (spray-caching?)
-* in Docker deployen => http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/my-first-project.html
+* in Docker deployen => http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/my-first-project.html & https://github.com/pussinboots/sbt-rpm/blob/master/project/packaging.scala
 * in Vagrant deployen=> https://github.com/pussinboots/sbt-rpm
 * Publish: sbt-release einsetzen + privates Maven-Repo?
 * systemd-Skript basteln

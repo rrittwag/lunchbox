@@ -46,10 +46,11 @@ maintainer := "rori <mail@rori.info>"
 packageSummary in Linux := "server for Lunchbox project"
 
 bashScriptConfigLocation := Some("${app_home}/../conf/jvmopts")
+bashScriptExtraDefines += """addJava "-Dconfig.file=${app_home}/../conf/application.conf""""
 
 mappings in Universal <++= (packageBin in Compile, sourceDirectory ) map { (_, src) =>
   val resources = src / "main" / "resources"
   val logback = resources / "logback.xml"
-  val appConf = resources / "application.conf"
+  val appConf = resources / "reference.conf"
   Seq(logback -> "conf/logback.xml", appConf -> "conf/application.conf")
 }
