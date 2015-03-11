@@ -49,17 +49,17 @@ TODOs
 -----
 
 * LunchOfferResolver für verbleibende Provider implementieren
-* Packaging: RAM-Verbrauch senken => http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/customize.html#customize-java-server-applications
 * Packaging: Config-File heraustrennen => https://github.com/muuki88/sbt-native-packager-examples     oder via Akka Microkernel ?
 * Packaging: Log-File positionieren => https://github.com/pussinboots/sbt-rpm/blob/master/project/packaging.scala
 * LunchOfferResolver: Wochenangebote gelten nicht für Feiertage
 * DI für LunchProviderService => vergleiche https://github.com/ehalpern/sandbox/tree/master/src/main/scala/twine
 * Unit-Tests (siehe Fowler)
-* Supervisioning beschreiben
+* Akka-Supervisioning beschreiben
 * Caching des Feeds (spray-caching?)
 * in Docker deployen => http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/my-first-project.html
+* in Vagrant deployen=> https://github.com/pussinboots/sbt-rpm
 * Publish: sbt-release einsetzen + privates Maven-Repo?
-* systemd-Skript?
+* systemd-Skript basteln
 * TODOs in Code abarbeiten
 * schnelles Re-Deployment mit sbt-revolver ??
 * Stoppen per Maintenance ermöglichen

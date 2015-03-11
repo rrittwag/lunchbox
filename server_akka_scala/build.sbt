@@ -25,8 +25,8 @@ libraryDependencies ++= {
     "org.apache.pdfbox"           % "pdfbox"        % "1.8.8",
     // test
 //    "com.typesafe.akka" %% "akka-testkit" % akkaV   % "test",
-    "org.scalatest" %% "scalatest" % "2.2.2" % "test",
-    "org.scalamock" %% "scalamock-scalatest-support" % "3.2" % "test",
+    "org.scalatest" %% "scalatest"                   % "2.2.2" % "test",
+    "org.scalamock" %% "scalamock-scalatest-support" % "3.2"   % "test",
     // service
     "com.typesafe.akka"      %% "akka-http-experimental"            % akkaHttpVersion,
     "com.typesafe.akka"      %% "akka-http-spray-json-experimental" % akkaHttpVersion,
@@ -36,4 +36,20 @@ libraryDependencies ++= {
   )
 }
 
+// Packaging with sbt-native-packager
 enablePlugins(JavaServerAppPackaging)
+
+mainClass in Compile := Some("info.rori.lunchbox.server.akka.scala.Application")
+
+packageDescription := "server for Lunchbox project"
+maintainer := "rori <mail@rori.info>"
+packageSummary in Linux := "server for Lunchbox project"
+
+bashScriptConfigLocation := Some("${app_home}/../conf/jvmopts")
+
+mappings in Universal <++= (packageBin in Compile, sourceDirectory ) map { (_, src) =>
+  val resources = src / "main" / "resources"
+  val logback = resources / "logback.xml"
+  val appConf = resources / "application.conf"
+  Seq(logback -> "conf/logback.xml", appConf -> "conf/application.conf")
+}
