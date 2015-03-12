@@ -2,7 +2,7 @@ package info.rori.lunchbox.server.akka.scala.domain.logic
 
 import java.net.URL
 
-import info.rori.lunchbox.server.akka.scala.domain.model.{LunchProvider, LunchOffer}
+import info.rori.lunchbox.server.akka.scala.domain.model.{LunchOffer, LunchProvider}
 import org.htmlcleaner._
 import org.joda.money.{CurrencyUnit, Money}
 import org.joda.time.LocalDate
@@ -95,9 +95,10 @@ class LunchResolverSuppenkulttour extends LunchResolver {
 
     // die Daten stecken in vielen, undefiniert angeordneten HTML-Elementen, daher lieber als Reintext auswerten (mit Pipes als Zeilenumbrüchen)
     for (tagessuppeString <- html2text(node).split( """\|\|""").tail) {
-      val weekdayString :: offerAsStringArray = tagessuppeString.split( """\|""").map(_.trim).toList
+      val (weekdayOpt, remainingTagessuppeString) = extractWeekday(adjustText(tagessuppeString), monday)
+      val offerAsStringArray = remainingTagessuppeString.split( """\|""").map(_.trim).toList
       val (nameOpt, priceOpt) = parseOfferAttributes(offerAsStringArray)
-      for (weekday <- parseWeekday(weekdayString, monday);
+      for (weekday <- weekdayOpt;
            name <- nameOpt;
            price <- priceOpt)
         result :+= LunchOffer(0, name, weekday, price, LunchProvider.SUPPENKULTTOUR.id)
@@ -121,6 +122,7 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     val nameOpt = titleOpt.map (title =>
       if (description.size > 0) s"$title: ${description.mkString(" ")}" else title
     )
+
     (nameOpt, priceOpt)
   }
 
@@ -136,8 +138,21 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     result.toString
   }
 
-  private def isZusatzInfo(string: String) =
-    string.split(", ").exists(elem => List("vegan", "glutenfrei", "gl", "vegetarisch", "laktosefrei").contains(elem))
+  private def adjustText(text: String) = text.replaceAll("–", "-").replaceAll(" , ", ", ")
+
+  private def isZusatzInfo(string: String) = {
+    val zusatzInfos = List("(vegan)", "vegan", "glutenfrei", "lf", "gf", "vegetarisch", "laktosefrei")
+    string.split(", ").exists(elem => zusatzInfos.contains(elem))
+  }
+
+  private def extractWeekday(text: String, monday: LocalDate): (Option[LocalDate], String) = {
+    val weekdayNames = Weekday.values.map(_.name).mkString("|")
+    val Pattern = ("""^ *(""" + weekdayNames + """) *[-|](.*)""").r
+    text match {
+      case Pattern(weekdayString, remaining) => (parseWeekday(weekdayString, monday), remaining)
+      case _ => (None, text)
+    }
+  }
 
   private def parseWeekday(weekdayString: String, monday: LocalDate): Option[LocalDate] =
     Weekday.values.find(_.name == weekdayString).map(weekday => monday.plusDays(weekday.order))
