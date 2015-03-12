@@ -32,5 +32,5 @@ Status:
 
 * Das Projekt wird via [Github](https://github.com/rori-dev/lunchbox) verwaltet.
 * Die Umsetzung des Servers und der Clients ist in Arbeit.
-* Die REST API ist in Version 1 [hier](http://lunchbox.rori.info/api-docs) dokumentiert.
+* Die REST API ist in Version 1 [hier](http://lunchbox.rori.info/api/v1-docs) dokumentiert.
 * Eine Mock-Implementierung der API ist [hier](http://lunchbox.rori.info/api/v1) abrufbar.
