@@ -20,6 +20,7 @@ Benutzung
 
 * Server starten: `sbt run`
 * Die REST API ist unter [http://localhost:8080/api/v1/](http://localhost:8080/api/v1/) erreichbar
+* Der Web-Feed ist unter [http://localhost:8080/feed](http://localhost:8080/feed) erreichbar
 
 
 
@@ -27,6 +28,36 @@ Distribution
 ------------
 
 * `tar.gz`-File im Verzeichnis `target/universal/` erzeugen: `sbt universal:package-zip-tarball`
+
+
+
+Status
+------
+
+Beta-Version:
+
+* automatische Ermittlung der Mittagsangebote von Schweinestall, Hotel am Ring & Suppenkulttour
+* Wiedergabe der Mittagsangebote per REST und Web-Feed
+
+
+
+TODOs
+-----
+
+* LunchOfferResolver für verbleibende Provider implementieren
+* LunchOfferResolver: Wochenangebote gelten nicht an Feiertagen
+* DI für LunchProviderService => vergleiche https://github.com/ehalpern/sandbox/tree/master/src/main/scala/twine
+* Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
+* Akka-Supervisioning beschreiben
+* Caching des Feeds (spray-caching?)
+* in Docker deployen => http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/my-first-project.html & https://github.com/pussinboots/sbt-rpm/blob/master/project/packaging.scala
+* in Vagrant deployen=> https://github.com/pussinboots/sbt-rpm
+* Publish: sbt-release einsetzen + privates Maven-Repo?
+* systemd-Skript basteln
+* TODOs in Code abarbeiten
+* schnelles Re-Deployment mit sbt-revolver ??
+* Stoppen per Maintenance ermöglichen
+* one actor per http connection => http://mogproject.blogspot.de/2014/07/scala-getting-started-with-akka-http.html
 
 
 
@@ -43,26 +74,6 @@ Wissen
 * [Packaging/Distribution: Tutorial für einfache Applikationen](http://www.scala-sbt.org/sbt-native-packager/archetypes/java_app/my-first-project.html)
 * [Packaging/Distribution: viele Beispiele für sbt-native-packager](https://github.com/muuki88/sbt-native-packager-examples)
 * [Testing: ScalaTest User Guide](http://www.scalatest.org/user_guide)
-
-
-
-TODOs
------
-
-* LunchOfferResolver für verbleibende Provider implementieren
-* LunchOfferResolver: Wochenangebote gelten nicht für Feiertage
-* DI für LunchProviderService => vergleiche https://github.com/ehalpern/sandbox/tree/master/src/main/scala/twine
-* Unit-Tests (siehe Fowler)
-* Akka-Supervisioning beschreiben
-* Caching des Feeds (spray-caching?)
-* in Docker deployen => http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/my-first-project.html & https://github.com/pussinboots/sbt-rpm/blob/master/project/packaging.scala
-* in Vagrant deployen=> https://github.com/pussinboots/sbt-rpm
-* Publish: sbt-release einsetzen + privates Maven-Repo?
-* systemd-Skript basteln
-* TODOs in Code abarbeiten
-* schnelles Re-Deployment mit sbt-revolver ??
-* Stoppen per Maintenance ermöglichen
-* one actor per http connection => http://mogproject.blogspot.de/2014/07/scala-getting-started-with-akka-http.html
 
 
 
