@@ -6,7 +6,7 @@ import info.rori.lunchbox.server.akka.scala.domain.model.{LunchProvider, LunchOf
 import info.rori.lunchbox.server.akka.scala.domain.service.{LunchOfferService => LOS}
 import info.rori.lunchbox.server.akka.scala.domain.service.{LunchProviderService => LPS}
 import info.rori.lunchbox.server.akka.scala.service.{HttpRoute, HttpXmlConversions}
-import org.joda.time.{DateTimeZone, LocalDate, LocalTime}
+import org.joda.time.{DateTime, DateTimeZone, LocalDate}
 
 import scala.concurrent.ExecutionContext
 import scala.xml.Node
@@ -70,8 +70,8 @@ trait FeedRoute
               val offersAsHtml = scala.xml.Utility.trim(toHtml(offersForDay, providers))
               scala.xml.Unparsed(cdata(offersAsHtml)) }
             </content>
-            <summary>Mittagsangebote</summary>
-              <published>{toISODateTimeString(day)}</published>
+            <summary>Mahlzeit!</summary>
+            <published>{toISODateTimeString(day)}</published>
             <updated>{toISODateTimeString(day)}</updated>
           </entry>
         }
@@ -106,12 +106,11 @@ trait FeedRoute
     </div>
   }
 
-  def toISODateTimeString(date:LocalDate):String = {
-    val time = new LocalTime(0L, timeZoneBerlin)
-    date.toDateTime(time).toString
+  def toISODateTimeString(date: LocalDate): String = {
+    new DateTime(timeZoneBerlin).withTimeAtStartOfDay().toString
   }
 
-  def toWeekdayDateString(date: LocalDate):String = {
+  def toWeekdayDateString(date: LocalDate): String = {
     val weekdayStrings = Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag")
     weekdayStrings(date.getDayOfWeek-1) + ", " + date.toString("dd.MM.yyyy")
   }
