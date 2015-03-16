@@ -70,7 +70,8 @@ trait FeedRoute
               val offersAsHtml = scala.xml.Utility.trim(toHtml(offersForDay, providers))
               scala.xml.Unparsed(cdata(offersAsHtml)) }
             </content>
-            <published>{toISODateTimeString(day)}</published>
+            <summary>Mittagsangebote</summary>
+              <published>{toISODateTimeString(day)}</published>
             <updated>{toISODateTimeString(day)}</updated>
           </entry>
         }
