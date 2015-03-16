@@ -22,11 +22,11 @@ class LunchResolverHotelAmRing extends LunchResolver {
   sealed abstract class PdfSection(val sectionStartPattern: String, val order: Int)
 
   object PdfSection {
-    case object MONTAG extends PdfSection("Montag,", 0)
-    case object DIENSTAG extends PdfSection("Dienstag,", 1)
-    case object MITTWOCH extends PdfSection("Mittwoch,", 2)
-    case object DONNERSTAG extends PdfSection("Donnerstag,", 3)
-    case object FREITAG extends PdfSection("Freitag,", 4)
+    case object MONTAG extends PdfSection("Montag", 0)
+    case object DIENSTAG extends PdfSection("Dienstag", 1)
+    case object MITTWOCH extends PdfSection("Mittwoch", 2)
+    case object DONNERSTAG extends PdfSection("Donnerstag", 3)
+    case object FREITAG extends PdfSection("Freitag", 4)
     case object SALAT_DER_WOCHE extends PdfSection("Salat der Woche", 6)
     case object FOOTER extends PdfSection("Alle Gerichte beinhalten", 7)
 
@@ -121,7 +121,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
                 curMergedRowOpt = Some(row)
               }
               // wenn die Zeilen auf eine Fortsetzung hindeuten, mergen
-              else if (mixedRow.name.endsWith(",") || row.name(0).isLower || "&(".contains(row.name(0))) {
+              else if (Seq(",", " mit", " an").exists(mixedRow.name.endsWith) || row.name(0).isLower || "&(".contains(row.name(0))) {
                 curMergedRowOpt = Some(mixedRow.merge(row))
               }
               // andernfalls neues Offer beginnen

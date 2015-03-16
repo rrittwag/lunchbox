@@ -107,6 +107,30 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
     offers should contain(LunchOffer(0,"Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",date("2015-03-13"),euro("5.50"),Id))
   }
 
+  it should "resolve offers for week of 2015-03-16" in {
+    val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_16.03.-20.03.2015.pdf")
+
+    val offers = new LunchResolverHotelAmRing().resolveFromPdf(url)
+
+    println(offers)
+
+    offers should have size 14
+    offers should contain(LunchOffer(0,"Milchreis mit heißen Früchten",date("2015-03-16"),euro("4.50"),Id))
+    offers should contain(LunchOffer(0,"Hähnchenroulade (gefüllt mit Spinat und Frischkäse) mit Karotten-Kohlrabigemüse & Salzkartoffeln",date("2015-03-16"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Schichtkohl mit Salzkartoffeln & Dessert",date("2015-03-17"),euro("5.20"),Id))
+    offers should contain(LunchOffer(0,"Paniertes Schweinekotelett mit Brokkoli- & Blumenkohlröschen, Kartoffelkroketten",date("2015-03-17"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Buffettag: Rinderbraten, Putensteaks mit Champignons, Fischfilet, Gemüsevariation, Salzkartoffeln, Knödel & Salatbuffet mit Dressingauswahl",date("2015-03-18"),euro("6.90"),Id))
+    offers should contain(LunchOffer(0,"Zwei Minutensteaks mit frischen Champignons, Salat & Baguettebrot",date("2015-03-19"),euro("5.20"),Id))
+    offers should contain(LunchOffer(0,"Gebratenes Seelachsfilet an Kräuterrahmsauce mit Lotusgemüse & Wildreis",date("2015-03-19"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Königsberger Kochklops mit Salzkartoffeln und Salat",date("2015-03-20"),euro("5.20"),Id))
+    offers should contain(LunchOffer(0,"Schweinesteak überbacken mit Tomate-Mozzarella, dazu Pommes frites & Salat",date("2015-03-20"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Tomate-Mozzarella mit Zwiebellauch und Basilikum",date("2015-03-16"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Tomate-Mozzarella mit Zwiebellauch und Basilikum",date("2015-03-17"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Tomate-Mozzarella mit Zwiebellauch und Basilikum",date("2015-03-18"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Tomate-Mozzarella mit Zwiebellauch und Basilikum",date("2015-03-19"),euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Tomate-Mozzarella mit Zwiebellauch und Basilikum",date("2015-03-20"),euro("5.50"),Id))
+  }
+
   it should "parse date from PDF url" in {
     def parse(file: String): LocalDate = new LunchResolverHotelAmRing().parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
 
