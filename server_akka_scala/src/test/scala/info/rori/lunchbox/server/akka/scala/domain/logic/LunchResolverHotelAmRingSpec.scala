@@ -112,8 +112,6 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
 
     val offers = new LunchResolverHotelAmRing().resolveFromPdf(url)
 
-    println(offers)
-
     offers should have size 14
     offers should contain(LunchOffer(0,"Milchreis mit heißen Früchten",date("2015-03-16"),euro("4.50"),Id))
     offers should contain(LunchOffer(0,"Hähnchenroulade (gefüllt mit Spinat und Frischkäse) mit Karotten-Kohlrabigemüse & Salzkartoffeln",date("2015-03-16"),euro("5.50"),Id))
