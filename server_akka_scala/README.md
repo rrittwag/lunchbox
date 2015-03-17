@@ -5,6 +5,16 @@ Dieses Sub-Projekt beschreibt eine Implementierung des Lunchbox-Servers. Die Ums
 
 
 
+Status
+------
+
+Beta-Version:
+
+* automatische Ermittlung der Mittagsangebote von Schweinestall, Hotel am Ring & Suppenkulttour
+* Wiedergabe der Mittagsangebote per REST und Web-Feed
+
+
+
 Build
 -----
 
@@ -28,16 +38,6 @@ Distribution
 ------------
 
 * `tar.gz`-File im Verzeichnis `target/universal/` erzeugen: `sbt universal:package-zip-tarball`
-
-
-
-Status
-------
-
-Beta-Version:
-
-* automatische Ermittlung der Mittagsangebote von Schweinestall, Hotel am Ring & Suppenkulttour
-* Wiedergabe der Mittagsangebote per REST und Web-Feed
 
 
 
