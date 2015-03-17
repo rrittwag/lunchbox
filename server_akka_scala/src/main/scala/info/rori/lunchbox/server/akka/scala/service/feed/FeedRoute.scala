@@ -6,13 +6,13 @@ import info.rori.lunchbox.server.akka.scala.domain.model.{LunchProvider, LunchOf
 import info.rori.lunchbox.server.akka.scala.domain.service.{LunchOfferService => LOS}
 import info.rori.lunchbox.server.akka.scala.domain.service.{LunchProviderService => LPS}
 import info.rori.lunchbox.server.akka.scala.service.{HttpRoute, HttpXmlConversions}
-import org.joda.time.{DateTime, DateTimeZone, LocalDate}
+import org.joda.time.{DateTimeZone, LocalDate}
 
 import scala.concurrent.ExecutionContext
 import scala.xml.Node
 
 object AtomFeedConversion extends HttpXmlConversions {
-  implicit def defaultNodeSeqMarshaller(implicit ec: ExecutionContext):ToEntityMarshaller[Node] = atomFeedMarshaller
+  implicit def defaultNodeSeqMarshaller(implicit ec: ExecutionContext): ToEntityMarshaller[Node] = atomFeedMarshaller
 }
 
 trait FeedRoute
@@ -70,7 +70,7 @@ trait FeedRoute
               val offersAsHtml = scala.xml.Utility.trim(toHtml(offersForDay, providers))
               scala.xml.Unparsed(cdata(offersAsHtml)) }
             </content>
-            <summary>Mahlzeit!</summary>
+            <summary type="text">Mahlzeit!</summary>
             <published>{toISODateTimeString(day)}</published>
             <updated>{toISODateTimeString(day)}</updated>
           </entry>
@@ -106,9 +106,7 @@ trait FeedRoute
     </div>
   }
 
-  def toISODateTimeString(date: LocalDate): String = {
-    new DateTime(timeZoneBerlin).withTimeAtStartOfDay().toString
-  }
+  def toISODateTimeString(date: LocalDate): String = date.toDateTimeAtStartOfDay(timeZoneBerlin).toString
 
   def toWeekdayDateString(date: LocalDate): String = {
     val weekdayStrings = Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag")
