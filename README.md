@@ -47,7 +47,7 @@ Status
 DONE
 
 * api - REST API Version 1 beschrieben
-* server - Die Beta-Version ermittelt die Mittagsangebote von Schweinestall, Hotel am Ring & Suppenkulttour und gibt sie per REST & Web-Feed wieder
+* server - Die Beta-Version ermittelt die Mittagsangebote von Schweinestall, Hotel am Ring, Suppenkulttour & AOK Cafeteria und gibt sie per REST & Web-Feed wieder
 
 TODO
 

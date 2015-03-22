@@ -10,7 +10,7 @@ Status
 
 Beta-Version:
 
-* automatische Ermittlung der Mittagsangebote von Schweinestall, Hotel am Ring & Suppenkulttour
+* automatische Ermittlung der Mittagsangebote von Schweinestall, Hotel am Ring, Suppenkulttour & AOK Cafeteria
 * Wiedergabe der Mittagsangebote per REST und Web-Feed
 
 
