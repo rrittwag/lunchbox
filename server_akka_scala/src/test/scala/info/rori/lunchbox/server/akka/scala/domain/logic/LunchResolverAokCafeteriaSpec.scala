@@ -68,8 +68,8 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
   it should "parse date from PDF url" in {
     def parse(file: String): LocalDate = new LunchResolverAokCafeteria().parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
 
-    parse("AOK_16.03.-20.03..pdf") should be (date(LocalDate.now.getYear + "-03-16"))
-    parse("AOK_23.03.-27.03..pdf") should be (date(LocalDate.now.getYear + "-03-23"))
+    parse("AOK_16.03.-20.03..pdf") should be (date(s"$YearNow-03-16"))
+    parse("AOK_23.03.-27.03..pdf") should be (date(s"$YearNow-03-23"))
   }
 
   val Id = LunchProvider.AOK_CAFETERIA.id
@@ -77,6 +77,6 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
 
   private def date(dateString: String): LocalDate = LocalDate.parse(dateString)
   private def euro(moneyString: String): Money = Money.parse(s"EUR $moneyString")
-  private val YearNow = LocalDate.now.getYear.toString
+  private val YearNow = LocalDate.now.getYear
 
 }

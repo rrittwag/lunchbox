@@ -142,5 +142,5 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
 
   private def date(dateString: String): LocalDate = LocalDate.parse(dateString)
   private def euro(moneyString: String): Money = Money.parse(s"EUR $moneyString")
-  private val YearNow = LocalDate.now.getYear.toString
+  private val YearNow = LocalDate.now.getYear
 }
