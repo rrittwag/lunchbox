@@ -85,7 +85,7 @@ class LunchResolverAokCafeteria extends LunchResolver {
         for (weekday <- PdfSection.weekdayValues;
              lines <- section2lines.get(weekday);
              (x, price) <- xCoords.zip(prices))
-          parseDayOffer(lines, x, weekday, optMonday, price).map(offers :+= _)
+          parseDayOffer(lines, x, weekday, optMonday, price).foreach(offers :+= _)
 
       case None => // TODO: logging!
     }
@@ -122,7 +122,7 @@ class LunchResolverAokCafeteria extends LunchResolver {
       for (line <- linesBelowHeader) {
         if (line.oneTextMatches(""".*Zusatzstoffe.*""")) {
           val weekdayOpt = findWeekdaySection(linesForDay)
-          weekdayOpt.map( day => result += day -> linesForDay )
+          weekdayOpt.foreach( day => result += day -> linesForDay )
           linesForDay = Nil
         } else if (line.oneTextMatches(""".*(Nährwerte|Kohlenhydrate).*""")) {
           // ignore line
@@ -198,7 +198,7 @@ class LunchResolverAokCafeteria extends LunchResolver {
       case fnf: FileNotFoundException => System.out.println(s"file $pdfUrl not found") // TODO: loggen
       case t: Throwable => System.out.println(t.getMessage) // TODO: loggen
     } finally {
-      optPdfDoc.map(_.close())
+      optPdfDoc.foreach(_.close())
     }
     pdfContent
   }
