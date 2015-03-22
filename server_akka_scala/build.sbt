@@ -20,9 +20,10 @@ libraryDependencies ++= {
     "com.github.nscala-time" %% "nscala-time" % "1.8.0",
     "org.joda"               %  "joda-money"  % "0.10.0",
     // domain logic
-    "net.sourceforge.htmlcleaner" % "htmlcleaner"   % "2.10",
-    "org.apache.commons"          % "commons-lang3" % "3.3.2",
-    "org.apache.pdfbox"           % "pdfbox"        % "1.8.8",
+    "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.10",
+    "org.apache.commons"          %  "commons-lang3" % "3.3.2",
+    "org.apache.pdfbox"           %  "pdfbox"        % "1.8.8",
+    "org.scalactic"               %% "scalactic"     % "2.2.4",
     // test
 //    "com.typesafe.akka" %% "akka-testkit" % akkaV   % "test",
     "org.scalatest" %% "scalatest"                   % "2.2.2" % "test",
