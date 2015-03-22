@@ -84,7 +84,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
   }
 
   private[logic] def parseMondayFromUrl(pdfUrl: URL): Option[LocalDate] = pdfUrl.getFile match {
-    case r""".*(\d{2}.\d{2}.\d{2,4})$fridayString\D*.pdf""" => parseDay(fridayString).map(_.minusDays(4))
+    case r""".*(\d{2}.\d{2}.)\d{2,4}$fridayString\D*.pdf""" => parseDay(fridayString).map(_.minusDays(4))
     case _ => None
   }
 
@@ -151,6 +151,10 @@ class LunchResolverHotelAmRing extends LunchResolver {
   private def parseDay(dayString: String): Option[LocalDate] = dayString match {
     case r""".*(\d{2}.\d{2}.\d{4})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yyyy")
     case r""".*(\d{2}.\d{2}.\d{2})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yy")
+    case r""".*(\d{2}.\d{2}.)$dayString.*""" =>
+      val yearToday = LocalDate.now.getYear
+      val year = if (LocalDate.now.getMonthOfYear == 12 && dayString.endsWith("01.")) yearToday + 1 else yearToday
+      parseLocalDate(dayString + year.toString, "dd.MM.yyyy")
     case _ => None
   }
 
