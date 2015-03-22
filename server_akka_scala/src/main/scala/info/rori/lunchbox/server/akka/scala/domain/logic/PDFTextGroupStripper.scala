@@ -11,7 +11,7 @@ class PDFTextGroupStripper extends PDFTextStripper {
   override def processTextPosition(text: TextPosition): Unit = {
     super.processTextPosition(text)
 
-    textGroups.find(e => (e.xMax === text.getX +- 0.1f) && (e.yMin === text.getY +- 0.1f)) match {
+    textGroups.find(e => (e.xMax === text.getX +- 1.0f) && (e.yMin === text.getY +- 1.0f)) match {
       case Some(e) => e.add(text)
       case None => textGroups :+= TextGroup(text :: Nil)
     }
@@ -55,7 +55,7 @@ case class TextGroup(var positions: Seq[TextPosition]) {
 
   private def validate(): Unit = {
     require(positions.nonEmpty)
-    require(positions.forall(positions.head.getY === _.getY +- 0.1f))
-    require(positions.forall(positions.head.getHeight === _.getHeight +- 0.1f))
+    require(positions.forall(positions.head.getY === _.getY +- 1.0f))
+    require(positions.forall(positions.head.getHeight === _.getHeight +- 1.0f))
   }
 }
