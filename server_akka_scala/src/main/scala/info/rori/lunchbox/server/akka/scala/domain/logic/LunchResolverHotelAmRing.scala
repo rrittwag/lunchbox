@@ -84,14 +84,15 @@ class LunchResolverHotelAmRing extends LunchResolver {
     }
 
     // Wochenangebote über die Woche verteilen
-    section2offers.flatMap {
-        case (PdfSection.SALAT_DER_WOCHE, offers) =>
-          val daysInWeek = section2offers.toMap.filter(_._2.size > 0).keySet & PdfSection.weekdaysValues.toSet
-          for (offer <- offers;
-               dayOffset <- daysInWeek.map(_.order).toList.sorted;
-               date <- optMonday.map(_.plusDays(dayOffset))) yield offer.copy( day = date )
-        case (section, offers) => offers
+    val (wochenOffers, tagesOffers) = section2offers.partition(_._1 == PdfSection.SALAT_DER_WOCHE)
+    val tagesOffersList = tagesOffers.flatMap(_._2)
+
+    val wochenOffersList = wochenOffers.flatMap { case (_, offers) =>
+      for (offer <- offers;
+           date <- tagesOffersList.map(_.day).toSet[LocalDate].toList.sortBy(_.toDate))
+        yield offer.copy(day = date)
     }
+    tagesOffersList ++ wochenOffersList
   }
 
   private[logic] def parseMondayFromUrl(pdfUrl: URL): Option[LocalDate] = pdfUrl.getFile match {
