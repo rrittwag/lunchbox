@@ -27,11 +27,12 @@ class LunchResolverHotelAmRing extends LunchResolver {
     case object MITTWOCH extends PdfSection("Mittwoch", 2)
     case object DONNERSTAG extends PdfSection("Donnerstag", 3)
     case object FREITAG extends PdfSection("Freitag", 4)
-    case object SALAT_DER_WOCHE extends PdfSection("Salat der Woche", 6)
-    case object FOOTER extends PdfSection("Alle Gerichte beinhalten", 7)
+    case object SALAT_DER_WOCHE extends PdfSection("Salat der Woche", 0)
+    case object FOOTER extends PdfSection("Alle Gerichte beinhalten", 0)
 
+    val weekdaysValues = List[PdfSection](MONTAG, DIENSTAG, MITTWOCH, DONNERSTAG, FREITAG)
     // TODO: improve with macro, see https://github.com/d6y/enumeration-examples & http://underscore.io/blog/posts/2014/09/03/enumerations.html
-    val values = List[PdfSection](MONTAG, DIENSTAG, MITTWOCH, DONNERSTAG, FREITAG, SALAT_DER_WOCHE, FOOTER)
+    val values = weekdaysValues ++ List(SALAT_DER_WOCHE, FOOTER)
   }
 
   case class OfferRow(name: String, priceOpt: Option[Money]) {
@@ -78,8 +79,18 @@ class LunchResolverHotelAmRing extends LunchResolver {
       case List((sec1, idx1), (sec2, idx2)) => (sec1, pdfContent.substring(idx1, idx2))
     }
 
-    section2content.flatMap {
-      case (section, secContent) => parseOffersFromSectionString(secContent, section, optMonday)
+    val section2offers = section2content.map {
+      case (section, secContent) => (section, parseOffersFromSectionString(secContent, section, optMonday))
+    }
+
+    // Wochenangebote über die Woche verteilen
+    section2offers.flatMap {
+        case (PdfSection.SALAT_DER_WOCHE, offers) =>
+          val daysInWeek = section2offers.toMap.filter(_._2.size > 0).keySet & PdfSection.weekdaysValues.toSet
+          for (offer <- offers;
+               dayOffset <- daysInWeek.map(_.order).toList.sorted;
+               date <- optMonday.map(_.plusDays(dayOffset))) yield offer.copy( day = date )
+        case (section, offers) => offers
     }
   }
 
@@ -134,18 +145,9 @@ class LunchResolverHotelAmRing extends LunchResolver {
     )
     curMergedRowOpt.foreach(mixedRow => if (mixedRow.isValid) mergedRows :+= mixedRow)
 
-    for (day <- daysForOffer(optMonday, section);
-         row <- mergedRows)
+    for (row <- mergedRows;
+         day <- optMonday.map(_.plusDays(section.order)))
     yield LunchOffer(0, row.name, day, row.priceOpt.get, LunchProvider.HOTEL_AM_RING.id)
-  }
-
-  private def daysForOffer(optMonday: Option[LocalDate], section: PdfSection): List[LocalDate] = {
-    var dayNumbers = List(section.order)
-    if (section == PdfSection.SALAT_DER_WOCHE)
-      dayNumbers = List(0, 1, 2, 3, 4) // TODO: Feiertage müssen außen vor bleiben
-
-    for (curDayNr <- dayNumbers;
-         monday <- optMonday) yield monday.plusDays(curDayNr)
   }
 
   private def parseDay(dayString: String): Option[LocalDate] = dayString match {
@@ -192,7 +194,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
       case fnf: FileNotFoundException => System.out.println(s"file $pdfUrl not found") // TODO: loggen
       case t: Throwable => System.out.println(t.getMessage) // TODO: loggen
     } finally {
-      optPdfDoc.map(_.close())
+      optPdfDoc.foreach(_.close())
     }
     pdfContent
   }
