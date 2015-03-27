@@ -138,6 +138,15 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
     offers.filter(_.day == date(s"$YearNow-04-03")) should have size 0
   }
 
+  it should "resolve offers for easter week of 2015-04-06" in {
+    val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_06.04.15-10.04.15.pdf")
+
+    val offers = new LunchResolverHotelAmRing().resolveFromPdf(url)
+
+    offers should have size 11
+    offers.filter(_.day == date(s"$YearNow-04-06")) should have size 0
+  }
+
   it should "parse date from PDF url" in {
     def parse(file: String): LocalDate = new LunchResolverHotelAmRing().parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
 
