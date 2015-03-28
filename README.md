@@ -16,7 +16,7 @@ Für Version 1 sind folgende Mittagsanbieter vorgesehen:
 * [Neubrandenburg: Hotel am Ring](http://www.hotel-am-ring.de/restaurant-rethra.html)
 * [Neubrandenburg: AOK Cafeteria](http://www.hotel-am-ring.de/aok-cafeteria.html)
 * [Neubrandenburg: Suppenkulttour](http://www.suppenkult.com/wochenplan.html)
-* [Berlin: Salt 'n' Pepper](http://www.partyservice-rohde.de/bistro-salt-n-pepper/bistro-angebot-der-woche.html)
+* [Berlin: Salt 'n' Pepper](http://www.partyservice-rohde.de/bistro-angebot-der-woche/)
 
 Das Projekt ist zugleich Spielwiese zum Ausprobieren technischer Frameworks und Spezifikationen. Server und Client dürfen also gern in verschiedensten Sprachen und Varianten implementiert werden.
 
