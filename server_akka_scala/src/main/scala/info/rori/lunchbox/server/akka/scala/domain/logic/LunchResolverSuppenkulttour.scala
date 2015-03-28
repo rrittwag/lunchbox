@@ -59,7 +59,11 @@ class LunchResolverSuppenkulttour extends LunchResolver {
   private def resolveMonday(node: TagNode): Option[LocalDate] = {
     val optDateSeq = for (dateDiv <- node.evaluateXPath("/div[@class='toggler']").map { case n: TagNode => n}) yield {
       dateDiv.getText.toString.replace("\n", " ") match {
-        case r""".*Suppen vom +(\d{2}.\d{2}.\d{4})$mondayString.*""" => parseLocalDate(mondayString, "dd.MM.yyyy")
+        case r""".*Suppen vom +(\d{2}.\d{2}.\d{4})$mondayString.*""" =>
+          parseLocalDate(mondayString, "dd.MM.yyyy").map { monday =>
+            val weekOfYear = monday.getWeekOfWeekyear
+            LocalDate.now.withWeekOfWeekyear(weekOfYear).withDayOfWeek(1)
+          }
         case _ => None
       }
     }

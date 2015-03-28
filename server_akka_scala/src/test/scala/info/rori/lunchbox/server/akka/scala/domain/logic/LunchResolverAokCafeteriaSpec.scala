@@ -19,75 +19,87 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
     links should contain (HttpMittagspauseDir + "AOK_23.03.-27.03..pdf")
   }
 
-  it should "resolve offers for week of 2015-03-16" in {
+  it should "resolve offers for week of 2015-03-20" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_16.03.-20.03..pdf")
+    val week = weekOf(s"$YearNow-03-20")
 
     val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
 
     offers should have size 15
-    offers should contain (LunchOffer(0,"Linseneintopf mit Möhren, Kartoffeln und Sellerie",date(s"$YearNow-03-16"),euro("3.50"),Id))
-    offers should contain (LunchOffer(0,"""Spaghetti "Napoli" mit Oliven, Peperoni, geriebenem Käse und frischem Salat""",date(s"$YearNow-03-16"),euro("4.50"),Id))
-    offers should contain (LunchOffer(0,"Hähnchenschenkel mit Rotkohl und Petersilienkartoffeln",date(s"$YearNow-03-16"),euro("5.30"),Id))
-    offers should contain (LunchOffer(0,"grünes Erbsensüppchen",date(s"$YearNow-03-17"),euro("3.50"),Id))
-    offers should contain (LunchOffer(0,"Rührei mit Petersilie, Frühlingslauch, Kartoffelpüree und Salatbeilage",date(s"$YearNow-03-17"),euro("4.50"),Id))
-    offers should contain (LunchOffer(0,"Kartoffel- Hackfleisch- Auflauf mit Lauch, Fetakäse und fischem Salat",date(s"$YearNow-03-17"),euro("5.30"),Id))
-    offers should contain (LunchOffer(0,"pürierte Blumenkohl- cremesuppe",date(s"$YearNow-03-18"),euro("3.50"),Id))
-    offers should contain (LunchOffer(0,"Hefeklöße mit Blaubeeren",date(s"$YearNow-03-18"),euro("4.50"),Id))
-    offers should contain (LunchOffer(0,"Hamburger Schnitzel mit Röster und Gewürzgurken",date(s"$YearNow-03-18"),euro("5.30"),Id))
-    offers should contain (LunchOffer(0,"weißer Bohneneintopf",date(s"$YearNow-03-19"),euro("3.50"),Id))
-    offers should contain (LunchOffer(0,"Kartoffelpuffer mit Apfelmus",date(s"$YearNow-03-19"),euro("4.50"),Id))
-    offers should contain (LunchOffer(0,"gebratenes Jägerschnitzel mit fruchtiger Tomatensauce und Penne",date(s"$YearNow-03-19"),euro("5.30"),Id))
-    offers should contain (LunchOffer(0,"Tagesangebot",date(s"$YearNow-03-20"),euro("3.50"),Id))
-    offers should contain (LunchOffer(0,"Brathering mit Kartoffelpüree und frischem Salat",date(s"$YearNow-03-20"),euro("4.50"),Id))
-    offers should contain (LunchOffer(0,"Schweinesteak mit Tomaten- Sauerrahm- häubchen, buntem Gemüse und Wildreis",date(s"$YearNow-03-20"),euro("5.30"),Id))
+    offers should contain (LunchOffer(0,"Linseneintopf mit Möhren, Kartoffeln und Sellerie",week.monday,euro("3.50"),Id))
+    offers should contain (LunchOffer(0,"""Spaghetti "Napoli" mit Oliven, Peperoni, geriebenem Käse und frischem Salat""",week.monday,euro("4.50"),Id))
+    offers should contain (LunchOffer(0,"Hähnchenschenkel mit Rotkohl und Petersilienkartoffeln",week.monday,euro("5.30"),Id))
+    offers should contain (LunchOffer(0,"grünes Erbsensüppchen",week.tuesday,euro("3.50"),Id))
+    offers should contain (LunchOffer(0,"Rührei mit Petersilie, Frühlingslauch, Kartoffelpüree und Salatbeilage",week.tuesday,euro("4.50"),Id))
+    offers should contain (LunchOffer(0,"Kartoffel- Hackfleisch- Auflauf mit Lauch, Fetakäse und fischem Salat",week.tuesday,euro("5.30"),Id))
+    offers should contain (LunchOffer(0,"pürierte Blumenkohl- cremesuppe",week.wednesday,euro("3.50"),Id))
+    offers should contain (LunchOffer(0,"Hefeklöße mit Blaubeeren",week.wednesday,euro("4.50"),Id))
+    offers should contain (LunchOffer(0,"Hamburger Schnitzel mit Röster und Gewürzgurken",week.wednesday,euro("5.30"),Id))
+    offers should contain (LunchOffer(0,"weißer Bohneneintopf",week.thursday,euro("3.50"),Id))
+    offers should contain (LunchOffer(0,"Kartoffelpuffer mit Apfelmus",week.thursday,euro("4.50"),Id))
+    offers should contain (LunchOffer(0,"gebratenes Jägerschnitzel mit fruchtiger Tomatensauce und Penne",week.thursday,euro("5.30"),Id))
+    offers should contain (LunchOffer(0,"Tagesangebot",week.friday,euro("3.50"),Id))
+    offers should contain (LunchOffer(0,"Brathering mit Kartoffelpüree und frischem Salat",week.friday,euro("4.50"),Id))
+    offers should contain (LunchOffer(0,"Schweinesteak mit Tomaten- Sauerrahm- häubchen, buntem Gemüse und Wildreis",week.friday,euro("5.30"),Id))
   }
 
-  it should "resolve offers for week of 2015-03-23" in {
+  it should "resolve offers for week of 2015-03-27" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_23.03.-27.03..pdf")
+    val week = weekOf(s"$YearNow-03-27")
 
     val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
 
     offers should have size 15
-    offers should contain (LunchOffer(0,"Kartoffelsuppe",date(s"$YearNow-03-23"),euro("3.50"),Id))
-    offers should contain (LunchOffer(0,"Spiegeleier mit Rahmspinat und Salzkartoffeln",date(s"$YearNow-03-23"),euro("4.50"),Id))
-    offers should contain (LunchOffer(0,"Chinapfanne mit Hähnchenfleisch, Reis und frischem Salat",date(s"$YearNow-03-23"),euro("5.30"),Id))
-    offers should contain (LunchOffer(0,"Gemüsesuppe",date(s"$YearNow-03-24"),euro("3.50"),Id))
-    offers should contain (LunchOffer(0,"Sahnehering mit Butter, Salzkartoffeln und Salatbeilage",date(s"$YearNow-03-24"),euro("4.50"),Id))
-    offers should contain (LunchOffer(0,"Kochklops in Kapernsauce mit Salzkartoffeln und Rote Bete",date(s"$YearNow-03-24"),euro("5.30"),Id))
-    offers should contain (LunchOffer(0,"Brokkolicremesuppe",date(s"$YearNow-03-25"),euro("3.50"),Id))
-    offers should contain (LunchOffer(0,"Eier in Senfsauce mit Salzkartoffeln und Rote Bete",date(s"$YearNow-03-25"),euro("4.50"),Id))
-    offers should contain (LunchOffer(0,"Schweinekotelett mit Rosenkohl und Salzkartoffeln",date(s"$YearNow-03-25"),euro("5.30"),Id))
-    offers should contain (LunchOffer(0,"gelbes Erbsensüppchen",date(s"$YearNow-03-26"),euro("3.50"),Id))
-    offers should contain (LunchOffer(0,"Schweineleber mit Apfel- Zwiebelsauce und Kartoffelpüree",date(s"$YearNow-03-26"),euro("4.50"),Id))
-    offers should contain (LunchOffer(0,"Penne mit Champignonrahm und Kräuterdipp",date(s"$YearNow-03-26"),euro("5.30"),Id))
-    offers should contain (LunchOffer(0,"Tagesangebot",date(s"$YearNow-03-27"),euro("3.50"),Id))
-    offers should contain (LunchOffer(0,"Schupfnudelpfanne mit Gemüse und frischem Salat",date(s"$YearNow-03-27"),euro("4.50"),Id))
-    offers should contain (LunchOffer(0,"Schweinesteak mit Senfzwiebeln und Pommes Frites",date(s"$YearNow-03-27"),euro("5.30"),Id))
+    offers should contain (LunchOffer(0,"Kartoffelsuppe",week.monday,euro("3.50"),Id))
+    offers should contain (LunchOffer(0,"Spiegeleier mit Rahmspinat und Salzkartoffeln",week.monday,euro("4.50"),Id))
+    offers should contain (LunchOffer(0,"Chinapfanne mit Hähnchenfleisch, Reis und frischem Salat",week.monday,euro("5.30"),Id))
+    offers should contain (LunchOffer(0,"Gemüsesuppe",week.tuesday,euro("3.50"),Id))
+    offers should contain (LunchOffer(0,"Sahnehering mit Butter, Salzkartoffeln und Salatbeilage",week.tuesday,euro("4.50"),Id))
+    offers should contain (LunchOffer(0,"Kochklops in Kapernsauce mit Salzkartoffeln und Rote Bete",week.tuesday,euro("5.30"),Id))
+    offers should contain (LunchOffer(0,"Brokkolicremesuppe",week.wednesday,euro("3.50"),Id))
+    offers should contain (LunchOffer(0,"Eier in Senfsauce mit Salzkartoffeln und Rote Bete",week.wednesday,euro("4.50"),Id))
+    offers should contain (LunchOffer(0,"Schweinekotelett mit Rosenkohl und Salzkartoffeln",week.wednesday,euro("5.30"),Id))
+    offers should contain (LunchOffer(0,"gelbes Erbsensüppchen",week.thursday,euro("3.50"),Id))
+    offers should contain (LunchOffer(0,"Schweineleber mit Apfel- Zwiebelsauce und Kartoffelpüree",week.thursday,euro("4.50"),Id))
+    offers should contain (LunchOffer(0,"Penne mit Champignonrahm und Kräuterdipp",week.thursday,euro("5.30"),Id))
+    offers should contain (LunchOffer(0,"Tagesangebot",week.friday,euro("3.50"),Id))
+    offers should contain (LunchOffer(0,"Schupfnudelpfanne mit Gemüse und frischem Salat",week.friday,euro("4.50"),Id))
+    offers should contain (LunchOffer(0,"Schweinesteak mit Senfzwiebeln und Pommes Frites",week.friday,euro("5.30"),Id))
   }
 
-  it should "resolve offers for Easter week of 2015-03-30" in {
+  it should "resolve offers for Easter week of 2015-04-02" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_30.03.-02.04..pdf")
+    val week = weekOf(s"$YearNow-04-02")
 
     val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
 
     offers should have size 12
-    offers.filter(_.day == date(s"$YearNow-04-03")) should have size 0
+    offers.filter(_.day == week.monday) should have size 3
+    offers.filter(_.day == week.tuesday) should have size 3
+    offers.filter(_.day == week.wednesday) should have size 3
+    offers.filter(_.day == week.thursday) should have size 3
+    offers.filter(_.day == week.friday) should have size 0
   }
 
-  it should "resolve offers for Easter week of 2015-04-06" in {
+  it should "resolve offers for Easter week of 2015-04-10" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_06.04.-10.04..pdf")
+    val week = weekOf(s"$YearNow-04-10")
 
     val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
 
     offers should have size 12
-    offers.filter(_.day == date(s"$YearNow-04-06")) should have size 0
+    offers.filter(_.day == week.monday) should have size 0
+    offers.filter(_.day == week.tuesday) should have size 3
+    offers.filter(_.day == week.wednesday) should have size 3
+    offers.filter(_.day == week.thursday) should have size 3
+    offers.filter(_.day == week.friday) should have size 3
   }
 
   it should "parse date from PDF url" in {
     def parse(file: String): LocalDate = new LunchResolverAokCafeteria().parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
 
-    parse("AOK_16.03.-20.03..pdf") should be (date(s"$YearNow-03-16"))
-    parse("AOK_23.03.-27.03..pdf") should be (date(s"$YearNow-03-23"))
+    parse("AOK_16.03.-20.03..pdf") should be (weekOf(s"$YearNow-03-20").monday)
+    parse("AOK_23.03.-27.03..pdf") should be (weekOf(s"$YearNow-03-27").monday)
   }
 
   val Id = LunchProvider.AOK_CAFETERIA.id
@@ -97,4 +109,13 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
   private def euro(moneyString: String): Money = Money.parse(s"EUR $moneyString")
   private val YearNow = LocalDate.now.getYear
 
+  private def weekOf(dateString: String) = Week(date(dateString))
+
+  case class Week(dateInWeek: LocalDate) {
+    def monday = dateInWeek.withDayOfWeek(1)
+    def tuesday = dateInWeek.withDayOfWeek(2)
+    def wednesday = dateInWeek.withDayOfWeek(3)
+    def thursday = dateInWeek.withDayOfWeek(4)
+    def friday = dateInWeek.withDayOfWeek(5)
+  }
 }
