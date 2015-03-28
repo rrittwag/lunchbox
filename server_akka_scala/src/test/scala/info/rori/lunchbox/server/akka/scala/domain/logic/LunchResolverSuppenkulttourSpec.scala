@@ -71,6 +71,19 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers {
     offers should contain (LunchOffer(0, "Präsidentensuppe: mit Hackfleisch, Tomaten, Sauerkraut, Gewürzgurken, wahlweise saure Sahne",date("2015-03-20"),euro("4.30"),Id))
   }
 
+  it should "resolve offers for Easter week of 2015-03-30" in {
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-03-30.html")
+
+    val offers = new LunchResolverSuppenkulttour().resolve(url)
+
+    offers should have size 16
+    offers.filter(_.day == date("2015-03-30")) should have size 4
+    offers.filter(_.day == date("2015-03-31")) should have size 4
+    offers.filter(_.day == date("2015-04-01")) should have size 4
+    offers.filter(_.day == date("2015-04-02")) should have size 4
+    offers.filter(_.day == date("2015-04-03")) should have size 0
+  }
+
   private val Id = LunchProvider.SUPPENKULTTOUR.id
 
   private def date(dateString: String): LocalDate = LocalDate.parse(dateString)

@@ -70,7 +70,10 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     // Wochensuppen befinden sich im 2. p-Element, Tagessuppen im 3. p-Element
     wochenplanSection.evaluateXPath("//p").map { case n: TagNode => n} match {
       case Array(_, wochensuppenParagr, tagessuppenParagr) =>
-        parseWochensuppen(wochensuppenParagr, monday) ++ parseTagessuppen(tagessuppenParagr, monday)
+        val wochensuppen = parseWochensuppen(wochensuppenParagr, monday)
+        val tagessuppen = parseTagessuppen(tagessuppenParagr, monday)
+        val multipliedWochensuppen = multiplyWochenangebote(wochensuppen, tagessuppen.map(_.day))
+        tagessuppen ++ multipliedWochensuppen
       case _ => Nil
     }
   }
@@ -83,9 +86,8 @@ class LunchResolverSuppenkulttour extends LunchResolver {
       val offerAsStringArray = wochensuppeString.split( """\|""").map(_.trim).toList
       val (nameOpt, priceOpt) = parseOfferAttributes(offerAsStringArray)
       for (price <- priceOpt;
-           name <- nameOpt;
-           dayOffset <- Range(0, 5)) // TODO: Feiertage ausschließen
-        result :+= LunchOffer(0, name, monday.plusDays(dayOffset), price, LunchProvider.SUPPENKULTTOUR.id)
+           name <- nameOpt)
+        result :+= LunchOffer(0, name, monday, price, LunchProvider.SUPPENKULTTOUR.id)
     }
     result
   }
@@ -124,6 +126,11 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     )
 
     (nameOpt, priceOpt)
+  }
+
+  private def multiplyWochenangebote(wochenOffers: Seq[LunchOffer], dates: Seq[LocalDate]): Seq[LunchOffer] = {
+    val sortedDates = dates.toSet[LocalDate].toList.sortBy(_.toDate)
+    wochenOffers.flatMap ( offer => sortedDates.map( date => offer.copy(day = date)) )
   }
 
   private def html2text(node: TagNode): String = {

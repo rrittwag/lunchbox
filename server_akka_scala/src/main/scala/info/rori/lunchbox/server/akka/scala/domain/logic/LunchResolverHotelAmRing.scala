@@ -87,12 +87,8 @@ class LunchResolverHotelAmRing extends LunchResolver {
     val (wochenOffers, tagesOffers) = section2offers.partition(_._1 == PdfSection.SALAT_DER_WOCHE)
     val tagesOffersList = tagesOffers.flatMap(_._2)
 
-    val wochenOffersList = wochenOffers.flatMap { case (_, offers) =>
-      for (offer <- offers;
-           date <- tagesOffersList.map(_.day).toSet[LocalDate].toList.sortBy(_.toDate))
-        yield offer.copy(day = date)
-    }
-    tagesOffersList ++ wochenOffersList
+    val multipliedWochenOffers = multiplyWochenangebote(wochenOffers.flatMap(_._2), tagesOffersList.map(_.day))
+    tagesOffersList ++ multipliedWochenOffers
   }
 
   private[logic] def parseMondayFromUrl(pdfUrl: URL): Option[LocalDate] = pdfUrl.getFile match {
@@ -149,6 +145,11 @@ class LunchResolverHotelAmRing extends LunchResolver {
     for (row <- mergedRows;
          day <- optMonday.map(_.plusDays(section.order)))
     yield LunchOffer(0, row.name, day, row.priceOpt.get, LunchProvider.HOTEL_AM_RING.id)
+  }
+
+  private def multiplyWochenangebote(wochenOffers: Seq[LunchOffer], dates: Seq[LocalDate]): Seq[LunchOffer] = {
+    val sortedDates = dates.toSet[LocalDate].toList.sortBy(_.toDate)
+    wochenOffers.flatMap ( offer => sortedDates.map( date => offer.copy(day = date)) )
   }
 
   private def parseDay(dayString: String): Option[LocalDate] = dayString match {
