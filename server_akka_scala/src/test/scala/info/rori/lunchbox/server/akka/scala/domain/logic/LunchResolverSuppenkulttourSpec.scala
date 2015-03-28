@@ -82,6 +82,8 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers {
     offers.filter(_.day == date("2015-04-01")) should have size 4
     offers.filter(_.day == date("2015-04-02")) should have size 4
     offers.filter(_.day == date("2015-04-03")) should have size 0
+
+    offers should contain (LunchOffer(0, "orientalische Tomatensuppe: mit roten Linsen & Cous Cous, Lime, Kokos", date("2015-03-30"), euro("4.30"), Id))
   }
 
   private val Id = LunchProvider.SUPPENKULTTOUR.id

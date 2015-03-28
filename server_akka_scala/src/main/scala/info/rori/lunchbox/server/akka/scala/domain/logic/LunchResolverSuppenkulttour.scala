@@ -3,6 +3,7 @@ package info.rori.lunchbox.server.akka.scala.domain.logic
 import java.net.URL
 
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchOffer, LunchProvider}
+import org.apache.commons.lang3.StringEscapeUtils
 import org.htmlcleaner._
 import org.joda.money.{CurrencyUnit, Money}
 import org.joda.time.LocalDate
@@ -142,7 +143,7 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     // Zeilenumbrüche durch Pipe-Zeichen ausdrücken
     if (node.getName == "br") result.append("|")
     node.getAllChildren.toArray.foreach {
-      case content: ContentNode => result.append(content.getContent)
+      case content: ContentNode => result.append(StringEscapeUtils.unescapeHtml4(content.getContent))
       case childNode: TagNode => result.append(html2text(childNode))
       case _ =>
     }
