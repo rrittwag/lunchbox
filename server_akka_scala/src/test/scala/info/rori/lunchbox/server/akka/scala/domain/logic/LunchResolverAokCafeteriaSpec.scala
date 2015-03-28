@@ -65,6 +65,24 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
     offers should contain (LunchOffer(0,"Schweinesteak mit Senfzwiebeln und Pommes Frites",date(s"$YearNow-03-27"),euro("5.30"),Id))
   }
 
+  it should "resolve offers for Easter week of 2015-03-30" in {
+    val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_30.03.-02.04..pdf")
+
+    val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
+
+    offers should have size 12
+    offers.filter(_.day == date(s"$YearNow-04-03")) should have size 0
+  }
+
+  it should "resolve offers for Easter week of 2015-04-06" in {
+    val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_06.04.-10.04..pdf")
+
+    val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
+
+    offers should have size 12
+    offers.filter(_.day == date(s"$YearNow-04-06")) should have size 0
+  }
+
   it should "parse date from PDF url" in {
     def parse(file: String): LocalDate = new LunchResolverAokCafeteria().parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
 

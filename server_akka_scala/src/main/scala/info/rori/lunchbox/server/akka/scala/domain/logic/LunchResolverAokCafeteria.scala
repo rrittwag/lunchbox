@@ -121,8 +121,11 @@ class LunchResolverAokCafeteria extends LunchResolver {
       var linesForDay = List[TextLine]()
       for (line <- linesBelowHeader) {
         if (line.oneTextMatches(""".*Zusatzstoffe.*""")) {
-          val weekdayOpt = findWeekdaySection(linesForDay)
-          weekdayOpt.foreach( day => result += day -> linesForDay )
+          // an Feiertagen gibt es keine Angebote ... und keine Zusatzstoffe
+          if (line.texts.size > 1) {
+            val weekdayOpt = findWeekdaySection(linesForDay)
+            weekdayOpt.foreach( day => result += day -> linesForDay )
+          }
           linesForDay = Nil
         } else if (line.oneTextMatches(""".*(Nährwerte|Kohlenhydrate).*""")) {
           // ignore line
