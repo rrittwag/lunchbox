@@ -12,17 +12,11 @@ Alpha-Version
 
 
 
-Build
------
+Build & Benutzung
+-----------------
 
 * Node.js, Gulp & Bower müssen installiert sein - siehe [Homepage zu generator-gulp-angular](https://www.npmjs.com/package/generator-gulp-angular)
 * `gulp serve` deployt das Web-App auf einem internen Web-Server.
-
-
-
-Benutzung
----------
-
 * Der Chrome-Webserver startet automatisch und lädt das Web-App unter der Adresse [http://localhost:3000/](http://localhost:3000/).
 
 
