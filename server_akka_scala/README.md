@@ -45,13 +45,12 @@ TODOs
 -----
 
 * LunchOfferResolver für verbleibende Provider implementieren
-* LunchOfferResolver: Wochenangebote gelten nicht an Feiertagen
 * DI für LunchProviderService => vergleiche https://github.com/ehalpern/sandbox/tree/master/src/main/scala/twine
 * Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
 * Akka-Supervisioning beschreiben
 * Caching des Feeds (spray-caching?)
 * in Docker deployen => http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/my-first-project.html & https://github.com/pussinboots/sbt-rpm/blob/master/project/packaging.scala
-* in Vagrant deployen=> https://github.com/pussinboots/sbt-rpm
+* in Vagrant deployen => https://github.com/pussinboots/sbt-rpm
 * Publish: sbt-release einsetzen + privates Maven-Repo?
 * systemd-Skript basteln
 * TODOs in Code abarbeiten
