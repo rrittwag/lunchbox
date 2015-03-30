@@ -1,12 +1,12 @@
 package info.rori.lunchbox.server.akka.scala.service
 
-import akka.actor.{PoisonPill, Actor, ActorLogging, Props}
+import akka.actor.{Actor, ActorLogging, Props}
 import akka.http.Http
 import akka.http.marshalling._
 import akka.http.model.{ContentType, HttpResponse}
 import akka.http.model.MediaTypes._
 import akka.http.server.{Directives, Route}
-import akka.stream.scaladsl.{Sink, ImplicitFlowMaterializer}
+import akka.stream.scaladsl.ImplicitFlowMaterializer
 import akka.util.Timeout
 import info.rori.lunchbox.server.akka.scala.ApplicationModule
 import info.rori.lunchbox.server.akka.scala.service.api.v1.ApiRouteV1
@@ -16,7 +16,6 @@ import spray.json.DefaultJsonProtocol
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutor, Future}
-import scala.io.StdIn
 import scala.xml.Node
 
 object HttpService {
@@ -35,13 +34,7 @@ class HttpService(host: String, port: Int)(implicit askTimeout: Timeout)
   log.info(s"Starting server at $host:$port")
   log.info(s"To shutdown, send http://$host:$port/shutdown")
 
-  val server = Http(context.system).bind(host, port)
-  // TODO: mit Version M5 Convenience-Methode nutzen bindAndstartHandlingWith(Route.handlerFlow(route), host, port)
-  //  => https://groups.google.com/forum/#!topic/akka-user/n1y6NLDP_f8
-  val future = server.to(Sink.foreach { conn =>
-    log.info(s"connection from ${conn.remoteAddress}")
-    conn.flow.join(route).run()
-  }).run()
+  val server = Http(context.system).bindAndHandleAsync(Route.asyncHandler(route), host, port)
 
   def route: Route = apiRouteV1 ~ feedRoute ~ maintenanceRoute
 

@@ -1,7 +1,7 @@
 Lunchbox Server mit Akka & Scala
 ================================
 
-Dieses Sub-Projekt beschreibt eine Implementierung des Lunchbox-Servers. Die Umsetzung erfolgt mit Akka und Scala.
+Dieses Sub-Projekt beschreibt eine Implementierung des Lunchbox-Servers. Die Umsetzung erfolgt mit [Akka](http://akka.io) und [Scala](http://www.scala-lang.org).
 
 
 
