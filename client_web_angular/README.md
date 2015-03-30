@@ -35,6 +35,7 @@ TODOs
 * Mittagsangebote des aktuellen Tages via REST abrufen
 * NavBar mit About versehen: Infos zu Projekt, Entwickler & Mitarbeit
 * Lunchbox-Icon bereitstellen für NavBar & Favicon
+* Feed verlinken + in Meta-Infos aufnehmen
 * Projekt mit HTML5 Boilerplate abgleichen
 * durch Tage klicken
 * Filter für Location in NavBar einbinden
