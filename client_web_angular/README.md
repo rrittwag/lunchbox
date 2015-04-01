@@ -37,10 +37,10 @@ TODOs
 * Lunchbox-Icon bereitstellen für NavBar & Favicon
 * Feed verlinken + in Meta-Infos aufnehmen
 * Projekt mit HTML5 Boilerplate abgleichen
-* durch Tage klicken
+* durch Tage klicken: Pfeil links + Pfeil rechts + Datum in NavBar
 * Filter für Location in NavBar einbinden
-* durch Tage "touchen"
-* schöneres Bootstrap-Theme einsetzen ?
+* durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
+* schöneres Bootstrap-Theme einsetzen ? z.B. [[http://fezvrasta.github.io/bootstrap-material-design/ | Bootstrap Material Design]] oder [[https://bootswatch.com/paper/ | Bootswatch Paper]] ?
 
 
 

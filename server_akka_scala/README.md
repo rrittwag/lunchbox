@@ -45,15 +45,17 @@ TODOs
 -----
 
 * LunchOfferResolver für verbleibende Provider implementieren
-* DI für LunchProviderService => vergleiche https://github.com/ehalpern/sandbox/tree/master/src/main/scala/twine
 * Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
+* Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
+* Dockerfile generieren ...
+  * ... via sbt-native-packager [hier](http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/my-first-project.html) oder [hier](https://github.com/pussinboots/sbt-rpm/blob/master/project/packaging.scala)
+  * ... oder via [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
+* [in Vagrant deployen](https://github.com/pussinboots/sbt-rpm)
 * Akka-Supervisioning beschreiben
-* Caching des Feeds (spray-caching?)
-* in Docker deployen => http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/my-first-project.html & https://github.com/pussinboots/sbt-rpm/blob/master/project/packaging.scala
-* in Vagrant deployen => https://github.com/pussinboots/sbt-rpm
+* Caching der Requests (spray-caching?)
 * Publish: sbt-release einsetzen + privates Maven-Repo?
-* systemd-Skript basteln
 * TODOs in Code abarbeiten
+* DI für LunchProviderService => vergleiche https://github.com/ehalpern/sandbox/tree/master/src/main/scala/twine
 * schnelles Re-Deployment mit sbt-revolver ??
 * Stoppen per Maintenance ermöglichen
 * one actor per http connection => http://mogproject.blogspot.de/2014/07/scala-getting-started-with-akka-http.html
