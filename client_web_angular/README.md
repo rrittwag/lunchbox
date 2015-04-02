@@ -16,6 +16,7 @@ Build & Benutzung
 -----------------
 
 * Node.js, Gulp & Bower müssen installiert sein - siehe [Homepage zu generator-gulp-angular](https://www.npmjs.com/package/generator-gulp-angular)
+* Abhängigkeiten aktualisieren mit `bower install`.
 * `gulp serve` deployt das Web-App auf einem internen Web-Server.
 * Der Chrome-Browser startet automatisch und lädt das Web-App unter der Adresse [http://localhost:3000/](http://localhost:3000/).
 
@@ -39,6 +40,7 @@ TODOs
 * Projekt mit HTML5 Boilerplate abgleichen
 * durch Tage klicken: Pfeil links + Pfeil rechts + Datum in NavBar
 * Filter für Location in NavBar einbinden
+* System-Tests via [Selenium und Protractor](https://github.com/angular/protractor) bereitstellen
 * durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
 * schöneres Bootstrap-Theme einsetzen ? z.B. [[http://fezvrasta.github.io/bootstrap-material-design/ | Bootstrap Material Design]] oder [[https://bootswatch.com/paper/ | Bootswatch Paper]] ?
 
