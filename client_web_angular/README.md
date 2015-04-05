@@ -36,9 +36,11 @@ TODOs
 * Mittagsangebote des aktuellen Tages via REST abrufen
 * NavBar mit About versehen: Infos zu Projekt, Entwickler & Mitarbeit
 * Lunchbox-Icon bereitstellen für NavBar & Favicon
-* Feed verlinken + in Meta-Infos aufnehmen
+* Feed in Website-Meta-Infos aufnehmen
 * Projekt mit HTML5 Boilerplate abgleichen
 * durch Tage klicken: Pfeil links + Pfeil rechts + Datum in NavBar
+* Tag auswählen per Query-Parameter "day"
+* in Feed Links zur Website setzen
 * Filter für Location in NavBar einbinden
 * System-Tests via [Selenium und Protractor](https://github.com/angular/protractor) bereitstellen
 * durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
@@ -51,4 +53,5 @@ Wissen
 
 * [AngularJS-Vorlage: Yeoman generator for AngularJS with GulpJS](https://www.npmjs.com/package/generator-gulp-angular)
 * [HTML-Vorlage: HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate)
+* [AngularJS: Getting Started](https://docs.angularjs.org/misc/started)
 * [AngularJS: gutes einfaches Beispiel](https://github.com/tastejs/todomvc/tree/master/examples/angularjs)
