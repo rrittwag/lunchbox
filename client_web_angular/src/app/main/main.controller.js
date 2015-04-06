@@ -2,63 +2,53 @@
 
 angular.module('lunchboxWebapp')
   .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
+    $scope.providers = [
       {
-        'title': 'AngularJS',
-        'url': 'https://angularjs.org/',
-        'description': 'HTML enhanced for web apps!',
-        'logo': 'angular.png'
+        name: "Schweinestall",
+        id: 1,
       },
       {
-        'title': 'BrowserSync',
-        'url': 'http://browsersync.io/',
-        'description': 'Time-saving synchronised browser testing.',
-        'logo': 'browsersync.png'
+        name: "Hotel am Ring",
+        id: 2
       },
       {
-        'title': 'GulpJS',
-        'url': 'http://gulpjs.com/',
-        'description': 'The streaming build system.',
-        'logo': 'gulp.png'
+        name: "AOK Cafeteria",
+        id: 3
       },
       {
-        'title': 'Jasmine',
-        'url': 'http://jasmine.github.io/',
-        'description': 'Behavior-Driven JavaScript.',
-        'logo': 'jasmine.png'
-      },
-      {
-        'title': 'Karma',
-        'url': 'http://karma-runner.github.io/',
-        'description': 'Spectacular Test Runner for JavaScript.',
-        'logo': 'karma.png'
-      },
-      {
-        'title': 'Protractor',
-        'url': 'https://github.com/angular/protractor',
-        'description': 'End to end test framework for AngularJS applications built on top of WebDriverJS.',
-        'logo': 'protractor.png'
-      },
-      {
-        'title': 'Bootstrap',
-        'url': 'http://getbootstrap.com/',
-        'description': 'Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web.',
-        'logo': 'bootstrap.png'
-      },
-      {
-        'title': 'Angular UI Bootstrap',
-        'url': 'http://angular-ui.github.io/bootstrap/',
-        'description': 'Bootstrap components written in pure AngularJS by the AngularUI Team.',
-        'logo': 'ui-bootstrap.png'
-      },
-      {
-        'title': 'Sass (Node)',
-        'url': 'https://github.com/sass/node-sass',
-        'description': 'Node.js binding to libsass, the C version of the popular stylesheet preprocessor, Sass.',
-        'logo': 'node-sass.png'
+        name: "Suppenkulttour",
+        id: 4
       }
     ];
-    angular.forEach($scope.awesomeThings, function(awesomeThing) {
-      awesomeThing.rank = Math.random();
-    });
+    $scope.offers = [
+      {
+        name: "Germknödel mit Kirschfüllung und Vanillesauce",
+        provider: 2,
+        price: 520,
+        id: 41,
+        day: "2015-03-30"
+      },
+      {
+        name: "Gebackene Rauchwürstchen mit Zigeunersauce, Bratkartoffeln & Salat",
+        provider: 2,
+        price: 550,
+        id: 42,
+        day: "2015-03-30"
+      },
+      {
+        name: "Grützwurst mit Sauerkraut und Salzkartoffeln",
+        provider: 3,
+        price: 450,
+        id: 18,
+        day: "2015-03-30"
+      },
+      {
+        name: "Putengulasch mit Nudeln",
+        provider: 3,
+        price: 530,
+        id: 19,
+        day: "2015-03-30"
+      }
+    ];
+
   });

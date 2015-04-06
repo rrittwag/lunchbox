@@ -2,32 +2,31 @@
 
   <div ng-include="'components/navbar/navbar.html'"></div>
 
-  <div class="jumbotron text-center">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">
-      <img src="assets/images/yeoman.png" alt="I'm Yeoman"><br>
-      Always a pleasure scaffolding your apps.
-    </p>
-    <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
+  <div class="page-header">
+    <h1>Mittagspläne Neubrandenburg</h1>
   </div>
 
   <div class="row">
-    <div class="col-sm-6 col-md-4" ng-repeat="awesomeThing in awesomeThings | orderBy:'rank'">
-      <div class="thumbnail">
-        <img class="pull-right" ng-src="assets/images/{{awesomeThing.logo}}" alt="{{awesomeThing.title}}">
-        <div class="caption">
-          <h3>{{awesomeThing.title}}</h3>
-          <p>{{awesomeThing.description}}</p>
-          <p><a ng-href="{{awesomeThing.url}}">{{awesomeThing.url}}</a></p>
+    <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="prov in providers">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{prov.name}}</h3>
         </div>
+
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="offer in offers | offersForProvider:prov">
+            <div class="row">
+              <div class="col-xs-9 offer-name">{{offer.name}}</div>
+              <div class="col-xs-3 offer-price">{{offer.price | formatEuro}}</div>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <hr>
-
   <div class="footer">
-    <p>With ♥ from <a href="https://twitter.com/Swiip">@Swiip</a></p>
+    <p>Proudly presented by <a href="http://rori.info">rori</a></p>
   </div>
-
 </div>
+

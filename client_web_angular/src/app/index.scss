@@ -5,12 +5,15 @@
   padding: 0.2em 0;
 }
 
-.thumbnail {
-  height: 200px;
-
-  img.pull-right {
-    width: 50px;
-  }
+.offer-name {
+  padding-right: 8px;
 }
+
+.offer-price {
+  text-align: right;
+  white-space: nowrap;
+  padding-left: 0;
+}
+
 // injector
 // endinjector
