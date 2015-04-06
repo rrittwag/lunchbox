@@ -4,7 +4,10 @@ var mod = angular.module('lunchboxWebapp');
 
 mod.filter('offersForProvider', function () {
     return function(offers, provider) {
-      return offers;
+      function hasProvider(offer) {
+        return offer.provider === provider.id;
+      }
+      return offers.filter(hasProvider);
     };
   });
 
