@@ -10,6 +10,6 @@ mod.filter('offersForProvider', function () {
 
 mod.filter('formatEuro', function () {
     return function(cent) {
-      return Math.floor(cent / 100) + "," + (cent % 100) + " €";
+      return Math.floor(cent / 100) + ',' + (cent % 100) + ' €';
     };
   });
