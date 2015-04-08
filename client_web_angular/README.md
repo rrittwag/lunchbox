@@ -44,7 +44,7 @@ TODOs
 * Filter für Location in NavBar einbinden
 * System-Tests via [Selenium und Protractor](https://github.com/angular/protractor) bereitstellen
 * durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
-* schöneres Bootstrap-Theme einsetzen ? z.B. [[http://fezvrasta.github.io/bootstrap-material-design/ | Bootstrap Material Design]] oder [[https://bootswatch.com/paper/ | Bootswatch Paper]] ?
+* schöneres Bootstrap-Theme einsetzen ? z.B. [Bootstrap Material Design](http://fezvrasta.github.io/bootstrap-material-design/) oder [Bootswatch Paper](https://bootswatch.com/paper/) ?
 * i18n & l10n
 * Umstellen auf ECMAScript 6, CoffeScript, Dart oder Scala.js?
 
