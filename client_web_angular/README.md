@@ -32,7 +32,6 @@ Distribution
 TODOs
 -----
 
-* Mittagsangebote visualisieren (responsive!)
 * Mittagsangebote des aktuellen Tages via REST abrufen
 * NavBar mit About versehen: Infos zu Projekt, Entwickler & Mitarbeit
 * Lunchbox-Icon bereitstellen für NavBar & Favicon
@@ -45,7 +44,8 @@ TODOs
 * System-Tests via [Selenium und Protractor](https://github.com/angular/protractor) bereitstellen
 * durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
 * schöneres Bootstrap-Theme einsetzen ? z.B. [[http://fezvrasta.github.io/bootstrap-material-design/ | Bootstrap Material Design]] oder [[https://bootswatch.com/paper/ | Bootswatch Paper]] ?
-
+* i18n & l10n
+* Umstellen auf ECMAScript 6, CoffeScript, Dart oder Scala.js?
 
 
 Wissen

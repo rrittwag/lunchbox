@@ -3,18 +3,34 @@
   <div ng-include="'components/navbar/navbar.html'"></div>
 
   <div class="page-header">
-    <h1>Mittagspläne Neubrandenburg</h1>
+    <h1>Mittagspläne {{location}}</h1>
+  </div>
+
+  <div class="alert alert-danger" role="alert" ng-show="false">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Fehler:</span>
+    Hier steht der Meldungstext!
+  </div>
+  <div class="alert alert-warning" role="alert" ng-show="false">
+    <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+    <span class="sr-only">Warnung:</span>
+    Hier steht der Meldungstext!
+  </div>
+  <div class="alert alert-info" role="alert" ng-hide="hasVisibleOffers()">
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    <span class="sr-only">Information:</span>
+    Keine Mittagsangebote gefunden für {{location}} am {{day | date:'dd.MM.yyyy'}}! <!-- TODO: wenn i18n funktioniert umstellen auf {{day | date:'longDate'}}-->
   </div>
 
   <div class="row">
-    <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="prov in providers">
+    <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="prov in providers | filterByLocation:location" ng-show="visibleOffers[prov.id].length > 0">
       <div class="panel panel-info">
         <div class="panel-heading">
           <h3 class="panel-title">{{prov.name}}</h3>
         </div>
 
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="offer in offers | offersForProvider:prov">
+          <li class="list-group-item" ng-repeat="offer in visibleOffers[prov.id]">
             <div class="row">
               <div class="col-xs-9 offer-name">{{offer.name}}</div>
               <div class="col-xs-3 offer-price">{{offer.price | formatEuro}}</div>

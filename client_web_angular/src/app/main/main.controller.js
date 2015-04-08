@@ -1,7 +1,16 @@
 'use strict';
 
 angular.module('lunchboxWebapp')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, _) {
+    function today() {
+      var result = new Date();
+      result.setUTCHours(0,0,0,0);
+      return result;
+    }
+
+    $scope.day = today();
+    $scope.location = 'Neubrandenburg';
+
     $scope.providers = [
       {
         name: 'Schweinestall',
@@ -30,14 +39,14 @@ angular.module('lunchboxWebapp')
         provider: 2,
         price: 520,
         id: 41,
-        day: '2015-03-30'
+        day: '2015-04-07'
       },
       {
         name: 'Gebackene Rauchwürstchen mit Zigeunersauce, Bratkartoffeln & Salat',
         provider: 2,
         price: 550,
         id: 42,
-        day: '2015-03-30'
+        day: '2015-04-07'
       },
       {
         name: 'Grützwurst mit Sauerkraut und Salzkartoffeln',
@@ -55,4 +64,23 @@ angular.module('lunchboxWebapp')
       }
     ];
 
+    $scope.visibleOffers = {};
+
+    function refreshVisibleOffers() {
+      var providerIdsForLocation = _.chain($scope.providers)
+                .filter(function(p) { return p.location === $scope.location; })
+                .map(function(p) { return p.id; })
+                .value();
+      var offersForDayAndLocation = $scope.offers.filter( function(o){
+          return Date.parse(o.day) === $scope.day.getTime() &&
+                 _.contains(providerIdsForLocation, o.provider);
+        });
+      $scope.visibleOffers = _.groupBy(offersForDayAndLocation, function(o) { return o.provider; });
+    }
+
+    $scope.hasVisibleOffers = function() {
+      return $scope.visibleOffers && !angular.equals($scope.visibleOffers, {});
+    };
+
+    refreshVisibleOffers();
   });
