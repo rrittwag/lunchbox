@@ -2,12 +2,30 @@
 
 var mod = angular.module('lunchboxWebapp');
 
-mod.filter('offersForProvider', function () {
+mod.filter('filterByProvider', function () {
     return function(offers, provider) {
-      function hasProvider(offer) {
+      function isOfProvider(offer) {
         return offer.provider === provider.id;
       }
-      return offers.filter(hasProvider);
+      return offers.filter(isOfProvider);
+    };
+  });
+
+mod.filter('filterByDay', function () {
+    return function(offers, day) {
+      function isOfDay(offer) {
+        return Date.parse(offer.day + 'T00:00:00.000Z') === day;
+      }
+      return offers.filter(isOfDay);
+    };
+  });
+
+mod.filter('filterByLocation', function () {
+    return function(providers, location) {
+      function isOfLocation(provider) {
+        return provider.location === location;
+      }
+      return providers.filter(isOfLocation);
     };
   });
 
