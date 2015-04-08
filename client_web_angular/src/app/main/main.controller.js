@@ -78,8 +78,12 @@ angular.module('lunchboxWebapp')
       $scope.visibleOffers = _.groupBy(offersForDayAndLocation, function(o) { return o.provider; });
     }
 
-    $scope.hasVisibleOffers = function() {
-      return $scope.visibleOffers && !angular.equals($scope.visibleOffers, {});
+    $scope.hasVisibleOffers = function(providerId) {
+      if (!providerId) {
+        return $scope.visibleOffers && !angular.equals($scope.visibleOffers, {});
+      } else {
+        return $scope.visibleOffers[providerId] && $scope.visibleOffers[providerId].length > 0;
+      }
     };
 
     refreshVisibleOffers();
