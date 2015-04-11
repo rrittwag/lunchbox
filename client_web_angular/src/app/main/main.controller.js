@@ -4,7 +4,7 @@
 var app = angular.module('lunchboxWebapp');
 
 // ... und Controller für Main-View erzeugen
-app.controller('MainCtrl', function ($scope, _) {
+app.controller('MainCtrl', function ($scope, _, LunchProviderStore, LunchOfferStore) {
   function today() {
     var result = new Date();
     result.setUTCHours(0,0,0,0);
@@ -14,58 +14,36 @@ app.controller('MainCtrl', function ($scope, _) {
   $scope.day = today();
   $scope.location = 'Neubrandenburg';
 
-  $scope.providers = [
-    {
-      name: 'Schweinestall',
-      location: 'Neubrandenburg',
-      id: 1,
-    },
-    {
-      name: 'Hotel am Ring',
-      location: 'Neubrandenburg',
-      id: 2
-    },
-    {
-      name: 'AOK Cafeteria',
-      location: 'Neubrandenburg',
-      id: 3
-    },
-    {
-      name: 'Suppenkulttour',
-      location: 'Neubrandenburg',
-      id: 4
+  var LoadStatusEnum = Object.freeze({LOADING: 0, LOADED: 1, FAILED: 2});
+
+  var loadStatus = {
+    providers: LoadStatusEnum.LOADING,
+    offers: LoadStatusEnum.LOADING
+  };
+
+  $scope.providers = LunchProviderStore.query(
+    function() { // on success
+      loadStatus.providers = LoadStatusEnum.FINISHED;
+      if ( $scope.isLoadFinished() ) {
+        refreshVisibleOffers();
+      }
+    }, function(error) { // on error
+      console.log(error);
+      loadStatus.providers = LoadStatusEnum.FAILED;
     }
-  ];
-  $scope.offers = [
-    {
-      name: 'Germknödel mit Kirschfüllung und Vanillesauce',
-      provider: 2,
-      price: 520,
-      id: 41,
-      day: '2015-04-07'
-    },
-    {
-      name: 'Gebackene Rauchwürstchen mit Zigeunersauce, Bratkartoffeln & Salat',
-      provider: 2,
-      price: 550,
-      id: 42,
-      day: '2015-04-07'
-    },
-    {
-      name: 'Grützwurst mit Sauerkraut und Salzkartoffeln',
-      provider: 3,
-      price: 450,
-      id: 18,
-      day: '2015-03-30'
-    },
-    {
-      name: 'Putengulasch mit Nudeln',
-      provider: 3,
-      price: 530,
-      id: 19,
-      day: '2015-03-30'
+  );
+
+  $scope.offers = LunchOfferStore.query(
+    function() { // on success
+      loadStatus.offers = LoadStatusEnum.FINISHED;
+      if ( $scope.isLoadFinished() ) {
+        refreshVisibleOffers();
+      }
+    }, function(error) { // on error
+      console.log(error);
+      loadStatus.offers = LoadStatusEnum.FAILED;
     }
-  ];
+  );
 
   $scope.visibleOffers = {};
 
@@ -89,5 +67,29 @@ app.controller('MainCtrl', function ($scope, _) {
     }
   };
 
-  refreshVisibleOffers();
+  $scope.isLoadFinishedWithNoVisibleOffers = function() {
+    return $scope.isLoadFinished() && !$scope.hasVisibleOffers();
+  };
+
+  $scope.isLoading = function() {
+    var statusArray = _.map(loadStatus);
+    return _.some(statusArray, function(value) {
+      return value === LoadStatusEnum.LOADING;
+    });
+  };
+
+  $scope.isLoadFinished = function() {
+    var statusArray = _.map(loadStatus);
+    return _.every(statusArray, function(value) {
+      return value === LoadStatusEnum.FINISHED;
+    });
+  };
+
+  $scope.isLoadFailed = function() {
+    var statusArray = _.map(loadStatus);
+    return _.some(statusArray, function(value) {
+      return value === LoadStatusEnum.FAILED;
+    });
+  };
+
 });

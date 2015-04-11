@@ -6,17 +6,17 @@
     <h1>Mittagspläne {{location}}</h1>
   </div>
 
-  <div class="alert alert-danger" role="alert" ng-show="false">
+  <div class="alert alert-danger" role="alert" ng-show="isLoadFailed()">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     <span class="sr-only">Fehler:</span>
-    Hier steht der Meldungstext!
+    Mittagsangebote konnten nicht geladen werden! Ist der Server aktiv?
   </div>
-  <div class="alert alert-warning" role="alert" ng-show="false">
+  <div class="alert alert-warning" role="alert" ng-show="isLoading()">
     <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
     <span class="sr-only">Warnung:</span>
-    Hier steht der Meldungstext!
+    Mittagsangebote werden geladen ...
   </div>
-  <div class="alert alert-info" role="alert" ng-hide="hasVisibleOffers()">
+  <div class="alert alert-info" role="alert" ng-show="isLoadFinishedWithNoVisibleOffers()">
     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
     <span class="sr-only">Information:</span>
     Keine Mittagsangebote gefunden für {{location}} am {{day | date:'dd.MM.yyyy'}}! <!-- TODO: wenn i18n funktioniert umstellen auf {{day | date:'longDate'}}-->

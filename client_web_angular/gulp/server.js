@@ -25,8 +25,9 @@ module.exports = function(options) {
       routes: routes
     };
 
-    if(middleware.length > 0) {
-      server.middleware = middleware;
+    // Bugfix siehe https://github.com/Swiip/generator-gulp-angular/issues/442
+    if(middleware().length > 0) {
+      server.middleware = middleware();
     }
 
     browserSync.instance = browserSync.init({
