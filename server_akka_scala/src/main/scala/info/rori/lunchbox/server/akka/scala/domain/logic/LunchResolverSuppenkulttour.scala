@@ -72,22 +72,28 @@ class LunchResolverSuppenkulttour extends LunchResolver {
   }
 
   private def parseOffers(wochenplanSection: TagNode, monday: LocalDate): Seq[LunchOffer] = {
-    // Wochensuppen befinden sich im 2. p-Element, Tagessuppen im 3. p-Element
-    wochenplanSection.evaluateXPath("//p").map { case n: TagNode => n} match {
-      case Array(_, wochensuppenParagr, tagessuppenParagr) =>
-        val wochensuppen = parseWochensuppen(wochensuppenParagr, monday)
-        val tagessuppen = parseTagessuppen(tagessuppenParagr, monday)
-        val multipliedWochensuppen = multiplyWochenangebote(wochensuppen, tagessuppen.map(_.day))
-        tagessuppen ++ multipliedWochensuppen
-      case _ => Nil
-    }
+    // die Daten stecken in vielen, undefiniert angeordneten HTML-Elementen, daher lieber als Reintext auswerten (mit Pipes als Zeilenumbrüchen)
+    val wochenplanString = html2text(wochenplanSection)
+
+    val wochensuppenStart = wochenplanString.indexOf("Die Wochensuppen")
+    val tagessuppenStart = wochenplanString.indexOf("Die Tagessuppen")
+
+    val wochensuppen =
+      if (wochensuppenStart > -1 && wochensuppenStart < tagessuppenStart) parseWochensuppen(wochenplanString.substring(wochensuppenStart, tagessuppenStart), monday)
+      else Nil
+
+    val tagessuppen =
+      if (tagessuppenStart > -1) parseTagessuppen(wochenplanString.substring(tagessuppenStart), monday)
+      else Nil
+
+    val multipliedWochensuppen = multiplyWochenangebote(wochensuppen, tagessuppen.map(_.day))
+    tagessuppen ++ multipliedWochensuppen
   }
 
-  private def parseWochensuppen(node: TagNode, monday: LocalDate): Seq[LunchOffer] = {
+  private def parseWochensuppen(text: String, monday: LocalDate): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
 
-    // die Daten stecken in vielen, undefiniert angeordneten HTML-Elementen, daher lieber als Reintext auswerten (mit Pipes als Zeilenumbrüchen)
-    for (wochensuppeString <- html2text(node).split( """\|\|""").tail) {
+    for (wochensuppeString <- text.split( """\|\|""").tail) {
       val offerAsStringArray = wochensuppeString.split( """\|""").map(_.trim).toList
       val (nameOpt, priceOpt) = parseOfferAttributes(offerAsStringArray)
       for (price <- priceOpt;
@@ -97,12 +103,11 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     result
   }
 
-  private def parseTagessuppen(node: TagNode, monday: LocalDate): Seq[LunchOffer] = {
+  private def parseTagessuppen(text: String, monday: LocalDate): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
 
-    // die Daten stecken in vielen, undefiniert angeordneten HTML-Elementen, daher lieber als Reintext auswerten (mit Pipes als Zeilenumbrüchen)
-    for (tagessuppeString <- html2text(node).split( """\|\|""").tail) {
-      val (weekdayOpt, remainingTagessuppeString) = extractWeekday(adjustText(tagessuppeString), monday)
+    for (tagessuppeString <- text.split( """\|\|""").tail) {
+      val (weekdayOpt, remainingTagessuppeString) = extractWeekday(tagessuppeString, monday)
       val offerAsStringArray = remainingTagessuppeString.split( """\|""").map(_.trim).toList
       val (nameOpt, priceOpt) = parseOfferAttributes(offerAsStringArray)
       for (weekday <- weekdayOpt;
@@ -141,16 +146,16 @@ class LunchResolverSuppenkulttour extends LunchResolver {
   private def html2text(node: TagNode): String = {
     val result = new StringBuffer
     // Zeilenumbrüche durch Pipe-Zeichen ausdrücken
-    if (node.getName == "br") result.append("|")
+    if (node.getName == "br" || node.getName == "p") result.append("|")
     node.getAllChildren.toArray.foreach {
-      case content: ContentNode => result.append(StringEscapeUtils.unescapeHtml4(content.getContent))
+      case content: ContentNode => result.append(adjustText(StringEscapeUtils.unescapeHtml4(content.getContent)))
       case childNode: TagNode => result.append(html2text(childNode))
       case _ =>
     }
     result.toString
   }
 
-  private def adjustText(text: String) = text.replaceAll("–", "-").replaceAll(" , ", ", ")
+  private def adjustText(text: String) = text.replaceAll("–", "-").replaceAll(" , ", ", ").replaceAll("\n", "")
 
   private def isZusatzInfo(string: String) = {
     val zusatzInfos = List("(vegan)", "vegan", "glutenfrei", "lf", "gf", "vegetarisch", "laktosefrei")
