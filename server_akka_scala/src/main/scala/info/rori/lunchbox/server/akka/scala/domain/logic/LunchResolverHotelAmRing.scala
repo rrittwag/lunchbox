@@ -108,13 +108,15 @@ class LunchResolverHotelAmRing extends LunchResolver {
       case text => OfferRow(parseName(text), None)
     }
 
-    // Mittwochs-Titelzeile "Buffettag" mit nächster Zeile mergen
-    if (section == PdfSection.MITTWOCH)
-      rows = rows match {
-        case first :: second :: remain =>
-          OfferRow(s"${first.name}: ${second.name}", first.priceOpt.orElse(second.priceOpt)) :: remain
-        case r => r
-      }
+    rows = rows match {
+      // Mittwochs-Titelzeile "Buffettag" mit nächster Zeile mergen
+      case first :: second :: remain if section == PdfSection.MITTWOCH =>
+        OfferRow(s"${first.name}: ${second.name}", first.priceOpt.orElse(second.priceOpt)) :: remain
+      // "Salat der Woche: " voranstellen, wenn dem so ist
+      case first :: remain if section == PdfSection.SALAT_DER_WOCHE =>
+        OfferRow(s"Salat der Woche: ${first.name}", first.priceOpt) :: remain
+      case r => r
+    }
 
     // Rows mergen
     var mergedRows = List[OfferRow]()

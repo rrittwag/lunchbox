@@ -48,11 +48,11 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
     offers should contain (LunchOffer(0,"Pasta Pfanne mit Hähnchenfleisch an leichtem Gemüse",week.thursday,euro("5.50"),Id))
     offers should contain (LunchOffer(0,"Bauernroulade mit Speckbohnen und Salzkartoffeln",week.friday,euro("5.20"),Id))
     offers should contain (LunchOffer(0,"Cordon Bleu mit Kaisergemüse und Salzkartoffeln",week.friday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.monday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.tuesday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.wednesday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.thursday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.friday,euro("5.50"),Id))
+    offers should contain (LunchOffer(0,"Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.monday,euro("5.50"),Id))
+    offers should contain (LunchOffer(0,"Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.tuesday,euro("5.50"),Id))
+    offers should contain (LunchOffer(0,"Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.wednesday,euro("5.50"),Id))
+    offers should contain (LunchOffer(0,"Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.thursday,euro("5.50"),Id))
+    offers should contain (LunchOffer(0,"Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.friday,euro("5.50"),Id))
   }
 
   it should "resolve offers for week of 2015-02-27" in {
@@ -81,11 +81,11 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
     offers should contain(LunchOffer(0,"Schweinebraten mit Rotkohl und Kartoffelklößen",week.thursday,euro("5.50"),Id))
     offers should contain(LunchOffer(0,"Gefüllte Kartoffeltaschen mit Kräuterfrischkäse an Sour Cream und Salat",week.friday,euro("5.10"),Id))
     offers should contain(LunchOffer(0,"Grünkohltopf mit pikanter Knacker und Salzkartoffeln",week.friday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.monday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.tuesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.wednesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.thursday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.friday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.monday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.tuesday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.wednesday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.thursday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.friday,euro("5.50"),Id))
   }
 
   it should "resolve offers for week of 2015-03-13" in {
@@ -104,11 +104,11 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
     offers should contain(LunchOffer(0,"Welsfilet in Eihülle an Petersiliensauce, glacierten Karotten & Salzkartoffeln",week.thursday,euro("5.50"),Id))
     offers should contain(LunchOffer(0,"Currywurst mit Pommes Frites & Salat",week.friday,euro("5.20"),Id))
     offers should contain(LunchOffer(0,"Hackröllchen mit Frischkäsefüllung und Gemüsereis",week.friday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.monday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.tuesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.wednesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.thursday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.friday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.monday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.tuesday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.wednesday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.thursday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.friday,euro("5.50"),Id))
   }
 
   it should "resolve offers for week of 2015-03-20" in {
@@ -127,11 +127,11 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
     offers should contain(LunchOffer(0,"Gebratenes Seelachsfilet an Kräuterrahmsauce mit Lotusgemüse & Wildreis",week.thursday,euro("5.50"),Id))
     offers should contain(LunchOffer(0,"Königsberger Kochklops mit Salzkartoffeln und Salat",week.friday,euro("5.20"),Id))
     offers should contain(LunchOffer(0,"Schweinesteak überbacken mit Tomate-Mozzarella, dazu Pommes frites & Salat",week.friday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.monday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.tuesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.wednesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.thursday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.friday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.monday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.tuesday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.wednesday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.thursday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.friday,euro("5.50"),Id))
   }
 
   it should "resolve offers for Easter week of 2015-04-03" in {
