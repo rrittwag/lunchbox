@@ -28,7 +28,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
     case object DONNERSTAG extends PdfSection("Donnerstag", 3)
     case object FREITAG extends PdfSection("Freitag", 4)
     case object SALAT_DER_WOCHE extends PdfSection("Salat der Woche", 0)
-    case object FOOTER extends PdfSection("Alle Gerichte beinhalten", 0)
+    case object FOOTER extends PdfSection("Alle Gerichte beinhalt", 0)
 
     val weekdaysValues = List[PdfSection](MONTAG, DIENSTAG, MITTWOCH, DONNERSTAG, FREITAG)
     // TODO: improve with macro, see https://github.com/d6y/enumeration-examples & http://underscore.io/blog/posts/2014/09/03/enumerations.html
@@ -179,7 +179,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
   }
 
 
-  private def parseName(text: String): String = text.trim.replaceAll("  ", " ")
+  private def parseName(text: String): String = text.trim.replaceAll("  ", " ").replaceAll("–", "-")
 
   private def parseLocalDate(dateString: String, dateFormat: String): Option[LocalDate] =
     try {
