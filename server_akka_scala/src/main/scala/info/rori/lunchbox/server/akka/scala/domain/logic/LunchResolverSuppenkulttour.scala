@@ -127,7 +127,7 @@ class LunchResolverSuppenkulttour extends LunchResolver {
 
     remainingParts.foreach {
       case zusatz if isZusatzInfo(zusatz) => // erstmal ignorieren
-      case r"""(.+)$portion (\d{1,},\d{2})$priceStr €.*""" => if (portion.trim == "mittel") priceOpt = parsePrice(priceStr)
+      case r"""(.+)$portion (\d{1,}[.,]\d{2})$priceStr €.*""" => if (portion.trim == "mittel") priceOpt = parsePrice(priceStr)
       case descrPart => description :+= descrPart
     }
 
@@ -175,7 +175,7 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     Weekday.values.find(_.name == weekdayString).map(weekday => monday.plusDays(weekday.order))
 
   private def parsePrice(priceStr: String): Option[Money] = priceStr match {
-    case r""".*(\d{1,})$major,(\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
+    case r""".*(\d{1,})$major[.,](\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
     case _ => None
   }
 

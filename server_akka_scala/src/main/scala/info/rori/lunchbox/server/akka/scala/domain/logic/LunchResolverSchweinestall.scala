@@ -61,7 +61,7 @@ class LunchResolverSchweinestall extends LunchResolver {
    * @return
    */
   private def parsePrice(node: TagNode): Option[Money] = node.getText match {
-    case r""".*(\d{1,})$major,(\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
+    case r""".*(\d{1,})$major[.,](\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
     case _ => None
   }
 

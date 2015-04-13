@@ -104,7 +104,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
     val _ :: offersContent = sectionContent.split("\n").map(_.trim).toList
 
     var rows = offersContent.map {
-      case r"""(.+)$text(\d{1,},\d{2})$priceString {0,1} *€""" => OfferRow(parseName(text), parsePrice(priceString))
+      case r"""(.+)$text(\d{1,}[.,]\d{2})$priceString {0,1} *€""" => OfferRow(parseName(text), parsePrice(priceString))
       case text => OfferRow(parseName(text), None)
     }
 
@@ -174,7 +174,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
    * @return
    */
   private def parsePrice(priceString: String): Option[Money] = priceString match {
-    case r""".*(\d{1,})$major,(\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
+    case r""".*(\d{1,})$major[.,](\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
     case _ => None
   }
 

@@ -116,7 +116,7 @@ class LunchResolverAokCafeteria extends LunchResolver {
   private def groupBySection(lines: List[TextLine]): Map[PdfSection, List[TextLine]] = {
     var result = Map[PdfSection, List[TextLine]]()
 
-    for (priceHeader <- lines.find(_.allTextsMatch("""^\d{1,},\d{2} *€$""")))
+    for (priceHeader <- lines.find(_.allTextsMatch("""^\d{1,}[.,]\d{2} *€$""")))
       result += PdfSection.TABLE_HEADER -> List(priceHeader)
 
     for (List(header) <- result.get(PdfSection.TABLE_HEADER)) {
@@ -174,7 +174,7 @@ class LunchResolverAokCafeteria extends LunchResolver {
    * @return
    */
   private def parsePrice(priceString: String): Option[Money] = priceString match {
-    case r""".*(\d{1,})$major,(\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
+    case r""".*(\d{1,})$major[.,](\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
     case _ => None
   }
 
