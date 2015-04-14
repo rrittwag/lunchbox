@@ -6,9 +6,8 @@ var app = angular.module('lunchboxWebapp');
 // ... und Controller für Main-View erzeugen
 app.controller('MainCtrl', function ($scope, _, LunchProviderStore, LunchOfferStore) {
   function today() {
-    var result = new Date();
-    result.setUTCHours(0,0,0,0);
-    return result;
+    var localNow = new Date();
+    return new Date(Date.UTC(localNow.getFullYear(), localNow.getMonth(), localNow.getDate()));
   }
 
   $scope.day = today();
@@ -27,8 +26,7 @@ app.controller('MainCtrl', function ($scope, _, LunchProviderStore, LunchOfferSt
       if ( $scope.isLoadFinished() ) {
         refreshVisibleOffers();
       }
-    }, function(error) { // on error
-      console.log(error);
+    }, function() { // on error
       loadStatus.providers = LoadStatusEnum.FAILED;
     }
   );
@@ -39,8 +37,7 @@ app.controller('MainCtrl', function ($scope, _, LunchProviderStore, LunchOfferSt
       if ( $scope.isLoadFinished() ) {
         refreshVisibleOffers();
       }
-    }, function(error) { // on error
-      console.log(error);
+    }, function() { // on error
       loadStatus.offers = LoadStatusEnum.FAILED;
     }
   );

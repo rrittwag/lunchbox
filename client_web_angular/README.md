@@ -32,7 +32,6 @@ Distribution
 TODOs
 -----
 
-* Mittagsangebote des aktuellen Tages via REST abrufen
 * Unit-Tests für Controller, Filter & Service schreiben
 * NavBar mit About versehen: Infos zu Projekt, Entwickler & Mitarbeit
 * Lunchbox-Icon bereitstellen für NavBar & Favicon
