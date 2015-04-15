@@ -22,7 +22,7 @@ describe('main controller', function(){
       });
     });
 
-    it('should default day to today', function() {
+    it('should default day to today (in UTC)', function() {
       var now = new Date();
       expect(scope.day).toBeDefined();
       expect(scope.day.getTime()).toBe(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
@@ -43,6 +43,7 @@ describe('main controller', function(){
 
     it('should default visibleOffers to {}', function() {
       expect(angular.equals(scope.visibleOffers, {})).toBeTruthy();
+      expect(scope.hasVisibleOffers()).toBeFalsy();
     });
 
   });
