@@ -35,7 +35,6 @@ TODOs
 * Unit-Tests für Controller, Filter & Service schreiben
 * NavBar mit About versehen: Infos zu Projekt, Entwickler & Mitarbeit
 * Lunchbox-Icon bereitstellen für NavBar & Favicon
-* Feed in Website-Meta-Infos aufnehmen
 * Projekt mit HTML5 Boilerplate abgleichen
 * durch Tage klicken: Pfeil links + Pfeil rechts + Datum in NavBar
 * Tag auswählen per Query-Parameter "day"
