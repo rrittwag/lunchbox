@@ -57,3 +57,4 @@ Wissen
 * [AngularJS: REST-Aufruf](https://docs.angularjs.org/tutorial/step_11)
 * [Testing: Einführung in Unit-Testing mit AngularJS](https://docs.angularjs.org/guide/unit-testing)
 * [Testing: Einführung in BDD-Framework Jasmine](http://jasmine.github.io/2.2/introduction.html)
+* [Testing: REST-Aufrufe mocken](https://docs.angularjs.org/tutorial/step_11)
