@@ -50,8 +50,10 @@ TODOs
 Wissen
 ------
 
-* [AngularJS-Vorlage: Yeoman generator for AngularJS with GulpJS](https://www.npmjs.com/package/generator-gulp-angular)
-* [HTML-Vorlage: HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate)
+* [Vorlage: Yeoman generator for AngularJS with GulpJS](https://www.npmjs.com/package/generator-gulp-angular)
+* [Vorlage: HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate)
 * [AngularJS: Getting Started](https://docs.angularjs.org/misc/started)
 * [AngularJS: gutes einfaches Beispiel](https://github.com/tastejs/todomvc/tree/master/examples/angularjs)
 * [AngularJS: REST-Aufruf](https://docs.angularjs.org/tutorial/step_11)
+* [Testing: Einführung in Unit-Testing mit AngularJS](https://docs.angularjs.org/guide/unit-testing)
+* [Testing: Einführung in BDD-Framework Jasmine](http://jasmine.github.io/2.2/introduction.html)
