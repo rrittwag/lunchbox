@@ -1,18 +1,34 @@
 'use strict';
 
 describe('main controller', function(){
+  var $httpBackend; // fake http backend, initialized via initHttpBackend
   var $controller; // $controller ist der Angular-Service, der Controller erzeugt
   var scope; // Scope für zu instanziierenden Controller
 
   var testProviders = [{id: 1, name: 'Anbieter 1', location: 'Neubrandenburg'}, {id: 2, name: 'Anbieter 2', location: 'Berlin'}];
   var testOffers = [{id: 1, name: 'Angebot 1', day: '2015-04-15', price: 550, provider: 1}, {id: 2, name: 'Angebot 2', day: '2015-04-15', price: 450, provider: 2}, {id: 3, name: 'Angebot 3', day: '2015-01-01', price: 450, provider: 1}];
 
+  var initHttpBackend = function(withHttpError) {
+    inject(function(_$httpBackend_) {
+      $httpBackend = _$httpBackend_;
+      if (withHttpError) {
+        $httpBackend.whenGET('api/v1/lunchProvider').respond(500, '');
+      } else {
+        $httpBackend.whenGET('api/v1/lunchProvider').respond(testProviders);
+      }
+      $httpBackend.whenGET('api/v1/lunchOffer').respond(testOffers);
+    });
+  };
+
+
+
   beforeEach(function() {
     module('lunchboxWebapp');
     inject(function(_$controller_) { $controller = _$controller_; });
     inject(function($rootScope) { scope = $rootScope.$new(); });
+    $controller('MainCtrl', { $scope: scope });
 
-    // Custom Matcher, der angular.equals() nutzt, um Wrapper (z.B. Promise, Resource) auszuwerten
+    // Custom Matcher, der beim Vergleich AngularJS-Wrapper kaschiert (z.B. Promise, Resource)
     jasmine.addMatchers({
       toAngularEqual: function() {
         return {
@@ -28,13 +44,7 @@ describe('main controller', function(){
 
   describe('instantiation', function() {
     beforeEach(function() {
-      // main controller mit entsprechenden Parametern erzeugen
-      $controller('MainCtrl', {
-        $scope: scope,
-        // _: {}, // TODO: Underscore als Util einbinden? ECMA6, RequireJS?
-        LunchProviderStore: { query: function() {} }, // query-Funktion wegmocken
-        LunchOfferStore: { query: function() {} } // query-Funktion wegmocken
-      });
+      initHttpBackend();
     });
 
     it('should init day to today (in UTC)', function() {
@@ -64,19 +74,9 @@ describe('main controller', function(){
 
 
   describe('query offers', function() {
-    var $httpBackend;
-
-    beforeEach(function() {
-      inject(function(_$httpBackend_) {
-        $httpBackend = _$httpBackend_;
-        $httpBackend.expectGET('api/v1/lunchProvider').respond(testProviders);
-        $httpBackend.expectGET('api/v1/lunchOffer').respond(testOffers);
-      });
-
-      $controller('MainCtrl', { $scope: scope });
-    });
-
     it('should set status to LOAD_FINISHED if all queries done', function() {
+      initHttpBackend();
+
       expect(scope.providers).toAngularEqual([]);
       expect(scope.offers).toAngularEqual([]);
 
@@ -89,33 +89,71 @@ describe('main controller', function(){
       expect(scope.isLoadFinished()).toBeTruthy();
       expect(scope.isLoadFailed()).toBeFalsy();
     });
+
+    it('should set status to LOADING if at least one query loading', function() {
+      initHttpBackend();
+
+      expect(scope.isLoading()).toBeTruthy();
+      expect(scope.isLoadFinished()).toBeFalsy();
+      expect(scope.isLoadFailed()).toBeFalsy();
+
+      $httpBackend.flush(1);
+
+      expect(scope.isLoading()).toBeTruthy();
+      expect(scope.isLoadFinished()).toBeFalsy();
+      expect(scope.isLoadFailed()).toBeFalsy();
+    });
+
+    it('should set status to LOAD_FAILED if one query fails', function() {
+      initHttpBackend(true);
+
+      $httpBackend.flush();
+
+      expect(scope.isLoading()).toBeFalsy();
+      expect(scope.isLoadFinished()).toBeFalsy();
+      expect(scope.isLoadFailed()).toBeTruthy();
+    });
   });
 
 
 
   describe('refreshVisibleOffers', function() {
-    var $httpBackend;
-
     beforeEach(function() {
-      inject(function(_$httpBackend_) {
-        $httpBackend = _$httpBackend_;
-        $httpBackend.expectGET('api/v1/lunchProvider').respond(testProviders);
-        $httpBackend.expectGET('api/v1/lunchOffer').respond(testOffers);
-      });
-
-      $controller('MainCtrl', { $scope: scope });
+      initHttpBackend();
     });
 
-    it('should resolve visible offers', function() {
+    it('should have visible offers', function() {
       scope.day = new Date(Date.UTC(2015, 3, 15));
       scope.location = 'Neubrandenburg';
       expect(scope.visibleOffers).toAngularEqual({});
+      expect(scope.hasVisibleOffers()).toBeFalsy();
 
       $httpBackend.flush(); // refreshVisibleOffers wird implizit aufgerufen
 
       expect(scope.visibleOffers).toAngularEqual({
         1: [{id: 1, name: 'Angebot 1', day: '2015-04-15', price: 550, provider: 1}]
       });
+      expect(scope.hasVisibleOffers()).toBeTruthy();
+    });
+
+    it('should not have visible offers if not matches date', function() {
+      scope.day = new Date(Date.UTC(2000, 1, 1));
+      scope.location = 'Neubrandenburg';
+      expect(scope.visibleOffers).toAngularEqual({});
+
+      $httpBackend.flush(); // refreshVisibleOffers wird implizit aufgerufen
+
+      expect(scope.visibleOffers).toAngularEqual({});
+    });
+
+    it('should not have visible offers if not matches location', function() {
+      scope.day = new Date(Date.UTC(2015, 3, 15));
+      scope.location = 'New York';
+      expect(scope.visibleOffers).toAngularEqual({});
+
+      $httpBackend.flush(); // refreshVisibleOffers wird implizit aufgerufen
+
+      expect(scope.visibleOffers).toAngularEqual({});
     });
   });
 
