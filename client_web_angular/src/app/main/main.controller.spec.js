@@ -123,6 +123,7 @@ describe('main controller', function(){
         1: [{id: 1, name: 'Angebot 1', day: '2015-04-15', price: 550, provider: 1}]
       });
       expect(scope.hasVisibleOffers()).toBeTruthy();
+      expect(scope.isLoadFinishedWithNoVisibleOffers()).toBeFalsy();
     });
 
     it('should not resolve visible offers if not matches date', function() {
@@ -134,6 +135,7 @@ describe('main controller', function(){
 
       expect(scope.visibleOffers).toAngularEqual({});
       expect(scope.hasVisibleOffers()).toBeFalsy();
+      expect(scope.isLoadFinishedWithNoVisibleOffers()).toBeTruthy();
     });
 
     it('should not resolve visible offers if not matches location', function() {
@@ -145,6 +147,7 @@ describe('main controller', function(){
 
       expect(scope.visibleOffers).toAngularEqual({});
       expect(scope.hasVisibleOffers()).toBeFalsy();
+      expect(scope.isLoadFinishedWithNoVisibleOffers()).toBeTruthy();
     });
 
     it('should not resolve visible offers if loading failed', function() {
@@ -156,6 +159,7 @@ describe('main controller', function(){
 
       expect(scope.visibleOffers).toAngularEqual({});
       expect(scope.hasVisibleOffers()).toBeFalsy();
+      expect(scope.isLoadFinishedWithNoVisibleOffers()).toBeFalsy();
     });
   });
 
