@@ -17,6 +17,8 @@ describe('main controller', function(){
         $httpBackend.whenGET('api/v1/lunchProvider').respond(testProviders);
       }
       $httpBackend.whenGET('api/v1/lunchOffer').respond(testOffers);
+
+      $controller('MainCtrl', { $scope: scope });
     });
   };
 
@@ -26,7 +28,6 @@ describe('main controller', function(){
     module('lunchboxWebapp');
     inject(function(_$controller_) { $controller = _$controller_; });
     inject(function($rootScope) { scope = $rootScope.$new(); });
-    $controller('MainCtrl', { $scope: scope });
 
     // Custom Matcher, der beim Vergleich AngularJS-Wrapper kaschiert (z.B. Promise, Resource)
     jasmine.addMatchers({
@@ -77,9 +78,6 @@ describe('main controller', function(){
     it('should set status to LOAD_FINISHED if all queries done', function() {
       initHttpBackend();
 
-      expect(scope.providers).toAngularEqual([]);
-      expect(scope.offers).toAngularEqual([]);
-
       $httpBackend.flush();
 
       expect(scope.providers).toAngularEqual(testProviders);
@@ -92,10 +90,6 @@ describe('main controller', function(){
 
     it('should set status to LOADING if at least one query loading', function() {
       initHttpBackend();
-
-      expect(scope.isLoading()).toBeTruthy();
-      expect(scope.isLoadFinished()).toBeFalsy();
-      expect(scope.isLoadFailed()).toBeFalsy();
 
       $httpBackend.flush(1);
 
@@ -118,15 +112,10 @@ describe('main controller', function(){
 
 
   describe('refreshVisibleOffers', function() {
-    beforeEach(function() {
+    it('should resolve visible offers', function() {
       initHttpBackend();
-    });
-
-    it('should have visible offers', function() {
       scope.day = new Date(Date.UTC(2015, 3, 15));
       scope.location = 'Neubrandenburg';
-      expect(scope.visibleOffers).toAngularEqual({});
-      expect(scope.hasVisibleOffers()).toBeFalsy();
 
       $httpBackend.flush(); // refreshVisibleOffers wird implizit aufgerufen
 
@@ -136,24 +125,37 @@ describe('main controller', function(){
       expect(scope.hasVisibleOffers()).toBeTruthy();
     });
 
-    it('should not have visible offers if not matches date', function() {
+    it('should not resolve visible offers if not matches date', function() {
+      initHttpBackend();
       scope.day = new Date(Date.UTC(2000, 1, 1));
       scope.location = 'Neubrandenburg';
-      expect(scope.visibleOffers).toAngularEqual({});
 
       $httpBackend.flush(); // refreshVisibleOffers wird implizit aufgerufen
 
       expect(scope.visibleOffers).toAngularEqual({});
+      expect(scope.hasVisibleOffers()).toBeFalsy();
     });
 
-    it('should not have visible offers if not matches location', function() {
+    it('should not resolve visible offers if not matches location', function() {
+      initHttpBackend();
       scope.day = new Date(Date.UTC(2015, 3, 15));
       scope.location = 'New York';
-      expect(scope.visibleOffers).toAngularEqual({});
 
       $httpBackend.flush(); // refreshVisibleOffers wird implizit aufgerufen
 
       expect(scope.visibleOffers).toAngularEqual({});
+      expect(scope.hasVisibleOffers()).toBeFalsy();
+    });
+
+    it('should not resolve visible offers if loading failed', function() {
+      initHttpBackend(true);
+      scope.day = new Date(Date.UTC(2015, 3, 15));
+      scope.location = 'Neubrandenburg';
+
+      $httpBackend.flush(); // refreshVisibleOffers wird implizit aufgerufen
+
+      expect(scope.visibleOffers).toAngularEqual({});
+      expect(scope.hasVisibleOffers()).toBeFalsy();
     });
   });
 
