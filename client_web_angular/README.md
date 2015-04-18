@@ -46,6 +46,7 @@ TODOs
 * i18n & l10n
 * assert-Funktion in main.filter verschieben in eigene Lib?
 * Underscore per RequireJS einbinden?
+* Funktioniert Refresh einer Subadresse (z.B. 'http://localhost/about'). Muss nginx ein Redirect auf Root-Adresse durchführen???
 * Umstellen auf ECMAScript 6, CoffeScript, Dart oder Scala.js?
 
 
