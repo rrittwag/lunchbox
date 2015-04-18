@@ -2,8 +2,9 @@
 
 describe('main filter', function() {
   var $filter;
-  var providerNB = {id: 1, name: 'Anbieter 1', location: 'Neubrandenburg'};
-  var testProviders = [providerNB, {id: 2, name: 'Anbieter 2', location: 'Berlin'}];
+  var providerNB1 = {id: 1, name: 'Anbieter 1', location: 'Neubrandenburg'};
+  var providerNB2 = {id: 2, name: 'Anbieter 2', location: 'Neubrandenburg'};
+  var testProviders = [providerNB1, providerNB2, {id: 3, name: 'Anbieter 3', location: 'Berlin'}];
 
   beforeEach(function() {
     module('lunchboxWebapp');
@@ -19,7 +20,7 @@ describe('main filter', function() {
     });
 
     it('returns provider in location', function() {
-      expect(filterByLocation(testProviders, 'Neubrandenburg')).toEqual([providerNB]);
+      expect(filterByLocation(testProviders, 'Neubrandenburg')).toEqual([providerNB1, providerNB2]);
     });
 
     it('returns no providers when input no providers', function() {
