@@ -57,6 +57,6 @@ Wissen
 * [AngularJS: Getting Started](https://docs.angularjs.org/misc/started)
 * [AngularJS: gutes einfaches Beispiel](https://github.com/tastejs/todomvc/tree/master/examples/angularjs)
 * [AngularJS: REST-Aufruf](https://docs.angularjs.org/tutorial/step_11)
+* [AngularJS: Bootstrap-Navigationsleiste](https://angularjs.de/artikel/navigation-menu-bootstrap)
 * [Testing: Einführung in Unit-Testing mit AngularJS](https://docs.angularjs.org/guide/unit-testing)
 * [Testing: Einführung in BDD-Framework Jasmine](http://jasmine.github.io/2.2/introduction.html)
-* [Testing: REST-Aufrufe mocken](https://docs.angularjs.org/tutorial/step_11)
