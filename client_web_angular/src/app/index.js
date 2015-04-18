@@ -20,3 +20,9 @@ app.config(function ($routeProvider) {
       redirectTo: '/'
     });
 });
+
+app.config(function ($locationProvider) {
+  // Ab HTML5 sind semantische Adresspfade (ohne #) für SPAs möglich.
+  // Angular unterstützt das, inklusive Fallback.
+  $locationProvider.html5Mode(true);
+});
