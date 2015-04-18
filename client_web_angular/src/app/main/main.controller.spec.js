@@ -98,7 +98,7 @@ describe('main controller', function(){
       expect(scope.isLoadFailed()).toBeFalsy();
     });
 
-    it('should set status to LOAD_FAILED if one query fails', function() {
+    it('should set status to LOAD_FAILED if some query fails', function() {
       initHttpBackend(true);
 
       $httpBackend.flush();
