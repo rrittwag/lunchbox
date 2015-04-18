@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('lunchboxWebapp')
-  .controller('NavbarCtrl', function ($scope) {
-    $scope.date = new Date();
-  });
+var app = angular.module('lunchboxWebapp');
+
+app.controller('NavbarCtrl', function ($scope) {
+  $scope.date = new Date();
+});

@@ -1,18 +1,24 @@
-<nav class="navbar navbar-static-top navbar-inverse" ng-controller="NavbarCtrl">
+<nav class="navbar navbar-static-top navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
+      <!-- TODO: Bootstrap-Collapse-Plugin installieren
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button> -->
       <a class="navbar-brand" ng-href="#">
+<!--    TODO: Lunchbox-Icon einfügen
+        <img alt="Brand" src="...">   -->
         <span class="glyphicon glyphicon-home"></span> Lunchbox
       </a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
       <ul class="nav navbar-nav">
-        <li><a ng-href="#">About</a></li>
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-        <li>Current date: {{ date | date:'yyyy-MM-dd' }}</li>
+        <li class="active"><a ng-href="#/">Mittagspläne</a></li>
+        <li><a ng-href="#/about">Info</a></li>
       </ul>
     </div>
   </div>

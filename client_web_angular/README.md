@@ -32,7 +32,7 @@ Distribution
 TODOs
 -----
 
-* Unit-Tests für Controller, Filter & Service schreiben
+* eigener Ordner für Unit-Tests?
 * NavBar mit About versehen: Infos zu Projekt, Entwickler & Mitarbeit
 * Lunchbox-Icon bereitstellen für NavBar & Favicon
 * Projekt mit HTML5 Boilerplate abgleichen
@@ -44,6 +44,8 @@ TODOs
 * durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
 * schöneres Bootstrap-Theme einsetzen ? z.B. [Bootstrap Material Design](http://fezvrasta.github.io/bootstrap-material-design/) oder [Bootswatch Paper](https://bootswatch.com/paper/) ?
 * i18n & l10n
+* assert-Funktion in main.filter verschieben in eigene Lib?
+* Underscore per RequireJS einbinden?
 * Umstellen auf ECMAScript 6, CoffeScript, Dart oder Scala.js?
 
 
