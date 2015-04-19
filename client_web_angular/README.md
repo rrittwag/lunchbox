@@ -46,7 +46,8 @@ TODOs
 * i18n & l10n
 * assert-Funktion in main.filter verschieben in eigene Lib?
 * Underscore per RequireJS einbinden?
-* Funktioniert Refresh einer Subadresse (z.B. 'http://localhost/about'). Muss nginx ein Redirect auf Pre-HTML5-Adresse 'http://localhost/#/about' oder gar Root-Pfad durchführen???
+* Funktioniert Refresh einer Subadresse (z.B. 'http://localhost/about'). Muss nginx ein Redirect auf Pre-HTML5-Adresse 'http://localhost/#/about' oder gar Root-Pfad durchführen?
+* [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
 * Umstellen auf ECMAScript 6, CoffeScript, Dart oder Scala.js?
 
 
