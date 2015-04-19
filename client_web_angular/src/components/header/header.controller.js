@@ -2,7 +2,7 @@
 
 var app = angular.module('lunchboxWebapp');
 
-app.controller('NavbarCtrl', function ($scope, $route, $location) {
+app.controller('HeaderCtrl', function ($scope, $route, $location) {
   $scope.routes = [];
   // TODO: Logik auslagern in Service?
   angular.forEach($route.routes, function (route, path) {
