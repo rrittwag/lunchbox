@@ -1,5 +1,7 @@
 'use strict';
 
+//var _ = require('underscore');
+
 // WebApp-Modul abrufen ...
 var app = angular.module('lunchboxWebapp');
 
