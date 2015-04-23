@@ -71,17 +71,17 @@ describe('Header controller', function () {
     var location;
 
     beforeEach(function () {
-      location = {};
-      $controller('HeaderCtrl', { $scope: scope, $location: location });
+      inject(function ($location) { location = $location; });
+      $controller('HeaderCtrl', { $scope: scope });
     });
 
     it('should be true if on root path', function () {
-      location.path = function () { return '/'; };
+      location.path('/');
       expect(scope.activeRoute(rootRoute)).toBeTruthy();
     });
 
     it('should be false if not on root path', function () {
-      location.path = function () { return '/somewhere'; };
+      location.path('/somewhere');
       expect(scope.activeRoute(rootRoute)).toBeFalsy();
     });
   });
