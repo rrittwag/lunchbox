@@ -9,7 +9,7 @@ version := "0.1"
 scalaVersion := "2.11.6"
 
 libraryDependencies ++= {
-  val akkaVersion = "2.3.9"
+  val akkaVersion = "2.3.10"
   val akkaHttpVersion = "1.0-M5"
   Seq(
     // Akka
@@ -22,7 +22,7 @@ libraryDependencies ++= {
     // domain logic
     "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.10",
     "org.apache.commons"          %  "commons-lang3" % "3.3.2",
-    "org.apache.pdfbox"           %  "pdfbox"        % "1.8.8",
+    "org.apache.pdfbox"           %  "pdfbox"        % "1.8.9",
     "org.scalactic"               %% "scalactic"     % "2.2.4",
     // test
 //    "com.typesafe.akka" %% "akka-testkit" % akkaV   % "test",
