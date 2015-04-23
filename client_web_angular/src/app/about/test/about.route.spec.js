@@ -22,6 +22,13 @@ describe('about route', function() {
     expect(route.current.controller).toBeUndefined();
   });
 
+  it('should be loaded on hashtagged url /#/about', function () {
+    location.path('/about');
+    rootScope.$digest();
+    expect(route.current.templateUrl).toBe('app/about/about.html');
+    expect(route.current.controller).toBeUndefined();
+  });
+
   it('should not be loaded on /some_address', function () {
     location.path('/some_address');
     rootScope.$digest();
