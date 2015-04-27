@@ -60,7 +60,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
     val rootNode = new HtmlCleaner(props).clean(htmlUrl)
     val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n}.toSet
 
-    links.filter(_ matches """.*/Mittagspause_.+(\d{2}.\d{2}.\d{2,4})\D*.pdf""").toList
+    links.filter(_ matches """.*/Mittagspause_.+.pdf""").toList
   }
 
   private[logic] def resolveFromPdf(pdfUrl: URL): List[LunchOffer] = {
@@ -92,7 +92,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
   }
 
   private[logic] def parseMondayFromUrl(pdfUrl: URL): Option[LocalDate] = pdfUrl.getFile match {
-    case r""".*(\d{2}.\d{2}.)\d{2,4}$fridayString\D*.pdf""" =>
+    case r""".*/Mittagspause.*-(.+)$fridayString.pdf""" =>
       parseDay(fridayString).map { friday =>
         val weekOfYear = friday.getWeekOfWeekyear
         LocalDate.now.withWeekOfWeekyear(weekOfYear).withDayOfWeek(1)
@@ -161,10 +161,10 @@ class LunchResolverHotelAmRing extends LunchResolver {
   private def parseDay(dayString: String): Option[LocalDate] = dayString match {
     case r""".*(\d{2}.\d{2}.\d{4})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yyyy")
     case r""".*(\d{2}.\d{2}.\d{2})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yy")
-    case r""".*(\d{2}.\d{2}.)$dayString.*""" =>
+    case r""".*(\d{2}.\d{2})$dayString.*""" =>
       val yearToday = LocalDate.now.getYear
-      val year = if (LocalDate.now.getMonthOfYear == 12 && dayString.endsWith("01.")) yearToday + 1 else yearToday
-      parseLocalDate(dayString + year.toString, "dd.MM.yyyy")
+      val year = if (LocalDate.now.getMonthOfYear == 12 && dayString.endsWith("01")) yearToday + 1 else yearToday
+      parseLocalDate(dayString + "." + year.toString, "dd.MM.yyyy")
     case _ => None
   }
 

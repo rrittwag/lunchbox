@@ -32,6 +32,17 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
     links should contain (HttpMittagspauseDir + "Mittagspause_02.03-06.03.2015.pdf")
   }
 
+  it should "resolve PDF links for 2015-04-27" in {
+    val url = getClass.getResource("/mittagsplaene/hotel_am_ring_2015-04-27.html")
+
+    val links = new LunchResolverHotelAmRing().resolvePdfLinks(url)
+
+    links should have size 3
+    links should contain (HttpMittagspauseDir + "Mittagspause_20.04.-24.04.2015.pdf")
+    links should contain (HttpMittagspauseDir + "Mittagspause_27.04.-01.05.pdf")
+    links should contain (HttpMittagspauseDir + "Mittagspause_04.05.-08.05.15.pdf")
+  }
+
   it should "resolve offers for week of 2015-02-20" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_16.02-20.02.2015neu.pdf")
     val week = weekOf(s"$YearNow-02-20")
@@ -193,6 +204,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
     parse("Mittagspause_09.02.-13.02.2015neu.pdf") should be (weekOf(s"$YearNow-02-13").monday)
     parse("Mittagspause_09.03-13.03.15.pdf") should be (weekOf(s"$YearNow-03-13").monday)
     parse("Mittagspause_02.03-06.03.2015.pdf") should be (weekOf(s"$YearNow-03-06").monday)
+    parse("Mittagspause_27.04.-01.05.pdf") should be (weekOf(s"$YearNow-05-01").monday)
   }
 
   val Id = LunchProvider.HOTEL_AM_RING.id
