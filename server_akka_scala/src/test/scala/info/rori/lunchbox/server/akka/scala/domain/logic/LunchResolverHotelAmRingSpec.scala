@@ -198,6 +198,17 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
     offers should contain(LunchOffer(0,"Panierte Putenbrust mit Letscho & Bratkartoffeln",week.monday,euro("5.50"),Id))
   }
 
+  it should "resolve offers for week of 2015-05-08" in {
+    val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_04.05.-08.05.15.pdf")
+    val week = weekOf(s"$YearNow-05-08")
+
+    val offers = new LunchResolverHotelAmRing().resolveFromPdf(url)
+
+    offers should have size 14
+    offers should contain(LunchOffer(0,"Zwei Minutensteaks mit frischen Champignons, Salat & Baguettebrot",week.thursday,euro("5.20"),Id))
+    offers should contain(LunchOffer(0,"gebratenes Wildlachsfilet an Kräuterrahmsauce mit Lotusgemüse und Wildreis",week.thursday,euro("5.50"),Id))
+  }
+
   it should "parse date from PDF url" in {
     def parse(file: String): LocalDate = new LunchResolverHotelAmRing().parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
 
