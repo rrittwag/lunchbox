@@ -21,6 +21,8 @@ class PDFTextGroupStripper extends PDFTextStripper {
     getText(pDDocument)
     textGroups
   }
+
+  def getTextLines(pDDocument: PDDocument): List[TextLine] = TextLine.toLines(getTextGroups(pDDocument))
 }
 
 case class TextGroup(var positions: Seq[TextPosition]) {
@@ -56,6 +58,26 @@ case class TextGroup(var positions: Seq[TextPosition]) {
   private def validate(): Unit = {
     require(positions.nonEmpty)
     require(positions.forall(positions.head.getY === _.getY +- 1.0f))
-    require(positions.forall(positions.head.getHeight === _.getHeight +- 1.0f))
+//    require(positions.forall(positions.head.getHeight === _.getHeight +- 1.0f))
+  }
+}
+
+case class TextLine(y: Float, texts: Seq[TextGroup]) {
+  def oneTextMatches(regex: String): Boolean = texts.exists(_.toString.matches(regex))
+
+  def allTextsMatch(regex: String): Boolean = texts.forall(_.toString.matches(regex))
+}
+
+case object TextLine {
+
+  def toLines(texts: Seq[TextGroup]): List[TextLine] = {
+    var result = Map[Float, Seq[TextGroup]]()
+    for (text <- texts) {
+      result.keys.find(text.yIn) match {
+        case Some(key) => result = result.updated(key, result(key) :+ text)
+        case None => result += text.yMid -> Seq(text)
+      }
+    }
+    result.toList.map(e => TextLine(e._1, e._2.sortBy(_.xMin))).sortBy(_.y)
   }
 }

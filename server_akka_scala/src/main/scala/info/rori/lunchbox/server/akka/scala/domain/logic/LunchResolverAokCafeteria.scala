@@ -18,12 +18,6 @@ class LunchResolverAokCafeteria extends LunchResolver {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
   }
 
-  case class TextLine(y: Float, texts: Seq[TextGroup]) {
-    def oneTextMatches(regex: String): Boolean = texts.exists(_.toString.matches(regex))
-
-    def allTextsMatch(regex: String): Boolean = texts.forall(_.toString.matches(regex))
-  }
-
   sealed abstract class PdfSection(val name: String, val order: Int)
 
   object PdfSection {
@@ -71,9 +65,8 @@ class LunchResolverAokCafeteria extends LunchResolver {
   private[logic] def resolveFromPdf(pdfUrl: URL): List[LunchOffer] = {
     val optMonday = parseMondayFromUrl(pdfUrl)
 
-    val textGroups = extractPdfContent(pdfUrl)
+    val lines = extractPdfContent(pdfUrl)
 
-    val lines = groupByLine(textGroups)
     val section2lines = groupBySection(lines)
 
     var offers = List[LunchOffer]()
@@ -100,17 +93,6 @@ class LunchResolverAokCafeteria extends LunchResolver {
           LocalDate.now.withWeekOfWeekyear(weekOfYear).withDayOfWeek(1)
       }
     case _ => None
-  }
-
-  private def groupByLine(texts: Seq[TextGroup]): List[TextLine] = {
-    var result = Map[Float, Seq[TextGroup]]()
-    for (text <- texts) {
-      result.keys.find(text.yIn) match {
-        case Some(key) => result = result.updated(key, result(key) :+ text)
-        case None => result += text.yMid -> Seq(text)
-      }
-    }
-    result.toList.map(e => TextLine(e._1, e._2.sortBy(_.xMin))).sortBy(_.y)
   }
 
   private def groupBySection(lines: List[TextLine]): Map[PdfSection, List[TextLine]] = {
@@ -191,15 +173,15 @@ class LunchResolverAokCafeteria extends LunchResolver {
   private def parseWeekdaySection(weekdayString: String): Option[PdfSection] =
     PdfSection.weekdayValues.find(_.name == weekdayString)
 
-  private def extractPdfContent(pdfUrl: URL): Seq[TextGroup] = {
+  private def extractPdfContent(pdfUrl: URL): List[TextLine] = {
     var optPdfDoc: Option[PDDocument] = None
-    var pdfContent = Seq[TextGroup]()
+    var pdfContent = List[TextLine]()
 
     try {
       optPdfDoc = Some(PDDocument.load(pdfUrl))
       for (pdfDoc <- optPdfDoc) {
         val stripper = new PDFTextGroupStripper
-        pdfContent = stripper.getTextGroups(pdfDoc)
+        pdfContent = stripper.getTextLines(pdfDoc)
       }
     } catch {
       case fnf: FileNotFoundException => System.out.println(s"file $pdfUrl not found") // TODO: loggen
