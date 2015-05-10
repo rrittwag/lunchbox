@@ -36,7 +36,7 @@ class LunchResolverAokCafeteria extends LunchResolver {
 
   case class OfferRow(name: String, priceOpt: Option[Money]) {
     def merge(otherRow: OfferRow): OfferRow = {
-      val newName = List(name, otherRow.name).filter(!_.isEmpty).mkString(" ")
+      val newName = Seq(name, otherRow.name).filter(!_.isEmpty).mkString(" ")
       OfferRow(newName, priceOpt.orElse(otherRow.priceOpt))
     }
 
@@ -52,7 +52,7 @@ class LunchResolverAokCafeteria extends LunchResolver {
     )
   }
 
-  private[logic] def resolvePdfLinks(htmlUrl: URL): List[String] = {
+  private[logic] def resolvePdfLinks(htmlUrl: URL): Seq[String] = {
     val props = new CleanerProperties
     props.setCharset("utf-8")
 
@@ -62,17 +62,17 @@ class LunchResolverAokCafeteria extends LunchResolver {
     links.filter(_ matches """.*/AOK_.+(\d{2}.\d{2}.)\D*.pdf""").toList
   }
 
-  private[logic] def resolveFromPdf(pdfUrl: URL): List[LunchOffer] = {
+  private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] = {
     val optMonday = parseMondayFromUrl(pdfUrl)
 
     val lines = extractPdfContent(pdfUrl)
 
     val section2lines = groupBySection(lines)
 
-    var offers = List[LunchOffer]()
+    var offers = Seq[LunchOffer]()
 
     section2lines.get(PdfSection.TABLE_HEADER) match {
-      case Some(List(priceHeader)) =>
+      case Some(Seq(priceHeader)) =>
         val xCoords = priceHeader.texts.map(_.xMid)
         val prices = priceHeader.texts.flatMap( e => parsePrice(e.toString) )
         for (weekday <- PdfSection.weekdayValues;
@@ -95,16 +95,16 @@ class LunchResolverAokCafeteria extends LunchResolver {
     case _ => None
   }
 
-  private def groupBySection(lines: List[TextLine]): Map[PdfSection, List[TextLine]] = {
-    var result = Map[PdfSection, List[TextLine]]()
+  private def groupBySection(lines: Seq[TextLine]): Map[PdfSection, Seq[TextLine]] = {
+    var result = Map[PdfSection, Seq[TextLine]]()
 
     for (priceHeader <- lines.find(_.allTextsMatch("""^\d{1,}[.,]\d{2} *€$""")))
-      result += PdfSection.TABLE_HEADER -> List(priceHeader)
+      result += PdfSection.TABLE_HEADER -> Seq(priceHeader)
 
-    for (List(header) <- result.get(PdfSection.TABLE_HEADER)) {
+    for (Seq(header) <- result.get(PdfSection.TABLE_HEADER)) {
       val linesBelowHeader = lines.filter(_.y > header.y)
 
-      var linesForDay = List[TextLine]()
+      var linesForDay = Seq[TextLine]()
       for (line <- linesBelowHeader) {
         if (line.oneTextMatches(""".*Zusatzstoffe.*""")) {
           // an Feiertagen gibt es keine Angebote ... und keine Zusatzstoffe
@@ -124,7 +124,7 @@ class LunchResolverAokCafeteria extends LunchResolver {
     result
   }
 
-  def parseDayOffer(lines: List[TextLine], xRef: Float, weekday: PdfSection, mondayOpt: Option[LocalDate], price: Money): Option[LunchOffer] = {
+  def parseDayOffer(lines: Seq[TextLine], xRef: Float, weekday: PdfSection, mondayOpt: Option[LocalDate], price: Money): Option[LunchOffer] = {
     mondayOpt match {
       case Some(monday) =>
         val day = monday.plusDays(weekday.order)
@@ -134,7 +134,7 @@ class LunchResolverAokCafeteria extends LunchResolver {
     }
   }
 
-  private def findWeekdaySection(lines: List[TextLine]): Option[PdfSection] = {
+  private def findWeekdaySection(lines: Seq[TextLine]): Option[PdfSection] = {
     val weekdaysRegex = PdfSection.weekdayValues.map(_.name).mkString("^(", "|", ")$")
     val weekdayTextGroupOpt = lines.flatMap(_.texts.find(_.toString.matches(weekdaysRegex))).headOption
     weekdayTextGroupOpt.flatMap(e => parseWeekdaySection(e.toString))
@@ -173,9 +173,9 @@ class LunchResolverAokCafeteria extends LunchResolver {
   private def parseWeekdaySection(weekdayString: String): Option[PdfSection] =
     PdfSection.weekdayValues.find(_.name == weekdayString)
 
-  private def extractPdfContent(pdfUrl: URL): List[TextLine] = {
+  private def extractPdfContent(pdfUrl: URL): Seq[TextLine] = {
     var optPdfDoc: Option[PDDocument] = None
-    var pdfContent = List[TextLine]()
+    var pdfContent = Seq[TextLine]()
 
     try {
       optPdfDoc = Some(PDDocument.load(pdfUrl))

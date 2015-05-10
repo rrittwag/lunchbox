@@ -22,7 +22,7 @@ class PDFTextGroupStripper extends PDFTextStripper {
     textGroups
   }
 
-  def getTextLines(pDDocument: PDDocument): List[TextLine] = TextLine.toLines(getTextGroups(pDDocument))
+  def getTextLines(pDDocument: PDDocument): Seq[TextLine] = TextLine.toLines(getTextGroups(pDDocument))
 }
 
 case class TextGroup(var positions: Seq[TextPosition]) {
@@ -66,11 +66,13 @@ case class TextLine(y: Float, texts: Seq[TextGroup]) {
   def oneTextMatches(regex: String): Boolean = texts.exists(_.toString.matches(regex))
 
   def allTextsMatch(regex: String): Boolean = texts.forall(_.toString.matches(regex))
+
+  override def toString = texts.mkString(" ")
 }
 
 case object TextLine {
 
-  def toLines(texts: Seq[TextGroup]): List[TextLine] = {
+  def toLines(texts: Seq[TextGroup]): Seq[TextLine] = {
     var result = Map[Float, Seq[TextGroup]]()
     for (text <- texts) {
       result.keys.find(text.yIn) match {
