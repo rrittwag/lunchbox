@@ -22,6 +22,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
   sealed abstract class PdfSection(val sectionStartPattern: String, val order: Int)
 
   object PdfSection {
+    case object HEADER extends PdfSection("<<Header>>", 0)
     case object MONTAG extends PdfSection("Montag", 0)
     case object DIENSTAG extends PdfSection("Dienstag", 1)
     case object MITTWOCH extends PdfSection("Mittwoch", 2)
@@ -37,7 +38,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
 
   case class OfferRow(name: String, priceOpt: Option[Money]) {
     def merge(otherRow: OfferRow): OfferRow = {
-      val newName = List(name, otherRow.name).filter(!_.isEmpty).mkString(" ")
+      val newName = Seq(name, otherRow.name).filter(!_.isEmpty).mkString(" ")
       OfferRow(newName, priceOpt.orElse(otherRow.priceOpt))
     }
 
@@ -53,7 +54,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
     )
   }
 
-  private[logic] def resolvePdfLinks(htmlUrl: URL): List[String] = {
+  private[logic] def resolvePdfLinks(htmlUrl: URL): Seq[String] = {
     val props = new CleanerProperties
     props.setCharset("utf-8")
 
@@ -63,28 +64,18 @@ class LunchResolverHotelAmRing extends LunchResolver {
     links.filter(_ matches """.*/Mittagspause_.+.pdf""").toList
   }
 
-  private[logic] def resolveFromPdf(pdfUrl: URL): List[LunchOffer] = {
+  private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] = {
     val optMonday = parseMondayFromUrl(pdfUrl)
 
     val pdfContent = extractPdfContent(pdfUrl)
-
-    val section2StartIndex = PdfSection.values.map { section =>
-      pdfContent.indexOf(section.sectionStartPattern) match {
-        case index if index > -1 => Some((section, index))
-        case _ => None
-      }
-    }.flatten
-
-    val section2content = section2StartIndex.sliding(2).toList.map {
-      case List((sec1, idx1), (sec2, idx2)) => (sec1, pdfContent.substring(idx1, idx2))
-    }
+    val section2content = groupBySection(pdfContent)
 
     val section2offers = section2content.map {
       case (section, secContent) => (section, parseOffersFromSectionString(secContent, section, optMonday))
     }
 
     // Wochenangebote über die Woche verteilen
-    val (wochenOffers, tagesOffers) = section2offers.partition(_._1 == PdfSection.SALAT_DER_WOCHE)
+    val (wochenOffers, tagesOffers) = section2offers.toList.partition(_._1 == PdfSection.SALAT_DER_WOCHE)
     val tagesOffersList = tagesOffers.flatMap(_._2)
 
     val multipliedWochenOffers = multiplyWochenangebote(wochenOffers.flatMap(_._2), tagesOffersList.map(_.day))
@@ -100,12 +91,32 @@ class LunchResolverHotelAmRing extends LunchResolver {
     case _ => None
   }
 
-  private def parseOffersFromSectionString(sectionContent: String, section: PdfSection, optMonday: Option[LocalDate]): List[LunchOffer] = {
-    val _ :: offersContent = sectionContent.split("\n").map(_.trim).toList
+  private def groupBySection(lines: Seq[TextLine]): Map[PdfSection, Seq[TextLine]] = {
+    var result = Map[PdfSection, Seq[TextLine]]()
 
-    var rows = offersContent.map {
-      case r"""(.+)$text(\d{1,}[.,]\d{2})$priceString {0,1} *€""" => OfferRow(parseName(text), parsePrice(priceString))
-      case text => OfferRow(parseName(text), None)
+    var currentSection: PdfSection = PdfSection.HEADER
+    var linesForSection = Seq[TextLine]()
+
+    for (line <- lines) {
+      PdfSection.values.find(sec => line.toString.contains(sec.sectionStartPattern)) match {
+        case Some(newSection) =>
+          result += currentSection -> linesForSection
+          currentSection = newSection
+          linesForSection = Nil
+        case None =>
+          linesForSection :+= line
+      }
+    }
+
+    result
+  }
+
+  private def parseOffersFromSectionString(sectionLines: Seq[TextLine], section: PdfSection, optMonday: Option[LocalDate]): Seq[LunchOffer] = {
+//    sectionLines.foreach(l => println(l.toString.trim))
+    var rows = sectionLines.map(_.toString.trim).flatMap {
+      case r"""(.+)$text(\d{1,}[.,]\d{2})$priceString *€""" => Some(OfferRow(parseName(text), parsePrice(priceString)))
+      case "" => None // leere Zeilen entfernen
+      case text => Some(OfferRow(parseName(text), None))
     }
 
     rows = rows match {
@@ -117,9 +128,10 @@ class LunchResolverHotelAmRing extends LunchResolver {
         OfferRow(s"Salat der Woche: ${first.name}", first.priceOpt) :: remain
       case r => r
     }
+//    rows.foreach(l => println(l))
 
     // Rows mergen
-    var mergedRows = List[OfferRow]()
+    var mergedRows = Seq[OfferRow]()
     var curMergedRowOpt: Option[OfferRow] = None
     rows.foreach(row =>
       curMergedRowOpt match {
@@ -188,15 +200,15 @@ class LunchResolverHotelAmRing extends LunchResolver {
       case exc: Throwable => None
     }
 
-  private def extractPdfContent(pdfUrl: URL): String = {
+  private def extractPdfContent(pdfUrl: URL): Seq[TextLine] = {
     var optPdfDoc: Option[PDDocument] = None
-    var pdfContent = ""
+    var pdfContent = Seq[TextLine]()
 
     try {
       optPdfDoc = Some(PDDocument.load(pdfUrl))
       for (pdfDoc <- optPdfDoc) {
-        val stripper = new PDFTextStripper
-        pdfContent = stripper.getText(pdfDoc)
+        val stripper = new PDFTextGroupStripper
+        pdfContent = stripper.getTextLines(pdfDoc)
       }
     } catch {
       case fnf: FileNotFoundException => System.out.println(s"file $pdfUrl not found") // TODO: loggen
