@@ -58,7 +58,6 @@ case class TextGroup(var positions: Seq[TextPosition]) {
   private def validate(): Unit = {
     require(positions.nonEmpty)
     require(positions.forall(positions.head.getY === _.getY +- 1.0f))
-//    require(positions.forall(positions.head.getHeight === _.getHeight +- 1.0f))
   }
 }
 

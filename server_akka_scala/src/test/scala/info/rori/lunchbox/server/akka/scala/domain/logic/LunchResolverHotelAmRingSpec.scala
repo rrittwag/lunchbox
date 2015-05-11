@@ -206,7 +206,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers {
 
     offers should have size 14
     offers should contain(LunchOffer(0,"Zwei Minutensteaks mit frischen Champignons, Salat & Baguettebrot",week.thursday,euro("5.20"),Id))
-    offers should contain(LunchOffer(0,"gebratenes Wildlachsfilet an Kräuterrahmsauce mit Lotusgemüse und Wildreis",week.thursday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0,"gebratenes Wildlachsfilet an Kräuterrahmsauce mit Lotusgemüse & Wildreis",week.thursday,euro("5.50"),Id))
   }
 
   it should "parse date from PDF url" in {

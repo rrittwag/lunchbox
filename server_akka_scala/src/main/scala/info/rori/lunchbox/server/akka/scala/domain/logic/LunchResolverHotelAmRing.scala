@@ -5,7 +5,6 @@ import java.net.URL
 
 import info.rori.lunchbox.server.akka.scala.domain.model._
 import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.util.PDFTextStripper
 import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}
 import org.joda.time.LocalDate
@@ -36,10 +35,10 @@ class LunchResolverHotelAmRing extends LunchResolver {
     val values = weekdaysValues ++ List(SALAT_DER_WOCHE, FOOTER)
   }
 
-  case class OfferRow(name: String, priceOpt: Option[Money]) {
+  case class OfferRow(name: String, priceOpt: Option[Money], startsWithBoldText: Boolean = false) {
     def merge(otherRow: OfferRow): OfferRow = {
       val newName = Seq(name, otherRow.name).filter(!_.isEmpty).mkString(" ")
-      OfferRow(newName, priceOpt.orElse(otherRow.priceOpt))
+      OfferRow(newName, priceOpt.orElse(otherRow.priceOpt), startsWithBoldText)
     }
 
     def isValid = !name.isEmpty && priceOpt.isDefined
@@ -71,7 +70,7 @@ class LunchResolverHotelAmRing extends LunchResolver {
     val section2content = groupBySection(pdfContent)
 
     val section2offers = section2content.map {
-      case (section, secContent) => (section, parseOffersFromSectionString(secContent, section, optMonday))
+      case (section, secContent) => (section, parseOffersFromSectionLines(secContent, section, optMonday))
     }
 
     // Wochenangebote über die Woche verteilen
@@ -111,12 +110,16 @@ class LunchResolverHotelAmRing extends LunchResolver {
     result
   }
 
-  private def parseOffersFromSectionString(sectionLines: Seq[TextLine], section: PdfSection, optMonday: Option[LocalDate]): Seq[LunchOffer] = {
-//    sectionLines.foreach(l => println(l.toString.trim))
-    var rows = sectionLines.map(_.toString.trim).flatMap {
-      case r"""(.+)$text(\d{1,}[.,]\d{2})$priceString *€""" => Some(OfferRow(parseName(text), parsePrice(priceString)))
-      case "" => None // leere Zeilen entfernen
-      case text => Some(OfferRow(parseName(text), None))
+  private def parseOffersFromSectionLines(sectionLines: Seq[TextLine], section: PdfSection, optMonday: Option[LocalDate]): Seq[LunchOffer] = {
+    var rows = appendBoldTextInfo(sectionLines).flatMap { case (line, startsWithBoldText) =>
+      line.toString.trim match {
+        case r"""(.+)$text(\d{1,}[.,]\d{2})$priceString *€""" =>
+          Some(OfferRow(parseName(text), parsePrice(priceString), startsWithBoldText))
+        case "" =>
+          None // leere Zeile entfernen
+        case text =>
+          Some(OfferRow(parseName(text), None, startsWithBoldText))
+      }
     }
 
     rows = rows match {
@@ -128,41 +131,89 @@ class LunchResolverHotelAmRing extends LunchResolver {
         OfferRow(s"Salat der Woche: ${first.name}", first.priceOpt) :: remain
       case r => r
     }
-//    rows.foreach(l => println(l))
 
+    rows =
+      if (rows.exists(_.startsWithBoldText))
+        mergeRowsByBoldText(rows, section)
+      else
+        mergeRowsUnformatted(rows, section)
+
+    for (row <- rows;
+         day <- optMonday.map(_.plusDays(section.order)))
+    yield LunchOffer(0, row.name, day, row.priceOpt.get, LunchProvider.HOTEL_AM_RING.id)
+  }
+
+  /**
+   * Gibt für jede Zeile an, ob sie fettgedruckt beginnt.
+   * @param sectionLines Zeilen
+   * @return Tupels aus Zeile und bool'schem Wert "Zeile startet fettgedruckt".
+   */
+  private def appendBoldTextInfo(sectionLines: Seq[TextLine]): Seq[(TextLine, Boolean)] = {
+    val positions = sectionLines.flatMap(line => line.texts.flatMap(_.positions))
+    val boldFontOpt = positions.find(_.getCharacter == "€").map(_.getFont) // Der Preis ist immer fett gedruckt => Referenz-Font
+    val usesMultipleFonts = boldFontOpt.exists(boldFont => positions.exists(_.getFont != boldFont))
+    sectionLines.map { line =>
+      line.texts.flatMap(_.positions).filter(!_.toString.trim.isEmpty) match {
+        case firstChar :: remain =>
+          (line, usesMultipleFonts && boldFontOpt.contains(firstChar.getFont))
+        case _ =>
+          (line, false)
+      }
+    }
+  }
+
+  private def mergeRowsByBoldText(rows: Seq[OfferRow], section: PdfSection): Seq[OfferRow] = {
+    // Rows mergen
+    var mergedRows = Seq[OfferRow]()
+    var curMergedRowOpt: Option[OfferRow] = None
+    rows.foreach(row =>
+      curMergedRowOpt match {
+        case None =>
+          if (row.startsWithBoldText)
+            curMergedRowOpt = Some(row)
+        case Some(curMergedRow) =>
+          if (row.startsWithBoldText) {
+            if (curMergedRow.isValid) mergedRows :+= curMergedRow
+            curMergedRowOpt = Some(row)
+          } else
+            curMergedRowOpt = Some(curMergedRow.merge(row))
+      }
+    )
+    curMergedRowOpt.foreach(curMergedRow => if (curMergedRow.isValid) mergedRows :+= curMergedRow)
+    mergedRows
+  }
+
+  private def mergeRowsUnformatted(rows: Seq[OfferRow], section: PdfSection): Seq[OfferRow] = {
     // Rows mergen
     var mergedRows = Seq[OfferRow]()
     var curMergedRowOpt: Option[OfferRow] = None
     rows.foreach(row =>
       curMergedRowOpt match {
         case None => curMergedRowOpt = Some(row)
-        case Some(mixedRow) =>
-          mixedRow.priceOpt match {
+        case Some(curMergedRow) =>
+          curMergedRow.priceOpt match {
             case None =>
-              curMergedRowOpt = Some(mixedRow.merge(row))
+              curMergedRowOpt = Some(curMergedRow.merge(row))
             case Some(money) =>
               // wenn nächste Zeile leer oder ebenfalls mit Preis belegt, neues Offer beginnen
               if (row.name.isEmpty || row.priceOpt.isDefined) {
-                mergedRows :+= mixedRow
+                mergedRows :+= curMergedRow
                 curMergedRowOpt = Some(row)
               }
               // wenn die Zeilen auf eine Fortsetzung hindeuten, mergen
-              else if (Seq(",", " mit", " an").exists(mixedRow.name.endsWith) || row.name(0).isLower || "&(".contains(row.name(0))) {
-                curMergedRowOpt = Some(mixedRow.merge(row))
+              else if (Seq(",", " mit", " an").exists(curMergedRow.name.endsWith) || row.name(0).isLower || "&(".contains(row.name(0))) {
+                curMergedRowOpt = Some(curMergedRow.merge(row))
               }
               // andernfalls neues Offer beginnen
               else {
-                mergedRows :+= mixedRow
+                mergedRows :+= curMergedRow
                 curMergedRowOpt = Some(row)
               }
           }
       }
     )
-    curMergedRowOpt.foreach(mixedRow => if (mixedRow.isValid) mergedRows :+= mixedRow)
-
-    for (row <- mergedRows;
-         day <- optMonday.map(_.plusDays(section.order)))
-    yield LunchOffer(0, row.name, day, row.priceOpt.get, LunchProvider.HOTEL_AM_RING.id)
+    curMergedRowOpt.foreach(curMergedRow => if (curMergedRow.isValid) mergedRows :+= curMergedRow)
+    mergedRows
   }
 
   private def multiplyWochenangebote(wochenOffers: Seq[LunchOffer], dates: Seq[LocalDate]): Seq[LunchOffer] = {
