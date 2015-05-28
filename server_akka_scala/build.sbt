@@ -9,31 +9,31 @@ version := "0.1"
 scalaVersion := "2.11.6"
 
 libraryDependencies ++= {
-  val akkaVersion = "2.3.10"
-  val akkaHttpVersion = "1.0-M5"
+  val akkaVersion = "2.3.11"
+  val akkaHttpVersion = "1.0-RC3"
   Seq(
     // Akka
     "com.typesafe.akka" %% "akka-actor"      % akkaVersion,
     "com.typesafe.akka" %% "akka-slf4j"      % akkaVersion,
-    "ch.qos.logback"    %  "logback-classic" % "1.1.2",
+    "ch.qos.logback"    %  "logback-classic" % "1.1.3",
     // domain model
-    "com.github.nscala-time" %% "nscala-time" % "1.8.0",
+    "com.github.nscala-time" %% "nscala-time" % "2.0.0",
     "org.joda"               %  "joda-money"  % "0.10.0",
     // domain logic
-    "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.10",
-    "org.apache.commons"          %  "commons-lang3" % "3.3.2",
+    "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.12",
+    "org.apache.commons"          %  "commons-lang3" % "3.4",
     "org.apache.pdfbox"           %  "pdfbox"        % "1.8.9",
-    "org.scalactic"               %% "scalactic"     % "2.2.4",
+    "org.scalactic"               %% "scalactic"     % "2.2.5",
     // test
 //    "com.typesafe.akka" %% "akka-testkit" % akkaV   % "test",
-    "org.scalatest" %% "scalatest"                   % "2.2.2" % "test",
-    "org.scalamock" %% "scalamock-scalatest-support" % "3.2"   % "test",
+    "org.scalatest" %% "scalatest"                   % "2.2.5" % "test",
+    "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % "test",
     // service
     "com.typesafe.akka"      %% "akka-http-experimental"            % akkaHttpVersion,
     "com.typesafe.akka"      %% "akka-http-spray-json-experimental" % akkaHttpVersion,
-    "io.spray"               %% "spray-json"                        % "1.3.1",
+    "io.spray"               %% "spray-json"                        % "1.3.2",
     "com.typesafe.akka"      %% "akka-http-xml-experimental"        % akkaHttpVersion,
-    "org.scala-lang.modules" %% "scala-xml"                         % "1.0.3"
+    "org.scala-lang.modules" %% "scala-xml"                         % "1.0.4"
   )
 }
 

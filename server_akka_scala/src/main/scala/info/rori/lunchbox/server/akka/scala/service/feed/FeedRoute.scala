@@ -1,6 +1,6 @@
 package info.rori.lunchbox.server.akka.scala.service.feed
 
-import akka.http.marshalling._
+import akka.http.scaladsl.marshalling._
 import akka.pattern.ask
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchProvider, LunchOffer}
 import info.rori.lunchbox.server.akka.scala.domain.service.{LunchOfferService => LOS}

@@ -1,11 +1,11 @@
 package info.rori.lunchbox.server.akka.scala.service
 
 import akka.actor.{Actor, ActorLogging, Props}
-import akka.http.Http
-import akka.http.marshalling._
-import akka.http.model.{ContentType, HttpResponse}
-import akka.http.model.MediaTypes._
-import akka.http.server.{Directives, Route}
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.marshalling._
+import akka.http.scaladsl.model.{ContentType, HttpResponse}
+import akka.http.scaladsl.model.MediaTypes._
+import akka.http.scaladsl.server.{Directives, Route}
 import akka.stream.scaladsl.ImplicitFlowMaterializer
 import akka.util.Timeout
 import info.rori.lunchbox.server.akka.scala.ApplicationModule
@@ -45,8 +45,8 @@ class HttpService(host: String, port: Int)(implicit askTimeout: Timeout)
 
 
 object HttpRoute {
-  val NotFound = akka.http.model.StatusCodes.NotFound
-  val InternalServerError = akka.http.model.StatusCodes.InternalServerError
+  val NotFound = akka.http.scaladsl.model.StatusCodes.NotFound
+  val InternalServerError = akka.http.scaladsl.model.StatusCodes.InternalServerError
 }
 
 trait HttpRoute
@@ -86,9 +86,9 @@ trait HttpRoute
 
 trait HttpJsonConversions extends DefaultJsonProtocol {
 
-  import akka.http.marshalling.ToResponseMarshallable
+  import akka.http.scaladsl.marshalling.ToResponseMarshallable
   import spray.json._
-  import akka.http.marshallers.sprayjson.SprayJsonSupport
+  import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 
   /**
    * Konvertiert zwischen Domain Model & API Model
