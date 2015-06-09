@@ -32,8 +32,8 @@ Distribution
 TODOs
 -----
 
-* NavBar mit About versehen: Infos zu Projekt, Entwickler & Mitarbeit
-* Lunchbox-Icon bereitstellen für NavBar & Favicon
+* Design: Lunchbox-Icon bereitstellen für NavBar & Favicon
+* Design: Infoseite verschönern, evtl. vereinfachen?
 * Projekt mit HTML5 Boilerplate abgleichen
 * durch Tage klicken: Pfeil links + Pfeil rechts + Datum in NavBar
 * Tag auswählen per Query-Parameter "day"
