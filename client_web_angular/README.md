@@ -35,8 +35,8 @@ TODOs
 * Design: Lunchbox-Icon bereitstellen für NavBar & Favicon
 * Design: Infoseite verschönern, evtl. vereinfachen?
 * Projekt mit HTML5 Boilerplate abgleichen
-* durch Tage klicken: Pfeil links + Pfeil rechts + Datum in NavBar
-* Tag auswählen per Query-Parameter "day"
+* Tag-Auswähler: Unit-Tests schreiben
+* Adress-Query-Parameter "day": gezielt die Angebote für einen Tag abfragen
 * in Feed Links zur Website setzen
 * Filter für Location in NavBar einbinden
 * Mobile-Variante testen (inkl. NavBar-Buttons & korrektem Design)
@@ -47,7 +47,7 @@ TODOs
 * i18n & l10n
 * assert-Funktion in main.filter verschieben in eigene Lib?
 * Underscore per RequireJS einbinden?
-* Funktioniert Refresh einer Subadresse (z.B. 'http://localhost/about'). Muss nginx ein Redirect auf Pre-HTML5-Adresse 'http://localhost/#/about' oder gar Root-Pfad durchführen?
+* Direkte Anwahl einer Sub-Adresse (z.B. 'http://localhost/about') ermöglichen. Wie kann nginx die Subadresse an Client/AngularJS weiterreichen?
 * [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
 * Umstellen auf ECMAScript 6, CoffeScript, Dart oder Scala.js?
 
