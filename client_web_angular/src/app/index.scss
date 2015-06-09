@@ -5,6 +5,37 @@
   padding: 0.2em 0;
 }
 
+
+// vertikales Ausrichten von Tabellenzellen-Inhalt
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+// Tag-Schubser
+.day-control {
+  padding-bottom: 2em;
+
+  .btn {
+    font-size: 2em;
+  }
+
+  h2 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+
+.alert {
+  .glyphicon {
+    font-size: 2.8em;
+  }
+  .alert-message {
+    padding-left: 25px;
+  }
+}
+
+// Inhalt in Angebots-Panels ausrichten
 .offer-name {
   padding-right: 8px;
 }
@@ -13,6 +44,11 @@
   text-align: right;
   white-space: nowrap;
   padding-left: 0;
+}
+
+
+footer {
+  padding-top: 1.0em;
 }
 
 // injector

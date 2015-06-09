@@ -2,24 +2,63 @@
 
   <div header />
 
-  <div class="page-header">
-    <h1>Mittagspläne {{location}}</h1>
+<!--
+  <div class="location-control">
+    <div class="page-header">
+      <h1>Mittagspläne {{location}}</h1>
+    </div>
+    <select ng-model="myColor" ng-options="color.name for color in colors"></select>
+  </div>
+-->
+
+  <div class="day-control" ng-show="isLoadFinished()">
+    <div class="row">
+      <div class="col-xs-12 col-md-6 col-lg-4">
+        <div class="row vertical-align">
+          <div class="col-xs-2">
+            <a class="btn btn-primary glyphicon glyphicon-chevron-left" ng-click="prevDay()" ng-disabled="!hasPrevDay()"></a>
+          </div>
+          <div class="col-xs-8 text-center">
+            <h2><small>{{day | formatToWeekday}}</small></h2>
+            <h2>{{day | date:'dd.MM.yyyy'}}</h2>
+          </div>
+          <div class="col-xs-2">
+            <a class="btn btn-primary glyphicon glyphicon-chevron-right pull-right" ng-click="nextDay()" ng-disabled="!hasNextDay()"></a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="alert alert-danger" role="alert" ng-show="isLoadFailed()">
-    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-    <span class="sr-only">Fehler:</span>
-    Mittagsangebote konnten nicht geladen werden! Ist der Server aktiv?
+    <table>
+      <tr>
+        <td class="glyphicon glyphicon-exclamation-sign" aria-hidden="true">
+          <span class="sr-only">Fehler:</span>
+        </td>
+        <td class="alert-message">Mittagsangebote konnten nicht geladen werden! Ist der Server aktiv?</td>
+      </tr>
+    </table>
   </div>
   <div class="alert alert-warning" role="alert" ng-show="isLoading()">
-    <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-    <span class="sr-only">Warnung:</span>
-    Mittagsangebote werden geladen ...
+    <table>
+      <tr>
+        <td class="glyphicon glyphicon-warning-sign" aria-hidden="true">
+          <span class="sr-only">Warnung:</span>
+        </td>
+        <td class="alert-message">Mittagsangebote werden geladen ...</td>
+      </tr>
+    </table>
   </div>
   <div class="alert alert-info" role="alert" ng-show="isLoadFinishedWithNoVisibleOffers()">
-    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    <span class="sr-only">Information:</span>
-    Keine Mittagsangebote gefunden für {{location}} am {{day | date:'dd.MM.yyyy'}}! <!-- TODO: wenn i18n funktioniert umstellen auf {{day | date:'longDate'}}-->
+    <table>
+      <tr>
+        <td class="glyphicon glyphicon-info-sign" aria-hidden="true">
+          <span class="sr-only">Information:</span>
+        </td>
+        <td class="alert-message">Keine Mittagsangebote gefunden für {{location}} am {{day | date:'dd.MM.yyyy'}}! <!-- TODO: wenn i18n funktioniert umstellen auf {{day | date:'longDate'}}--></td>
+      </tr>
+    </table>
   </div>
 
   <div class="row">
