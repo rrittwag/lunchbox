@@ -66,6 +66,44 @@ app.controller('MainCtrl', function ($scope, _, LunchProviderStore, LunchOfferSt
     }
   };
 
+  function prevDay() {
+    var daysInOffers = _.uniq(_.map($scope.offers, function(offer){
+      return new Date(Date.parse(offer.day));
+    }), true);
+    var prevNextPartitions = _.partition(daysInOffers, function(day) {
+      return day.getTime() < $scope.day.getTime();
+    });
+    return _.last(prevNextPartitions[0]);
+  }
+
+  function nextDay() {
+    var daysInOffers = _.uniq(_.map($scope.offers, function(offer){
+      return new Date(Date.parse(offer.day));
+    }), true);
+    var prevNextPartitions = _.partition(daysInOffers, function(day) {
+      return day.getTime() <= $scope.day.getTime();
+    });
+    return _.first(prevNextPartitions[1]);
+  }
+
+  $scope.prevDay = function() {
+    $scope.day = prevDay();
+    refreshVisibleOffers();
+  };
+
+  $scope.nextDay = function() {
+    $scope.day = nextDay();
+    refreshVisibleOffers();
+  };
+
+  $scope.hasPrevDay = function() {
+    return prevDay() !== undefined;
+  };
+
+  $scope.hasNextDay = function() {
+    return nextDay() !== undefined;
+  };
+
   $scope.isLoadFinishedWithNoVisibleOffers = function() {
     return $scope.isLoadFinished() && !$scope.hasVisibleOffers();
   };
