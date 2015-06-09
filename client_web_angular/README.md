@@ -39,7 +39,9 @@ TODOs
 * Tag auswählen per Query-Parameter "day"
 * in Feed Links zur Website setzen
 * Filter für Location in NavBar einbinden
+* Mobile-Variante testen (inkl. NavBar-Buttons & korrektem Design)
 * System-Tests via [Selenium und Protractor](https://github.com/angular/protractor) bereitstellen
+* Design: [Bootstrap-Tooltips-Erweiterung](http://getbootstrap.com/javascript/#tooltips) für alle Links/Interaktionen einsetzen
 * durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
 * schöneres Bootstrap-Theme einsetzen ? z.B. [Bootstrap Material Design](http://fezvrasta.github.io/bootstrap-material-design/) oder [Bootswatch Paper](https://bootswatch.com/paper/) ?
 * i18n & l10n
