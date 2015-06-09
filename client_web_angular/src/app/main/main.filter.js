@@ -26,3 +26,13 @@ app.filter('formatEuro', function () {
     return Math.floor(cent / 100) + ',' + (cent % 100) + ' €';
   };
 });
+
+app.filter('formatToWeekday', function () {
+  return function(date) {
+    assert(typeof date === 'object');
+    assert(typeof date.getDay === 'function');
+    // TODO: i18n
+    var weekdays = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+    return weekdays[date.getDay()];
+  };
+});

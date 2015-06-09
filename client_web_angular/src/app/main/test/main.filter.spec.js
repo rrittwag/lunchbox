@@ -57,4 +57,29 @@ describe('main filter', function() {
     });
   });
 
+
+
+  describe('formatToWeekday', function() {
+    var formatToWeekday;
+    beforeEach(function() {
+      formatToWeekday = $filter('formatToWeekday');
+    });
+
+    it('returns Error when date undefined', function() {
+      expect(function() { formatToWeekday(undefined); }).toThrowError(Error);
+    });
+
+    it('returns "Sonntag" for 07.06.2015', function() {
+      expect(formatToWeekday(new Date(Date.UTC(2015, 5, 7)))).toEqual('Sonntag');
+    });
+
+    it('returns "Montag" for 08.06.2015', function() {
+      expect(formatToWeekday(new Date(Date.UTC(2015, 5, 8)))).toEqual('Montag');
+    });
+
+    it('returns "Samstag" for 13.06.2015', function() {
+      expect(formatToWeekday(new Date(Date.UTC(2015, 5, 13)))).toEqual('Samstag');
+    });
+  });
+
 });
