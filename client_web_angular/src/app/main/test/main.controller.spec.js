@@ -75,7 +75,7 @@ describe('main controller', function(){
 
 
   describe('query offers', function() {
-    it('should set status to LOAD_FINISHED if all queries done', function() {
+    it('should set status to LOAD_FINISHED when all queries done', function() {
       initHttpBackend();
 
       $httpBackend.flush();
@@ -88,7 +88,7 @@ describe('main controller', function(){
       expect(scope.isLoadFailed()).toBeFalsy();
     });
 
-    it('should set status to LOADING if at least one query loading', function() {
+    it('should set status to LOADING when at least one query loading', function() {
       initHttpBackend();
 
       $httpBackend.flush(1);
@@ -98,7 +98,7 @@ describe('main controller', function(){
       expect(scope.isLoadFailed()).toBeFalsy();
     });
 
-    it('should set status to LOAD_FAILED if some query fails', function() {
+    it('should set status to LOAD_FAILED when some query fails', function() {
       initHttpBackend(true);
 
       $httpBackend.flush();
@@ -126,7 +126,7 @@ describe('main controller', function(){
       expect(scope.isLoadFinishedWithNoVisibleOffers()).toBeFalsy();
     });
 
-    it('should not resolve visible offers if not matches date', function() {
+    it('should not resolve visible offers when not matches date', function() {
       initHttpBackend();
       scope.day = new Date(Date.UTC(2000, 1, 1));
       scope.location = 'Neubrandenburg';
@@ -138,7 +138,7 @@ describe('main controller', function(){
       expect(scope.isLoadFinishedWithNoVisibleOffers()).toBeTruthy();
     });
 
-    it('should not resolve visible offers if not matches location', function() {
+    it('should not resolve visible offers when not matches location', function() {
       initHttpBackend();
       scope.day = new Date(Date.UTC(2015, 3, 15));
       scope.location = 'New York';
@@ -150,7 +150,7 @@ describe('main controller', function(){
       expect(scope.isLoadFinishedWithNoVisibleOffers()).toBeTruthy();
     });
 
-    it('should not resolve visible offers if loading failed', function() {
+    it('should not resolve visible offers when loading failed', function() {
       initHttpBackend(true);
       scope.day = new Date(Date.UTC(2015, 3, 15));
       scope.location = 'Neubrandenburg';
