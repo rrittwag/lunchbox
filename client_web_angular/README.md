@@ -34,13 +34,13 @@ TODOs
 
 * Design: Lunchbox-Icon bereitstellen für NavBar & Favicon
 * Design: Infoseite verschönern, evtl. vereinfachen?
+* Filter für Location bereitstellen (in NavBar?)
+* auf Smartphone & Tab testen (inkl. NavBar-Menü-Buttons & schickes Design)
+* Location-Auswähler: Auswahl des Nutzers für nächsten Seitenaufruf merken
 * Projekt mit HTML5 Boilerplate abgleichen
-* Tag-Auswähler: Unit-Tests schreiben
 * Adress-Query-Parameter "day": gezielt die Angebote für einen Tag abfragen
 * in Feed Links zur Website setzen
-* Filter für Location in NavBar einbinden
-* Mobile-Variante testen (inkl. NavBar-Buttons & korrektem Design)
-* System-Tests via [Selenium und Protractor](https://github.com/angular/protractor) bereitstellen
+* System-Tests bereitstellen, via [Selenium und Protractor](https://github.com/angular/protractor) ?
 * Design: [Bootstrap-Tooltips-Erweiterung](http://getbootstrap.com/javascript/#tooltips) für alle Links/Interaktionen einsetzen
 * durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
 * schöneres Bootstrap-Theme einsetzen ? z.B. [Bootstrap Material Design](http://fezvrasta.github.io/bootstrap-material-design/) oder [Bootswatch Paper](https://bootswatch.com/paper/) ?
@@ -48,6 +48,7 @@ TODOs
 * assert-Funktion in main.filter verschieben in eigene Lib?
 * Underscore per RequireJS einbinden?
 * Direkte Anwahl einer Sub-Adresse (z.B. 'http://localhost/about') ermöglichen. Wie kann nginx die Subadresse an Client/AngularJS weiterreichen?
+* Tag-Auswähler: auslagern in eigenen Controller? Oder gar in Direktive (Angular 2.0)?
 * [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
 * Umstellen auf ECMAScript 6, CoffeScript, Dart oder Scala.js?
 

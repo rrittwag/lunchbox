@@ -66,42 +66,42 @@ app.controller('MainCtrl', function ($scope, _, LunchProviderStore, LunchOfferSt
     }
   };
 
-  function prevDay() {
-    var daysInOffers = _.uniq(_.map($scope.offers, function(offer){
-      return new Date(Date.parse(offer.day));
-    }), true);
-    var prevNextPartitions = _.partition(daysInOffers, function(day) {
-      return day.getTime() < $scope.day.getTime();
-    });
-    return _.last(prevNextPartitions[0]);
-  }
-
-  function nextDay() {
-    var daysInOffers = _.uniq(_.map($scope.offers, function(offer){
-      return new Date(Date.parse(offer.day));
-    }), true);
-    var prevNextPartitions = _.partition(daysInOffers, function(day) {
-      return day.getTime() <= $scope.day.getTime();
-    });
-    return _.first(prevNextPartitions[1]);
+  function daysInOffers() {
+    return _.chain($scope.offers)
+        .map(function(offer) { return new Date(Date.parse(offer.day)); })
+        .uniq()
+        .sort()
+        .value();
   }
 
   $scope.prevDay = function() {
-    $scope.day = prevDay();
-    refreshVisibleOffers();
+    return _.chain(daysInOffers())
+        .filter(function(day) { return day.getTime() < $scope.day.getTime(); })
+        .last().value();
   };
 
   $scope.nextDay = function() {
-    $scope.day = nextDay();
+    return _.chain(daysInOffers())
+        .filter(function(day) { return day.getTime() > $scope.day.getTime(); })
+        .first().value();
+  };
+
+  $scope.goPrevDay = function() {
+    $scope.day = $scope.prevDay();
+    refreshVisibleOffers();
+  };
+
+  $scope.goNextDay = function() {
+    $scope.day = $scope.nextDay();
     refreshVisibleOffers();
   };
 
   $scope.hasPrevDay = function() {
-    return prevDay() !== undefined;
+    return $scope.prevDay() !== undefined;
   };
 
   $scope.hasNextDay = function() {
-    return nextDay() !== undefined;
+    return $scope.nextDay() !== undefined;
   };
 
   $scope.isLoadFinishedWithNoVisibleOffers = function() {
