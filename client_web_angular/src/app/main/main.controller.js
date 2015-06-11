@@ -76,13 +76,13 @@ app.controller('MainCtrl', function ($scope, _, LunchProviderStore, LunchOfferSt
 
   $scope.prevDay = function() {
     return _.chain(daysInOffers())
-        .filter(function(day) { return day.getTime() < $scope.day.getTime(); })
+        .filter(function(day) { return day < $scope.day; })
         .last().value();
   };
 
   $scope.nextDay = function() {
     return _.chain(daysInOffers())
-        .filter(function(day) { return day.getTime() > $scope.day.getTime(); })
+        .filter(function(day) { return day > $scope.day; })
         .first().value();
   };
 
