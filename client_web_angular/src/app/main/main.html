@@ -33,30 +33,32 @@
   <div class="alert alert-danger" role="alert" ng-show="isLoadFailed()">
     <table>
       <tr>
-        <td class="glyphicon glyphicon-exclamation-sign" aria-hidden="true">
-          <span class="sr-only">Fehler:</span>
+        <td class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" />
+        <td class="alert-message">
+          <h4>Fehler</h4>
+          <p>Mittagsangebote konnten nicht geladen werden! Ist der Server aktiv?</p>
         </td>
-        <td class="alert-message">Mittagsangebote konnten nicht geladen werden! Ist der Server aktiv?</td>
       </tr>
     </table>
   </div>
   <div class="alert alert-warning" role="alert" ng-show="isLoading()">
     <table>
       <tr>
-        <td class="glyphicon glyphicon-warning-sign" aria-hidden="true">
-          <span class="sr-only">Warnung:</span>
+        <td class="glyphicon glyphicon-hourglass" aria-hidden="true" />
+        <td class="alert-message">
+          <h4>Fortschritt</h4>
+          <p>Mittagsangebote werden geladen ...</p>
         </td>
-        <td class="alert-message">Mittagsangebote werden geladen ...</td>
       </tr>
     </table>
   </div>
   <div class="alert alert-info" role="alert" ng-show="isLoadFinishedWithNoVisibleOffers()">
     <table>
       <tr>
-        <td class="glyphicon glyphicon-info-sign" aria-hidden="true">
-          <span class="sr-only">Information:</span>
-        </td>
-        <td class="alert-message">Keine Mittagsangebote gefunden für {{location}} am {{day | date:'dd.MM.yyyy'}}! <!-- TODO: wenn i18n funktioniert umstellen auf {{day | date:'longDate'}}--></td>
+        <td class="glyphicon glyphicon-info-sign" aria-hidden="true" />
+        <td class="alert-message">
+          <h4>Information</h4>
+          <p>Keine Mittagsangebote gefunden für {{location}} am {{day | date:'dd.MM.yyyy'}}! <!-- TODO: wenn i18n funktioniert umstellen auf {{day | date:'longDate'}}--></p>
       </tr>
     </table>
   </div>
