@@ -1,3 +1,7 @@
+/////////////////////////////////////////
+// allgemeine Styles
+/////////////////////////////////////////
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -5,14 +9,29 @@
   padding: 0.2em 0;
 }
 
-
 // vertikales Ausrichten von Tabellenzellen-Inhalt
 .vertical-align {
     display: flex;
     align-items: center;
 }
 
-// Tag-Schubser
+// entfernt oberhalb der ersten Tabellenzeile die Border
+.table-no-top-border {
+  tr:first-child > td {
+    border-top: none;
+  }
+}
+
+.content {
+  padding-bottom: 10px;
+}
+
+
+
+/////////////////////////////////////////
+// Seite "Mittagsangebote"
+/////////////////////////////////////////
+
 .day-control {
   padding-bottom: 2em;
 
@@ -28,14 +47,13 @@
 
 .alert {
   .glyphicon {
-    font-size: 2.8em;
+    font-size: 3.5em;
   }
   .alert-message {
-    padding-left: 25px;
+    padding-left: 15px;
   }
 }
 
-// Inhalt in Angebots-Panels ausrichten
 .offer-name {
   padding-right: 8px;
 }
@@ -47,9 +65,41 @@
 }
 
 
-footer {
-  padding-top: 1.0em;
+
+/////////////////////////////////////////
+// Seite "Info"
+/////////////////////////////////////////
+
+#app-badges {
+  display: inline-block;
+  padding: 1em 0em 0.5em 0em;
+
+  div {
+    padding: 0px;
+  }
+
+  .disabled {
+    opacity: 0.1;
+  }
 }
+
+.infobox {
+  padding-bottom: 15px;
+}
+
+#infobox-providers {
+  table {
+    width: 90%;
+    max-width: 400px;
+  }
+}
+
+#infobox-credits {
+  table {
+    max-width: 500px;
+  }
+}
+
 
 // injector
 // endinjector

@@ -2,85 +2,89 @@
 
   <div header />
 
-<!--
-  <div class="location-control">
-    <div class="page-header">
-      <h1>Mittagspläne {{location}}</h1>
-    </div>
-    <select ng-model="myColor" ng-options="color.name for color in colors"></select>
-  </div>
--->
-
-  <div class="day-control" ng-show="isLoadFinished()">
-    <div class="row">
-      <div class="col-xs-12 col-sm-9 col-md-6 col-lg-4">
-        <div class="row vertical-align">
-          <div class="col-xs-2">
-            <a class="btn btn-primary glyphicon glyphicon-chevron-left" ng-click="goPrevDay()" ng-disabled="!hasPrevDay()"></a>
-          </div>
-          <div class="col-xs-8 text-center">
-            <h2><small>{{day | formatToWeekday}}</small></h2>
-            <h2>{{day | date:'dd.MM.yyyy'}}</h2>
-          </div>
-          <div class="col-xs-2">
-            <a class="btn btn-primary glyphicon glyphicon-chevron-right pull-right" ng-click="goNextDay()" ng-disabled="!hasNextDay()"></a>
-          </div>
-        </div>
+  <div class="content">
+  <!--
+    <div class="location-control">
+      <div class="page-header">
+        <h1>Mittagspläne {{location}}</h1>
       </div>
+      <select ng-model="myColor" ng-options="color.name for color in colors"></select>
     </div>
-  </div>
+  -->
 
-  <div class="alert alert-danger" role="alert" ng-show="isLoadFailed()">
-    <table>
-      <tr>
-        <td class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" />
-        <td class="alert-message">
-          <h4>Fehler</h4>
-          <p>Mittagsangebote konnten nicht geladen werden! Ist der Server aktiv?</p>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div class="alert alert-warning" role="alert" ng-show="isLoading()">
-    <table>
-      <tr>
-        <td class="glyphicon glyphicon-hourglass" aria-hidden="true" />
-        <td class="alert-message">
-          <h4>Fortschritt</h4>
-          <p>Mittagsangebote werden geladen ...</p>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div class="alert alert-info" role="alert" ng-show="isLoadFinishedWithNoVisibleOffers()">
-    <table>
-      <tr>
-        <td class="glyphicon glyphicon-info-sign" aria-hidden="true" />
-        <td class="alert-message">
-          <h4>Information</h4>
-          <p>Keine Mittagsangebote gefunden für {{location}} am {{day | date:'dd.MM.yyyy'}}! <!-- TODO: wenn i18n funktioniert umstellen auf {{day | date:'longDate'}}--></p>
-      </tr>
-    </table>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="prov in providers | filterByLocation:location" ng-show="hasVisibleOffers(prov.id)">
-      <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title">{{prov.name}}</h3>
-        </div>
-
-        <ul class="list-group">
-          <li class="list-group-item" ng-repeat="offer in visibleOffers[prov.id]">
-            <div class="row">
-              <div class="col-xs-9 offer-name">{{offer.name}}</div>
-              <div class="col-xs-3 offer-price">{{offer.price | formatEuro}}</div>
+    <div class="day-control" ng-show="isLoadFinished()">
+      <div class="row">
+        <div class="col-xs-12 col-sm-9 col-md-6 col-lg-4">
+          <div class="row vertical-align">
+            <div class="col-xs-2">
+              <a class="btn btn-primary glyphicon glyphicon-chevron-left" ng-click="goPrevDay()" ng-disabled="!hasPrevDay()"></a>
             </div>
-          </li>
-        </ul>
+            <div class="col-xs-8 text-center">
+              <h2><small>{{day | formatToWeekday}}</small></h2>
+              <h2>{{day | date:'dd.MM.yyyy'}}</h2>
+            </div>
+            <div class="col-xs-2">
+              <a class="btn btn-primary glyphicon glyphicon-chevron-right pull-right" ng-click="goNextDay()" ng-disabled="!hasNextDay()"></a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div class="alert alert-danger" role="alert" ng-show="isLoadFailed()">
+      <table>
+        <tr>
+          <td class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" />
+          <td class="alert-message">
+            <h4>Fehler</h4>
+            <p>Mittagsangebote konnten nicht geladen werden! Ist der Server aktiv?</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="alert alert-warning" role="alert" ng-show="isLoading()">
+      <table>
+        <tr>
+          <td class="glyphicon glyphicon-hourglass" aria-hidden="true" />
+          <td class="alert-message">
+            <h4>Fortschritt</h4>
+            <p>Mittagsangebote werden geladen ...</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="alert alert-info" role="alert" ng-show="isLoadFinishedWithNoVisibleOffers()">
+      <table>
+        <tr>
+          <td class="glyphicon glyphicon-info-sign" aria-hidden="true" />
+          <td class="alert-message">
+            <h4>Information</h4>
+            <p>Keine Mittagsangebote gefunden für {{location}} am {{day | date:'dd.MM.yyyy'}}! <!-- TODO: wenn i18n funktioniert umstellen auf {{day | date:'longDate'}}--></p>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="prov in providers | filterByLocation:location" ng-show="hasVisibleOffers(prov.id)">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{prov.name}}</h3>
+          </div>
+
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="offer in visibleOffers[prov.id]">
+              <div class="row">
+                <div class="col-xs-9 offer-name">{{offer.name}}</div>
+                <div class="col-xs-3 offer-price">{{offer.price | formatEuro}}</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- class="content" -->
 
   <div footer />
 
