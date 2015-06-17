@@ -8,24 +8,31 @@
       <h1>Mittagspause!</h1>
       <p>Aber wo gehen wir essen? Hier hilft Lunchbox.</p>
       <div id="app-badges">
-        <div class="text-center col-xs-12 col-sm-4">
-          <a class="btn" href="http://lunchbox.rori.info">
+        <div class="dropdown text-center col-xs-12 col-sm-4">
+          <a class="btn" href="/">
             <img alt="Web-App"
                  src="/assets/images/webapp.png" />
           </a>
-          <a class="btn" href="http://lunchbox.rori.info/feed?location=Neubrandenburg">
-            <img alt="Web-Feed"
-                 width="60px" height="60px" src="/assets/images/feed_icon.png" />
-          </a>
+          <div class="btn-group" dropdown>
+            <a class="btn dropdown-toggle" dropdown-toggle>
+              <img alt="Web-Feed"
+                   width="60px" height="60px" src="/assets/images/feed_icon.png" />
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <!-- TODO: Feed-Links dynamisch anhand vorhandener LunchProvider generieren -->
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="http://lunchbox.rori.info/feed?location=Neubrandenburg" target="_blank">Atom Web-Feed Neubrandenburg</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="http://lunchbox.rori.info/feed?location=Berlin" target="_blank">Atom Web-Feed Berlin</a></li>
+            </ul>
+          </div>
         </div>
         <div class="text-center col-xs-12 col-sm-4">
-          <a class="btn disabled" href="https://play.google.com/store/apps/details?id=packageName">
+          <a class="btn disabled" href="https://play.google.com/store/apps/details?id=packageName" target="_blank">
             <img alt="Android app on Google Play"
                  src="/assets/images/en_app_rgb_wo_60.png" />
           </a>
         </div>
         <div class="text-center col-xs-12 col-sm-4">
-          <a class="btn disabled" href="http://appstore.com/companyname/appname">
+          <a class="btn disabled" href="http://appstore.com/companyname/appname" target="_blank">
             <img alt="Download on the App Store"
                  src="/assets/images/appstore_badge.png" />
           </a>
@@ -40,16 +47,16 @@
           <tr>
             <td width="100%">Neubrandenburg</td>
             <td>
-              <a href="http://www.schweinestall-nb.de/">Schweinestall</a><br/>
-              <a href="http://www.hotel-am-ring.de/restaurant-rethra.html">Hotel am Ring</a><br/>
-              <a href="http://www.hotel-am-ring.de/aok-cafeteria.html">AOK Cafeteria</a><br/>
-              <a href="http://www.suppenkult.com/wochenplan.html">Suppenkulttour</a><br/>
+              <a href="http://www.schweinestall-nb.de/" target="_blank">Schweinestall</a><br/>
+              <a href="http://www.hotel-am-ring.de/restaurant-rethra.html" target="_blank">Hotel am Ring</a><br/>
+              <a href="http://www.hotel-am-ring.de/aok-cafeteria.html" target="_blank">AOK Cafeteria</a><br/>
+              <a href="http://www.suppenkult.com/wochenplan.html" target="_blank">Suppenkulttour</a><br/>
             </td>
           </tr>
           <tr>
             <td width="100%">Berlin</td>
             <td>
-              <a href="http://www.partyservice-rohde.de/bistro-salt-n-pepper/bistro-angebot-der-woche.html">Salt 'n' Pepper</a><br/>
+              <a href="http://www.partyservice-rohde.de/bistro-salt-n-pepper/bistro-angebot-der-woche.html" target="_blank">Salt 'n' Pepper</a><br/>
             </td>
           </tr>
         </table>
@@ -90,7 +97,6 @@
         </ul>-->
       </div>
     </div>
-
   </div> <!-- class="content" -->
 
   <div footer />
