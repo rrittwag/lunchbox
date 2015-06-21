@@ -167,6 +167,50 @@ describe('main controller', function(){
 
 
 
+  describe('daysInOffers', function() {
+    it('should be unique', function() {
+      var yesterday = new Date(Date.UTC(2015, 1, 4));
+      var today = new Date(Date.UTC(2015, 1, 5));
+      var tomorrow = new Date(Date.UTC(2015, 1, 6));
+      scope.offers = [{id: 1, name: 'Angebot 1', day: today, price: 550, provider: 1},
+                      {id: 2, name: 'Angebot 2', day: yesterday, price: 550, provider: 1},
+                      {id: 3, name: 'Angebot 3', day: today, price: 550, provider: 1},
+                      {id: 4, name: 'Angebot 3', day: tomorrow, price: 550, provider: 1},
+                      {id: 5, name: 'Angebot 3', day: tomorrow, price: 550, provider: 1},
+                      {id: 6, name: 'Angebot 3', day: today, price: 550, provider: 1}];
+
+      var result = scope.daysInOffers();
+
+      expect(result.length).toBe(3);
+      expect(result).toContain(yesterday);
+      expect(result).toContain(today);
+      expect(result).toContain(tomorrow);
+    });
+
+    it('should be sorted', function() {
+      var yesterday = new Date(Date.UTC(2015, 1, 4));
+      var today = new Date(Date.UTC(2015, 1, 5));
+      var tomorrow = new Date(Date.UTC(2015, 1, 6));
+      scope.offers = [{id: 1, name: 'Angebot 1', day: today, price: 550, provider: 1},
+                      {id: 2, name: 'Angebot 2', day: tomorrow, price: 550, provider: 1},
+                      {id: 3, name: 'Angebot 3', day: yesterday, price: 550, provider: 1}];
+
+      var result = scope.daysInOffers();
+
+      expect(result).toEqual([yesterday, today, tomorrow]);
+    });
+
+    it('should be empty when no offers exist', function() {
+      scope.offers = [];
+
+      var result = scope.daysInOffers();
+
+      expect(result.length).toBe(0);
+    });
+  });
+
+
+
   describe('prevDay', function() {
     it('should be yesterday when offer for yesterday exists', function() {
       scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"

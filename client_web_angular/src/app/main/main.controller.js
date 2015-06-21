@@ -66,22 +66,22 @@ app.controller('MainCtrl', function ($scope, _, LunchProviderStore, LunchOfferSt
     }
   };
 
-  function daysInOffers() {
+  $scope.daysInOffers = function() {
     return _.chain($scope.offers)
         .map(function(offer) { return new Date(Date.parse(offer.day)); })
-        .uniq()
-        .sort()
+        .uniq(false, function(offer) { return offer.getTime(); })
+        .sortBy(function(offer) { return offer.getTime(); })
         .value();
-  }
+  };
 
   $scope.prevDay = function() {
-    return _.chain(daysInOffers())
+    return _.chain($scope.daysInOffers())
         .filter(function(day) { return day < $scope.day; })
         .last().value();
   };
 
   $scope.nextDay = function() {
-    return _.chain(daysInOffers())
+    return _.chain($scope.daysInOffers())
         .filter(function(day) { return day > $scope.day; })
         .first().value();
   };
