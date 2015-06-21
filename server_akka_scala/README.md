@@ -44,7 +44,6 @@ Distribution
 TODOs
 -----
 
-* LunchOfferResolver für verbleibende Provider implementieren
 * Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
 * Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
 * Dockerfile generieren ...
