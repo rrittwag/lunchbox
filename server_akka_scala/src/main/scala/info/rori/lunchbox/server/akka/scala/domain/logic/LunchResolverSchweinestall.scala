@@ -33,7 +33,7 @@ class LunchResolverSchweinestall extends LunchResolver {
     val tdsInOffersTable = rootNode.evaluateXPath("//table[@id='cal_content']//td").map { case n: TagNode => n}
 
     for (fiveTDsForOneOffer <- tdsInOffersTable.grouped(5) /* je 5 td-Elemente sind ein Offer, aber ... */
-         if fiveTDsForOneOffer.size >= 3) {
+         if fiveTDsForOneOffer.length >= 3) {
       // ... nur die ersten 3 td sind nützlich
       val Array(firstTD, secondTD, thirdTD, _*) = fiveTDsForOneOffer
 

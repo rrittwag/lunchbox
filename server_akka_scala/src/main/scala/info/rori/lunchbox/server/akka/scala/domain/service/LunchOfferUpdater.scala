@@ -3,7 +3,7 @@ package info.rori.lunchbox.server.akka.scala.domain.service
 import akka.actor._
 import info.rori.lunchbox.server.akka.scala.domain.logic._
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchOffer, LunchProvider}
-import info.rori.lunchbox.server.akka.scala.domain.model.LunchProvider.{AOK_CAFETERIA, SUPPENKULTTOUR, HOTEL_AM_RING, SCHWEINESTALL}
+import info.rori.lunchbox.server.akka.scala.domain.model.LunchProvider._
 import scala.concurrent.duration._
 
 import scala.util.{Failure, Success}
@@ -44,7 +44,7 @@ class LunchOfferUpdater(lunchOfferService: ActorRef) extends Actor with ActorLog
 
     for (provider <- LunchProvider.values) {
       val nameForWorker = LunchOfferUpdateWorker.NamePrefix + provider.getClass.getSimpleName
-      if (!context.child(nameForWorker).isDefined)
+      if (context.child(nameForWorker).isEmpty)
         context.actorOf(LunchOfferUpdateWorker.props(self, provider), nameForWorker)
     }
   }
@@ -79,6 +79,7 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
       case HOTEL_AM_RING => new LunchResolverHotelAmRing().resolve
       case SUPPENKULTTOUR => new LunchResolverSuppenkulttour().resolve
       case AOK_CAFETERIA => new LunchResolverAokCafeteria().resolve
+      case SALT_N_PEPPER => new LunchResolverSaltNPepper().resolve
       case _ => Nil
     }
   } onComplete {

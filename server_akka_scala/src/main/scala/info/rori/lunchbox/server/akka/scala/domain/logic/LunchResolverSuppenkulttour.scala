@@ -123,7 +123,7 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     var priceOpt: Option[Money] = None
 
     val titleOpt = offerAttributesAsStrings.headOption
-    val remainingParts = if (offerAttributesAsStrings.size > 0) offerAttributesAsStrings.tail else Nil
+    val remainingParts = if (offerAttributesAsStrings.nonEmpty) offerAttributesAsStrings.tail else Nil
 
     remainingParts.foreach {
       case zusatz if isZusatzInfo(zusatz) => // erstmal ignorieren
@@ -132,7 +132,7 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     }
 
     val nameOpt = titleOpt.map (title =>
-      if (description.size > 0) s"$title: ${description.mkString(" ")}" else title
+      if (description.nonEmpty) s"$title: ${description.mkString(" ")}" else title
     )
 
     (nameOpt, priceOpt)
