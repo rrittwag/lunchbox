@@ -168,16 +168,16 @@ describe('main controller', function(){
 
 
   describe('daysInOffers', function() {
-    it('should be unique', function() {
+    it('should return unique dates', function() {
       var yesterday = new Date(Date.UTC(2015, 1, 4));
       var today = new Date(Date.UTC(2015, 1, 5));
       var tomorrow = new Date(Date.UTC(2015, 1, 6));
       scope.offers = [{id: 1, name: 'Angebot 1', day: today, price: 550, provider: 1},
                       {id: 2, name: 'Angebot 2', day: yesterday, price: 550, provider: 1},
                       {id: 3, name: 'Angebot 3', day: today, price: 550, provider: 1},
-                      {id: 4, name: 'Angebot 3', day: tomorrow, price: 550, provider: 1},
-                      {id: 5, name: 'Angebot 3', day: tomorrow, price: 550, provider: 1},
-                      {id: 6, name: 'Angebot 3', day: today, price: 550, provider: 1}];
+                      {id: 4, name: 'Angebot 4', day: tomorrow, price: 550, provider: 1},
+                      {id: 5, name: 'Angebot 5', day: tomorrow, price: 550, provider: 1},
+                      {id: 6, name: 'Angebot 6', day: today, price: 550, provider: 1}];
 
       var result = scope.daysInOffers();
 
@@ -187,7 +187,7 @@ describe('main controller', function(){
       expect(result).toContain(tomorrow);
     });
 
-    it('should be sorted', function() {
+    it('should return sorted dates', function() {
       var yesterday = new Date(Date.UTC(2015, 1, 4));
       var today = new Date(Date.UTC(2015, 1, 5));
       var tomorrow = new Date(Date.UTC(2015, 1, 6));
