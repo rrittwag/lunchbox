@@ -34,11 +34,9 @@ TODOs
 
 * Design: Lunchbox-Icon bereitstellen für NavBar & Favicon
 * Location-Auswähler bereitstellen (in NavBar?)
-* Feed-Auswahl auf Infoseite implementieren
 * Design: [Bootstrap-Tooltips-Erweiterung](http://getbootstrap.com/javascript/#tooltips) für alle Links/Interaktionen einsetzen
 * Test: auf Smartphone & Tab testen (inkl. NavBar-Menü-Buttons & schickes Design)
 * Location-Auswähler: Auswahl des Nutzers für nächsten Seitenaufruf merken
-* Design: Frameworks (via Icons) in Credits verlinken
 * Design: Lunchbox-Logo für Jumbotron bereitstellen
 * Projekt mit HTML5 Boilerplate abgleichen
 * Adress-Query-Parameter "day": gezielt die Angebote für einen Tag abfragen
@@ -66,5 +64,5 @@ Wissen
 * [AngularJS: Bootstrap-Navigationsleiste](https://angularjs.de/artikel/navigation-menu-bootstrap)
 * [Testing: Einführung in Unit-Testing mit AngularJS](https://docs.angularjs.org/guide/unit-testing)
 * [Testing: Einführung in BDD-Framework Jasmine](http://jasmine.github.io/2.2/introduction.html)
-* Design: Überblick zu [Bootstrap-Features](http://getbootstrap.com/css/) & [Bootstrap-Komponenten](http://getbootstrap.com/components/)
+* Design: Überblick zu [Bootstrap-Features](http://getbootstrap.com/css/), [Bootstrap-Komponenten](http://getbootstrap.com/components/) & [weitere AngularJS-Bootstrap-Komponenten](https://angular-ui.github.io/bootstrap/)
 * Design: [App Store Guideline](https://developer.apple.com/app-store/marketing/guidelines/de/) & [Google Play Badge Generator](https://developer.android.com/distribute/tools/promote/badges.html)
