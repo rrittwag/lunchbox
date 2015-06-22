@@ -6,7 +6,7 @@ app.directive('header', function() {
   return {
     restrict: 'A',
     replace: true,
-    templateUrl: 'components/header/header.html',
+    templateUrl: 'app/components/header/header.html',
     controller: 'HeaderCtrl'
   };
 });

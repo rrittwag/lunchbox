@@ -6,6 +6,6 @@ app.directive('footer', function() {
   return {
     restrict: 'A',
     replace: true,
-    templateUrl: 'components/footer/footer.html'
+    templateUrl: 'app/components/footer/footer.html'
   };
 });
