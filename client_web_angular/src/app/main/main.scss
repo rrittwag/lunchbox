@@ -1,0 +1,31 @@
+.day-control {
+  padding-bottom: 2em;
+
+  .btn {
+    font-size: 2em;
+  }
+
+  h2 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+
+.alert {
+  .glyphicon {
+    font-size: 3.5em;
+  }
+  .alert-message {
+    padding-left: 15px;
+  }
+}
+
+.offer-name {
+  padding-right: 8px;
+}
+
+.offer-price {
+  text-align: right;
+  white-space: nowrap;
+  padding-left: 0;
+}

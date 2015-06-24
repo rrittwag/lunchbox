@@ -1,0 +1,29 @@
+#app-badges {
+  display: inline-block;
+  padding: 1em 0em 0.5em 0em;
+
+  div {
+    padding: 0px;
+  }
+
+  .disabled {
+    opacity: 0.1;
+  }
+}
+
+.infobox {
+  padding-bottom: 15px;
+}
+
+#infobox-providers {
+  table {
+    width: 90%;
+    max-width: 400px;
+  }
+}
+
+#infobox-credits {
+  table {
+    max-width: 500px;
+  }
+}
