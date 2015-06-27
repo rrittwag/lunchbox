@@ -6,11 +6,11 @@ name := "lunchbox_server"
 
 version := "0.1"
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.7"
 
 libraryDependencies ++= {
   val akkaVersion = "2.3.11"
-  val akkaHttpVersion = "1.0-RC3"
+  val akkaHttpVersion = "1.0-RC4"
   Seq(
     // Akka
     "com.typesafe.akka" %% "akka-actor"      % akkaVersion,

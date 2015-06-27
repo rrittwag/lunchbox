@@ -6,7 +6,7 @@ import akka.http.scaladsl.marshalling._
 import akka.http.scaladsl.model.{ContentType, HttpResponse}
 import akka.http.scaladsl.model.MediaTypes._
 import akka.http.scaladsl.server.{Directives, Route}
-import akka.stream.scaladsl.ImplicitFlowMaterializer
+import akka.stream.scaladsl.ImplicitMaterializer
 import akka.util.Timeout
 import info.rori.lunchbox.server.akka.scala.ApplicationModule
 import info.rori.lunchbox.server.akka.scala.service.api.v1.ApiRouteV1
@@ -26,7 +26,7 @@ object HttpService {
 
 class HttpService(host: String, port: Int)(implicit askTimeout: Timeout)
   extends Actor
-  with ImplicitFlowMaterializer
+  with ImplicitMaterializer
   with MaintenanceRoute
   with ApiRouteV1
   with FeedRoute {
@@ -117,7 +117,7 @@ trait HttpJsonConversions extends DefaultJsonProtocol {
 
     implicit val printer: spray.json.JsonPrinter = CompactPrinter
 
-    implicit val marshaller = SprayJsonSupport.sprayJsValueMarshaller[A]
+    implicit val marshaller = SprayJsonSupport.sprayJsValueMarshaller
 
     def mapSeqToJsonResponse(f: R => Iterable[D]) = resultFuture.map(msg => toResponse(f(msg)))
 
