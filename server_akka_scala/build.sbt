@@ -23,6 +23,7 @@ libraryDependencies ++= {
     "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.12",
     "org.apache.commons"          %  "commons-lang3" % "3.4",
     "org.apache.pdfbox"           %  "pdfbox"        % "1.8.9",
+    "net.databinder.dispatch"     %% "dispatch-core" % "0.11.3",
     "org.scalactic"               %% "scalactic"     % "2.2.5",
     // test
 //    "com.typesafe.akka" %% "akka-testkit" % akkaV   % "test",
