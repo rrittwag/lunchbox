@@ -23,6 +23,10 @@ object OcrService {
   def doOCR(imageUrl: URL): Future[String] = {
     val imageFilename = imageUrl.getPath.substring(imageUrl.getPath.lastIndexOf('/') + 1, imageUrl.getPath.length)
 
+    /*
+      Tipp: Die HTTP-Requests an newocr.com (samt aller Header) lassen sich mit Wireshark loggen:
+      tshark -V -Y "http.request and http.host contains newocr" > tshark.log
+     */
     downloadImage(imageUrl)
       .flatMap(downloadImageResponse => uploadImageToNewocr(downloadImageResponse, imageFilename))
       .flatMap(fileId => startOcrOnNewocr(fileId))
