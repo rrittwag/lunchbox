@@ -24,7 +24,7 @@ object OcrService {
     val imageFilename = imageUrl.getPath.substring(imageUrl.getPath.lastIndexOf('/') + 1, imageUrl.getPath.length)
 
     /*
-      Tipp: Die HTTP-Requests an newocr.com (samt aller Header) lassen sich mit Wireshark loggen:
+      Tipp: Die HTTP-Requests an newocr.com lassen sich via Wireshark mitsamt aller Header loggen:
       tshark -V -Y "http.request and http.host contains newocr" > tshark.log
      */
     downloadImage(imageUrl)
