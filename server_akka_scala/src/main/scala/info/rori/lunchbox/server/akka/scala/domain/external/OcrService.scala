@@ -59,12 +59,12 @@ object OcrService {
   }
 
   private def parseFileIdOpt(jsonString: String): Option[String] = jsonString match {
-    case r""".*\"file_id\":\"([a-f\d]+)$fileId\".*""" => Option(fileId)
+    case r""".*\"file_id\":\"([a-f\d]+)$fileId\".*""" => Some(fileId)
     case _ => None
   }
 
   private def parseOcrTextOpt(jsonString: String): Option[String] = jsonString match {
-    case r""".*\"text\":\"(.*)$ocrText\",\"progress\".*""" => Option(ocrText)
+    case r""".*\"text\":\"(.*)$ocrText\",\"progress\".*""" => Some(ocrText)
     case _ => None
   }
 
