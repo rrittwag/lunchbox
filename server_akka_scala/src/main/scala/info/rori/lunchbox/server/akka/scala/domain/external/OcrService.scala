@@ -28,7 +28,7 @@ object OcrService {
       tshark -V -Y "http.request and http.host contains newocr" > tshark.log
      */
     downloadImage(imageUrl)
-      .flatMap(downloadImageResponse => uploadImageToNewocr(downloadImageResponse, imageFilename))
+      .flatMap(image => uploadImageToNewocr(image, imageFilename))
       .flatMap(fileId => startOcrOnNewocr(fileId))
   }
 
