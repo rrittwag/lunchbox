@@ -35,12 +35,12 @@ object OcrService {
   private def downloadImage(imageUrl: URL): dispatch.Future[Response] = Http(url(imageUrl.toString))
 
   private def uploadImageToNewocr(imageGetResp: Res, imageFilename: String): Future[String] = {
-    val newocrUploadReq = url("http://api.newocr.com/v1/upload").POST
+    val request = url("http://api.newocr.com/v1/upload").POST
       .addBodyPart(new ByteArrayPart("file", imageGetResp.getResponseBodyAsBytes, imageGetResp.getContentType, null, imageFilename))
       .addQueryParameter("key", NewocrApiKey)
 
-    Http(newocrUploadReq OK as.String).flatMap { newocrUploadRespString =>
-      parseFileIdOpt(newocrUploadRespString) match {
+    Http(request OK as.String).flatMap { responseString =>
+      parseFileIdOpt(responseString) match {
         case Some(fileId) => Future(fileId)
         case None => Future.failed(new Exception) // TODO: FileNotUploadedException ???
       }
@@ -48,13 +48,13 @@ object OcrService {
   }
 
   private def startOcrOnNewocr(fileId: String): Future[String] = {
-    val newocrOcrReq = url("http://api.newocr.com/v1/ocr")
+    val request = url("http://api.newocr.com/v1/ocr")
       .addQueryParameter("key", NewocrApiKey)
       .addQueryParameter("file_id", fileId)
       .addQueryParameter("lang", "deu")
 
-    Http(newocrOcrReq OK as.String).map { newocrOcrRespString =>
-      parseOcrTextOpt(newocrOcrRespString).getOrElse("")
+    Http(request OK as.String).map { responseString =>
+      parseOcrTextOpt(responseString).getOrElse("")
     }
   }
 
