@@ -1,4 +1,4 @@
-package info.rori.lunchbox.server.akka.scala.domain.external
+package info.rori.lunchbox.server.akka.scala.external
 
 import java.net.URL
 
