@@ -1,11 +1,11 @@
-package info.rori.lunchbox.server.akka.scala.service.feed
+package info.rori.lunchbox.server.akka.scala.api.feed
 
 import akka.http.scaladsl.marshalling._
 import akka.pattern.ask
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchProvider, LunchOffer}
 import info.rori.lunchbox.server.akka.scala.domain.service.{LunchOfferService => LOS}
 import info.rori.lunchbox.server.akka.scala.domain.service.{LunchProviderService => LPS}
-import info.rori.lunchbox.server.akka.scala.service.{HttpRoute, HttpXmlConversions}
+import info.rori.lunchbox.server.akka.scala.api.{HttpRoute, HttpXmlConversions}
 import org.joda.time.{DateTimeZone, LocalDate}
 
 import scala.concurrent.ExecutionContext

@@ -1,4 +1,4 @@
-package info.rori.lunchbox.server.akka.scala.service
+package info.rori.lunchbox.server.akka.scala.api
 
 import akka.actor.{Actor, ActorLogging, Props}
 import akka.http.scaladsl.Http
@@ -9,8 +9,8 @@ import akka.http.scaladsl.server.{Directives, Route}
 import akka.stream.scaladsl.ImplicitMaterializer
 import akka.util.Timeout
 import info.rori.lunchbox.server.akka.scala.ApplicationModule
-import info.rori.lunchbox.server.akka.scala.service.api.v1.ApiRouteV1
-import info.rori.lunchbox.server.akka.scala.service.feed.FeedRoute
+import info.rori.lunchbox.server.akka.scala.api.v1.ApiRouteV1
+import info.rori.lunchbox.server.akka.scala.api.feed.FeedRoute
 import org.joda.time.format.DateTimeFormat
 import spray.json.DefaultJsonProtocol
 

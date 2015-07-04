@@ -1,4 +1,4 @@
-package info.rori.lunchbox.server.akka.scala.service
+package info.rori.lunchbox.server.akka.scala.api
 
 import akka.actor._
 import com.typesafe.config.ConfigFactory
@@ -6,13 +6,13 @@ import com.typesafe.config.ConfigFactory
 /**
  * Erstellt und überwacht die Services, die Daten nach außen bereitstellen.
  */
-object ServiceModule {
+object ApiModule {
   val Name = "service"
 
-  def props = Props(new ServiceModule)
+  def props = Props(new ApiModule)
 }
 
-class ServiceModule
+class ApiModule
   extends Actor
   with ActorLogging {
 

@@ -1,9 +1,9 @@
-package info.rori.lunchbox.server.akka.scala.service.api.v1
+package info.rori.lunchbox.server.akka.scala.api.v1
 
 import akka.pattern.ask
 import info.rori.lunchbox.server.akka.scala.domain.model.LunchProvider
 import info.rori.lunchbox.server.akka.scala.domain.service.LunchProviderService._
-import info.rori.lunchbox.server.akka.scala.service.{HttpJsonConversions, HttpRoute}
+import info.rori.lunchbox.server.akka.scala.api.{HttpJsonConversions, HttpRoute}
 
 /**
  * Model für LunchProvider in API v1.
