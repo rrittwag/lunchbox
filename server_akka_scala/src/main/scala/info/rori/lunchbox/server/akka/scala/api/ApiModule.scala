@@ -20,8 +20,8 @@ class ApiModule
 
   val config = ConfigFactory.load()
 
-  private val host = config.getString("http.interface")
-  private val port = config.getInt("http.port")
+  private val host = config.getString("api.interface")
+  private val port = config.getInt("api.port")
   val httpServiceRef = context.actorOf(HttpService.props(host, port), HttpService.Name)
   context.watch(httpServiceRef)
 
