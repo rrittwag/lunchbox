@@ -15,7 +15,7 @@ import scala.concurrent.Future
  * & <a href="https://developers.facebook.com/docs/facebook-login/access-tokens#apptokens">Access Tokens</a>.
  * <p>
  */
-object FacebookService {
+object FacebookClient {
 
   def query(graphApiUrl: String): Future[String] = {
     val config = ConfigFactory.load()
@@ -25,6 +25,6 @@ object FacebookService {
     val request = url(s"https://graph.facebook.com/v2.3/${graphApiUrl.replaceFirst("^/", "")}").secure
       .addQueryParameter("access_token", s"$appId|$appSecret")
 
-    Http(request OK as.String)
+    Http.configure(_ setFollowRedirect true)(request OK as.String)
   }
 }

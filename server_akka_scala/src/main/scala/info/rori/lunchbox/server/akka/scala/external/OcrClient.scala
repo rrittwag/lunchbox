@@ -14,7 +14,7 @@ import scala.util.matching.Regex
 /**
  * Service für das Auslesen von Text aus einem Bild (OCR).
  */
-object OcrService {
+object OcrClient {
 
   implicit class RegexContext(sc: StringContext) {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
