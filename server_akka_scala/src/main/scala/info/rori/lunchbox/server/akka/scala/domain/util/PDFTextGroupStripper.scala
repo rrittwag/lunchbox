@@ -1,7 +1,7 @@
-package info.rori.lunchbox.server.akka.scala.domain.logic
+package info.rori.lunchbox.server.akka.scala.domain.util
 
 import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.util.{TextPosition, PDFTextStripper}
+import org.apache.pdfbox.util.{PDFTextStripper, TextPosition}
 import org.scalactic.Tolerance._
 import org.scalactic.TripleEquals._
 

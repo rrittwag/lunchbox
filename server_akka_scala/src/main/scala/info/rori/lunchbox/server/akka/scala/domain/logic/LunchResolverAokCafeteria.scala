@@ -4,6 +4,7 @@ import java.io.FileNotFoundException
 import java.net.URL
 
 import info.rori.lunchbox.server.akka.scala.domain.model._
+import info.rori.lunchbox.server.akka.scala.domain.util.{TextLine, PDFTextGroupStripper}
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}

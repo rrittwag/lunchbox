@@ -1,4 +1,4 @@
-package info.rori.lunchbox.server.akka.scala.domain.logic
+package info.rori.lunchbox.server.akka.scala.domain.util
 
 import java.io.FileNotFoundException
 import java.net.URL
@@ -6,7 +6,7 @@ import java.net.URL
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.util.TextPosition
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.{FlatSpec, Matchers}
 
 class PDFTextGroupStripperSpec extends FlatSpec with Matchers with MockFactory {
 
@@ -105,11 +105,11 @@ class PDFTextGroupStripperSpec extends FlatSpec with Matchers with MockFactory {
 
   private def text(pos: Pos, width: Float, height: Float, char: String): TextPosition = {
     val mockPos = mock[TextPosition]
-    (mockPos.getX _).expects().returns(pos.x).anyNumberOfTimes
-    (mockPos.getY _).expects().returns(pos.y).anyNumberOfTimes
-    (mockPos.getWidth _).expects().returns(width).anyNumberOfTimes
-    (mockPos.getHeight _).expects().returns(height).anyNumberOfTimes
-    (mockPos.getCharacter _).expects().returns(char).anyNumberOfTimes
+    (mockPos.getX _).expects().returns(pos.x).anyNumberOfTimes()
+    (mockPos.getY _).expects().returns(pos.y).anyNumberOfTimes()
+    (mockPos.getWidth _).expects().returns(width).anyNumberOfTimes()
+    (mockPos.getHeight _).expects().returns(height).anyNumberOfTimes()
+    (mockPos.getCharacter _).expects().returns(char).anyNumberOfTimes()
     mockPos
   }
 
@@ -127,7 +127,7 @@ class PDFTextGroupStripperSpec extends FlatSpec with Matchers with MockFactory {
       case fnf: FileNotFoundException => System.out.println(s"file $pdfUrl not found") // TODO: loggen
       case t: Throwable => System.out.println(t.getMessage) // TODO: loggen
     } finally {
-      optPdfDoc.map(_.close())
+      optPdfDoc.foreach(_.close())
     }
     pdfContent
   }
