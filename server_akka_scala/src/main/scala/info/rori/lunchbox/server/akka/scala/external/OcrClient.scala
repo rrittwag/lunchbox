@@ -11,6 +11,8 @@ import dispatch._
 import scala.concurrent.Future
 import scala.util.matching.Regex
 
+import play.api.libs.json._
+
 /**
  * Service für das Auslesen von Text aus einem Bild (OCR).
  */
@@ -58,15 +60,11 @@ object OcrClient {
     }
   }
 
-  private def parseFileIdOpt(jsonString: String): Option[String] = jsonString match {
-    case r""".*\"file_id\":\"([a-f\d]+)$fileId\".*""" => Some(fileId)
-    case _ => None
-  }
+  private def parseFileIdOpt(jsonString: String): Option[String] =
+    (Json.parse(jsonString) \ "data" \ "file_id").asOpt[String]
 
-  private def parseOcrTextOpt(jsonString: String): Option[String] = jsonString match {
-    case r""".*\"text\":\"(.*)$ocrText\",\"progress\".*""" => Some(ocrText)
-    case _ => None
-  }
+  private[external] def parseOcrTextOpt(jsonString: String): Option[String] =
+    (Json.parse(jsonString) \ "data" \ "text").asOpt[String]
 
   private lazy val NewocrApiKey = ConfigFactory.load().getString("external.newocr.apikey")
 }

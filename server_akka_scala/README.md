@@ -44,7 +44,10 @@ Distribution
 TODOs
 -----
 
-* LunchProvider ["Kantine Quakatz"](https://www.facebook.com/pages/Kantine-BQuakatz-Allee-der-Kosmonauten/181190361991823) per OCR einlesbar (?)
+* LunchResolver für Gesundheitszentrum implementieren
+* LunchResolver für Suppenkulttour: Info über Zusatzstoffe - z.B. "i,g,k" - entfernen
+* alte Mittagsangebote beim Update löschen (Angebote aktueller und voriger Woche erhalten)
+* Update-Schedule präzisieren: täglich um 6 Uhr aktualisieren, über den Montagvormittag verteilt sogar mehrmals
 * Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
 * Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
 * Dockerfile generieren ...
@@ -52,6 +55,8 @@ TODOs
   * ... oder via [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
 * [in Vagrant deployen](https://github.com/pussinboots/sbt-rpm)
 * Akka-Supervisioning beschreiben
+* Unit-Tests für Aktoren schreiben
+* Unit-Tests für API schreiben
 * Caching der Requests (spray-caching?)
 * Publish: sbt-release einsetzen + privates Maven-Repo?
 * TODOs in Code abarbeiten
