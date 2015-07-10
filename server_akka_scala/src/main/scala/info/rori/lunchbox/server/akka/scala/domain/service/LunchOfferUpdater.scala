@@ -73,17 +73,16 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
   import ExecutionContext.Implicits.global
   import LunchOfferUpdater._
 
-  Future {
-    lunchProvider match {
-      case SCHWEINESTALL => new LunchResolverSchweinestall().resolve
-      case HOTEL_AM_RING => new LunchResolverHotelAmRing().resolve
-      case SUPPENKULTTOUR => new LunchResolverSuppenkulttour().resolve
-      case AOK_CAFETERIA => new LunchResolverAokCafeteria().resolve
-      case SALT_N_PEPPER => new LunchResolverSaltNPepper().resolve
-      case GESUNDHEITSZENTRUM => new LunchResolverGesundheitszentrum().resolve
-      case _ => Nil
-    }
-  } onComplete {
+  val offersFuture: Future[Seq[LunchOffer]] = lunchProvider match {
+    case SCHWEINESTALL => new LunchResolverSchweinestall().resolve
+    case HOTEL_AM_RING => new LunchResolverHotelAmRing().resolve
+    case SUPPENKULTTOUR => new LunchResolverSuppenkulttour().resolve
+    case AOK_CAFETERIA => new LunchResolverAokCafeteria().resolve
+    case SALT_N_PEPPER => new LunchResolverSaltNPepper().resolve
+    case GESUNDHEITSZENTRUM => new LunchResolverGesundheitszentrum().resolve
+    case _ => Future(Nil)
+  }
+  offersFuture.onComplete {
     case Success(offers) =>
       lunchOfferUpdater ! WorkerFinished(offers)
       self ! PoisonPill

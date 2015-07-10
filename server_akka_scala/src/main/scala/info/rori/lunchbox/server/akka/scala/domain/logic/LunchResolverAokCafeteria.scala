@@ -11,6 +11,9 @@ import org.joda.money.{CurrencyUnit, Money}
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
+import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext.Implicits.global
+
 import scala.util.matching.Regex
 
 class LunchResolverAokCafeteria extends LunchResolver {
@@ -45,12 +48,14 @@ class LunchResolverAokCafeteria extends LunchResolver {
   }
 
 
-  override def resolve: Seq[LunchOffer] = {
+  override def resolve: Future[Seq[LunchOffer]] = {
     val pdfLinks = resolvePdfLinks(new URL("http://www.hotel-am-ring.de/aok-cafeteria.html"))
 
-    pdfLinks.flatMap(relativePdfPath =>
-      resolveFromPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfPath))
-    )
+    Future {
+      pdfLinks.flatMap(relativePdfPath =>
+        resolveFromPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfPath))
+      )
+    }
   }
 
   private[logic] def resolvePdfLinks(htmlUrl: URL): Seq[String] = {

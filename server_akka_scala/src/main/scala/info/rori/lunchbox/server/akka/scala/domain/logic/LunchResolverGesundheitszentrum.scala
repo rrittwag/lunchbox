@@ -9,6 +9,8 @@ import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
 import scala.concurrent.{ExecutionContext, Future}
+import ExecutionContext.Implicits.global
+
 import scala.util.matching.Regex
 
 import play.api.libs.json._
@@ -41,19 +43,11 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
   }
 
-  override def resolve: Seq[LunchOffer] = {
-    import scala.concurrent.ExecutionContext.Implicits.global
-
-    var results = Seq[LunchOffer]()
-
+  override def resolve: Future[Seq[LunchOffer]] =
     // von der Facebook-Seite der Kantine die Posts als JSON abfragen (beschränt auf Text und Anhänge)
-    for (facebookPosts <- FacebookClient.query("181190361991823/posts?fields=message,attachments");
-         wochenplan <- parseWochenplaene(facebookPosts).takeWhile(isWochenplanRelevant);
-         offers <- resolveOffersFromWochenplan(wochenplan))
-      results ++= offers
-
-    results
-  }
+    FacebookClient.query("181190361991823/posts?fields=message,attachments")
+       .map( facebookPosts => parseWochenplaene(facebookPosts).takeWhile(isWochenplanRelevant) )
+       .flatMap( wochenplaene => resolveOffersFromWochenplaene( wochenplaene) )
 
   private[logic] def parseWochenplaene(facebookPostsAsJson: String): Seq[Wochenplan] =
     for (post <- (Json.parse(facebookPostsAsJson) \ "data").as[Seq[JsValue]];
@@ -64,7 +58,13 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
          imageId <- (imageAttachment \ "target" \ "id").asOpt[String])
       yield Wochenplan(monday, imageId)
 
-  private[logic] def resolveOffersFromWochenplan(plan: Wochenplan)(implicit ec: ExecutionContext): Future[Seq[LunchOffer]] =
+  private[logic] def resolveOffersFromWochenplaene(wochenplaene: Seq[Wochenplan]): Future[Seq[LunchOffer]] = {
+    val listOfFutures = wochenplaene.map( wochenplan => resolveOffersFromWochenplan(wochenplan) )
+    Future.sequence( listOfFutures )
+      .map( listOfList => listOfList.foldLeft(Seq[LunchOffer]())( (sum, elem) => sum ++ elem ) )
+  }
+
+  private[logic] def resolveOffersFromWochenplan(plan: Wochenplan): Future[Seq[LunchOffer]] =
     FacebookClient.query(plan.mittagsplanImageId)
       .flatMap(facebookImageJson => doOcr(parseUrlOfBiggestImage(facebookImageJson)))
       .map(ocrText => resolveOffersFromText(plan.monday, ocrText))

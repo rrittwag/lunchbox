@@ -10,6 +10,9 @@ import org.joda.money.{CurrencyUnit, Money}
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
+import scala.concurrent.{ExecutionContext, Future}
+import ExecutionContext.Implicits.global
+
 import util.matching.Regex
 
 class LunchResolverSchweinestall extends LunchResolver {
@@ -18,8 +21,8 @@ class LunchResolverSchweinestall extends LunchResolver {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
   }
 
-  override def resolve: Seq[LunchOffer] = {
-    resolve(new URL("http://www.schweinestall-nb.de/index.php?id=159"))
+  override def resolve: Future[Seq[LunchOffer]] = {
+    Future(resolve(new URL("http://www.schweinestall-nb.de/index.php?id=159")))
   }
 
   private[logic] def resolve(url: URL): Seq[LunchOffer] = {

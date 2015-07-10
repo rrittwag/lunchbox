@@ -9,7 +9,9 @@ import org.joda.money.{CurrencyUnit, Money}
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.matching.Regex
+import ExecutionContext.Implicits.global
 
 class LunchResolverSaltNPepper extends LunchResolver {
 
@@ -32,8 +34,8 @@ class LunchResolverSaltNPepper extends LunchResolver {
     val values = weekdaysValues :+ WOCHENANGEBOT
   }
 
-  override def resolve: Seq[LunchOffer] = {
-    resolve(new URL("http://www.partyservice-rohde.de/bistro-angebot-der-woche/"))
+  override def resolve: Future[Seq[LunchOffer]] = {
+    Future { resolve(new URL("http://www.partyservice-rohde.de/bistro-angebot-der-woche/")) }
   }
 
   private[logic] def resolve(url: URL): Seq[LunchOffer] = {
