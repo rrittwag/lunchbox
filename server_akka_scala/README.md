@@ -44,7 +44,6 @@ Distribution
 TODOs
 -----
 
-* LunchResolver für Gesundheitszentrum implementieren
 * LunchResolver für Suppenkulttour: Info über Zusatzstoffe - z.B. "i,g,k" - entfernen
 * alte Mittagsangebote beim Update löschen (Angebote aktueller und voriger Woche erhalten)
 * Update-Schedule präzisieren: täglich um 6 Uhr aktualisieren, über den Montagvormittag verteilt sogar mehrmals

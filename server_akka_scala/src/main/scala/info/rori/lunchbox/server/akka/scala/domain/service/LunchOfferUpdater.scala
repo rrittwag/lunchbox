@@ -80,6 +80,7 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
       case SUPPENKULTTOUR => new LunchResolverSuppenkulttour().resolve
       case AOK_CAFETERIA => new LunchResolverAokCafeteria().resolve
       case SALT_N_PEPPER => new LunchResolverSaltNPepper().resolve
+      case GESUNDHEITSZENTRUM => new LunchResolverGesundheitszentrum().resolve
       case _ => Nil
     }
   } onComplete {

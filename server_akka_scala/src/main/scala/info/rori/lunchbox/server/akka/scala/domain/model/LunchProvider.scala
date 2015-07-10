@@ -17,8 +17,9 @@ object LunchProvider {
   case object HOTEL_AM_RING extends LunchProvider(2, "Hotel am Ring", "Neubrandenburg")
   case object AOK_CAFETERIA extends LunchProvider(3, "AOK Cafeteria", "Neubrandenburg")
   case object SUPPENKULTTOUR extends LunchProvider(4, "Suppenkulttour", "Neubrandenburg")
-  case object SALT_N_PEPPER extends LunchProvider(5, "Salt 'n' Pepper", "Berlin")
+  case object SALT_N_PEPPER extends LunchProvider(5, "Salt 'n' Pepper", "Berlin Springpfuhl")
+  case object GESUNDHEITSZENTRUM extends LunchProvider(6, "Gesundheitszentrum", "Berlin Springpfuhl")
 
   // TODO: improve with macro, see https://github.com/d6y/enumeration-examples & http://underscore.io/blog/posts/2014/09/03/enumerations.html
-  val values = TreeSet[LunchProvider](SCHWEINESTALL, HOTEL_AM_RING, AOK_CAFETERIA, SUPPENKULTTOUR, SALT_N_PEPPER)
+  val values = TreeSet[LunchProvider](SCHWEINESTALL, HOTEL_AM_RING, AOK_CAFETERIA, SUPPENKULTTOUR, SALT_N_PEPPER, GESUNDHEITSZENTRUM)
 }
