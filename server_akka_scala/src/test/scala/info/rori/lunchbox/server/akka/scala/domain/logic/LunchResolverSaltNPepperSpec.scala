@@ -70,6 +70,14 @@ class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers {
     offers.filter(_.day == date("2015-05-29")) should have size 4
   }
 
+  it should "resolve offers for week of 2015-07-11" in {
+    val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2015-07-11.html")
+
+    val offers = new LunchResolverSaltNPepper().resolve(url)
+
+    offers should have size 24
+  }
+
   private val Id = LunchProvider.SALT_N_PEPPER.id
   private def date(dateString: String): LocalDate = LocalDate.parse(dateString)
   private def euro(moneyString: String): Money = Money.parse(s"EUR $moneyString")
