@@ -34,9 +34,8 @@ class LunchResolverSaltNPepper extends LunchResolver {
     val values = weekdaysValues :+ WOCHENANGEBOT
   }
 
-  override def resolve: Future[Seq[LunchOffer]] = {
+  override def resolve: Future[Seq[LunchOffer]] =
     Future { resolve(new URL("http://www.partyservice-rohde.de/bistro-angebot-der-woche/")) }
-  }
 
   private[logic] def resolve(url: URL): Seq[LunchOffer] = {
     val props = new CleanerProperties

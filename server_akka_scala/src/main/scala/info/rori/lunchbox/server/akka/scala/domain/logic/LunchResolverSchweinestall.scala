@@ -21,9 +21,8 @@ class LunchResolverSchweinestall extends LunchResolver {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
   }
 
-  override def resolve: Future[Seq[LunchOffer]] = {
+  override def resolve: Future[Seq[LunchOffer]] =
     Future(resolve(new URL("http://www.schweinestall-nb.de/index.php?id=159")))
-  }
 
   private[logic] def resolve(url: URL): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()

@@ -11,7 +11,7 @@ import org.joda.money.{CurrencyUnit, Money}
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.matching.Regex
 
@@ -49,15 +49,9 @@ class LunchResolverHotelAmRing extends LunchResolver {
   }
 
 
-  override def resolve: Future[Seq[LunchOffer]] = {
-    val pdfLinks = resolvePdfLinks(new URL("http://www.hotel-am-ring.de/restaurant-rethra.html"))
-
-    Future {
-      pdfLinks.flatMap(relativePdfPath =>
-        resolveFromPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfPath))
-      )
-    }
-  }
+  override def resolve: Future[Seq[LunchOffer]] =
+    Future { resolvePdfLinks(new URL("http://www.hotel-am-ring.de/restaurant-rethra.html")) }
+      .flatMap(relativePdfPaths => resolveFromPdfs(relativePdfPaths))
 
   private[logic] def resolvePdfLinks(htmlUrl: URL): Seq[String] = {
     val props = new CleanerProperties
@@ -67,6 +61,13 @@ class LunchResolverHotelAmRing extends LunchResolver {
     val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n}.toSet
 
     links.filter(_ matches """.*/Mittagspause_.+.pdf""").toList
+  }
+
+  private def resolveFromPdfs(relativePdfPaths: Seq[String]): Future[Seq[LunchOffer]] = {
+    val listOfFutures = relativePdfPaths.map( relativePdfPath =>
+      Future { resolveFromPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfPath)) }
+    )
+    Future.sequence(listOfFutures).map(listOfLists => listOfLists.flatten)
   }
 
   private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] = {

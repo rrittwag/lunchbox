@@ -40,7 +40,8 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     val values = List[Weekday](MONTAG, DIENSTAG, MITTWOCH, DONNERSTAG, FREITAG)
   }
 
-  override def resolve: Future[Seq[LunchOffer]] = Future { resolve(new URL("http://www.suppenkult.com/wochenplan.html")) }
+  override def resolve: Future[Seq[LunchOffer]] =
+    Future { resolve(new URL("http://www.suppenkult.com/wochenplan.html")) }
 
   private[logic] def resolve(url: URL): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()

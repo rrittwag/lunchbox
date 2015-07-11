@@ -60,8 +60,7 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
 
   private[logic] def resolveOffersFromWochenplaene(wochenplaene: Seq[Wochenplan]): Future[Seq[LunchOffer]] = {
     val listOfFutures = wochenplaene.map( wochenplan => resolveOffersFromWochenplan(wochenplan) )
-    Future.sequence( listOfFutures )
-      .map( listOfLists => listOfLists.flatten )
+    Future.sequence( listOfFutures ).map( listOfLists => listOfLists.flatten )
   }
 
   private[logic] def resolveOffersFromWochenplan(plan: Wochenplan): Future[Seq[LunchOffer]] =
