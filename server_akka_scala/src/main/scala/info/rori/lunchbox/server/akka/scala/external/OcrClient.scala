@@ -1,6 +1,7 @@
 package info.rori.lunchbox.server.akka.scala.external
 
 import java.net.URL
+import java.nio.charset.StandardCharsets
 
 import com.ning.http.client.Response
 import com.ning.http.client.multipart.ByteArrayPart
@@ -55,8 +56,10 @@ object OcrClient {
       .addQueryParameter("file_id", fileId)
       .addQueryParameter("lang", "deu")
 
-    Http(request OK as.String).map { responseString =>
-      parseOcrTextOpt(responseString).getOrElse("")
+    Http(request OK as.Bytes).map { responseAsBytes =>
+      // Dispatch erkennt das falsche Charset, daher wandle ich hier manuell in UTF-8 um
+      val responseString = new String(responseAsBytes, StandardCharsets.UTF_8)
+      println(responseString); parseOcrTextOpt(responseString).getOrElse("")
     }
   }
 

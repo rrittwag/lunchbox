@@ -47,7 +47,7 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
     // von der Facebook-Seite der Kantine die Posts als JSON abfragen (beschränt auf Text und Anhänge)
     FacebookClient.query("181190361991823/posts?fields=message,attachments")
        .map( facebookPosts => parseWochenplaene(facebookPosts).takeWhile(isWochenplanRelevant) )
-       .flatMap( wochenplaene => resolveOffersFromWochenplaene( wochenplaene) )
+       .flatMap( wochenplaene => resolveOffersFromWochenplaene(wochenplaene) )
 
   private[logic] def parseWochenplaene(facebookPostsAsJson: String): Seq[Wochenplan] =
     for (post <- (Json.parse(facebookPostsAsJson) \ "data").as[Seq[JsValue]];
@@ -61,7 +61,7 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
   private[logic] def resolveOffersFromWochenplaene(wochenplaene: Seq[Wochenplan]): Future[Seq[LunchOffer]] = {
     val listOfFutures = wochenplaene.map( wochenplan => resolveOffersFromWochenplan(wochenplan) )
     Future.sequence( listOfFutures )
-      .map( listOfList => listOfList.foldLeft(Seq[LunchOffer]())( (sum, elem) => sum ++ elem ) )
+      .map( listOfLists => listOfLists.flatten )
   }
 
   private[logic] def resolveOffersFromWochenplan(plan: Wochenplan): Future[Seq[LunchOffer]] =
@@ -111,7 +111,7 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
     var result = Seq[LunchOffer]()
     var preLine = ""
 
-    for (line <- lines.map(correctOcrErrors).map(removeUnnecessaryText)) {
+    for (line <- lines) {
       val lineWithPreLine = s"$preLine $line".trim
       resolveOfferFromLine(section, lineWithPreLine, monday) match {
         case Some(offer) =>
@@ -126,10 +126,11 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
   }
 
   private def resolveOfferFromLine(section: PdfSection, line: String, monday: LocalDate): Option[LunchOffer] = line match {
-      case r"""(.*)$text(\d{1,} ?[.,] ?\d{2})$priceStr""" =>
+      case r"""(.*)$rawText (\d{1,} ?[.,] ?\d{2})$priceStr""" =>
+        val text = removeUnnecessaryText(correctOcrErrors(rawText)).trim
         parsePrice(priceStr) match {
           case Some(price) =>
-            Some(LunchOffer(0, text.trim, monday.plusDays(section.order), price, LunchProvider.GESUNDHEITSZENTRUM.id))
+            Some(LunchOffer(0, text, monday.plusDays(section.order), price, LunchProvider.GESUNDHEITSZENTRUM.id))
           case _ => None
         }
       case _ => None
@@ -142,7 +143,7 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
       .replaceAll("uiasch", "ulasch")
       .replaceAll("oiikorn", "ollkorn")
       .replaceAll("Kiöße", "Klöße")
-      .replaceAll(" kcai ", " kcal ")
+      .replaceAll(" kcai", " kcal")
       .replaceAll("Müiier", "Müller")
       .replaceAll("oreiie", "orelle")
       .replaceAll("Saiz", "Salz")
@@ -158,13 +159,15 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
       .replaceAll("utiauf", "uflauf")
       .replaceAll("ufiauf", "uflauf")
       .replaceAll(" 2 und ", " und ")
+      .replaceAll(" 2 *$", "")
+      .replaceAll(" 3.14 ", " ") // schlecht OCR-ed Zusatzstoffe
   }
 
   private def removeUnnecessaryText(text: String) =
     text.trim.replaceFirst("FlTNESS", "")
       .trim.replaceAll("^F.? ", "")
       .trim.replaceAll("""^\d.? """, "")
-      .trim.replaceAll(""" \d+ kcal """, "").trim
+      .trim.replaceAll(""" \d+ kcal""", "").trim
 
   /**
    * Erzeugt ein LocalDate aus dem Format "*dd.mm.yyyy*"

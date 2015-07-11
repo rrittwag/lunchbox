@@ -62,6 +62,39 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers {
     offers should contain (LunchOffer(0, "Kräuterrüherei mit Kartoffelpüree", week.friday, euro("3.80"), Id))
   }
 
+  it should "resolve offers for week of 2015-06-29" in {
+    val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2015-06-29_ocr.txt")
+    val week = weekOf("2015-06-29")
+
+    val offers = new LunchResolverGesundheitszentrum().resolveOffersFromText(week.monday, text)
+
+    offers should have size 20
+    offers should contain (LunchOffer(0, "Bunter Gemüseeintopf", week.monday, euro("2.40"), Id))
+    offers should contain (LunchOffer(0, "Hausgemachte Boulette mit Mischgemüse und Kartoffelpüree", week.monday, euro("4.00"), Id))
+    offers should contain (LunchOffer(0, "Schweinekammbraten mit Rotkohl und Klöße", week.monday, euro("4.50"), Id))
+    offers should contain (LunchOffer(0, "Pasta mit Pilzrahmsauce", week.monday, euro("3.80"), Id))
+
+    offers should contain (LunchOffer(0, "Grießbrei mit roten Früchten", week.tuesday, euro("2.90"), Id))
+    offers should contain (LunchOffer(0, "Blutwurst mit Sauerkraut und Salzkartoffeln", week.tuesday, euro("4.00"), Id))
+    offers should contain (LunchOffer(0, "Schweinerollbraten mit grünen Bohnen und Salzkartoffeln", week.tuesday, euro("4.60"), Id))
+    offers should contain (LunchOffer(0, "Pilzragout mit Semmelknödel", week.tuesday, euro("4.00"), Id))
+
+    offers should contain (LunchOffer(0, "Minestrone", week.wednesday, euro("2.40"), Id))
+    offers should contain (LunchOffer(0, "Gefüllte Paprikaschote mit Tomatensauce und Reis", week.wednesday, euro("4.10"), Id))
+    offers should contain (LunchOffer(0, "Hähnchenbrust mit Wirsingrahmgemüse und Salzkartoffeln", week.wednesday, euro("4.70"), Id))
+    offers should contain (LunchOffer(0, "Pangasiusfilet mit Honig-Senf-Dillrahmsauce dazu Salzkartoffeln", week.wednesday, euro("4.60"), Id))
+
+    offers should contain (LunchOffer(0, "Feuertopf (Kidneybohnen, grüne Bohnen, Jagdwurst)", week.thursday, euro("2.90"), Id))
+    offers should contain (LunchOffer(0, "Paprikasahnegulasch mit Nudeln", week.thursday, euro("4.10"), Id))
+    offers should contain (LunchOffer(0, "Rieseneisbein mit Sauerkraut und Salzkartoffeln", week.thursday, euro("4.90"), Id))
+    offers should contain (LunchOffer(0, "Kartoffel-Tomaten-Zucchini-Auflauf mit Mozzarella überbacken", week.thursday, euro("3.90"), Id))
+
+    offers should contain (LunchOffer(0, "Porreeeintopf", week.friday, euro("2.40"), Id))
+    offers should contain (LunchOffer(0, "Hackbraten mit Mischgemüse und Salzkartoffeln", week.friday, euro("4.00"), Id))
+    offers should contain (LunchOffer(0, "Wildgulasch mit Rotkohl und Klöße", week.friday, euro("4.60"), Id))
+    offers should contain (LunchOffer(0, "Matjestopf mit Bohnensalat und Kräuterkartoffeln", week.friday, euro("4.20"), Id))
+  }
+
   it should "resolve offers for badly OCR-able plan of week of 2015-06-15" in {
     val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2015-06-15_ocr.txt")
     val week = weekOf("2015-06-15")
