@@ -10,6 +10,7 @@ import dispatch.Defaults._
 import dispatch._
 
 import scala.concurrent.Future
+import scala.concurrent.duration._
 import scala.util.matching.Regex
 
 import play.api.libs.json._
@@ -32,6 +33,7 @@ object OcrClient {
      */
     downloadImage(imageUrl)
       .flatMap(image => uploadImageToNewocr(image, imageFilename))
+      .map(sleep(3.seconds)) // newocr.com braucht ein wenig Pause zwischen Upload und OCR
       .flatMap(fileId => startOcrOnNewocr(fileId))
   }
 
@@ -59,8 +61,13 @@ object OcrClient {
     Http(request OK as.Bytes).map { responseAsBytes =>
       // Dispatch erkennt das falsche Charset, daher wandle ich hier manuell in UTF-8 um
       val responseString = new String(responseAsBytes, StandardCharsets.UTF_8)
-      println(responseString); parseOcrTextOpt(responseString).getOrElse("")
+      parseOcrTextOpt(responseString).getOrElse("")
     }
+  }
+
+  private def sleep[T](seconds: FiniteDuration)(result: T): T = {
+    Thread sleep seconds.toMillis
+    result
   }
 
   private def parseFileIdOpt(jsonString: String): Option[String] =
