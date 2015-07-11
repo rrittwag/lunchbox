@@ -52,7 +52,7 @@ class LunchResolverSaltNPepper extends LunchResolver {
   private def resolveMonday(nodes: Seq[TagNode]): Option[LocalDate] =
     nodes
       .map( parseName(_).replaceAll("\n", "") )
-      .find( _.contains("In der Woche vom:") )
+      .find( _.contains("täglich von") )
       .flatMap( parseDay )
       .map( toMonday )
 
