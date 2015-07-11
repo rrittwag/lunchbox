@@ -66,7 +66,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers {
 
     offers should contain (LunchOffer(0, "Urad DAL: mit Urad Linsen, Tumerik, schwarze Senfkörner, Ingwer dazu Joghurt verrührt mit braunem Zucker (wahlweise)",date("2015-03-16"),euro("4.30"),Id))
     offers should contain (LunchOffer(0, "Pasta Pollo: mit Rahmgeschnetzeltem vom Huhn, Gemüse, Sahne",date("2015-03-17"),euro("4.30"),Id))
-    offers should contain (LunchOffer(0, "Winzersuppe - Käsesuppe: mit Schmelzkäse, Champignons, Rinderhack verfeinert mit Weißwein (2,3,4)",date("2015-03-18"),euro("4.30"),Id))
+    offers should contain (LunchOffer(0, "Winzersuppe - Käsesuppe: mit Schmelzkäse, Champignons, Rinderhack verfeinert mit Weißwein",date("2015-03-18"),euro("4.30"),Id))
     offers should contain (LunchOffer(0, "Metaxa Suppe: mit Schweinefleisch, Paprika, Zwiebeln, Sahne, Metaxa,",date("2015-03-19"),euro("4.30"),Id))
     offers should contain (LunchOffer(0, "Präsidentensuppe: mit Hackfleisch, Tomaten, Sauerkraut, Gewürzgurken, wahlweise saure Sahne",date("2015-03-20"),euro("4.30"),Id))
   }
@@ -95,6 +95,24 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers {
 
     offers should contain (LunchOffer(0, "Rosenkohleintopf: mit Kartoffeln, Möhren, Rosenkohl, Kohlrabi, wahlweise + Bratwurst", date("2015-04-13"), euro("4.30"), Id))
     offers should contain (LunchOffer(0, "Pasta mit Ossiwürstchengulasch: mit Letscho, Würstchen, Paprika, süß - saure Note", date("2015-04-14"), euro("4.30"), Id))
+  }
+
+  it should "resolve offers for week of 2015-07-06" in {
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-07-06.html")
+
+    val offers = new LunchResolverSuppenkulttour().resolve(url)
+
+    offers should have size 40
+
+    offers should contain (LunchOffer(0, "Hackfleisch - Kartoffelsuppe: mit Hackfleisch, Quark, Möhren, Kohlrabi, Kartoffeln", date("2015-07-06"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Chicken Cheese Soup: mit Huhn, Käse, Brokkoli, Möhren, Mais", date("2015-07-06"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Pasta Texas-Würstchengulasch: mit Würstchen, Paprika, Wachtelbohnen, Mais", date("2015-07-07"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Blumenkohlcremesuppe: mit Gorgonzola, Pastinaken- und Zucchiniraspel", date("2015-07-08"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Hühnerfrikassee mit Reis: mit Huhn, grünen Erbsen, Mais, Möhren, Champignons", date("2015-07-09"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Currywursttopf: mit Currywurst, Kartoffeln, Paprika, Tomatensoße", date("2015-07-10"), euro("4.30"), Id))
+
+    offers should contain (LunchOffer(0, "Brokkoli-Kartoffelcremesuppe: wahlweise mit angerösteten Mandelblättchen", date("2015-07-16"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Dänische Erbsen: mit Möhren, gelben Erbsen, Sellerie, Kardamom, Lauch wahlweise Schinkenwürfel", date("2015-07-16"), euro("4.30"), Id))
   }
 
   private val Id = LunchProvider.SUPPENKULTTOUR.id

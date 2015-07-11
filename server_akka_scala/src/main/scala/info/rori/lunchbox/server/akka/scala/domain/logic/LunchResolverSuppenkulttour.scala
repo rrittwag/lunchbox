@@ -126,13 +126,19 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     var description = List[String]()
     var priceOpt: Option[Money] = None
 
-    val titleOpt = offerAttributesAsStrings.headOption
-    val remainingParts = if (offerAttributesAsStrings.nonEmpty) offerAttributesAsStrings.tail else Nil
+    val clearedParts = offerAttributesAsStrings.map { part =>
+      part.replaceAll("""\( ?([a-zA-Z\d]{1,2},)* ?[a-zA-Z\d]{1,2},? ?\)""", "") // Zusatzinfo (i,j,19) entfernen
+        .replaceAll("\\u00a0", " ") // NO-BREAK SPACE durch normales Leerzeichen ersetzen
+        .trim.replaceAll("  ", " ") // doppelte Leerzeichen entfernen
+    }
+
+    val titleOpt = clearedParts.headOption.map(_.trim)
+    val remainingParts = if (clearedParts.nonEmpty) clearedParts.tail else Nil
 
     remainingParts.foreach {
       case zusatz if isZusatzInfo(zusatz) => // erstmal ignorieren
       case r"""(.+)$portion (\d{1,}[.,]\d{2})$priceStr €.*""" => if (portion.trim == "mittel") priceOpt = parsePrice(priceStr)
-      case descrPart => description :+= descrPart
+      case descrPart => description :+= descrPart.trim
     }
 
     val nameOpt = titleOpt.map (title =>
@@ -162,8 +168,8 @@ class LunchResolverSuppenkulttour extends LunchResolver {
   private def adjustText(text: String) = text.replaceAll("–", "-").replaceAll(" , ", ", ").replaceAll("\n", "")
 
   private def isZusatzInfo(string: String) = {
-    val zusatzInfos = List("(vegan)", "vegan", "glutenfrei", "lf", "gf", "vegetarisch", "laktosefrei")
-    string.split(", ").exists(elem => zusatzInfos.contains(elem))
+    val zusatzInfos = List("(vegan)", "vegan", "glutenfrei", "lf", "gf", "vegetarisch", "laktosefrei", "veg. gf", "vegan gf")
+    string.split(",").exists(elem => zusatzInfos.contains(elem.trim))
   }
 
   private def extractWeekday(text: String, monday: LocalDate): (Option[LocalDate], String) = {
