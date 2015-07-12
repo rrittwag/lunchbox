@@ -3,6 +3,7 @@ package info.rori.lunchbox.server.akka.scala.external
 import com.typesafe.config.ConfigFactory
 import dispatch._
 import dispatch.Defaults._
+import scala.concurrent.duration._
 
 import scala.concurrent.Future
 
@@ -25,6 +26,13 @@ object FacebookClient {
     val request = url(s"https://graph.facebook.com/v2.3/${graphApiUrl.replaceFirst("^/", "")}").secure
       .addQueryParameter("access_token", s"$appId|$appSecret")
 
-    Http.configure(_ setFollowRedirect true)(request OK as.String)
+    def runRequest() = Http(request).either
+
+    retry.Backoff(max = 4, delay = 5.seconds, base = 2)(runRequest).flatMap {
+      case Left(error) =>
+        error.printStackTrace() // TODO: Logging
+        Future.failed(new Exception) // TODO: FileNotUploadedException ???
+      case Right(response) => Future(response.getResponseBody)
+    }
   }
 }

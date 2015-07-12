@@ -33,22 +33,38 @@ object OcrClient {
      */
     downloadImage(imageUrl)
       .flatMap(image => uploadImageToNewocr(image, imageFilename))
-      .map(sleep(3.seconds)) // newocr.com braucht ein wenig Pause zwischen Upload und OCR
       .flatMap(fileId => startOcrOnNewocr(fileId))
   }
 
-  private def downloadImage(imageUrl: URL): dispatch.Future[Response] = Http(url(imageUrl.toString))
+  private def downloadImage(imageUrl: URL): dispatch.Future[Response] = {
+    val request = url(imageUrl.toString)
+
+    def runRequest() = Http(request).either
+
+    retry.Backoff(max = 4, delay = 5.seconds, base = 2)(runRequest).flatMap {
+      case Left(error) =>
+        error.printStackTrace() // TODO: Logging
+        Future.failed(new Exception) // TODO: FileNotUploadedException ???
+      case Right(response) => Future(response)
+    }
+  }
 
   private def uploadImageToNewocr(imageGetResp: Res, imageFilename: String): Future[String] = {
     val request = url("http://api.newocr.com/v1/upload").POST
       .addBodyPart(new ByteArrayPart("file", imageGetResp.getResponseBodyAsBytes, imageGetResp.getContentType, null, imageFilename))
       .addQueryParameter("key", NewocrApiKey)
 
-    Http(request OK as.String).flatMap { responseString =>
-      parseFileIdOpt(responseString) match {
-        case Some(fileId) => Future(fileId)
-        case None => Future.failed(new Exception) // TODO: FileNotUploadedException ???
-      }
+    def runRequest() = Http(request).either
+
+    retry.Backoff(max = 4, delay = 5.seconds, base = 2)(runRequest).flatMap {
+      case Left(error) =>
+        error.printStackTrace() // TODO: Logging
+        Future.failed(new Exception) // TODO: FileNotUploadedException ???
+      case Right(response) =>
+        parseFileIdOpt(response.getResponseBody) match {
+          case Some(fileId) => Future(fileId)
+          case None => Future.failed(new Exception) // TODO: FileNotUploadedException ???
+        }
     }
   }
 
@@ -58,16 +74,22 @@ object OcrClient {
       .addQueryParameter("file_id", fileId)
       .addQueryParameter("lang", "deu")
 
-    Http(request OK as.Bytes).map { responseAsBytes =>
-      // Dispatch erkennt das falsche Charset, daher wandle ich hier manuell in UTF-8 um
-      val responseString = new String(responseAsBytes, StandardCharsets.UTF_8)
-      parseOcrTextOpt(responseString).getOrElse("")
+    def runRequest() = Http(request).either.map {
+      case Left(error) => Left(error)
+      case Right(response) =>
+        if (response.getStatusCode == 400) Left(new Exception(s"status code ${response.getStatusCode}: ${response.getResponseBody}"))
+        else Right(response)
     }
-  }
 
-  private def sleep[T](seconds: FiniteDuration)(result: T): T = {
-    Thread sleep seconds.toMillis
-    result
+    retry.Backoff(max = 4, delay = 5.seconds, base = 2)(runRequest).map {
+      case Left(error) =>
+        error.printStackTrace() // TODO: Logging
+        ""
+      case Right(response) =>
+        // Dispatch erkennt das Charset nicht, daher manuell in UTF-8 umwandeln
+        val responseString = new String(response.getResponseBodyAsBytes, StandardCharsets.UTF_8)
+        parseOcrTextOpt(responseString).getOrElse("")
+    }
   }
 
   private def parseFileIdOpt(jsonString: String): Option[String] =
