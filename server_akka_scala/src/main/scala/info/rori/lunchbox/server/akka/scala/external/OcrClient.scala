@@ -69,6 +69,7 @@ object OcrClient extends HttpClient {
     def runRequest() = Http(request).either.map {
       case Left(error) => Left(error)
       case Right(response) =>
+        // Der Upload ist nicht sofort sichtbar, der OCR-Aufruf liefert Status-Code 400. Daher: via Exception Backoff erzwingen
         if (response.getStatusCode == 400) Left(new Exception(s"status code ${response.getStatusCode}: ${response.getResponseBody}"))
         else Right(response)
     }
