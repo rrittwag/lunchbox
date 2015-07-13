@@ -3,7 +3,6 @@ package info.rori.lunchbox.server.akka.scala.external
 import com.typesafe.config.ConfigFactory
 import dispatch._
 import dispatch.Defaults._
-import scala.concurrent.duration._
 
 import scala.concurrent.Future
 
@@ -16,7 +15,7 @@ import scala.concurrent.Future
  * & <a href="https://developers.facebook.com/docs/facebook-login/access-tokens#apptokens">Access Tokens</a>.
  * <p>
  */
-object FacebookClient {
+object FacebookClient extends HttpClient {
 
   def query(graphApiUrl: String): Future[String] = {
     val config = ConfigFactory.load()
@@ -28,11 +27,8 @@ object FacebookClient {
 
     def runRequest() = Http(request).either
 
-    retry.Backoff(max = 4, delay = 5.seconds, base = 2)(runRequest).flatMap {
-      case Left(error) =>
-        error.printStackTrace() // TODO: Logging
-        Future.failed(new Exception) // TODO: FileNotUploadedException ???
-      case Right(response) => Future(response.getResponseBody)
+    runWithBackoff(runRequest) { response =>
+      Future(response.getResponseBody)
     }
   }
 }

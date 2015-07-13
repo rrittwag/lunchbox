@@ -10,7 +10,6 @@ import dispatch.Defaults._
 import dispatch._
 
 import scala.concurrent.Future
-import scala.concurrent.duration._
 import scala.util.matching.Regex
 
 import play.api.libs.json._
@@ -18,7 +17,7 @@ import play.api.libs.json._
 /**
  * Service für das Auslesen von Text aus einem Bild (OCR).
  */
-object OcrClient {
+object OcrClient extends HttpClient {
 
   implicit class RegexContext(sc: StringContext) {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
@@ -41,11 +40,8 @@ object OcrClient {
 
     def runRequest() = Http(request).either
 
-    retry.Backoff(max = 4, delay = 5.seconds, base = 2)(runRequest).flatMap {
-      case Left(error) =>
-        error.printStackTrace() // TODO: Logging
-        Future.failed(new Exception) // TODO: FileNotUploadedException ???
-      case Right(response) => Future(response)
+    runWithBackoff(runRequest) { response =>
+      Future(response)
     }
   }
 
@@ -56,15 +52,11 @@ object OcrClient {
 
     def runRequest() = Http(request).either
 
-    retry.Backoff(max = 4, delay = 5.seconds, base = 2)(runRequest).flatMap {
-      case Left(error) =>
-        error.printStackTrace() // TODO: Logging
-        Future.failed(new Exception) // TODO: FileNotUploadedException ???
-      case Right(response) =>
-        parseFileIdOpt(response.getResponseBody) match {
-          case Some(fileId) => Future(fileId)
-          case None => Future.failed(new Exception) // TODO: FileNotUploadedException ???
-        }
+    runWithBackoff(runRequest) { response =>
+      parseFileIdOpt(response.getResponseBody) match {
+        case Some(fileId) => Future(fileId)
+        case None => Future.failed(new Exception) // TODO: FileNotUploadedException ???
+      }
     }
   }
 
@@ -81,14 +73,10 @@ object OcrClient {
         else Right(response)
     }
 
-    retry.Backoff(max = 4, delay = 5.seconds, base = 2)(runRequest).map {
-      case Left(error) =>
-        error.printStackTrace() // TODO: Logging
-        ""
-      case Right(response) =>
-        // Dispatch erkennt das Charset nicht, daher manuell in UTF-8 umwandeln
-        val responseString = new String(response.getResponseBodyAsBytes, StandardCharsets.UTF_8)
-        parseOcrTextOpt(responseString).getOrElse("")
+    runWithBackoff(runRequest) { response =>
+      // Dispatch erkennt das Charset nicht, daher manuell in UTF-8 umwandeln
+      val responseString = new String(response.getResponseBodyAsBytes, StandardCharsets.UTF_8)
+      Future(parseOcrTextOpt(responseString).getOrElse(""))
     }
   }
 
