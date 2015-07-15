@@ -35,14 +35,12 @@ object OcrClient extends HttpClient {
       .flatMap(fileId => startOcrOnNewocr(fileId))
   }
 
-  private def downloadImage(imageUrl: URL): dispatch.Future[Response] = {
+  private def downloadImage(imageUrl: URL): Future[Response] = {
     val request = url(imageUrl.toString)
 
-    def runRequest() = Http(request).either
+    val runRequest = () => Http(request OK(response => response))
 
-    runWithBackoff(runRequest) { response =>
-      Future(response)
-    }
+    runWithRetry(runRequest)
   }
 
   private def uploadImageToNewocr(imageGetResp: Res, imageFilename: String): Future[String] = {
@@ -50,10 +48,10 @@ object OcrClient extends HttpClient {
       .addBodyPart(new ByteArrayPart("file", imageGetResp.getResponseBodyAsBytes, imageGetResp.getContentType, null, imageFilename))
       .addQueryParameter("key", NewocrApiKey)
 
-    def runRequest() = Http(request).either
+    val runRequest = () => Http(request OK as.String)
 
-    runWithBackoff(runRequest) { response =>
-      parseFileIdOpt(response.getResponseBody) match {
+    runWithRetry(runRequest).flatMap{ responseText =>
+      parseFileIdOpt(responseText) match {
         case Some(fileId) => Future(fileId)
         case None => Future.failed(new Exception) // TODO: FileNotUploadedException ???
       }
@@ -66,17 +64,11 @@ object OcrClient extends HttpClient {
       .addQueryParameter("file_id", fileId)
       .addQueryParameter("lang", "deu")
 
-    def runRequest() = Http(request).either.map {
-      case Left(error) => Left(error)
-      case Right(response) =>
-        // Der Upload ist nicht sofort sichtbar, der OCR-Aufruf liefert Status-Code 400. Daher: via Exception Backoff erzwingen
-        if (response.getStatusCode == 400) Left(new Exception(s"status code ${response.getStatusCode}: ${response.getResponseBody}"))
-        else Right(response)
-    }
+    val runRequest = () => Http(request OK as.Bytes)
 
-    runWithBackoff(runRequest) { response =>
+    runWithRetry(runRequest).flatMap { responseAsBytes =>
       // Dispatch erkennt das Charset nicht, daher manuell in UTF-8 umwandeln
-      val responseString = new String(response.getResponseBodyAsBytes, StandardCharsets.UTF_8)
+      val responseString = new String(responseAsBytes, StandardCharsets.UTF_8)
       Future(parseOcrTextOpt(responseString).getOrElse(""))
     }
   }
