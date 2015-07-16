@@ -50,8 +50,8 @@ object OcrClient extends HttpClient {
 
     val runRequest = () => Http(request OK as.String)
 
-    runWithRetry(runRequest).flatMap{ responseText =>
-      parseFileIdOpt(responseText) match {
+    runWithRetry(runRequest).flatMap{ responseString =>
+      parseFileIdOpt(responseString) match {
         case Some(fileId) => Future(fileId)
         case None => Future.failed(new Exception) // TODO: FileNotUploadedException ???
       }
