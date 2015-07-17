@@ -124,8 +124,8 @@ class PDFTextGroupStripperSpec extends FlatSpec with Matchers with MockFactory {
         pdfContent = stripper.getTextGroups(pdfDoc)
       }
     } catch {
-      case fnf: FileNotFoundException => System.out.println(s"file $pdfUrl not found") // TODO: loggen
-      case t: Throwable => System.out.println(t.getMessage) // TODO: loggen
+      case fnf: FileNotFoundException => System.out.println(s"file $pdfUrl not found")
+      case t: Throwable => System.out.println(t.getMessage)
     } finally {
       optPdfDoc.foreach(_.close())
     }

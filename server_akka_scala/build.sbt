@@ -16,6 +16,7 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-actor"      % akkaVersion,
     "com.typesafe.akka" %% "akka-slf4j"      % akkaVersion,
     "ch.qos.logback"    %  "logback-classic" % "1.1.3",
+    "org.clapper"       %% "grizzled-slf4j"  % "1.0.2",
     // domain model
     "com.github.nscala-time" %% "nscala-time" % "2.0.0",
     "org.joda"               %  "joda-money"  % "0.10.0",

@@ -3,9 +3,10 @@ package info.rori.lunchbox.server.akka.scala.external
 import dispatch.retry
 
 import dispatch._, Defaults._
+import grizzled.slf4j.Logging
 import scala.concurrent.duration._
 
-trait HttpClient {
+trait HttpClient extends Logging {
 
   /**
    * Führt einen HTTP-Request aus. Tritt eine Exception auf, z.B. durch eine gestörte Netzverbindung oder da z.B.
@@ -34,9 +35,9 @@ trait HttpClient {
     retry.Backoff(max = 4, delay = 5.seconds, base = 2)(runRequest).flatMap(handleResponse)
 
   private def handleResponse[O](result: Either[Throwable, O]): Future[O] = result match {
-    case Left(error) =>
-      error.printStackTrace() // TODO: Logging
-      Future.failed(new Exception) // TODO: FileNotUploadedException ???
+    case Left(exc) =>
+      logger.error("HTTP request failed after 4 retries", exc)
+      Future.failed(exc)
     case Right(response) => Future(response)
   }
 }

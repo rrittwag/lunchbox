@@ -53,7 +53,7 @@ object OcrClient extends HttpClient {
     runWithRetry(runRequest).flatMap{ responseString =>
       parseFileIdOpt(responseString) match {
         case Some(fileId) => Future(fileId)
-        case None => Future.failed(new Exception) // TODO: FileNotUploadedException ???
+        case None => Future.failed(new Exception(s"file_id not found: $responseString"))
       }
     }
   }

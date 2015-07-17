@@ -3,6 +3,7 @@ package info.rori.lunchbox.server.akka.scala.domain.logic
 import java.io.FileNotFoundException
 import java.net.URL
 
+import grizzled.slf4j.Logging
 import info.rori.lunchbox.server.akka.scala.domain.model._
 import info.rori.lunchbox.server.akka.scala.domain.util.{TextLine, PDFTextGroupStripper}
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -16,7 +17,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.matching.Regex
 
 
-class LunchResolverHotelAmRing extends LunchResolver {
+class LunchResolverHotelAmRing extends LunchResolver with Logging {
 
   implicit class RegexContext(sc: StringContext) {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
@@ -269,8 +270,8 @@ class LunchResolverHotelAmRing extends LunchResolver {
         pdfContent = stripper.getTextLines(pdfDoc)
       }
     } catch {
-      case fnf: FileNotFoundException => System.out.println(s"file $pdfUrl not found") // TODO: loggen
-      case t: Throwable => System.out.println(t.getMessage) // TODO: loggen
+      case fnf: FileNotFoundException => logger.error(s"file $pdfUrl not found")
+      case t: Throwable => logger.error(s"Fehler beim Einlesen von $pdfUrl", t)
     } finally {
       optPdfDoc.foreach(_.close())
     }
