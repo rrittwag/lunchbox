@@ -1,9 +1,11 @@
 package info.rori.lunchbox.server.akka.scala.domain.service
 
+
 import akka.actor._
 import info.rori.lunchbox.server.akka.scala.domain.logic._
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchOffer, LunchProvider}
 import info.rori.lunchbox.server.akka.scala.domain.model.LunchProvider._
+import org.joda.time.{DateTimeZone, DateTime}
 import scala.concurrent.duration._
 
 import scala.util.{Failure, Success}
@@ -25,11 +27,39 @@ class LunchOfferUpdater(lunchOfferService: ActorRef) extends Actor with ActorLog
   import LunchOfferUpdater._
   import LunchOfferService._
 
-  // update LunchOffers on boot and every 24 hours
   import context.dispatcher
-  val dailyUpdate = context.system.scheduler.schedule(50.milliseconds, 24.hours) {
+
+  // update LunchOffers on boot
+  context.system.scheduler.scheduleOnce(50.milliseconds) {
     self ! StartUpdate
   }
+  // update LunchOffers every day at 7:00 h
+  val today7h = DateTime.now(DateTimeZone.forID("Europe/Berlin"))
+    .withHourOfDay(7)
+    .withMinuteOfHour(0)
+    .withSecondOfMinute(0)
+    .withMillisOfSecond(0)
+  val future7h = if (today7h.isBeforeNow) today7h.plusHours(24) else today7h
+  val durationTo7h = future7h.getMillis - DateTime.now.getMillis
+
+  val dailyUpdate = context.system.scheduler.schedule(durationTo7h.millis, 24.hours) {
+    self ! StartUpdate
+  }
+
+  // additionally update LunchOffers every monday at 10:00 h
+  val monday10h = DateTime.now(DateTimeZone.forID("Europe/Berlin"))
+    .withDayOfWeek(1)
+    .withHourOfDay(10)
+    .withMinuteOfHour(0)
+    .withSecondOfMinute(0)
+    .withMillisOfSecond(0)
+  val futureMonday10h = if (monday10h.isBeforeNow) monday10h.plusWeeks(1) else monday10h
+  val durationToMonday10h = futureMonday10h.getMillis - DateTime.now.getMillis
+
+  val monday10hUpdate = context.system.scheduler.schedule(durationToMonday10h.millis, 7.days) {
+    self ! StartUpdate
+  }
+
 
   override def receive = {
     case StartUpdate => startUpdate()
@@ -41,6 +71,8 @@ class LunchOfferUpdater(lunchOfferService: ActorRef) extends Actor with ActorLog
   // TODO: kill Aktoren, die bereits 60s laufen
   def startUpdate(): Unit = {
     log.info("LunchOfferUpdater.startUpdate()")
+
+    lunchOfferService ! RemoveOldOffers
 
     for (provider <- LunchProvider.values) {
       val nameForWorker = LunchOfferUpdateWorker.NamePrefix + provider.getClass.getSimpleName
@@ -55,6 +87,7 @@ class LunchOfferUpdater(lunchOfferService: ActorRef) extends Actor with ActorLog
 
   override def postStop(): Unit = {
     dailyUpdate.cancel()
+    monday10hUpdate.cancel()
     log.info("Actor stopped")
   }
 }

@@ -5,7 +5,7 @@ import java.net.URL
 
 import grizzled.slf4j.Logging
 import info.rori.lunchbox.server.akka.scala.domain.model._
-import info.rori.lunchbox.server.akka.scala.domain.util.{TextLine, PDFTextGroupStripper}
+import info.rori.lunchbox.server.akka.scala.domain.util.{LunchUtil, TextLine, PDFTextGroupStripper}
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}
@@ -71,7 +71,13 @@ class LunchResolverHotelAmRing extends LunchResolver with Logging {
     Future.sequence(listOfFutures).map(listOfLists => listOfLists.flatten)
   }
 
-  private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] = {
+  private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] =
+    parseMondayFromUrl(pdfUrl)
+      .filter(LunchUtil.isDayRelevant)
+      .map(resolveFromPdfContent(pdfUrl, _))
+      .getOrElse(Nil)
+
+  private[logic] def resolveFromPdfContent(pdfUrl: URL, monday: LocalDate): Seq[LunchOffer] = {
     val optMonday = parseMondayFromUrl(pdfUrl)
 
     val pdfContent = extractPdfContent(pdfUrl)

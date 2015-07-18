@@ -5,7 +5,7 @@ import java.net.URL
 
 import grizzled.slf4j.Logging
 import info.rori.lunchbox.server.akka.scala.domain.model._
-import info.rori.lunchbox.server.akka.scala.domain.util.{TextLine, PDFTextGroupStripper}
+import info.rori.lunchbox.server.akka.scala.domain.util.{LunchUtil, TextLine, PDFTextGroupStripper}
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}
@@ -70,9 +70,13 @@ class LunchResolverAokCafeteria extends LunchResolver with Logging {
     Future.sequence(listOfFutures).map(listOfLists => listOfLists.flatten)
   }
 
-  private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] = {
-    val optMonday = parseMondayFromUrl(pdfUrl)
+  private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] =
+    parseMondayFromUrl(pdfUrl)
+      .filter(LunchUtil.isDayRelevant)
+      .map(resolveFromPdfContent(pdfUrl, _))
+      .getOrElse(Nil)
 
+  private[logic] def resolveFromPdfContent(pdfUrl: URL, monday: LocalDate): Seq[LunchOffer] = {
     val lines = extractPdfContent(pdfUrl)
 
     val section2lines = groupBySection(lines)
@@ -82,11 +86,11 @@ class LunchResolverAokCafeteria extends LunchResolver with Logging {
     section2lines.get(PdfSection.TABLE_HEADER) match {
       case Some(Seq(priceHeader)) =>
         val xCoords = priceHeader.texts.map(_.xMid)
-        val prices = priceHeader.texts.flatMap( e => parsePrice(e.toString) )
+        val prices = priceHeader.texts.flatMap(e => parsePrice(e.toString))
         for (weekday <- PdfSection.weekdayValues;
              lines <- section2lines.get(weekday);
              (x, price) <- xCoords.zip(prices))
-          parseDayOffer(lines, x, weekday, optMonday, price).foreach(offers :+= _)
+          parseDayOffer(lines, x, weekday, monday, price).foreach(offers :+= _)
 
       case None => logger.warn(s"Preis-Header nicht gefunden in $pdfUrl")
     }
@@ -132,14 +136,10 @@ class LunchResolverAokCafeteria extends LunchResolver with Logging {
     result
   }
 
-  def parseDayOffer(lines: Seq[TextLine], xRef: Float, weekday: PdfSection, mondayOpt: Option[LocalDate], price: Money): Option[LunchOffer] = {
-    mondayOpt match {
-      case Some(monday) =>
-        val day = monday.plusDays(weekday.order)
-        val name = lines.flatMap(_.texts.filter(_.xIn(xRef))).mkString(" ")
-        Some(LunchOffer(0, parseName(name), day, price, LunchProvider.AOK_CAFETERIA.id) )
-      case None => None
-    }
+  def parseDayOffer(lines: Seq[TextLine], xRef: Float, weekday: PdfSection, monday: LocalDate, price: Money): Option[LunchOffer] = {
+    val day = monday.plusDays(weekday.order)
+    val name = lines.flatMap(_.texts.filter(_.xIn(xRef))).mkString(" ")
+    Some(LunchOffer(0, parseName(name), day, price, LunchProvider.AOK_CAFETERIA.id) )
   }
 
   private def findWeekdaySection(lines: Seq[TextLine]): Option[PdfSection] = {

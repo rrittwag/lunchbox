@@ -2,6 +2,7 @@ package info.rori.lunchbox.server.akka.scala.domain.logic
 
 import java.net.URL
 
+import info.rori.lunchbox.server.akka.scala.domain.util.LunchUtil
 import info.rori.lunchbox.server.akka.scala.external.{OcrClient, FacebookClient}
 import info.rori.lunchbox.server.akka.scala.domain.model._
 import org.joda.money.{CurrencyUnit, Money}
@@ -53,7 +54,7 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
     for (post <- (Json.parse(facebookPostsAsJson) \ "data").as[Seq[JsValue]];
          postText <- (post \ "message").asOpt[String];
          day <- parseDay(postText.replaceAll("\\n", "|")); // im Text steckt das Datum der Woche
-         monday = convertToMonday(day);
+         monday = LunchUtil.toMonday(day);
          imageAttachment = (post \ "attachments" \ "data")(0); // der 1. Anhang ist das Bild mit dem Mittagsplan
          imageId <- (imageAttachment \ "target" \ "id").asOpt[String])
       yield Wochenplan(monday, imageId)
@@ -188,11 +189,7 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
     case _ => None
   }
 
-  private def isWochenplanRelevant(wochenplan: Wochenplan): Boolean = {
-    val mondayThisWeek = convertToMonday(LocalDate.now())
-    val mondayLastWeek = mondayThisWeek.minusWeeks(1)
-    wochenplan.monday.toDate.compareTo(mondayLastWeek.toDate) >= 0
-  }
+  private def isWochenplanRelevant(wochenplan: Wochenplan): Boolean = LunchUtil.isDayRelevant(wochenplan.monday)
 
   private def parseLocalDate(dateString: String, dateFormat: String): Option[LocalDate] =
     try {
@@ -200,10 +197,5 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
     } catch {
       case exc: Throwable => None
     }
-
-  private def convertToMonday(day: LocalDate) = {
-    val weekOfYear = day.getWeekOfWeekyear
-    LocalDate.now.withWeekOfWeekyear(weekOfYear).withDayOfWeek(1)
-  }
 
 }

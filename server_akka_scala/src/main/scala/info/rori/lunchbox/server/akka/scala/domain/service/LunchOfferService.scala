@@ -2,6 +2,7 @@ package info.rori.lunchbox.server.akka.scala.domain.service
 
 import akka.actor.{ActorLogging, Actor, Props}
 import info.rori.lunchbox.server.akka.scala.domain.model._
+import info.rori.lunchbox.server.akka.scala.domain.util.LunchUtil
 import org.joda.time.LocalDate
 
 object LunchOfferService {
@@ -15,6 +16,7 @@ object LunchOfferService {
   case class MultiResult(offers: Seq[LunchOffer])
   case class SingleResult(offer: Option[LunchOffer])
   case class UpdateOffers(offers: Seq[LunchOffer])
+  case object RemoveOldOffers
 }
 
 class LunchOfferService extends Actor with ActorLogging {
@@ -29,6 +31,7 @@ class LunchOfferService extends Actor with ActorLogging {
     case GetById(id) => sender ! SingleResult(offers.find(_.id == id))
     case GetByDay(day) => sender ! MultiResult(offers.filter(_.day == day))
     case UpdateOffers(offersForUpdate) => updateOffers(offersForUpdate)
+    case RemoveOldOffers => removeOldOffers()
   }
 
   def updateOffers(newOffers: Seq[LunchOffer]): Unit = {
@@ -43,5 +46,9 @@ class LunchOfferService extends Actor with ActorLogging {
     offers = offersToKeep ++ newOffersWithIds // TODO: sort list? But IDs must be in resolving order!
 
     log.info(s"updateOffers: added $newOffersWithIds, removed $offersToReplace")
+  }
+
+  def removeOldOffers(): Unit = {
+    offers = offers.filter(offer => LunchUtil.isDayRelevant(offer.day))
   }
 }

@@ -44,9 +44,6 @@ Distribution
 TODOs
 -----
 
-* Update: irrelevante Mittagsangebote löschen (relevant ab voriger Woche)
-* Ermitteln: Mittagsangebote nur in relevanten Wochen ermitteln
-* Update-Schedule präzisieren: täglich um 6 Uhr aktualisieren, über den Montagvormittag verteilt sogar mehrmals
 * Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
 * Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
 * Dockerfile generieren ...

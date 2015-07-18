@@ -3,6 +3,7 @@ package info.rori.lunchbox.server.akka.scala.domain.logic
 import java.net.URL
 
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchOffer, LunchProvider}
+import info.rori.lunchbox.server.akka.scala.domain.util.LunchUtil
 import org.apache.commons.lang3.StringEscapeUtils
 import org.htmlcleaner._
 import org.joda.money.{CurrencyUnit, Money}
@@ -53,7 +54,7 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     // Die Wochenangebote sind im section-Element mit der class "ce_accordionStart" enthalten
     for (wochenplanSection <- rootNode.evaluateXPath("//section").map { case n: TagNode => n}
          if wochenplanSection.hasClassAttr("ce_accordionStart")) {
-      resolveMonday(wochenplanSection) match {
+      resolveMonday(wochenplanSection).filter(LunchUtil.isDayRelevant) match {
         case Some(monday) => result ++= parseOffers(wochenplanSection, monday)
         case None =>
       }
