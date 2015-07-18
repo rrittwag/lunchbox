@@ -38,9 +38,9 @@ object OcrClient extends HttpClient {
   private def downloadImage(imageUrl: URL): Future[Response] = {
     val request = url(imageUrl.toString)
 
-    val runRequest = () => Http(request OK(response => response))
+    val requestFunc = () => Http(request OK(response => response))
 
-    runWithRetry(runRequest)
+    runWithRetry(requestFunc)
   }
 
   private def uploadImageToNewocr(imageGetResp: Res, imageFilename: String): Future[String] = {
@@ -48,9 +48,9 @@ object OcrClient extends HttpClient {
       .addBodyPart(new ByteArrayPart("file", imageGetResp.getResponseBodyAsBytes, imageGetResp.getContentType, null, imageFilename))
       .addQueryParameter("key", NewocrApiKey)
 
-    val runRequest = () => Http(request OK as.String)
+    val requestFunc = () => Http(request OK as.String)
 
-    runWithRetry(runRequest).flatMap{ responseString =>
+    runWithRetry(requestFunc).flatMap{ responseString =>
       parseFileIdOpt(responseString) match {
         case Some(fileId) => Future(fileId)
         case None => Future.failed(new Exception(s"file_id not found: $responseString"))
@@ -64,9 +64,9 @@ object OcrClient extends HttpClient {
       .addQueryParameter("file_id", fileId)
       .addQueryParameter("lang", "deu")
 
-    val runRequest = () => Http(request OK as.Bytes)
+    val requestFunc = () => Http(request OK as.Bytes)
 
-    runWithRetry(runRequest).flatMap { responseAsBytes =>
+    runWithRetry(requestFunc).flatMap { responseAsBytes =>
       // Dispatch erkennt das Charset nicht, daher manuell in UTF-8 umwandeln
       val responseString = new String(responseAsBytes, StandardCharsets.UTF_8)
       Future(parseOcrTextOpt(responseString).getOrElse(""))

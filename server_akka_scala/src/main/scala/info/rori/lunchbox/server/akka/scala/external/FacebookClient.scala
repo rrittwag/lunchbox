@@ -25,8 +25,8 @@ object FacebookClient extends HttpClient {
     val request = url(s"https://graph.facebook.com/v2.3/${graphApiUrl.replaceFirst("^/", "")}").secure
       .addQueryParameter("access_token", s"$appId|$appSecret")
 
-    val runRequest = () => Http(request OK as.String)
+    val requestFunc = () => Http(request OK as.String)
 
-    runWithRetry(runRequest)
+    runWithRetry(requestFunc)
   }
 }
