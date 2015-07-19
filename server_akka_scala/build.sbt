@@ -12,7 +12,7 @@ libraryDependencies ++= {
   val akkaVersion = "2.3.12"
   val akkaHttpVersion = "1.0"
   Seq(
-    // Akka
+    // domain service
     "com.typesafe.akka" %% "akka-actor"      % akkaVersion,
     "com.typesafe.akka" %% "akka-slf4j"      % akkaVersion,
     "ch.qos.logback"    %  "logback-classic" % "1.1.3",
@@ -32,7 +32,7 @@ libraryDependencies ++= {
 //    "com.typesafe.akka" %% "akka-testkit" % akkaV   % "test",
     "org.scalatest" %% "scalatest"                   % "2.2.5" % "test",
     "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % "test",
-    // service
+    // api
     "com.typesafe.akka"      %% "akka-http-experimental"            % akkaHttpVersion,
     "com.typesafe.akka"      %% "akka-http-spray-json-experimental" % akkaHttpVersion,
     "io.spray"               %% "spray-json"                        % "1.3.2",
@@ -50,12 +50,9 @@ packageDescription := "server for Lunchbox project"
 maintainer := "rori <mail@rori.info>"
 packageSummary in Linux := "server for Lunchbox project"
 
-bashScriptConfigLocation := Some("${app_home}/../conf/jvmopts")
-bashScriptExtraDefines += """addJava "-Dconfig.file=${app_home}/../conf/application.conf""""
-
 mappings in Universal <++= (packageBin in Compile, sourceDirectory ) map { (_, src) =>
   val resources = src / "main" / "resources"
   val logback = resources / "logback.xml"
-  val appConf = resources / "reference.conf"
-  Seq(logback -> "conf/logback.xml", appConf -> "conf/application.conf")
+  val appConf = resources / "production.conf"
+  Seq(logback -> "conf/logback.xml", appConf -> "conf/production.conf")
 }

@@ -1,2 +1,4 @@
 #!/bin/sh
-`bin/lunchbox_server > /dev/null 2>&1` &
+
+BASEDIR=$(dirname $0)
+( cd $BASEDIR/bin && `./lunchbox_server > /dev/null 2>&1` & )
