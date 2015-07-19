@@ -100,6 +100,8 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
 
     parse("AOK_16.03.-20.03..pdf") should be (weekOf(s"$YearNow-03-20").monday)
     parse("AOK_23.03.-27.03..pdf") should be (weekOf(s"$YearNow-03-27").monday)
+    parse("AOK_16.03.-20.03..pdf") should be (weekOf(s"$YearNow-03-20").monday)
+    parse("AOK_27.07.-31.07.2015.pdf") should be (weekOf(s"$YearNow-07-27").monday)
   }
 
   val Id = LunchProvider.AOK_CAFETERIA.id

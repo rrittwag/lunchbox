@@ -115,6 +115,17 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers {
     offers should contain (LunchOffer(0, "Dänische Erbsen: mit Möhren, gelben Erbsen, Sellerie, Kardamom, Lauch wahlweise Schinkenwürfel", date("2015-07-16"), euro("4.30"), Id))
   }
 
+  it should "resolve offers for week of 2015-07-20" in {
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-07-20.html")
+
+    val offers = new LunchResolverSuppenkulttour().resolve(url)
+
+    offers should have size 20
+
+    offers should contain (LunchOffer(0, "Pommersche Erbsensuppe: Erbsen, Wurzelgemüse, Thymian, Kassler", date("2015-07-20"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Indische Blumenkohl Suppe: mit grünen Erbsen, gelbem Curry, Kokos und Tomate", date("2015-07-20"), euro("4.30"),Id))
+  }
+
   private val Id = LunchProvider.SUPPENKULTTOUR.id
 
   private def date(dateString: String): LocalDate = LocalDate.parse(dateString)

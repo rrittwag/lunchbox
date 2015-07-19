@@ -133,12 +133,14 @@ class LunchResolverSuppenkulttour extends LunchResolver {
         .trim.replaceAll("  ", " ") // doppelte Leerzeichen entfernen
     }
 
-    val titleOpt = clearedParts.headOption.map(_.trim)
+    val titleOpt = clearedParts.headOption.map{
+      _.trim.replaceFirst("lf, gf$", "").replaceFirst("gf, lf$", "").trim
+    }
     val remainingParts = if (clearedParts.nonEmpty) clearedParts.tail else Nil
 
     remainingParts.foreach {
       case zusatz if isZusatzInfo(zusatz) => // erstmal ignorieren
-      case r"""(.+)$portion (\d{1,}[.,]\d{2})$priceStr €.*""" => if (portion.trim == "mittel") priceOpt = parsePrice(priceStr)
+      case r"""(.+)$portion (\d{1,}[.,]\d{2})$priceStr ?€? *""" => if (portion.trim == "mittel") priceOpt = parsePrice(priceStr)
       case descrPart => description :+= descrPart.trim
     }
 

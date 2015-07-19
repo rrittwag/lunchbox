@@ -60,7 +60,7 @@ class LunchResolverAokCafeteria extends LunchResolver with Logging {
     val rootNode = new HtmlCleaner(props).clean(htmlUrl)
     val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n}.toSet
 
-    links.filter(_ matches """.*/AOK_.+(\d{2}.\d{2}.)\D*.pdf""").toList
+    links.filter(_ matches """.*/AOK_.+.pdf""").toList
   }
 
   private def resolveFromPdfs(relativePdfPaths: Seq[String]): Future[Seq[LunchOffer]] = {
@@ -99,7 +99,7 @@ class LunchResolverAokCafeteria extends LunchResolver with Logging {
   }
 
   private[logic] def parseMondayFromUrl(pdfUrl: URL): Option[LocalDate] = pdfUrl.getFile match {
-    case r""".*(\d{2}.\d{2}.)$fridayString\D*.pdf""" =>
+    case r""".*-([^-]+)$fridayString.pdf""" =>
       parseDay(fridayString).map { friday =>
           val weekOfYear = friday.getWeekOfWeekyear
           LocalDate.now.withWeekOfWeekyear(weekOfYear).withDayOfWeek(1)
