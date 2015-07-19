@@ -95,6 +95,20 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
     offers.filter(_.day == week.friday) should have size 3
   }
 
+  it should "resolve offers for week of 2015-07-20" in {
+    val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_20.07.-24.07.2015.pdf")
+    val week = weekOf(s"$YearNow-07-20")
+
+    val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
+
+    offers should have size 15
+    offers.filter(_.day == week.monday) should have size 3
+    offers.filter(_.day == week.tuesday) should have size 3
+    offers.filter(_.day == week.wednesday) should have size 3
+    offers.filter(_.day == week.thursday) should have size 3
+    offers.filter(_.day == week.friday) should have size 3
+  }
+
   it should "parse date from PDF url" in {
     def parse(file: String): LocalDate = new LunchResolverAokCafeteria().parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
 

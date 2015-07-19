@@ -5,7 +5,7 @@ import java.net.URL
 
 import grizzled.slf4j.Logging
 import info.rori.lunchbox.server.akka.scala.domain.model._
-import info.rori.lunchbox.server.akka.scala.domain.util.{LunchUtil, TextLine, PDFTextGroupStripper}
+import info.rori.lunchbox.server.akka.scala.domain.util.{TextGroup, LunchUtil, TextLine, PDFTextGroupStripper}
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}
@@ -85,8 +85,9 @@ class LunchResolverAokCafeteria extends LunchResolver with Logging {
 
     section2lines.get(PdfSection.TABLE_HEADER) match {
       case Some(Seq(priceHeader)) =>
-        val xCoords = priceHeader.texts.map(_.xMid)
-        val prices = priceHeader.texts.flatMap(e => parsePrice(e.toString))
+        val normalizedPriceTexts = normalizePriceTexts(priceHeader.texts)
+        val xCoords = normalizedPriceTexts.map(_.xMid)
+        val prices = normalizedPriceTexts.flatMap( e => parsePrice(e.toString) )
         for (weekday <- PdfSection.weekdayValues;
              lines <- section2lines.get(weekday);
              (x, price) <- xCoords.zip(prices))
@@ -148,6 +149,15 @@ class LunchResolverAokCafeteria extends LunchResolver with Logging {
     weekdayTextGroupOpt.flatMap(e => parseWeekdaySection(e.toString))
   }
 
+  /**
+   * Manchmal wird die fette Schrift und Übereinanderlegen von Texten erreicht.
+   * Zur Verarbeitung der Mittagsangebote brauchen wir jedoch lediglich "ein Layer".
+   */
+  private[logic] def normalizePriceTexts(texts: Seq[TextGroup]): Seq[TextGroup] =
+    texts.groupBy(_.toString)
+      .values.map(_.minBy(_.xMin))
+      .toSeq.sortBy(_.xMin)
+
   private def parseDay(dayString: String): Option[LocalDate] = dayString match {
     case r""".*(\d{2}.\d{2}.\d{4})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yyyy")
     case r""".*(\d{2}.\d{2}.\d{2})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yy")
@@ -167,7 +177,6 @@ class LunchResolverAokCafeteria extends LunchResolver with Logging {
     case r""".*(\d{1,})$major[.,](\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
     case _ => None
   }
-
 
   private def parseName(text: String): String = text.trim.replaceAll("  ", " ")
 
