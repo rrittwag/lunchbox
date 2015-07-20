@@ -56,6 +56,7 @@ TODOs
 * Unit-Tests für external Clients schreiben
 * LunchResolver: globalen durch eigenen ExecutionContext ersetzen?
 * Caching der Requests (spray-caching?)
+* Spray-JSON ersetzen durch [akka-http-json & Play-JSON](https://github.com/hseeberger/akka-http-json)
 * Publish: sbt-release einsetzen + privates Maven-Repo?
 * TODOs in Code abarbeiten
 * DI für LunchProviderService => vergleiche https://github.com/ehalpern/sandbox/tree/master/src/main/scala/twine
