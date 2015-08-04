@@ -2,7 +2,6 @@ package info.rori.lunchbox.server.akka.scala.domain.logic
 
 import java.net.URL
 
-import info.rori.lunchbox.server.akka.scala.domain.logic.DateValidator
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchProvider, LunchOffer}
 import org.apache.commons.lang3.StringEscapeUtils
 import org.htmlcleaner.{CleanerProperties, HtmlCleaner, TagNode}
