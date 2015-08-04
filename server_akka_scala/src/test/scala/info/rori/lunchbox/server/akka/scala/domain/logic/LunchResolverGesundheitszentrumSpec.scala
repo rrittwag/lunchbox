@@ -5,16 +5,17 @@ import java.net.URL
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchOffer, LunchProvider}
 import org.joda.money.Money
 import org.joda.time.LocalDate
+import org.scalamock.scalatest.MockFactory
 import org.scalatest._
 
 import scala.io.Codec
 
-class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers {
+class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers with MockFactory {
 
   it should "resolve Wochenpläne for facebook page of 2015-07-05" in {
     val content = readFileContent("/mittagsplaene/gesundheitszentrum_2015-07-05.json")
 
-    val wochenplaene = new LunchResolverGesundheitszentrum().parseWochenplaene(content)
+    val wochenplaene = resolver.parseWochenplaene(content)
 
     wochenplaene should contain (Wochenplan(LocalDate.parse("2015-07-06"), "723372204440300"))
     wochenplaene should contain (Wochenplan(LocalDate.parse("2015-06-22"), "715616615215859"))
@@ -24,7 +25,7 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers {
   it should "parse URL of biggest image for 2015-07-06" in {
     val content = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2015-07-06_facebook.json")
 
-    val url = new LunchResolverGesundheitszentrum().parseUrlOfBiggestImage(content)
+    val url = resolver.parseUrlOfBiggestImage(content)
 
     url should be (Some(new URL("""https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg""")))
   }
@@ -33,7 +34,7 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers {
     val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2015-06-22_ocr.txt")
     val week = weekOf("2015-06-22")
 
-    val offers = new LunchResolverGesundheitszentrum().resolveOffersFromText(week.monday, text)
+    val offers = resolver.resolveOffersFromText(week.monday, text)
 
     offers should have size 20
     offers should contain (LunchOffer(0, "Wirsingkohleintopf", week.monday, euro("2.40"), Id))
@@ -66,7 +67,7 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers {
     val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2015-06-29_ocr.txt")
     val week = weekOf("2015-06-29")
 
-    val offers = new LunchResolverGesundheitszentrum().resolveOffersFromText(week.monday, text)
+    val offers = resolver.resolveOffersFromText(week.monday, text)
 
     offers should have size 20
     offers should contain (LunchOffer(0, "Bunter Gemüseeintopf", week.monday, euro("2.40"), Id))
@@ -99,7 +100,7 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers {
     val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2015-06-15_ocr.txt")
     val week = weekOf("2015-06-15")
 
-    val offers = new LunchResolverGesundheitszentrum().resolveOffersFromText(week.monday, text)
+    val offers = resolver.resolveOffersFromText(week.monday, text)
 
     offers should have size 20
     offers should contain (LunchOffer(0, "Vegetarische Linsensuppe mit Vollkornbrötchen", week.monday, euro("3.20"), Id))
@@ -132,7 +133,7 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers {
     val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2015-07-06_ocr.txt")
     val week = weekOf("2015-07-06")
 
-    val offers = new LunchResolverGesundheitszentrum().resolveOffersFromText(week.monday, text)
+    val offers = resolver.resolveOffersFromText(week.monday, text)
 
     offers should have size 16
     offers should contain (LunchOffer(0, "Serbischer Bohneneintopf", week.monday, euro("2.40"), Id))
@@ -156,6 +157,12 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers {
     offers should contain (LunchOffer(0, "Kartoffel-Blumenkohl-Gratin", week.thursday, euro("3.90"), Id))
 
     offers.filter(_.day == week.friday) should have size 0
+  }
+
+  private def resolver = {
+    val validatorStub = stub[DateValidator]
+    (validatorStub.isValid _).when(*).returning(true)
+    new LunchResolverGesundheitszentrum(validatorStub)
   }
 
   private def readFileContent(path: String): String = {

@@ -3,14 +3,15 @@ package info.rori.lunchbox.server.akka.scala.domain.logic
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchProvider, LunchOffer}
 import org.joda.money.Money
 import org.joda.time.LocalDate
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, FlatSpec}
 
-class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers {
+class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFactory {
 
   it should "resolve offers for week of 2015-03-02" in {
     val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-03-02.html")
 
-    val offers = new LunchResolverSuppenkulttour().resolve(url)
+    val offers = resolver.resolve(url)
 
     offers should have size 20
     offers should contain(LunchOffer(0, "Hackfleisch-Tandoori-Suppe: mit roten Linsen, Blumenkohl, Hackfleisch", date("2015-03-02"), euro("4.30"), Id))
@@ -38,7 +39,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers {
   it should "resolve offers for week of 2015-03-06" in {
     val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-03-06.html")
 
-    val offers = new LunchResolverSuppenkulttour().resolve(url)
+    val offers = resolver.resolve(url)
 
     offers should have size 40
     offers.filter(_.day == date("2015-03-02")) should have size 4
@@ -56,7 +57,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers {
   it should "resolve offers for week of 2015-03-11" in {
     val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-03-11.html")
 
-    val offers = new LunchResolverSuppenkulttour().resolve(url)
+    val offers = resolver.resolve(url)
 
     offers should have size 40
     offers should contain (LunchOffer(0,"Pasta Tag - „Carne e Caprese”: Italienischer Hackfleischtopf mit Nudeln mit Tomaten, Mozzarrella, Hackfleisch, Basilikum",date("2015-03-10"),euro("4.30"),Id))
@@ -74,7 +75,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers {
   it should "resolve offers for Easter week of 2015-03-30" in {
     val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-03-30.html")
 
-    val offers = new LunchResolverSuppenkulttour().resolve(url)
+    val offers = resolver.resolve(url)
 
     offers should have size 16
     offers.filter(_.day == date("2015-03-30")) should have size 4
@@ -89,7 +90,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers {
   it should "resolve offers for week of 2015-04-13" in {
     val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-04-13.html")
 
-    val offers = new LunchResolverSuppenkulttour().resolve(url)
+    val offers = resolver.resolve(url)
 
     offers should have size 20
 
@@ -100,7 +101,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers {
   it should "resolve offers for week of 2015-07-06" in {
     val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-07-06.html")
 
-    val offers = new LunchResolverSuppenkulttour().resolve(url)
+    val offers = resolver.resolve(url)
 
     offers should have size 40
 
@@ -118,12 +119,18 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers {
   it should "resolve offers for week of 2015-07-20" in {
     val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-07-20.html")
 
-    val offers = new LunchResolverSuppenkulttour().resolve(url)
+    val offers = resolver.resolve(url)
 
     offers should have size 20
 
     offers should contain (LunchOffer(0, "Pommersche Erbsensuppe: Erbsen, Wurzelgemüse, Thymian, Kassler", date("2015-07-20"), euro("4.30"), Id))
     offers should contain (LunchOffer(0, "Indische Blumenkohl Suppe: mit grünen Erbsen, gelbem Curry, Kokos und Tomate", date("2015-07-20"), euro("4.30"),Id))
+  }
+
+  private def resolver = {
+    val validatorStub = stub[DateValidator]
+    (validatorStub.isValid _).when(*).returning(true)
+    new LunchResolverSuppenkulttour(validatorStub)
   }
 
   private val Id = LunchProvider.SUPPENKULTTOUR.id

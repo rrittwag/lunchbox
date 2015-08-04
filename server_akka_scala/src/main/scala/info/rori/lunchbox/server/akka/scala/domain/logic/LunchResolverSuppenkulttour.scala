@@ -2,8 +2,8 @@ package info.rori.lunchbox.server.akka.scala.domain.logic
 
 import java.net.URL
 
+import info.rori.lunchbox.server.akka.scala.domain.logic.DateValidator
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchOffer, LunchProvider}
-import info.rori.lunchbox.server.akka.scala.domain.util.LunchUtil
 import org.apache.commons.lang3.StringEscapeUtils
 import org.htmlcleaner._
 import org.joda.money.{CurrencyUnit, Money}
@@ -15,7 +15,7 @@ import scala.util.matching.Regex
 
 import ExecutionContext.Implicits.global
 
-class LunchResolverSuppenkulttour extends LunchResolver {
+class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchResolver {
 
   implicit class RegexContext(sc: StringContext) {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
@@ -54,7 +54,7 @@ class LunchResolverSuppenkulttour extends LunchResolver {
     // Die Wochenangebote sind im section-Element mit der class "ce_accordionStart" enthalten
     for (wochenplanSection <- rootNode.evaluateXPath("//section").map { case n: TagNode => n}
          if wochenplanSection.hasClassAttr("ce_accordionStart")) {
-      resolveMonday(wochenplanSection).filter(LunchUtil.isDayRelevant) match {
+      resolveMonday(wochenplanSection).filter(dateValidator.isValid) match {
         case Some(monday) => result ++= parseOffers(wochenplanSection, monday)
         case None =>
       }

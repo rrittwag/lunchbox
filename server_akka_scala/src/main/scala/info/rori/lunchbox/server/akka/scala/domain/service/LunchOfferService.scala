@@ -1,8 +1,8 @@
 package info.rori.lunchbox.server.akka.scala.domain.service
 
 import akka.actor.{ActorLogging, Actor, Props}
+import info.rori.lunchbox.server.akka.scala.domain.logic.DateValidator
 import info.rori.lunchbox.server.akka.scala.domain.model._
-import info.rori.lunchbox.server.akka.scala.domain.util.LunchUtil
 import org.joda.time.LocalDate
 
 object LunchOfferService {
@@ -49,6 +49,7 @@ class LunchOfferService extends Actor with ActorLogging {
   }
 
   def removeOldOffers(): Unit = {
-    offers = offers.filter(offer => LunchUtil.isDayRelevant(offer.day))
+    // TODO: DI einsetzen
+    offers = offers.filter(offer => new DateValidator().isValid(offer.day))
   }
 }

@@ -106,13 +106,16 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
   import ExecutionContext.Implicits.global
   import LunchOfferUpdater._
 
+  // TODO: DI für Util & LunchResolver verwenden
+  val dateValidator = new DateValidator()
+
   val offersFuture: Future[Seq[LunchOffer]] = lunchProvider match {
-    case SCHWEINESTALL => new LunchResolverSchweinestall().resolve
-    case HOTEL_AM_RING => new LunchResolverHotelAmRing().resolve
-    case SUPPENKULTTOUR => new LunchResolverSuppenkulttour().resolve
-    case AOK_CAFETERIA => new LunchResolverAokCafeteria().resolve
-    case SALT_N_PEPPER => new LunchResolverSaltNPepper().resolve
-    case GESUNDHEITSZENTRUM => new LunchResolverGesundheitszentrum().resolve
+    case SCHWEINESTALL => new LunchResolverSchweinestall(dateValidator).resolve
+    case HOTEL_AM_RING => new LunchResolverHotelAmRing(dateValidator).resolve
+    case SUPPENKULTTOUR => new LunchResolverSuppenkulttour(dateValidator).resolve
+    case AOK_CAFETERIA => new LunchResolverAokCafeteria(dateValidator).resolve
+    case SALT_N_PEPPER => new LunchResolverSaltNPepper(dateValidator).resolve
+    case GESUNDHEITSZENTRUM => new LunchResolverGesundheitszentrum(dateValidator).resolve
     case _ => Future(Nil)
   }
   offersFuture.onComplete {

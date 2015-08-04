@@ -1,8 +1,7 @@
 package info.rori.lunchbox.server.akka.scala.domain.logic
 
 import java.net.URL
-
-import info.rori.lunchbox.server.akka.scala.domain.util.LunchUtil
+import info.rori.lunchbox.server.akka.scala.domain.logic.DateValidator
 import info.rori.lunchbox.server.akka.scala.external.{OcrClient, FacebookClient}
 import info.rori.lunchbox.server.akka.scala.domain.model._
 import org.joda.money.{CurrencyUnit, Money}
@@ -22,7 +21,7 @@ case class Wochenplan(monday: LocalDate, mittagsplanImageId: String)
 /**
  * Mittagsangebote von Gesundheitszentrum Springpfuhl über deren Facebook-Seite ermitteln.
  */
-class LunchResolverGesundheitszentrum extends LunchResolver {
+class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends LunchResolver {
 
   sealed abstract class PdfSection(val sectionStartPattern: String, val order: Int)
 
@@ -54,7 +53,7 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
     for (post <- (Json.parse(facebookPostsAsJson) \ "data").as[Seq[JsValue]];
          postText <- (post \ "message").asOpt[String];
          day <- parseDay(postText.replaceAll("\\n", "|")); // im Text steckt das Datum der Woche
-         monday = LunchUtil.toMonday(day);
+         monday = day.withDayOfWeek(1);
          imageAttachment = (post \ "attachments" \ "data")(0); // der 1. Anhang ist das Bild mit dem Mittagsplan
          imageId <- (imageAttachment \ "target" \ "id").asOpt[String])
       yield Wochenplan(monday, imageId)
@@ -189,7 +188,7 @@ class LunchResolverGesundheitszentrum extends LunchResolver {
     case _ => None
   }
 
-  private def isWochenplanRelevant(wochenplan: Wochenplan): Boolean = LunchUtil.isDayRelevant(wochenplan.monday)
+  private def isWochenplanRelevant(wochenplan: Wochenplan): Boolean = dateValidator.isValid(wochenplan.monday)
 
   private def parseLocalDate(dateString: String, dateFormat: String): Option[LocalDate] =
     try {

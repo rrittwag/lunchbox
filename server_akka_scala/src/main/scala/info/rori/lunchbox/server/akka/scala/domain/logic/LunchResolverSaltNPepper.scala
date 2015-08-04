@@ -2,6 +2,7 @@ package info.rori.lunchbox.server.akka.scala.domain.logic
 
 import java.net.URL
 
+import info.rori.lunchbox.server.akka.scala.domain.logic.DateValidator
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchProvider, LunchOffer}
 import org.apache.commons.lang3.StringEscapeUtils
 import org.htmlcleaner.{CleanerProperties, HtmlCleaner, TagNode}
@@ -13,7 +14,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.util.matching.Regex
 import ExecutionContext.Implicits.global
 
-class LunchResolverSaltNPepper extends LunchResolver {
+class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolver {
 
   implicit class RegexContext(sc: StringContext) {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)

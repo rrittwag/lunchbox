@@ -6,13 +6,14 @@ import info.rori.lunchbox.server.akka.scala.domain.model.{LunchOffer, LunchProvi
 import org.joda.money.Money
 import org.joda.time.LocalDate
 import org.scalatest._
+import org.scalamock.scalatest.MockFactory
 
-class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
+class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers with MockFactory {
 
   it should "resolve PDF links for 2015-03-17" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria_2015-03-17.html")
 
-    val links = new LunchResolverAokCafeteria().resolvePdfLinks(url)
+    val links = resolver.resolvePdfLinks(url)
 
     links should have size 2
     links should contain (HttpMittagspauseDir + "AOK_16.03.-20.03..pdf")
@@ -22,7 +23,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
   it should "resolve PDF links for 2015-08-03" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria_2015-08-03.html")
 
-    val links = new LunchResolverAokCafeteria().resolvePdfLinks(url)
+    val links = resolver.resolvePdfLinks(url)
 
     links should have size 5
     links should contain (HttpMittagspauseDir + "AOK_27.07.-31.07.2015.pdf")
@@ -36,7 +37,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_16.03.-20.03..pdf")
     val week = weekOf(s"$YearNow-03-20")
 
-    val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
+    val offers = resolver.resolveFromPdf(url)
 
     offers should have size 15
     offers should contain (LunchOffer(0,"Linseneintopf mit Möhren, Kartoffeln und Sellerie",week.monday,euro("3.50"),Id))
@@ -60,7 +61,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_23.03.-27.03..pdf")
     val week = weekOf(s"$YearNow-03-27")
 
-    val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
+    val offers = resolver.resolveFromPdf(url)
 
     offers should have size 15
     offers should contain (LunchOffer(0,"Kartoffelsuppe",week.monday,euro("3.50"),Id))
@@ -84,7 +85,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_30.03.-02.04..pdf")
     val week = weekOf(s"$YearNow-04-02")
 
-    val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
+    val offers = resolver.resolveFromPdf(url)
 
     offers should have size 12
     offers.filter(_.day == week.monday) should have size 3
@@ -98,7 +99,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_06.04.-10.04..pdf")
     val week = weekOf(s"$YearNow-04-10")
 
-    val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
+    val offers = resolver.resolveFromPdf(url)
 
     offers should have size 12
     offers.filter(_.day == week.monday) should have size 0
@@ -112,7 +113,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_20.07.-24.07.2015.pdf")
     val week = weekOf(s"$YearNow-07-20")
 
-    val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
+    val offers = resolver.resolveFromPdf(url)
 
     offers should have size 15
     offers.filter(_.day == week.monday) should have size 3
@@ -126,7 +127,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AFA_03.08.-07.08..pdf")
     val week = weekOf(s"$YearNow-08-03")
 
-    val offers = new LunchResolverAokCafeteria().resolveFromPdf(url)
+    val offers = resolver.resolveFromPdf(url)
 
     offers should have size 15
     offers.filter(_.day == week.monday) should have size 3
@@ -137,12 +138,18 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers {
   }
 
   it should "parse date from PDF url" in {
-    def parse(file: String): LocalDate = new LunchResolverAokCafeteria().parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
+    def parse(file: String): LocalDate = resolver.parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
 
     parse("AOK_16.03.-20.03..pdf") should be (weekOf(s"$YearNow-03-20").monday)
     parse("AOK_23.03.-27.03..pdf") should be (weekOf(s"$YearNow-03-27").monday)
     parse("AOK_16.03.-20.03..pdf") should be (weekOf(s"$YearNow-03-20").monday)
     parse("AOK_27.07.-31.07.2015.pdf") should be (weekOf(s"$YearNow-07-27").monday)
+  }
+
+  private def resolver = {
+    val validatorStub = stub[DateValidator]
+    (validatorStub.isValid _).when(*).returning(true)
+    new LunchResolverAokCafeteria(validatorStub)
   }
 
   val Id = LunchProvider.AOK_CAFETERIA.id

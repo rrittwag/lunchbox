@@ -5,7 +5,7 @@ import java.net.URL
 
 import grizzled.slf4j.Logging
 import info.rori.lunchbox.server.akka.scala.domain.model._
-import info.rori.lunchbox.server.akka.scala.domain.util.{LunchUtil, TextLine, PDFTextGroupStripper}
+import info.rori.lunchbox.server.akka.scala.domain.util.{TextLine, PDFTextGroupStripper}
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}
@@ -17,7 +17,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.matching.Regex
 
 
-class LunchResolverHotelAmRing extends LunchResolver with Logging {
+class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolver with Logging {
 
   implicit class RegexContext(sc: StringContext) {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
@@ -73,7 +73,7 @@ class LunchResolverHotelAmRing extends LunchResolver with Logging {
 
   private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] =
     parseMondayFromUrl(pdfUrl)
-      .filter(LunchUtil.isDayRelevant)
+      .filter(dateValidator.isValid)
       .map(resolveFromPdfContent(pdfUrl, _))
       .getOrElse(Nil)
 

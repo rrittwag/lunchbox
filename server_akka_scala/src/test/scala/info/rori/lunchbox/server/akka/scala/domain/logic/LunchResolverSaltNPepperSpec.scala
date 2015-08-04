@@ -3,15 +3,16 @@ package info.rori.lunchbox.server.akka.scala.domain.logic
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchProvider, LunchOffer}
 import org.joda.money.Money
 import org.joda.time.LocalDate
+import org.scalamock.scalatest.MockFactory
 
 import org.scalatest._
 
-class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers {
+class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers with MockFactory {
 
   it should "resolve offers for week of 2015-06-19" in {
     val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2015-06-19.html")
 
-    val offers = new LunchResolverSaltNPepper().resolve(url)
+    val offers = resolver.resolve(url)
 
     offers should have size 24
     offers should contain (LunchOffer(0, "Grüne Bohneneintopf mit Kasslerfleisch", date("2015-06-15"), euro("3.90"), Id))
@@ -47,7 +48,7 @@ class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers {
   it should "resolve offers for Easter week of 2015-03-30" in {
     val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2015-03-30.html")
 
-    val offers = new LunchResolverSaltNPepper().resolve(url)
+    val offers = resolver.resolve(url)
 
     offers should have size 19
     offers.filter(_.day == date("2015-03-30")) should have size 5
@@ -60,7 +61,7 @@ class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers {
   it should "resolve offers for week of 2015-05-29" in {
     val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2015-05-29.html")
 
-    val offers = new LunchResolverSaltNPepper().resolve(url)
+    val offers = resolver.resolve(url)
 
     offers should have size 19
     offers.filter(_.day == date("2015-05-25")) should have size 0
@@ -73,9 +74,15 @@ class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers {
   it should "resolve offers for week of 2015-07-11" in {
     val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2015-07-11.html")
 
-    val offers = new LunchResolverSaltNPepper().resolve(url)
+    val offers = resolver.resolve(url)
 
     offers should have size 24
+  }
+
+  private def resolver = {
+    val validatorStub = stub[DateValidator]
+    (validatorStub.isValid _).when(*).returning(true)
+    new LunchResolverSaltNPepper(validatorStub)
   }
 
   private val Id = LunchProvider.SALT_N_PEPPER.id

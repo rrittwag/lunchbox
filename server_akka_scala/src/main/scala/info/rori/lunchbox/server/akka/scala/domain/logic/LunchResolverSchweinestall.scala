@@ -2,6 +2,7 @@ package info.rori.lunchbox.server.akka.scala.domain.logic
 
 import java.net.URL
 
+import info.rori.lunchbox.server.akka.scala.domain.logic.DateValidator
 import info.rori.lunchbox.server.akka.scala.domain.model.LunchOffer
 import info.rori.lunchbox.server.akka.scala.domain.model.LunchProvider.SCHWEINESTALL
 import org.apache.commons.lang3.StringEscapeUtils
@@ -15,7 +16,7 @@ import ExecutionContext.Implicits.global
 
 import util.matching.Regex
 
-class LunchResolverSchweinestall extends LunchResolver {
+class LunchResolverSchweinestall(util: DateValidator) extends LunchResolver {
 
   implicit class RegexContext(sc: StringContext) {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
