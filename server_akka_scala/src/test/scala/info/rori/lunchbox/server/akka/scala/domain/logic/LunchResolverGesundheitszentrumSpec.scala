@@ -159,6 +159,106 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers with Mo
     offers.filter(_.day == week.friday) should have size 0
   }
 
+  it should "resolve offers for week of 2015-06-08" in {
+    val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2015-06-08_ocr.txt")
+    val week = weekOf("2015-06-08")
+
+    val offers = resolver.resolveOffersFromText(week.monday, text)
+
+    offers should have size 18
+
+    offers should contain (LunchOffer(0, "Möhrencremesuppe", week.monday, euro("2.40"),Id))
+    offers should contain (LunchOffer(0, "2 Currywürste mit Pommes frites und Krautsalat", week.monday, euro("4.10"), Id))
+    offers should contain (LunchOffer(0, "Putensteak mit Pfeffersauce, Gemüse und Kroketten", week.monday, euro("4.90"), Id))
+    offers should contain (LunchOffer(0, "Nudeln mit Tomaten-Mozzarella-Sauce", week.monday, euro("3.80"), Id))
+
+    offers should contain (LunchOffer(0, "Gefüllte Eierkuchen", week.tuesday, euro("3.00"), Id))
+    offers should contain (LunchOffer(0, "!!! Schnitzeltag !!!", week.tuesday, euro("4.60"), Id))
+
+    offers should contain (LunchOffer(0, "Grüner Bohneneintopf", week.wednesday, euro("2.40"), Id))
+    offers should contain (LunchOffer(0, "Böhmisches Bierfleisch mit Semmelknödel", week.wednesday, euro("4.10"), Id))
+    offers should contain (LunchOffer(0, "Hähnchen “Cordon bleu“ mit Pfefferrahmsauce, Gemüse und Kroketten", week.wednesday, euro("4.60"), Id))
+    offers should contain (LunchOffer(0, "Seelachsfilet mit Salbei-Senf-Sauce, Naturreis und", week.wednesday, euro("4.80"), Id))
+
+    offers should contain (LunchOffer(0, "Käse-Lauch-Suppe", week.thursday, euro("3.20"), Id))
+    offers should contain (LunchOffer(0, "Hackfleischroulade mit Sahnesauce, Rotkohl und Salzkartoffeln", week.thursday, euro("4.50"), Id))
+    offers should contain (LunchOffer(0, "Hähnchen “Tandoori“ mit Blumenkohl, Brokkoli und Petersilienkartoffeln", week.thursday, euro("4.80"), Id))
+    offers should contain (LunchOffer(0, "Kartoffel-Tomaten-Zucchini-Auflauf", week.thursday, euro("3.90"), Id))
+
+    offers should contain (LunchOffer(0, "Weißkohleintopf", week.friday, euro("2.40"), Id))
+    offers should contain (LunchOffer(0, "Hackfleischbällchen mit Porreerahmgemüse und Salzkartoffeln", week.friday, euro("4.10"), Id))
+    offers should contain (LunchOffer(0, "Schweinekrustenbraten mit Gemüse dazu Salzkartoffeln", week.friday, euro("4.40"), Id))
+    offers should contain (LunchOffer(0, "Hausgemachtes Gemüseschnitzel mit Kartoffelpüree", week.friday, euro("3.90"), Id))
+  }
+
+  it should "resolve offers for week of 2015-07-27" in {
+    val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2015-07-27_ocr.txt")
+    val week = weekOf("2015-07-27")
+
+    val offers = resolver.resolveOffersFromText(week.monday, text)
+
+    offers should have size 20
+
+    offers should contain (LunchOffer(0, "Kartoffelsuppe mit Wiener", week.monday, euro("3.30"),Id))
+    offers should contain (LunchOffer(0, "Schweineleber mit Zwiebelsauce und Kartoffelpüree", week.monday, euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Hähnchen „Cordon Bleu“ ;Pfefferrahmsauce, Gemüse und Kroketten", week.monday, euro("4.60"), Id))
+    offers should contain (LunchOffer(0, "Gefüllte Kartoffeltaschen mit Tomatensauce", week.monday, euro("3.90"), Id))
+
+    offers should contain (LunchOffer(0, "Germknödel mit Vanillesauce und Mohn", week.tuesday, euro("3.20"), Id))
+    offers should contain (LunchOffer(0, "Paprikasahnegulasch mit Nudeln", week.tuesday, euro("4.10"), Id))
+    offers should contain (LunchOffer(0, "Gefüllter Schweinerücken mit Gemüse und Salzkartoffeln", week.tuesday, euro("4.50"), Id))
+    offers should contain (LunchOffer(0, "Vegetarische Paprikaschote mit Vollkornreis und Salat", week.tuesday, euro("4.20"), Id))
+
+    offers should contain (LunchOffer(0, "Gulaschsuppe", week.wednesday, euro("3.20"), Id))
+    offers should contain (LunchOffer(0, "Schmorkohl mit Hackfleisch und Salzkartoffeln", week.wednesday, euro("4.00"), Id))
+    offers should contain (LunchOffer(0, "Pangasius mit Honig-Senf-Dillrahmsauce und Salzkartoffeln", week.wednesday, euro("4.60"), Id))
+    offers should contain (LunchOffer(0, "Kartoffel-Brokkoli-Auflauf", week.wednesday, euro("3.90"), Id))
+
+    offers should contain (LunchOffer(0, "Käse-Lauch-Suppe", week.thursday, euro("3.20"), Id))
+    offers should contain (LunchOffer(0, "Hühnerfrikassee mit Champignons, Spargel und Reis", week.thursday, euro("4.10"), Id))
+    offers should contain (LunchOffer(0, "Steak „au four“ mit Buttererbsen und Kroketten", week.thursday, euro("4.60"), Id))
+    offers should contain (LunchOffer(0, "Pasta mit Blattspinat, Tomaten und Reibekäse", week.thursday, euro("4.00"), Id))
+
+    offers should contain (LunchOffer(0, "Fischtopf", week.friday, euro("3.20"), Id))
+    offers should contain (LunchOffer(0, "Schweinegeschnetzeltes mit Pilzen und Reis", week.friday, euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Holzfällersteak mit geschmorten Zwiebeln und Bratkartoffeln", week.friday, euro("4.50"), Id))
+    offers should contain (LunchOffer(0, "Kräuterrührei mit Kartoffelpüree", week.friday, euro("3.80"), Id))
+  }
+
+  it should "resolve offers for week of 2015-08-03" in {
+    val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2015-08-03_ocr.txt")
+    val week = weekOf("2015-08-03")
+
+    val offers = resolver.resolveOffersFromText(week.monday, text)
+
+    offers should have size 20
+
+    offers should contain (LunchOffer(0, "Vegetarische Linsensuppe mit einem Vollkornbrötchen", week.monday, euro("3.20"),Id))
+    offers should contain (LunchOffer(0, "Hausgemachte Boulette mit Mischgemüse und Kartoffelpüree", week.monday, euro("4.00"), Id))
+    offers should contain (LunchOffer(0, "Rindersauerbraten mit Rotkohl und Klößen", week.monday, euro("4.80"), Id))
+    offers should contain (LunchOffer(0, "Kartoffel-Tomaten-Zucchini-Auflauf mit Mozzarella überbacken", week.monday, euro("3.90"), Id))
+
+    offers should contain (LunchOffer(0, "Hausgemachte Eierkuchen mit Apfelmus und Zucker", week.tuesday, euro("3.50"), Id))
+    offers should contain (LunchOffer(0, "Rostbratwurst mit Sauerkraut und Kartoffelpüree", week.tuesday, euro("4.00"), Id))
+    offers should contain (LunchOffer(0, "„Pariser Schnitzel“ in Burgundersauce, Gemüse und Kroketten", week.tuesday, euro("4.60"), Id))
+    offers should contain (LunchOffer(0, "Nudeln mit Morchelrahmsauce", week.tuesday, euro("3.80"), Id))
+
+    offers should contain (LunchOffer(0, "Rosenkohleintopf", week.wednesday, euro("2.40"), Id))
+    offers should contain (LunchOffer(0, "Jägerschnitzel (panierte Jagdwurst), Tomatensauce und Nudeln", week.wednesday, euro("4.00"), Id))
+    offers should contain (LunchOffer(0, "Forelle „Müllerin Art“ mit zerlassener Butter und Petersilienkartoffeln", week.wednesday, euro("4.60"), Id))
+    offers should contain (LunchOffer(0, "4/2 Eier mit Remoulade und Bratkartoffeln", week.wednesday, euro("3.80"), Id))
+
+    offers should contain (LunchOffer(0, "Bauerntopf (Hackfleisch, Kartoffeln, Paprika und Zwiebeln)", week.thursday, euro("3.20"), Id))
+    offers should contain (LunchOffer(0, "Pfefferfleisch mit Buttererbsen und Reis", week.thursday, euro("4.20"), Id))
+    offers should contain (LunchOffer(0, "Putenschnitzel mit Preiselbeerdressing und Kroketten", week.thursday, euro("4.80"), Id))
+    offers should contain (LunchOffer(0, "Rieseneisbein mit Sauerkraut und Salzkartoffeln", week.thursday, euro("4.90"), Id))
+
+    offers should contain (LunchOffer(0, "Blumenkohl-Curry-Suppe", week.friday, euro("2.60"), Id))
+    offers should contain (LunchOffer(0, "3 gekochte Eier mit Senfsauce und Kartoffelpüree", week.friday, euro("3.80"), Id))
+    offers should contain (LunchOffer(0, "Schweinekrustenbraten mit Gemüse und Salzkartoffeln", week.friday, euro("4.40"), Id))
+    offers should contain (LunchOffer(0, "Pilzragout mit Semmelknödel", week.friday, euro("4.00"), Id))
+  }
+
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)

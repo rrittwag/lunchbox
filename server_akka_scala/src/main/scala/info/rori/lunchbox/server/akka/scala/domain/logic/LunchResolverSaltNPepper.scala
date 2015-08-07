@@ -112,7 +112,7 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
    * @return
    */
   private def parseDay(text: String): Option[LocalDate] = text match {
-    case r""".*(\d{2}.\d{2}.\d{4})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yyyy")
+    case r""".*(\d{2}\.\d{2}\.\d{4})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yyyy")
     case _ => None
   }
 
@@ -127,7 +127,7 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
    * @return
    */
   private def parsePrice(node: TagNode): Option[Money] = node.getText match {
-    case r""".*(\d{1,})$major[.,](\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
+    case r""".*(\d{1,})$major[\.,](\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
     case _ => None
   }
 

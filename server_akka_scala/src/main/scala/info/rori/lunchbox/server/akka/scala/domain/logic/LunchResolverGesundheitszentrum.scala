@@ -38,6 +38,15 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
     val values = List(HEADER) ++ weekdaysValues ++ List(FOOTER)
   }
 
+  case class OfferRow(name: String, priceOpt: Option[Money]) {
+    def merge(otherRow: OfferRow): OfferRow = {
+      val newName = Seq(name, otherRow.name).filter(!_.isEmpty).mkString(" ")
+      OfferRow(newName, priceOpt.orElse(otherRow.priceOpt))
+    }
+
+    def isValid = !name.isEmpty && priceOpt.isDefined
+  }
+
   implicit class RegexContext(sc: StringContext) {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
   }
@@ -106,36 +115,44 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
   }
 
   private def resolveOffersFromSection(section: PdfSection, lines: Seq[String], monday: LocalDate): Seq[LunchOffer] = {
-    var result = Seq[LunchOffer]()
-    var preLine = ""
+    val rows = resolveOfferRows(lines)
+    rows.flatMap {
+      case OfferRow(name, Some(price)) =>
+        Some(LunchOffer(0, name, monday.plusDays(section.order), price, LunchProvider.GESUNDHEITSZENTRUM.id))
+      case _ =>
+        None
+    }
+  }
 
-    for (line <- lines) {
-      val lineWithPreLine = s"$preLine $line".trim
-      resolveOfferFromLine(section, lineWithPreLine, monday) match {
-        case Some(offer) =>
-          preLine = ""
-          result :+= offer
-        case None =>
-          preLine = lineWithPreLine
-      }
+  private def resolveOfferRows(lines: Seq[String]): Seq[OfferRow] = {
+    var result = Seq[OfferRow]()
+    var currentRow: Option[OfferRow] = None
+
+    def mergeRow(newRow: OfferRow) = currentRow match {
+        case Some(row) => currentRow = Some(row.merge(newRow))
+        case None => currentRow = Some(newRow)
     }
 
+    for (line <- lines.map(l => removeUnnecessaryText(correctOcrErrors(l)))) {
+      if (line.matches("""^[Ff\d]\.*( .*)?$""")) {
+        currentRow.foreach(row => result :+= row)
+        currentRow = None
+      }
+
+      line.replaceFirst("""^[Ff\d]\.*""", "") match {
+        case r"""(.*)$name (\d{1,} ?[\.,] ?\d{2} ?[€g]?)$priceStr""" =>
+          mergeRow(OfferRow(cleanName(name), parsePrice(priceStr)))
+        case name =>
+          mergeRow(OfferRow(cleanName(name), None))
+      }
+    }
+    currentRow.foreach(row => result :+= row)
     result
   }
 
-  private def resolveOfferFromLine(section: PdfSection, line: String, monday: LocalDate): Option[LunchOffer] = line match {
-      case r"""(.*)$rawText (\d{1,} ?[.,] ?\d{2})$priceStr""" =>
-        val text = removeUnnecessaryText(correctOcrErrors(rawText)).trim
-        parsePrice(priceStr) match {
-          case Some(price) =>
-            Some(LunchOffer(0, text, monday.plusDays(section.order), price, LunchProvider.GESUNDHEITSZENTRUM.id))
-          case _ => None
-        }
-      case _ => None
-  }
-
-  private def correctOcrErrors(line: String) = {
-    line.replaceAll("""([a-zA-ZäöüßÄÖÜ])II""", "$1ll")
+  private def correctOcrErrors(line: String) =
+    line.replaceAll("IVi", "M")
+      .replaceAll("""([a-zA-ZäöüßÄÖÜ])II""", "$1ll")
       .replaceAll("""([a-zA-ZäöüßÄÖÜ])I""", "$1l")
       .replaceAll("artoffei", "artoffel")
       .replaceAll("uiasch", "ulasch")
@@ -156,16 +173,15 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
       .replaceAll("uflauf", "uflauf")
       .replaceAll("utiauf", "uflauf")
       .replaceAll("ufiauf", "uflauf")
-      .replaceAll(" 2 und ", " und ")
-      .replaceAll(" 2 *$", "")
-      .replaceAll(" 3.14 ", " ") // schlecht OCR-ed Zusatzstoffe
-  }
 
   private def removeUnnecessaryText(text: String) =
-    text.trim.replaceFirst("FlTNESS", "")
-      .trim.replaceAll("^F.? ", "")
-      .trim.replaceAll("""^\d.? """, "")
-      .trim.replaceAll(""" \d+ kcal""", "").trim
+      text.trim.replaceAll("""^FlTNESS [fF\d]\.? """, "F. ")
+        .replaceAll("""^FlTNESS """, "F. ")
+        .replaceAll(""" \d+ kcal""", "")
+        .replaceAll(" 2 und ", " und ")
+        .replaceAll(" 3.14 ", " ").trim // schlecht OCR-ed Zusatzstoffe
+
+  private def cleanName(text: String) = text.replaceAll(" 2 *$", "").trim
 
   /**
    * Erzeugt ein LocalDate aus dem Format "*dd.mm.yyyy*"
@@ -173,7 +189,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
    * @return
    */
   private def parseDay(text: String): Option[LocalDate] = text match {
-    case r""".*(\d{2}.\d{2}.\d{4})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yyyy")
+    case r""".*(\d{2}\.\d{2}\.\d{4})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yyyy")
     case _ => None
   }
 
@@ -183,7 +199,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
    * @return
    */
   private def parsePrice(text: String): Option[Money] = text match {
-    case r""".*(\d{1,})$major ?[.,] ?(\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
+    case r""".*(\d{1,})$major ?[\.,] ?(\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
     case _ => None
   }
 

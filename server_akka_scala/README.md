@@ -44,22 +44,22 @@ Distribution
 TODOs
 -----
 
-* Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
-* Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
 * Dockerfile generieren ...
   * ... via sbt-native-packager [hier](http://www.scala-sbt.org/sbt-native-packager/archetypes/java_server/my-first-project.html) oder [hier](https://github.com/pussinboots/sbt-rpm/blob/master/project/packaging.scala)
   * ... oder via [sbt-docker](https://github.com/marcuslonnberg/sbt-docker)
 * [via Vagrant deployen](https://github.com/pussinboots/sbt-rpm)
+* Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
+* Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
+  * Unit-Tests für Aktoren schreiben
+  * Unit-Tests für API schreiben (mit akka-http-testkit?)
+  * Unit-Tests für external Clients schreiben
 * Akka-Supervisioning beschreiben
-* Unit-Tests für Aktoren schreiben
-* Unit-Tests für API schreiben (mit akka-http-testkit?)
-* Unit-Tests für external Clients schreiben
 * LunchResolver: globalen durch eigenen ExecutionContext ersetzen?
 * Caching der Requests (spray-caching?)
 * Spray-JSON ersetzen durch [akka-http-json & Play-JSON](https://github.com/hseeberger/akka-http-json)
 * Publish: sbt-release einsetzen + privates Maven-Repo?
+* DI für LunchProviderService
 * TODOs in Code abarbeiten
-* DI für LunchProviderService => vergleiche https://github.com/ehalpern/sandbox/tree/master/src/main/scala/twine
 * schnelles Re-Deployment mit sbt-revolver ??
 * Stoppen per Maintenance ermöglichen
 
