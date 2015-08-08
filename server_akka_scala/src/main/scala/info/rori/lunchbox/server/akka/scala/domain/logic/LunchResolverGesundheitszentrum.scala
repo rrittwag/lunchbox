@@ -129,18 +129,18 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
     var currentRow: Option[OfferRow] = None
 
     def mergeRow(newRow: OfferRow) = currentRow match {
-        case Some(row) => currentRow = Some(row.merge(newRow))
-        case None => currentRow = Some(newRow)
+      case Some(row) => currentRow = Some(row.merge(newRow))
+      case None => currentRow = Some(newRow)
     }
 
     for (line <- lines.map(l => removeUnnecessaryText(correctOcrErrors(l)))) {
-      if (line.matches("""^[Ff\d]\.*( .*)?$""")) {
+      if (line.matches("""^[F\d]\.?( .*)?$""")) {
         currentRow.foreach(row => result :+= row)
         currentRow = None
       }
 
-      line.replaceFirst("""^[Ff\d]\.*""", "") match {
-        case r"""(.*)$name (\d{1,} ?[\.,] ?\d{2} ?[€g]?)$priceStr""" =>
+      line.replaceFirst("""^[F\d]\.?""", "") match {
+        case r"""(.*)$name (\d{1,},\d{2})$priceStr""" =>
           mergeRow(OfferRow(cleanName(name), parsePrice(priceStr)))
         case name =>
           mergeRow(OfferRow(cleanName(name), None))
@@ -151,7 +151,11 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
   }
 
   private def correctOcrErrors(line: String) =
-    line.replaceAll("IVi", "M")
+    line.trim
+      .replaceAll("""^[fF]\.* """, "F. ")
+      .replaceAll("""^(\d)\.+ """, "$1. ")
+      .replaceAll("""(\d{1,}) ?[\.,] ?(\d{2}) ?[€g]?$""", "$1,$2")
+      .replaceAll("IVi", "M")
       .replaceAll("""([a-zA-ZäöüßÄÖÜ])II""", "$1ll")
       .replaceAll("""([a-zA-ZäöüßÄÖÜ])I""", "$1l")
       .replaceAll("artoffei", "artoffel")
@@ -175,7 +179,8 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
       .replaceAll("ufiauf", "uflauf")
 
   private def removeUnnecessaryText(text: String) =
-      text.trim.replaceAll("""^FlTNESS [fF\d]\.? """, "F. ")
+      text.trim
+        .replaceAll("""^FlTNESS [fF\d]\.* """, "F. ")
         .replaceAll("""^FlTNESS """, "F. ")
         .replaceAll(""" \d+ kcal""", "")
         .replaceAll(" 2 und ", " und ")
@@ -199,7 +204,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
    * @return
    */
   private def parsePrice(text: String): Option[Money] = text match {
-    case r""".*(\d{1,})$major ?[\.,] ?(\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
+    case r""".*(\d{1,})$major,(\d{2})$minor""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
     case _ => None
   }
 
