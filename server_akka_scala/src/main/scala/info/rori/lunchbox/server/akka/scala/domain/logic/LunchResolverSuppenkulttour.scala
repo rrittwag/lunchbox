@@ -127,7 +127,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     var priceOpt: Option[Money] = None
 
     val clearedParts = offerAttributesAsStrings.map { part =>
-      part.replaceAll("""\( ?([a-zA-Z\d]{1,2},)* ?[a-zA-Z\d]{1,2},? ?\)""", "") // Zusatzinfo (i,j,19) entfernen
+      part.replaceAll("""\( ?([a-zA-Z\d]{1,2}, ?)* ?[a-zA-Z\d]{1,2},? ?\)""", "") // Zusatzinfo (i,j,19) entfernen
         .replaceAll("\\u00a0", " ") // NO-BREAK SPACE durch normales Leerzeichen ersetzen
         .trim.replaceAll("  ", " ") // doppelte Leerzeichen entfernen
     }

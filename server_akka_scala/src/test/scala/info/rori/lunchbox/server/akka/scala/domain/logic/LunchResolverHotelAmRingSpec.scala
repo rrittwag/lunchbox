@@ -210,7 +210,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     offers should contain(LunchOffer(0,"gebratenes Wildlachsfilet an Kräuterrahmsauce mit Lotusgemüse & Wildreis",week.thursday,euro("5.50"),Id))
   }
 
-  ignore should "resolve offers for week of 2015-08-03" in {
+  it should "resolve offers for week of 2015-08-03" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_03.08.-07.08.2015.pdf")
     val week = weekOf(s"$YearNow-08-03")
 

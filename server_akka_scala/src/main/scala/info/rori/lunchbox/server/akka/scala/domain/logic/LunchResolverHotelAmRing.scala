@@ -116,6 +116,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
           result += currentSection -> linesForSection
           currentSection = newSection
           linesForSection = Nil
+          if (containsPrice(line)) linesForSection :+= line // die "Salat der Woche"-Titelzeile enthält neuerdings den Preis
         case None =>
           linesForSection :+= line
       }
@@ -140,14 +141,16 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
       // Mittwochs-Titelzeile "Buffettag" mit nächster Zeile mergen
       case first :: second :: remain if section == PdfSection.MITTWOCH =>
         OfferRow(s"${first.name}: ${second.name}", first.priceOpt.orElse(second.priceOpt)) :: remain
-      // "Salat der Woche: " voranstellen, wenn dem so ist
-      case first :: remain if section == PdfSection.SALAT_DER_WOCHE =>
+      // "Salat der Woche: " beim Salat der Woche voranstellen, wenn es denn noch nicht vorhanden ist
+      case first :: remain if section == PdfSection.SALAT_DER_WOCHE && !first.name.startsWith("Salat der Woche") =>
         OfferRow(s"Salat der Woche: ${first.name}", first.priceOpt) :: remain
       case r => r
     }
 
     rows =
-      if (rows.exists(_.startsWithBoldText))
+      if (section == PdfSection.SALAT_DER_WOCHE)
+        mergeRowsToOneRow(rows, section)
+      else if (rows.exists(_.startsWithBoldText))
         mergeRowsByBoldText(rows, section)
       else
         mergeRowsUnformatted(rows, section)
@@ -174,6 +177,17 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
           (line, false)
       }
     }
+  }
+
+  private def mergeRowsToOneRow(rows: Seq[OfferRow], section: PdfSection): Seq[OfferRow] = {
+    var mergedRowOpt: Option[OfferRow] = None
+    rows.foreach(row =>
+      mergedRowOpt match {
+        case None => mergedRowOpt = Some(row)
+        case Some(mergedRow) => mergedRowOpt = Some(mergedRow.merge(row))
+      }
+    )
+    mergedRowOpt.fold(Seq[OfferRow]())(Seq(_))
   }
 
   private def mergeRowsByBoldText(rows: Seq[OfferRow], section: PdfSection): Seq[OfferRow] = {
@@ -229,6 +243,8 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
     curMergedRowOpt.foreach(curMergedRow => if (curMergedRow.isValid) mergedRows :+= curMergedRow)
     mergedRows
   }
+
+  private def containsPrice(line: TextLine) = line.toString.trim.matches(""".+\d{1,}[.,]\d{2} *€""")
 
   private def multiplyWochenangebote(wochenOffers: Seq[LunchOffer], dates: Seq[LocalDate]): Seq[LunchOffer] = {
     val sortedDates = dates.toSet[LocalDate].toList.sortBy(_.toDate)
