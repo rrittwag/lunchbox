@@ -259,6 +259,40 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers with Mo
     offers should contain (LunchOffer(0, "Pilzragout mit Semmelknödel", week.friday, euro("4.00"), Id))
   }
 
+  it should "resolve offers for week of 2015-08-10" in {
+    val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2015-08-10_ocr.txt")
+    val week = weekOf("2015-08-10")
+
+    val offers = resolver.resolveOffersFromText(week.monday, text)
+
+    offers should have size 20
+
+    offers should contain (LunchOffer(0, "Indischer Curryreiseintopf mit Gemüse und Hühnerfleisch", week.monday, euro("3.00"),Id))
+    offers should contain (LunchOffer(0, "2 Currywürste mit hausgemachtem Curryketchup und Pommes frites", week.monday, euro("4.10"), Id))
+    offers should contain (LunchOffer(0, "Gebratenes Putensteak mit Curry-Ananas-Sauce und Spätzle", week.monday, euro("4.90"), Id))
+    offers should contain (LunchOffer(0, "Kräuterquark mit Butter oder Leinöl und Salzkartoffeln", week.monday, euro("3.80"), Id))
+
+    offers should contain (LunchOffer(0, "Grießbrei mit Früchten", week.tuesday, euro("2.90"), Id))
+    offers should contain (LunchOffer(0, "Hackbraten mit Mischgemüse und Salzkartoffeln", week.tuesday, euro("4.00"), Id))
+    offers should contain (LunchOffer(0, "Rindergulasch mit Rotkohl und Klöße", week.tuesday, euro("4.80"), Id))
+    offers should contain (LunchOffer(0, "Pasta mit Blattspinat, Tomaten und Reibekäse (analog)", week.tuesday, euro("4.00"), Id))
+
+    offers should contain (LunchOffer(0, "Grüne Bohneneintopf", week.wednesday, euro("2.40"), Id))
+    offers should contain (LunchOffer(0, "Szegediner Gulasch mit Salzkartoffeln", week.wednesday, euro("4.10"), Id))
+    offers should contain (LunchOffer(0, "Lachs mit Makkaroni und Möhren-Sellerie-Salat", week.wednesday, euro("4.80"), Id))
+    offers should contain (LunchOffer(0, "Champignonomelette mit Sauce Funghi und Kartoffelpüree", week.wednesday, euro("3.90"), Id))
+
+    offers should contain (LunchOffer(0, "Porreeeintopf", week.thursday, euro("2.40"), Id))
+//    offers should contain (LunchOffer(0, "Ofenfrischer Leberkäs mit einem Setzei, Zwiebelsauce und Kartoffelpüree", week.thursday, euro("4.20"), Id))
+    offers should contain (LunchOffer(0, "Entenkeule mit Rotkohl und Klöße", week.thursday, euro("4.90"), Id))
+    offers should contain (LunchOffer(0, "Eier-Spinat-Ragout mit Petersilienkartoffeln", week.thursday, euro("4.00"), Id))
+
+    offers should contain (LunchOffer(0, "Reitersuppe (Hackfleisch, grüne Bohnen, Champignons, Paprika)", week.friday, euro("3.20"), Id))
+    offers should contain (LunchOffer(0, "Chinapfanne mit Reis", week.friday, euro("4.20"), Id))
+    offers should contain (LunchOffer(0, "Schaschlik-Spieß mit Letscho und Pommes frites", week.friday, euro("4.70"), Id))
+    offers should contain (LunchOffer(0, "Brathering mit Bratkartoffeln", week.friday, euro("3.90"), Id))
+  }
+
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)

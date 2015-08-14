@@ -156,6 +156,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
       .replaceAll("""^(\d)\.+ """, "$1. ")
       .replaceAll("""(\d{1,}) ?[\.,] ?(\d{2}) ?[€g]?$""", "$1,$2")
       .replaceAll("IVi", "M")
+      .replaceAll("IVl", "M")
       .replaceAll("""([a-zA-ZäöüßÄÖÜ])II""", "$1ll")
       .replaceAll("""([a-zA-ZäöüßÄÖÜ])I""", "$1l")
       .replaceAll("artoffei", "artoffel")
@@ -183,7 +184,9 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
         .replaceAll("""^FlTNESS [fF\d]\.* """, "F. ")
         .replaceAll("""^FlTNESS """, "F. ")
         .replaceAll(""" \d+ kcal""", "")
-        .replaceAll(" 2 und ", " und ")
+        .replaceAll(" 2 ?und ", " und ")
+        .replaceAll(" 2 ?mit ", " mit ")
+        .replaceAll(" , ", ", ")
         .replaceAll(" 3.14 ", " ").trim // schlecht OCR-ed Zusatzstoffe
 
   private def cleanName(text: String) = text.replaceAll(" 2 *$", "").trim
