@@ -4,6 +4,6 @@
 
   angular
     .module('lunchboxWebapp')
-    .constant('_', _);
+    .constant('_', _);  // JS-Bibliothek Underscore in Angular einbinden
 
 })();

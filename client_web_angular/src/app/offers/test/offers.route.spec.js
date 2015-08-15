@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  describe('main route', function() {
+  describe('offers route', function() {
     var location, route, rootScope;
 
     beforeEach(function () {
@@ -19,15 +19,15 @@
     it('should be loaded on /', function () {
       location.path('/');
       rootScope.$digest();
-      expect(route.current.templateUrl).toBe('app/main/main.html');
-      expect(route.current.controller).toBe('MainCtrl');
+      expect(route.current.templateUrl).toBe('app/offers/offers.html');
+      expect(route.current.controller).toBe('OffersCtrl');
     });
 
     it('should be default on some undefined address', function () {
       location.path('/some_undefined_address');
       rootScope.$digest();
-      expect(route.current.templateUrl).toBe('app/main/main.html');
-      expect(route.current.controller).toBe('MainCtrl');
+      expect(route.current.templateUrl).toBe('app/offers/offers.html');
+      expect(route.current.controller).toBe('OffersCtrl');
     });
   });
 

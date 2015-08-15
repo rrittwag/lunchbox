@@ -9,13 +9,13 @@
   function routeConfig($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl',
+        templateUrl: 'app/offers/offers.html',
+        controller: 'OffersCtrl',
         navbarName: 'Mittagsangebote'
       })
       .when('/about', {
         templateUrl: 'app/about/about.html',
-  //      controller: 'MainCtrl'
+  //      controller: 'OffersCtrl'
         navbarName: 'Info'
       })
       .otherwise({

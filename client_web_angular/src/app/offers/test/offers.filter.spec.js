@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  describe('main filter', function() {
+  describe('offers filter', function() {
     var $filter;
     var providerNB1 = {id: 1, name: 'Anbieter 1', location: 'Neubrandenburg'};
     var providerNB2 = {id: 2, name: 'Anbieter 2', location: 'Neubrandenburg'};

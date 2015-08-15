@@ -1,13 +1,11 @@
 (function() {
   'use strict';
 
-  //var _ = require('underscore');
-
   // WebApp-Modul abrufen ...
   var app = angular.module('lunchboxWebapp');
 
-  // ... und Controller für Main-View erzeugen
-  app.controller('MainCtrl', function ($scope, _, LunchProviderStore, LunchOfferStore) {
+  // ... und Controller für Offers-View erzeugen
+  app.controller('OffersCtrl', function ($scope, _, LunchProviderStore, LunchOfferStore) {
     function today() {
       var localNow = new Date();
       return new Date(Date.UTC(localNow.getFullYear(), localNow.getMonth(), localNow.getDate()));

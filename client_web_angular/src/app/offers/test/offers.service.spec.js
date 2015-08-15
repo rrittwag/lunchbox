@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  describe('main service', function() {
+  describe('offers service', function() {
     var $httpBackend;
 
     var testProviders = [{id: 1, name: 'Anbieter 1', location: 'Neubrandenburg'}, {id: 2, name: 'Anbieter 2', location: 'Berlin'}];

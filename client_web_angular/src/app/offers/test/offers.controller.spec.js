@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  describe('main controller', function(){
+  describe('offers controller', function(){
     var $httpBackend; // fake http backend, initialized via initHttpBackend
     var scope; // Scope für zu instanziierenden Controller
 
@@ -29,7 +29,7 @@
       module('lunchboxWebapp');
       inject(function($rootScope) { scope = $rootScope.$new(); });
       inject(function($controller) {
-        $controller('MainCtrl', { $scope: scope });
+        $controller('OffersCtrl', { $scope: scope });
       });
 
       // Custom Matcher, der beim Vergleich AngularJS-Wrapper kaschiert (z.B. Promise, Resource)
