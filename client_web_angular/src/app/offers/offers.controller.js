@@ -25,6 +25,7 @@
       function() { // on success
         loadStatus.providers = LoadStatusEnum.FINISHED;
         if ( $scope.isLoadFinished() ) {
+          refreshOffersForLocation();
           refreshVisibleOffers();
         }
       }, function() { // on error
@@ -36,6 +37,7 @@
       function() { // on success
         loadStatus.offers = LoadStatusEnum.FINISHED;
         if ( $scope.isLoadFinished() ) {
+          refreshOffersForLocation();
           refreshVisibleOffers();
         }
       }, function() { // on error
@@ -43,16 +45,24 @@
       }
     );
 
-    $scope.visibleOffers = {};
+    $scope.offersForLocation = [];
 
-    function refreshVisibleOffers() {
+    function refreshOffersForLocation() {
       var providerIdsForLocation = _.chain($scope.providers)
                 .filter(function(p) { return p.location === $scope.location; })
                 .map(function(p) { return p.id; })
                 .value();
-      var offersForDayAndLocation = $scope.offers.filter( function(o){
-          return Date.parse(o.day) === $scope.day.getTime() &&
-                 _.contains(providerIdsForLocation, o.provider);
+      $scope.offersForLocation = $scope.offers.filter( function(o){
+          return _.contains(providerIdsForLocation, o.provider);
+        });
+    }
+
+    // visible offers grouped by provider id
+    $scope.visibleOffers = {};
+
+    function refreshVisibleOffers() {
+      var offersForDayAndLocation = _.filter( $scope.offersForLocation, function(o){
+          return $scope.day !== undefined && Date.parse(o.day) === $scope.day.getTime();
         });
       $scope.visibleOffers = _.groupBy(offersForDayAndLocation, function(o) { return o.provider; });
     }
@@ -65,8 +75,8 @@
       }
     };
 
-    $scope.daysInOffers = function() {
-      return _.chain($scope.offers)
+    $scope.daysInOffers = function(offers) {
+      return _.chain(offers)
           .map(function(offer) { return new Date(Date.parse(offer.day)); })
           .uniq(false, function(offer) { return offer.getTime(); })
           .sortBy(function(offer) { return offer.getTime(); })
@@ -74,13 +84,13 @@
     };
 
     $scope.prevDay = function() {
-      return _.chain($scope.daysInOffers())
+      return _.chain($scope.daysInOffers($scope.offersForLocation))
           .filter(function(day) { return day < $scope.day; })
           .last().value();
     };
 
     $scope.nextDay = function() {
-      return _.chain($scope.daysInOffers())
+      return _.chain($scope.daysInOffers($scope.offersForLocation))
           .filter(function(day) { return day > $scope.day; })
           .first().value();
     };

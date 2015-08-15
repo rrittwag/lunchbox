@@ -173,14 +173,14 @@
         var yesterday = new Date(Date.UTC(2015, 1, 4));
         var today = new Date(Date.UTC(2015, 1, 5));
         var tomorrow = new Date(Date.UTC(2015, 1, 6));
-        scope.offers = [{id: 1, name: 'Angebot 1', day: today, price: 550, provider: 1},
-                        {id: 2, name: 'Angebot 2', day: yesterday, price: 550, provider: 1},
-                        {id: 3, name: 'Angebot 3', day: today, price: 550, provider: 1},
-                        {id: 4, name: 'Angebot 4', day: tomorrow, price: 550, provider: 1},
-                        {id: 5, name: 'Angebot 5', day: tomorrow, price: 550, provider: 1},
-                        {id: 6, name: 'Angebot 6', day: today, price: 550, provider: 1}];
+        var offers = [{id: 1, name: 'Angebot 1', day: today, price: 550, provider: 1},
+                      {id: 2, name: 'Angebot 2', day: yesterday, price: 550, provider: 1},
+                      {id: 3, name: 'Angebot 3', day: today, price: 550, provider: 1},
+                      {id: 4, name: 'Angebot 4', day: tomorrow, price: 550, provider: 1},
+                      {id: 5, name: 'Angebot 5', day: tomorrow, price: 550, provider: 1},
+                      {id: 6, name: 'Angebot 6', day: today, price: 550, provider: 1}];
 
-        var result = scope.daysInOffers();
+        var result = scope.daysInOffers(offers);
 
         expect(result.length).toBe(3);
         expect(result).toContain(yesterday);
@@ -192,19 +192,19 @@
         var yesterday = new Date(Date.UTC(2015, 1, 4));
         var today = new Date(Date.UTC(2015, 1, 5));
         var tomorrow = new Date(Date.UTC(2015, 1, 6));
-        scope.offers = [{id: 1, name: 'Angebot 1', day: today, price: 550, provider: 1},
-                        {id: 2, name: 'Angebot 2', day: tomorrow, price: 550, provider: 1},
-                        {id: 3, name: 'Angebot 3', day: yesterday, price: 550, provider: 1}];
+        var offers = [{id: 1, name: 'Angebot 1', day: today, price: 550, provider: 1},
+                      {id: 2, name: 'Angebot 2', day: tomorrow, price: 550, provider: 1},
+                      {id: 3, name: 'Angebot 3', day: yesterday, price: 550, provider: 1}];
 
-        var result = scope.daysInOffers();
+        var result = scope.daysInOffers(offers);
 
         expect(result).toEqual([yesterday, today, tomorrow]);
       });
 
       it('should be empty when no offers exist', function() {
-        scope.offers = [];
+        var offers = [];
 
-        var result = scope.daysInOffers();
+        var result = scope.daysInOffers(offers);
 
         expect(result.length).toBe(0);
       });
@@ -216,7 +216,7 @@
       it('should be yesterday when offer for yesterday exists', function() {
         scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
         var yesterday = new Date(Date.UTC(2015, 1, 4));
-        scope.offers = [{id: 1, name: 'Angebot 1', day: yesterday, price: 550, provider: 1}];
+        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: yesterday, price: 550, provider: 1}];
 
         var result = scope.prevDay();
 
@@ -228,7 +228,7 @@
       it('should be two days ago when no offer for yesterday exists', function() {
         scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
         var twoDaysAgo = new Date(Date.UTC(2015, 1, 3));
-        scope.offers = [{id: 1, name: 'Angebot 1', day: twoDaysAgo, price: 550, provider: 1}];
+        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: twoDaysAgo, price: 550, provider: 1}];
 
         var result = scope.prevDay();
 
@@ -241,9 +241,9 @@
         scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
         var yesterday = new Date(Date.UTC(2015, 1, 4));
         var twoDaysAgo = new Date(Date.UTC(2015, 1, 3));
-        scope.offers = [{id: 1, name: 'Angebot 1', day: twoDaysAgo, price: 550, provider: 1},
-                        {id: 2, name: 'Angebot 2', day: yesterday, price: 550, provider: 1},
-                        {id: 3, name: 'Angebot 3', day: twoDaysAgo, price: 550, provider: 1}];
+        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: twoDaysAgo, price: 550, provider: 1},
+                                   {id: 2, name: 'Angebot 2', day: yesterday, price: 550, provider: 1},
+                                   {id: 3, name: 'Angebot 3', day: twoDaysAgo, price: 550, provider: 1}];
 
         var result = scope.prevDay();
 
@@ -254,7 +254,7 @@
 
       it('should be undefined when no offers exist', function() {
         scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        scope.offers = [];
+        scope.offersForLocation = [];
 
         var result = scope.prevDay();
 
@@ -265,7 +265,7 @@
       it('should be undefined when all offers are in future', function() {
         scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
         var tomorrow = new Date(Date.UTC(2015, 1, 6));
-        scope.offers = [{id: 1, name: 'Angebot 1', day: tomorrow, price: 550, provider: 1}];
+        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: tomorrow, price: 550, provider: 1}];
 
         var result = scope.prevDay();
 
@@ -275,7 +275,7 @@
 
       it('should be undefined when only offer for today exists', function() {
         scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        scope.offers = [{id: 1, name: 'Angebot 1', day: scope.day, price: 550, provider: 1}];
+        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: scope.day, price: 550, provider: 1}];
 
         var result = scope.prevDay();
 
@@ -290,7 +290,7 @@
       it('should be tomorrow when offer for tomorrow exists', function() {
         scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
         var tomorrow = new Date(Date.UTC(2015, 1, 6));
-        scope.offers = [{id: 1, name: 'Angebot 1', day: tomorrow, price: 550, provider: 1}];
+        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: tomorrow, price: 550, provider: 1}];
 
         var result = scope.nextDay();
 
@@ -302,7 +302,7 @@
       it('should be in two days when no offer for tomorrow exists', function() {
         scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
         var inTwoDays = new Date(Date.UTC(2015, 1, 7));
-        scope.offers = [{id: 1, name: 'Angebot 1', day: inTwoDays, price: 550, provider: 1}];
+        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: inTwoDays, price: 550, provider: 1}];
 
         var result = scope.nextDay();
 
@@ -315,9 +315,9 @@
         scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
         var tomorrow = new Date(Date.UTC(2015, 1, 6));
         var inTwoDays = new Date(Date.UTC(2015, 1, 7));
-        scope.offers = [{id: 1, name: 'Angebot 1', day: inTwoDays, price: 550, provider: 1},
-                        {id: 2, name: 'Angebot 2', day: tomorrow, price: 550, provider: 1},
-                        {id: 3, name: 'Angebot 3', day: inTwoDays, price: 550, provider: 1}];
+        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: inTwoDays, price: 550, provider: 1},
+                                   {id: 2, name: 'Angebot 2', day: tomorrow, price: 550, provider: 1},
+                                   {id: 3, name: 'Angebot 3', day: inTwoDays, price: 550, provider: 1}];
 
         var result = scope.nextDay();
 
@@ -328,7 +328,7 @@
 
       it('should be undefined when no offers exist', function() {
         scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        scope.offers = [];
+        scope.offersForLocation = [];
 
         var result = scope.nextDay();
 
@@ -339,7 +339,7 @@
       it('should be undefined when all offers are in past', function() {
         scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
         var yesterday = new Date(Date.UTC(2015, 1, 4));
-        scope.offers = [{id: 1, name: 'Angebot 1', day: yesterday, price: 550, provider: 1}];
+        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: yesterday, price: 550, provider: 1}];
 
         var result = scope.nextDay();
 
@@ -349,7 +349,7 @@
 
       it('should be undefined when only offer for today exists', function() {
         scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        scope.offers = [{id: 1, name: 'Angebot 1', day: scope.day, price: 550, provider: 1}];
+        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: scope.day, price: 550, provider: 1}];
 
         var result = scope.nextDay();
 
