@@ -1,8 +1,11 @@
-'use strict';
+(function() {
+  'use strict';
 
-// Angular-Modul für Bibliothek underscore.js bereitstellen
-var underscore = angular.module('underscore', []);
+  // Angular-Modul für Bibliothek underscore.js bereitstellen
+  var underscore = angular.module('underscore', []);
 
-underscore.factory('_', function($window) {
-  return $window._;
-});
+  underscore.factory('_', function($window) {
+    return $window._;
+  });
+
+})();
