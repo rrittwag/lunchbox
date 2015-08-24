@@ -7,7 +7,7 @@ Lunchbox stellt die Mittagsangebote im Umkreis zusammen und ermöglicht ein übe
 
 Lunchbox bietet in Version 1 folgende Funktionalitäten:
 
-* Für 5 Mittagsanbieter (s.u.) werden automatisiert die Mittagsangebote des aktuellen Tages ermittelt (auf Server)
+* Für 6 Mittagsanbieter (s.u.) werden automatisiert die Mittagsangebote des aktuellen Tages ermittelt (auf Server)
 * Der Nutzer erhält eine Übersicht über die Mittagsangebote, gefiltert nacht ausgewähltem Umkreis (auf Client)
 
 Für Version 1 sind folgende Mittagsanbieter vorgesehen:
@@ -17,6 +17,7 @@ Für Version 1 sind folgende Mittagsanbieter vorgesehen:
 * [Neubrandenburg: AOK Cafeteria](http://www.hotel-am-ring.de/aok-cafeteria.html)
 * [Neubrandenburg: Suppenkulttour](http://www.suppenkult.com/wochenplan.html)
 * [Berlin: Salt 'n' Pepper](http://www.partyservice-rohde.de/bistro-angebot-der-woche/)
+* [Berlin: Katine B. Quakatz (Gesundheitszentrum)](https://de-de.facebook.com/pages/Kantine-BQuakatz-Allee-der-Kosmonauten/181190361991823)
 
 Das Projekt ist zugleich Spielwiese zum Ausprobieren technischer Frameworks und Spezifikationen. Server und Client dürfen also gern in verschiedensten Sprachen und Varianten implementiert werden.
 

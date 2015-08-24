@@ -32,6 +32,7 @@ Distribution
 TODOs
 -----
 
+* App Store-Badge auf 60px vergrößern
 * Design: Lunchbox-Icon bereitstellen für NavBar & Favicon
 * Location-Auswähler bereitstellen (in NavBar?)
 * Design: [Bootstrap-Tooltips-Erweiterung](http://getbootstrap.com/javascript/#tooltips) für alle Links/Interaktionen einsetzen
