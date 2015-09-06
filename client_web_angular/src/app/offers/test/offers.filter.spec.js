@@ -49,6 +49,10 @@
         expect(formatEuro(123)).toEqual('1,23 €');
       });
 
+      it('returns "5,00 €" when input is 500', function() {
+        expect(formatEuro(500)).toEqual('5,00 €');
+      });
+
       it('returns "20,30 €" when input is 2030', function() {
         expect(formatEuro(2030)).toEqual('20,30 €');
       });

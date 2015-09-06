@@ -32,13 +32,15 @@ Distribution
 TODOs
 -----
 
+* Unit-Tests aktualisieren
+* Location-Auswähler: Stadtwappen anzeigen
+* Location-Auswähler: Auswahl des Nutzers für nächsten Seitenaufruf merken
 * App Store-Badge auf 60px vergrößern
 * Design: Lunchbox-Icon bereitstellen für NavBar & Favicon
-* Location-Auswähler bereitstellen (in NavBar?)
 * Design: [Bootstrap-Tooltips-Erweiterung](http://getbootstrap.com/javascript/#tooltips) für alle Links/Interaktionen einsetzen
 * Test: auf Smartphone & Tab testen (inkl. NavBar-Menü-Buttons & schickes Design)
-* Location-Auswähler: Auswahl des Nutzers für nächsten Seitenaufruf merken
 * Design: Lunchbox-Logo für Jumbotron bereitstellen
+* Tag-Auswähler: als Komponente auslagern
 * Projekt mit HTML5 Boilerplate abgleichen
 * Adress-Query-Parameter "day": gezielt die Angebote für einen Tag abfragen
 * in Feed Links zur Website setzen
@@ -49,7 +51,6 @@ TODOs
 * assert-Funktion in main.filter verschieben in eigene Lib?
 * Underscore per RequireJS einbinden?
 * Direkte Anwahl einer Sub-Adresse (z.B. 'http://localhost/about') ermöglichen. Wie kann nginx die Subadresse an Client/AngularJS weiterreichen?
-* Tag-Auswähler: auslagern in eigenen Controller? Oder gar in Direktive (Angular 2.0)?
 * [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
 * Umstellen auf ECMAScript 6, CoffeScript, Dart oder Scala.js?
 
