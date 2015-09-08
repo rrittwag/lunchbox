@@ -41,7 +41,9 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   }
 
   override def resolve: Future[Seq[LunchOffer]] =
-    Future { resolve(new URL("http://www.suppenkult.com/wochenplan.html")) }
+    Future {
+      resolve(new URL("http://www.suppenkult.com/wochenplan.html"))
+    }
 
   private[logic] def resolve(url: URL): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
@@ -51,7 +53,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     val rootNode = new HtmlCleaner(props).clean(url)
 
     // Die Wochenangebote sind im section-Element mit der class "ce_accordionStart" enthalten
-    for (wochenplanSection <- rootNode.evaluateXPath("//section").map { case n: TagNode => n}
+    for (wochenplanSection <- rootNode.evaluateXPath("//section").map { case n: TagNode => n }
          if wochenplanSection.hasClassAttr("ce_accordionStart")) {
       resolveMonday(wochenplanSection).filter(dateValidator.isValid) match {
         case Some(monday) => result ++= parseOffers(wochenplanSection, monday)
@@ -62,7 +64,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   }
 
   private def resolveMonday(node: TagNode): Option[LocalDate] = {
-    val optDateSeq = for (dateDiv <- node.evaluateXPath("/div[@class='toggler']").map { case n: TagNode => n}) yield {
+    val optDateSeq = for (dateDiv <- node.evaluateXPath("/div[@class='toggler']").map { case n: TagNode => n }) yield {
       dateDiv.getText.toString.replace("\n", " ") match {
         case r""".*Suppen vom +(\d{2}.\d{2}.\d{4})$mondayString.*""" =>
           parseLocalDate(mondayString, "dd.MM.yyyy").map { monday =>
@@ -127,12 +129,11 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     var priceOpt: Option[Money] = None
 
     val clearedParts = offerAttributesAsStrings.map { part =>
-      part.replaceAll("""\( ?([a-zA-Z\d]{1,2}, ?)* ?[a-zA-Z\d]{1,2},? ?\)""", "") // Zusatzinfo (i,j,19) entfernen
-        .replaceAll("\\u00a0", " ") // NO-BREAK SPACE durch normales Leerzeichen ersetzen
+      part.replaceAll( """\( ?([a-zA-Z\d]{1,2}, ?)* ?[a-zA-Z\d]{1,2},? ?\)""", "") // Zusatzinfo (i,j,19) entfernen
         .trim.replaceAll("  ", " ") // doppelte Leerzeichen entfernen
     }
 
-    val titleOpt = clearedParts.headOption.map{
+    val titleOpt = clearedParts.headOption.map {
       _.trim.replaceFirst("lf, gf$", "").replaceFirst("gf, lf$", "").trim
     }
     val remainingParts = if (clearedParts.nonEmpty) clearedParts.tail else Nil
@@ -143,7 +144,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
       case descrPart => description :+= descrPart.trim
     }
 
-    val nameOpt = titleOpt.map (title =>
+    val nameOpt = titleOpt.map(title =>
       if (description.nonEmpty) s"$title: ${description.mkString(" ")}" else title
     )
 
@@ -152,7 +153,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
 
   private def multiplyWochenangebote(wochenOffers: Seq[LunchOffer], dates: Seq[LocalDate]): Seq[LunchOffer] = {
     val sortedDates = dates.toSet[LocalDate].toList.sortBy(_.toDate)
-    wochenOffers.flatMap ( offer => sortedDates.map( date => offer.copy(day = date)) )
+    wochenOffers.flatMap(offer => sortedDates.map(date => offer.copy(day = date)))
   }
 
   private def html2text(node: TagNode): String = {
@@ -167,7 +168,11 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     result.toString
   }
 
-  private def adjustText(text: String) = text.replaceAll("–", "-").replaceAll(" , ", ", ").replaceAll("\n", "")
+  private def adjustText(text: String) =
+    text.replaceAll("–", "-")
+      .replaceAll(" , ", ", ")
+      .replaceAll("\n", "")
+      .replaceAll("\\u00a0", " ") // NO-BREAK SPACE durch normales Leerzeichen ersetzen
 
   private def isZusatzInfo(string: String) = {
     val zusatzInfos = List("(vegan)", "vegan", "glutenfrei", "lf", "gf", "vegetarisch", "laktosefrei", "veg. gf", "vegan gf")
