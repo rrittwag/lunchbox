@@ -4,33 +4,30 @@
   var app = angular.module('lunchboxWebapp');
 
   app.controller('HeaderCtrl', function ($scope, $route, $location, $rootScope, LunchModel, Settings) {
-    // Initialisierung
-    var initialLocation = function() {
-      if (!Settings.location) {
-        if (LunchModel.locations.length > 0) {
-          Settings.setLocation(LunchModel.locations[0]);
-        }
-      }
-      return Settings.location;
+    $scope.header = {
+      routes: []
     };
-    var initialRoutes = function() {
-      var result = [];
+    $scope.model = LunchModel;
+    $scope.settings = Settings;
+
+    var init = function () {
+      // Initialisierung der Route
       angular.forEach($route.routes, function (route, path) {
         if (route.navbarName) {
-          result.push({
+          $scope.header.routes.push({
             path: path,
             name: route.navbarName
           });
         }
       });
-      return result;
+      // Initialisierung der Location
+      if (!Settings.location) {
+        if (LunchModel.locations.length > 0) {
+          Settings.setLocation(LunchModel.locations[0]);
+        }
+      }
     };
-
-    $scope.header = {
-      routes: initialRoutes(),
-      selectedLocation: initialLocation(),
-    };
-    $scope.model = LunchModel;
+    init();
 
 
     // Aktiv-Status für Tabs abfragen
@@ -41,9 +38,9 @@
 
     // Setzen der Location aus Dropdown
     $scope.header.selectLocation = function(location) {
-      $scope.header.selectedLocation = location;
       Settings.setLocation(location);
     };
+
   });
 
 })();

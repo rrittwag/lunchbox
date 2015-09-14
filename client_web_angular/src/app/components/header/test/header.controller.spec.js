@@ -75,40 +75,31 @@
         });
       });
 
-      it('should init selected location with settings', function () {
-        settings.location = null;
-        model.locations = [];
-
-        initController();
-
-        expect(scope.header.selectedLocation).toBe(settings.location);
-      });
-
-      it('should init selected location with settings\' location', function () {
-        settings.location = locationNB;
-        model.locations = [];
-
-        initController();
-
-        expect(scope.header.selectedLocation).toBe(locationNB);
-      });
-
-      it('should init selected location with first of model.locations if no settings present', function () {
+      it('should init location with first of model.locations', function () {
         settings.location = null;
         model.locations = [locationNB, locationB];
 
         initController();
 
-        expect(scope.header.selectedLocation).toBe(locationNB);
+        expect(settings.location).toBe(locationNB);
       });
 
-      it('should init selected location to null if no locations in settings and model', function () {
+      it('should not init location if already set', function () {
+        settings.location = locationB;
+        model.locations = [locationNB, locationB];
+
+        initController();
+
+        expect(settings.location).toBe(locationB);
+      });
+
+      it('should init location to null if no locations found', function () {
         settings.location = null;
         model.locations = [];
 
         initController();
 
-        expect(scope.header.selectedLocation).toBe(null);
+        expect(settings.location).toBe(null);
       });
     });
 
@@ -140,12 +131,10 @@
         settings.location = null;
         model.locations = [];
         initController();
-        expect(scope.header.selectedLocation).toBe(null);
         expect(settings.location).toBe(null);
 
         scope.header.selectLocation(locationNB);
 
-        expect(scope.header.selectedLocation).toBe(locationNB);
         expect(settings.location).toBe(locationNB);
       });
     });
