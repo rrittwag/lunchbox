@@ -69,7 +69,7 @@
       it('should refresh when changing offers', function() {
         scope.model.providers = testProviders;
         scope.model.selectedDay = today;
-        scope.model.selectedLocation = locationNB;
+        scope.settings.location = locationNB;
         scope.$apply(); // stößt den watch-Aufruf an
         expect(scope.visibleOffers.length).toBe(0);
 
@@ -82,7 +82,7 @@
       it('should refresh when changing providers', function() {
         scope.model.offers = testOffers;
         scope.model.selectedDay = today;
-        scope.model.selectedLocation = locationNB;
+        scope.settings.location = locationNB;
         scope.$apply(); // stößt den watch-Aufruf an
         expect(scope.visibleOffers.length).toBe(0);
 
@@ -96,11 +96,11 @@
         scope.model.providers = testProviders;
         scope.model.offers = testOffers;
         scope.model.selectedDay = today;
-        scope.model.selectedLocation = null;
+        scope.settings.location = null;
         scope.$apply(); // stößt den watch-Aufruf an
         expect(scope.visibleOffers.length).toBe(3);
 
-        scope.model.selectedLocation = locationB;
+        scope.settings.location = locationB;
         scope.$apply(); // stößt den watch-Aufruf an
 
         expect(scope.visibleOffers.length).toBe(1);
@@ -109,7 +109,7 @@
       it('should refresh when changing selectedDay', function() {
         scope.model.providers = testProviders;
         scope.model.offers = testOffers;
-        scope.model.selectedLocation = locationNB;
+        scope.settings.location = locationNB;
         scope.$apply(); // stößt den watch-Aufruf an
         expect(scope.visibleOffers.length).toBe(0);
 

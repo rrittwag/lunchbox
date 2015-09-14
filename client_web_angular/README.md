@@ -61,6 +61,7 @@ Wissen
 * [Vorlage: HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate)
 * [AngularJS: Getting Started](https://docs.angularjs.org/misc/started)
 * [AngularJS: gutes einfaches Beispiel](https://github.com/tastejs/todomvc/tree/master/examples/angularjs)
+* [AngularJS: gute Beispielsammlung zu Basics](http://www.angularjshub.com/examples/)
 * [AngularJS: REST-Aufruf](https://docs.angularjs.org/tutorial/step_11)
 * [AngularJS: Bootstrap-Navigationsleiste](https://angularjs.de/artikel/navigation-menu-bootstrap)
 * [Testing: Einführung in Unit-Testing mit AngularJS](https://docs.angularjs.org/guide/unit-testing)

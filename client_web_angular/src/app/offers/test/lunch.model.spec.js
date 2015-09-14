@@ -58,11 +58,6 @@
         expect(model.selectedDay.getTime()).toBe(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
       });
 
-      it('should init selected location to Neubrandenburg', function() {
-        expect(model.selectedLocation).toBeDefined();
-        expect(model.selectedLocation.name).toBe('Neubrandenburg');
-      });
-
       it('should init status to LOADING', function() {
         expect(model.isLoading()).toBeTruthy();
         expect(model.isLoadFinished()).toBeFalsy();

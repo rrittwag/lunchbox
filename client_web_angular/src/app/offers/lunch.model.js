@@ -16,8 +16,6 @@
       shortName: 'B'
     };
     this.locations = [locationNB, locationBerlin];
-    this.lastSelectedLocation = locationNB; // TODO: lokal speichern und auslesen
-    this.selectedLocation = this.lastSelectedLocation;
 
     // vom Nutzer ausgewählter Tag (Default: heute)
     function today() {

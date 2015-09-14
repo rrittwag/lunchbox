@@ -5,10 +5,11 @@
   var app = angular.module('lunchboxWebapp');
 
   // ... und Controller für Offers-View erzeugen
-  app.controller('OffersCtrl', function ($scope, $filter, _, LunchProviderStore, LunchOfferStore, LunchModel) {
+  app.controller('OffersCtrl', function ($scope, $filter, _, LunchProviderStore, LunchOfferStore, LunchModel, Settings) {
     $scope.model = LunchModel;
+    $scope.settings = Settings;
 
-    $scope.$watchGroup(['model.offers', 'model.providers', 'model.selectedLocation'], function () {
+    $scope.$watchGroup(['model.offers', 'model.providers', 'settings.location'], function () {
       refreshOffersForLocation();
       refreshDaysInOffersForLocation();
       refreshVisibleOffers();
@@ -23,7 +24,7 @@
     $scope.visibleOffers = [];
 
     function refreshOffersForLocation() {
-      var providersForLocation = $filter('filterProvidersByLocation')($scope.model.providers, $scope.model.selectedLocation);
+      var providersForLocation = $filter('filterProvidersByLocation')($scope.model.providers, $scope.settings.location);
       offersForLocation = $filter('filterOffersByProviders')($scope.model.offers, providersForLocation);
     }
 

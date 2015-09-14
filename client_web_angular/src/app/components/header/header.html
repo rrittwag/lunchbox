@@ -21,18 +21,18 @@
         <li>
           <div class="navbar-btn" dropdown>
             <button id="location-button" type="button" class="btn btn-default" dropdown-toggle>
-              {{ model.selectedLocation.shortName }} <span class="caret"></span>
+              {{ header.selectedLocation.shortName }} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="location-button">
               <li role="menuitem" ng-repeat="location in model.locations">
-                <a href="/" ng-click="setLocation(location)">{{ location.name }}</a>
+                <a href="/" ng-click="header.selectLocation(location)">{{ location.name }}</a>
               </li>
             </ul>
           </div>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li ng-repeat="route in routes" ng-class="{active: activeRoute(route)}">
+        <li ng-repeat="route in header.routes" ng-class="{active: header.activeRoute(route)}">
           <a href="{{ route.path }}">{{ route.name }}</a>
         </li>
       </ul>

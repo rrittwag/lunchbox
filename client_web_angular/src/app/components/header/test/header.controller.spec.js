@@ -1,6 +1,9 @@
 (function() {
   'use strict';
 
+  var locationNB = {name: 'Neubrandenburg', shortName: 'NB'};
+  var locationB = {name: 'Berlin', shortName: 'B'};
+
   var someAndEveryMatchers = {
     some : function () {
       return {
@@ -37,33 +40,75 @@
   var rootRoute = { path: '/', name: 'root' };
 
   describe('Header controller', function () {
-    var $controller, scope;
+    var $controller, scope, settings, model;
+
+    var initController = function() {
+      // Header-Controller erzeugen
+      $controller('HeaderCtrl', { $scope: scope });
+    };
 
     beforeEach(function () {
       module('lunchboxWebapp');
       inject(function (_$controller_) { $controller = _$controller_; });
       inject(function ($rootScope) { scope = $rootScope.$new(); });
+      inject(function (Settings) { settings = Settings; });
+      inject(function (LunchModel) { model = LunchModel; });
       jasmine.addMatchers(someAndEveryMatchers);
     });
 
 
 
     describe('instantiation', function () {
-      beforeEach(function () {
-        // Header Controller erzeugen mit zuvor initialisierem Scope
-        $controller('HeaderCtrl', { $scope: scope });
-      });
-
       it('should init routes with attributes path and name', function () {
-        expect(scope.routes).every(function (elem) {
+        initController();
+
+        expect(scope.header.routes).every(function (elem) {
           return elem.path !== undefined && elem.name !== undefined;
         });
       });
 
       it('should init routes with at least home route', function () {
-        expect(scope.routes).some(function (elem) {
+        initController();
+
+        expect(scope.header.routes).some(function (elem) {
           return elem.path === '/';
         });
+      });
+
+      it('should init selected location with settings', function () {
+        settings.location = null;
+        model.locations = [];
+
+        initController();
+
+        expect(scope.header.selectedLocation).toBe(settings.location);
+      });
+
+      it('should init selected location with settings\' location', function () {
+        settings.location = locationNB;
+        model.locations = [];
+
+        initController();
+
+        expect(scope.header.selectedLocation).toBe(locationNB);
+      });
+
+      it('should init selected location with first of model.locations if no settings present', function () {
+        settings.location = null;
+        model.locations = [locationNB, locationB];
+
+        initController();
+
+        expect(scope.header.selectedLocation).toBe(locationNB);
+      });
+
+      it('should init selected location to null if no locations in settings and model', function () {
+        settings.location = null;
+        model.locations = [];
+
+        initController();
+
+        expect(scope.header.selectedLocation).toBe(null);
       });
     });
 
@@ -74,17 +119,34 @@
 
       beforeEach(function () {
         inject(function ($location) { location = $location; });
-        $controller('HeaderCtrl', { $scope: scope });
+        initController();
       });
 
       it('should be true if on root path', function () {
         location.path('/');
-        expect(scope.activeRoute(rootRoute)).toBeTruthy();
+        expect(scope.header.activeRoute(rootRoute)).toBeTruthy();
       });
 
       it('should be false if not on root path', function () {
         location.path('/somewhere');
-        expect(scope.activeRoute(rootRoute)).toBeFalsy();
+        expect(scope.header.activeRoute(rootRoute)).toBeFalsy();
+      });
+    });
+
+
+
+    describe('setLocation', function () {
+      it('should change settings\' location', function () {
+        settings.location = null;
+        model.locations = [];
+        initController();
+        expect(scope.header.selectedLocation).toBe(null);
+        expect(settings.location).toBe(null);
+
+        scope.header.selectLocation(locationNB);
+
+        expect(scope.header.selectedLocation).toBe(locationNB);
+        expect(settings.location).toBe(locationNB);
       });
     });
 
