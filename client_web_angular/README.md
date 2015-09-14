@@ -39,6 +39,7 @@ TODOs
 * Design: [Bootstrap-Tooltips-Erweiterung](http://getbootstrap.com/javascript/#tooltips) für alle Links/Interaktionen einsetzen
 * Test: auf Smartphone & Tab testen (inkl. NavBar-Menü-Buttons & schickes Design)
 * Design: Lunchbox-Logo für Jumbotron bereitstellen
+* Model: Daten neu laden, wenn über 1 Tag alt
 * Projekt mit HTML5 Boilerplate abgleichen
 * Adress-Query-Parameter "day": gezielt die Angebote für einen Tag abfragen
 * in Feed Links zur Website setzen
