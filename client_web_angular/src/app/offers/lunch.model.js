@@ -19,7 +19,7 @@
     this.lastSelectedLocation = locationNB; // TODO: lokal speichern und auslesen
     this.selectedLocation = this.lastSelectedLocation;
 
-
+    // vom Nutzer ausgewählter Tag (Default: heute)
     function today() {
       var localNow = new Date();
       return new Date(Date.UTC(localNow.getFullYear(), localNow.getMonth(), localNow.getDate()));

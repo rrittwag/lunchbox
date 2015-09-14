@@ -50,6 +50,7 @@
 
     describe('instantiation', function () {
       beforeEach(function () {
+        // Header Controller erzeugen mit zuvor initialisierem Scope
         $controller('HeaderCtrl', { $scope: scope });
       });
 

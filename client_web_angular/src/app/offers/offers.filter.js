@@ -15,7 +15,7 @@
     return function(providers, location) {
       assert(angular.isArray(providers));
       function isOfLocation(provider) {
-        return provider.location === location.name;
+        return !location || provider.location === location.name;
       }
       return _.filter(providers, isOfLocation);
     };
@@ -26,7 +26,6 @@
       assert(angular.isArray(offers));
       var providerIds = _.chain(providers)
                 .map(function(prov) { return prov.id; })
-                .uniq(false)
                 .value();
       function isInProviders(offer) {
         return _.contains(providerIds, offer.provider);
@@ -37,7 +36,9 @@
 
   app.filter('filterOffersByProvider', function ($filter) {
     return function(offers, provider) {
-      return $filter('filterOffersByProviders')(offers, [provider]);
+      var providerArray = [provider];
+      if (!provider) { providerArray = []; }
+      return $filter('filterOffersByProviders')(offers, providerArray);
     };
   });
 
@@ -45,7 +46,7 @@
     return function(offers, day) {
       assert(angular.isArray(offers));
       function isOfDay(offer) {
-        return Date.parse(offer.day) === day.getTime();
+        return day && Date.parse(offer.day) === day.getTime();
       }
       return _.filter(offers, isOfDay);
     };

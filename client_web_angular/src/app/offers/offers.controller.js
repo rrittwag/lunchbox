@@ -18,21 +18,21 @@
       refreshVisibleOffers();
     }, true);
 
-    $scope.offersForLocation = [];
-    $scope.daysInOffersForLocation = [];
+    var offersForLocation = [];
+    $scope.daysInOffersForLocation = []; // TODO: ist nur für Unit-Test eine Scope-Variable
     $scope.visibleOffers = [];
 
     function refreshOffersForLocation() {
       var providersForLocation = $filter('filterProvidersByLocation')($scope.model.providers, $scope.model.selectedLocation);
-      $scope.offersForLocation = $filter('filterOffersByProviders')($scope.model.offers, providersForLocation);
+      offersForLocation = $filter('filterOffersByProviders')($scope.model.offers, providersForLocation);
     }
 
     function refreshDaysInOffersForLocation() {
-      $scope.daysInOffersForLocation = $filter('filterDaysInOffers')($scope.offersForLocation);
+      $scope.daysInOffersForLocation = $filter('filterDaysInOffers')(offersForLocation);
     }
 
     function refreshVisibleOffers() {
-      $scope.visibleOffers = $filter('filterOffersByDay')($scope.offersForLocation, $scope.model.selectedDay);
+      $scope.visibleOffers = $filter('filterOffersByDay')(offersForLocation, $scope.model.selectedDay);
     }
 
     $scope.prevDay = function() {
@@ -49,12 +49,10 @@
 
     $scope.goPrevDay = function() {
       $scope.model.selectedDay = $scope.prevDay();
-      refreshVisibleOffers();
     };
 
     $scope.goNextDay = function() {
       $scope.model.selectedDay = $scope.nextDay();
-      refreshVisibleOffers();
     };
 
     $scope.hasPrevDay = function() {

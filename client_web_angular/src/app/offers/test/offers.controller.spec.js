@@ -2,36 +2,41 @@
   'use strict';
 
   describe('offers controller', function(){
-    var $httpBackend; // fake http backend, initialized via initHttpBackend
     var scope; // Scope für zu instanziierenden Controller
 
-    var testProviders = [{id: 1, name: 'Anbieter 1', location: 'Neubrandenburg'}, {id: 2, name: 'Anbieter 2', location: 'Berlin'}];
-    var testOffers = [{id: 1, name: 'Angebot 1', day: '2015-04-15', price: 550, provider: 1}, {id: 2, name: 'Angebot 2', day: '2015-04-15', price: 450, provider: 2}, {id: 3, name: 'Angebot 3', day: '2015-01-01', price: 450, provider: 1}];
+    var locationNB = {name: 'Neubrandenburg', shortName: 'NB'};
+    var locationB = {name: 'Berlin', shortName: 'B'};
 
-    var initHttpBackend = function(withHttpError, offers, providers) {
-      if (!offers) { offers = testOffers; }
-      if (!providers) { providers = testProviders; }
+    var inTwoDays = new Date(Date.UTC(2015, 1, 7));
+    var tomorrow = new Date(Date.UTC(2015, 1, 6));
+    var today = new Date(Date.UTC(2015, 1, 5));
+    var yesterday = new Date(Date.UTC(2015, 1, 4));
+    var twoDaysAgo = new Date(Date.UTC(2015, 1, 3));
 
-      inject(function(_$httpBackend_) {
-        $httpBackend = _$httpBackend_;
-        if (withHttpError) {
-          $httpBackend.whenGET('api/v1/lunchProvider').respond(500, '');
-        } else {
-          $httpBackend.whenGET('api/v1/lunchProvider').respond(providers);
-        }
-        $httpBackend.whenGET('api/v1/lunchOffer').respond(offers);
-      });
-    };
+    var testProviders = [{id: 1, name: 'Anbieter 1', location: locationNB.name},
+                         {id: 2, name: 'Anbieter 2', location: locationB.name}];
+    var testOffers = [{id: 1, name: 'Angebot 1', day: '2015-02-05', price: 550, provider: 1},
+                      {id: 2, name: 'Angebot 2', day: '2015-02-05', price: 450, provider: 2},
+                      {id: 3, name: 'Angebot 3', day: '2015-02-05', price: 450, provider: 1}];
 
 
 
     beforeEach(function() {
       module('lunchboxWebapp');
+      // LunchModel service mocken
+      var model = {
+            offers: [],
+            providers: [],
+            selectedDay: new Date(),
+            selectedLocation: locationNB
+          }; // gemocktes, (fast) leeres LunchModel
+      module(function($provide) {
+        $provide.value('LunchModel', model);
+      });
       inject(function($rootScope) { scope = $rootScope.$new(); });
       inject(function($controller) {
         $controller('OffersCtrl', { $scope: scope });
       });
-
       // Custom Matcher, der beim Vergleich AngularJS-Wrapper kaschiert (z.B. Promise, Resource)
       jasmine.addMatchers({
         toAngularEqual: function() {
@@ -47,166 +52,93 @@
 
 
     describe('instantiation', function() {
-      beforeEach(function() {
-        initHttpBackend();
+      it('should init model on scope', function() {
+        expect(scope.model).toBeDefined();
+        expect(scope.model.providers).toEqual([]);
+        expect(scope.model.offers).toEqual([]);
       });
 
-      it('should init day to today (in UTC)', function() {
-        var now = new Date();
-        expect(scope.day).toBeDefined();
-        expect(scope.day.getTime()).toBe(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
-      });
-
-      it('should init location to Neubrandenburg', function() {
-        expect(scope.location).toBe('Neubrandenburg');
-      });
-
-      it('should init status to LOADING', function() {
-        expect(scope.isLoading()).toBeTruthy();
-        expect(scope.isLoadFinished()).toBeFalsy();
-        expect(scope.isLoadFinishedWithNoVisibleOffers()).toBeFalsy();
-        expect(scope.isLoadFailed()).toBeFalsy();
-      });
-
-      it('should init visibleOffers to {}', function() {
-        expect(scope.visibleOffers).toEqual({});
-        expect(scope.hasVisibleOffers()).toBeFalsy();
-      });
-
-    });
-
-
-
-    describe('query offers', function() {
-      it('should set status to LOAD_FINISHED when all queries done', function() {
-        initHttpBackend();
-
-        $httpBackend.flush();
-
-        expect(scope.providers).toAngularEqual(testProviders);
-        expect(scope.offers).toAngularEqual(testOffers);
-
-        expect(scope.isLoading()).toBeFalsy();
-        expect(scope.isLoadFinished()).toBeTruthy();
-        expect(scope.isLoadFailed()).toBeFalsy();
-      });
-
-      it('should set status to LOADING when at least one query loading', function() {
-        initHttpBackend();
-
-        $httpBackend.flush(1);
-
-        expect(scope.isLoading()).toBeTruthy();
-        expect(scope.isLoadFinished()).toBeFalsy();
-        expect(scope.isLoadFailed()).toBeFalsy();
-      });
-
-      it('should set status to LOAD_FAILED when some query fails', function() {
-        initHttpBackend(true);
-
-        $httpBackend.flush();
-
-        expect(scope.isLoading()).toBeFalsy();
-        expect(scope.isLoadFinished()).toBeFalsy();
-        expect(scope.isLoadFailed()).toBeTruthy();
+      it('should init visibleOffers to []', function() {
+        expect(scope.visibleOffers).toEqual([]);
       });
     });
 
 
 
-    describe('refreshVisibleOffers', function() {
-      it('should resolve visible offers', function() {
-        initHttpBackend();
-        scope.day = new Date(Date.UTC(2015, 3, 15));
-        scope.location = 'Neubrandenburg';
+    describe('visibleOffers', function() {
+      it('should refresh when changing offers', function() {
+        scope.model.providers = testProviders;
+        scope.model.selectedDay = today;
+        scope.model.selectedLocation = locationNB;
+        scope.$apply(); // stößt den watch-Aufruf an
+        expect(scope.visibleOffers.length).toBe(0);
 
-        $httpBackend.flush(); // refreshVisibleOffers wird implizit aufgerufen
+        scope.model.offers = testOffers;
+        scope.$apply(); // stößt den watch-Aufruf an
 
-        expect(scope.visibleOffers).toAngularEqual({
-          1: [{id: 1, name: 'Angebot 1', day: '2015-04-15', price: 550, provider: 1}]
-        });
-        expect(scope.hasVisibleOffers()).toBeTruthy();
-        expect(scope.isLoadFinishedWithNoVisibleOffers()).toBeFalsy();
+        expect(scope.visibleOffers.length).toBe(2);
       });
 
-      it('should not resolve visible offers when not matches date', function() {
-        initHttpBackend();
-        scope.day = new Date(Date.UTC(2000, 1, 1));
-        scope.location = 'Neubrandenburg';
+      it('should refresh when changing providers', function() {
+        scope.model.offers = testOffers;
+        scope.model.selectedDay = today;
+        scope.model.selectedLocation = locationNB;
+        scope.$apply(); // stößt den watch-Aufruf an
+        expect(scope.visibleOffers.length).toBe(0);
 
-        $httpBackend.flush(); // refreshVisibleOffers wird implizit aufgerufen
+        scope.model.providers = testProviders;
+        scope.$apply(); // stößt den watch-Aufruf an
 
-        expect(scope.visibleOffers).toAngularEqual({});
-        expect(scope.hasVisibleOffers()).toBeFalsy();
-        expect(scope.isLoadFinishedWithNoVisibleOffers()).toBeTruthy();
+        expect(scope.visibleOffers.length).toBe(2);
       });
 
-      it('should not resolve visible offers when not matches location', function() {
-        initHttpBackend();
-        scope.day = new Date(Date.UTC(2015, 3, 15));
-        scope.location = 'New York';
+      it('should refresh when changing selectedLocation', function() {
+        scope.model.providers = testProviders;
+        scope.model.offers = testOffers;
+        scope.model.selectedDay = today;
+        scope.model.selectedLocation = null;
+        scope.$apply(); // stößt den watch-Aufruf an
+        expect(scope.visibleOffers.length).toBe(3);
 
-        $httpBackend.flush(); // refreshVisibleOffers wird implizit aufgerufen
+        scope.model.selectedLocation = locationB;
+        scope.$apply(); // stößt den watch-Aufruf an
 
-        expect(scope.visibleOffers).toAngularEqual({});
-        expect(scope.hasVisibleOffers()).toBeFalsy();
-        expect(scope.isLoadFinishedWithNoVisibleOffers()).toBeTruthy();
+        expect(scope.visibleOffers.length).toBe(1);
       });
 
-      it('should not resolve visible offers when loading failed', function() {
-        initHttpBackend(true);
-        scope.day = new Date(Date.UTC(2015, 3, 15));
-        scope.location = 'Neubrandenburg';
+      it('should refresh when changing selectedDay', function() {
+        scope.model.providers = testProviders;
+        scope.model.offers = testOffers;
+        scope.model.selectedLocation = locationNB;
+        scope.$apply(); // stößt den watch-Aufruf an
+        expect(scope.visibleOffers.length).toBe(0);
 
-        $httpBackend.flush(); // refreshVisibleOffers wird implizit aufgerufen
+        scope.model.selectedDay = today;
+        scope.$apply(); // stößt den watch-Aufruf an
 
-        expect(scope.visibleOffers).toAngularEqual({});
-        expect(scope.hasVisibleOffers()).toBeFalsy();
-        expect(scope.isLoadFinishedWithNoVisibleOffers()).toBeFalsy();
+        expect(scope.visibleOffers.length).toBe(2);
       });
     });
 
 
 
-    describe('daysInOffers', function() {
-      it('should return unique dates', function() {
-        var yesterday = new Date(Date.UTC(2015, 1, 4));
-        var today = new Date(Date.UTC(2015, 1, 5));
-        var tomorrow = new Date(Date.UTC(2015, 1, 6));
-        var offers = [{id: 1, name: 'Angebot 1', day: today, price: 550, provider: 1},
-                      {id: 2, name: 'Angebot 2', day: yesterday, price: 550, provider: 1},
-                      {id: 3, name: 'Angebot 3', day: today, price: 550, provider: 1},
-                      {id: 4, name: 'Angebot 4', day: tomorrow, price: 550, provider: 1},
-                      {id: 5, name: 'Angebot 5', day: tomorrow, price: 550, provider: 1},
-                      {id: 6, name: 'Angebot 6', day: today, price: 550, provider: 1}];
+    describe('selectedDay', function() {
+      it('should change on goPrevDay', function() {
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [yesterday];
 
-        var result = scope.daysInOffers(offers);
+        scope.goPrevDay();
 
-        expect(result.length).toBe(3);
-        expect(result).toContain(yesterday);
-        expect(result).toContain(today);
-        expect(result).toContain(tomorrow);
+        expect(scope.model.selectedDay).toBe(yesterday);
       });
 
-      it('should return sorted dates', function() {
-        var yesterday = new Date(Date.UTC(2015, 1, 4));
-        var today = new Date(Date.UTC(2015, 1, 5));
-        var tomorrow = new Date(Date.UTC(2015, 1, 6));
-        var offers = [{id: 1, name: 'Angebot 1', day: today, price: 550, provider: 1},
-                      {id: 2, name: 'Angebot 2', day: tomorrow, price: 550, provider: 1},
-                      {id: 3, name: 'Angebot 3', day: yesterday, price: 550, provider: 1}];
+      it('should change on goNextDay', function() {
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [tomorrow];
 
-        var result = scope.daysInOffers(offers);
+        scope.goNextDay();
 
-        expect(result).toEqual([yesterday, today, tomorrow]);
-      });
-
-      it('should be empty when no offers exist', function() {
-        var offers = [];
-
-        var result = scope.daysInOffers(offers);
-
-        expect(result.length).toBe(0);
+        expect(scope.model.selectedDay).toBe(tomorrow);
       });
     });
 
@@ -214,9 +146,8 @@
 
     describe('prevDay', function() {
       it('should be yesterday when offer for yesterday exists', function() {
-        scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        var yesterday = new Date(Date.UTC(2015, 1, 4));
-        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: yesterday, price: 550, provider: 1}];
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [yesterday];
 
         var result = scope.prevDay();
 
@@ -226,9 +157,8 @@
       });
 
       it('should be two days ago when no offer for yesterday exists', function() {
-        scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        var twoDaysAgo = new Date(Date.UTC(2015, 1, 3));
-        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: twoDaysAgo, price: 550, provider: 1}];
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [twoDaysAgo];
 
         var result = scope.prevDay();
 
@@ -238,12 +168,8 @@
       });
 
       it('should be nearest past day when offers in past exists', function() {
-        scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        var yesterday = new Date(Date.UTC(2015, 1, 4));
-        var twoDaysAgo = new Date(Date.UTC(2015, 1, 3));
-        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: twoDaysAgo, price: 550, provider: 1},
-                                   {id: 2, name: 'Angebot 2', day: yesterday, price: 550, provider: 1},
-                                   {id: 3, name: 'Angebot 3', day: twoDaysAgo, price: 550, provider: 1}];
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [twoDaysAgo, yesterday];
 
         var result = scope.prevDay();
 
@@ -253,8 +179,8 @@
       });
 
       it('should be undefined when no offers exist', function() {
-        scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        scope.offersForLocation = [];
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [];
 
         var result = scope.prevDay();
 
@@ -263,9 +189,8 @@
       });
 
       it('should be undefined when all offers are in future', function() {
-        scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        var tomorrow = new Date(Date.UTC(2015, 1, 6));
-        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: tomorrow, price: 550, provider: 1}];
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [tomorrow];
 
         var result = scope.prevDay();
 
@@ -274,8 +199,8 @@
       });
 
       it('should be undefined when only offer for today exists', function() {
-        scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: scope.day, price: 550, provider: 1}];
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [today];
 
         var result = scope.prevDay();
 
@@ -288,9 +213,8 @@
 
     describe('nextDay', function() {
       it('should be tomorrow when offer for tomorrow exists', function() {
-        scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        var tomorrow = new Date(Date.UTC(2015, 1, 6));
-        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: tomorrow, price: 550, provider: 1}];
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [tomorrow];
 
         var result = scope.nextDay();
 
@@ -300,9 +224,8 @@
       });
 
       it('should be in two days when no offer for tomorrow exists', function() {
-        scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        var inTwoDays = new Date(Date.UTC(2015, 1, 7));
-        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: inTwoDays, price: 550, provider: 1}];
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [inTwoDays];
 
         var result = scope.nextDay();
 
@@ -312,12 +235,8 @@
       });
 
       it('should be nearest future day when multiple offers in future exists', function() {
-        scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        var tomorrow = new Date(Date.UTC(2015, 1, 6));
-        var inTwoDays = new Date(Date.UTC(2015, 1, 7));
-        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: inTwoDays, price: 550, provider: 1},
-                                   {id: 2, name: 'Angebot 2', day: tomorrow, price: 550, provider: 1},
-                                   {id: 3, name: 'Angebot 3', day: inTwoDays, price: 550, provider: 1}];
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [tomorrow, inTwoDays];
 
         var result = scope.nextDay();
 
@@ -327,8 +246,8 @@
       });
 
       it('should be undefined when no offers exist', function() {
-        scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        scope.offersForLocation = [];
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [];
 
         var result = scope.nextDay();
 
@@ -337,9 +256,8 @@
       });
 
       it('should be undefined when all offers are in past', function() {
-        scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        var yesterday = new Date(Date.UTC(2015, 1, 4));
-        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: yesterday, price: 550, provider: 1}];
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [yesterday];
 
         var result = scope.nextDay();
 
@@ -348,71 +266,13 @@
       });
 
       it('should be undefined when only offer for today exists', function() {
-        scope.day = new Date(Date.UTC(2015, 1, 5)); // "today"
-        scope.offersForLocation = [{id: 1, name: 'Angebot 1', day: scope.day, price: 550, provider: 1}];
+        scope.model.selectedDay = today;
+        scope.daysInOffersForLocation = [today];
 
         var result = scope.nextDay();
 
         expect(result).toBeUndefined();
         expect(scope.hasNextDay()).toBeFalsy();
-      });
-    });
-
-
-
-    describe('goPrevDay', function() {
-      it('should change day and visible offers to yesterday', function() {
-        var today = new Date(Date.UTC(2015, 1, 5));
-        var yesterday = new Date(Date.UTC(2015, 1, 4));
-        var providers = [{id: 1, name: 'Anbieter 1', location: 'Neubrandenburg'}];
-        var offers = [{id: 1, name: 'Angebot 1', day: today, price: 550, provider: 1},
-                      {id: 2, name: 'Angebot 2', day: yesterday, price: 550, provider: 1},
-                      {id: 3, name: 'Angebot 3', day: yesterday, price: 550, provider: 1}];
-        initHttpBackend(false, offers, providers);
-        scope.day = today;
-        scope.location = 'Neubrandenburg';
-        $httpBackend.flush();
-        expect(scope.isLoadFinished()).toBeTruthy();
-        expect(scope.hasVisibleOffers()).toBeTruthy();
-
-        scope.goPrevDay();
-
-        expect(scope.day).toEqual(yesterday);
-        expect(scope.hasVisibleOffers()).toBeTruthy();
-        expect(scope.visibleOffers).toAngularEqual(
-          { 1: [{id: 2, name: 'Angebot 2', day: yesterday, price: 550, provider: 1},
-                {id: 3, name: 'Angebot 3', day: yesterday, price: 550, provider: 1}] }
-        );
-
-      });
-    });
-
-
-
-    describe('goNextDay', function() {
-      it('should change day and visible offers to tomorrow', function() {
-        var today = new Date(Date.UTC(2015, 1, 5));
-        var tomorrow = new Date(Date.UTC(2015, 1, 6));
-        var providers = [{id: 1, name: 'Anbieter 1', location: 'Neubrandenburg'}];
-        var offers = [{id: 1, name: 'Angebot 1', day: today, price: 550, provider: 1},
-                      {id: 2, name: 'Angebot 2', day: tomorrow, price: 550, provider: 1},
-                      {id: 3, name: 'Angebot 3', day: tomorrow, price: 550, provider: 1}];
-        initHttpBackend(false, offers, providers);
-        scope.day = today;
-        scope.location = 'Neubrandenburg';
-        $httpBackend.flush();
-        expect(scope.isLoadFinished()).toBeTruthy();
-        expect(scope.hasVisibleOffers()).toBeTruthy();
-
-        scope.goNextDay();
-
-        expect(scope.day).toEqual(tomorrow);
-        expect(scope.hasVisibleOffers()).toBeTruthy();
-        expect(scope.visibleOffers).toAngularEqual(
-          { 1: [{id: 2, name: 'Angebot 2', day: tomorrow, price: 550, provider: 1},
-                {id: 3, name: 'Angebot 3', day: tomorrow, price: 550, provider: 1}] }
-        );
-
       });
     });
 

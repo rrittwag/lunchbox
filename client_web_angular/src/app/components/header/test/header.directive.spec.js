@@ -24,7 +24,13 @@
 
     beforeEach(function () {
       module('lunchboxWebapp');
+      // LunchModel service mocken
+      module(function($provide) {
+        $provide.value('LunchModel', { locations: [], selectedLocation: null });
+      });
+      // einfaches Scope erzeugen
       inject(function ($rootScope) { scope = $rootScope.$new(); });
+      // Scope an einfaches HTML-Template binden, das lediglich den Header enthält
       inject(function ($compile) {
         node = $compile('<div header></div>')(scope);
         scope.$digest(); // Daten aus Scope in Template übertragen

@@ -32,7 +32,6 @@ Distribution
 TODOs
 -----
 
-* Unit-Tests aktualisieren
 * Location-Auswähler: Stadtwappen anzeigen
 * Location-Auswähler: Auswahl des Nutzers für nächsten Seitenaufruf merken
 * App Store-Badge auf 60px vergrößern
@@ -40,16 +39,16 @@ TODOs
 * Design: [Bootstrap-Tooltips-Erweiterung](http://getbootstrap.com/javascript/#tooltips) für alle Links/Interaktionen einsetzen
 * Test: auf Smartphone & Tab testen (inkl. NavBar-Menü-Buttons & schickes Design)
 * Design: Lunchbox-Logo für Jumbotron bereitstellen
-* Tag-Auswähler: als Komponente auslagern
 * Projekt mit HTML5 Boilerplate abgleichen
 * Adress-Query-Parameter "day": gezielt die Angebote für einen Tag abfragen
 * in Feed Links zur Website setzen
+* Tag-Auswähler: als Komponente auslagern
+* Meldungsdialog als Komponente auslagern
 * System-Tests bereitstellen, via [Selenium und Protractor](https://github.com/angular/protractor) ?
 * durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
 * schöneres Bootstrap-Theme einsetzen ? z.B. [Bootstrap Material Design](http://fezvrasta.github.io/bootstrap-material-design/) oder [Bootswatch Paper](https://bootswatch.com/paper/) ?
 * i18n & l10n
-* assert-Funktion in main.filter verschieben in eigene Lib?
-* Underscore per RequireJS einbinden?
+* assert-Funktion in offers.filter verschieben in eigene Lib?
 * Direkte Anwahl einer Sub-Adresse (z.B. 'http://localhost/about') ermöglichen. Wie kann nginx die Subadresse an Client/AngularJS weiterreichen?
 * [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
 * Umstellen auf ECMAScript 6, CoffeScript, Dart oder Scala.js?
