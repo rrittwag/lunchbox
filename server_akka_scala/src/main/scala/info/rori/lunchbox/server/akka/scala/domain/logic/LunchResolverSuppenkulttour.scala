@@ -173,7 +173,8 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   }
 
   private def removeLeadingBars(text: String) =
-    text.trim.replaceFirst("""$\|+""", "")
+    text.trim.replaceFirst("""^\|\|""", "")
+      .replaceFirst("""^\|""", "")
 
   private def adjustText(text: String) =
     text.replaceAll("–", "-")

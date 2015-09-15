@@ -134,6 +134,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
 
     offers.filter(_.day == date("2015-09-08")) should have size 4
     offers.filter(_.day == date("2015-09-14")) should have size 4
+    offers should contain (LunchOffer(0, "Braune Linsensuppe: Würstchen, Kartoffeln, Möhren, Lauch, Essig & Zucker", date("2015-09-14"), euro("4.50"), Id))
   }
 
   private def resolver = {
