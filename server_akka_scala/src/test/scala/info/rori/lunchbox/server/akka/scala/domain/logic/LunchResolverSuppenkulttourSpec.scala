@@ -133,6 +133,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
     val offers = resolver.resolve(url)
 
     offers.filter(_.day == date("2015-09-08")) should have size 4
+    offers.filter(_.day == date("2015-09-14")) should have size 4
   }
 
   private def resolver = {

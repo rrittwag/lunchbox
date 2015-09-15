@@ -85,12 +85,16 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     val tagessuppenStart = wochenplanString.indexOf("Die Tagessuppen")
 
     val wochensuppen =
-      if (wochensuppenStart > -1 && wochensuppenStart < tagessuppenStart) parseWochensuppen(wochenplanString.substring(wochensuppenStart, tagessuppenStart), monday)
-      else Nil
+      if (wochensuppenStart > -1 && wochensuppenStart < tagessuppenStart)
+        parseWochensuppen(removeLeadingBars(wochenplanString.substring(wochensuppenStart + 16, tagessuppenStart)), monday)
+      else
+        Nil
 
     val tagessuppen =
-      if (tagessuppenStart > -1) parseTagessuppen(wochenplanString.substring(tagessuppenStart), monday)
-      else Nil
+      if (tagessuppenStart > -1)
+        parseTagessuppen(removeLeadingBars(wochenplanString.substring(tagessuppenStart + 15)), monday)
+      else
+        Nil
 
     val multipliedWochensuppen = multiplyWochenangebote(wochensuppen, tagessuppen.map(_.day))
     tagessuppen ++ multipliedWochensuppen
@@ -99,7 +103,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   private def parseWochensuppen(text: String, monday: LocalDate): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
 
-    for (wochensuppeString <- text.split( """\|\|""").tail) {
+    for (wochensuppeString <- text.split( """\|\|""")) {
       val offerAsStringArray = wochensuppeString.split( """\|""").map(_.trim).toList
       val (nameOpt, priceOpt) = parseOfferAttributes(offerAsStringArray)
       for (price <- priceOpt;
@@ -112,7 +116,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   private def parseTagessuppen(text: String, monday: LocalDate): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
 
-    for (tagessuppeString <- text.split( """\|\|""").tail) {
+    for (tagessuppeString <- text.split( """\|\|""")) {
       val (weekdayOpt, remainingTagessuppeString) = extractWeekday(tagessuppeString, monday)
       val offerAsStringArray = remainingTagessuppeString.split( """\|""").map(_.trim).toList
       val (nameOpt, priceOpt) = parseOfferAttributes(offerAsStringArray)
@@ -167,6 +171,9 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     }
     result.toString
   }
+
+  private def removeLeadingBars(text: String) =
+    text.trim.replaceFirst("""$\|+""", "")
 
   private def adjustText(text: String) =
     text.replaceAll("–", "-")
