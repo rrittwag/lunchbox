@@ -17,13 +17,6 @@
     };
     this.locations = [locationNB, locationBerlin];
 
-    // vom Nutzer ausgewählter Tag (Default: heute)
-    function today() {
-      var localNow = new Date();
-      return new Date(Date.UTC(localNow.getFullYear(), localNow.getMonth(), localNow.getDate()));
-    }
-    this.selectedDay = today();
-
     // providers & offers
     var LoadStatusEnum = Object.freeze({LOADING: 0, LOADED: 1, FAILED: 2});
     var loadStatus = {

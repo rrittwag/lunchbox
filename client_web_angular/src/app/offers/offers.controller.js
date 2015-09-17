@@ -5,9 +5,34 @@
   var app = angular.module('lunchboxWebapp');
 
   // ... und Controller für Offers-View erzeugen
-  app.controller('OffersCtrl', function ($scope, $filter, _, LunchProviderStore, LunchOfferStore, LunchModel, Settings) {
+  app.controller('OffersCtrl', function ($scope, $filter, _, LunchModel, Settings) {
     $scope.model = LunchModel;
     $scope.settings = Settings;
+
+    // vom Nutzer ausgewählter Tag (Default: heute)
+    function today() {
+      var localNow = new Date();
+      return new Date(Date.UTC(localNow.getFullYear(), localNow.getMonth(), localNow.getDate()));
+    }
+    $scope.selectedDay = today();
+
+    // Zwischenwerte, um den Filter-Aufwand gering zu halten
+    $scope.offersForLocation = [];
+    $scope.daysInOffersForLocation = [];
+    $scope.visibleOffers = [];
+
+    function refreshOffersForLocation() {
+      var providersForLocation = $filter('filterProvidersByLocation')($scope.model.providers, $scope.settings.location);
+      $scope.offersForLocation = $filter('filterOffersByProviders')($scope.model.offers, providersForLocation);
+    }
+
+    function refreshDaysInOffersForLocation() {
+      $scope.daysInOffersForLocation = $filter('filterDaysInOffers')($scope.offersForLocation);
+    }
+
+    function refreshVisibleOffers() {
+      $scope.visibleOffers = $filter('filterOffersByDay')($scope.offersForLocation, $scope.selectedDay);
+    }
 
     $scope.$watchGroup(['model.offers', 'model.providers', 'settings.location'], function () {
       refreshOffersForLocation();
@@ -15,54 +40,9 @@
       refreshVisibleOffers();
     }, true);
 
-    $scope.$watch('model.selectedDay', function () {
+    $scope.$watch('selectedDay', function () {
       refreshVisibleOffers();
     }, true);
-
-    var offersForLocation = [];
-    $scope.daysInOffersForLocation = []; // TODO: ist nur für Unit-Test eine Scope-Variable
-    $scope.visibleOffers = [];
-
-    function refreshOffersForLocation() {
-      var providersForLocation = $filter('filterProvidersByLocation')($scope.model.providers, $scope.settings.location);
-      offersForLocation = $filter('filterOffersByProviders')($scope.model.offers, providersForLocation);
-    }
-
-    function refreshDaysInOffersForLocation() {
-      $scope.daysInOffersForLocation = $filter('filterDaysInOffers')(offersForLocation);
-    }
-
-    function refreshVisibleOffers() {
-      $scope.visibleOffers = $filter('filterOffersByDay')(offersForLocation, $scope.model.selectedDay);
-    }
-
-    $scope.prevDay = function() {
-      return _.chain($scope.daysInOffersForLocation)
-          .filter(function(day) { return day < $scope.model.selectedDay; })
-          .last().value();
-    };
-
-    $scope.nextDay = function() {
-      return _.chain($scope.daysInOffersForLocation)
-          .filter(function(day) { return day > $scope.model.selectedDay; })
-          .first().value();
-    };
-
-    $scope.goPrevDay = function() {
-      $scope.model.selectedDay = $scope.prevDay();
-    };
-
-    $scope.goNextDay = function() {
-      $scope.model.selectedDay = $scope.nextDay();
-    };
-
-    $scope.hasPrevDay = function() {
-      return $scope.prevDay() !== undefined;
-    };
-
-    $scope.hasNextDay = function() {
-      return $scope.nextDay() !== undefined;
-    };
 
   });
 

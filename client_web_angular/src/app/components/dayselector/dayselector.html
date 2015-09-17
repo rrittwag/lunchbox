@@ -1,0 +1,20 @@
+<div class="day-control">
+  <div class="row">
+    <div class="col-xs-12 col-sm-9 col-md-6 col-lg-4">
+      <div class="row vertical-align">
+        <div class="col-xs-2">
+          <a class="btn btn-primary glyphicon glyphicon-chevron-left"
+              ng-click="goPrevDay()" ng-disabled="!hasPrevDay()"></a>
+        </div>
+        <div class="col-xs-8 text-center">
+          <h2><small>{{selectedDay | formatToWeekday}}</small></h2>
+          <h2>{{selectedDay | date:'dd.MM.yyyy'}}</h2>
+        </div>
+        <div class="col-xs-2">
+          <a class="btn btn-primary glyphicon glyphicon-chevron-right pull-right"
+              ng-click="goNextDay()" ng-disabled="!hasNextDay()"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
