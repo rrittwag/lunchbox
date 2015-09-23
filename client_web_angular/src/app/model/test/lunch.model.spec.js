@@ -52,12 +52,6 @@
         initHttpBackend();
       });
 
-      it('should init selected day to today (in UTC)', function() {
-        var now = new Date();
-        expect(model.selectedDay).toBeDefined();
-        expect(model.selectedDay.getTime()).toBe(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
-      });
-
       it('should init status to LOADING', function() {
         expect(model.isLoading()).toBeTruthy();
         expect(model.isLoadFinished()).toBeFalsy();

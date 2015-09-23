@@ -87,6 +87,7 @@
 
   app.filter('formatToWeekday', function () {
     return function(date) {
+      if ( !date ) { return ''; }
       assert(typeof date === 'object');
       assert(typeof date.getDay === 'function');
       // TODO: i18n

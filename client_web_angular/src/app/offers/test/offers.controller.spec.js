@@ -7,11 +7,7 @@
     var locationNB = {name: 'Neubrandenburg', shortName: 'NB'};
     var locationB = {name: 'Berlin', shortName: 'B'};
 
-    var inTwoDays = new Date(Date.UTC(2015, 1, 7));
-    var tomorrow = new Date(Date.UTC(2015, 1, 6));
     var today = new Date(Date.UTC(2015, 1, 5));
-    var yesterday = new Date(Date.UTC(2015, 1, 4));
-    var twoDaysAgo = new Date(Date.UTC(2015, 1, 3));
 
     var testProviders = [{id: 1, name: 'Anbieter 1', location: locationNB.name},
                          {id: 2, name: 'Anbieter 2', location: locationB.name}];
@@ -61,6 +57,12 @@
       it('should init visibleOffers to []', function() {
         expect(scope.visibleOffers).toEqual([]);
       });
+
+      it('should init selected day to today (in UTC)', function() {
+        var now = new Date();
+        expect(scope.selectedDay).toBeDefined();
+        expect(scope.selectedDay.getTime()).toBe(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+      });
     });
 
 
@@ -68,7 +70,7 @@
     describe('visibleOffers', function() {
       it('should refresh when changing offers', function() {
         scope.model.providers = testProviders;
-        scope.model.selectedDay = today;
+        scope.selectedDay = today;
         scope.settings.location = locationNB;
         scope.$apply(); // stößt den watch-Aufruf an
         expect(scope.visibleOffers.length).toBe(0);
@@ -81,7 +83,7 @@
 
       it('should refresh when changing providers', function() {
         scope.model.offers = testOffers;
-        scope.model.selectedDay = today;
+        scope.selectedDay = today;
         scope.settings.location = locationNB;
         scope.$apply(); // stößt den watch-Aufruf an
         expect(scope.visibleOffers.length).toBe(0);
@@ -95,7 +97,7 @@
       it('should refresh when changing selectedLocation', function() {
         scope.model.providers = testProviders;
         scope.model.offers = testOffers;
-        scope.model.selectedDay = today;
+        scope.selectedDay = today;
         scope.settings.location = null;
         scope.$apply(); // stößt den watch-Aufruf an
         expect(scope.visibleOffers.length).toBe(3);
@@ -113,166 +115,10 @@
         scope.$apply(); // stößt den watch-Aufruf an
         expect(scope.visibleOffers.length).toBe(0);
 
-        scope.model.selectedDay = today;
+        scope.selectedDay = today;
         scope.$apply(); // stößt den watch-Aufruf an
 
         expect(scope.visibleOffers.length).toBe(2);
-      });
-    });
-
-
-
-    describe('selectedDay', function() {
-      it('should change on goPrevDay', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [yesterday];
-
-        scope.goPrevDay();
-
-        expect(scope.model.selectedDay).toBe(yesterday);
-      });
-
-      it('should change on goNextDay', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [tomorrow];
-
-        scope.goNextDay();
-
-        expect(scope.model.selectedDay).toBe(tomorrow);
-      });
-    });
-
-
-
-    describe('prevDay', function() {
-      it('should be yesterday when offer for yesterday exists', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [yesterday];
-
-        var result = scope.prevDay();
-
-        expect(result).toBeDefined();
-        expect(result.getTime()).toBe(yesterday.getTime());
-        expect(scope.hasPrevDay()).toBeTruthy();
-      });
-
-      it('should be two days ago when no offer for yesterday exists', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [twoDaysAgo];
-
-        var result = scope.prevDay();
-
-        expect(result).toBeDefined();
-        expect(result.getTime()).toBe(twoDaysAgo.getTime());
-        expect(scope.hasPrevDay()).toBeTruthy();
-      });
-
-      it('should be nearest past day when offers in past exists', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [twoDaysAgo, yesterday];
-
-        var result = scope.prevDay();
-
-        expect(result).toBeDefined();
-        expect(result.getTime()).toBe(yesterday.getTime());
-        expect(scope.hasPrevDay()).toBeTruthy();
-      });
-
-      it('should be undefined when no offers exist', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [];
-
-        var result = scope.prevDay();
-
-        expect(result).toBeUndefined();
-        expect(scope.hasPrevDay()).toBeFalsy();
-      });
-
-      it('should be undefined when all offers are in future', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [tomorrow];
-
-        var result = scope.prevDay();
-
-        expect(result).toBeUndefined();
-        expect(scope.hasPrevDay()).toBeFalsy();
-      });
-
-      it('should be undefined when only offer for today exists', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [today];
-
-        var result = scope.prevDay();
-
-        expect(result).toBeUndefined();
-        expect(scope.hasPrevDay()).toBeFalsy();
-      });
-    });
-
-
-
-    describe('nextDay', function() {
-      it('should be tomorrow when offer for tomorrow exists', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [tomorrow];
-
-        var result = scope.nextDay();
-
-        expect(result).toBeDefined();
-        expect(result.getTime()).toBe(tomorrow.getTime());
-        expect(scope.hasNextDay()).toBeTruthy();
-      });
-
-      it('should be in two days when no offer for tomorrow exists', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [inTwoDays];
-
-        var result = scope.nextDay();
-
-        expect(result).toBeDefined();
-        expect(result.getTime()).toBe(inTwoDays.getTime());
-        expect(scope.hasNextDay()).toBeTruthy();
-      });
-
-      it('should be nearest future day when multiple offers in future exists', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [tomorrow, inTwoDays];
-
-        var result = scope.nextDay();
-
-        expect(result).toBeDefined();
-        expect(result.getTime()).toBe(tomorrow.getTime());
-        expect(scope.hasNextDay()).toBeTruthy();
-      });
-
-      it('should be undefined when no offers exist', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [];
-
-        var result = scope.nextDay();
-
-        expect(result).toBeUndefined();
-        expect(scope.hasNextDay()).toBeFalsy();
-      });
-
-      it('should be undefined when all offers are in past', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [yesterday];
-
-        var result = scope.nextDay();
-
-        expect(result).toBeUndefined();
-        expect(scope.hasNextDay()).toBeFalsy();
-      });
-
-      it('should be undefined when only offer for today exists', function() {
-        scope.model.selectedDay = today;
-        scope.daysInOffersForLocation = [today];
-
-        var result = scope.nextDay();
-
-        expect(result).toBeUndefined();
-        expect(scope.hasNextDay()).toBeFalsy();
       });
     });
 

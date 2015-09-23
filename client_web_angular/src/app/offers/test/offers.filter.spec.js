@@ -212,7 +212,11 @@
       });
 
       it('returns Error when date undefined', function() {
-        expect(function() { formatToWeekday(undefined); }).toThrowError(Error);
+        expect(formatToWeekday(undefined)).toEqual('');
+      });
+
+      it('returns Error when date is some object', function() {
+        expect(function() { formatToWeekday({}); }).toThrowError(Error);
       });
 
       it('returns "Sonntag" for 07.06.2015', function() {
