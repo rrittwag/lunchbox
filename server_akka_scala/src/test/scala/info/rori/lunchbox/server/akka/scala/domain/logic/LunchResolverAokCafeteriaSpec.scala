@@ -1,7 +1,5 @@
 package info.rori.lunchbox.server.akka.scala.domain.logic
 
-import java.net.URL
-
 import info.rori.lunchbox.server.akka.scala.domain.model.{LunchOffer, LunchProvider}
 import org.joda.money.Money
 import org.joda.time.LocalDate
@@ -35,7 +33,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers with MockFact
 
   it should "resolve offers for week of 2015-03-20" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_16.03.-20.03..pdf")
-    val week = weekOf(s"$YearNow-03-20")
+    val week = weekOf(s"2015-03-20")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -59,7 +57,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers with MockFact
 
   it should "resolve offers for week of 2015-03-27" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_23.03.-27.03..pdf")
-    val week = weekOf(s"$YearNow-03-27")
+    val week = weekOf(s"2015-03-27")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -83,7 +81,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers with MockFact
 
   it should "resolve offers for Easter week of 2015-04-02" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_30.03.-02.04..pdf")
-    val week = weekOf(s"$YearNow-04-02")
+    val week = weekOf(s"2015-04-02")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -97,7 +95,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers with MockFact
 
   it should "resolve offers for Easter week of 2015-04-10" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_06.04.-10.04..pdf")
-    val week = weekOf(s"$YearNow-04-10")
+    val week = weekOf(s"2015-04-10")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -111,7 +109,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers with MockFact
 
   it should "resolve offers for week of 2015-07-20" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_20.07.-24.07.2015.pdf")
-    val week = weekOf(s"$YearNow-07-20")
+    val week = weekOf(s"2015-07-20")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -125,7 +123,7 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers with MockFact
 
   it should "resolve offers for week of 2015-08-03" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AFA_03.08.-07.08..pdf")
-    val week = weekOf(s"$YearNow-08-03")
+    val week = weekOf(s"2015-08-03")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -138,12 +136,12 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers with MockFact
   }
 
   it should "parse date from PDF url" in {
-    def parse(file: String): LocalDate = resolver.parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
+    def parse(lines: Seq[String]): LocalDate = resolver.parseMondayByTexts(lines).get
 
-    parse("AOK_16.03.-20.03..pdf") should be (weekOf(s"$YearNow-03-20").monday)
-    parse("AOK_23.03.-27.03..pdf") should be (weekOf(s"$YearNow-03-27").monday)
-    parse("AOK_16.03.-20.03..pdf") should be (weekOf(s"$YearNow-03-20").monday)
-    parse("AOK_27.07.-31.07.2015.pdf") should be (weekOf(s"$YearNow-07-27").monday)
+    parse(Seq("16.03.-20.03.2016")) should be (weekOf(s"2016-03-20").monday)
+    parse(Seq("23.03.-27.03.")) should be (weekOf(s"$YearNow-03-27").monday)
+    parse(Seq("16.03.-20.03.")) should be (weekOf(s"$YearNow-03-20").monday)
+    parse(Seq("27.07.-31.07.2015 bla")) should be (weekOf(s"2015-07-27").monday)
   }
 
   private def resolver = {

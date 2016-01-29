@@ -70,15 +70,16 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
     Future.sequence(listOfFutures).map(listOfLists => listOfLists.flatten)
   }
 
-  private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] =
-    parseMondayFromUrl(pdfUrl)
-      .filter(dateValidator.isValid)
-      .map(resolveFromPdfContent(pdfUrl, _))
-      .getOrElse(Nil)
-
-  private[logic] def resolveFromPdfContent(pdfUrl: URL, monday: LocalDate): Seq[LunchOffer] = {
+  private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] = {
     val lines = extractPdfContent(pdfUrl)
 
+    parseMonday(lines)
+      .filter(dateValidator.isValid)
+      .map(resolveFromPdfContent(pdfUrl, lines, _))
+      .getOrElse(Nil)
+  }
+
+  private[logic] def resolveFromPdfContent(pdfUrl: URL, lines: Seq[TextLine], monday: LocalDate): Seq[LunchOffer] = {
     val section2lines = groupBySection(lines)
 
     var offers = Seq[LunchOffer]()
@@ -99,13 +100,14 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
     offers
   }
 
-  private[logic] def parseMondayFromUrl(pdfUrl: URL): Option[LocalDate] = pdfUrl.getFile match {
-    case r""".*-([^-]+)$fridayString.pdf""" =>
-      parseDay(fridayString).map { friday =>
-          val weekOfYear = friday.getWeekOfWeekyear
-          LocalDate.now.withWeekOfWeekyear(weekOfYear).withDayOfWeek(1)
-      }
-    case _ => None
+  private[logic] def parseMonday(lines: Seq[TextLine]): Option[LocalDate] = parseMondayByTexts(lines.map(_.toString))
+
+  private[logic] def parseMondayByTexts(lines: Seq[String]): Option[LocalDate] = {
+    // alle Datumse aus PDF ermitteln
+    val days = lines.flatMap( line => parseDay(line.toString) )
+    val mondays = days.map(_.withDayOfWeek(1))
+    // den Montag der am häufigsten verwendeten Woche zurückgeben
+    Option(mondays.groupBy(identity).maxBy(_._2.size)._1)
   }
 
   private def groupBySection(lines: Seq[TextLine]): Map[PdfSection, Seq[TextLine]] = {
