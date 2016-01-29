@@ -116,10 +116,7 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
     case _ => None
   }
 
-  private def toMonday(day: LocalDate): LocalDate = {
-      val weekOfYear = day.getWeekOfWeekyear
-      LocalDate.now.withWeekOfWeekyear(weekOfYear).withDayOfWeek(1)
-  }
+  private def toMonday(day: LocalDate): LocalDate = day.withDayOfWeek(1)
 
   /**
    * Erzeugt ein Money-Objekt (in EURO) aus dem Format "*0,00*"

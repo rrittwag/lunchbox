@@ -97,10 +97,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
 
   private[logic] def parseMondayFromUrl(pdfUrl: URL): Option[LocalDate] = pdfUrl.getFile match {
     case r""".*/Mittagspause.*-(.+)$fridayString.pdf""" =>
-      parseDay(fridayString).map { friday =>
-        val weekOfYear = friday.getWeekOfWeekyear
-        LocalDate.now.withWeekOfWeekyear(weekOfYear).withDayOfWeek(1)
-      }
+      parseDay(fridayString).map ( friday => friday.withDayOfWeek(1) )
     case _ => None
   }
 

@@ -46,7 +46,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
 
   it should "resolve offers for week of 2015-02-20" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_16.02-20.02.2015neu.pdf")
-    val week = weekOf(s"$YearNow-02-20")
+    val week = weekOf(s"2015-02-20")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -69,7 +69,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
 
   it should "resolve offers for week of 2015-02-27" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_23.02-27.02.2015neu.pdf")
-    val week = weekOf(s"$YearNow-02-27")
+    val week = weekOf(s"2015-02-27")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -79,7 +79,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
 
   it should "resolve offers for week of 2015-03-06" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_02.03-06.03.2015.pdf")
-    val week = weekOf(s"$YearNow-03-06")
+    val week = weekOf(s"2015-03-06")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -102,7 +102,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
 
   it should "resolve offers for week of 2015-03-13" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_09.03-13.03.15.pdf")
-    val week = weekOf(s"$YearNow-03-13")
+    val week = weekOf(s"2015-03-13")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -125,7 +125,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
 
   it should "resolve offers for week of 2015-03-20" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_16.03.-20.03.2015.pdf")
-    val week = weekOf(s"$YearNow-03-20")
+    val week = weekOf(s"2015-03-20")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -148,7 +148,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
 
   it should "resolve offers for Easter week of 2015-04-03" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_30.04-03.04.15.pdf")
-    val week = weekOf(s"$YearNow-04-03")
+    val week = weekOf(s"2015-04-03")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -162,7 +162,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
 
   it should "resolve offers for Easter week of 2015-04-10" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_06.04.15-10.04.15.pdf")
-    val week = weekOf(s"$YearNow-04-10")
+    val week = weekOf(s"2015-04-10")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -176,7 +176,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
 
   it should "resolve offers for week of 2015-04-17" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_13.04.-17.04.2015.pdf")
-    val week = weekOf(s"$YearNow-04-17")
+    val week = weekOf(s"2015-04-17")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -190,7 +190,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
 
   it should "resolve offers for week of 2015-04-24" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_20.04.-24.04.2015.pdf")
-    val week = weekOf(s"$YearNow-04-24")
+    val week = weekOf(s"2015-04-24")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -201,7 +201,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
 
   it should "resolve offers for week of 2015-05-08" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_04.05.-08.05.15.pdf")
-    val week = weekOf(s"$YearNow-05-08")
+    val week = weekOf(s"2015-05-08")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -212,7 +212,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
 
   it should "resolve offers for week of 2015-08-03" in {
     val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_03.08.-07.08.2015.pdf")
-    val week = weekOf(s"$YearNow-08-03")
+    val week = weekOf(s"2015-08-03")
 
     val offers = resolver.resolveFromPdf(url)
 
@@ -223,9 +223,9 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
   it should "parse date from PDF url" in {
     def parse(file: String): LocalDate = resolver.parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
 
-    parse("Mittagspause_09.02.-13.02.2015neu.pdf") should be (weekOf(s"$YearNow-02-13").monday)
-    parse("Mittagspause_09.03-13.03.15.pdf") should be (weekOf(s"$YearNow-03-13").monday)
-    parse("Mittagspause_02.03-06.03.2015.pdf") should be (weekOf(s"$YearNow-03-06").monday)
+    parse("Mittagspause_09.02.-13.02.2015neu.pdf") should be (weekOf(s"2015-02-13").monday)
+    parse("Mittagspause_09.03-13.03.15.pdf") should be (weekOf(s"2015-03-13").monday)
+    parse("Mittagspause_02.03-06.03.2015.pdf") should be (weekOf(s"2015-03-06").monday)
     parse("Mittagspause_27.04.-01.05.pdf") should be (weekOf(s"$YearNow-05-01").monday)
   }
 
