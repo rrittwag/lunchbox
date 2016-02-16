@@ -51,7 +51,7 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
   private def resolveMonday(nodes: Seq[TagNode]): Option[LocalDate] =
     nodes
       .map( parseName(_).replaceAll("\n", "") )
-      .find( _.contains("täglich von") )
+      .find( _.contains(" Uhr") )
       .flatMap( parseDay )
       .map( toMonday )
 

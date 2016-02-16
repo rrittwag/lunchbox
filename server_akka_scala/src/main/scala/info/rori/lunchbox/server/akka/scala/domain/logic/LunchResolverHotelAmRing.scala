@@ -147,6 +147,8 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
     rows =
       if (section == PdfSection.SALAT_DER_WOCHE)
         mergeRowsToOneRow(rows, section)
+      else if (section == PdfSection.MITTWOCH && rows.exists(_.name contains "Buffet"))
+        mergeRowsToOneRow(rows, section)
       else if (rows.exists(_.startsWithBoldText))
         mergeRowsByBoldText(rows, section)
       else

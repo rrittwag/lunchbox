@@ -90,6 +90,14 @@ class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers with MockFacto
     offers should contain(LunchOffer(0, "Hacksteak „Toskana“ mit mediterraner Gemüsepfanne dazu Pommes frites", date("2015-08-14"), euro("5.20"), Id))
   }
 
+  it should "resolve offers for week of 2016-02-16" in {
+    val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2016-02-16.html")
+
+    val offers = resolver.resolve(url)
+
+    offers should have size 24
+  }
+
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)

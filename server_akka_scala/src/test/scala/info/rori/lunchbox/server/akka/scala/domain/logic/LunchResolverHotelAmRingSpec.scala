@@ -220,6 +220,16 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     offers should contain(LunchOffer(0,"Salat der Woche: Salat „Vier Jahreszeiten“ (Putenbrust, Blattsalat, Kohlrabi, frische Champignons, Feldsalat, geraspelte Möhren, Paprika, Rettich, Chinakohl)",week.monday,euro("4.80"),Id))
   }
 
+  it should "resolve offers for week of 2016-02-16" in {
+    val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_15.02.-19.02.2016.pdf")
+    val week = weekOf(s"2016-02-16")
+
+    val offers = resolver.resolveFromPdf(url)
+
+    offers should have size 14
+    offers should contain(LunchOffer(0,"Buffet: Paniertes Seelachsfilet, Dorschfilet, Zuchtwels-Filet Gemüsevariation, Sahne-Meerrettichsauce, Zitronen-Buttersauce, Dillsauce, Bandnudeln, Reis, Rosmarinkartoffeln",week.wednesday,euro("6.90"),Id))
+  }
+
   it should "parse date from PDF url" in {
     def parse(file: String): LocalDate = resolver.parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
 
