@@ -107,7 +107,10 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
     val days = lines.flatMap( line => parseDay(line.toString) )
     val mondays = days.map(_.withDayOfWeek(1))
     // den Montag der am häufigsten verwendeten Woche zurückgeben
-    Option(mondays.groupBy(identity).maxBy(_._2.size)._1)
+    mondays match {
+      case Nil => None
+      case _ => Option(mondays.groupBy(identity).maxBy(_._2.size)._1)
+    }
   }
 
   private def groupBySection(lines: Seq[TextLine]): Map[PdfSection, Seq[TextLine]] = {
