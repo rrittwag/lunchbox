@@ -6,7 +6,7 @@ import info.rori.lunchbox.server.akka.scala.domain.model.{LunchOffer, LunchProvi
 import org.apache.commons.lang3.StringEscapeUtils
 import org.htmlcleaner._
 import org.joda.money.{CurrencyUnit, Money}
-import org.joda.time.LocalDate
+import org.joda.time.{DateTimeConstants, LocalDate}
 import org.joda.time.format.DateTimeFormat
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -66,11 +66,10 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   private def resolveMonday(node: TagNode): Option[LocalDate] = {
     val optDateSeq = for (dateDiv <- node.evaluateXPath("/div[@class='toggler']").map { case n: TagNode => n }) yield {
       dateDiv.getText.toString.replace("\n", " ") match {
-        case r""".*Suppen vom +(\d{2}.\d{2}.\d{4})$mondayString.*""" =>
-          parseLocalDate(mondayString, "dd.MM.yyyy")/*.map { monday =>
-            val weekOfYear = monday.getWeekOfWeekyear
-            LocalDate.now.withWeekOfWeekyear(weekOfYear).withDayOfWeek(1)
-          }*/
+        case r""".*Suppen vom +(\d{2}.\d{2}.\d{4})$firstDayString.*""" =>
+          parseLocalDate(firstDayString, "dd.MM.yyyy").map { firstDay =>
+            firstDay.withDayOfWeek(DateTimeConstants.MONDAY)
+          }
         case _ => None
       }
     }
