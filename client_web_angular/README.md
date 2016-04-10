@@ -16,7 +16,7 @@ Build & Benutzung
 -----------------
 
 * Node.js, Gulp & Bower müssen installiert sein - siehe [Homepage zu generator-gulp-angular](https://www.npmjs.com/package/generator-gulp-angular)
-* Abhängigkeiten aktualisieren mit `bower install`.
+* Abhängigkeiten aktualisieren mit `npm update` und `bower install`.
 * `gulp serve` deployt das Web-App auf einem internen Web-Server. Der Chrome-Browser startet automatisch und lädt das Web-App unter der Adresse [http://localhost:3000/](http://localhost:3000/). Quellcode-Änderungen werden auto-deployt.
 * `gulp test` führt die Unit-Tests aus.
 
