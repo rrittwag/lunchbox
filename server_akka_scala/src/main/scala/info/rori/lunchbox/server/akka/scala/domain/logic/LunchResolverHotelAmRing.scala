@@ -71,20 +71,20 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
     Future.sequence(listOfFutures).map(listOfLists => listOfLists.flatten)
   }
 
-  private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] =
-    parseMondayFromUrl(pdfUrl)
-      .filter(dateValidator.isValid)
-      .map(resolveFromPdfContent(pdfUrl, _))
-      .getOrElse(Nil)
-
-  private[logic] def resolveFromPdfContent(pdfUrl: URL, monday: LocalDate): Seq[LunchOffer] = {
-    val optMonday = parseMondayFromUrl(pdfUrl)
-
+  private[logic] def resolveFromPdf(pdfUrl: URL): Seq[LunchOffer] = {
     val pdfContent = extractPdfContent(pdfUrl)
+
+    parseMondayFromContent(pdfContent)
+      .filter(dateValidator.isValid)
+      .map(resolveFromPdfContent(pdfContent, _))
+      .getOrElse(Nil)
+  }
+
+  private[logic] def resolveFromPdfContent(pdfContent: Seq[TextLine], monday: LocalDate): Seq[LunchOffer] = {
     val section2content = groupBySection(pdfContent)
 
     val section2offers = section2content.map {
-      case (section, secContent) => (section, parseOffersFromSectionLines(secContent, section, optMonday))
+      case (section, secContent) => (section, parseOffersFromSectionLines(secContent, section, monday))
     }
 
     // Wochenangebote über die Woche verteilen
@@ -95,10 +95,17 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
     tagesOffersList ++ multipliedWochenOffers
   }
 
-  private[logic] def parseMondayFromUrl(pdfUrl: URL): Option[LocalDate] = pdfUrl.getFile match {
-    case r""".*/Mittagspause.*-(.+)$fridayString.pdf""" =>
-      parseDay(fridayString).map ( friday => friday.withDayOfWeek(1) )
-    case _ => None
+  private[logic] def parseMondayFromContent(lines: Seq[TextLine]): Option[LocalDate] = parseMondayByTexts(lines.map(_.toString))
+
+  private[logic] def parseMondayByTexts(lines: Seq[String]): Option[LocalDate] = {
+    // alle Datumse aus PDF ermitteln
+    val days = lines.flatMap( line => parseDay(line.toString) )
+    val mondays = days.map(_.withDayOfWeek(1))
+    // den Montag der am häufigsten verwendeten Woche zurückgeben
+    mondays match {
+      case Nil => None
+      case _ => Option(mondays.groupBy(identity).maxBy(_._2.size)._1)
+    }
   }
 
   private def groupBySection(lines: Seq[TextLine]): Map[PdfSection, Seq[TextLine]] = {
@@ -122,7 +129,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
     result
   }
 
-  private def parseOffersFromSectionLines(sectionLines: Seq[TextLine], section: PdfSection, optMonday: Option[LocalDate]): Seq[LunchOffer] = {
+  private def parseOffersFromSectionLines(sectionLines: Seq[TextLine], section: PdfSection, monday: LocalDate): Seq[LunchOffer] = {
     var rows = appendBoldTextInfo(sectionLines).flatMap { case (line, startsWithBoldText) =>
       line.toString.trim match {
         case r"""(.+)$text(\d{1,}[.,]\d{2})$priceString *€""" =>
@@ -154,9 +161,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
       else
         mergeRowsUnformatted(rows, section)
 
-    for (row <- rows;
-         day <- optMonday.map(_.plusDays(section.order)))
-    yield LunchOffer(0, row.name, day, row.priceOpt.get, LunchProvider.HOTEL_AM_RING.id)
+    rows.map(row => LunchOffer(0, row.name, monday.plusDays(section.order), row.priceOpt.get, LunchProvider.HOTEL_AM_RING.id))
   }
 
   /**

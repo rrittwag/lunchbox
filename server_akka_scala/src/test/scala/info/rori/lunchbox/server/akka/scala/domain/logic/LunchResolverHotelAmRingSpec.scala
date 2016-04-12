@@ -230,15 +230,6 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     offers should contain(LunchOffer(0,"Buffet: Paniertes Seelachsfilet, Dorschfilet, Zuchtwels-Filet Gemüsevariation, Sahne-Meerrettichsauce, Zitronen-Buttersauce, Dillsauce, Bandnudeln, Reis, Rosmarinkartoffeln",week.wednesday,euro("6.90"),Id))
   }
 
-  it should "parse date from PDF url" in {
-    def parse(file: String): LocalDate = resolver.parseMondayFromUrl(new URL("http://www.hotel-am-ring.de/" + HttpMittagspauseDir + file)).get
-
-    parse("Mittagspause_09.02.-13.02.2015neu.pdf") should be (weekOf(s"2015-02-13").monday)
-    parse("Mittagspause_09.03-13.03.15.pdf") should be (weekOf(s"2015-03-13").monday)
-    parse("Mittagspause_02.03-06.03.2015.pdf") should be (weekOf(s"2015-03-06").monday)
-    parse("Mittagspause_27.04.-01.05.pdf") should be (weekOf(s"$YearNow-05-01").monday)
-  }
-
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)
