@@ -98,6 +98,15 @@ class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers with MockFacto
     offers should have size 24
   }
 
+  it should "resolve offers for week of 2016-04-12" in {
+    val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2016-04-12.html")
+
+    val offers = resolver.resolve(url)
+
+    offers should have size 24
+    offers should contain(LunchOffer(0, "Wochenangebot: Bunter Salat mit frischen Erdbeeren, gebratenem Hähnchenfleisch und hausgemachtem Erdbeer-Minze-Joghurt-Dressing", date("2016-04-11"), euro("5.90"), Id))
+  }
+
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)
