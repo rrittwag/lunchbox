@@ -5,11 +5,21 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Paths}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Failure, Success}
 
 object OcrClientMain extends App {
-  val ocrTextFuture = OcrClient.doOCR(new URL("https://scontent-fra3-1.xx.fbcdn.net/hphotos-xft1/t31.0-8/11251272_736557099788477_3687609882283739871_o.jpg"))
-  for (ocrText <- ocrTextFuture) {
-    Files.write(Paths.get("src/test/resources/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2015-08-10_ocr.txt"), ocrText.getBytes(StandardCharsets.UTF_8))
-    println("done")
+  val dateString = "gesundheitszentrum_2016-04-04"
+
+  // provide jpgs via "docker run -d -p 80:80 -v {...}/lunchbox/server_akka_scala/src/test/resources/mittagsplaene/gesundheitszentrum/:/usr/share/nginx/html nginx"
+  val ocrTextFuture = OcrClient.doOCR(new URL(s"http://192.168.99.100/$dateString.jpg"))
+  ocrTextFuture.onComplete {
+    case Success(ocrText) =>
+      Files.write(Paths.get(s"src/test/resources/mittagsplaene/gesundheitszentrum/${dateString}_ocr.txt"), ocrText.getBytes(StandardCharsets.UTF_8))
+      println("done")
+      System.exit(0)
+
+    case Failure(e) =>
+      e.printStackTrace()
+      System.exit(1)
   }
 }

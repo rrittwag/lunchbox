@@ -31,7 +31,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
     case object MITTWOCH extends PdfSection("Mittwoch", 2)
     case object DONNERSTAG extends PdfSection("Donnerstag", 3)
     case object FREITAG extends PdfSection("Freitag", 4)
-    case object FOOTER extends PdfSection("1 Mit Farbstoff", 0)
+    case object FOOTER extends PdfSection("Für unseren Lieferservice", 0)
 
     val weekdaysValues = List[PdfSection](MONTAG, DIENSTAG, MITTWOCH, DONNERSTAG, FREITAG)
     // TODO: improve with macro, see https://github.com/d6y/enumeration-examples & http://underscore.io/blog/posts/2014/09/03/enumerations.html
@@ -133,7 +133,8 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
       case None => currentRow = Some(newRow)
     }
 
-    for (line <- lines.map(l => removeUnnecessaryText(correctOcrErrors(l)))) {
+    for (line <- lines.takeWhile(l => !isEndingSection(l))
+                      .map(l => removeUnnecessaryText(correctOcrErrors(l)))) {
       if (line.matches("""^[F\d]\.?( .*)?$""")) {
         currentRow.foreach(row => result :+= row)
         currentRow = None
@@ -152,9 +153,15 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
 
   private def correctOcrErrors(line: String) =
     line.trim
-      .replaceAll("""^[fF]\.* """, "F. ")
-      .replaceAll("""^(\d)\.+ """, "$1. ")
+      .replaceAll("""^[fF][\.,]* """, "F. ")
+      .replaceAll("""^(\d)[\.,]+ """, "$1. ")
+      .replaceAll("""^l[\.,]+ """, "1. ")
+      .replaceAll("""^(\d)A """, "$1. ")
+      .replaceAll("^Zl ", "2. ")
+      .replaceAll("""L,(\d{2}) ?€?$""", "4,$1")
       .replaceAll("""(\d{1,}) ?[\.,] ?(\d{2}) ?[€g]?$""", "$1,$2")
+      .replaceAll(""" 1,(\d{2})$""", " 4,$1") // für 1,**€ gibt's nix mehr, OCR-Fehler für 4,**€
+      .replaceAll("ﬂ", "fl")
       .replaceAll("IVi", "M")
       .replaceAll("IVl", "M")
       .replaceAll("""([a-zA-ZäöüßÄÖÜ])II""", "$1ll")
@@ -163,7 +170,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
       .replaceAll("uiasch", "ulasch")
       .replaceAll("oiikorn", "ollkorn")
       .replaceAll("Kiöße", "Klöße")
-      .replaceAll(" kcai", " kcal")
+      .replaceAll("kcai", "kcal")
       .replaceAll("Müiier", "Müller")
       .replaceAll("oreiie", "orelle")
       .replaceAll("Saiz", "Salz")
@@ -178,16 +185,42 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
       .replaceAll("uflauf", "uflauf")
       .replaceAll("utiauf", "uflauf")
       .replaceAll("ufiauf", "uflauf")
+      .replaceAll("Fiahm", "Rahm")
+      .replaceAll("Fiei", "Rei")
+      .replaceAll("Fiührei", "Rührei")
+      .replaceAll("‘/2", "1/2")
+      .replaceAll("au/3er", "außer")
+      .replaceAll("Fiind", "Rind")
+      .replaceAll("Fiotkohl", "Rotkohl")
+      .replaceAll("kc[nu]l", "kcal")
+      .replaceAll("""([^s])e-Hackfleisch""", "$1Käse-Hackfleisch") // fuckin bad OCR
+      .replaceAll("""([^J])agerschnitzel"""", "$1\"Jägerschnitzel\"")
+      .replaceAll("Matjesmpt ", "Matjestopf ")
+      .replaceAll("Reibeküse", "Reibekäse")
 
   private def removeUnnecessaryText(text: String) =
       text.trim
         .replaceAll("""^FlTNESS [fF\d]\.* """, "F. ")
         .replaceAll("""^FlTNESS """, "F. ")
+        .replaceAll(""" ‚?[unm]; """, " ")
         .replaceAll(""" \d+ kcal""", "")
+        .replaceAll(""" [a-zA-Z]+kcal""", " ")
+        .replaceAll(" kcal", "")
         .replaceAll(" 2 ?und ", " und ")
         .replaceAll(" 2 ?mit ", " mit ")
         .replaceAll(" , ", ", ")
         .replaceAll(" 3.14 ", " ").trim // schlecht OCR-ed Zusatzstoffe
+        .replaceAll(" 1,14m ", " ")
+        .replaceAll(""" \d[a-zA-Z] """, " ")
+        .replaceAll(""" [a-zA-Z] """, " ")
+        .replaceAll(""" \|4 """, " ")
+        .replaceAll(""" [ACDHGLJEZlcm01\(‘!]{1,5} +(\d{1,}\,\d{2})$""", " $1")
+        .replaceAll("!!!", "")
+        .replaceAll("Amame", "")
+
+  private def isEndingSection(line: String): Boolean =
+      line.startsWith("ACHTUNG") || line.startsWith("Wir wünschen") ||
+      line.startsWith("Öffnungszeiten") || line.startsWith("Alle Spelsen")
 
   private def cleanName(text: String) = text.replaceAll(" 2 *$", "").trim
 
