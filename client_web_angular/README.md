@@ -34,8 +34,6 @@ TODOs
 
 * Location-Auswähler: Stadtwappen anzeigen
 * Location-Auswähler: Auswahl des Nutzers für nächsten Seitenaufruf merken, siehe [Google](https://www.google.de/#q=angular+localStorage) bzw. [TodoMVC](https://github.com/tastejs/todomvc/blob/master/examples/angularjs/js/services/todoStorage.js)
-* App Store-Badge auf 60px vergrößern
-* Design: Lunchbox-Icon bereitstellen für NavBar & Favicon
 * Design: [Bootstrap-Tooltips-Erweiterung](http://getbootstrap.com/javascript/#tooltips) für alle Links/Interaktionen einsetzen
 * Test: auf Smartphone & Tab testen (inkl. NavBar-Menü-Buttons & schickes Design)
 * Design: Lunchbox-Logo für Jumbotron bereitstellen
