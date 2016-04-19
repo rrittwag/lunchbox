@@ -153,6 +153,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
 
   private def correctOcrErrors(line: String) =
     line.trim
+      .replaceAll("‚", ",")
       .replaceAll("""^[fF][\.,]* """, "F. ")
       .replaceAll("""^(\d)[\.,]+ """, "$1. ")
       .replaceAll("""^l[\.,]+ """, "1. ")
@@ -160,8 +161,10 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
       .replaceAll("^Zl ", "2. ")
       .replaceAll("""L,(\d{2}) ?€?$""", "4,$1")
       .replaceAll("""(\d{1,}) ?[\.,] ?(\d{2}) ?[€g]?$""", "$1,$2")
+      .replaceAll("""(\d)(\d{2}) ?[€g]?$""", "$1,$2")
       .replaceAll(""" 1,(\d{2})$""", " 4,$1") // für 1,**€ gibt's nix mehr, OCR-Fehler für 4,**€
       .replaceAll("ﬂ", "fl")
+      .replaceAll("ﬁ", "fi")
       .replaceAll("IVi", "M")
       .replaceAll("IVl", "M")
       .replaceAll("""([a-zA-ZäöüßÄÖÜ])II""", "$1ll")
@@ -185,6 +188,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
       .replaceAll("uflauf", "uflauf")
       .replaceAll("utiauf", "uflauf")
       .replaceAll("ufiauf", "uflauf")
+      .replaceAll("uflaufmit", "uflauf mit")
       .replaceAll("Fiahm", "Rahm")
       .replaceAll("Fiei", "Rei")
       .replaceAll("Fiührei", "Rührei")
@@ -192,17 +196,19 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
       .replaceAll("au/3er", "außer")
       .replaceAll("Fiind", "Rind")
       .replaceAll("Fiotkohl", "Rotkohl")
+      .replaceAll("CeVapcici", "Cevapcici")
       .replaceAll("kc[nu]l", "kcal")
       .replaceAll("""([^s])e-Hackfleisch""", "$1Käse-Hackfleisch") // fuckin bad OCR
       .replaceAll("""([^J])agerschnitzel"""", "$1\"Jägerschnitzel\"")
       .replaceAll("Matjesmpt ", "Matjestopf ")
       .replaceAll("Reibeküse", "Reibekäse")
+      .replaceAll("falisch", "fälisch")
 
   private def removeUnnecessaryText(text: String) =
       text.trim
         .replaceAll("""^FlTNESS [fF\d]\.* """, "F. ")
-        .replaceAll("""^FlTNESS """, "F. ")
-        .replaceAll(""" ‚?[unm]; """, " ")
+        .replaceAll("""^FlTNESS """, "")
+        .replaceAll(""" ,?[unm]; """, " ")
         .replaceAll(""" \d+ kcal""", "")
         .replaceAll(""" [a-zA-Z]+kcal""", " ")
         .replaceAll(" kcal", "")
@@ -211,10 +217,11 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
         .replaceAll(" , ", ", ")
         .replaceAll(" 3.14 ", " ").trim // schlecht OCR-ed Zusatzstoffe
         .replaceAll(" 1,14m ", " ")
-        .replaceAll(""" \d[a-zA-Z] """, " ")
+        .replaceAll(""" \d+[a-zA-Z]+ """, " ")
+        .replaceAll(""" [a-zA-Z]+\d+ """, " ")
         .replaceAll(""" [a-zA-Z] """, " ")
         .replaceAll(""" \|4 """, " ")
-        .replaceAll(""" [ACDHGLJEZlcm01\(‘!]{1,5} +(\d{1,}\,\d{2})$""", " $1")
+        .replaceAll(""" [ACDHGLJEUZglcm01\(‘!]{1,5} +(\d{1,}\,\d{2})$""", " $1")
         .replaceAll("!!!", "")
         .replaceAll("Amame", "")
 

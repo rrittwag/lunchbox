@@ -362,6 +362,40 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers with Mo
     offers should contain(LunchOffer(0, "Eierfrikassee mit Salzkartoffeln", week.friday, euro("4.00"), Id))
   }
 
+  it should "resolve offers for week of 2016-04-18" in {
+    val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2016-04-18_ocr.txt")
+    val week = weekOf("2016-04-18")
+
+    val offers = resolver.resolveOffersFromText(week.monday, text)
+
+    offers should have size 20
+
+    offers should contain(LunchOffer(0, "Hausgemachte Soljanka", week.monday, euro("2.90"), Id))
+    offers should contain(LunchOffer(0, "Gemischter Gulasch mit Rotkohl und Kartoffeln", week.monday, euro("4.50"), Id))
+    offers should contain(LunchOffer(0, "Nudel-Broccoli-Auflauf", week.monday, euro("4.90"), Id))  // eigentlich 3.**€, aber OCR-Erkennung erkennt sogar 1,**€
+    offers should contain(LunchOffer(0, "Steak \"au four\" mit Würzfleisch überbacken dazu Gemüse und Pommes Frites", week.monday, euro("4.80"), Id))
+
+    offers should contain(LunchOffer(0, "Germknödel mit Vanillesauce und Mohn", week.tuesday, euro("4.20"), Id))  // eigentlich 3.**€, aber OCR-Erkennung erkennt sogar 1,**€
+    offers should contain(LunchOffer(0, "Cevapcici mit Zigeunersauce dazu Reis", week.tuesday, euro("4.30"), Id))
+    offers should contain(LunchOffer(0, "Champignonpfanne mit Kartoffelpüree", week.tuesday, euro("4.90"), Id))
+    offers should contain(LunchOffer(0, "Hähnchen \"Cordon Bleu\" mit Pfeffersauce dazu Gemüse Kroketten", week.tuesday, euro("4.80"), Id))
+
+    offers should contain(LunchOffer(0, "Bunter Gemüse Eintopf", week.wednesday, euro("2.50"), Id))
+    offers should contain(LunchOffer(0, "Gemüseschnitzel mit Sauce Hollandaise und Kartoffelpüree", week.wednesday, euro("4.90"), Id)) // OCR-Preis-Erkennung falsch
+    offers should contain(LunchOffer(0, "2 Rinderbouletten mit Ratatouille dazu Reis", week.wednesday, euro("4.50"), Id))
+    offers should contain(LunchOffer(0, "Schollenfilet mit Gemüsereis", week.wednesday, euro("4.90"), Id))
+
+    offers should contain(LunchOffer(0, "Rosenkohleintopf", week.thursday, euro("2.50"), Id))
+    offers should contain(LunchOffer(0, "Paprikasahnegulasch mit Nudeln", week.thursday, euro("4.50"), Id))
+    offers should contain(LunchOffer(0, "Kartoffel-Zucchinie-Tomaten Auflauf mit Mozzarella überbacken", week.thursday, euro("4.90"), Id))  // OCR-Preis-Erkennung falsch
+    offers should contain(LunchOffer(0, "Westfälischer Pfeffer Potthast (Rindfleisch) mit Rote Bete Salat dazu Salzkartoffeln", week.thursday, euro("4.90"), Id))
+
+    offers should contain(LunchOffer(0, "Reitersuppe (Hackfleisch, grüne Bohnen, Chmapignons, Paprika)", week.friday, euro("4.30"), Id))  // OCR-Preis-Erkennung falsch
+    offers should contain(LunchOffer(0, "Schweineleber mit Zwiebelsauce dazu Kartoffelpüree", week.friday, euro("4.50"), Id))
+    offers should contain(LunchOffer(0, "Gefüllte Kartoffeltaschen mit Tomatensauce", week.friday, euro("4.90"), Id))  // OCR-Preis-Erkennung falsch
+    offers should contain(LunchOffer(0, "Hähnchengeschnetzeltes \"Gyros Art\" dazu Tzatziki und Reis", week.friday, euro("4.80"), Id))
+  }
+
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)
