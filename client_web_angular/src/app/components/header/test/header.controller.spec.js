@@ -40,7 +40,7 @@
   var rootRoute = { path: '/', name: 'root' };
 
   describe('Header controller', function () {
-    var $controller, scope, settings, model;
+    var $controller, scope, model;
 
     var initController = function() {
       // Header-Controller erzeugen
@@ -51,7 +51,6 @@
       module('lunchboxWebapp');
       inject(function (_$controller_) { $controller = _$controller_; });
       inject(function ($rootScope) { scope = $rootScope.$new(); });
-      inject(function (Settings) { settings = Settings; });
       inject(function (LunchModel) { model = LunchModel; });
       jasmine.addMatchers(someAndEveryMatchers);
     });
@@ -76,30 +75,30 @@
       });
 
       it('should init location with first of model.locations', function () {
-        settings.location = null;
+        model.location = null;
         model.locations = [locationNB, locationB];
 
         initController();
 
-        expect(settings.location).toBe(locationNB);
+        expect(model.location).toBe(locationNB);
       });
 
       it('should not init location if already set', function () {
-        settings.location = locationB;
+        model.location = locationB;
         model.locations = [locationNB, locationB];
 
         initController();
 
-        expect(settings.location).toBe(locationB);
+        expect(model.location).toBe(locationB);
       });
 
       it('should init location to null if no locations found', function () {
-        settings.location = null;
+        model.location = null;
         model.locations = [];
 
         initController();
 
-        expect(settings.location).toBe(null);
+        expect(model.location).toBe(null);
       });
     });
 
@@ -128,14 +127,14 @@
 
     describe('setLocation', function () {
       it('should change settings\' location', function () {
-        settings.location = null;
+        model.location = null;
         model.locations = [];
         initController();
-        expect(settings.location).toBe(null);
+        expect(model.location).toBe(null);
 
         scope.header.selectLocation(locationNB);
 
-        expect(settings.location).toBe(locationNB);
+        expect(model.location).toBe(locationNB);
       });
     });
 

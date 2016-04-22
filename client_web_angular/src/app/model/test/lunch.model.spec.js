@@ -65,6 +65,12 @@
       it('should init providers to []', function() {
         expect(model.providers).toEqual([]);
       });
+
+      xit('should init location from localStorage', function () {
+      });
+
+      xit('should not init location if no localStorage value exists', function () {
+      });
     });
 
 
@@ -101,6 +107,13 @@
         expect(model.isLoading()).toBeFalsy();
         expect(model.isLoadFinished()).toBeFalsy();
         expect(model.isLoadFailed()).toBeTruthy();
+      });
+    });
+
+
+
+    describe('set location', function() {
+      xit('should put location name in localStorage', function() {
       });
     });
 

@@ -3,15 +3,20 @@
 
   angular
     .module('lunchboxWebapp')
-    .config(config);
+    .config(appConfig)
+    .config(storageConfig);
 
-  function config($logProvider, $locationProvider) {
+  function appConfig($logProvider, $locationProvider) {
     // Ab HTML5 sind semantische Adresspfade (ohne #) für SPAs möglich.
     // Angular unterstützt das, inklusive Fallback.
     $locationProvider.html5Mode(true);
 
     // Enable log
     $logProvider.debugEnabled(true);
+  }
+
+  function storageConfig(localStorageServiceProvider) {
+    localStorageServiceProvider.setPrefix('lunchboxWebapp');
   }
 
 })();

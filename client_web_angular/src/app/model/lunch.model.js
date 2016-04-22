@@ -3,7 +3,7 @@
 
   var app = angular.module('lunchboxWebapp');
 
-  app.service('LunchModel', function(_, LunchProviderStore, LunchOfferStore) {
+  app.service('LunchModel', function(_, LunchProviderStore, LunchOfferStore, localStorageService) {
     var thisService = this;
 
     // Locations
@@ -16,6 +16,12 @@
       shortName: 'B'
     };
     this.locations = [locationNB, locationBerlin];
+
+    this.location = _.findWhere(this.locations, {name: localStorageService.get("STORAGEKEY_LOCATION")} );
+    this.setLocation = function(location) {
+      thisService.location = location;
+      localStorageService.set("STORAGEKEY_LOCATION", location.name);
+    };
 
     // providers & offers
     var LoadStatusEnum = Object.freeze({LOADING: 0, LOADED: 1, FAILED: 2});

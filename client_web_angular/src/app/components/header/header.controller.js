@@ -3,12 +3,11 @@
 
   var app = angular.module('lunchboxWebapp');
 
-  app.controller('HeaderCtrl', function ($scope, $route, $location, $rootScope, LunchModel, Settings) {
+  app.controller('HeaderCtrl', function ($scope, $route, $location, $rootScope, LunchModel) {
     $scope.header = {
       routes: []
     };
     $scope.model = LunchModel;
-    $scope.settings = Settings;
 
     var init = function () {
       // Initialisierung der Route
@@ -21,9 +20,9 @@
         }
       });
       // Initialisierung der Location
-      if (!Settings.location) {
+      if (!LunchModel.location) {
         if (LunchModel.locations.length > 0) {
-          Settings.setLocation(LunchModel.locations[0]);
+          LunchModel.setLocation(LunchModel.locations[0]);
         }
       }
     };
@@ -38,7 +37,7 @@
 
     // Setzen der Location aus Dropdown
     $scope.header.selectLocation = function(location) {
-      Settings.setLocation(location);
+      LunchModel.setLocation(location);
     };
 
   });
