@@ -1,15 +1,16 @@
 (function() {
   'use strict';
 
-  var app = angular.module('lunchboxWebapp');
+  angular.module('lunchboxWebapp')
+    .directive('header', header);
 
-  app.directive('header', function() {
+  function header() {
     return {
       restrict: 'A',
       replace: true,
       templateUrl: 'app/components/header/header.html',
-      controller: 'HeaderCtrl'
+      controller: 'HeaderController'
     };
-  });
+  }
 
 })();

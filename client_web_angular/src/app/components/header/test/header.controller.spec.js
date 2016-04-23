@@ -8,7 +8,7 @@
     some : function () {
       return {
         compare : function (actual, expected) {
-          if (expected === undefined) {
+          if (angular.isUndefined(expected)) {
             expected = function () { return false; };
           }
           var result = {};
@@ -23,7 +23,7 @@
     every : function () {
       return {
         compare : function (actual, expected) {
-          if (expected === undefined) {
+          if (angular.isUndefined(expected)) {
             expected = function () { return false; };
           }
           var result = {};
@@ -44,7 +44,7 @@
 
     var initController = function() {
       // Header-Controller erzeugen
-      $controller('HeaderCtrl', { $scope: scope });
+      $controller('HeaderController', { $scope: scope });
     };
 
     beforeEach(function () {
@@ -62,7 +62,7 @@
         initController();
 
         expect(scope.header.routes).every(function (elem) {
-          return elem.path !== undefined && elem.name !== undefined;
+          return angular.isDefined(elem.path) && angular.isDefined(elem.name);
         });
       });
 

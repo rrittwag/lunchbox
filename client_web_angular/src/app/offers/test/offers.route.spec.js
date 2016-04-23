@@ -20,14 +20,14 @@
       location.path('/');
       rootScope.$digest();
       expect(route.current.templateUrl).toBe('app/offers/offers.html');
-      expect(route.current.controller).toBe('OffersCtrl');
+      expect(route.current.controller).toBe('OffersController');
     });
 
     it('should be default on some undefined address', function () {
       location.path('/some_undefined_address');
       rootScope.$digest();
       expect(route.current.templateUrl).toBe('app/offers/offers.html');
-      expect(route.current.controller).toBe('OffersCtrl');
+      expect(route.current.controller).toBe('OffersController');
     });
   });
 

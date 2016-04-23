@@ -1,14 +1,16 @@
 (function() {
   'use strict';
 
-  var app = angular.module('lunchboxWebapp');
+  angular
+    .module('lunchboxWebapp')
+    .directive('footer', footer);
 
-  app.directive('footer', function() {
+  function footer() {
     return {
       restrict: 'A',
       replace: true,
       templateUrl: 'app/components/footer/footer.html'
     };
-  });
+  }
 
 })();

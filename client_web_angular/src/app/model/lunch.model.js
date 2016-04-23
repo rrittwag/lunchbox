@@ -1,9 +1,11 @@
 (function() {
   'use strict';
 
-  var app = angular.module('lunchboxWebapp');
+  angular
+    .module('lunchboxWebapp')
+    .service('LunchModel', LunchModel);
 
-  app.service('LunchModel', function(_, LunchProviderStore, LunchOfferStore, localStorageService) {
+  function LunchModel(_, LunchProviderStore, LunchOfferStore, localStorageService) {
     var thisService = this;
 
     // Locations
@@ -71,6 +73,6 @@
       });
     };
 
-  });
+  }
 
 })();

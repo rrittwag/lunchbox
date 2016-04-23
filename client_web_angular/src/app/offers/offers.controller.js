@@ -2,10 +2,12 @@
   'use strict';
 
   // WebApp-Modul abrufen ...
-  var app = angular.module('lunchboxWebapp');
+  angular
+    .module('lunchboxWebapp')
+    .controller('OffersController', OffersController);
 
   // ... und Controller für Offers-View erzeugen
-  app.controller('OffersCtrl', function ($scope, $filter, _, LunchModel) {
+  function OffersController($scope, $filter, _, LunchModel) {
     $scope.model = LunchModel;
 
     // vom Nutzer ausgewählter Tag (Default: heute)
@@ -43,6 +45,6 @@
       refreshVisibleOffers();
     }, true);
 
-  });
+  }
 
 })();

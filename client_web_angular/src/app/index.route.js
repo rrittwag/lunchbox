@@ -10,12 +10,11 @@
     $routeProvider
       .when('/', {
         templateUrl: 'app/offers/offers.html',
-        controller: 'OffersCtrl',
+        controller: 'OffersController',
         navbarName: 'Mittagsangebote'
       })
       .when('/about', {
         templateUrl: 'app/about/about.html',
-  //      controller: 'OffersCtrl'
         navbarName: 'Info'
       })
       .otherwise({

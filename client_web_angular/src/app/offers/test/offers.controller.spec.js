@@ -31,7 +31,7 @@
       });
       inject(function($rootScope) { scope = $rootScope.$new(); });
       inject(function($controller) {
-        $controller('OffersCtrl', { $scope: scope });
+        $controller('OffersController', { $scope: scope });
       });
       // Custom Matcher, der beim Vergleich AngularJS-Wrapper kaschiert (z.B. Promise, Resource)
       jasmine.addMatchers({

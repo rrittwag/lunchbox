@@ -2,7 +2,16 @@
   'use strict';
 
   // App-Modul abrufen ...
-  var app = angular.module('lunchboxWebapp');
+  angular
+    .module('lunchboxWebapp')
+    .filter('filterProvidersByLocation', FilterProvidersByLocation)
+    .filter('filterOffersByProviders', FilterOffersByProviders)
+    .filter('filterOffersByProvider', FilterOffersByProvider)
+    .filter('filterOffersByDay', FilterOffersByDay)
+    .filter('filterProvidersByOffers', FilterProvidersByOffers)
+    .filter('filterDaysInOffers', FilterDaysInOffers)
+    .filter('formatEuro', FormatEuro)
+    .filter('formatToWeekday', FormatToWeekday);
 
   function assert(condition, message) {
       if (!condition) {
@@ -11,7 +20,7 @@
   }
 
   // ... und Filter erzeugen
-  app.filter('filterProvidersByLocation', function (_) {
+  function FilterProvidersByLocation(_) {
     return function(providers, location) {
       assert(angular.isArray(providers));
       function isOfLocation(provider) {
@@ -19,9 +28,9 @@
       }
       return _.filter(providers, isOfLocation);
     };
-  });
+  }
 
-  app.filter('filterOffersByProviders', function (_) {
+  function FilterOffersByProviders(_) {
     return function(offers, providers) {
       assert(angular.isArray(offers));
       var providerIds = _.chain(providers)
@@ -32,17 +41,17 @@
       }
       return _.filter(offers, isInProviders);
     };
-  });
+  }
 
-  app.filter('filterOffersByProvider', function ($filter) {
+  function FilterOffersByProvider($filter) {
     return function(offers, provider) {
       var providerArray = [provider];
       if (!provider) { providerArray = []; }
       return $filter('filterOffersByProviders')(offers, providerArray);
     };
-  });
+  }
 
-  app.filter('filterOffersByDay', function (_) {
+  function FilterOffersByDay(_) {
     return function(offers, day) {
       assert(angular.isArray(offers));
       function isOfDay(offer) {
@@ -50,9 +59,9 @@
       }
       return _.filter(offers, isOfDay);
     };
-  });
+  }
 
-  app.filter('filterProvidersByOffers', function (_) {
+  function FilterProvidersByOffers(_) {
     return function(providers, offers) {
       assert(angular.isArray(providers));
       var providerIds = _.chain(offers)
@@ -64,9 +73,9 @@
       }
       return _.filter(providers, isInProviders);
     };
-  });
+  }
 
-  app.filter('filterDaysInOffers', function(_) {
+  function FilterDaysInOffers(_) {
     return function(offers) {
       assert(angular.isArray(offers));
       return _.chain(offers)
@@ -75,25 +84,25 @@
         .sortBy(function(offer) { return offer.getTime(); })
         .value();
     };
-  });
+  }
 
-  app.filter('formatEuro', function () {
+  function FormatEuro() {
     return function(cent) {
-      assert(typeof cent === 'number');
+      assert(angular.isNumber(cent));
       var centString = ("0" + (cent % 100)).slice(-2);
       return Math.floor(cent / 100) + ',' + centString + ' €';
     };
-  });
+  }
 
-  app.filter('formatToWeekday', function () {
+  function FormatToWeekday() {
     return function(date) {
       if ( !date ) { return ''; }
-      assert(typeof date === 'object');
-      assert(typeof date.getDay === 'function');
+      assert(angular.isObject(date));
+      assert(angular.isFunction(date.getDay));
       // TODO: i18n
       var weekdays = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
       return weekdays[date.getDay()];
     };
-  });
+  }
 
 })();

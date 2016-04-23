@@ -17,7 +17,7 @@
       // LunchModel service mocken
       inject(function($rootScope) { scope = $rootScope.$new(); });
       inject(function($controller) {
-        $controller('DaySelectorCtrl', { $scope: scope });
+        $controller('DaySelectorController', { $scope: scope });
       });
     });
 

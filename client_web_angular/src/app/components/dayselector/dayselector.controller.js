@@ -1,9 +1,11 @@
 (function() {
   'use strict';
 
-  var app = angular.module('lunchboxWebapp');
+  angular
+    .module('lunchboxWebapp')
+    .controller('DaySelectorController', DaySelectorController);
 
-  app.controller('DaySelectorCtrl', function ($scope, $filter, _) {
+  function DaySelectorController($scope, $filter, _) {
     $scope.prevDay = function() {
       return _.chain($scope.days)
           .filter(function(day) { return day < $scope.selectedDay; })
@@ -25,12 +27,12 @@
     };
 
     $scope.hasPrevDay = function() {
-      return $scope.prevDay() !== undefined;
+      return angular.isDefined($scope.prevDay());
     };
 
     $scope.hasNextDay = function() {
-      return $scope.nextDay() !== undefined;
+      return angular.isDefined($scope.nextDay());
     };
-  });
+  }
 
 })();

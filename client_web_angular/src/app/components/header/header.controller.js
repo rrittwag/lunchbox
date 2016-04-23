@@ -1,9 +1,11 @@
 (function() {
   'use strict';
 
-  var app = angular.module('lunchboxWebapp');
+  angular
+    .module('lunchboxWebapp')
+    .controller('HeaderController', HeaderController);
 
-  app.controller('HeaderCtrl', function ($scope, $route, $location, $rootScope, LunchModel) {
+  function HeaderController($scope, $route, $location, $rootScope, LunchModel) {
     $scope.header = {
       routes: []
     };
@@ -40,6 +42,6 @@
       LunchModel.setLocation(location);
     };
 
-  });
+  }
 
 })();

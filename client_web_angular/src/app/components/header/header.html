@@ -18,11 +18,11 @@
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-left">
         <li>
-          <div class="navbar-btn" dropdown>
-            <button id="location-button" type="button" class="btn btn-default" dropdown-toggle>
+          <div class="navbar-btn" uib-dropdown>
+            <button id="location-button" type="button" class="btn btn-default" uib-dropdown-toggle>
               {{ model.location.shortName }} <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="location-button">
+            <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="location-button">
               <li role="menuitem" ng-repeat="location in model.locations">
                 <a href="/" ng-click="header.selectLocation(location)">{{ location.name }}</a>
               </li>
