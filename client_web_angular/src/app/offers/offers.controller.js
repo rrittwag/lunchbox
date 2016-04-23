@@ -8,40 +8,43 @@
 
   // ... und Controller für Offers-View erzeugen
   function OffersController($scope, $filter, _, LunchModel) {
-    $scope.model = LunchModel;
+    var vm = this;
+    vm.model = LunchModel;
 
     // vom Nutzer ausgewählter Tag (Default: heute)
     function today() {
       var localNow = new Date();
       return new Date(Date.UTC(localNow.getFullYear(), localNow.getMonth(), localNow.getDate()));
     }
-    $scope.selectedDay = today();
+    vm.selectedDay = today();
 
     // Zwischenwerte, um den Filter-Aufwand gering zu halten
-    $scope.offersForLocation = [];
-    $scope.daysInOffersForLocation = [];
-    $scope.visibleOffers = [];
+    vm.offersForLocation = [];
+    vm.daysInOffersForLocation = [];
+    vm.visibleOffers = [];
 
     function refreshOffersForLocation() {
-      var providersForLocation = $filter('filterProvidersByLocation')($scope.model.providers, $scope.model.location);
-      $scope.offersForLocation = $filter('filterOffersByProviders')($scope.model.offers, providersForLocation);
+      var providersForLocation = $filter('filterProvidersByLocation')(vm.model.providers, vm.model.location);
+      vm.offersForLocation = $filter('filterOffersByProviders')(vm.model.offers, providersForLocation);
     }
 
     function refreshDaysInOffersForLocation() {
-      $scope.daysInOffersForLocation = $filter('filterDaysInOffers')($scope.offersForLocation);
+      vm.daysInOffersForLocation = $filter('filterDaysInOffers')(vm.offersForLocation);
     }
 
     function refreshVisibleOffers() {
-      $scope.visibleOffers = $filter('filterOffersByDay')($scope.offersForLocation, $scope.selectedDay);
+      vm.visibleOffers = $filter('filterOffersByDay')(vm.offersForLocation, vm.selectedDay);
     }
 
-    $scope.$watchGroup(['model.offers', 'model.providers', 'model.location'], function () {
+    $scope.$watchGroup([function() { return vm.model.offers; },
+                        function() { return vm.model.providers; },
+                        function() { return vm.model.location; }], function () {
       refreshOffersForLocation();
       refreshDaysInOffersForLocation();
       refreshVisibleOffers();
     }, true);
 
-    $scope.$watch('selectedDay', function () {
+    $scope.$watch(function () { return vm.selectedDay; }, function () {
       refreshVisibleOffers();
     }, true);
 

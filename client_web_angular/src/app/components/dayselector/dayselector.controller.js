@@ -6,6 +6,8 @@
     .controller('DaySelectorController', DaySelectorController);
 
   function DaySelectorController($scope, $filter, _) {
+    // TODO: Wie passen "controller as" & isolated scope zusammen? Wie können bidirektional Daten synchronisiert werden?
+
     $scope.prevDay = function() {
       return _.chain($scope.days)
           .filter(function(day) { return day < $scope.selectedDay; })
@@ -19,11 +21,17 @@
     };
 
     $scope.goPrevDay = function() {
-      $scope.selectedDay = $scope.prevDay();
+      var prevDay = $scope.prevDay();
+      if (angular.isDefined(prevDay)) {
+        $scope.selectedDay = prevDay;
+      }
     };
 
     $scope.goNextDay = function() {
-      $scope.selectedDay = $scope.nextDay();
+      var nextDay = $scope.nextDay();
+      if (angular.isDefined(nextDay)) {
+        $scope.selectedDay = nextDay;
+      }
     };
 
     $scope.hasPrevDay = function() {

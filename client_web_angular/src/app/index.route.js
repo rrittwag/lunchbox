@@ -11,6 +11,7 @@
       .when('/', {
         templateUrl: 'app/offers/offers.html',
         controller: 'OffersController',
+        controllerAs: 'offers',
         navbarName: 'Mittagsangebote'
       })
       .when('/about', {

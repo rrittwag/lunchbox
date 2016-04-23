@@ -40,17 +40,16 @@
   var rootRoute = { path: '/', name: 'root' };
 
   describe('Header controller', function () {
-    var $controller, scope, model;
+    var $controller, header, model;
 
     var initController = function() {
       // Header-Controller erzeugen
-      $controller('HeaderController', { $scope: scope });
+      header = $controller('HeaderController', {});
     };
 
     beforeEach(function () {
       module('lunchboxWebapp');
       inject(function (_$controller_) { $controller = _$controller_; });
-      inject(function ($rootScope) { scope = $rootScope.$new(); });
       inject(function (LunchModel) { model = LunchModel; });
       jasmine.addMatchers(someAndEveryMatchers);
     });
@@ -61,7 +60,7 @@
       it('should init routes with attributes path and name', function () {
         initController();
 
-        expect(scope.header.routes).every(function (elem) {
+        expect(header.routes).every(function (elem) {
           return angular.isDefined(elem.path) && angular.isDefined(elem.name);
         });
       });
@@ -69,7 +68,7 @@
       it('should init routes with at least home route', function () {
         initController();
 
-        expect(scope.header.routes).some(function (elem) {
+        expect(header.routes).some(function (elem) {
           return elem.path === '/';
         });
       });
@@ -114,12 +113,12 @@
 
       it('should be true if on root path', function () {
         location.path('/');
-        expect(scope.header.activeRoute(rootRoute)).toBeTruthy();
+        expect(header.activeRoute(rootRoute)).toBeTruthy();
       });
 
       it('should be false if not on root path', function () {
         location.path('/somewhere');
-        expect(scope.header.activeRoute(rootRoute)).toBeFalsy();
+        expect(header.activeRoute(rootRoute)).toBeFalsy();
       });
     });
 
@@ -132,7 +131,7 @@
         initController();
         expect(model.location).toBe(null);
 
-        scope.header.selectLocation(locationNB);
+        header.selectLocation(locationNB);
 
         expect(model.location).toBe(locationNB);
       });

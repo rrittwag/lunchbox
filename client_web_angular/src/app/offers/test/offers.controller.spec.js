@@ -2,6 +2,7 @@
   'use strict';
 
   describe('offers controller', function(){
+    var controller;
     var scope; // Scope für zu instanziierenden Controller
 
     var locationNB = {name: 'Neubrandenburg', shortName: 'NB'};
@@ -31,7 +32,7 @@
       });
       inject(function($rootScope) { scope = $rootScope.$new(); });
       inject(function($controller) {
-        $controller('OffersController', { $scope: scope });
+        controller = $controller('OffersController', { $scope: scope });
       });
       // Custom Matcher, der beim Vergleich AngularJS-Wrapper kaschiert (z.B. Promise, Resource)
       jasmine.addMatchers({
@@ -49,19 +50,19 @@
 
     describe('instantiation', function() {
       it('should init model on scope', function() {
-        expect(scope.model).toBeDefined();
-        expect(scope.model.providers).toEqual([]);
-        expect(scope.model.offers).toEqual([]);
+        expect(controller.model).toBeDefined();
+        expect(controller.model.providers).toEqual([]);
+        expect(controller.model.offers).toEqual([]);
       });
 
       it('should init visibleOffers to []', function() {
-        expect(scope.visibleOffers).toEqual([]);
+        expect(controller.visibleOffers).toEqual([]);
       });
 
       it('should init selected day to today (in UTC)', function() {
         var now = new Date();
-        expect(scope.selectedDay).toBeDefined();
-        expect(scope.selectedDay.getTime()).toBe(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+        expect(controller.selectedDay).toBeDefined();
+        expect(controller.selectedDay.getTime()).toBe(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
       });
     });
 
@@ -69,56 +70,56 @@
 
     describe('visibleOffers', function() {
       it('should refresh when changing offers', function() {
-        scope.model.providers = testProviders;
-        scope.selectedDay = today;
-        scope.model.location = locationNB;
+        controller.model.providers = testProviders;
+        controller.selectedDay = today;
+        controller.model.location = locationNB;
         scope.$apply(); // stößt den watch-Aufruf an
-        expect(scope.visibleOffers.length).toBe(0);
+        expect(controller.visibleOffers.length).toBe(0);
 
-        scope.model.offers = testOffers;
+        controller.model.offers = testOffers;
         scope.$apply(); // stößt den watch-Aufruf an
 
-        expect(scope.visibleOffers.length).toBe(2);
+        expect(controller.visibleOffers.length).toBe(2);
       });
 
       it('should refresh when changing providers', function() {
-        scope.model.offers = testOffers;
-        scope.selectedDay = today;
-        scope.model.location = locationNB;
+        controller.model.offers = testOffers;
+        controller.selectedDay = today;
+        controller.model.location = locationNB;
         scope.$apply(); // stößt den watch-Aufruf an
-        expect(scope.visibleOffers.length).toBe(0);
+        expect(controller.visibleOffers.length).toBe(0);
 
-        scope.model.providers = testProviders;
+        controller.model.providers = testProviders;
         scope.$apply(); // stößt den watch-Aufruf an
 
-        expect(scope.visibleOffers.length).toBe(2);
+        expect(controller.visibleOffers.length).toBe(2);
       });
 
       it('should refresh when changing selectedLocation', function() {
-        scope.model.providers = testProviders;
-        scope.model.offers = testOffers;
-        scope.selectedDay = today;
-        scope.model.location = null;
+        controller.model.providers = testProviders;
+        controller.model.offers = testOffers;
+        controller.selectedDay = today;
+        controller.model.location = null;
         scope.$apply(); // stößt den watch-Aufruf an
-        expect(scope.visibleOffers.length).toBe(3);
+        expect(controller.visibleOffers.length).toBe(3);
 
-        scope.model.location = locationB;
+        controller.model.location = locationB;
         scope.$apply(); // stößt den watch-Aufruf an
 
-        expect(scope.visibleOffers.length).toBe(1);
+        expect(controller.visibleOffers.length).toBe(1);
       });
 
       it('should refresh when changing selectedDay', function() {
-        scope.model.providers = testProviders;
-        scope.model.offers = testOffers;
-        scope.model.location = locationNB;
+        controller.model.providers = testProviders;
+        controller.model.offers = testOffers;
+        controller.model.location = locationNB;
         scope.$apply(); // stößt den watch-Aufruf an
-        expect(scope.visibleOffers.length).toBe(0);
+        expect(controller.visibleOffers.length).toBe(0);
 
-        scope.selectedDay = today;
+        controller.selectedDay = today;
         scope.$apply(); // stößt den watch-Aufruf an
 
-        expect(scope.visibleOffers.length).toBe(2);
+        expect(controller.visibleOffers.length).toBe(2);
       });
     });
 

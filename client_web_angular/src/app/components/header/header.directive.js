@@ -9,7 +9,8 @@
       restrict: 'A',
       replace: true,
       templateUrl: 'app/components/header/header.html',
-      controller: 'HeaderController'
+      controller: 'HeaderController',
+      controllerAs: 'header'
     };
   }
 
