@@ -14,8 +14,8 @@
             <img alt="Web-App"
                  width="60px" height="60px" src="/assets/images/webapp_icon.png" />
           </a>
-          <div class="btn-group" uib-dropdown>
-            <a class="btn dropdown-toggle" uib-dropdown-toggle uib-tooltip="Web-Feed" tooltip-placement="bottom" tooltip-popup-delay='300'>
+          <div class="btn-group" uib-dropdown on-toggle="about.feedDropdownToggled(open)">
+            <a class="btn dropdown-toggle" uib-dropdown-toggle uib-tooltip="Web-Feed" tooltip-placement="bottom" tooltip-popup-delay='300', tooltip-is-open='about.tooltipIsOpen'>
               <img alt="Web-Feed"
                    width="60px" height="60px" src="/assets/images/webfeed_icon.png" />
             </a>
