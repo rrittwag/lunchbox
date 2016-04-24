@@ -23,6 +23,15 @@ libraryDependencies ++= Seq(
   // domain model
   "com.github.nscala-time" %% "nscala-time" % "2.12.0",
   "org.joda"               %  "joda-money"  % "0.11",
+  // domain logic
+  "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.16",
+  "org.apache.commons"          %  "commons-lang3" % "3.4",
+  "org.apache.pdfbox"           %  "pdfbox"        % "1.8.11",
+  "org.scalactic"               %% "scalactic"     % "2.2.6",
+  // external
+  "net.databinder.dispatch"     %% "dispatch-core" % "0.11.3",
+  // services
+  "org.scala-lang.modules" %% "scala-xml" % "1.0.5",
   // test
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test,
   "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % Test

@@ -8,9 +8,9 @@ Dieses Sub-Projekt beschreibt eine Implementierung des Lunchbox-Servers. Die Ums
 Status
 ------
 
-v1.0:
+Erfüllt die Anforderungen für Lunchbox v1 vollständig:
 
-* automatische Ermittlung der Mittagsangebote von Schweinestall, Hotel am Ring, Suppenkulttour & AOK Cafeteria
+* automatische Ermittlung der Mittagsangebote (4x NB, 2x Berlin)
 * Wiedergabe der Mittagsangebote per REST und Web-Feed
 
 
@@ -25,7 +25,7 @@ Build
 Benutzung
 ---------
 
-* Server lokal starten mit `sbt run`
+* Server im Dev-Mode mit `sbt run`
 * ... oder via Docker mit `docker_run.sh`
 * Die REST API ist unter [http://localhost:8080/api/v1/](http://localhost:8080/api/v1/) erreichbar
 * Der Web-Feed ist unter [http://localhost:8080/feed](http://localhost:8080/feed) erreichbar
