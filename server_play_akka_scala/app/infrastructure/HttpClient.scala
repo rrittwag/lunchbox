@@ -2,7 +2,7 @@ package infrastructure
 
 import dispatch.Defaults._
 import dispatch.{retry, _}
-import external.PlayLogging
+import util.PlayLogging
 
 import scala.concurrent.duration._
 

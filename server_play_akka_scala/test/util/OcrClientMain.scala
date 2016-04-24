@@ -1,4 +1,4 @@
-package external
+package util
 
 import java.net.URL
 import java.nio.charset.StandardCharsets

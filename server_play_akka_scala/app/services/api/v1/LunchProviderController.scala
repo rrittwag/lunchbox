@@ -23,12 +23,6 @@ trait LunchProviderJsonFormats {
       "location" -> p.location
     )
   }
-
-  // comply with Tolerant Reader Pattern: only read relevant attributes
-/*  implicit val readsJson: Reads[LunchProvider] = (
-      (__ \ "author").read[String](minLength[String](1)) and
-      (__ \ "text").read[String](minLength[String](1))
-    ) ((author, text) => LunchProvider("", DateTime.now, DateTime.now, author, text)) */
 }
 
 
@@ -43,17 +37,15 @@ class LunchProviderController @Inject()(system: ActorSystem)(implicit exec: Exec
 
 
   def list(optLocation: Option[String]) = Action.async {
-    val domainReqMsg = optLocation match {
-      case Some(location) => GetByLocation(location)
-      case None => GetAll
-    }
+    val domainReqMsg = optLocation.map(GetByLocation).getOrElse(GetAll)
+
     domainService.ask(domainReqMsg).mapTo[MultiResult]
-      .map(domainResMsg => Ok(Json.toJson(domainResMsg.providers)).as(TypeJson))
+      .map(resultMsg => Ok(Json.toJson(resultMsg.providers)).as(TypeJson))
   }
 
   def find(id: Int) = Action.async {
     domainService.ask(GetById(id)).mapTo[SingleResult]
-      .map{ domainResMsg => domainResMsg.provider match {
+      .map{ _.provider match {
         case Some(provider) => Ok(Json.toJson(provider)).as(TypeJson)
         case None => NotFound(Json.obj("status" -> "404", "message" -> s"resource with id $id not found")).as(TypeJson)
       }}

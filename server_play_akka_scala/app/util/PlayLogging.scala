@@ -1,8 +1,9 @@
-package external
+package util
 
 import play.api.Logger
 
 /**
+  * Helper trait for Play logging.
   * User: robbel
   * Date: 24.04.16
   */

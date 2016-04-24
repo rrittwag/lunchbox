@@ -10,7 +10,7 @@ import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
-import external.PlayLogging
+import util.PlayLogging
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
