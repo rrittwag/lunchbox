@@ -31,7 +31,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
     case object MITTWOCH extends PdfSection("Mittwoch", 2)
     case object DONNERSTAG extends PdfSection("Donnerstag", 3)
     case object FREITAG extends PdfSection("Freitag", 4)
-    case object FOOTER extends PdfSection("Für unseren Lieferservice", 0)
+    case object FOOTER extends PdfSection("Für unseren L", 0)
 
     val weekdaysValues = List[PdfSection](MONTAG, DIENSTAG, MITTWOCH, DONNERSTAG, FREITAG)
     // TODO: improve with macro, see https://github.com/d6y/enumeration-examples & http://underscore.io/blog/posts/2014/09/03/enumerations.html
@@ -62,9 +62,17 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
          postText <- (post \ "message").asOpt[String];
          day <- parseDay(postText.replaceAll("\\n", "|")); // im Text steckt das Datum der Woche
          monday = day.withDayOfWeek(1);
-         imageAttachment = (post \ "attachments" \ "data")(0); // der 1. Anhang ist das Bild mit dem Mittagsplan
+         imageAttachment = findImageAttachment(post);
          imageId <- (imageAttachment \ "target" \ "id").asOpt[String])
       yield Wochenplan(monday, imageId)
+
+  private def findImageAttachment(post: JsValue): JsLookupResult = {
+    val attachments = (post \ "attachments" \ "data")(0)
+    (attachments \ "subattachments").toOption match {
+      case None => attachments  // nur 1 Anhang: das Bild mit dem Mittagsplan
+      case Some(subattachments) => (subattachments \ "data")(0)  // mehrere Anhänge: das 1. Bild hat den Mittagsplan
+    }
+  }
 
   private[logic] def resolveOffersFromWochenplaene(wochenplaene: Seq[Wochenplan]): Future[Seq[LunchOffer]] = {
     val listOfFutures = wochenplaene.map( wochenplan => resolveOffersFromWochenplan(wochenplan) )
@@ -185,6 +193,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
       .replaceAll("([bB])iatt", "$1latt")
       .replaceAll("([zZ]wiebe)i", "$1l")
       .replaceAll("chnitzei", "chnitzel")
+      .replaceAll("SCHNlTZ", "SCHNITZ")
       .replaceAll("uflauf", "uflauf")
       .replaceAll("utiauf", "uflauf")
       .replaceAll("ufiauf", "uflauf")
@@ -192,8 +201,10 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
       .replaceAll("Fiahm", "Rahm")
       .replaceAll("Fiei", "Rei")
       .replaceAll("Fiührei", "Rührei")
+      .replaceAll("Blatispinat", "Blattspinat")
       .replaceAll("‘/2", "1/2")
       .replaceAll("au/3er", "außer")
+      .replaceAll("""auf([A-Z])""", "auf $1")
       .replaceAll("Fiind", "Rind")
       .replaceAll("Fiotkohl", "Rotkohl")
       .replaceAll("CeVapcici", "Cevapcici")
@@ -203,6 +214,8 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
       .replaceAll("Matjesmpt ", "Matjestopf ")
       .replaceAll("Reibeküse", "Reibekäse")
       .replaceAll("falisch", "fälisch")
+      .replaceAll("lll ", "!!! ")
+      .replaceAll(" lll", " !!!")
 
   private def removeUnnecessaryText(text: String) =
       text.trim
@@ -221,7 +234,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
         .replaceAll(""" [a-zA-Z]+\d+ """, " ")
         .replaceAll(""" [a-zA-Z] """, " ")
         .replaceAll(""" \|4 """, " ")
-        .replaceAll(""" [ACDHGLJEUZglcm01\(‘!]{1,5} +(\d{1,}\,\d{2})$""", " $1")
+        .replaceAll(""" [ACDHGLJEFUZglcm01\(‘!]{1,5} +(\d{1,}\,\d{2})$""", " $1")
         .replaceAll("!!!", "")
         .replaceAll("Amame", "")
 
