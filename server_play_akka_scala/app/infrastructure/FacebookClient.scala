@@ -18,9 +18,9 @@ import scala.concurrent.Future
 object FacebookClient extends HttpClient {
 
   def query(graphApiUrl: String): Future[String] = {
-    val config = ConfigFactory.load()
-    val appId = config.getString("external.facebook.appId")
-    val appSecret = config.getString("external.facebook.appSecret")
+    val config = ConfigFactory.load()             // TODO: inject via "configuration: Configuration"
+    val appId = config.getString("infrastructure.facebook.appId")
+    val appSecret = config.getString("infrastructure.facebook.appSecret")
 
     val request = url(s"https://graph.facebook.com/v2.3/${graphApiUrl.replaceFirst("^/", "")}").secure
       .addQueryParameter("access_token", s"$appId|$appSecret")

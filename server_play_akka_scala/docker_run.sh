@@ -11,6 +11,8 @@ if [ ! -z "$IMAGE_ID" ]; then
   docker run --rm \
             -p 8080:9000 \
             -e APPLICATION_SECRET="my_secret" \
+            -e FACEBOOK_APPID="$FACEBOOK_APPID" \
+            -e FACEBOOK_APPSECRET="$FACEBOOK_APPSECRET" \
             -it \
             "$IMAGE_ID"
 fi

@@ -42,10 +42,23 @@ Distribution
 TODOs
 -----
 
+* Feed einbauen (location-bezogen)
+* Codeset UTF-8 rauswerfen
+* branch in master mergen!
+* Facebook-Bugfix von akka-server in play-server mergen
+* LunchOfferUpdater [bei Play-Start starten](https://www.playframework.com/documentation/2.5.x/ScalaDependencyInjection#Eager-bindings)
+* wieso startet Extra-JVM?
+* Dispatch durch WS ersetzen
+* Shell-Skripte in eigenes Verzeichnis verschieben?
+* Unit-Tests für Helper-Klassen schreiben
+* Unit-Tests für Controller schreiben (Akka mocken mit akka-testkit?)
+* aus PlayDateTimeHelper ein DateTimeJsonFormats-Trait herausziehen?
+* via Docker deployen
+* auf PDF-Box v2.0 migrieren
+* auf Facebook Graph API v2.6 migrieren
 * Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
 * Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
   * Unit-Tests für Aktoren schreiben
-  * Unit-Tests für API schreiben (mit akka-http-testkit?)
   * Unit-Tests für external Clients schreiben
 * Akka-Supervisioning beschreiben
 * LunchResolver: globalen durch eigenen ExecutionContext ersetzen?
