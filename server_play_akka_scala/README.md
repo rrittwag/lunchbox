@@ -43,7 +43,6 @@ TODOs
 -----
 
 * Feed einbauen (location-bezogen)
-* Codeset UTF-8 rauswerfen
 * branch in master mergen!
 * Facebook-Bugfix von akka-server in play-server mergen
 * LunchOfferUpdater [bei Play-Start starten](https://www.playframework.com/documentation/2.5.x/ScalaDependencyInjection#Eager-bindings)
