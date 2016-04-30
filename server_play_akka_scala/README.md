@@ -46,6 +46,7 @@ TODOs
 * branch in master mergen!
 * Facebook-Bugfix von akka-server in play-server mergen
 * LunchOfferUpdater [bei Play-Start starten](https://www.playframework.com/documentation/2.5.x/ScalaDependencyInjection#Eager-bindings)
+* Domain-Services in Repository umbenennen
 * wieso startet Extra-JVM?
 * Dispatch durch WS ersetzen
 * Shell-Skripte in eigenes Verzeichnis verschieben?

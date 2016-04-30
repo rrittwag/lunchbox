@@ -10,7 +10,7 @@ import domain.services.LunchOfferService
 import domain.services.LunchOfferService._
 import org.joda.time.LocalDate
 import play.api.libs.json.{Json, Writes}
-import play.api.mvc.{Action, AnyContent, Controller}
+import play.api.mvc._
 import util.PlayDateTimeHelper._
 import util.PlayMoneyHelper._
 
@@ -37,7 +37,7 @@ class LunchOfferController @Inject()(system: ActorSystem)(implicit exec: Executi
   val domainService = system.actorOf(LunchOfferService.props, "lunchOffer-actor")
   implicit val timeout = Timeout(5.seconds)
 
-  def list(optDayString: Option[String]): Action[AnyContent] = Action.async {
+  def list(optDayString: Option[String]) = Action.async {
     parseLocalDate(optDayString) match {
       case Success(optDay) => listByDay(optDay)
       case Failure(_) => Future.successful(BadRequest(Json.obj("status" -> "400", "message" -> s"${optDayString.getOrElse("")} is no valid date")))
