@@ -42,8 +42,6 @@ Distribution
 TODOs
 -----
 
-* branch in master mergen!
-* Facebook-Bugfix von akka-server in play-server mergen
 * via Docker deployen
 * Domain-Services in Repository umbenennen
 * wieso startet Extra-JVM?
