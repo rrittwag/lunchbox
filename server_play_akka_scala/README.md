@@ -47,19 +47,19 @@ TODOs
 * wieso startet Extra-JVM?
 * Dispatch durch WS ersetzen
 * Shell-Skripte in eigenes Verzeichnis verschieben?
-* Unit-Tests für Helper-Klassen schreiben
-* Unit-Tests für Controller schreiben (Akka mocken mit akka-testkit?)
-* aus PlayDateTimeHelper ein DateTimeJsonFormats-Trait herausziehen?
-* [AtomFeed-Model beschreiben und dadurch View verallgemeinern+verkleinern](https://github.com/hiroxpepe/exmpblog/blob/master/exmp-blog-mvc/src/main/scala/org/examproject/blog/view/SimpleAtomFeedView.scala)
-* auf PDF-Box v2.0 migrieren
-* auf Facebook Graph API v2.6 migrieren
-* Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
 * Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
+  * Unit-Tests für Helper-Klassen schreiben
+  * Unit-Tests für Controller schreiben (Akka mocken mit akka-testkit?)
   * Unit-Tests für Aktoren schreiben
   * Unit-Tests für external Clients schreiben
+* [AtomFeed-Model beschreiben und dadurch View verallgemeinern+verkleinern](https://github.com/hiroxpepe/exmpblog/blob/master/exmp-blog-mvc/src/main/scala/org/examproject/blog/view/SimpleAtomFeedView.scala)
+* aus PlayDateTimeHelper ein DateTimeJsonFormats-Trait herausziehen?
+* Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
+* auf PDF-Box v2.0 migrieren
+* auf Facebook Graph API v2.6 migrieren
 * Akka-Supervisioning beschreiben
 * LunchResolver: globalen durch eigenen ExecutionContext ersetzen?
-* LunchResolver automatisch (via DI) auflösen
+* LunchResolver automatisch auflösen (via DI-MultiBinder oder ServiceLoader oder custom-Reflection?)
 * Caching der Requests
 * TODOs in Code abarbeiten
 
