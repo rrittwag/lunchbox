@@ -27,7 +27,7 @@ class DefaultDomainApi @Inject()(system: ActorSystem) extends DomainApi {
 
 
 /**
-  * Play-Modul für die Domäne: Hierüber werden die Domänen-Klassen via DI gebunden.
+  * Über dieses Play-Modul werden Domänen-Klassen für das DI angemeldet, insbesondere die DomainApi.
   * Die DSL ist Play-eigen und unabhängig vom DI-Framework, allerdings nicht allzu mächtig.
   */
 final class DomainModule extends Module {
