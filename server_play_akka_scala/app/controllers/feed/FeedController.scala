@@ -1,4 +1,4 @@
-package services.feed
+package controllers.feed
 
 import javax.inject.{Inject, Singleton}
 

@@ -1,4 +1,4 @@
-package services.api.v1
+package controllers.api.v1
 
 import javax.inject.{Inject, Singleton}
 

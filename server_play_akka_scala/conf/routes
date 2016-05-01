@@ -4,13 +4,13 @@
 
 
 # API v1
-GET      /api/v1/lunchProvider      services.api.v1.LunchProviderController.list(location: Option[String])
-GET      /api/v1/lunchProvider/:id  services.api.v1.LunchProviderController.find(id: Int)
+GET      /api/v1/lunchProvider      controllers.api.v1.LunchProviderController.list(location: Option[String])
+GET      /api/v1/lunchProvider/:id  controllers.api.v1.LunchProviderController.find(id: Int)
 
-GET      /api/v1/lunchOffer         services.api.v1.LunchOfferController.list(day: Option[String])
-GET      /api/v1/lunchOffer/:id     services.api.v1.LunchOfferController.find(id: Int)
+GET      /api/v1/lunchOffer         controllers.api.v1.LunchOfferController.list(day: Option[String])
+GET      /api/v1/lunchOffer/:id     controllers.api.v1.LunchOfferController.find(id: Int)
 
-GET      /feed                      services.feed.FeedController.feed(location: Option[String])
+GET      /feed                      controllers.feed.FeedController.feed(location: Option[String])
 
 
 # Map static resources from the /public folder to the /assets URL path

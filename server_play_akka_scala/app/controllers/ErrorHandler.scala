@@ -1,4 +1,4 @@
-package services
+package controllers
 
 import play.api.http.{MimeTypes, HttpErrorHandler}
 import play.api.libs.json.Json
