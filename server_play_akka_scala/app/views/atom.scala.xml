@@ -1,6 +1,8 @@
-@(location: String)
-
+@import domain.models._
 @import org.joda.time.LocalDate
+
+@(location: String, offers: Seq[LunchOffer])
+
 
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157</id>

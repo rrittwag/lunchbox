@@ -45,6 +45,7 @@ TODOs
 * Feed einbauen (location-bezogen)
 * branch in master mergen!
 * Facebook-Bugfix von akka-server in play-server mergen
+* via Docker deployen
 * LunchOfferUpdater [bei Play-Start starten](https://www.playframework.com/documentation/2.5.x/ScalaDependencyInjection#Eager-bindings)
 * Domain-Services in Repository umbenennen
 * wieso startet Extra-JVM?
@@ -53,7 +54,6 @@ TODOs
 * Unit-Tests für Helper-Klassen schreiben
 * Unit-Tests für Controller schreiben (Akka mocken mit akka-testkit?)
 * aus PlayDateTimeHelper ein DateTimeJsonFormats-Trait herausziehen?
-* via Docker deployen
 * auf PDF-Box v2.0 migrieren
 * auf Facebook Graph API v2.6 migrieren
 * Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
@@ -62,7 +62,7 @@ TODOs
   * Unit-Tests für external Clients schreiben
 * Akka-Supervisioning beschreiben
 * LunchResolver: globalen durch eigenen ExecutionContext ersetzen?
-* DI für LunchProviderService
+* LunchResolver automatisch (via DI) auflösen
 * Caching der Requests
 * TODOs in Code abarbeiten
 

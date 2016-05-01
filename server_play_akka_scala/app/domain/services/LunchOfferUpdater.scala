@@ -2,8 +2,8 @@ package domain.services
 
 import akka.actor._
 import domain.logic._
-import domain.models.{LunchProvider, LunchOffer}
 import domain.models.LunchProvider._
+import domain.models.{LunchOffer, LunchProvider}
 import org.joda.time.{DateTime, DateTimeZone}
 
 import scala.concurrent.duration._

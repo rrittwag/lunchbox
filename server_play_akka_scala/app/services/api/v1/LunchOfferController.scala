@@ -2,11 +2,10 @@ package services.api.v1
 
 import javax.inject.{Inject, Singleton}
 
-import akka.actor.ActorSystem
 import akka.pattern.ask
 import akka.util.Timeout
+import domain.DomainApi
 import domain.models.LunchOffer
-import domain.services.LunchOfferService
 import domain.services.LunchOfferService._
 import org.joda.time.LocalDate
 import play.api.libs.json.{Json, Writes}
@@ -31,10 +30,9 @@ trait LunchOfferJsonFormats {
 }
 
 @Singleton
-class LunchOfferController @Inject()(system: ActorSystem)(implicit exec: ExecutionContext) extends Controller
-  with LunchOfferJsonFormats {
+class LunchOfferController @Inject()(domain: DomainApi)
+                                    (implicit exec: ExecutionContext) extends Controller with LunchOfferJsonFormats {
 
-  val domainService = system.actorOf(LunchOfferService.props, "lunchOffer-actor")
   implicit val timeout = Timeout(5.seconds)
 
   def list(optDayString: Option[String]) = Action.async {
@@ -47,12 +45,12 @@ class LunchOfferController @Inject()(system: ActorSystem)(implicit exec: Executi
   private def listByDay(optDay: Option[LocalDate]) = {
     val domainReqMsg = optDay.map(GetByDay).getOrElse(GetAll)
 
-    domainService.ask(domainReqMsg).mapTo[MultiResult]
+    domain.lunchOfferService.ask(domainReqMsg).mapTo[MultiResult]
       .map(resultMsg => Ok(Json.toJson(resultMsg.offers)))
   }
 
   def find(id: Int) = Action.async {
-    domainService.ask(GetById(id)).mapTo[SingleResult]
+    domain.lunchOfferService.ask(GetById(id)).mapTo[SingleResult]
       .map { resultMsg =>
         resultMsg.offer match {
           case Some(provider) => Ok(Json.toJson(provider))
