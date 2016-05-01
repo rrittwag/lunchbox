@@ -42,11 +42,9 @@ Distribution
 TODOs
 -----
 
-* Feed einbauen (location-bezogen)
 * branch in master mergen!
 * Facebook-Bugfix von akka-server in play-server mergen
 * via Docker deployen
-* LunchOfferUpdater [bei Play-Start starten](https://www.playframework.com/documentation/2.5.x/ScalaDependencyInjection#Eager-bindings)
 * Domain-Services in Repository umbenennen
 * wieso startet Extra-JVM?
 * Dispatch durch WS ersetzen
@@ -54,6 +52,7 @@ TODOs
 * Unit-Tests für Helper-Klassen schreiben
 * Unit-Tests für Controller schreiben (Akka mocken mit akka-testkit?)
 * aus PlayDateTimeHelper ein DateTimeJsonFormats-Trait herausziehen?
+* [AtomFeed-Model beschreiben und dadurch View verallgemeinern+verkleinern](https://github.com/hiroxpepe/exmpblog/blob/master/exmp-blog-mvc/src/main/scala/org/examproject/blog/view/SimpleAtomFeedView.scala)
 * auf PDF-Box v2.0 migrieren
 * auf Facebook Graph API v2.6 migrieren
 * Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
