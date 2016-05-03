@@ -43,7 +43,6 @@ TODOs
 -----
 
 * via Docker deployen
-* Domain-Services in Repository umbenennen
 * wieso startet Extra-JVM?
 * Dispatch durch WS ersetzen
 * Shell-Skripte in eigenes Verzeichnis verschieben?
