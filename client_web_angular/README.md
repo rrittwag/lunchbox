@@ -32,8 +32,8 @@ Distribution
 TODOs
 -----
 
-* Location-Auswähler: Stadtwappen anzeigen
 * Test: auf Smartphone & Tab testen (inkl. NavBar-Menü-Buttons & schickes Design)
+* Test: auf MS Edge testen
 * Design: Lunchbox-Logo für Jumbotron bereitstellen
 * Model: Daten neu laden, wenn über 1 Tag alt
 * Projekt mit HTML5 Boilerplate abgleichen
