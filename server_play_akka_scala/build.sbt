@@ -18,7 +18,7 @@ scalaVersion := "2.11.8"
 libraryDependencies ++= Seq(
 //  jdbc,
 //  cache,
-//  ws,
+  ws,
   filters,
   // domain model
   "com.github.nscala-time" %% "nscala-time" % "2.12.0",

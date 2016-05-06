@@ -17,6 +17,7 @@ trait DomainApi {
 
 /**
   * Default-Implementierung für Domain-API. Lässt sich in Unit-Tests leicht ersetzen.
+  *
   * @param system Akka-System.
   */
 @Singleton

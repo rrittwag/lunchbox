@@ -10,8 +10,10 @@ import scala.util.{Failure, Success}
 object OcrClientMain extends App {
   val dateString = "gesundheitszentrum_2016-04-25"
 
+  val ocrClient = new DefaultOcrClient
+
   // provide jpgs via "docker run -d -p 80:80 -v {...}/lunchbox/server_akka_scala/src/test/resources/mittagsplaene/gesundheitszentrum/:/usr/share/nginx/html nginx"
-  val ocrTextFuture = OcrClient.doOCR(new URL(s"http://192.168.99.100/$dateString.jpg"))
+  val ocrTextFuture = ocrClient.doOCR(new URL(s"http://192.168.99.100/$dateString.jpg"))
   ocrTextFuture.onComplete {
     case Success(ocrText) =>
       Files.write(Paths.get(s"src/test/resources/mittagsplaene/gesundheitszentrum/${dateString}_ocr.txt"), ocrText.getBytes(StandardCharsets.UTF_8))

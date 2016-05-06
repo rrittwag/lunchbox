@@ -3,6 +3,7 @@ package domain.logic
 import java.net.URL
 
 import domain.models.{LunchOffer, LunchProvider}
+import infrastructure.{FacebookClient, OcrClient}
 import org.joda.money.Money
 import org.joda.time.LocalDate
 import org.scalamock.scalatest.MockFactory
@@ -439,7 +440,12 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers with Mo
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)
-    new LunchResolverGesundheitszentrum(validatorStub)
+
+    val facebookClientStub = stub[FacebookClient]
+
+    val ocrClientStub = stub[OcrClient]
+
+    new LunchResolverGesundheitszentrum(validatorStub, facebookClientStub, ocrClientStub)
   }
 
   private def readFileContent(path: String): String = {

@@ -20,7 +20,9 @@ case class Wochenplan(monday: LocalDate, mittagsplanImageId: String)
 /**
  * Mittagsangebote von Gesundheitszentrum Springpfuhl über deren Facebook-Seite ermitteln.
  */
-class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends LunchResolver {
+class LunchResolverGesundheitszentrum(dateValidator: DateValidator,
+                                      facebookClient: FacebookClient,
+                                      ocrClient: OcrClient) extends LunchResolver {
 
   sealed abstract class PdfSection(val sectionStartPattern: String, val order: Int)
 
@@ -53,7 +55,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
 
   override def resolve: Future[Seq[LunchOffer]] =
     // von der Facebook-Seite der Kantine die Posts als JSON abfragen (beschränt auf Text und Anhänge)
-    FacebookClient.query("181190361991823/posts?fields=message,attachments")
+    facebookClient.query("181190361991823/posts?fields=message,attachments")
        .map( facebookPosts => parseWochenplaene(facebookPosts).takeWhile(isWochenplanRelevant) )
        .flatMap( wochenplaene => resolveOffersFromWochenplaene(wochenplaene) )
 
@@ -80,12 +82,12 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator) extends Lunc
   }
 
   private[logic] def resolveOffersFromWochenplan(plan: Wochenplan): Future[Seq[LunchOffer]] =
-    FacebookClient.query(plan.mittagsplanImageId)
+    facebookClient.query(plan.mittagsplanImageId)
       .flatMap(facebookImageJson => doOcr(parseUrlOfBiggestImage(facebookImageJson)))
       .map(ocrText => resolveOffersFromText(plan.monday, ocrText))
 
   private[logic] def doOcr(urlOpt: Option[URL]): Future[String] = urlOpt match {
-    case Some(imageUrl) => OcrClient.doOCR(imageUrl)
+    case Some(imageUrl) => ocrClient.doOCR(imageUrl)
     case None => Future.successful("")
   }
 

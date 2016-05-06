@@ -4,7 +4,9 @@ import akka.actor._
 import domain.logic._
 import domain.models.LunchProvider._
 import domain.models.{LunchOffer, LunchProvider}
+import infrastructure._
 import org.joda.time.{DateTime, DateTimeZone}
+import play.api.libs.ws._
 
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
@@ -114,7 +116,10 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
     case SUPPENKULTTOUR => new LunchResolverSuppenkulttour(dateValidator).resolve
     case AOK_CAFETERIA => new LunchResolverAokCafeteria(dateValidator).resolve
     case SALT_N_PEPPER => new LunchResolverSaltNPepper(dateValidator).resolve
-    case GESUNDHEITSZENTRUM => new LunchResolverGesundheitszentrum(dateValidator).resolve
+    case GESUNDHEITSZENTRUM =>
+      new LunchResolverGesundheitszentrum(dateValidator,
+                                          new DefaultFacebookClient,
+                                          new DefaultOcrClient).resolve
     case _ => Future(Nil)
   }
   offersFuture.onComplete {

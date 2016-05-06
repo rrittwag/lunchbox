@@ -1,10 +1,12 @@
 package infrastructure
 
+import javax.inject.Singleton
+
 import com.typesafe.config.ConfigFactory
 import dispatch.Defaults._
 import dispatch._
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * Daten von Facebook abrufen.
@@ -15,7 +17,12 @@ import scala.concurrent.Future
  * & <a href="https://developers.facebook.com/docs/facebook-login/access-tokens#apptokens">Access Tokens</a>.
  * <p>
  */
-object FacebookClient extends HttpClient {
+trait FacebookClient {
+  def query(graphApiUrl: String): Future[String]
+}
+
+@Singleton
+class DefaultFacebookClient(implicit ec: ExecutionContext) extends FacebookClient with HttpClient {
 
   def query(graphApiUrl: String): Future[String] = {
     val config = ConfigFactory.load()             // TODO: inject via "configuration: Configuration"
@@ -28,5 +35,9 @@ object FacebookClient extends HttpClient {
     val requestFunc = () => Http(request OK as.String)
 
     runWithRetry(requestFunc)
+//    ws.url(s"https://graph.facebook.com/v2.3/${graphApiUrl.replaceFirst("^/", "")}")
+//      .withQueryString("access_token" -> s"$appId|$appSecret")
+//      .get()
+//      .map(_.json.as[String])
   }
 }

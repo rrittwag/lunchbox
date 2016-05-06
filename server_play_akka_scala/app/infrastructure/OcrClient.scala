@@ -1,17 +1,23 @@
 package infrastructure
 
 import java.net.URL
+import javax.inject.Singleton
 
 import dispatch.Defaults._
 import dispatch._
 import play.api.libs.json._
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * Service für das Auslesen von Text aus einem Bild (OCR).
   */
-object OcrClient extends HttpClient {
+trait OcrClient {
+  def doOCR(imageUrl: URL): Future[String]
+}
+
+@Singleton
+class DefaultOcrClient(implicit ec: ExecutionContext) extends OcrClient {
 
   def doOCR(imageUrl: URL): Future[String] = {
     /*
@@ -28,6 +34,9 @@ object OcrClient extends HttpClient {
       .setBody(body.toString)
 
     Http(req OK (response => response.getResponseBody))
+//    ws.url("http://openocr:20080/ocr")
+//      .post(body)
+//      .map(_.json.as[String])
   }
 
 }
