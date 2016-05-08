@@ -4,32 +4,23 @@
     <div class="navbar-header">
       <a class="navbar-brand" ng-href="/">
         <span><img style="max-width:34px; margin-top: -7px;" alt="Lunchbox" src="/assets/images/lunchbox_logo.png"></span>
-        Lunchbox
+        &nbsp;Lunchbox
       </a>
 
-<!--    TODO: Der Toggle-Button für die collapsed Navbar wird hier missbraucht -->
-      <a class="navbar-toggle navbar-right" ng-href="/about">
+      <ul class="nav navbar-nav navbar-left hidden-xs">
+        <li>
+          <location-selector class="navbar-btn" />
+        </li>
+      </ul>
+
+      <a class="navbar-toggle navbar-right collapsed" ng-click="showMobileNav = !showMobileNav">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
     </div>
 
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav navbar-left">
-        <li>
-          <div class="navbar-btn" uib-dropdown>
-            <button id="location-button" type="button" class="btn btn-default" uib-dropdown-toggle>
-              {{ header.model.location.shortName }} <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="location-button">
-              <li role="menuitem" ng-repeat="location in header.model.locations">
-                <a href="/" ng-click="header.selectLocation(location)">{{ location.name }}</a>
-              </li>
-            </ul>
-          </div>
-        </li>
-      </ul>
+    <div class="collapse navbar-collapse" ng-class="{in: showMobileNav}">
       <ul class="nav navbar-nav navbar-right">
         <li ng-repeat="route in header.routes" ng-class="{active: header.activeRoute(route)}">
           <a href="{{ route.path }}">{{ route.name }}</a>

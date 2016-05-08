@@ -37,11 +37,6 @@
   //    return $location.path().indexOf(route.path) === 0;
     };
 
-    // Setzen der Location aus Dropdown
-    vm.selectLocation = function(location) {
-      LunchModel.setLocation(location);
-    };
-
   }
 
 })();
