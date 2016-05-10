@@ -20,7 +20,7 @@
       location.path('/about');
       rootScope.$digest();
       expect(route.current.templateUrl).toBe('app/about/about.html');
-      expect(route.current.controller).toBeUndefined();
+      expect(route.current.controller).toBe('AboutController');
     });
 
     it('should not be loaded on /some_address', function () {

@@ -122,21 +122,6 @@
       });
     });
 
-
-
-    describe('setLocation', function () {
-      it('should change settings\' location', function () {
-        model.location = null;
-        model.locations = [];
-        initController();
-        expect(model.location).toBe(null);
-
-        header.selectLocation(locationNB);
-
-        expect(model.location).toBe(locationNB);
-      });
-    });
-
   });
 
 })();

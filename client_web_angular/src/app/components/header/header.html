@@ -22,7 +22,7 @@
 
     <div class="collapse navbar-collapse" ng-class="{in: showMobileNav}">
       <ul class="nav navbar-nav navbar-right">
-        <li ng-repeat="route in header.routes" ng-class="{active: header.activeRoute(route)}">
+        <li ng-repeat="route in header.routes" ng-class="{active: header.activeRoute(route), 'visible-xs-block': route.path == '/settings'}">
           <a href="{{ route.path }}">{{ route.name }}</a>
         </li>
       </ul>
