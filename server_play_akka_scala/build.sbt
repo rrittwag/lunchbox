@@ -30,8 +30,6 @@ libraryDependencies ++= Seq(
   "org.scalactic"               %% "scalactic"     % "2.2.6",
   // external
   "net.databinder.dispatch"     %% "dispatch-core" % "0.11.3",
-  // services
-  "org.scala-lang.modules" %% "scala-xml" % "1.0.5",
   // test
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test,
   "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % Test
