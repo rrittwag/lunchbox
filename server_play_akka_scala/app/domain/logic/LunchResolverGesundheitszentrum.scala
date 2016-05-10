@@ -196,6 +196,7 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator,
       .replaceAll("([zZ]wiebe)i", "$1l")
       .replaceAll("chnitzei", "chnitzel")
       .replaceAll("SCHNlTZ", "SCHNITZ")
+      .replaceAll("SCHNITZELTAG", "Schnitzeltag") // Wieso rumschreien?
       .replaceAll("uflauf", "uflauf")
       .replaceAll("utiauf", "uflauf")
       .replaceAll("ufiauf", "uflauf")
@@ -235,8 +236,10 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator,
         .replaceAll(""" \d+[a-zA-Z]+ """, " ")
         .replaceAll(""" [a-zA-Z]+\d+ """, " ")
         .replaceAll(""" [a-zA-Z] """, " ")
+        .replaceAll(""" [A-Z][^ ]+[A-Z] """, " ")
         .replaceAll(""" \|4 """, " ")
-        .replaceAll(""" [ACDHGLJEFUZglcm01\(‘!]{1,5} +(\d{1,}\,\d{2})$""", " $1")
+        .replaceAll(""" [Agl\(‘!]{1,5} +(\d\,\d\d)$""", " $1")
+        .replaceAll(""" [A-Z]{2}[^ ]* +(\d\,\d\d)$""", " $1")
         .replaceAll("!!!", "")
         .replaceAll("Amame", "")
 

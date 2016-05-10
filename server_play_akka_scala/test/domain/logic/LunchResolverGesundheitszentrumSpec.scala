@@ -419,7 +419,7 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers with Mo
     offers should contain(LunchOffer(0, "Schweineschnitzel ”Jäger Art” mit Champignons und Waldpilzen in Rahm dazu Pommes Frites", week.monday, euro("4.70"), Id))
 
     offers should contain(LunchOffer(0, "Grießbrei mit warmen Schattenmorellen", week.tuesday, euro("3.20"), Id))
-    offers should contain(LunchOffer(0, "SCHNITZELTAG", week.tuesday, euro("5.00"), Id))
+    offers should contain(LunchOffer(0, "Schnitzeltag", week.tuesday, euro("5.00"), Id))
 
     offers should contain(LunchOffer(0, "Tomatensuppe mit Sahnehäubchen", week.wednesday, euro("2.50"), Id))
     offers should contain(LunchOffer(0, "Sahnehering mit Salzkartoffeln", week.wednesday, euro("3.70"), Id))
@@ -435,6 +435,18 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers with Mo
     offers should contain(LunchOffer(0, "Klopse ”Napoli” mit Tomatensauce und Reis", week.friday, euro("4.20"), Id))
     offers should contain(LunchOffer(0, "Asiatisches Wokgericht mit Cashewkernen dazu Reis", week.friday, euro("4.00"), Id))
     offers should contain(LunchOffer(0, "Forelle ”Müllerin” mit zerlassener Butter und Petersilienkartoffeln", week.friday, euro("4.90"), Id))
+  }
+
+  it should "resolve offers for week of 2016-05-09" in {
+    val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2016-05-09_ocr.txt")
+    val week = weekOf("2016-05-09")
+
+    val offers = resolver.resolveOffersFromText(week.monday, text)
+
+    offers should have size 21
+
+    offers should contain(LunchOffer(0, "Ofenfrischer Leberkäse mit Zwiebelsauce dazu Kartoffelpürree", week.wednesday, euro("4.30"), Id))
+    offers should contain(LunchOffer(0, "Rieseneisbein mit Sauerkraut dazu Salzkartoffeln", week.thursday, euro("5.10"), Id))
   }
 
   private def resolver = {
