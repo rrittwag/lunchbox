@@ -132,6 +132,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
 
     val clearedParts = offerAttributesAsStrings.map { part =>
       part.replaceAll( """\( ?([a-zA-Z\d]{1,2}, ?)* ?[a-zA-Z\d]{1,2},? ?\)""", "") // Zusatzinfo (i,j,19) entfernen
+        .trim.replaceAll( """^([a-zA-Z\d]{1,2}, ?)* ?[a-zA-Z\d]{1,2},?$""", "")
         .trim.replaceAll("  ", " ") // doppelte Leerzeichen entfernen
     }
 
@@ -145,6 +146,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
       case r"""(.+)$portion (\d{1,}[.,]\d{2})$priceStr ?€? *""" => if (portion.trim == "mittel") priceOpt = parsePrice(priceStr)
       case descrPart => description :+= descrPart.trim
     }
+    description = description.filter(_.nonEmpty)
 
     val nameOpt = titleOpt.map(title =>
       if (description.nonEmpty) s"$title: ${description.mkString(" ")}" else title
@@ -181,7 +183,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
       .replaceAll("\\u00a0", " ") // NO-BREAK SPACE durch normales Leerzeichen ersetzen
 
   private def isZusatzInfo(string: String) = {
-    val zusatzInfos = List("(vegan)", "vegan", "glutenfrei", "lf", "gf", "vegetarisch", "laktosefrei", "veg. gf", "vegan gf")
+    val zusatzInfos = List("(vegan)", "vegan", "glutenfrei", "lf", "gf", "vegetarisch", "laktosefrei", "veg. gf", "veget.gf", "vegan gf")
     string.split(",").exists(elem => zusatzInfos.contains(elem.trim))
   }
 
