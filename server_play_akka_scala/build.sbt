@@ -5,8 +5,8 @@ import com.typesafe.sbt.packager.docker._
 // project definition
 // ~~~~~~~~~~~~~~~~~~
 organization := "info.rori.lunchbox.server.play_akka_scala"
-name := "lunchbox_server"
-version := "0.1"
+name := "lunchbox-server"
+version := "1.0"
 
 lazy val root = project.in(file(".")).enablePlugins(PlayScala)
 
@@ -58,3 +58,6 @@ dockerCommands := dockerCommands.value.flatMap{
   case other => List(other)
 }
 dockerExposedPorts in Docker := Seq(9000)
+
+dockerRepository := Some("rori")
+dockerUpdateLatest := true

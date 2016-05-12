@@ -72,6 +72,7 @@ Wissen
 * [Feed: Beschreibung des Atom-Formats](http://atomenabled.org/developers/syndication)
 * [Feed: Validator](http://validator.w3.org/feed/)
 * [Testing: ScalaTest User Guide](http://www.scalatest.org/user_guide)
+* [Docker: Build-Konfiguration](http://www.scala-sbt.org/sbt-native-packager/formats/docker.html) & [Deployment](https://www.packtpub.com/books/content/deploying-play-application-coreos-and-docker)
 
 
 
