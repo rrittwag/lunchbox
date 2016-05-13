@@ -26,7 +26,7 @@ Benutzung
 ---------
 
 * Server im Dev-Mode starten via `sbt run`
-* ... oder in Docker via `docker_run.sh`
+* ... oder via `docker_run.sh` Docker-Image erzeugen und ausführen
 * Die REST API ist unter [http://localhost:8080/api/v1/](http://localhost:8080/api/v1/) erreichbar
 * Der Web-Feed ist unter [http://localhost:8080/feed](http://localhost:8080/feed) erreichbar
 
@@ -35,17 +35,15 @@ Benutzung
 Distribution
 ------------
 
-* TODO: Publish via Docker
+* via `sbt clean docker:stage docker:publish` Docker-Image erzeugen und in Remote-Repository stellen
 
 
 
 TODOs
 -----
 
-* via Docker deployen
-* wieso startet Extra-JVM?
+* DI auch in Domain
 * Dispatch durch WS ersetzen
-* Shell-Skripte in eigenes Verzeichnis verschieben?
 * Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
   * Unit-Tests für Helper-Klassen schreiben
   * Unit-Tests für Controller schreiben (Akka mocken mit akka-testkit?)
