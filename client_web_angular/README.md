@@ -32,16 +32,15 @@ Distribution
 TODOs
 -----
 
-* Test: auf Smartphone & Tab testen (inkl. NavBar-Menü-Buttons & schickes Design)
 * Test: auf MS Edge testen
 * Design: Lunchbox-Logo für Jumbotron bereitstellen
 * Model: Daten neu laden, wenn über 1 Tag alt
 * Projekt mit HTML5 Boilerplate abgleichen
 * Adress-Query-Parameter "day": gezielt die Angebote für einen Tag abfragen
 * in Feed Links zur Website setzen
-* Tag-Auswähler: als Komponente auslagern
 * Meldungsdialog als Komponente auslagern
 * System-Tests bereitstellen, via [Selenium und Protractor](https://github.com/angular/protractor) ?
+* Test: custom Jasmine-Matchers (every, any) in eigene Datei auslagern
 * durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
 * schöneres Bootstrap-Theme einsetzen ? z.B. [Bootstrap Material Design](http://fezvrasta.github.io/bootstrap-material-design/) oder [Bootswatch Paper](https://bootswatch.com/paper/) ?
 * i18n & l10n
