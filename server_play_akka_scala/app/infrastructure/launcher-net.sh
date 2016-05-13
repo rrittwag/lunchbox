@@ -15,7 +15,7 @@ RABBITMQ_HOST=rabbitmq
 RABBITMQ_PASS=aasderljcwei3jlbc93
 HTTP_PORT=20080
 
-DOCKER_PUBLIC_NETWORK=bridge
+OPENOCR_ACCESS_NETWORK="openocr" # public access via "bridge"
 DOCKER=docker
 
 
@@ -29,7 +29,7 @@ $DOCKER run -d -p 5672:5672 -p 15672:15672 --name="rabbitmq" --net="rabbitmq" -e
 echo "Waiting 30s for rabbit MQ to startup .."
 sleep 30 # workaround for startup race condition issue
 
-$DOCKER run -d -p ${HTTP_PORT}:${HTTP_PORT} --name="openocr" --net="$DOCKER_PUBLIC_NETWORK" tleyden5iwx/open-ocr open-ocr-httpd -amqp_uri "${AMQP_URI}" -http_port ${HTTP_PORT}
+$DOCKER run -d -p ${HTTP_PORT}:${HTTP_PORT} --name="openocr" --net="$OPENOCR_ACCESS_NETWORK" tleyden5iwx/open-ocr open-ocr-httpd -amqp_uri "${AMQP_URI}" -http_port ${HTTP_PORT}
 $DOCKER network connect rabbitmq openocr
 
 $DOCKER run -d --name="openocr-worker" --net="rabbitmq" tleyden5iwx/open-ocr open-ocr-worker -amqp_uri "${AMQP_URI}"
