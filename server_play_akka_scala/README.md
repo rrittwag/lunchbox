@@ -26,7 +26,7 @@ Benutzung
 ---------
 
 * Server im Dev-Mode starten via `sbt run`
-* ... oder via `docker_run.sh` Docker-Image erzeugen und ausführen
+* ... oder via `scripts/docker-run-from-source.sh` Docker-Image erzeugen und Server starten
 * Die REST API ist unter [http://localhost:8080/api/v1/](http://localhost:8080/api/v1/) erreichbar
 * Der Web-Feed ist unter [http://localhost:8080/feed](http://localhost:8080/feed) erreichbar
 
@@ -36,6 +36,7 @@ Distribution
 ------------
 
 * via `sbt clean docker:stage docker:publish` Docker-Image erzeugen und in Remote-Repository stellen
+* in Produktionssystem via `scripts/docker-run-from-repo.sh` Docker-Image laden und starten (vorher Skript-Variablen anpassen!)
 
 
 

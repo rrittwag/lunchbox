@@ -2,7 +2,7 @@
 
 #
 # Creates a Docker image from sources, publishes the image locally and runs it.
-# Use the script when running production mode. Change env variables first!
+# Use the script when running production mode. Change variables first!
 #
 
 APPLICATION_SECRET="mysecret" # generate via "sbt playGenerateSecret"
