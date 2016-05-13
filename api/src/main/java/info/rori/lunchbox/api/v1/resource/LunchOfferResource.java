@@ -3,10 +3,10 @@ package info.rori.lunchbox.api.v1.resource;
 import com.wordnik.swagger.annotations.*;
 import info.rori.lunchbox.api.v1.model.LunchOffer;
 import info.rori.lunchbox.api.v1.repository.LunchOfferRepository;
-import info.rori.lunchbox.api.v1.util.MediaTypeUtil;
 import info.rori.lunchbox.api.v1.util.TypeConverter;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class LunchOfferResource {
     private LunchOfferRepository repo = new LunchOfferRepository();
 
     @GET
-    @Produces(MediaTypeUtil.APPLICATION_JSON_UTF8)
+    @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Liefert alle Mittagsangebote, ggf. gefiltert nach Gültigkeits-Tag")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
@@ -46,7 +46,7 @@ public class LunchOfferResource {
 
     @GET
     @Path("{id : \\d+}")
-    @Produces(MediaTypeUtil.APPLICATION_JSON_UTF8)
+    @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Liefert das Mittagsangebot mit der angegebenen ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
