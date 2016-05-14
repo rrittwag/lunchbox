@@ -16,9 +16,7 @@
         <tr>
           <td>@{ offer.name }</td>
           <td>
-            <span>
-            @{ "%d,%02d €".format(offer.price.getAmountMajorInt, offer.price.getMinorPart) }
-            </span>
+            <span>@{ "%d,%02d €".format(offer.price.getAmountMajorInt, offer.price.getMinorPart) }</span>
           </td>
         </tr>
       }

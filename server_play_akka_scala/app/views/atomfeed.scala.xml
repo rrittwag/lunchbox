@@ -14,7 +14,7 @@
   weekdayStrings(date.getDayOfWeek-1) + ", " + date.toString("dd.MM.yyyy")
 }
 
-
+<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157</id>
   <title>@( s"Mittagstisch $location" )</title>
@@ -33,8 +33,7 @@
         <name>Lunchbox</name>
       </author>
       <content type="html">
-        @{ val data = views.html.lunchday(offersForDay, providers)
-           s"<![CDATA[$data]]>" }
+        @{views.html.lunchday(offersForDay, providers)}
       </content>
       <published>@toISODateTimeString(day)</published>
       <updated>@toISODateTimeString(day)</updated>
