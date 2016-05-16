@@ -43,6 +43,8 @@ Distribution
 TODOs
 -----
 
+* Scalariform einrichten
+* Scalastyle einrichten
 * DI auch in Domain
 * Dispatch durch WS ersetzen
 * Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
