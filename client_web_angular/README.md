@@ -8,7 +8,8 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 Status
 ------
 
-Alpha-Version
+* Erfüllt Lunchbox Version 1 vollständig.
+* Das Web-App bietet zudem eine Infoseite für das Lunchbox-Projekt.
 
 
 
