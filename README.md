@@ -43,16 +43,19 @@ Projektstruktur
 Status
 ------
 
-**Alpha-Version**
+**Stable**
 
 DONE
 
-* api - REST API Version 1 beschrieben
-* server - Die Beta-Version ermittelt die Mittagsangebote von Schweinestall, Hotel am Ring, Suppenkulttour & AOK Cafeteria und gibt sie per REST & Web-Feed wieder
+* api - Beschreibt REST API Version 1, samt Mock-Implementierung.
+* server_akka_scala - Der Server erfüllt Version 1 vollständig.
+* server_play_akka_scala - Der Server erfüllt Version 1 vollständig.
+* client_web_angular - Der Client erfüllt Version 1 vollständig.
+* client_android - Der Client erfüllt Version 1 vollständig.
 
 TODO
 
-* clients: web, android, ios, ...
+* clients: ios, ...
 
 
 
