@@ -1,18 +1,18 @@
-package util
+package util.feed
 
 import play.api.http.MimeTypes
 import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-/**
-  * User: robbel
-  * Date: 29.04.16
-  */
+
+
 trait PlayFeedController extends Controller {
 
-  def AtomFeedAction(block: => Future[Result])(implicit exec: ExecutionContext): Action[AnyContent] =
+  def AtomFeedAction(block: => Future[Result])
+                    (implicit exec: ExecutionContext): Action[AnyContent] =
     AtomFeedAction(_ => block)
+
 
   def AtomFeedAction(block: Request[AnyContent] => Future[Result])
                     (implicit exec: ExecutionContext): Action[AnyContent] =

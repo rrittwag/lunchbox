@@ -1,43 +1,24 @@
-@import domain.models._
-@import org.joda.time._
+@import util.feed._
 
-@(location: String, offers: Seq[LunchOffer], providers: Set[LunchProvider])
-
-
-@toISODateTimeString(date: LocalDate) = @{
-  def timeZoneBerlin = DateTimeZone.forID("Europe/Berlin")
-  date.toDateTimeAtStartOfDay(timeZoneBerlin).toString
-}
-
-@toWeekdayDateString(date: LocalDate) = @{
-  val weekdayStrings = Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag")
-  weekdayStrings(date.getDayOfWeek-1) + ", " + date.toString("dd.MM.yyyy")
-}
+@(feed: AtomFeed)
 
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <id>urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157</id>
-  <title>@( s"Mittagstisch $location" )</title>
-  <link rel="self" href='@( s"http://lunchbox.rori.info/feed?location=$location" )'/>
-  <updated>@toISODateTimeString(LocalDate.now)</updated>
+  <id>@{ feed.id }</id>
+  <title>@{ feed.title }</title>
+  <link rel="self" href='@( feed.selfLink )'/>
+  <updated>@{ feed.updated }</updated>
 
-  @offersGroupedAndSortedByDay(offers: Seq[LunchOffer]) = @{
-    offers.groupBy(_.day).toList.sortWith((x,y) => x._1.compareTo(y._1) > 0)
-  }
-
-  @for((day, offersForDay) <- offersGroupedAndSortedByDay(offers)) {
+  @for(entry <- feed.entries) {
     <entry>
-      <id>@{ s"urn:date:${day.toString}" }</id>
-      <title>@toWeekdayDateString(day)</title>
+      <id>@{ entry.id }</id>
+      <title>@{ entry.title }</title>
       <author>
-        <name>Lunchbox</name>
+        <name>@{ entry.author.name }</name>
       </author>
-      <content type="html">
-        @{views.html.lunchday(offersForDay, providers)}
-      </content>
-      <published>@toISODateTimeString(day)</published>
-      <updated>@toISODateTimeString(day)</updated>
+      <content type='@( entry.content.contentType )'>@{ entry.content.body }</content>
+      <published>@{ entry.published }</published>
+      <updated>@{ entry.updated }</updated>
     </entry>
   }
-
 </feed>

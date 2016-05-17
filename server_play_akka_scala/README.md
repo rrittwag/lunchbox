@@ -52,7 +52,6 @@ TODOs
   * Unit-Tests für Controller schreiben (Akka mocken mit akka-testkit?)
   * Unit-Tests für Aktoren schreiben
   * Unit-Tests für external Clients schreiben
-* [AtomFeed-Model beschreiben und dadurch View verallgemeinern+verkleinern](https://github.com/hiroxpepe/exmpblog/blob/master/exmp-blog-mvc/src/main/scala/org/examproject/blog/view/SimpleAtomFeedView.scala)
 * aus PlayDateTimeHelper ein DateTimeJsonFormats-Trait herausziehen?
 * Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
 * auf PDF-Box v2.0 migrieren
