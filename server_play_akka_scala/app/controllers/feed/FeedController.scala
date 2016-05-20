@@ -1,6 +1,7 @@
 package controllers.feed
 
 import java.net._
+import java.util.Locale
 import javax.inject.{Inject, Singleton}
 
 import akka.pattern.ask
@@ -51,18 +52,18 @@ class FeedController @Inject()(domain: DomainApi)
       for ((day, offersForDay) <- offersGroupedAndSortedByDay(offersTilToday)) yield
         AtomFeedEntry(
           new URI(s"urn:date:${day.toString}"),
-          toWeekdayDateString(day),
+          day.toString("EEEE, dd.MM.yyyy", Locale.GERMAN),
           Author("Lunchbox"),
           Content("html", views.html.lunchday(offersForDay, providers).toString),
-          toISODateTimeString(day),
-          toISODateTimeString(day)
+          toISODateTime(day),
+          toISODateTime(day)
         )
 
     AtomFeed(
       new URI("urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157"),
       s"Mittagstisch $location",
       new URL(s"http://lunchbox.rori.info/feed?location=$location"),
-      toISODateTimeString(LocalDate.now),
+      toISODateTime(LocalDate.now),
       entries)
 
   }
@@ -72,14 +73,9 @@ class FeedController @Inject()(domain: DomainApi)
       .groupBy(_.day).toList
       .sortWith((x, y) => x._1.compareTo(y._1) > 0)
 
-  private def toISODateTimeString(date: LocalDate) = {
+  private def toISODateTime(date: LocalDate) = {
     def timeZoneBerlin = DateTimeZone.forID("Europe/Berlin")
     date.toDateTimeAtStartOfDay(timeZoneBerlin)
-  }
-
-  private def toWeekdayDateString(date: LocalDate) = {
-    val weekdayStrings = Array("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag")
-    weekdayStrings(date.getDayOfWeek - 1) + ", " + date.toString("dd.MM.yyyy")
   }
 
 }
