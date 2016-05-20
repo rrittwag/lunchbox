@@ -54,7 +54,7 @@ class FeedController @Inject()(domain: DomainApi)
           new URI(s"urn:date:${day.toString}"),
           day.toString("EEEE, dd.MM.yyyy", Locale.GERMAN),
           Author("Lunchbox"),
-          Content("html", views.html.lunchday(offersForDay, providers).toString),
+          Content(views.html.lunchday(offersForDay, providers)),
           toISODateTime(day),
           toISODateTime(day)
         )

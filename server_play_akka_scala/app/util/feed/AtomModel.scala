@@ -24,4 +24,8 @@ case class Content(contentType: String,
                    body: String
                   )
 
+object Content {
+  def apply(content: play.twirl.api.Content): Content = apply(content.contentType, content.body)
+}
+
 case class Author(name: String)
