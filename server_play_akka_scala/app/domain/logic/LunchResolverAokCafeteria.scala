@@ -47,25 +47,23 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
     def isValid = !name.isEmpty && priceOpt.isDefined
   }
 
-
   override def resolve: Future[Seq[LunchOffer]] =
     Future { resolvePdfLinks(new URL("http://www.hotel-am-ring.de/aok-cafeteria.html")) }
-      .flatMap(relativePdfPaths => resolveFromPdfs(relativePdfPaths) )
+      .flatMap(relativePdfPaths => resolveFromPdfs(relativePdfPaths))
 
   private[logic] def resolvePdfLinks(htmlUrl: URL): Seq[String] = {
     val props = new CleanerProperties
     props.setCharset("utf-8")
 
     val rootNode = new HtmlCleaner(props).clean(htmlUrl)
-    val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n}.toSet
+    val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n }.toSet
 
     links.filter(_ matches """.*/[a-zA-Z]{3}_.+.pdf""").toList
   }
 
   private def resolveFromPdfs(relativePdfPaths: Seq[String]): Future[Seq[LunchOffer]] = {
-    val listOfFutures = relativePdfPaths.map( relativePdfPath =>
-      Future { resolveFromPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfPath)) }
-    )
+    val listOfFutures = relativePdfPaths.map(relativePdfPath =>
+      Future { resolveFromPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfPath)) })
     Future.sequence(listOfFutures).map(listOfLists => listOfLists.flatten)
   }
 
@@ -87,11 +85,12 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
       case Some(Seq(priceHeader)) =>
         val normalizedPriceTexts = normalizePriceTexts(priceHeader.texts)
         val xCoords = normalizedPriceTexts.map(_.xMid)
-        val prices = normalizedPriceTexts.flatMap( e => parsePrice(e.toString) )
-        for (weekday <- PdfSection.weekdayValues;
-             lines <- section2lines.get(weekday);
-             (x, price) <- xCoords.zip(prices))
-          parseDayOffer(lines, x, weekday, monday, price).foreach(offers :+= _)
+        val prices = normalizedPriceTexts.flatMap(e => parsePrice(e.toString))
+        for (
+          weekday <- PdfSection.weekdayValues;
+          lines <- section2lines.get(weekday);
+          (x, price) <- xCoords.zip(prices)
+        ) parseDayOffer(lines, x, weekday, monday, price).foreach(offers :+= _)
 
       case None => logger.warn(s"Preis-Header nicht gefunden in $pdfUrl")
     }
@@ -103,7 +102,7 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
 
   private[logic] def parseMondayByTexts(lines: Seq[String]): Option[LocalDate] = {
     // alle Datumse aus PDF ermitteln
-    val days = lines.flatMap( line => parseDay(line.toString) )
+    val days = lines.flatMap(line => parseDay(line.toString))
     val mondays = days.map(_.withDayOfWeek(1))
     // den Montag der am häufigsten verwendeten Woche zurückgeben
     mondays match {
@@ -127,7 +126,7 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
           // an Feiertagen gibt es keine Angebote ... und keine Zusatzstoffe
           if (line.texts.size > 1) {
             val weekdayOpt = findWeekdaySection(linesForDay)
-            weekdayOpt.foreach( day => result += day -> linesForDay )
+            weekdayOpt.foreach(day => result += day -> linesForDay)
           }
           linesForDay = Nil
         } else if (line.oneTextMatches(""".*(Nährwerte|Kohlenhydrate).*""")) {
@@ -144,7 +143,7 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
   def parseDayOffer(lines: Seq[TextLine], xRef: Float, weekday: PdfSection, monday: LocalDate, price: Money): Option[LunchOffer] = {
     val day = monday.plusDays(weekday.order)
     val name = lines.flatMap(_.texts.filter(_.xIn(xRef))).mkString(" ")
-    Some(LunchOffer(0, parseName(name), day, price, LunchProvider.AOK_CAFETERIA.id) )
+    Some(LunchOffer(0, parseName(name), day, price, LunchProvider.AOK_CAFETERIA.id))
   }
 
   private def findWeekdaySection(lines: Seq[TextLine]): Option[PdfSection] = {
@@ -174,8 +173,8 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
 
   /**
    * Erzeugt ein Money-Objekt (in EURO) aus dem Format "*0,00*"
-    *
-    * @param priceString String im Format "*0,00*"
+   *
+   * @param priceString String im Format "*0,00*"
    * @return
    */
   private def parsePrice(priceString: String): Option[Money] = priceString match {

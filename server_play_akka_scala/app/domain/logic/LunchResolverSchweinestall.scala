@@ -31,25 +31,27 @@ class LunchResolverSchweinestall(util: DateValidator) extends LunchResolver {
     val rootNode = new HtmlCleaner(props).clean(url)
 
     // Die Tabelle 'cal_content' enthält die Wochenangebote
-    val tdsInOffersTable = rootNode.evaluateXPath("//table[@id='cal_content']//td").map { case n: TagNode => n}
+    val tdsInOffersTable = rootNode.evaluateXPath("//table[@id='cal_content']//td").map { case n: TagNode => n }
 
-    for (fiveTDsForOneOffer <- tdsInOffersTable.grouped(5) /* je 5 td-Elemente sind ein Offer, aber ... */
-         if fiveTDsForOneOffer.length >= 3) {
+    for (
+      fiveTDsForOneOffer <- tdsInOffersTable.grouped(5) /* je 5 td-Elemente sind ein Offer, aber ... */ if fiveTDsForOneOffer.length >= 3
+    ) {
       // ... nur die ersten 3 td sind nützlich
       val Array(firstTD, secondTD, thirdTD, _*) = fiveTDsForOneOffer
 
-      for (day <- parseDay(firstTD);
-           price <- parsePrice(secondTD);
-           name <- parseName(thirdTD))
-        result :+= LunchOffer(0, name, day, price, SCHWEINESTALL.id)
+      for (
+        day <- parseDay(firstTD);
+        price <- parsePrice(secondTD);
+        name <- parseName(thirdTD)
+      ) result :+= LunchOffer(0, name, day, price, SCHWEINESTALL.id)
     }
     result
   }
 
   /**
    * Erzeugt ein LocalDate aus dem Format "*dd.mm.yyyy*"
-    *
-    * @param node HTML-Node mit auszuwertendem Text
+   *
+   * @param node HTML-Node mit auszuwertendem Text
    * @return
    */
   private def parseDay(node: TagNode): Option[LocalDate] = node.getText match {
@@ -59,8 +61,8 @@ class LunchResolverSchweinestall(util: DateValidator) extends LunchResolver {
 
   /**
    * Erzeugt ein Money-Objekt (in EURO) aus dem Format "*0,00*"
-    *
-    * @param node HTML-Node mit auszuwertendem Text
+   *
+   * @param node HTML-Node mit auszuwertendem Text
    * @return
    */
   private def parsePrice(node: TagNode): Option[Money] = node.getText match {

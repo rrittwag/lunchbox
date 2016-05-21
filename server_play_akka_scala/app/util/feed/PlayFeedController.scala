@@ -5,17 +5,12 @@ import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-
-
 trait PlayFeedController extends Controller {
 
-  def AtomFeedAction(block: => Future[Result])
-                    (implicit exec: ExecutionContext): Action[AnyContent] =
+  def AtomFeedAction(block: => Future[Result])(implicit exec: ExecutionContext): Action[AnyContent] =
     AtomFeedAction(_ => block)
 
-
-  def AtomFeedAction(block: Request[AnyContent] => Future[Result])
-                    (implicit exec: ExecutionContext): Action[AnyContent] =
+  def AtomFeedAction(block: Request[AnyContent] => Future[Result])(implicit exec: ExecutionContext): Action[AnyContent] =
     Action.async { implicit request =>
       val TypeApplicationAtom = "application/atom+xml"
       val TypeTextXml = "text/xml"

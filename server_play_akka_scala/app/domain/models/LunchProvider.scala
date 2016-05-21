@@ -3,9 +3,10 @@ package domain.models
 import scala.collection.immutable.TreeSet
 
 sealed abstract class LunchProvider(
-                                     val id: LunchProviderId,
-                                     val name: String,
-                                     val location: Location) extends Ordered[LunchProvider] {
+    val id: LunchProviderId,
+    val name: String,
+    val location: Location
+) extends Ordered[LunchProvider] {
 
   override def compare(that: LunchProvider) = this.id - that.id
 

@@ -11,7 +11,6 @@ import play.api.libs.ws._
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
-
 object LunchOfferUpdater {
   val Name = "LunchOfferUpdater"
 
@@ -59,7 +58,6 @@ class LunchOfferUpdater(lunchOfferService: ActorRef) extends Actor with ActorLog
   val monday10hUpdate = context.system.scheduler.schedule(durationToMonday10h.millis, 7.days) {
     self ! StartUpdate
   }
-
 
   override def receive = {
     case StartUpdate => startUpdate()
@@ -117,9 +115,11 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
     case AOK_CAFETERIA => new LunchResolverAokCafeteria(dateValidator).resolve
     case SALT_N_PEPPER => new LunchResolverSaltNPepper(dateValidator).resolve
     case GESUNDHEITSZENTRUM =>
-      new LunchResolverGesundheitszentrum(dateValidator,
-                                          new DefaultFacebookClient,
-                                          new DefaultOcrClient).resolve
+      new LunchResolverGesundheitszentrum(
+        dateValidator,
+        new DefaultFacebookClient,
+        new DefaultOcrClient
+      ).resolve
     case _ => Future(Nil)
   }
   offersFuture.onComplete {

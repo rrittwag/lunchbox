@@ -43,7 +43,7 @@ class LunchOfferService extends Actor with ActorLogging {
     val maxId = offers.foldLeft(0)(_ max _.id)
     val availableIDs = reusableIDs ++ Stream.from(maxId + 1).take(newOffers.size)
 
-    val newOffersWithIds = newOffers.zip(availableIDs).map { case (offer, newId) => offer.copy(id = newId)}
+    val newOffersWithIds = newOffers.zip(availableIDs).map { case (offer, newId) => offer.copy(id = newId) }
     offers = offersToKeep ++ newOffersWithIds // TODO: sort list? But IDs must be in resolving order!
 
     log.info(s"updateOffers: added $newOffersWithIds, removed $offersToReplace")

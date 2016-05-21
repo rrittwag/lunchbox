@@ -42,28 +42,28 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
     props.setCharset("UTF-8")
     val rootNode = new HtmlCleaner(props).clean(url)
 
-    val divs = rootNode.evaluateXPath("//div[@class='wpb_text_column wpb_content_element']").map { case n: TagNode => n}
+    val divs = rootNode.evaluateXPath("//div[@class='wpb_text_column wpb_content_element']").map { case n: TagNode => n }
     val mondayOpt = resolveMonday(divs)
 
-    mondayOpt.map( resolveOffers(divs, _) ).getOrElse(Nil)
+    mondayOpt.map(resolveOffers(divs, _)).getOrElse(Nil)
   }
 
   private def resolveMonday(nodes: Seq[TagNode]): Option[LocalDate] =
     nodes
-      .map( parseName(_).replaceAll("\n", "") )
-      .find( _.contains(" Uhr") )
-      .flatMap( parseDay )
-      .map( toMonday )
+      .map(parseName(_).replaceAll("\n", ""))
+      .find(_.contains(" Uhr"))
+      .flatMap(parseDay)
+      .map(toMonday)
 
   private def resolveOffers(nodes: Seq[TagNode], monday: LocalDate): Seq[LunchOffer] = {
     var section2node = Map[OfferSection, TagNode]()
 
-    for ( node <- nodes ) {
-      val h4Opt = node.evaluateXPath("//h4").map { case n: TagNode => n}.headOption
-      val title = h4Opt.map( parseName ).getOrElse("")
+    for (node <- nodes) {
+      val h4Opt = node.evaluateXPath("//h4").map { case n: TagNode => n }.headOption
+      val title = h4Opt.map(parseName).getOrElse("")
 
-      for ( section <- OfferSection.values )
-        if ( section.title == title )
+      for (section <- OfferSection.values)
+        if (section.title == title)
           section2node += section -> node
     }
 
@@ -76,23 +76,25 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
     var result = Seq[LunchOffer]()
     for ((section, node) <- section2node) {
       val pureOffers = resolveSectionOffers(section, node)
-      result ++= pureOffers.map( _.copy(day = monday.plusDays(section.mondayOffset)) )
+      result ++= pureOffers.map(_.copy(day = monday.plusDays(section.mondayOffset)))
     }
     result
   }
 
   private def resolveWeekOffers(section2node: Map[OfferSection, TagNode], days: Set[LocalDate]): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
-    for ((section, node) <- section2node;
-         pureOffers = resolveSectionOffers(section, node);
-         weekday <- days) {
-      result ++= pureOffers.map( offer => offer.copy(name = s"Wochenangebot: ${offer.name}", day = weekday) )
+    for (
+      (section, node) <- section2node;
+      pureOffers = resolveSectionOffers(section, node);
+      weekday <- days
+    ) {
+      result ++= pureOffers.map(offer => offer.copy(name = s"Wochenangebot: ${offer.name}", day = weekday))
     }
     result
   }
 
   private def resolveSectionOffers(section: OfferSection, node: TagNode): Seq[LunchOffer] = {
-    val tds = node.evaluateXPath("//td").map { case n: TagNode => n}
+    val tds = node.evaluateXPath("//td").map { case n: TagNode => n }
     tds.grouped(2).flatMap {
       case Array(nameNode, priceNode) =>
         parsePrice(priceNode).map { price =>
@@ -108,8 +110,8 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
 
   /**
    * Erzeugt ein LocalDate aus dem Format "*dd.mm.yyyy*"
-    *
-    * @param text Text
+   *
+   * @param text Text
    * @return
    */
   private def parseDay(text: String): Option[LocalDate] = text match {
@@ -121,8 +123,8 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
 
   /**
    * Erzeugt ein Money-Objekt (in EURO) aus dem Format "*0,00*"
-    *
-    * @param node HTML-Node mit auszuwertendem Text
+   *
+   * @param node HTML-Node mit auszuwertendem Text
    * @return
    */
   private def parsePrice(node: TagNode): Option[Money] = node.getText match {

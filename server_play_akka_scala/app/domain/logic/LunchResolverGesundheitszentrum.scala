@@ -14,15 +14,16 @@ import scala.util.matching.Regex
 
 import play.api.libs.json._
 
-
 case class Wochenplan(monday: LocalDate, mittagsplanImageId: String)
 
 /**
  * Mittagsangebote von Gesundheitszentrum Springpfuhl über deren Facebook-Seite ermitteln.
  */
-class LunchResolverGesundheitszentrum(dateValidator: DateValidator,
-                                      facebookClient: FacebookClient,
-                                      ocrClient: OcrClient) extends LunchResolver {
+class LunchResolverGesundheitszentrum(
+  dateValidator: DateValidator,
+    facebookClient: FacebookClient,
+    ocrClient: OcrClient
+) extends LunchResolver {
 
   sealed abstract class PdfSection(val sectionStartPattern: String, val order: Int)
 
@@ -56,29 +57,30 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator,
   override def resolve: Future[Seq[LunchOffer]] =
     // von der Facebook-Seite der Kantine die Posts als JSON abfragen (beschränt auf Text und Anhänge)
     facebookClient.query("181190361991823/posts?fields=message,attachments")
-       .map( facebookPosts => parseWochenplaene(facebookPosts).takeWhile(isWochenplanRelevant) )
-       .flatMap( wochenplaene => resolveOffersFromWochenplaene(wochenplaene) )
+      .map(facebookPosts => parseWochenplaene(facebookPosts).takeWhile(isWochenplanRelevant))
+      .flatMap(wochenplaene => resolveOffersFromWochenplaene(wochenplaene))
 
   private[logic] def parseWochenplaene(facebookPostsAsJson: String): Seq[Wochenplan] =
-    for (post <- (Json.parse(facebookPostsAsJson) \ "data").as[Seq[JsValue]];
-         postText <- (post \ "message").asOpt[String];
-         day <- parseDay(postText.replaceAll("\\n", "|")); // im Text steckt das Datum der Woche
-         monday = day.withDayOfWeek(1);
-         imageAttachment = findImageAttachment(post);
-         imageId <- (imageAttachment \ "target" \ "id").asOpt[String])
-      yield Wochenplan(monday, imageId)
+    for (
+      post <- (Json.parse(facebookPostsAsJson) \ "data").as[Seq[JsValue]];
+      postText <- (post \ "message").asOpt[String];
+      day <- parseDay(postText.replaceAll("\\n", "|")); // im Text steckt das Datum der Woche
+      monday = day.withDayOfWeek(1);
+      imageAttachment = findImageAttachment(post);
+      imageId <- (imageAttachment \ "target" \ "id").asOpt[String]
+    ) yield Wochenplan(monday, imageId)
 
   private def findImageAttachment(post: JsValue): JsLookupResult = {
     val attachments = (post \ "attachments" \ "data")(0)
     (attachments \ "subattachments").toOption match {
-      case None => attachments  // nur 1 Anhang: das Bild mit dem Mittagsplan
-      case Some(subattachments) => (subattachments \ "data")(0)  // mehrere Anhänge: das 1. Bild hat den Mittagsplan
+      case None => attachments // nur 1 Anhang: das Bild mit dem Mittagsplan
+      case Some(subattachments) => (subattachments \ "data")(0) // mehrere Anhänge: das 1. Bild hat den Mittagsplan
     }
   }
 
   private[logic] def resolveOffersFromWochenplaene(wochenplaene: Seq[Wochenplan]): Future[Seq[LunchOffer]] = {
-    val listOfFutures = wochenplaene.map( wochenplan => resolveOffersFromWochenplan(wochenplan) )
-    Future.sequence( listOfFutures ).map( listOfLists => listOfLists.flatten )
+    val listOfFutures = wochenplaene.map(wochenplan => resolveOffersFromWochenplan(wochenplan))
+    Future.sequence(listOfFutures).map(listOfLists => listOfLists.flatten)
   }
 
   private[logic] def resolveOffersFromWochenplan(plan: Wochenplan): Future[Seq[LunchOffer]] =
@@ -109,8 +111,10 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator,
     var currentSection: PdfSection = PdfSection.HEADER
     var linesForSection = Seq[String]()
 
-    for (unformattedLine <- text.split('\n');
-         line = unformattedLine.trim) {
+    for (
+      unformattedLine <- text.split('\n');
+      line = unformattedLine.trim
+    ) {
       PdfSection.values.find(sec => line.startsWith(sec.sectionStartPattern)) match {
         case Some(newSection) =>
           result += currentSection -> linesForSection
@@ -143,8 +147,10 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator,
       case None => currentRow = Some(newRow)
     }
 
-    for (line <- lines.takeWhile(l => !isEndingSection(l))
-                      .map(l => removeUnnecessaryText(correctOcrErrors(l)))) {
+    for (
+      line <- lines.takeWhile(l => !isEndingSection(l))
+        .map(l => removeUnnecessaryText(correctOcrErrors(l)))
+    ) {
       if (line.matches("""^[F\d]\.?( .*)?$""")) {
         currentRow.foreach(row => result :+= row)
         currentRow = None
@@ -221,30 +227,30 @@ class LunchResolverGesundheitszentrum(dateValidator: DateValidator,
       .replaceAll(" lll", " !!!")
 
   private def removeUnnecessaryText(text: String) =
-      text.trim
-        .replaceAll("""^FlTNESS [fF\d]\.* """, "F. ")
-        .replaceAll("""^FlTNESS """, "")
-        .replaceAll(""" ,?[unm]; """, " ")
-        .replaceAll(""" \d+ kcal""", "")
-        .replaceAll(""" [a-zA-Z]+kcal""", " ")
-        .replaceAll(" kcal", "")
-        .replaceAll(" 2 ?und ", " und ")
-        .replaceAll(" 2 ?mit ", " mit ")
-        .replaceAll(" , ", ", ")
-        .replaceAll(" 3.14 ", " ").trim // schlecht OCR-ed Zusatzstoffe
-        .replaceAll(" 1,14m ", " ")
-        .replaceAll(""" \d+[a-zA-Z]+ """, " ")
-        .replaceAll(""" [a-zA-Z]+\d+ """, " ")
-        .replaceAll(""" [a-zA-Z] """, " ")
-        .replaceAll(""" [A-Z][^ ]+[A-Z] """, " ")
-        .replaceAll(""" \|4 """, " ")
-        .replaceAll(""" [Agl\(‘!]{1,5} +(\d\,\d\d)$""", " $1")
-        .replaceAll(""" [A-Z]{2}[^ ]* +(\d\,\d\d)$""", " $1")
-        .replaceAll("!!!", "")
-        .replaceAll("Amame", "")
+    text.trim
+      .replaceAll("""^FlTNESS [fF\d]\.* """, "F. ")
+      .replaceAll("""^FlTNESS """, "")
+      .replaceAll(""" ,?[unm]; """, " ")
+      .replaceAll(""" \d+ kcal""", "")
+      .replaceAll(""" [a-zA-Z]+kcal""", " ")
+      .replaceAll(" kcal", "")
+      .replaceAll(" 2 ?und ", " und ")
+      .replaceAll(" 2 ?mit ", " mit ")
+      .replaceAll(" , ", ", ")
+      .replaceAll(" 3.14 ", " ").trim // schlecht OCR-ed Zusatzstoffe
+      .replaceAll(" 1,14m ", " ")
+      .replaceAll(""" \d+[a-zA-Z]+ """, " ")
+      .replaceAll(""" [a-zA-Z]+\d+ """, " ")
+      .replaceAll(""" [a-zA-Z] """, " ")
+      .replaceAll(""" [A-Z][^ ]+[A-Z] """, " ")
+      .replaceAll(""" \|4 """, " ")
+      .replaceAll(""" [Agl\(‘!]{1,5} +(\d\,\d\d)$""", " $1")
+      .replaceAll(""" [A-Z]{2}[^ ]* +(\d\,\d\d)$""", " $1")
+      .replaceAll("!!!", "")
+      .replaceAll("Amame", "")
 
   private def isEndingSection(line: String): Boolean =
-      line.startsWith("ACHTUNG") || line.startsWith("Wir wünschen") ||
+    line.startsWith("ACHTUNG") || line.startsWith("Wir wünschen") ||
       line.startsWith("Öffnungszeiten") || line.startsWith("Alle Spelsen")
 
   private def cleanName(text: String) = text.replaceAll(" 2 *$", "").trim

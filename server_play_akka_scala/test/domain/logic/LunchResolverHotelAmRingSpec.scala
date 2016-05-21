@@ -49,20 +49,20 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     val offers = resolver.resolveFromPdf(url)
 
     offers should have size 14
-    offers should contain (LunchOffer(0,"Spaghetti Bolognese mit frischen Salat",week.monday,euro("4.50"),Id))
-    offers should contain (LunchOffer(0,"Paniertes Schweineschnitzel Wiener Art mit Pommes und Salatbeilage",week.monday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Rollmops mit Bratkartoffeln an Remouladensoße",week.tuesday,euro("4.80"),Id))
-    offers should contain (LunchOffer(0,"Paprikasahnegeschnetzeltes von der Pute mit Reis",week.tuesday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Alles vom Schwein: Schweineschnitzel überbacken mit Ananas und Tomate-Mozzarella sowie Paniertes Schweineschnitzel dazu Gemüsevariation mit Pfeffersauce und Sahnesauce Pommes, Salzkartoffeln, Kartoffelspalten & Salatbuffet",week.wednesday,euro("6.90"),Id))
-    offers should contain (LunchOffer(0,"Grützwurst mit Sauerkraut an Salzkartoffeln",week.thursday,euro("5.20"),Id))
-    offers should contain (LunchOffer(0,"Pasta Pfanne mit Hähnchenfleisch an leichtem Gemüse",week.thursday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Bauernroulade mit Speckbohnen und Salzkartoffeln",week.friday,euro("5.20"),Id))
-    offers should contain (LunchOffer(0,"Cordon Bleu mit Kaisergemüse und Salzkartoffeln",week.friday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.monday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.tuesday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.wednesday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.thursday,euro("5.50"),Id))
-    offers should contain (LunchOffer(0,"Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )",week.friday,euro("5.50"),Id))
+    offers should contain (LunchOffer(0, "Spaghetti Bolognese mit frischen Salat", week.monday, euro("4.50"), Id))
+    offers should contain (LunchOffer(0, "Paniertes Schweineschnitzel Wiener Art mit Pommes und Salatbeilage", week.monday, euro("5.50"), Id))
+    offers should contain (LunchOffer(0, "Rollmops mit Bratkartoffeln an Remouladensoße", week.tuesday, euro("4.80"), Id))
+    offers should contain (LunchOffer(0, "Paprikasahnegeschnetzeltes von der Pute mit Reis", week.tuesday, euro("5.50"), Id))
+    offers should contain (LunchOffer(0, "Alles vom Schwein: Schweineschnitzel überbacken mit Ananas und Tomate-Mozzarella sowie Paniertes Schweineschnitzel dazu Gemüsevariation mit Pfeffersauce und Sahnesauce Pommes, Salzkartoffeln, Kartoffelspalten & Salatbuffet", week.wednesday, euro("6.90"), Id))
+    offers should contain (LunchOffer(0, "Grützwurst mit Sauerkraut an Salzkartoffeln", week.thursday, euro("5.20"), Id))
+    offers should contain (LunchOffer(0, "Pasta Pfanne mit Hähnchenfleisch an leichtem Gemüse", week.thursday, euro("5.50"), Id))
+    offers should contain (LunchOffer(0, "Bauernroulade mit Speckbohnen und Salzkartoffeln", week.friday, euro("5.20"), Id))
+    offers should contain (LunchOffer(0, "Cordon Bleu mit Kaisergemüse und Salzkartoffeln", week.friday, euro("5.50"), Id))
+    offers should contain (LunchOffer(0, "Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )", week.monday, euro("5.50"), Id))
+    offers should contain (LunchOffer(0, "Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )", week.tuesday, euro("5.50"), Id))
+    offers should contain (LunchOffer(0, "Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )", week.wednesday, euro("5.50"), Id))
+    offers should contain (LunchOffer(0, "Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )", week.thursday, euro("5.50"), Id))
+    offers should contain (LunchOffer(0, "Salat der Woche: Gemischter Salat mit Schweinefiletstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais )", week.friday, euro("5.50"), Id))
   }
 
   it should "resolve offers for week of 2015-02-27" in {
@@ -82,20 +82,20 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     val offers = resolver.resolveFromPdf(url)
 
     offers should have size 14
-    offers should contain(LunchOffer(0,"Gemüse-Nudel-Auflauf, Salatbeilage",week.monday,euro("4.80"),Id))
-    offers should contain(LunchOffer(0,"Frikadellen an Zigeunersauce mit Pommes Frites",week.monday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Lachsroulade „Fjord“ an Meerrettichsahnesauce mit Gemüsevariation und Salzkartoffeln",week.tuesday,euro("5.00"),Id))
-    offers should contain(LunchOffer(0,"Hähnchenbrust mit Tomate-Mozzarella überbacken dazu Kartoffelkroketten",week.tuesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Buffettag: Rinderbraten, Putensteaks mit Champignons, Kasslerbraten, Gemüsevariationen, Salzkartoffeln, Knödel und Salatbuffet",week.wednesday,euro("6.90"),Id))
-    offers should contain(LunchOffer(0,"Pastapfanne mit Hähnchenbruststreifen",week.thursday,euro("4.80"),Id))
-    offers should contain(LunchOffer(0,"Schweinebraten mit Rotkohl und Kartoffelklößen",week.thursday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Gefüllte Kartoffeltaschen mit Kräuterfrischkäse an Sour Cream und Salat",week.friday,euro("5.10"),Id))
-    offers should contain(LunchOffer(0,"Grünkohltopf mit pikanter Knacker und Salzkartoffeln",week.friday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.monday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.tuesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.wednesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.thursday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)",week.friday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0, "Gemüse-Nudel-Auflauf, Salatbeilage", week.monday, euro("4.80"), Id))
+    offers should contain(LunchOffer(0, "Frikadellen an Zigeunersauce mit Pommes Frites", week.monday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Lachsroulade „Fjord“ an Meerrettichsahnesauce mit Gemüsevariation und Salzkartoffeln", week.tuesday, euro("5.00"), Id))
+    offers should contain(LunchOffer(0, "Hähnchenbrust mit Tomate-Mozzarella überbacken dazu Kartoffelkroketten", week.tuesday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Buffettag: Rinderbraten, Putensteaks mit Champignons, Kasslerbraten, Gemüsevariationen, Salzkartoffeln, Knödel und Salatbuffet", week.wednesday, euro("6.90"), Id))
+    offers should contain(LunchOffer(0, "Pastapfanne mit Hähnchenbruststreifen", week.thursday, euro("4.80"), Id))
+    offers should contain(LunchOffer(0, "Schweinebraten mit Rotkohl und Kartoffelklößen", week.thursday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Gefüllte Kartoffeltaschen mit Kräuterfrischkäse an Sour Cream und Salat", week.friday, euro("5.10"), Id))
+    offers should contain(LunchOffer(0, "Grünkohltopf mit pikanter Knacker und Salzkartoffeln", week.friday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)", week.monday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)", week.tuesday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)", week.wednesday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)", week.thursday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Gemischter Salat mit Zanderstreifen (verschiedene Blattsalate, Gurke, Tomate, Paprika, Mais)", week.friday, euro("5.50"), Id))
   }
 
   it should "resolve offers for week of 2015-03-13" in {
@@ -105,20 +105,20 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     val offers = resolver.resolveFromPdf(url)
 
     offers should have size 14
-    offers should contain(LunchOffer(0,"Wurstgulasch mit Penne",week.monday,euro("4.50"),Id))
-    offers should contain(LunchOffer(0,"Schlemmerschnitte mit Leipziger Allerlei & Petersilienkartoffeln",week.monday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Sahnehering mit Salzkartoffeln & Salat",week.tuesday,euro("4.80"),Id))
-    offers should contain(LunchOffer(0,"Schweineschnitzel “Cordon bleu“ mit Kaisergemüse & Kroketten",week.tuesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Buffettag: Spießbraten, Hähnchenbrust, Bratwurst, Zigeunersauce, Gemüsevariation, Salzkartoffeln, Knödel & Dessertbuffet",week.wednesday,euro("6.90"),Id))
-    offers should contain(LunchOffer(0,"Kartoffelsuppe mit Wiener Würstchen, Dessert",week.thursday,euro("5.20"),Id))
-    offers should contain(LunchOffer(0,"Welsfilet in Eihülle an Petersiliensauce, glacierten Karotten & Salzkartoffeln",week.thursday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Currywurst mit Pommes Frites & Salat",week.friday,euro("5.20"),Id))
-    offers should contain(LunchOffer(0,"Hackröllchen mit Frischkäsefüllung und Gemüsereis",week.friday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.monday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.tuesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.wednesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.thursday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)",week.friday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0, "Wurstgulasch mit Penne", week.monday, euro("4.50"), Id))
+    offers should contain(LunchOffer(0, "Schlemmerschnitte mit Leipziger Allerlei & Petersilienkartoffeln", week.monday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Sahnehering mit Salzkartoffeln & Salat", week.tuesday, euro("4.80"), Id))
+    offers should contain(LunchOffer(0, "Schweineschnitzel “Cordon bleu“ mit Kaisergemüse & Kroketten", week.tuesday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Buffettag: Spießbraten, Hähnchenbrust, Bratwurst, Zigeunersauce, Gemüsevariation, Salzkartoffeln, Knödel & Dessertbuffet", week.wednesday, euro("6.90"), Id))
+    offers should contain(LunchOffer(0, "Kartoffelsuppe mit Wiener Würstchen, Dessert", week.thursday, euro("5.20"), Id))
+    offers should contain(LunchOffer(0, "Welsfilet in Eihülle an Petersiliensauce, glacierten Karotten & Salzkartoffeln", week.thursday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Currywurst mit Pommes Frites & Salat", week.friday, euro("5.20"), Id))
+    offers should contain(LunchOffer(0, "Hackröllchen mit Frischkäsefüllung und Gemüsereis", week.friday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)", week.monday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)", week.tuesday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)", week.wednesday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)", week.thursday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Chef Salat (Käse, Kochschinken, Gurke, Tomate, Salat & Ei)", week.friday, euro("5.50"), Id))
   }
 
   it should "resolve offers for week of 2015-03-20" in {
@@ -128,20 +128,20 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     val offers = resolver.resolveFromPdf(url)
 
     offers should have size 14
-    offers should contain(LunchOffer(0,"Milchreis mit heißen Früchten",week.monday,euro("4.50"),Id))
-    offers should contain(LunchOffer(0,"Hähnchenroulade (gefüllt mit Spinat und Frischkäse) mit Karotten-Kohlrabigemüse & Salzkartoffeln",week.monday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Schichtkohl mit Salzkartoffeln & Dessert",week.tuesday,euro("5.20"),Id))
-    offers should contain(LunchOffer(0,"Paniertes Schweinekotelett mit Brokkoli- & Blumenkohlröschen, Kartoffelkroketten",week.tuesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Buffettag: Rinderbraten, Putensteaks mit Champignons, Fischfilet, Gemüsevariation, Salzkartoffeln, Knödel & Salatbuffet mit Dressingauswahl",week.wednesday,euro("6.90"),Id))
-    offers should contain(LunchOffer(0,"Zwei Minutensteaks mit frischen Champignons, Salat & Baguettebrot",week.thursday,euro("5.20"),Id))
-    offers should contain(LunchOffer(0,"Gebratenes Seelachsfilet an Kräuterrahmsauce mit Lotusgemüse & Wildreis",week.thursday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Königsberger Kochklops mit Salzkartoffeln und Salat",week.friday,euro("5.20"),Id))
-    offers should contain(LunchOffer(0,"Schweinesteak überbacken mit Tomate-Mozzarella, dazu Pommes frites & Salat",week.friday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.monday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.tuesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.wednesday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.thursday,euro("5.50"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum",week.friday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0, "Milchreis mit heißen Früchten", week.monday, euro("4.50"), Id))
+    offers should contain(LunchOffer(0, "Hähnchenroulade (gefüllt mit Spinat und Frischkäse) mit Karotten-Kohlrabigemüse & Salzkartoffeln", week.monday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Schichtkohl mit Salzkartoffeln & Dessert", week.tuesday, euro("5.20"), Id))
+    offers should contain(LunchOffer(0, "Paniertes Schweinekotelett mit Brokkoli- & Blumenkohlröschen, Kartoffelkroketten", week.tuesday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Buffettag: Rinderbraten, Putensteaks mit Champignons, Fischfilet, Gemüsevariation, Salzkartoffeln, Knödel & Salatbuffet mit Dressingauswahl", week.wednesday, euro("6.90"), Id))
+    offers should contain(LunchOffer(0, "Zwei Minutensteaks mit frischen Champignons, Salat & Baguettebrot", week.thursday, euro("5.20"), Id))
+    offers should contain(LunchOffer(0, "Gebratenes Seelachsfilet an Kräuterrahmsauce mit Lotusgemüse & Wildreis", week.thursday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Königsberger Kochklops mit Salzkartoffeln und Salat", week.friday, euro("5.20"), Id))
+    offers should contain(LunchOffer(0, "Schweinesteak überbacken mit Tomate-Mozzarella, dazu Pommes frites & Salat", week.friday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum", week.monday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum", week.tuesday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum", week.wednesday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum", week.thursday, euro("5.50"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Tomate-Mozzarella mit Zwiebellauch und Basilikum", week.friday, euro("5.50"), Id))
   }
 
   it should "resolve offers for Easter week of 2015-04-03" in {
@@ -179,11 +179,11 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     val offers = resolver.resolveFromPdf(url)
 
     offers should have size 14
-    offers should contain(LunchOffer(0,"Salat der Woche: Tomate - Mozzarella mit Lauch & Basilikum",week.monday,euro("4.80"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Tomate - Mozzarella mit Lauch & Basilikum",week.tuesday,euro("4.80"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Tomate - Mozzarella mit Lauch & Basilikum",week.wednesday,euro("4.80"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Tomate - Mozzarella mit Lauch & Basilikum",week.thursday,euro("4.80"),Id))
-    offers should contain(LunchOffer(0,"Salat der Woche: Tomate - Mozzarella mit Lauch & Basilikum",week.friday,euro("4.80"),Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Tomate - Mozzarella mit Lauch & Basilikum", week.monday, euro("4.80"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Tomate - Mozzarella mit Lauch & Basilikum", week.tuesday, euro("4.80"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Tomate - Mozzarella mit Lauch & Basilikum", week.wednesday, euro("4.80"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Tomate - Mozzarella mit Lauch & Basilikum", week.thursday, euro("4.80"), Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Tomate - Mozzarella mit Lauch & Basilikum", week.friday, euro("4.80"), Id))
   }
 
   it should "resolve offers for week of 2015-04-24" in {
@@ -193,8 +193,8 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     val offers = resolver.resolveFromPdf(url)
 
     offers should have size 14
-    offers should contain(LunchOffer(0,"Hefeklöße mit Blaubeeren",week.monday,euro("4.50"),Id))
-    offers should contain(LunchOffer(0,"Panierte Putenbrust mit Letscho & Bratkartoffeln",week.monday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0, "Hefeklöße mit Blaubeeren", week.monday, euro("4.50"), Id))
+    offers should contain(LunchOffer(0, "Panierte Putenbrust mit Letscho & Bratkartoffeln", week.monday, euro("5.50"), Id))
   }
 
   it should "resolve offers for week of 2015-05-08" in {
@@ -204,8 +204,8 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     val offers = resolver.resolveFromPdf(url)
 
     offers should have size 14
-    offers should contain(LunchOffer(0,"Zwei Minutensteaks mit frischen Champignons, Salat & Baguettebrot",week.thursday,euro("5.20"),Id))
-    offers should contain(LunchOffer(0,"gebratenes Wildlachsfilet an Kräuterrahmsauce mit Lotusgemüse & Wildreis",week.thursday,euro("5.50"),Id))
+    offers should contain(LunchOffer(0, "Zwei Minutensteaks mit frischen Champignons, Salat & Baguettebrot", week.thursday, euro("5.20"), Id))
+    offers should contain(LunchOffer(0, "gebratenes Wildlachsfilet an Kräuterrahmsauce mit Lotusgemüse & Wildreis", week.thursday, euro("5.50"), Id))
   }
 
   it should "resolve offers for week of 2015-08-03" in {
@@ -215,7 +215,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     val offers = resolver.resolveFromPdf(url)
 
     offers should have size 14
-    offers should contain(LunchOffer(0,"Salat der Woche: Salat „Vier Jahreszeiten“ (Putenbrust, Blattsalat, Kohlrabi, frische Champignons, Feldsalat, geraspelte Möhren, Paprika, Rettich, Chinakohl)",week.monday,euro("4.80"),Id))
+    offers should contain(LunchOffer(0, "Salat der Woche: Salat „Vier Jahreszeiten“ (Putenbrust, Blattsalat, Kohlrabi, frische Champignons, Feldsalat, geraspelte Möhren, Paprika, Rettich, Chinakohl)", week.monday, euro("4.80"), Id))
   }
 
   it should "resolve offers for week of 2016-02-16" in {
@@ -225,7 +225,7 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     val offers = resolver.resolveFromPdf(url)
 
     offers should have size 14
-    offers should contain(LunchOffer(0,"Buffet: Paniertes Seelachsfilet, Dorschfilet, Zuchtwels-Filet Gemüsevariation, Sahne-Meerrettichsauce, Zitronen-Buttersauce, Dillsauce, Bandnudeln, Reis, Rosmarinkartoffeln",week.wednesday,euro("6.90"),Id))
+    offers should contain(LunchOffer(0, "Buffet: Paniertes Seelachsfilet, Dorschfilet, Zuchtwels-Filet Gemüsevariation, Sahne-Meerrettichsauce, Zitronen-Buttersauce, Dillsauce, Bandnudeln, Reis, Rosmarinkartoffeln", week.wednesday, euro("6.90"), Id))
   }
 
   private def resolver = {

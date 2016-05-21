@@ -13,7 +13,6 @@ import play.api.mvc._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
-
 trait LunchProviderJsonFormats {
   implicit val writesJson = new Writes[LunchProvider] {
     def writes(p: LunchProvider) = Json.obj(
@@ -24,10 +23,8 @@ trait LunchProviderJsonFormats {
   }
 }
 
-
 @Singleton
-class LunchProviderController @Inject()(domain: DomainApi)
-                                       (implicit exec: ExecutionContext) extends Controller with LunchProviderJsonFormats {
+class LunchProviderController @Inject() (domain: DomainApi)(implicit exec: ExecutionContext) extends Controller with LunchProviderJsonFormats {
 
   implicit val timeout = Timeout(5.seconds)
 

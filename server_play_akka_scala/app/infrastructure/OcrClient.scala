@@ -10,8 +10,8 @@ import play.api.libs.json._
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Service für das Auslesen von Text aus einem Bild (OCR).
-  */
+ * Service für das Auslesen von Text aus einem Bild (OCR).
+ */
 trait OcrClient {
   def doOCR(imageUrl: URL): Future[String]
 }
@@ -27,16 +27,17 @@ class DefaultOcrClient(implicit ec: ExecutionContext) extends OcrClient {
     val body = Json.obj(
       "img_url" -> imageUrl.toString,
       "engine" -> "tesseract",
-      "engine_args" -> Json.obj("lang" -> "deu"))
+      "engine_args" -> Json.obj("lang" -> "deu")
+    )
 
     val req = url("http://openocr:20080/ocr").POST
       .setContentType("application/json", "utf-8")
       .setBody(body.toString)
 
     Http(req OK (response => response.getResponseBody))
-//    ws.url("http://openocr:20080/ocr")
-//      .post(body)
-//      .map(_.json.as[String])
+    //    ws.url("http://openocr:20080/ocr")
+    //      .post(body)
+    //      .map(_.json.as[String])
   }
 
 }

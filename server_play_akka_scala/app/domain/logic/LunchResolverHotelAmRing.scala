@@ -16,7 +16,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.matching.Regex
 
-
 class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolver with PlayLogging {
 
   implicit class RegexContext(sc: StringContext) {
@@ -49,7 +48,6 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
     def isValid = !name.isEmpty && priceOpt.isDefined
   }
 
-
   override def resolve: Future[Seq[LunchOffer]] =
     Future { resolvePdfLinks(new URL("http://www.hotel-am-ring.de/restaurant-rethra.html")) }
       .flatMap(relativePdfPaths => resolveFromPdfs(relativePdfPaths))
@@ -59,15 +57,14 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
     props.setCharset("utf-8")
 
     val rootNode = new HtmlCleaner(props).clean(htmlUrl)
-    val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n}.toSet
+    val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n }.toSet
 
     links.filter(_ matches """.*/Mittagspause_.+.pdf""").toList
   }
 
   private def resolveFromPdfs(relativePdfPaths: Seq[String]): Future[Seq[LunchOffer]] = {
-    val listOfFutures = relativePdfPaths.map( relativePdfPath =>
-      Future { resolveFromPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfPath)) }
-    )
+    val listOfFutures = relativePdfPaths.map(relativePdfPath =>
+      Future { resolveFromPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfPath)) })
     Future.sequence(listOfFutures).map(listOfLists => listOfLists.flatten)
   }
 
@@ -99,7 +96,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
 
   private[logic] def parseMondayByTexts(lines: Seq[String]): Option[LocalDate] = {
     // alle Datumse aus PDF ermitteln
-    val days = lines.flatMap( line => parseDay(line.toString) )
+    val days = lines.flatMap(line => parseDay(line.toString))
     val mondays = days.map(_.withDayOfWeek(1))
     // den Montag der am häufigsten verwendeten Woche zurückgeben
     mondays match {
@@ -130,15 +127,16 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
   }
 
   private def parseOffersFromSectionLines(sectionLines: Seq[TextLine], section: PdfSection, monday: LocalDate): Seq[LunchOffer] = {
-    var rows = appendBoldTextInfo(sectionLines).flatMap { case (line, startsWithBoldText) =>
-      line.toString.trim match {
-        case r"""(.+)$text(\d{1,}[.,]\d{2})$priceString *€""" =>
-          Some(OfferRow(parseName(text), parsePrice(priceString), startsWithBoldText))
-        case "" =>
-          None // leere Zeile entfernen
-        case text =>
-          Some(OfferRow(parseName(text), None, startsWithBoldText))
-      }
+    var rows = appendBoldTextInfo(sectionLines).flatMap {
+      case (line, startsWithBoldText) =>
+        line.toString.trim match {
+          case r"""(.+)$text(\d{1,}[.,]\d{2})$priceString *€""" =>
+            Some(OfferRow(parseName(text), parsePrice(priceString), startsWithBoldText))
+          case "" =>
+            None // leere Zeile entfernen
+          case text =>
+            Some(OfferRow(parseName(text), None, startsWithBoldText))
+        }
     }
 
     rows = rows match {
@@ -166,8 +164,8 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
 
   /**
    * Gibt für jede Zeile an, ob sie fettgedruckt beginnt.
-    *
-    * @param sectionLines Zeilen
+   *
+   * @param sectionLines Zeilen
    * @return Tupels aus Zeile und bool'schem Wert "Zeile startet fettgedruckt".
    */
   private def appendBoldTextInfo(sectionLines: Seq[TextLine]): Seq[(TextLine, Boolean)] = {
@@ -190,8 +188,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
       mergedRowOpt match {
         case None => mergedRowOpt = Some(row)
         case Some(mergedRow) => mergedRowOpt = Some(mergedRow.merge(row))
-      }
-    )
+      })
     mergedRowOpt.fold(Seq[OfferRow]())(Seq(_))
   }
 
@@ -210,8 +207,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
             curMergedRowOpt = Some(row)
           } else
             curMergedRowOpt = Some(curMergedRow.merge(row))
-      }
-    )
+      })
     curMergedRowOpt.foreach(curMergedRow => if (curMergedRow.isValid) mergedRows :+= curMergedRow)
     mergedRows
   }
@@ -232,19 +228,16 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
               if (row.name.isEmpty || row.priceOpt.isDefined) {
                 mergedRows :+= curMergedRow
                 curMergedRowOpt = Some(row)
-              }
-              // wenn die Zeilen auf eine Fortsetzung hindeuten, mergen
+              } // wenn die Zeilen auf eine Fortsetzung hindeuten, mergen
               else if (Seq(",", " mit", " an").exists(curMergedRow.name.endsWith) || row.name(0).isLower || "&(".contains(row.name(0))) {
                 curMergedRowOpt = Some(curMergedRow.merge(row))
-              }
-              // andernfalls neues Offer beginnen
+              } // andernfalls neues Offer beginnen
               else {
                 mergedRows :+= curMergedRow
                 curMergedRowOpt = Some(row)
               }
           }
-      }
-    )
+      })
     curMergedRowOpt.foreach(curMergedRow => if (curMergedRow.isValid) mergedRows :+= curMergedRow)
     mergedRows
   }
@@ -253,7 +246,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
 
   private def multiplyWochenangebote(wochenOffers: Seq[LunchOffer], dates: Seq[LocalDate]): Seq[LunchOffer] = {
     val sortedDates = dates.toSet[LocalDate].toList.sortBy(_.toDate)
-    wochenOffers.flatMap ( offer => sortedDates.map( date => offer.copy(day = date)) )
+    wochenOffers.flatMap (offer => sortedDates.map(date => offer.copy(day = date)))
   }
 
   private def parseDay(dayString: String): Option[LocalDate] = dayString match {
@@ -268,15 +261,14 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
 
   /**
    * Erzeugt ein Money-Objekt (in EURO) aus dem Format "*0,00*"
-    *
-    * @param priceString String im Format "*0,00*"
+   *
+   * @param priceString String im Format "*0,00*"
    * @return
    */
   private def parsePrice(priceString: String): Option[Money] = priceString match {
     case r""".*(\d{1,})$major[.,](\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
     case _ => None
   }
-
 
   private def parseName(text: String): String = text.trim.replaceAll("  ", " ").replaceAll("–", "-")
 

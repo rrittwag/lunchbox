@@ -52,8 +52,9 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     val rootNode = new HtmlCleaner(props).clean(url)
 
     // Die Wochenangebote sind im section-Element mit der class "ce_accordionStart" enthalten
-    for (wochenplanSection <- rootNode.evaluateXPath("//section").map { case n: TagNode => n }
-         if wochenplanSection.hasClassAttr("ce_accordionStart")) {
+    for (
+      wochenplanSection <- rootNode.evaluateXPath("//section").map { case n: TagNode => n } if wochenplanSection.hasClassAttr("ce_accordionStart")
+    ) {
       resolveMonday(wochenplanSection).filter(dateValidator.isValid) match {
         case Some(monday) => result ++= parseOffers(wochenplanSection, monday)
         case None =>
@@ -101,12 +102,13 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   private def parseWochensuppen(text: String, monday: LocalDate): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
 
-    for (wochensuppeString <- text.split( """\|\|""")) {
-      val offerAsStringArray = wochensuppeString.split( """\|""").map(_.trim).toList
+    for (wochensuppeString <- text.split("""\|\|""")) {
+      val offerAsStringArray = wochensuppeString.split("""\|""").map(_.trim).toList
       val (nameOpt, priceOpt) = parseOfferAttributes(offerAsStringArray)
-      for (price <- priceOpt;
-           name <- nameOpt)
-        result :+= LunchOffer(0, name, monday, price, LunchProvider.SUPPENKULTTOUR.id)
+      for (
+        price <- priceOpt;
+        name <- nameOpt
+      ) result :+= LunchOffer(0, name, monday, price, LunchProvider.SUPPENKULTTOUR.id)
     }
     result
   }
@@ -114,14 +116,15 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   private def parseTagessuppen(text: String, monday: LocalDate): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
 
-    for (tagessuppeString <- text.split( """\|\|""")) {
+    for (tagessuppeString <- text.split("""\|\|""")) {
       val (weekdayOpt, remainingTagessuppeString) = extractWeekday(tagessuppeString, monday)
-      val offerAsStringArray = remainingTagessuppeString.split( """\|""").map(_.trim).toList
+      val offerAsStringArray = remainingTagessuppeString.split("""\|""").map(_.trim).toList
       val (nameOpt, priceOpt) = parseOfferAttributes(offerAsStringArray)
-      for (weekday <- weekdayOpt;
-           name <- nameOpt;
-           price <- priceOpt)
-        result :+= LunchOffer(0, name, weekday, price, LunchProvider.SUPPENKULTTOUR.id)
+      for (
+        weekday <- weekdayOpt;
+        name <- nameOpt;
+        price <- priceOpt
+      ) result :+= LunchOffer(0, name, weekday, price, LunchProvider.SUPPENKULTTOUR.id)
     }
     result
   }
@@ -131,8 +134,8 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     var priceOpt: Option[Money] = None
 
     val clearedParts = offerAttributesAsStrings.map { part =>
-      part.replaceAll( """\( ?([a-zA-Z\d]{1,2}, ?)* ?[a-zA-Z\d]{1,2},? ?\)""", "") // Zusatzinfo (i,j,19) entfernen
-        .trim.replaceAll( """^([a-zA-Z\d]{1,2}, ?)* ?[a-zA-Z\d]{1,2},?$""", "")
+      part.replaceAll("""\( ?([a-zA-Z\d]{1,2}, ?)* ?[a-zA-Z\d]{1,2},? ?\)""", "") // Zusatzinfo (i,j,19) entfernen
+        .trim.replaceAll("""^([a-zA-Z\d]{1,2}, ?)* ?[a-zA-Z\d]{1,2},?$""", "")
         .trim.replaceAll("  ", " ") // doppelte Leerzeichen entfernen
     }
 
@@ -149,8 +152,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     description = description.filter(_.nonEmpty)
 
     val nameOpt = titleOpt.map(title =>
-      if (description.nonEmpty) s"$title: ${description.mkString(" ")}" else title
-    )
+      if (description.nonEmpty) s"$title: ${description.mkString(" ")}" else title)
 
     (nameOpt, priceOpt)
   }

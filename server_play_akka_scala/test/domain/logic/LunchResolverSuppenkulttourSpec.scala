@@ -60,16 +60,16 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
     val offers = resolver.resolve(url)
 
     offers should have size 40
-    offers should contain (LunchOffer(0,"Pasta Tag - „Carne e Caprese”: Italienischer Hackfleischtopf mit Nudeln mit Tomaten, Mozzarrella, Hackfleisch, Basilikum",date("2015-03-10"),euro("4.30"),Id))
-    offers should contain (LunchOffer(0,"Südamerikanische Kartoffelsuppe: mit Mais, Tomaten, grünen Erbsen, Kartoffeln, Huhn",date("2015-03-16"),euro("4.10"),Id))
-    offers should contain (LunchOffer(0,"Currywursttopf: mit Currywurst, Kartoffeln, Paprika, Tomatensoße",date("2015-03-16"),euro("4.30"),Id))
-    offers should contain (LunchOffer(0,"Lauch - Erbsensuppe: mit Möhren, gelben Erbsen, Sellerie, Kardamom, Lauch wahlweise Schinkenwürfel",date("2015-03-16"),euro("4.30"),Id))
+    offers should contain (LunchOffer(0, "Pasta Tag - „Carne e Caprese”: Italienischer Hackfleischtopf mit Nudeln mit Tomaten, Mozzarrella, Hackfleisch, Basilikum", date("2015-03-10"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Südamerikanische Kartoffelsuppe: mit Mais, Tomaten, grünen Erbsen, Kartoffeln, Huhn", date("2015-03-16"), euro("4.10"), Id))
+    offers should contain (LunchOffer(0, "Currywursttopf: mit Currywurst, Kartoffeln, Paprika, Tomatensoße", date("2015-03-16"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Lauch - Erbsensuppe: mit Möhren, gelben Erbsen, Sellerie, Kardamom, Lauch wahlweise Schinkenwürfel", date("2015-03-16"), euro("4.30"), Id))
 
-    offers should contain (LunchOffer(0, "Urad DAL: mit Urad Linsen, Tumerik, schwarze Senfkörner, Ingwer dazu Joghurt verrührt mit braunem Zucker (wahlweise)",date("2015-03-16"),euro("4.30"),Id))
-    offers should contain (LunchOffer(0, "Pasta Pollo: mit Rahmgeschnetzeltem vom Huhn, Gemüse, Sahne",date("2015-03-17"),euro("4.30"),Id))
-    offers should contain (LunchOffer(0, "Winzersuppe - Käsesuppe: mit Schmelzkäse, Champignons, Rinderhack verfeinert mit Weißwein",date("2015-03-18"),euro("4.30"),Id))
-    offers should contain (LunchOffer(0, "Metaxa Suppe: mit Schweinefleisch, Paprika, Zwiebeln, Sahne, Metaxa,",date("2015-03-19"),euro("4.30"),Id))
-    offers should contain (LunchOffer(0, "Präsidentensuppe: mit Hackfleisch, Tomaten, Sauerkraut, Gewürzgurken, wahlweise saure Sahne",date("2015-03-20"),euro("4.30"),Id))
+    offers should contain (LunchOffer(0, "Urad DAL: mit Urad Linsen, Tumerik, schwarze Senfkörner, Ingwer dazu Joghurt verrührt mit braunem Zucker (wahlweise)", date("2015-03-16"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Pasta Pollo: mit Rahmgeschnetzeltem vom Huhn, Gemüse, Sahne", date("2015-03-17"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Winzersuppe - Käsesuppe: mit Schmelzkäse, Champignons, Rinderhack verfeinert mit Weißwein", date("2015-03-18"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Metaxa Suppe: mit Schweinefleisch, Paprika, Zwiebeln, Sahne, Metaxa,", date("2015-03-19"), euro("4.30"), Id))
+    offers should contain (LunchOffer(0, "Präsidentensuppe: mit Hackfleisch, Tomaten, Sauerkraut, Gewürzgurken, wahlweise saure Sahne", date("2015-03-20"), euro("4.30"), Id))
   }
 
   it should "resolve offers for Easter week of 2015-03-30" in {
@@ -124,7 +124,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
     offers should have size 20
 
     offers should contain (LunchOffer(0, "Pommersche Erbsensuppe: Erbsen, Wurzelgemüse, Thymian, Kassler", date("2015-07-20"), euro("4.30"), Id))
-    offers should contain (LunchOffer(0, "Indische Blumenkohl Suppe: mit grünen Erbsen, gelbem Curry, Kokos und Tomate", date("2015-07-20"), euro("4.30"),Id))
+    offers should contain (LunchOffer(0, "Indische Blumenkohl Suppe: mit grünen Erbsen, gelbem Curry, Kokos und Tomate", date("2015-07-20"), euro("4.30"), Id))
   }
 
   it should "resolve offers for week of 2015-09-07" in {

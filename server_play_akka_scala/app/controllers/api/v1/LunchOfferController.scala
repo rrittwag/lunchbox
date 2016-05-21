@@ -29,8 +29,7 @@ trait LunchOfferJsonFormats {
 }
 
 @Singleton
-class LunchOfferController @Inject()(domain: DomainApi)
-                                    (implicit exec: ExecutionContext) extends Controller with LunchOfferJsonFormats {
+class LunchOfferController @Inject() (domain: DomainApi)(implicit exec: ExecutionContext) extends Controller with LunchOfferJsonFormats {
 
   implicit val timeout = Timeout(5.seconds)
 

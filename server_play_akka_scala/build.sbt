@@ -51,6 +51,22 @@ publishArtifact in (Compile, packageDoc) := false
 
 
 
+// code formatter settings
+// ~~~~~~~~~~~~~~~~~~~~~~~
+import scalariform.formatter.preferences._
+import com.typesafe.sbt.SbtScalariform
+import com.typesafe.sbt.SbtScalariform.ScalariformKeys
+
+SbtScalariform.scalariformSettings
+
+ScalariformKeys.preferences := ScalariformKeys.preferences.value
+  .setPreference(SpacesAroundMultiImports, false)
+  .setPreference(PreserveSpaceBeforeArguments, true)
+  .setPreference(DoubleIndentClassDeclaration, true)
+
+
+
+
 // Docker settings
 // ~~~~~~~~~~~~~~~
 maintainer := "rori"

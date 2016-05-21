@@ -43,8 +43,6 @@ Distribution
 TODOs
 -----
 
-* Scalariform einrichten
-* Scalastyle einrichten
 * DI auch in Domain
 * Dispatch durch WS ersetzen
 * Testing: automatisierte Tests erweitern, siehe [Microservice Testing](http://martinfowler.com/articles/microservice-testing/)
@@ -60,6 +58,7 @@ TODOs
 * LunchResolver: globalen durch eigenen ExecutionContext ersetzen?
 * LunchResolver automatisch auflösen (via DI-MultiBinder oder ServiceLoader oder custom-Reflection?)
 * Caching der Requests
+* Scalastyle einrichten
 * TODOs in Code abarbeiten
 
 

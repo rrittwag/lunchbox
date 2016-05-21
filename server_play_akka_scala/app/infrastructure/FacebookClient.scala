@@ -25,7 +25,7 @@ trait FacebookClient {
 class DefaultFacebookClient(implicit ec: ExecutionContext) extends FacebookClient with HttpClient {
 
   def query(graphApiUrl: String): Future[String] = {
-    val config = ConfigFactory.load()             // TODO: inject via "configuration: Configuration"
+    val config = ConfigFactory.load() // TODO: inject via "configuration: Configuration"
     val appId = config.getString("infrastructure.facebook.appId")
     val appSecret = config.getString("infrastructure.facebook.appSecret")
 
@@ -35,9 +35,9 @@ class DefaultFacebookClient(implicit ec: ExecutionContext) extends FacebookClien
     val requestFunc = () => Http(request OK as.String)
 
     runWithRetry(requestFunc)
-//    ws.url(s"https://graph.facebook.com/v2.3/${graphApiUrl.replaceFirst("^/", "")}")
-//      .withQueryString("access_token" -> s"$appId|$appSecret")
-//      .get()
-//      .map(_.json.as[String])
+    //    ws.url(s"https://graph.facebook.com/v2.3/${graphApiUrl.replaceFirst("^/", "")}")
+    //      .withQueryString("access_token" -> s"$appId|$appSecret")
+    //      .get()
+    //      .map(_.json.as[String])
   }
 }
