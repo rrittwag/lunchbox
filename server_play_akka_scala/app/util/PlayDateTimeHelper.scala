@@ -1,8 +1,9 @@
 package util
 
-import org.joda.time.{LocalDate, DateTime}
 import org.joda.time.format.ISODateTimeFormat
+import org.joda.time.{DateTime, LocalDate}
 import play.api.libs.json.{JsString, JsValue, Reads, Writes}
+import play.api.mvc.QueryStringBindable
 
 import scala.util.{Success, Try}
 
@@ -58,6 +59,24 @@ object PlayDateTimeHelper {
   def parseLocalDate(optDateString: Option[String]): Try[Option[LocalDate]] = optDateString match {
     case Some(dateString) => Try(Some(LocalDate.parse(dateString, dateFormat)))
     case None => Success(Option.empty[LocalDate])
+  }
+
+  /**
+    * Enables usage of Joda LocalDate in routes file.
+    *
+    * @return
+    */
+  implicit def bindableLocalDate = new QueryStringBindable[LocalDate] {
+    override def bind(key: String, params: Map[String, Seq[String]]): Option[Either[String, LocalDate]] =
+      params.get(key).map {
+        case Seq(value) => bind(key, value)
+        case _ => Left(s"query parameter $key may be used only once")
+      }
+
+    private def bind(key: String, value: String): Either[String, LocalDate] =
+      Try(LocalDate.parse(value, dateFormat)).toOption.toRight(s"$value is no valid date")
+
+    override def unbind(key: String, date: LocalDate): String = s"$key=${date.toString(dateFormat)}"
   }
 
 }

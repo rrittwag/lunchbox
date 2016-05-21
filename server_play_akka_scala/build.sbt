@@ -39,6 +39,8 @@ libraryDependencies ++= Seq(
 
 // settings
 // ~~~~~~~~
+// enhances available types in routes file
+routesImport += "util.PlayDateTimeHelper._"
 
 // changing port to 8080 (in dev mode)
 PlayKeys.devSettings := Seq("play.server.http.port" -> "8080")

@@ -13,9 +13,8 @@ import play.api.mvc._
 import util.PlayDateTimeHelper._
 import util.PlayMoneyHelper._
 
+import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
-import scala.concurrent.{ExecutionContext, Future}
-import scala.util.{Failure, Success}
 
 trait LunchOfferJsonFormats {
   implicit val writesJson = new Writes[LunchOffer] {
@@ -35,14 +34,7 @@ class LunchOfferController @Inject()(domain: DomainApi)
 
   implicit val timeout = Timeout(5.seconds)
 
-  def list(optDayString: Option[String]) = Action.async {
-    parseLocalDate(optDayString) match {
-      case Success(optDay) => listByDay(optDay)
-      case Failure(_) => Future.successful(BadRequest(Json.obj("status" -> "400", "message" -> s"${optDayString.getOrElse("")} is no valid date")))
-    }
-  }
-
-  private def listByDay(optDay: Option[LocalDate]) = {
+  def list(optDay: Option[LocalDate]) = Action.async {
     val domainReqMsg = optDay.map(GetByDay).getOrElse(GetAll)
 
     domain.lunchOfferService.ask(domainReqMsg).mapTo[MultiResult]
