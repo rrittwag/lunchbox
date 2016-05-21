@@ -63,6 +63,9 @@ object PlayDateTimeHelper {
 
   /**
     * Enables usage of Joda LocalDate in routes file.
+    * <p>
+    * The QueryStringBindable converts the query parameters to a LocalDate. If conversion fails, returns 400 Bad Request.
+    * <p>
     *
     * @return
     */
