@@ -7,7 +7,7 @@
 GET      /api/v1/lunchProvider      controllers.api.v1.LunchProviderController.list(location: Option[String])
 GET      /api/v1/lunchProvider/:id  controllers.api.v1.LunchProviderController.find(id: Int)
 
-GET      /api/v1/lunchOffer         controllers.api.v1.LunchOfferController.list(day: Option[org.joda.time.LocalDate])
+GET      /api/v1/lunchOffer         controllers.api.v1.LunchOfferController.list(day: Option[java.time.LocalDate])
 GET      /api/v1/lunchOffer/:id     controllers.api.v1.LunchOfferController.find(id: Int)
 
 GET      /feed                      controllers.feed.FeedController.feed(location: Option[String])

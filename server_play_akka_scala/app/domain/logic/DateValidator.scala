@@ -1,6 +1,6 @@
 package domain.logic
 
-import org.joda.time.LocalDate
+import java.time.{DayOfWeek, LocalDate}
 
 class DateValidator {
 
@@ -11,7 +11,7 @@ class DateValidator {
    * @return
    */
   def isValid(day: LocalDate): Boolean = {
-    val mondayThisWeek = LocalDate.now().withDayOfWeek(1)
+    val mondayThisWeek = LocalDate.now.`with`(DayOfWeek.MONDAY)
     val mondayLastWeek = mondayThisWeek.minusWeeks(1)
     day.compareTo(mondayLastWeek) >= 0
   }

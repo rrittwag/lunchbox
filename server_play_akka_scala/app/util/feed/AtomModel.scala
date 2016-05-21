@@ -2,14 +2,14 @@ package util.feed
 
 import java.net._
 
-import org.joda.time.DateTime
+import java.time.OffsetDateTime
 import play.api.http.MimeTypes
 
 case class AtomFeed(
   id: URI,
   title: String,
   selfLink: URL,
-  updated: DateTime,
+  updated: OffsetDateTime,
   entries: Seq[AtomFeedEntry]
 )
 
@@ -18,8 +18,8 @@ case class AtomFeedEntry(
   title: String,
   author: Author,
   content: Content,
-  published: DateTime,
-  updated: DateTime
+  published: OffsetDateTime,
+  updated: OffsetDateTime
 )
 
 case class Content(

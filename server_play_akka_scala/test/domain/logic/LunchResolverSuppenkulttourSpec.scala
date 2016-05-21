@@ -2,7 +2,7 @@ package domain.logic
 
 import domain.models.{LunchProvider, LunchOffer}
 import org.joda.money.Money
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, FlatSpec}
 

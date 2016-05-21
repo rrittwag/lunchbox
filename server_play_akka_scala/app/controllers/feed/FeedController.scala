@@ -1,6 +1,7 @@
 package controllers.feed
 
 import java.net._
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.{Inject, Singleton}
 
@@ -9,7 +10,8 @@ import akka.util.Timeout
 import domain.DomainApi
 import domain.models.{LunchOffer, LunchProvider}
 import domain.services.{LunchOfferService => OfferRepo, LunchProviderService => ProviderRepo}
-import org.joda.time.{DateTimeZone, LocalDate}
+import java.time.{LocalDate, ZoneId}
+
 import play.api.mvc._
 import util.feed._
 
@@ -54,7 +56,7 @@ class FeedController @Inject() (domain: DomainApi)(implicit exec: ExecutionConte
     val entries =
       for ((day, offersForDay) <- offersGroupedAndSortedByDay(offersTilToday)) yield AtomFeedEntry(
         new URI(s"urn:date:${day.toString}"),
-        day.toString("EEEE, dd.MM.yyyy", Locale.GERMAN),
+        DateTimeFormatter.ofPattern("EEEE, dd.MM.yyyy", Locale.GERMAN).format(day),
         Author("Lunchbox"),
         Content(views.html.lunchday(offersForDay, providers)),
         toISODateTime(day),
@@ -77,8 +79,8 @@ class FeedController @Inject() (domain: DomainApi)(implicit exec: ExecutionConte
       .sortWith((x, y) => x._1.compareTo(y._1) > 0)
 
   private def toISODateTime(date: LocalDate) = {
-    def timeZoneBerlin = DateTimeZone.forID("Europe/Berlin")
-    date.toDateTimeAtStartOfDay(timeZoneBerlin)
+    def timeZoneBerlin = ZoneId.of("Europe/Berlin")
+    date.atStartOfDay(timeZoneBerlin).toOffsetDateTime
   }
 
 }

@@ -1,52 +1,58 @@
 package util
 
-import org.joda.time.format.ISODateTimeFormat
-import org.joda.time.{DateTime, LocalDate}
+import java.time.format.DateTimeFormatter
+import java.time.{LocalDate, OffsetDateTime}
+
 import play.api.libs.json.{JsString, JsValue, Reads, Writes}
 import play.api.mvc.QueryStringBindable
 
 import scala.util.{Success, Try}
 
 /**
- * Helper functions for converting Joda's DateTime in Play.
+ * Helper functions for converting Java 8's DateTime in Play.
  * User: robbel
  * Date: 04.04.16
  */
 object PlayDateTimeHelper {
 
-  val dateFormat = ISODateTimeFormat.date()
-  val dateTimeFormat = ISODateTimeFormat.dateTime().withZoneUTC() // milliseconds are mandatory - alternative: dateTimeNoMillis
+  val dateFormat = DateTimeFormatter.ISO_LOCAL_DATE
+  val dateTimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME
 
   /**
-   * Reads Joda's DateTime from Play JSON.
+   * Reads DateTime from Play JSON.
    */
-  implicit val jodaDateTimeReads = Reads[DateTime](js =>
-    js.validate[String].map[DateTime](dtString =>
-      DateTime.parse(dtString, dateTimeFormat)))
+  implicit val dateTimeReads = Reads[OffsetDateTime](js =>
+    js.validate[String].map[OffsetDateTime](dtString =>
+      OffsetDateTime.parse(dtString, dateTimeFormat)))
 
   /**
-   * Writes Joda's DateTime to Play JSON.
+   * Writes DateTime to Play JSON.
    */
-  implicit val jodaDateTimeWrites: Writes[DateTime] = new Writes[DateTime] {
-    def writes(d: DateTime): JsValue = JsString(d.toString(dateTimeFormat))
+  implicit val dateTimeWrites: Writes[OffsetDateTime] = new Writes[OffsetDateTime] {
+    def writes(d: OffsetDateTime): JsValue = JsString(dateTimeFormat.format(d))
   }
 
   /**
-   * Reads Joda's LocalDate from Play JSON.
+   * Enables sorting of OffsetDateTime.
    */
-  implicit val jodaLocalDateReads = Reads[LocalDate](js =>
+  implicit def dateTimeOrdering: Ordering[OffsetDateTime] = Ordering.ordered[OffsetDateTime]
+
+  /**
+   * Reads LocalDate from Play JSON.
+   */
+  implicit val localDateReads = Reads[LocalDate](js =>
     js.validate[String].map[LocalDate](dateString =>
       LocalDate.parse(dateString, dateFormat)))
 
   /**
-   * Writes Joda's LocalDate to Play JSON.
+   * Writes LocalDate to Play JSON.
    */
-  implicit val jodaLocalDateWrites: Writes[LocalDate] = new Writes[LocalDate] {
-    def writes(d: LocalDate): JsValue = JsString(d.toString(dateFormat))
+  implicit val localDateWrites: Writes[LocalDate] = new Writes[LocalDate] {
+    def writes(d: LocalDate): JsValue = JsString(dateFormat.format(d))
   }
 
   /**
-   * Parses a Joda LocalDate from optional string.
+   * Parses a LocalDate from optional string.
    *
    * @param optDateString string to parse
    * @return
@@ -57,7 +63,14 @@ object PlayDateTimeHelper {
   }
 
   /**
-   * Enables usage of Joda LocalDate in routes file.
+   * Enables sorting of LocalDate.
+   */
+  implicit object LocalDateOrdering extends Ordering[LocalDate] {
+    override def compare(x: LocalDate, y: LocalDate): Int = x compareTo y
+  }
+
+  /**
+   * Enables usage of LocalDate in routes file.
    * <p>
    * The QueryStringBindable converts the query parameters to a LocalDate. If conversion fails, returns 400 Bad Request.
    * <p>
@@ -74,7 +87,7 @@ object PlayDateTimeHelper {
     private def bind(key: String, value: String): Either[String, LocalDate] =
       Try(LocalDate.parse(value, dateFormat)).toOption.toRight(s"$value is no valid date")
 
-    override def unbind(key: String, date: LocalDate): String = s"$key=${date.toString(dateFormat)}"
+    override def unbind(key: String, date: LocalDate): String = s"$key=${dateFormat.format(date)}"
   }
 
 }

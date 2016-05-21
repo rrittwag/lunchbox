@@ -1,17 +1,16 @@
 package domain.logic
 
 import java.net.URL
+
 import domain.models._
-import infrastructure.{OcrClient, FacebookClient}
+import infrastructure.{FacebookClient, OcrClient}
 import org.joda.money.{CurrencyUnit, Money}
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.time.{DayOfWeek, LocalDate}
+import java.time.format.DateTimeFormatter
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-
 import scala.util.matching.Regex
-
 import play.api.libs.json._
 
 case class Wochenplan(monday: LocalDate, mittagsplanImageId: String)
@@ -20,7 +19,7 @@ case class Wochenplan(monday: LocalDate, mittagsplanImageId: String)
  * Mittagsangebote von Gesundheitszentrum Springpfuhl über deren Facebook-Seite ermitteln.
  */
 class LunchResolverGesundheitszentrum(
-  dateValidator: DateValidator,
+    dateValidator: DateValidator,
     facebookClient: FacebookClient,
     ocrClient: OcrClient
 ) extends LunchResolver {
@@ -65,7 +64,7 @@ class LunchResolverGesundheitszentrum(
       post <- (Json.parse(facebookPostsAsJson) \ "data").as[Seq[JsValue]];
       postText <- (post \ "message").asOpt[String];
       day <- parseDay(postText.replaceAll("\\n", "|")); // im Text steckt das Datum der Woche
-      monday = day.withDayOfWeek(1);
+      monday = day.`with`(DayOfWeek.MONDAY);
       imageAttachment = findImageAttachment(post);
       imageId <- (imageAttachment \ "target" \ "id").asOpt[String]
     ) yield Wochenplan(monday, imageId)
@@ -279,7 +278,7 @@ class LunchResolverGesundheitszentrum(
 
   private def parseLocalDate(dateString: String, dateFormat: String): Option[LocalDate] =
     try {
-      Some(DateTimeFormat.forPattern(dateFormat).parseLocalDate(dateString))
+      Some(LocalDate.from(DateTimeFormatter.ofPattern(dateFormat).parse(dateString)))
     } catch {
       case exc: Throwable => None
     }

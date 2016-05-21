@@ -7,7 +7,7 @@ import akka.util.Timeout
 import domain.DomainApi
 import domain.models.LunchOffer
 import domain.services.LunchOfferService._
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc._
 import util.PlayDateTimeHelper._

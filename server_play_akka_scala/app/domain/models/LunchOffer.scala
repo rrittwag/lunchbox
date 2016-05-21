@@ -1,7 +1,9 @@
 package domain.models
 
 import org.joda.money.Money
-import org.joda.time.LocalDate
+import java.time.LocalDate
+import scala.math.Ordered.orderingToOrdered
+import util.PlayDateTimeHelper._
 
 case class LunchOffer(
     id: Id,
@@ -11,6 +13,5 @@ case class LunchOffer(
     provider: LunchProviderId
 ) extends Ordered[LunchOffer] {
 
-  import scala.math.Ordered.orderingToOrdered
-  def compare(that: LunchOffer): Int = (this.provider, this.day.toDate) compare (that.provider, that.day.toDate)
+  def compare(that: LunchOffer): Int = (this.provider, this.day) compare (that.provider, that.day)
 }

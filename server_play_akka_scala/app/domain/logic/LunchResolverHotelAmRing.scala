@@ -2,15 +2,16 @@ package domain.logic
 
 import java.io.FileNotFoundException
 import java.net.URL
+import java.time.{DayOfWeek, LocalDate}
+import java.time.format.DateTimeFormatter
 
-import domain.models.{LunchProvider, LunchOffer}
+import domain.models.{LunchOffer, LunchProvider}
 import domain.util.{PDFTextGroupStripper, TextLine}
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
 import util.PlayLogging
+import util.PlayDateTimeHelper._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -97,7 +98,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
   private[logic] def parseMondayByTexts(lines: Seq[String]): Option[LocalDate] = {
     // alle Datumse aus PDF ermitteln
     val days = lines.flatMap(line => parseDay(line.toString))
-    val mondays = days.map(_.withDayOfWeek(1))
+    val mondays = days.map(_.`with`(DayOfWeek.MONDAY))
     // den Montag der am häufigsten verwendeten Woche zurückgeben
     mondays match {
       case Nil => None
@@ -245,7 +246,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
   private def containsPrice(line: TextLine) = line.toString.trim.matches(""".+\d{1,}[.,]\d{2} *€""")
 
   private def multiplyWochenangebote(wochenOffers: Seq[LunchOffer], dates: Seq[LocalDate]): Seq[LunchOffer] = {
-    val sortedDates = dates.toSet[LocalDate].toList.sortBy(_.toDate)
+    val sortedDates = dates.toSet[LocalDate].toList.sorted
     wochenOffers.flatMap (offer => sortedDates.map(date => offer.copy(day = date)))
   }
 
@@ -254,7 +255,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
     case r""".*(\d{2}.\d{2}.\d{2})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yy")
     case r""".*(\d{2}.\d{2})$dayString.*""" =>
       val yearToday = LocalDate.now.getYear
-      val year = if (LocalDate.now.getMonthOfYear == 12 && dayString.endsWith("01")) yearToday + 1 else yearToday
+      val year = if (LocalDate.now.getMonthValue == 12 && dayString.endsWith("01")) yearToday + 1 else yearToday
       parseLocalDate(dayString + "." + year.toString, "dd.MM.yyyy")
     case _ => None
   }
@@ -274,7 +275,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
 
   private def parseLocalDate(dateString: String, dateFormat: String): Option[LocalDate] =
     try {
-      Some(DateTimeFormat.forPattern(dateFormat).parseLocalDate(dateString))
+      Some(LocalDate.from(DateTimeFormatter.ofPattern(dateFormat).parse(dateString)))
     } catch {
       case exc: Throwable => None
     }

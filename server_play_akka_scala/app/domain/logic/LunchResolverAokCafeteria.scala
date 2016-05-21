@@ -2,14 +2,15 @@ package domain.logic
 
 import java.io.FileNotFoundException
 import java.net.URL
+import java.time.format.DateTimeFormatter
 
-import domain.models.{LunchProvider, LunchOffer}
+import domain.models.{LunchOffer, LunchProvider}
 import domain.util.{PDFTextGroupStripper, TextGroup, TextLine}
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.time.{DayOfWeek, LocalDate}
+
 import util.PlayLogging
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -103,7 +104,7 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
   private[logic] def parseMondayByTexts(lines: Seq[String]): Option[LocalDate] = {
     // alle Datumse aus PDF ermitteln
     val days = lines.flatMap(line => parseDay(line.toString))
-    val mondays = days.map(_.withDayOfWeek(1))
+    val mondays = days.map(_.`with`(DayOfWeek.MONDAY))
     // den Montag der am häufigsten verwendeten Woche zurückgeben
     mondays match {
       case Nil => None
@@ -166,7 +167,7 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
     case r""".*(\d{2}.\d{2}.\d{2})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yy")
     case r""".*(\d{2}.\d{2}.)$dayString.*""" =>
       val yearToday = LocalDate.now.getYear
-      val year = if (LocalDate.now.getMonthOfYear == 12 && dayString.endsWith("01.")) yearToday + 1 else yearToday
+      val year = if (LocalDate.now.getMonthValue == 12 && dayString.endsWith("01.")) yearToday + 1 else yearToday
       parseLocalDate(dayString + year.toString, "dd.MM.yyyy")
     case _ => None
   }
@@ -186,7 +187,7 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
 
   private def parseLocalDate(dateString: String, dateFormat: String): Option[LocalDate] =
     try {
-      Some(DateTimeFormat.forPattern(dateFormat).parseLocalDate(dateString))
+      Some(LocalDate.from(DateTimeFormatter.ofPattern(dateFormat).parse(dateString)))
     } catch {
       case exc: Throwable => None
     }

@@ -4,7 +4,7 @@ import akka.actor.{Actor, ActorLogging, Props}
 import domain.logic.DateValidator
 import domain.models.LunchOffer
 import domain.models._
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 object LunchOfferService {
   val Name = "LunchOfferService"

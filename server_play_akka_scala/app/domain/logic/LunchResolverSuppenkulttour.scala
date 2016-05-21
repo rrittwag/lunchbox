@@ -1,13 +1,14 @@
 package domain.logic
 
 import java.net.URL
+import java.time.{DayOfWeek, LocalDate}
+import java.time.format.DateTimeFormatter
 
-import domain.models.{LunchProvider, LunchOffer}
+import domain.models.{LunchOffer, LunchProvider}
 import org.apache.commons.lang3.StringEscapeUtils
 import org.htmlcleaner._
 import org.joda.money.{CurrencyUnit, Money}
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.{DateTimeConstants, LocalDate}
+import util.PlayDateTimeHelper._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -68,7 +69,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
       dateDiv.getText.toString.replace("\n", " ") match {
         case r""".*Suppen vom +(\d{2}.\d{2}.\d{4})$firstDayString.*""" =>
           parseLocalDate(firstDayString, "dd.MM.yyyy").map { firstDay =>
-            firstDay.withDayOfWeek(DateTimeConstants.MONDAY)
+            firstDay.`with`(DayOfWeek.MONDAY)
           }
         case _ => None
       }
@@ -158,7 +159,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   }
 
   private def multiplyWochenangebote(wochenOffers: Seq[LunchOffer], dates: Seq[LocalDate]): Seq[LunchOffer] = {
-    val sortedDates = dates.toSet[LocalDate].toList.sortBy(_.toDate)
+    val sortedDates = dates.toSet[LocalDate].toList.sorted
     wochenOffers.flatMap(offer => sortedDates.map(date => offer.copy(day = date)))
   }
 
@@ -208,7 +209,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
 
   private def parseLocalDate(dateString: String, dateFormat: String): Option[LocalDate] =
     try {
-      Some(DateTimeFormat.forPattern(dateFormat).parseLocalDate(dateString))
+      Some(LocalDate.from(DateTimeFormatter.ofPattern(dateFormat).parse(dateString)))
     } catch {
       case exc: Throwable => None
     }

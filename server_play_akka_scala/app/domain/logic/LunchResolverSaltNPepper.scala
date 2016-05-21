@@ -2,15 +2,15 @@ package domain.logic
 
 import java.net.URL
 
-import domain.models.{LunchProvider, LunchOffer}
+import domain.models.{LunchOffer, LunchProvider}
 import org.apache.commons.lang3.StringEscapeUtils
 import org.htmlcleaner.{CleanerProperties, HtmlCleaner, TagNode}
 import org.joda.money.{CurrencyUnit, Money}
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.time.{DayOfWeek, LocalDate}
+import java.time.format.DateTimeFormatter
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 import scala.util.matching.Regex
 
 class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolver {
@@ -119,7 +119,7 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
     case _ => None
   }
 
-  private def toMonday(day: LocalDate): LocalDate = day.withDayOfWeek(1)
+  private def toMonday(day: LocalDate): LocalDate = day.`with`(DayOfWeek.MONDAY)
 
   /**
    * Erzeugt ein Money-Objekt (in EURO) aus dem Format "*0,00*"
@@ -139,7 +139,7 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
 
   private def parseLocalDate(dateString: String, dateFormat: String): Option[LocalDate] =
     try {
-      Some(DateTimeFormat.forPattern(dateFormat).parseLocalDate(dateString))
+      Some(LocalDate.from(DateTimeFormatter.ofPattern(dateFormat).parse(dateString)))
     } catch {
       case exc: Throwable => None
     }

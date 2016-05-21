@@ -1,10 +1,10 @@
 package domain.logic
 
+import java.time.{DayOfWeek, LocalDate}
+
 import domain.models.{LunchOffer, LunchProvider}
 import org.joda.money.Money
-import org.joda.time.LocalDate
 import org.scalamock.scalatest.MockFactory
-
 import org.scalatest._
 
 class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFactory {
@@ -243,10 +243,10 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
   private def weekOf(dateString: String) = Week(date(dateString))
 
   case class Week(dateInWeek: LocalDate) {
-    def monday = dateInWeek.withDayOfWeek(1)
-    def tuesday = dateInWeek.withDayOfWeek(2)
-    def wednesday = dateInWeek.withDayOfWeek(3)
-    def thursday = dateInWeek.withDayOfWeek(4)
-    def friday = dateInWeek.withDayOfWeek(5)
+    def monday = dateInWeek.`with`(DayOfWeek.MONDAY)
+    def tuesday = dateInWeek.`with`(DayOfWeek.TUESDAY)
+    def wednesday = dateInWeek.`with`(DayOfWeek.WEDNESDAY)
+    def thursday = dateInWeek.`with`(DayOfWeek.THURSDAY)
+    def friday = dateInWeek.`with`(DayOfWeek.FRIDAY)
   }
 }

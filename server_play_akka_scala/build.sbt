@@ -21,7 +21,6 @@ libraryDependencies ++= Seq(
   ws,
   filters,
   // domain model
-  "com.github.nscala-time" %% "nscala-time" % "2.12.0",
   "org.joda"               %  "joda-money"  % "0.11",
   // domain logic
   "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.16",
@@ -39,6 +38,9 @@ libraryDependencies ++= Seq(
 
 // settings
 // ~~~~~~~~
+// project uses Java 8 features
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
+
 // enhances available types in routes file
 routesImport += "util.PlayDateTimeHelper._"
 
@@ -63,7 +65,6 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
   .setPreference(SpacesAroundMultiImports, false)
   .setPreference(PreserveSpaceBeforeArguments, true)
   .setPreference(DoubleIndentClassDeclaration, true)
-
 
 
 

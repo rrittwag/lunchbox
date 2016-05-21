@@ -7,8 +7,8 @@ import domain.models.LunchProvider.SCHWEINESTALL
 import org.apache.commons.lang3.StringEscapeUtils
 import org.htmlcleaner.{CleanerProperties, HtmlCleaner, TagNode}
 import org.joda.money.{CurrencyUnit, Money}
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -74,7 +74,7 @@ class LunchResolverSchweinestall(util: DateValidator) extends LunchResolver {
 
   private def parseLocalDate(dateString: String, dateFormat: String): Option[LocalDate] =
     try {
-      Some(DateTimeFormat.forPattern(dateFormat).parseLocalDate(dateString))
+      Some(LocalDate.from(DateTimeFormatter.ofPattern(dateFormat).parse(dateString)))
     } catch {
       case exc: Throwable => None
     }
