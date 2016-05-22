@@ -1,6 +1,7 @@
 package domain.logic
 
 import java.time.{DayOfWeek, LocalDate}
+import util.PlayDateTimeHelper._
 
 class DateValidator {
 
@@ -13,7 +14,7 @@ class DateValidator {
   def isValid(day: LocalDate): Boolean = {
     val mondayThisWeek = LocalDate.now.`with`(DayOfWeek.MONDAY)
     val mondayLastWeek = mondayThisWeek.minusWeeks(1)
-    day.compareTo(mondayLastWeek) >= 0
+    day >= mondayLastWeek
   }
 
 }

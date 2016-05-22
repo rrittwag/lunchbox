@@ -80,6 +80,14 @@ object PlayDateTimeHelper {
   }
 
   /**
+   * Enable compare methods for LocalDate.
+   * @param underlying the LocalDate.
+   */
+  implicit class RichLocalDate(val underlying: LocalDate) extends Ordered[LocalDate] {
+    override def compare(that: LocalDate): Int = underlying compareTo that
+  }
+
+  /**
    * Enables usage of LocalDate in routes file.
    * <p>
    * The QueryStringBindable converts the query parameters to a LocalDate. If conversion fails, returns 400 Bad Request.

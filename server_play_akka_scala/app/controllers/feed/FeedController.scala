@@ -14,6 +14,7 @@ import java.time.{LocalDate, ZoneId}
 
 import play.api.mvc._
 import util.feed._
+import util.PlayDateTimeHelper._
 
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
@@ -23,14 +24,14 @@ class FeedController @Inject() (domain: DomainApi)(implicit exec: ExecutionConte
 
   implicit val timeout = Timeout(5.seconds)
 
-  def feed(optLocation: Option[String]): Action[AnyContent] = AtomFeedAction {
+  def feed(optLocation: Option[String]): Action[AnyContent] = AtomFeedAction { implicit request =>
     optLocation match {
       case None | Some("") => Future.successful(NotFound)
       case Some(location) => feed(location)
     }
   }
 
-  private def feed(location: String): Future[Result] = {
+  private def feed(location: String)(implicit request: RequestHeader): Future[Result] = {
     val offerFuture = domain.lunchOfferService.ask(OfferRepo.GetAll).mapTo[OfferRepo.MultiResult]
     val providerFuture = domain.lunchProviderService.ask(ProviderRepo.GetByLocation(location)).mapTo[ProviderRepo.MultiResult]
 
@@ -47,16 +48,18 @@ class FeedController @Inject() (domain: DomainApi)(implicit exec: ExecutionConte
     location: String,
     offers: Seq[LunchOffer],
     providers: Set[LunchProvider]
-  ) = {
+  )(implicit request: RequestHeader) = {
 
     val providerIDs = providers.map(_.id)
     val offersForProviders = offers.filter(offer => providerIDs.contains(offer.provider))
-    val offersTilToday = offersForProviders.filter(_.day.compareTo(LocalDate.now) <= 0)
+    val offersTilToday = offersForProviders.filter(_.day <= LocalDate.now)
 
     val entries =
-      for ((day, offersForDay) <- offersGroupedAndSortedByDay(offersTilToday)) yield AtomFeedEntry(
+      for (
+        (day, offersForDay) <- offersTilToday.groupBy(_.day).toList.sortWith(_._1 > _._1)
+      ) yield AtomFeedEntry(
         new URI(s"urn:date:${day.toString}"),
-        DateTimeFormatter.ofPattern("EEEE, dd.MM.yyyy", Locale.GERMAN).format(day),
+        toWeekdayString(day),
         Author("Lunchbox"),
         Content(views.html.lunchday(offersForDay, providers)),
         toISODateTime(day),
@@ -66,21 +69,19 @@ class FeedController @Inject() (domain: DomainApi)(implicit exec: ExecutionConte
     AtomFeed(
       new URI("urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157"),
       s"Mittagstisch $location",
-      new URL(s"http://lunchbox.rori.info/feed?location=$location"),
+      new URL(routes.FeedController.feed(Some(location)).absoluteURL),
       toISODateTime(LocalDate.now),
       entries
     )
 
   }
 
-  private def offersGroupedAndSortedByDay(offers: Seq[LunchOffer]) =
-    offers
-      .groupBy(_.day).toList
-      .sortWith((x, y) => x._1.compareTo(y._1) > 0)
-
   private def toISODateTime(date: LocalDate) = {
     def timeZoneBerlin = ZoneId.of("Europe/Berlin")
     date.atStartOfDay(timeZoneBerlin).toOffsetDateTime
   }
+
+  private def toWeekdayString(date: LocalDate) =
+    DateTimeFormatter.ofPattern("EEEE, dd.MM.yyyy", Locale.GERMAN).format(date)
 
 }
