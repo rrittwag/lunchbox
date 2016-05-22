@@ -14,8 +14,8 @@ object PlayMoneyHelper {
    * Reads Joda's Money (as minor EUR) from Play JSON.
    */
   implicit val jodaMoneyReads = Reads[Money](js =>
-    js.validate[String].map[Money](moneyString =>
-      Money.ofMinor(CurrencyUnit.EUR, moneyString.toInt)))
+    js.validate[Int].map[Money](moneyInt =>
+      Money.ofMinor(CurrencyUnit.EUR, moneyInt)))
 
   /**
    * Writes Joda's Money to Play JSON (as minor EUR of type number).
