@@ -6,7 +6,7 @@ import java.time.{Instant, LocalDate, OffsetDateTime, ZoneId}
 import play.api.libs.json.{JsString, JsValue, Reads, Writes}
 import play.api.mvc.QueryStringBindable
 
-import scala.util.{Success, Try}
+import scala.util.Try
 
 /**
  * Helper functions for converting Java 8's DateTime in Play.
@@ -15,8 +15,9 @@ import scala.util.{Success, Try}
  */
 object PlayDateTimeHelper {
 
-  val dateFormat = DateTimeFormatter.ISO_LOCAL_DATE
-  val dateTimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+  // ---- OffsetDateTime ----
+
+  private val dateTimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME
 
   /**
    * Reads DateTime from Play JSON.
@@ -53,6 +54,10 @@ object PlayDateTimeHelper {
    */
   def toEpochMillis(dateTime: OffsetDateTime): Long = dateTime.toInstant.toEpochMilli
 
+  // ---- LocalDate ----
+
+  private val dateFormat = DateTimeFormatter.ISO_LOCAL_DATE
+
   /**
    * Reads LocalDate from Play JSON.
    */
@@ -65,17 +70,6 @@ object PlayDateTimeHelper {
    */
   implicit val localDateWrites: Writes[LocalDate] = new Writes[LocalDate] {
     def writes(d: LocalDate): JsValue = JsString(d.toString)
-  }
-
-  /**
-   * Parses a LocalDate from optional string.
-   *
-   * @param optDateString string to parse
-   * @return
-   */
-  def parseLocalDate(optDateString: Option[String]): Try[Option[LocalDate]] = optDateString match {
-    case Some(dateString) => Try(Some(LocalDate.parse(dateString, dateFormat)))
-    case None => Success(Option.empty[LocalDate])
   }
 
   /**
