@@ -1,11 +1,13 @@
 package domain.services
 
+import java.time.{DayOfWeek, Instant, ZoneId, ZonedDateTime}
+
 import akka.actor._
 import domain.logic._
 import domain.models.LunchProvider._
 import domain.models.{LunchOffer, LunchProvider}
 import infrastructure._
-import org.joda.time.{DateTime, DateTimeZone}
+
 import play.api.libs.ws._
 
 import scala.concurrent.duration._
@@ -33,27 +35,27 @@ class LunchOfferUpdater(lunchOfferService: ActorRef) extends Actor with ActorLog
     self ! StartUpdate
   }
   // update LunchOffers every day at 7:00 h
-  val today7h = DateTime.now(DateTimeZone.forID("Europe/Berlin"))
-    .withHourOfDay(7)
-    .withMinuteOfHour(0)
-    .withSecondOfMinute(0)
-    .withMillisOfSecond(0)
-  val future7h = if (today7h.isBeforeNow) today7h.plusHours(24) else today7h
-  val durationTo7h = future7h.getMillis - DateTime.now.getMillis
+  val today7h = ZonedDateTime.now(ZoneId.of("Europe/Berlin"))
+    .withHour(7)
+    .withMinute(0)
+    .withSecond(0)
+    .withNano(0)
+  val future7h = if (today7h.isBefore(ZonedDateTime.now)) today7h.plusHours(24) else today7h
+  val durationTo7h = future7h.toInstant.toEpochMilli - Instant.now.toEpochMilli
 
   val dailyUpdate = context.system.scheduler.schedule(durationTo7h.millis, 24.hours) {
     self ! StartUpdate
   }
 
   // additionally update LunchOffers every monday at 10:00 h
-  val monday10h = DateTime.now(DateTimeZone.forID("Europe/Berlin"))
-    .withDayOfWeek(1)
-    .withHourOfDay(10)
-    .withMinuteOfHour(0)
-    .withSecondOfMinute(0)
-    .withMillisOfSecond(0)
-  val futureMonday10h = if (monday10h.isBeforeNow) monday10h.plusWeeks(1) else monday10h
-  val durationToMonday10h = futureMonday10h.getMillis - DateTime.now.getMillis
+  val monday10h = ZonedDateTime.now(ZoneId.of("Europe/Berlin"))
+    .`with`(DayOfWeek.MONDAY)
+    .withHour(10)
+    .withMinute(0)
+    .withSecond(0)
+    .withNano(0)
+  val futureMonday10h = if (monday10h.isBefore(ZonedDateTime.now)) monday10h.plusWeeks(1) else monday10h
+  val durationToMonday10h = futureMonday10h.toInstant.toEpochMilli - Instant.now.toEpochMilli
 
   val monday10hUpdate = context.system.scheduler.schedule(durationToMonday10h.millis, 7.days) {
     self ! StartUpdate
