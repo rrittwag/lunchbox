@@ -136,7 +136,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
 
     val clearedParts = offerAttributesAsStrings.map { part =>
       part.replaceAll("""\( ?([a-zA-Z\d]{1,2}, ?)* ?[a-zA-Z\d]{1,2},? ?\)""", "") // Zusatzinfo (i,j,19) entfernen
-        .trim.replaceAll("""^([a-zA-Z\d]{1,2}, ?)* ?[a-zA-Z\d]{1,2},?$""", "")
+        .trim.replaceAll("""^([a-zA-Z\d]{1,2}[, ] ?)* ?[a-zA-Z\d]{1,2},?$""", "")
         .trim.replaceAll("  ", " ") // doppelte Leerzeichen entfernen
     }
 
@@ -192,7 +192,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
 
   private def extractWeekday(text: String, monday: LocalDate): (Option[LocalDate], String) = {
     val weekdayNames = Weekday.values.map(_.name).mkString("|")
-    val Pattern = ("""^ *(""" + weekdayNames + """) *[-|](.*)""").r
+    val Pattern = ("""^ *(""" + weekdayNames + """) *[-|]*(.*)""").r
     text match {
       case Pattern(weekdayString, remaining) => (parseWeekday(weekdayString, monday), remaining)
       case _ => (None, text)
