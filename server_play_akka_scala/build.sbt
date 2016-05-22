@@ -1,7 +1,3 @@
-import com.typesafe.sbt.packager.docker._
-
-
-
 // project definition
 // ~~~~~~~~~~~~~~~~~~
 organization := "info.rori.lunchbox.server.play_akka_scala"
@@ -70,6 +66,8 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
 
 // Docker settings
 // ~~~~~~~~~~~~~~~
+import com.typesafe.sbt.packager.docker._
+
 maintainer := "rori"
 dockerBaseImage := "frolvlad/alpine-oraclejdk8"
 dockerCommands := dockerCommands.value.flatMap{
