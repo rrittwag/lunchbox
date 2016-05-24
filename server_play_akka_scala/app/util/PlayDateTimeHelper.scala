@@ -1,6 +1,7 @@
 package util
 
-import java.time.format.DateTimeFormatter
+import java.time.format.{DateTimeFormatter, DateTimeFormatterBuilder, ResolverStyle}
+import java.time.temporal.ChronoField._
 import java.time.{Instant, LocalDate, OffsetDateTime, ZoneId}
 
 import play.api.libs.json.{JsString, JsValue, Reads, Writes}
@@ -19,6 +20,20 @@ object PlayDateTimeHelper {
 
   private val dateTimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME
 
+  // RFC3339 is stricter than ISO-8601, seconds and milliseconds are mandatory
+  private val rfc3339Format = new DateTimeFormatterBuilder()
+    .append(DateTimeFormatter.ISO_LOCAL_DATE)
+    .appendLiteral('T')
+    .appendValue(HOUR_OF_DAY, 2)
+    .appendLiteral(':')
+    .appendValue(MINUTE_OF_HOUR, 2)
+    .appendLiteral(':')
+    .appendValue(SECOND_OF_MINUTE, 2)
+    .appendFraction(MILLI_OF_SECOND, 3, 3, true)
+    .appendOffsetId
+    .toFormatter
+    .withResolverStyle(ResolverStyle.STRICT)
+
   /**
    * Reads DateTime from Play JSON.
    */
@@ -30,7 +45,7 @@ object PlayDateTimeHelper {
    * Writes DateTime to Play JSON.
    */
   implicit val dateTimeWrites: Writes[OffsetDateTime] = new Writes[OffsetDateTime] {
-    def writes(d: OffsetDateTime): JsValue = JsString(d.toString)
+    def writes(d: OffsetDateTime): JsValue = JsString(d.toStringRFC)
   }
 
   /**
@@ -47,12 +62,21 @@ object PlayDateTimeHelper {
   def toOffsetDateTime(epochMilliseconds: Long): OffsetDateTime =
     OffsetDateTime.ofInstant(Instant.ofEpochMilli(epochMilliseconds), ZoneId.of("Z"))
 
-  /**
-   * Converts a Java OffsetDateTime to milliseconds since epoch.
-   * @param dateTime a Java OffsetDateTime
-   * @return
-   */
-  def toEpochMillis(dateTime: OffsetDateTime): Long = dateTime.toInstant.toEpochMilli
+  implicit class RichOffsetDateTime(val underlying: OffsetDateTime) {
+    /**
+     * toString for the stricter RFC3339 (Seconds and milliseconds will be output, although zero).
+     *
+     * @return
+     */
+    def toStringRFC: String = underlying.format(rfc3339Format)
+
+    /**
+     * Converts a Java OffsetDateTime to milliseconds since epoch.
+     *
+     * @return
+     */
+    def toEpochMilli: Long = underlying.toInstant.toEpochMilli
+  }
 
   // ---- LocalDate ----
 
@@ -81,6 +105,7 @@ object PlayDateTimeHelper {
 
   /**
    * Enable compare methods for LocalDate.
+   *
    * @param underlying the LocalDate.
    */
   implicit class RichLocalDate(val underlying: LocalDate) extends Ordered[LocalDate] {

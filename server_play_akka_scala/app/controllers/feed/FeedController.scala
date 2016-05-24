@@ -62,21 +62,21 @@ class FeedController @Inject() (domain: DomainApi)(implicit exec: ExecutionConte
         toWeekdayString(day),
         Author("Lunchbox"),
         Content(views.html.lunchday(offersForDay, providers)),
-        toISODateTime(day),
-        toISODateTime(day)
+        toDateTime(day),
+        toDateTime(day)
       )
 
     AtomFeed(
       new URI("urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157"),
       s"Mittagstisch $location",
       new URL(routes.FeedController.feed(Some(location)).absoluteURL),
-      toISODateTime(LocalDate.now),
+      toDateTime(LocalDate.now),
       entries
     )
 
   }
 
-  private def toISODateTime(date: LocalDate) = {
+  private def toDateTime(date: LocalDate) = {
     def timeZoneBerlin = ZoneId.of("Europe/Berlin")
     date.atStartOfDay(timeZoneBerlin).toOffsetDateTime
   }

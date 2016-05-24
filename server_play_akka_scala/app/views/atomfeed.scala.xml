@@ -1,4 +1,5 @@
 @import util.feed._
+@import util.PlayDateTimeHelper._
 
 @(feed: AtomFeed)
 
@@ -7,7 +8,7 @@
   <id>@{ feed.id }</id>
   <title>@{ feed.title }</title>
   <link rel="self" href='@( feed.selfLink )'/>
-  <updated>@{ feed.updated }</updated>
+  <updated>@{ feed.updated.toStringRFC }</updated>
 
   @for(entry <- feed.entries) {
     <entry>
@@ -17,8 +18,8 @@
         <name>@{ entry.author.name }</name>
       </author>
       <content type='@( entry.content.contentType )'>@{ entry.content.body }</content>
-      <published>@{ entry.published }</published>
-      <updated>@{ entry.updated }</updated>
+      <published>@{ entry.published.toStringRFC }</published>
+      <updated>@{ entry.updated.toStringRFC }</updated>
     </entry>
   }
 </feed>
