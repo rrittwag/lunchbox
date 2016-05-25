@@ -33,6 +33,7 @@ public class MyApplication extends ResourceConfig {
 
         // Swagger konfigurieren
         BeanConfig beanConfig = new BeanConfig();
+        beanConfig.setTitle("Lunchbox API v1");
         beanConfig.setVersion("1.2.0");
         beanConfig.setSchemes(new String[]{"http"});
         beanConfig.setHost("localhost:8080");
