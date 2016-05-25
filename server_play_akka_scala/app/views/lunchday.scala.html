@@ -3,19 +3,16 @@
 @(offers: Seq[LunchOffer], providers: Set[LunchProvider])
 
 <div>
-  <style type="text/css" scoped>
-  { "table { border:0px; } td { vertical-align: top; } span { white-space: nowrap; } tr { padding-bottom: 1.5em; }" }
-  </style>
   @for((providerId, provOffers) <- offers.groupBy(_.provider)) {
-    <table>
-      <tr>
+    <table style="border:0px;">
+      <tr style="padding-bottom: 1.5em;">
         <th>@{ providers.find(_.id == providerId).get.name }</th>
         <th></th>
       </tr>
       @for(offer <- provOffers) {
-        <tr>
+        <tr style="padding-bottom: 1.5em;">
           <td>@{ offer.name }</td>
-          <td>
+          <td style="vertical-align: top;">
             <span style="white-space: nowrap;">@{ "%d,%02d €".format(offer.price.getAmountMajorInt, offer.price.getMinorPart) }</span>
           </td>
         </tr>
