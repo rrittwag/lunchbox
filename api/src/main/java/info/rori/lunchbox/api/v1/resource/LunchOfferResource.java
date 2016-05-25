@@ -1,6 +1,6 @@
 package info.rori.lunchbox.api.v1.resource;
 
-import com.wordnik.swagger.annotations.*;
+import io.swagger.annotations.*;
 import info.rori.lunchbox.api.v1.model.LunchOffer;
 import info.rori.lunchbox.api.v1.repository.LunchOfferRepository;
 import info.rori.lunchbox.api.v1.util.TypeConverter;
@@ -23,7 +23,7 @@ public class LunchOfferResource {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Liefert alle Mittagsangebote, ggf. gefiltert nach Gültigkeits-Tag")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 200, message = "OK", response = LunchOffer.class),
             @ApiResponse(code = 400, message = "Bad Request - der Parameter 'day' ist nicht valide"),
             @ApiResponse(code = 500, message = "Serverfehler")})
     public List<LunchOffer> get(
@@ -49,7 +49,7 @@ public class LunchOfferResource {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Liefert das Mittagsangebot mit der angegebenen ID")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 200, message = "OK", response = LunchOffer.class),
             @ApiResponse(code = 404, message = "Unter der angegebenen ID existiert kein Mittagsangebot"),
             @ApiResponse(code = 500, message = "Serverfehler")})
     public LunchOffer getById(

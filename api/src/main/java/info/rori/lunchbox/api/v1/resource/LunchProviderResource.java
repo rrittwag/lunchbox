@@ -1,6 +1,6 @@
 package info.rori.lunchbox.api.v1.resource;
 
-import com.wordnik.swagger.annotations.*;
+import io.swagger.annotations.*;
 import info.rori.lunchbox.api.v1.model.LunchProvider;
 import info.rori.lunchbox.api.v1.repository.LunchProviderRepository;
 
@@ -24,7 +24,7 @@ public class LunchProviderResource {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Liefert alle Mittagsanbieter")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 200, message = "OK", response = LunchProvider.class, responseContainer = "List"),
             @ApiResponse(code = 500, message = "Serverfehler")})
     public List<LunchProvider> get() {
         return repo.findAll();
@@ -35,7 +35,7 @@ public class LunchProviderResource {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Liefert den Mittagsanbieter mit der angegebenen ID")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 200, message = "OK", response = LunchProvider.class),
             @ApiResponse(code = 404, message = "Unter der angegebenen ID existiert kein Mittagsanbieter"),
             @ApiResponse(code = 500, message = "Serverfehler")})
     public LunchProvider getById(

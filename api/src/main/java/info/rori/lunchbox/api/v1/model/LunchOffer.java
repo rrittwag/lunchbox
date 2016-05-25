@@ -1,7 +1,7 @@
 package info.rori.lunchbox.api.v1.model;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import info.rori.lunchbox.api.v1.util.LocalDateAdapter;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,10 +29,10 @@ public class LunchOffer {
     @ApiModelProperty(value = "ID", dataType = "integer", required = true)
     public int id;
 
-    @ApiModelProperty(value = "Bezeichnung des Mittagsangebots (mitsamt allen Beilagen)", dataType = "string(1024)", required = true)
+    @ApiModelProperty(value = "Bezeichnung des Mittagsangebots (mitsamt allen Beilagen)", dataType = "string", required = true)
     public String name;
 
-    @ApiModelProperty(value = "Tag, an dem das Mittagsangebot gilt", dataType = "ISO 8601-Format 'YYYY-MM-DD'", required = true)
+    @ApiModelProperty(value = "Tag, an dem das Mittagsangebot gilt", dataType = "date", required = true)
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     public LocalDate day;
 
