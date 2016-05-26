@@ -24,7 +24,6 @@ public class LunchProviderResource {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Liefert alle Mittagsanbieter")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = LunchProvider.class, responseContainer = "List"),
             @ApiResponse(code = 500, message = "Serverfehler")})
     public List<LunchProvider> get() {
         return repo.findAll();

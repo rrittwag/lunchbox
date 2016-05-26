@@ -23,7 +23,6 @@ public class LunchOfferResource {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Liefert alle Mittagsangebote, ggf. gefiltert nach Gültigkeits-Tag")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = LunchOffer.class),
             @ApiResponse(code = 400, message = "Bad Request - der Parameter 'day' ist nicht valide"),
             @ApiResponse(code = 500, message = "Serverfehler")})
     public List<LunchOffer> get(
