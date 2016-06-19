@@ -103,7 +103,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   private def parseWochensuppen(text: String, monday: LocalDate): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
 
-    for (wochensuppeString <- text.split("""\|\|""")) {
+    for (wochensuppeString <- text.split("""\| *\|""")) {
       val offerAsStringArray = wochensuppeString.split("""\|""").map(_.trim).toList
       val (nameOpt, priceOpt) = parseOfferAttributes(offerAsStringArray)
       for (
@@ -117,7 +117,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   private def parseTagessuppen(text: String, monday: LocalDate): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
 
-    for (tagessuppeString <- text.split("""\|\|""")) {
+    for (tagessuppeString <- text.split("""\| *\|""")) {
       val (weekdayOpt, remainingTagessuppeString) = extractWeekday(tagessuppeString, monday)
       val offerAsStringArray = remainingTagessuppeString.split("""\|""").map(_.trim).toList
       val (nameOpt, priceOpt) = parseOfferAttributes(offerAsStringArray)
