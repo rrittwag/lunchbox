@@ -185,6 +185,18 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
     offers should contain (LunchOffer(0, "Pasta Bavaria: Gabelspaghetti mit original bayrischem Wurstgulach", date("2016-06-21"), euro("4.50"), Id))
   }
 
+  it should "resolve offers for week of 2016-06-27" in {
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2016-06-27.html")
+
+    val offers = resolver.resolve(url)
+
+    offers.filter(_.day == date("2016-06-27")) should have size 4
+    offers.filter(_.day == date("2016-06-28")) should have size 4
+    offers.filter(_.day == date("2016-06-29")) should have size 4
+    offers.filter(_.day == date("2016-06-30")) should have size 4
+    offers.filter(_.day == date("2016-07-01")) should have size 4
+  }
+
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)
