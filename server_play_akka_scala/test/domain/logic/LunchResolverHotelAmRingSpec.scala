@@ -228,6 +228,16 @@ class LunchResolverHotelAmRingSpec extends FlatSpec with Matchers with MockFacto
     offers should contain(LunchOffer(0, "Buffet: Paniertes Seelachsfilet, Dorschfilet, Zuchtwels-Filet Gemüsevariation, Sahne-Meerrettichsauce, Zitronen-Buttersauce, Dillsauce, Bandnudeln, Reis, Rosmarinkartoffeln", week.wednesday, euro("6.90"), Id))
   }
 
+  it should "resolve offers for week of 2016-06-27" in {
+    val url = getClass.getResource("/mittagsplaene/hotel_am_ring/Mittagspause_27.06.-01.07.2016.pdf")
+    val week = weekOf(s"2016-06-27")
+
+    val offers = resolver.resolveFromPdf(url)
+
+    offers should have size 14
+    offers should contain(LunchOffer(0, "Griechische Kartoffelpfanne mit Feta, Oliven und Tzatziki", week.tuesday, euro("5.10"), Id))
+  }
+
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)

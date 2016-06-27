@@ -155,7 +155,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
         mergeRowsToOneRow(rows, section)
       else if (section == PdfSection.MITTWOCH && rows.exists(_.name contains "Buffet"))
         mergeRowsToOneRow(rows, section)
-      else if (rows.exists(_.startsWithBoldText))
+      else if (rows.exists(_.startsWithBoldText) && !rows.forall(_.startsWithBoldText))
         mergeRowsByBoldText(rows, section)
       else
         mergeRowsUnformatted(rows, section)
@@ -230,7 +230,7 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
                 mergedRows :+= curMergedRow
                 curMergedRowOpt = Some(row)
               } // wenn die Zeilen auf eine Fortsetzung hindeuten, mergen
-              else if (Seq(",", " mit", " an").exists(curMergedRow.name.endsWith) || row.name(0).isLower || "&(".contains(row.name(0))) {
+              else if (Seq(",", " mit", " an").exists(curMergedRow.name.trim.endsWith) || row.name(0).isLower || "&(".contains(row.name(0))) {
                 curMergedRowOpt = Some(curMergedRow.merge(row))
               } // andernfalls neues Offer beginnen
               else {
