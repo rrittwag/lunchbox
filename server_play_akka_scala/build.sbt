@@ -77,4 +77,5 @@ dockerCommands := dockerCommands.value.flatMap{
 dockerExposedPorts in Docker := Seq(9000)
 
 dockerRepository := Some("rori")
-dockerUpdateLatest := true
+dockerUpdateLatest := true // bug in sbt-native-packager stops publishing Docker image!
+                           // Set false and tag the Docker image yourself => https://docs.docker.com/engine/getstarted/step_six/
