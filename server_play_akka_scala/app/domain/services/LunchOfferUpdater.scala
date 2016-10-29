@@ -122,6 +122,8 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
         new DefaultFacebookClient,
         new DefaultOcrClient
       ).resolve
+    case FELDKUECHE =>
+      new LunchResolverFeldkueche(dateValidator, new DefaultOcrClient).resolve
     case _ => Future(Nil)
   }
   offersFuture.onComplete {
