@@ -44,7 +44,7 @@ class LunchResolverFeldkueche(
     props.setCharset("utf-8")
 
     val rootNode = new HtmlCleaner(props).clean(htmlUrl)
-    val links = rootNode.evaluateXPath("//div[@id='content_area']//img/@src").map { case n: String => n }.toSet
+    val links = rootNode.evaluateXPath("//div[@id='content_area']//a/@href").map { case n: String => n }.toSet
     links.map { link => new URL(link) }.toSeq
   }
 

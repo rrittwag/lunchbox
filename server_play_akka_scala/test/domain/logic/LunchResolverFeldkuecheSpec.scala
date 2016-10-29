@@ -23,7 +23,7 @@ class LunchResolverFeldkuecheSpec extends FlatSpec with Matchers with MockFactor
     val links = resolver.resolveImageLinks(url)
 
     links should have size 1
-    links should contain (new URL(HttpMittagspauseDir + "cache_25241614.jpg?t=1475778802"))
+    links should contain (new URL(HttpMittagspauseDir + "teaserbox_25241614.jpg?t=1475778802"))
   }
 
   it should "resolve offers for week of 2016-10-10" in {
