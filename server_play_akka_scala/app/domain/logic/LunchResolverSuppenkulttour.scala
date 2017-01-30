@@ -67,8 +67,8 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   private def resolveMonday(node: TagNode): Option[LocalDate] = {
     val optDateSeq = for (dateDiv <- node.evaluateXPath("/div[@class='toggler']").map { case n: TagNode => n }) yield {
       dateDiv.getText.toString.replace("\n", " ") match {
-        case r""".*Suppen vom +(\d{2}.\d{2}.\d{4})$firstDayString.*""" =>
-          parseLocalDate(firstDayString, "dd.MM.yyyy").map { firstDay =>
+        case r""".*Suppen vom +([\d\.]+)$firstDayString.*""" =>
+          parseDay(firstDayString).map { firstDay =>
             firstDay.`with`(DayOfWeek.MONDAY)
           }
         case _ => None
@@ -210,6 +210,16 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
 
   private def parsePrice(priceStr: String): Option[Money] = priceStr match {
     case r""".*(\d{1,})$major[.,](\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
+    case _ => None
+  }
+
+  private def parseDay(dayString: String): Option[LocalDate] = dayString match {
+    case r""".*(\d{2}.\d{2}.\d{4})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yyyy")
+    case r""".*(\d{2}.\d{2}.\d{2})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yy")
+    case r""".*(\d{2}.\d{2})$dayString.*""" =>
+      val yearToday = LocalDate.now.getYear
+      val year = if (LocalDate.now.getMonthValue == 12 && dayString.endsWith("01")) yearToday + 1 else yearToday
+      parseLocalDate(dayString + "." + year.toString, "dd.MM.yyyy")
     case _ => None
   }
 
