@@ -74,7 +74,7 @@ class LunchOfferUpdater(lunchOfferService: ActorRef) extends Actor with ActorLog
 
     lunchOfferService ! RemoveOldOffers
 
-    for (provider <- LunchProvider.values) {
+    for (provider <- LunchProvider.values /*.filter(_.active)*/ ) {
       val nameForWorker = LunchOfferUpdateWorker.NamePrefix + provider.getClass.getSimpleName
       if (context.child(nameForWorker).isEmpty)
         context.actorOf(LunchOfferUpdateWorker.props(self, provider), nameForWorker)
@@ -112,7 +112,7 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
 
   val offersFuture: Future[Seq[LunchOffer]] = lunchProvider match {
     case SCHWEINESTALL => new LunchResolverSchweinestall(dateValidator).resolve
-    case HOTEL_AM_RING => new LunchResolverHotelAmRing(dateValidator).resolve
+    //    case HOTEL_AM_RING => new LunchResolverHotelAmRing(dateValidator).resolve
     case SUPPENKULTTOUR => new LunchResolverSuppenkulttour(dateValidator).resolve
     case AOK_CAFETERIA => new LunchResolverAokCafeteria(dateValidator).resolve
     case SALT_N_PEPPER => new LunchResolverSaltNPepper(dateValidator).resolve
@@ -124,6 +124,7 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
       ).resolve
     case FELDKUECHE =>
       new LunchResolverFeldkueche(dateValidator, new DefaultOcrClient).resolve
+    case DAS_KRAUTHOF => new LunchResolverKrauthof(dateValidator).resolve
     case _ => Future(Nil)
   }
   offersFuture.onComplete {
