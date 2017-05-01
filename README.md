@@ -13,7 +13,7 @@ Lunchbox bietet in Version 1 folgende Funktionalitäten:
 Für Version 1 sind folgende Mittagsanbieter vorgesehen:
 
 * [Neubrandenburg: Schweinestall](http://www.schweinestall-nb.de/)
-* [Neubrandenburg: Hotel am Ring](http://www.hotel-am-ring.de/restaurant-rethra.html)
+* [Neubrandenburg: Das Krauthof](https://www.daskrauthof.de/karte/)
 * [Neubrandenburg: AOK Cafeteria](http://www.hotel-am-ring.de/aok-cafeteria.html)
 * [Neubrandenburg: Suppenkulttour](http://www.suppenkult.com/wochenplan.html)
 * [Berlin: Salt 'n' Pepper](http://www.partyservice-rohde.de/bistro-angebot-der-woche/)
