@@ -59,7 +59,7 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
     val rootNode = new HtmlCleaner(props).clean(htmlUrl)
     val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n }.toSet
 
-    links.filter(_ matches """.*/[a-zA-Z]{3}_.+.pdf""").toList
+    links.filter(_ matches """.*/[a-zA-Z]{3}_*[0-9\.\-]+.pdf""").toList
   }
 
   private def resolveFromPdfs(relativePdfPaths: Seq[String]): Future[Seq[LunchOffer]] = {
