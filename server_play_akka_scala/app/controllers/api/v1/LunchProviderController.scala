@@ -18,13 +18,12 @@ trait LunchProviderJsonFormats {
     def writes(p: LunchProvider) = Json.obj(
       "id" -> p.id,
       "name" -> p.name,
-      "location" -> p.location
-    )
+      "location" -> p.location)
   }
 }
 
 @Singleton
-class LunchProviderController @Inject() (domain: DomainApi)(implicit exec: ExecutionContext) extends Controller with LunchProviderJsonFormats {
+class LunchProviderController @Inject() (domain: DomainApi)(implicit exec: ExecutionContext) extends InjectedController with LunchProviderJsonFormats {
 
   implicit val timeout = Timeout(5.seconds)
 

@@ -10,8 +10,7 @@ case class AtomFeed(
   title: String,
   selfLink: URL,
   updated: OffsetDateTime,
-  entries: Seq[AtomFeedEntry]
-)
+  entries: Seq[AtomFeedEntry])
 
 case class AtomFeedEntry(
   id: URI,
@@ -19,13 +18,11 @@ case class AtomFeedEntry(
   author: Author,
   content: Content,
   published: OffsetDateTime,
-  updated: OffsetDateTime
-)
+  updated: OffsetDateTime)
 
 case class Content(
   contentType: String,
-  body: String
-)
+  body: String)
 
 object Content {
   def apply(content: play.twirl.api.Content): Content = {

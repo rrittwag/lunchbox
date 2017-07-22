@@ -47,8 +47,7 @@ class FeedController @Inject() (domain: DomainApi)(implicit exec: ExecutionConte
   private def createAtomModel(
     location: String,
     offers: Seq[LunchOffer],
-    providers: Set[LunchProvider]
-  )(implicit request: RequestHeader) = {
+    providers: Set[LunchProvider])(implicit request: RequestHeader) = {
 
     val providerIDs = providers.map(_.id)
     val offersForProviders = offers.filter(offer => providerIDs.contains(offer.provider))
@@ -63,16 +62,14 @@ class FeedController @Inject() (domain: DomainApi)(implicit exec: ExecutionConte
         Author("Lunchbox"),
         Content(views.html.lunchday(offersForDay, providers)),
         toDateTime(day),
-        toDateTime(day)
-      )
+        toDateTime(day))
 
     AtomFeed(
       new URI("urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157"),
       s"Mittagstisch $location",
       new URL(routes.FeedController.feed(Some(location)).absoluteURL),
       toDateTime(LocalDate.now),
-      entries
-    )
+      entries)
 
   }
 

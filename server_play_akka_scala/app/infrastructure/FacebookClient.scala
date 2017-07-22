@@ -3,7 +3,6 @@ package infrastructure
 import javax.inject.Singleton
 
 import com.typesafe.config.ConfigFactory
-import dispatch.Defaults._
 import dispatch._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -32,7 +31,7 @@ class DefaultFacebookClient(implicit ec: ExecutionContext) extends FacebookClien
     val request = url(s"https://graph.facebook.com/v2.3/${graphApiUrl.replaceFirst("^/", "")}").secure
       .addQueryParameter("access_token", s"$appId|$appSecret")
 
-    val requestFunc = () => Http(request OK as.String)
+    val requestFunc = () => Http.default(request OK as.String)
 
     runWithRetry(requestFunc)
     //    ws.url(s"https://graph.facebook.com/v2.3/${graphApiUrl.replaceFirst("^/", "")}")

@@ -3,9 +3,9 @@ package domain.models
 import scala.collection.immutable.TreeSet
 
 sealed abstract class LunchProvider(
-    val id: LunchProviderId,
-    val name: String,
-    val location: Location /*,
+  val id: LunchProviderId,
+  val name: String,
+  val location: Location /*,
     val active: Boolean = true */
 ) extends Ordered[LunchProvider] {
 

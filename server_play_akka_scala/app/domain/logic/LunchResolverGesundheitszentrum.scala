@@ -19,10 +19,9 @@ case class Wochenplan(monday: LocalDate, mittagsplanImageId: String)
  * Mittagsangebote von Gesundheitszentrum Springpfuhl über deren Facebook-Seite ermitteln.
  */
 class LunchResolverGesundheitszentrum(
-    dateValidator: DateValidator,
-    facebookClient: FacebookClient,
-    ocrClient: OcrClient
-) extends LunchResolver {
+  dateValidator: DateValidator,
+  facebookClient: FacebookClient,
+  ocrClient: OcrClient) extends LunchResolver {
 
   sealed abstract class PdfSection(val sectionStartPattern: String, val order: Int)
 
@@ -69,7 +68,7 @@ class LunchResolverGesundheitszentrum(
       imageId <- (imageAttachment \ "target" \ "id").asOpt[String]
     ) yield Wochenplan(monday, imageId)
 
-  private def findImageAttachment(post: JsValue): JsLookupResult = {
+  private def findImageAttachment(post: JsValue): JsValue = {
     val attachments = (post \ "attachments" \ "data")(0)
     (attachments \ "subattachments").toOption match {
       case None => attachments // nur 1 Anhang: das Bild mit dem Mittagsplan

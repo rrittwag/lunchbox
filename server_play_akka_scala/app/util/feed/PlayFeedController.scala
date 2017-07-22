@@ -5,7 +5,7 @@ import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait PlayFeedController extends Controller {
+trait PlayFeedController extends InjectedController {
 
   def AtomFeedAction(block: => Future[Result])(implicit exec: ExecutionContext): Action[AnyContent] =
     AtomFeedAction(_ => block)

@@ -10,33 +10,31 @@ lazy val root = project.in(file(".")).enablePlugins(PlayScala)
 
 // dependencies
 // ~~~~~~~~~~~~
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.2"
 libraryDependencies ++= Seq(
 //  jdbc,
 //  cache,
   ws,
   filters,
+  guice,
   // domain model
-  "org.joda"               %  "joda-money"  % "0.11",
+  "org.joda"               %  "joda-money"  % "0.12",
   // domain logic
-  "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.16",
-  "org.apache.commons"          %  "commons-lang3" % "3.4",
+  "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.21",
+  "org.apache.commons"          %  "commons-lang3" % "3.6",
   "org.apache.pdfbox"           %  "pdfbox"        % "1.8.11",
-  "org.scalactic"               %% "scalactic"     % "2.2.6",
+  "org.scalactic"               %% "scalactic"     % "3.0.1",
   // external
-  "net.databinder.dispatch"     %% "dispatch-core" % "0.11.3",
+  "net.databinder.dispatch"     %% "dispatch-core" % "0.13.1",
   // test
-  "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test,
-  "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % Test
+  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.1" % Test,
+  "org.scalamock" %% "scalamock-scalatest-support" % "3.6.0" % Test
 )
 
 
 
 // settings
 // ~~~~~~~~
-// project uses Java 8 features
-javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
-
 // enhances available types in routes file
 routesImport += "util.PlayDateTimeHelper._"
 

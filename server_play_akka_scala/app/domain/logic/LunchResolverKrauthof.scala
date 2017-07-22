@@ -103,9 +103,7 @@ class LunchResolverKrauthof(dateValidator: DateValidator) extends LunchResolver 
 
     PdfSection.weekdaysValues.flatMap(
       weekday => rows.map(
-        row => LunchOffer(0, row.name, monday.plusDays(weekday.order), row.priceOpt.get, LunchProvider.DAS_KRAUTHOF.id)
-      )
-    )
+        row => LunchOffer(0, row.name, monday.plusDays(weekday.order), row.priceOpt.get, LunchProvider.DAS_KRAUTHOF.id)))
   }
 
   private def extractPdfContent(pdfUrl: URL): Seq[String] = {
