@@ -58,7 +58,7 @@ SbtScalariform.scalariformSettings
 ScalariformKeys.preferences := ScalariformKeys.preferences.value
   .setPreference(SpacesAroundMultiImports, false)
   .setPreference(PreserveSpaceBeforeArguments, true)
-  .setPreference(DoubleIndentClassDeclaration, true)
+  .setPreference(DoubleIndentConstructorArguments, true)
 
 
 
@@ -75,5 +75,4 @@ dockerCommands := dockerCommands.value.flatMap{
 dockerExposedPorts in Docker := Seq(9000)
 
 dockerRepository := Some("rori")
-dockerUpdateLatest := true // bug in sbt-native-packager stops publishing Docker image!
-                           // Set false and tag the Docker image yourself => https://docs.docker.com/engine/getstarted/step_six/
+dockerUpdateLatest := true

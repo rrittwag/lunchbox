@@ -17,8 +17,8 @@ import scala.util.matching.Regex
  * Mittagsangebote von Feldküche Rühlow ermitteln.
  */
 class LunchResolverFeldkueche(
-  dateValidator: DateValidator,
-  ocrClient: OcrClient) extends LunchResolver {
+    dateValidator: DateValidator,
+    ocrClient: OcrClient) extends LunchResolver {
 
   sealed abstract class Weekday(val name: String, val order: Int)
 

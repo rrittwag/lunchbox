@@ -17,8 +17,8 @@ import scala.concurrent.{ExecutionContext, Future}
  * @param log  log filter
  */
 class Filters @Inject() (
-  gzip: GzipFilter,
-  log: RequestLoggingFilter) extends HttpFilters {
+    gzip: GzipFilter,
+    log: RequestLoggingFilter) extends HttpFilters {
 
   val filters = Seq(gzip, log)
 }
@@ -30,9 +30,9 @@ class Filters @Inject() (
  * @param ec  ExecutionContext!?
  */
 class RequestLoggingFilter @Inject() (
-  implicit
-  val mat: Materializer,
-  ec: ExecutionContext) extends Filter {
+    implicit
+    val mat: Materializer,
+    ec: ExecutionContext) extends Filter {
 
   val requestLogger = Logger("request")
   val UserAgentHeader = "User-Agent"

@@ -6,23 +6,23 @@ import java.time.OffsetDateTime
 import play.api.http.MimeTypes
 
 case class AtomFeed(
-  id: URI,
-  title: String,
-  selfLink: URL,
-  updated: OffsetDateTime,
-  entries: Seq[AtomFeedEntry])
+    id: URI,
+    title: String,
+    selfLink: URL,
+    updated: OffsetDateTime,
+    entries: Seq[AtomFeedEntry])
 
 case class AtomFeedEntry(
-  id: URI,
-  title: String,
-  author: Author,
-  content: Content,
-  published: OffsetDateTime,
-  updated: OffsetDateTime)
+    id: URI,
+    title: String,
+    author: Author,
+    content: Content,
+    published: OffsetDateTime,
+    updated: OffsetDateTime)
 
 case class Content(
-  contentType: String,
-  body: String)
+    contentType: String,
+    body: String)
 
 object Content {
   def apply(content: play.twirl.api.Content): Content = {
