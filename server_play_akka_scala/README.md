@@ -53,7 +53,6 @@ TODOs
 * aus PlayDateTimeHelper ein DateTimeJsonFormats-Trait herausziehen?
 * Metrics & Tracing, um Antwortzeiten und Last zu überwachen, mit [ActorStacks](http://de.slideshare.net/EvanChan2/akka-inproductionpnw-scala2013) und Frameworks [Kamon, Graphite, Statsd, ...](http://mukis.de/pages/monitoring-akka-with-kamon/)
 * auf PDF-Box v2.0 migrieren
-* auf Facebook Graph API v2.6 migrieren
 * Akka-Supervisioning beschreiben (siehe auch Buch "Reactive Web Applications")
 * LunchResolver: globalen durch eigenen ExecutionContext ersetzen?
 * LunchResolver automatisch auflösen (via DI-MultiBinder oder ServiceLoader oder custom-Reflection?)

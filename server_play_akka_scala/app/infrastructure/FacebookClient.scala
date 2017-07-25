@@ -28,7 +28,7 @@ class DefaultFacebookClient(implicit ec: ExecutionContext) extends FacebookClien
     val appId = config.getString("infrastructure.facebook.appId")
     val appSecret = config.getString("infrastructure.facebook.appSecret")
 
-    val request = url(s"https://graph.facebook.com/v2.3/${graphApiUrl.replaceFirst("^/", "")}").secure
+    val request = url(s"https://graph.facebook.com/v2.10/${graphApiUrl.replaceFirst("^/", "")}").secure
       .addQueryParameter("access_token", s"$appId|$appSecret")
 
     val requestFunc = () => Http.default(request OK as.String)

@@ -24,6 +24,16 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers with Mo
     wochenplaene should contain (Wochenplan(LocalDate.parse("2015-06-15"), "712691465508374"))
   }
 
+  it should "resolve Wochenpläne for facebook page of 2017-07-24" in {
+    val content = readFileContent("/mittagsplaene/gesundheitszentrum_2017-07-24.json")
+
+    val wochenplaene = resolver.parseWochenplaene(content)
+
+    wochenplaene should contain (Wochenplan(LocalDate.parse("2017-07-24"), "1214480778662771"))
+    wochenplaene should contain (Wochenplan(LocalDate.parse("2017-07-17"), "1208020239308825"))
+    wochenplaene should contain (Wochenplan(LocalDate.parse("2017-07-10"), "1204499422994240"))
+  }
+
   it should "resolve double-imaged Wochenplan for facebook page of 2016-04-25" in {
     val content = readFileContent("/mittagsplaene/gesundheitszentrum_2016-04-25.json")
 
@@ -38,6 +48,14 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers with Mo
     val url = resolver.parseUrlOfBiggestImage(content)
 
     url should be (Some(new URL("""https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg""")))
+  }
+
+  it should "parse URL of biggest image for 2017-07-24" in {
+    val content = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2017-07-24_facebook.json")
+
+    val url = resolver.parseUrlOfBiggestImage(content)
+
+    url should be (Some(new URL("""https://scontent.xx.fbcdn.net/v/t31.0-8/20233053_1214480778662771_9100409891617048289_o.jpg?oh=a50f5058410183e8a5c631e82919f473&oe=5A09D7B9""")))
   }
 
   it should "resolve offers for week of 2015-06-22" in {
@@ -448,6 +466,19 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers with Mo
 
     offers should contain(LunchOffer(0, "Ofenfrischer Leberkäse mit Zwiebelsauce dazu Kartoffelpürree", week.wednesday, euro("4.30"), Id))
     offers should contain(LunchOffer(0, "Rieseneisbein mit Sauerkraut dazu Salzkartoffeln", week.thursday, euro("5.10"), Id))
+  }
+
+  it should "resolve offers for week of 2017-07-24" in {
+    val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2017-07-24_ocr.txt")
+    val week = weekOf("2017-07-24")
+
+    val offers = resolver.resolveOffersFromText(week.monday, text)
+
+    // TODO: Das OCR liefert viel Geschrammel. Da ist schlecht was zu korrigieren/interpretieren.
+    // offers should have size 18
+
+    // offers should contain(LunchOffer(0, "Scharfes Kartoffel-Paprika-Curry", week.tuesday, euro("4.20"), Id))
+    // offers should contain(LunchOffer(0, "Gelbe Erbseneintopf", week.friday, euro("2.80"), Id))
   }
 
   private def resolver = {
