@@ -156,8 +156,8 @@ class LunchResolverKrauthof(dateValidator: DateValidator) extends LunchResolver 
   private def parseName(text: String): String = text.trim
     .replaceAll("  ", " ")
     .replaceAll("–", "-")
-    .replaceAll(""" \│ """, ", ")
-    .replaceAll("""\│""", ",")
+    .replaceAll("""[\│\|]""", ",")
+    .replaceAll(" ,", ",")
 
   /**
    * Erzeugt ein Money-Objekt (in EURO) aus dem Format "*0,00*"

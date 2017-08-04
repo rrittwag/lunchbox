@@ -41,6 +41,29 @@ class LunchResolverKrauthofSpec extends FlatSpec with Matchers with MockFactory 
     offers should contain(LunchOffer(0, "Feines Mousse von weißer Schokolade mit Kirschragout", week.monday, euro("3.10"), Id))
   }
 
+  it should "resolve offers for shorter week of 2017-08-07" in {
+    val url = getClass.getResource("/mittagsplaene/daskrauthof/KRAUTHOF-Lunch-07.08-11.08.2017.pdf")
+    val week = weekOf(s"2017-08-07")
+
+    val offers = resolver.resolveFromPdf(url)
+
+    offers should have size 35
+
+    offers.filter(_.day == week.monday) should have size 7
+    offers.filter(_.day == week.tuesday) should have size 7
+    offers.filter(_.day == week.wednesday) should have size 7
+    offers.filter(_.day == week.thursday) should have size 7
+    offers.filter(_.day == week.friday) should have size 7
+
+    offers should contain(LunchOffer(0, "Herzhaftes Kartoffelsüppchen mit Scheiben von gebratenen Pfefferbeißern", week.monday, euro("3.70"), Id))
+    offers should contain(LunchOffer(0, "Bunte Blattsalate mit gegrillter Paprika, eingelegten Artischocken, Kirschtomaten, Kräutern aus dem KRAUTHOF", week.monday, euro("4.90"), Id))
+    offers should contain(LunchOffer(0, "Knuspriges Sellerieschnitzel (vegetarisch) auf Tomaten-Zucchini-Gemüse, in Rosmarin geschwenkte Kartoffeln", week.monday, euro("5.10"), Id))
+    offers should contain(LunchOffer(0, "KRAUTHOF-Pizza mit Hähnchen, Hinterschinken, roten Zwiebeln, Strauchtomaten, Champignons, Kräuter-Hollandaise", week.monday, euro("7.10"), Id))
+    offers should contain(LunchOffer(0, "Gebratenes Wildlachsfilet auf Blattspinat, Kräuterkartoffeln, Zitrone", week.monday, euro("7.30"), Id))
+    offers should contain(LunchOffer(0, "Saftiges Schweinesteak im Zwiebel-Senf-Mantel mit Bratkartoffeln, Salat", week.monday, euro("6.20"), Id))
+    offers should contain(LunchOffer(0, "Fruchtiges Zitronenmousse mit Himbeercoulis", week.monday, euro("2.90"), Id))
+  }
+
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)
