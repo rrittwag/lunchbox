@@ -111,7 +111,7 @@ class LunchResolverGesundheitszentrum(
 
     for (
       unformattedLine <- text.split('\n');
-      line = unformattedLine.trim
+      line = unformattedLine.trim.replaceAll("Freng", "Freitag")
     ) {
       PdfSection.values.find(sec => line.startsWith(sec.sectionStartPattern)) match {
         case Some(newSection) =>
@@ -223,6 +223,10 @@ class LunchResolverGesundheitszentrum(
       .replaceAll("falisch", "fälisch")
       .replaceAll("lll ", "!!! ")
       .replaceAll(" lll", " !!!")
+      .replaceAll("ScharfeseKartoffelePaprikszurry", "Scharfes Kartoffel-Paprika-Curry")
+      .replaceAll("Möhren7Zucchiniinntopf", "Möhren-Zucchini-Eintopf")
+      .replaceAll("Häl111cl1e11sclu1itzel", "Hähnchenschnitzel")
+      .replaceAll("Pfeffelralnnsauce", "Pfefferrahmsauce")
 
   private def removeUnnecessaryText(text: String) =
     text.trim
@@ -246,6 +250,10 @@ class LunchResolverGesundheitszentrum(
       .replaceAll(""" [A-Z]{2}[^ ]* +(\d\,\d\d)$""", " $1")
       .replaceAll("!!!", "")
       .replaceAll("Amame", "")
+      .replaceAll(""" [^ ]+![^ ]+ """, "")
+      .replaceAll(""" [^ ]+![^ ]+$""", "")
+      .replaceAll(" AG$", "")
+      .replaceAll(""" [0-9 |l]+$""", "")
 
   private def isEndingSection(line: String): Boolean =
     line.startsWith("ACHTUNG") || line.startsWith("Wir wünschen") ||

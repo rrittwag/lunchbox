@@ -474,11 +474,22 @@ class LunchResolverGesundheitszentrumSpec extends FlatSpec with Matchers with Mo
 
     val offers = resolver.resolveOffersFromText(week.monday, text)
 
-    // TODO: Das OCR liefert viel Geschrammel. Da ist schlecht was zu korrigieren/interpretieren.
-    // offers should have size 18
+    offers should have size 18
 
-    // offers should contain(LunchOffer(0, "Scharfes Kartoffel-Paprika-Curry", week.tuesday, euro("4.20"), Id))
-    // offers should contain(LunchOffer(0, "Gelbe Erbseneintopf", week.friday, euro("2.80"), Id))
+    offers should contain(LunchOffer(0, "Scharfes Kartoffel-Paprika-Curry", week.tuesday, euro("4.20"), Id))
+    offers should contain(LunchOffer(0, "Gelbe Erbseneintopf", week.friday, euro("2.80"), Id))
+  }
+
+  it should "resolve offers for week of 2017-07-31" in {
+    val text = readFileContent("/mittagsplaene/gesundheitszentrum/gesundheitszentrum_2017-07-31_ocr.txt")
+    val week = weekOf("2017-07-31")
+
+    val offers = resolver.resolveOffersFromText(week.monday, text)
+
+    offers should have size 19
+
+    offers should contain(LunchOffer(0, "Möhren-Zucchini-Eintopf", week.friday, euro("2.80"), Id))
+    offers should contain(LunchOffer(0, "Kasselerkammbraten mit Sauerkraut und Salzkartoffeln", week.friday, euro("4.80"), Id))
   }
 
   private def resolver = {
