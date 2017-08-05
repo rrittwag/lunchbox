@@ -35,7 +35,7 @@ class LunchResolverFeldkueche(
   }
 
   override def resolve: Future[Seq[LunchOffer]] =
-    Future { resolveImageLinks(new URL("http://www.feldkuechebkarow.de/speiseplan")) }
+    Future { resolveImageLinks(new URL("https://www.feldkuechebkarow.de/speiseplan")) }
       .flatMap(imageUrls => resolveFromImageLinks(imageUrls))
 
   private[logic] def resolveImageLinks(htmlUrl: URL): Seq[URL] = {
@@ -56,38 +56,71 @@ class LunchResolverFeldkueche(
 
   private[logic] def resolveOffersFromText(rawText: String): Seq[LunchOffer] = {
     val contentAsLines = rawText.split('\n').map(correctOcrErrors)
-    val mondayOpt =
-      for (
-        wochenplanZeile <- contentAsLines.find(_.contains("Wochenplan"));
-        day <- parseDay(wochenplanZeile);
-        monday = day.`with`(DayOfWeek.MONDAY) if dateValidator.isValid(monday)
-      ) yield monday
+    val mondayOpt = resolveMonday(contentAsLines)
 
-    val weekdaysRegex = s"(${Weekday.values.map(_.name).mkString("|")}) .*"
-    val offerTexts = contentAsLines.filter(_.matches(weekdaysRegex)).filterNot(_.startsWith("Montag bis"))
-    val prices = contentAsLines.filter(_.matches(""".*\d{1,},(\d{2}) €""")).flatMap(parsePrice)
+    val rawOffers =
+      if (Weekday.values.exists(weekday => contentAsLines.contains(weekday.name)))
+        resolveOffersWith3rowSplit(contentAsLines)
+      else
+        resolveOffersWith2rowSplit(contentAsLines)
 
     for (
-      (offer, price) <- offerTexts.zip(prices);
-      (weekday, name) <- parseOffer(offer);
+      (weekday, name, price) <- rawOffers;
       monday <- mondayOpt
     ) yield LunchOffer(0, name, monday.plusDays(weekday.order), price, LunchProvider.FELDKUECHE.id)
   }
 
-  private def parseOffer(text: String): Option[(Weekday, String)] = {
-    val (weekdayName, lunchName) = text.span(_ != ' ')
-    Weekday.values.find(_.name == weekdayName) match {
-      case Some(weekday) => Some(weekday, lunchName.replaceAll(""" \d{1,},\d{2} €""", "").trim)
-      case _ => None
+  private def resolveMonday(contentAsLines: Seq[String]): Option[LocalDate] =
+    for (
+      wochenplanZeile <- contentAsLines.find(_.contains("Wochenplan"));
+      day <- parseDay(wochenplanZeile);
+      monday = day.`with`(DayOfWeek.MONDAY) if dateValidator.isValid(monday)
+    ) yield monday
+
+  private def resolveOffersWith2rowSplit(contentAsLines: Seq[String]): Seq[(Weekday, String, Money)] = {
+    val weekdaysRegex = s"(${Weekday.values.map(_.name).mkString("|")}) .*"
+    val offerTexts = contentAsLines.filter(_.matches(weekdaysRegex)).filterNot(_.startsWith("Montag bis"))
+
+    def splitWeekdayAndName(text: String): Option[(Weekday, String)] = {
+      val (weekdayName, lunchName) = text.span(_ != ' ')
+      Weekday.values.find(_.name == weekdayName) match {
+        case Some(weekday) => Some(weekday, lunchName.replaceAll(""" \d{1,},\d{2} €""", "").trim)
+        case _ => None
+      }
     }
+
+    val prices = contentAsLines.filter(_.matches(""".*\d{1,},(\d{2}) €""")).flatMap(parsePrice)
+
+    offerTexts
+      .flatMap(splitWeekdayAndName)
+      .zip(prices)
+      .map{ case ((weekday, name), price) => (weekday, name, price) }
+  }
+
+  private def resolveOffersWith3rowSplit(contentAsRows: Seq[String]): Seq[(Weekday, String, Money)] = {
+    def isWeekday(text: String) = Weekday.values.map(_.name).contains(text)
+    val (weekdayTextRows, followingRows) =
+      contentAsRows
+        .filter(_.nonEmpty)
+        .dropWhile(line => !isWeekday(line))
+        .span(isWeekday)
+
+    val weekdayRows = weekdayTextRows.flatMap(row => Weekday.values.find(_.name == row))
+    val prices = followingRows.filter(_.matches(""".*\d{1,},(\d{2}) €""")).flatMap(parsePrice)
+
+    weekdayRows
+      .zip(followingRows)
+      .zip(prices)
+      .map{ case ((weekday, name), price) => (weekday, name, price) }
   }
 
   private def correctOcrErrors(line: String) =
     line.trim
+      .replaceAll("Wochenglan", "Wochenplan")
       .replaceAll("‚", ",")
       .replaceAll("""l\)""", "0")
-      .replaceAll("""(\d{1,},\d{2}) [cCeE]""", "$1 €")
-      .replaceAll("4,00 €", "4,80 €") // besser falsch zu hohe 4,80 als zu niedrige 4,00
+      .replaceAll("""(\d{1,},\d{2}) [cCeEs]""", "$1 €")
+      //      .replaceAll("4,00 €", "4,80 €") // besser falsch zu hohe 4,80 als zu niedrige 4,00
       .replaceAll("Kanonen-", "Kartoffeln")
       .replaceAll("ﬂ", "fl")
       .replaceAll("ﬁ", "fi")
