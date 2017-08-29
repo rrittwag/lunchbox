@@ -111,7 +111,9 @@ class LunchResolverGesundheitszentrum(
 
     for (
       unformattedLine <- text.split('\n');
-      line = unformattedLine.trim.replaceAll("Freng", "Freitag")
+      line = unformattedLine.trim
+        .replaceAll("Nlittwoch", "Mittwoch")
+        .replaceAll("Freng", "Freitag")
     ) {
       PdfSection.values.find(sec => line.startsWith(sec.sectionStartPattern)) match {
         case Some(newSection) =>
@@ -239,7 +241,7 @@ class LunchResolverGesundheitszentrum(
       .replaceAll(" 2 ?und ", " und ")
       .replaceAll(" 2 ?mit ", " mit ")
       .replaceAll(" , ", ", ")
-      .replaceAll(" 3.14 ", " ").trim // schlecht OCR-ed Zusatzstoffe
+      .replaceAll(" 3.14 ", " ")
       .replaceAll(" 1,14m ", " ")
       .replaceAll(""" \d+[a-zA-Z]+ """, " ")
       .replaceAll(""" [a-zA-Z]+\d+ """, " ")
@@ -250,10 +252,11 @@ class LunchResolverGesundheitszentrum(
       .replaceAll(""" [A-Z]{2}[^ ]* +(\d\,\d\d)$""", " $1")
       .replaceAll("!!!", "")
       .replaceAll("Amame", "")
+      .replaceAll("Acu", "")
       .replaceAll(""" [^ ]+![^ ]+ """, "")
       .replaceAll(""" [^ ]+![^ ]+$""", "")
-      .replaceAll(" AG$", "")
-      .replaceAll(""" [0-9 |l]+$""", "")
+      .replaceAll(""" [A-Za-z]+[A-Z0-9!].* +(\d\,\d\d)$""", " $1")
+      .replaceAll(""" [0-9 |l]+$""", "").trim // schlecht OCR-ed Zusatzstoffe
 
   private def isEndingSection(line: String): Boolean =
     line.startsWith("ACHTUNG") || line.startsWith("Wir wünschen") ||
