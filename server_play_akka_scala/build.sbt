@@ -16,12 +16,12 @@ libraryDependencies ++= Seq(
 //  cache,
   ws,
   filters,
-  guice,
+  guice,         
   // domain model
   "org.joda"               %  "joda-money"  % "0.12",
   // domain logic
   "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.21",
-  "org.apache.commons"          %  "commons-lang3" % "3.6",
+  "org.apache.commons"          %  "commons-text"  % "1.1",
   "org.apache.pdfbox"           %  "pdfbox"        % "1.8.11",
   "org.scalactic"               %% "scalactic"     % "3.0.1",
   // external

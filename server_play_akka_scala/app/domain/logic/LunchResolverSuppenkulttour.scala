@@ -5,7 +5,7 @@ import java.time.{DayOfWeek, LocalDate}
 import java.time.format.DateTimeFormatter
 
 import domain.models.{LunchOffer, LunchProvider}
-import org.apache.commons.lang3.StringEscapeUtils
+import org.apache.commons.text.StringEscapeUtils
 import org.htmlcleaner._
 import org.joda.money.{CurrencyUnit, Money}
 import util.PlayDateTimeHelper._
@@ -140,15 +140,9 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     var description = List[String]()
     var priceOpt: Option[Money] = None
 
-    val clearedParts = offerAttributesAsStrings.map { part =>
-      part.replaceAll("""\( ?([a-zA-Z\d]{1,2}, ?)* ?[a-zA-Z\d]{1,2},? ?\)""", "") // Zusatzinfo (i,j,19) entfernen
-        .trim.replaceAll("""^([a-zA-Z\d]{1,2}[, ] ?)* ?[a-zA-Z\d]{1,2},?$""", "")
-        .trim.replaceAll("  ", " ") // doppelte Leerzeichen entfernen
-    }
+    val clearedParts = offerAttributesAsStrings.map(cleanUpString)
 
-    val titleOpt = clearedParts.headOption.map {
-      _.trim.replaceFirst("lf, gf$", "").replaceFirst("gf, lf$", "").trim
-    }
+    val titleOpt = clearedParts.headOption
     val remainingParts = if (clearedParts.nonEmpty) clearedParts.tail else Nil
 
     remainingParts.foreach {
@@ -162,6 +156,16 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
       if (description.nonEmpty) s"$title: ${description.mkString(" ")}" else title)
 
     (nameOpt, priceOpt)
+  }
+
+  private def cleanUpString(str: String) = {
+    str.replaceAll("""€ €""", "€")
+      .split(" ")
+      .filterNot(s => s.contains(",") && s.matches(""".*[\(\)a-zA-Z].*""") && s.split("""[,\(\)]""").forall(_.length < 3)) // Zusatzinfo (i,j,19) entfernen
+      .filter(s => s != "(" && s != ")")
+      .filter(s => !isZusatzInfo(s)) // erstmal ignorieren/rauswerfen
+      .filter(!_.isEmpty)
+      .mkString(" ").trim
   }
 
   private def multiplyWochenangebote(wochenOffers: Seq[LunchOffer], dates: Seq[LocalDate]): Seq[LunchOffer] = {
@@ -192,8 +196,8 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
       .replaceAll("\\u00a0", " ") // NO-BREAK SPACE durch normales Leerzeichen ersetzen
 
   private def isZusatzInfo(string: String) = {
-    val zusatzInfos = List("(vegan)", "vegan", "glutenfrei", "lf", "gf", "vegetarisch", "laktosefrei", "veg. gf", "veget.gf", "vegan gf")
-    string.split(",").exists(elem => zusatzInfos.contains(elem.trim))
+    val zusatzInfos = List("(vegan)", "vegan", "glutenfrei", "vegetarisch", "laktosefrei", "veg.", "veget.gf", "gf", "lf")
+    string.split("[, ]").exists(elem => zusatzInfos.contains(elem.trim))
   }
 
   private def extractWeekday(text: String, monday: LocalDate): (Option[LocalDate], String) = {
