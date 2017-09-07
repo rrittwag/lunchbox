@@ -220,7 +220,9 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
     offers.filter(_.day == date("2017-09-07")) should have size 4
     offers.filter(_.day == date("2017-09-08")) should have size 4
 
-    offers should contain (LunchOffer(0, "Kartoffel-Zucchinicreme: veget. mit Champignons, Paprika, wahlweise + Huhn", date("2017-09-04"), euro("4.70"), Id))
+    offers should contain (LunchOffer(0, "Kartoffel-Zucchinicreme: mit Champignons, Paprika, wahlweise + Huhn", date("2017-09-04"), euro("4.70"), Id))
+    offers should contain (LunchOffer(0, "Berliner Kartoffelsuppe: Wiener, Karotten, Lauch, Kartoffeln, Majoran", date("2017-09-04"), euro("4.70"), Id))
+    offers should contain (LunchOffer(0, "Pasta Pomodori: Soße aus gaaanz vielen frischen Tomaten, Parmesan, Rucola", date("2017-09-12"), euro("4.70"), Id))
   }
 
   private def resolver = {

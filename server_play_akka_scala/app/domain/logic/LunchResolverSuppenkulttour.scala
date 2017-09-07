@@ -159,8 +159,11 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   }
 
   private def cleanUpString(str: String) = {
-    str.replaceAll("""€ €""", "€")
-      .split(" ")
+    val replacedStr =
+      str.replaceAll("""€ €""", "€")
+        .replaceAll("""^[a-zA-Z]$""", "")
+
+    replacedStr.split(" ")
       .filterNot(s => s.contains(",") && s.matches(""".*[\(\)a-zA-Z].*""") && s.split("""[,\(\)]""").forall(_.length < 3)) // Zusatzinfo (i,j,19) entfernen
       .filter(s => s != "(" && s != ")")
       .filter(s => !isZusatzInfo(s)) // erstmal ignorieren/rauswerfen
@@ -196,7 +199,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
       .replaceAll("\\u00a0", " ") // NO-BREAK SPACE durch normales Leerzeichen ersetzen
 
   private def isZusatzInfo(string: String) = {
-    val zusatzInfos = List("(vegan)", "vegan", "glutenfrei", "vegetarisch", "laktosefrei", "veg.", "veget.gf", "gf", "lf")
+    val zusatzInfos = List("(vegan)", "vegan", "glutenfrei", "vegetarisch", "laktosefrei", "veg.", "veget.", "veget.gf", "gf", "lf")
     string.split("[, ]").exists(elem => zusatzInfos.contains(elem.trim))
   }
 
