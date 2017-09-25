@@ -68,7 +68,12 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     val optDateSeq = for (dateDiv <- node.evaluateXPath("/div[@class='toggler']").map { case n: TagNode => n }) yield {
       dateDiv.getText.toString.replace("\n", " ") match {
         case r""".*Suppen vom +([\d\.]+)$firstDayString.*""" =>
-          parseDay(firstDayString).map { firstDay =>
+          parseDay(firstDayString).map{
+            case firstDay if firstDay.getDayOfWeek == DayOfWeek.SUNDAY => firstDay.plusDays(1)
+            case firstDay if firstDay.getDayOfWeek == DayOfWeek.SATURDAY => firstDay.plusDays(2)
+            case day => day
+
+          }.map { firstDay =>
             firstDay.`with`(DayOfWeek.MONDAY)
           }
         case _ => None
@@ -160,7 +165,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
 
   private def cleanUpString(str: String) = {
     val replacedStr =
-      str.replaceAll("""€ €""", "€")
+      str.replaceAll("""€ *€""", "€")
         .replaceAll("""^[a-zA-Z]$""", "")
 
     replacedStr.split(" ")

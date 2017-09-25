@@ -64,6 +64,32 @@ class LunchResolverKrauthofSpec extends FlatSpec with Matchers with MockFactory 
     offers should contain(LunchOffer(0, "Fruchtiges Zitronenmousse mit Himbeercoulis", week.monday, euro("2.90"), Id))
   }
 
+  it should "resolve PDF links for 2017-09-25" in {
+    val url = getClass.getResource("/mittagsplaene/daskrauthof_2017-09-25.html")
+
+    val links = resolver.resolvePdfLinks(url)
+
+    links should have size 1
+    links should contain (HttpUploadDir + "2017/09/KRAUTHOF-Lunch-25.09-29.09.2017-.pdf")
+  }
+
+  it should "resolve offers for week of 2017-09-25" in {
+    val url = getClass.getResource("/mittagsplaene/daskrauthof/KRAUTHOF-Lunch-25.09-29.09.2017-.pdf")
+    val week = weekOf(s"2017-09-25")
+
+    val offers = resolver.resolveFromPdf(url)
+
+    offers should have size 35
+
+    offers.filter(_.day == week.monday) should have size 7
+    offers.filter(_.day == week.tuesday) should have size 7
+    offers.filter(_.day == week.wednesday) should have size 7
+    offers.filter(_.day == week.thursday) should have size 7
+    offers.filter(_.day == week.friday) should have size 7
+
+    offers should contain(LunchOffer(0, "Feines Kräutersüppchen mit Frühlingsgemüse, marinierten Shrimps", week.monday, euro("3.90"), Id))
+  }
+
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)
