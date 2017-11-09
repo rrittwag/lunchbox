@@ -1,2 +1,2 @@
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.2")
-addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.7.0")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.7")
+addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.2")

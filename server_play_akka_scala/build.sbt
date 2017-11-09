@@ -10,7 +10,7 @@ lazy val root = project.in(file(".")).enablePlugins(PlayScala)
 
 // dependencies
 // ~~~~~~~~~~~~
-scalaVersion := "2.12.2"
+scalaVersion := "2.12.4"
 libraryDependencies ++= Seq(
 //  jdbc,
 //  cache,
@@ -27,7 +27,7 @@ libraryDependencies ++= Seq(
   // external
   "net.databinder.dispatch"     %% "dispatch-core" % "0.13.1",
   // test
-  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.1" % Test,
+  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test,
   "org.scalamock" %% "scalamock-scalatest-support" % "3.6.0" % Test
 )
 
@@ -50,10 +50,7 @@ publishArtifact in (Compile, packageDoc) := false
 // code formatter settings
 // ~~~~~~~~~~~~~~~~~~~~~~~
 import scalariform.formatter.preferences._
-import com.typesafe.sbt.SbtScalariform
 import com.typesafe.sbt.SbtScalariform.ScalariformKeys
-
-SbtScalariform.scalariformSettings
 
 ScalariformKeys.preferences := ScalariformKeys.preferences.value
   .setPreference(SpacesAroundMultiImports, false)
