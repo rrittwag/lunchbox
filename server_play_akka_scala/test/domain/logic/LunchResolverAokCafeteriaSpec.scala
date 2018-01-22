@@ -41,6 +41,15 @@ class LunchResolverAokCafeteriaSpec extends FlatSpec with Matchers with MockFact
     links should contain (HttpMittagspauseDir + "AOK01.05.2017-05.05.2017.pdf")
   }
 
+  it should "resolve PDF links for 2018-01-22" in {
+    val url = getClass.getResource("/mittagsplaene/aok_cafeteria_2018-01-22.html")
+
+    val links = resolver.resolvePdfLinks(url)
+
+    links should have size 1
+    links should contain (HttpMittagspauseDir + "AOK.pdf")
+  }
+
   it should "resolve offers for week of 2015-03-20" in {
     val url = getClass.getResource("/mittagsplaene/aok_cafeteria/AOK_16.03.-20.03..pdf")
     val week = weekOf(s"2015-03-20")
