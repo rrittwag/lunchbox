@@ -105,11 +105,11 @@ class PDFTextGroupStripperSpec extends FlatSpec with Matchers with MockFactory {
 
   private def text(pos: Pos, width: Float, height: Float, char: String): TextPosition = {
     val mockPos = mock[TextPosition]
-    (mockPos.getX _).expects().returns(pos.x).anyNumberOfTimes()
-    (mockPos.getY _).expects().returns(pos.y).anyNumberOfTimes()
-    (mockPos.getWidth _).expects().returns(width).anyNumberOfTimes()
-    (mockPos.getHeight _).expects().returns(height).anyNumberOfTimes()
-    (mockPos.getCharacter _).expects().returns(char).anyNumberOfTimes()
+    (mockPos.getX _: () => Float).expects().returns(pos.x).anyNumberOfTimes()
+    (mockPos.getY _: () => Float).expects().returns(pos.y).anyNumberOfTimes()
+    (mockPos.getWidth _: () => Float).expects().returns(width).anyNumberOfTimes()
+    (mockPos.getHeight _: () => Float).expects().returns(height).anyNumberOfTimes()
+    (mockPos.getCharacter _: () => String).expects().returns(char).anyNumberOfTimes()
     mockPos
   }
 
