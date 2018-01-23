@@ -16,16 +16,16 @@ libraryDependencies ++= Seq(
 //  cache,
   ws,
   filters,
-  guice,         
+  guice,
   // domain model
   "org.joda"               %  "joda-money"  % "0.12",
   // domain logic
   "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.21",
-  "org.apache.commons"          %  "commons-text"  % "1.1",
+  "org.apache.commons"          %  "commons-text"  % "1.2",
   "org.apache.pdfbox"           %  "pdfbox"        % "1.8.11",
-  "org.scalactic"               %% "scalactic"     % "3.0.1",
+  "org.scalactic"               %% "scalactic"     % "3.0.4",
   // external
-  "net.databinder.dispatch"     %% "dispatch-core" % "0.13.1",
+  "net.databinder.dispatch"     %% "dispatch-core" % "0.13.3",
   // test
   "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test,
   "org.scalamock" %% "scalamock-scalatest-support" % "3.6.0" % Test
@@ -35,6 +35,10 @@ libraryDependencies ++= Seq(
 
 // settings
 // ~~~~~~~~
+scalacOptions += "-target:jvm-1.8"
+
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
+
 // enhances available types in routes file
 routesImport += "util.PlayDateTimeHelper._"
 
