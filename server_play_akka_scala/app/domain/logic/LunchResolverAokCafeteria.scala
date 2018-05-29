@@ -49,7 +49,7 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
   }
 
   override def resolve: Future[Seq[LunchOffer]] =
-    Future { resolvePdfLinks(new URL("http://www.hotel-am-ring.de/aok-cafeteria.html")) }
+    Future { resolvePdfLinks(new URL("https://www.hotel-am-ring.de/aok-cafeteria.html")) }
       .flatMap(relativePdfPaths => resolveFromPdfs(relativePdfPaths))
 
   private[logic] def resolvePdfLinks(htmlUrl: URL): Seq[String] = {
@@ -64,7 +64,7 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
 
   private def resolveFromPdfs(relativePdfPaths: Seq[String]): Future[Seq[LunchOffer]] = {
     val listOfFutures = relativePdfPaths.map(relativePdfPath =>
-      Future { resolveFromPdf(new URL("http://www.hotel-am-ring.de/" + relativePdfPath)) })
+      Future { resolveFromPdf(new URL("https://www.hotel-am-ring.de/" + relativePdfPath)) })
     Future.sequence(listOfFutures).map(listOfLists => listOfLists.flatten)
   }
 
