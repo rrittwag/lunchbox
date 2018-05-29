@@ -10,7 +10,7 @@ lazy val root = project.in(file(".")).enablePlugins(PlayScala)
 
 // dependencies
 // ~~~~~~~~~~~~
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.6"
 libraryDependencies ++= Seq(
 //  jdbc,
 //  cache,
@@ -20,12 +20,12 @@ libraryDependencies ++= Seq(
   // domain model
   "org.joda"               %  "joda-money"  % "0.12",
   // domain logic
-  "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.21",
-  "org.apache.commons"          %  "commons-text"  % "1.2",
+  "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.22",
+  "org.apache.commons"          %  "commons-text"  % "1.3",
   "org.apache.pdfbox"           %  "pdfbox"        % "1.8.11",
-  "org.scalactic"               %% "scalactic"     % "3.0.4",
+  "org.scalactic"               %% "scalactic"     % "3.0.5",
   // external
-  "net.databinder.dispatch"     %% "dispatch-core" % "0.13.3",
+  "net.databinder.dispatch"     %% "dispatch-core" % "0.13.4",
   // test
   "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test,
   "org.scalamock" %% "scalamock-scalatest-support" % "3.6.0" % Test
