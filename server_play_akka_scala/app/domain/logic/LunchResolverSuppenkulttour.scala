@@ -42,7 +42,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
 
   override def resolve: Future[Seq[LunchOffer]] =
     Future {
-      resolve(new URL("http://www.suppenkult.com/wochenplan.html"))
+      resolve(new URL("https://www.suppenkult.com/wochenplan.html"))
     }
 
   private[logic] def resolve(url: URL): Seq[LunchOffer] = {
