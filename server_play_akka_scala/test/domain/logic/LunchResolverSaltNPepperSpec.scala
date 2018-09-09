@@ -10,7 +10,7 @@ import org.scalatest._
 class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers with MockFactory {
 
   it should "resolve offers for week of 2015-06-19" in {
-    val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2015-06-19.html")
+    val url = getClass.getResource("/mittagsplaene/salt_n_pepper/2015-06-19.html")
 
     val offers = resolver.resolve(url)
 
@@ -46,7 +46,7 @@ class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers with MockFacto
   }
 
   it should "resolve offers for Easter week of 2015-03-30" in {
-    val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2015-03-30.html")
+    val url = getClass.getResource("/mittagsplaene/salt_n_pepper/2015-03-30.html")
 
     val offers = resolver.resolve(url)
 
@@ -59,7 +59,7 @@ class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers with MockFacto
   }
 
   it should "resolve offers for week of 2015-05-29" in {
-    val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2015-05-29.html")
+    val url = getClass.getResource("/mittagsplaene/salt_n_pepper/2015-05-29.html")
 
     val offers = resolver.resolve(url)
 
@@ -72,7 +72,7 @@ class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers with MockFacto
   }
 
   it should "resolve offers for week of 2015-07-11" in {
-    val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2015-07-11.html")
+    val url = getClass.getResource("/mittagsplaene/salt_n_pepper/2015-07-11.html")
 
     val offers = resolver.resolve(url)
 
@@ -80,7 +80,7 @@ class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers with MockFacto
   }
 
   it should "resolve offers for week of 2015-08-10" in {
-    val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2015-08-10.html")
+    val url = getClass.getResource("/mittagsplaene/salt_n_pepper/2015-08-10.html")
 
     val offers = resolver.resolve(url)
 
@@ -91,7 +91,7 @@ class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers with MockFacto
   }
 
   it should "resolve offers for week of 2016-02-16" in {
-    val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2016-02-16.html")
+    val url = getClass.getResource("/mittagsplaene/salt_n_pepper/2016-02-16.html")
 
     val offers = resolver.resolve(url)
 
@@ -99,12 +99,22 @@ class LunchResolverSaltNPepperSpec extends FlatSpec with Matchers with MockFacto
   }
 
   it should "resolve offers for week of 2016-04-12" in {
-    val url = getClass.getResource("/mittagsplaene/salt_n_pepper_2016-04-12.html")
+    val url = getClass.getResource("/mittagsplaene/salt_n_pepper/2016-04-12.html")
 
     val offers = resolver.resolve(url)
 
     offers should have size 24
     offers should contain(LunchOffer(0, "Wochenangebot: Bunter Salat mit frischen Erdbeeren, gebratenem Hähnchenfleisch und hausgemachtem Erdbeer-Minze-Joghurt-Dressing", date("2016-04-11"), euro("5.90"), Id))
+  }
+
+  it should "resolve offers for week of 2018-09-14" in {
+    val url = getClass.getResource("/mittagsplaene/salt_n_pepper/2018-09-14.html")
+
+    val offers = resolver.resolve(url)
+
+    offers should have size 19
+    offers should contain(LunchOffer(0, "Serbischer Bohneneintopf", date("2018-09-10"), euro("3.50"), Id))
+    offers should contain(LunchOffer(0, "Spaghetti Bolognese mit Reibekäse", date("2018-09-10"), euro("5.90"), Id))
   }
 
   private def resolver = {

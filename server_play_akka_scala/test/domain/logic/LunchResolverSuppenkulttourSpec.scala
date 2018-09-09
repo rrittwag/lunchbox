@@ -9,7 +9,7 @@ import org.scalatest.{Matchers, FlatSpec}
 class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFactory {
 
   it should "resolve offers for week of 2015-03-02" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-03-02.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2015-03-02.html")
 
     val offers = resolver.resolve(url)
 
@@ -37,7 +37,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2015-03-06" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-03-06.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2015-03-06.html")
 
     val offers = resolver.resolve(url)
 
@@ -55,7 +55,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2015-03-11" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-03-11.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2015-03-11.html")
 
     val offers = resolver.resolve(url)
 
@@ -73,7 +73,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for Easter week of 2015-03-30" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-03-30.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2015-03-30.html")
 
     val offers = resolver.resolve(url)
 
@@ -88,7 +88,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2015-04-13" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-04-13.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2015-04-13.html")
 
     val offers = resolver.resolve(url)
 
@@ -99,7 +99,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2015-07-06" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-07-06.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2015-07-06.html")
 
     val offers = resolver.resolve(url)
 
@@ -117,7 +117,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2015-07-20" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-07-20.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2015-07-20.html")
 
     val offers = resolver.resolve(url)
 
@@ -128,7 +128,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2015-09-07" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2015-09-07.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2015-09-07.html")
 
     val offers = resolver.resolve(url)
 
@@ -138,7 +138,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2016-03-29" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2016-03-29.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2016-03-29.html")
 
     val offers = resolver.resolve(url)
 
@@ -149,7 +149,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2016-05-09" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2016-05-09.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2016-05-09.html")
 
     val offers = resolver.resolve(url)
 
@@ -162,7 +162,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2016-05-23" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2016-05-23.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2016-05-23.html")
 
     val offers = resolver.resolve(url)
 
@@ -172,7 +172,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2016-06-20" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2016-06-20.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2016-06-20.html")
 
     val offers = resolver.resolve(url)
 
@@ -186,7 +186,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2016-06-27" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2016-06-27.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2016-06-27.html")
 
     val offers = resolver.resolve(url)
 
@@ -198,7 +198,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2017-01-30" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2017-01-30.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2017-01-30.html")
 
     val offers = resolver.resolve(url)
 
@@ -210,7 +210,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2017-09-04" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2017-09-04.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2017-09-04.html")
 
     val offers = resolver.resolve(url)
 
@@ -226,7 +226,7 @@ class LunchResolverSuppenkulttourSpec extends FlatSpec with Matchers with MockFa
   }
 
   it should "resolve offers for week of 2017-09-25" in {
-    val url = getClass.getResource("/mittagsplaene/suppenkulttour_2017-09-25.html")
+    val url = getClass.getResource("/mittagsplaene/suppenkulttour/2017-09-25.html")
 
     val offers = resolver.resolve(url)
 

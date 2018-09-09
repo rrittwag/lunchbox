@@ -98,10 +98,11 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
     tds.grouped(2).flatMap {
       case Array(nameNode, priceNode) =>
         parsePrice(priceNode).map { price =>
-          val name = parseName(nameNode) match {
-            case r"""Tipp: (.*)$text""" => text
-            case text => text
-          }
+          val name = parseName(nameNode)
+            .replaceAll("^Topp-Preis:", "")
+            .replaceAll("^Tipp:", "")
+            .replaceAll("[0-9]{1,2}(, [0-9]{1,2})*$", "")
+            .trim
           LunchOffer(0, name, LocalDate.now(), price, LunchProvider.SALT_N_PEPPER.id)
         }
       case _ => None
