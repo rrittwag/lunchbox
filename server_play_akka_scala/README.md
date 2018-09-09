@@ -10,7 +10,7 @@ Status
 
 Erfüllt die Anforderungen für Lunchbox v1 vollständig:
 
-* automatische Ermittlung der Mittagsangebote (4x NB, 2x Berlin)
+* automatische Ermittlung der Mittagsangebote (4x NB, 4x Berlin)
 * Wiedergabe der Mittagsangebote per REST und Web-Feed
 
 
