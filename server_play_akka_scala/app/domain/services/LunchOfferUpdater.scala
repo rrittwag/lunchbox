@@ -124,6 +124,7 @@ class LunchOfferUpdateWorker(lunchOfferUpdater: ActorRef, lunchProvider: LunchPr
     case FELDKUECHE =>
       new LunchResolverFeldkueche(dateValidator, new DefaultOcrClient).resolve
     case DAS_KRAUTHOF => new LunchResolverKrauthof(dateValidator).resolve
+    case TABBOULEH => new LunchResolverTabbouleh(dateValidator).resolve
     case _ => Future(Nil)
   }
   offersFuture.onComplete {

@@ -19,7 +19,7 @@ class LunchResolverSchweinestallSpec extends FlatSpec with Matchers with MockFac
     offers should contain(LunchOffer(0, "Pilzgulasch mit Salzkartoffeln", date("2015-02-10"), euro("4.80"), Id))
     offers should contain(LunchOffer(0, "Paniertes Hähnchenbrustfilet gefüllt mit Kräuterbutter, dazu Erbsen und Kartoffelpüree", date("2015-02-11"), euro("5.80"), Id))
     offers should contain(LunchOffer(0, "Kasselersteak mit Ananas und Käse überbacken, dazu Buttermöhren und Pommes frites", date("2015-02-12"), euro("5.80"), Id))
-    offers should contain(LunchOffer(0, "Spaghetti \u0084Bolognese\u0093 mit Parmesan", date("2015-02-13"), euro("4.80"), Id))
+    offers should contain(LunchOffer(0, "Spaghetti Bolognese mit Parmesan", date("2015-02-13"), euro("4.80"), Id))
   }
 
   private def resolver = {

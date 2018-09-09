@@ -4,8 +4,9 @@ import java.net.URL
 
 import domain.models.LunchOffer
 import domain.models.LunchProvider.SCHWEINESTALL
+import domain.util.Html
+import domain.util.Html._
 import org.apache.commons.lang3.StringEscapeUtils
-import org.htmlcleaner.{CleanerProperties, HtmlCleaner, TagNode}
 import org.joda.money.{CurrencyUnit, Money}
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -13,6 +14,8 @@ import java.time.format.DateTimeFormatter
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.matching.Regex
+import scala.xml._
+import parsing._
 
 class LunchResolverSchweinestall(util: DateValidator) extends LunchResolver {
 
@@ -26,18 +29,17 @@ class LunchResolverSchweinestall(util: DateValidator) extends LunchResolver {
   private[logic] def resolve(url: URL): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
 
-    val props = new CleanerProperties
-    props.setCharset("iso-8859-1")
-    val rootNode = new HtmlCleaner(props).clean(url)
+    val siteAsXml = Html.load(url, "iso-8859-1")
 
     // Die Tabelle 'cal_content' enthält die Wochenangebote
-    val tdsInOffersTable = rootNode.evaluateXPath("//table[@id='cal_content']//td").map { case n: TagNode => n }
+    val offersTable = (siteAsXml \\ "table") filter hasId("cal_content")
+    val tdsInOffersTable = offersTable \\ "td"
 
     for (
       fiveTDsForOneOffer <- tdsInOffersTable.grouped(5) /* je 5 td-Elemente sind ein Offer, aber ... */ if fiveTDsForOneOffer.length >= 3
     ) {
       // ... nur die ersten 3 td sind nützlich
-      val Array(firstTD, secondTD, thirdTD, _*) = fiveTDsForOneOffer
+      val Seq(firstTD, secondTD, thirdTD, _*) = fiveTDsForOneOffer
 
       for (
         day <- parseDay(firstTD);
@@ -54,7 +56,7 @@ class LunchResolverSchweinestall(util: DateValidator) extends LunchResolver {
    * @param node HTML-Node mit auszuwertendem Text
    * @return
    */
-  private def parseDay(node: TagNode): Option[LocalDate] = node.getText match {
+  private def parseDay(node: Node): Option[LocalDate] = node.text match {
     case r""".*(\d{2}.\d{2}.\d{4})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yyyy")
     case _ => None
   }
@@ -65,12 +67,16 @@ class LunchResolverSchweinestall(util: DateValidator) extends LunchResolver {
    * @param node HTML-Node mit auszuwertendem Text
    * @return
    */
-  private def parsePrice(node: TagNode): Option[Money] = node.getText match {
+  private def parsePrice(node: Node): Option[Money] = node.text match {
     case r""".*(\d{1,})$major[.,](\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
     case _ => None
   }
 
-  private def parseName(node: TagNode): Option[String] = Some(StringEscapeUtils.unescapeHtml4(node.getText.toString.trim))
+  private def parseName(node: Node): Option[String] =
+    Some(
+      StringEscapeUtils.unescapeHtml4(node.text.trim)
+        .replaceAll("„", "")
+        .replaceAll("“", ""))
 
   private def parseLocalDate(dateString: String, dateFormat: String): Option[LocalDate] =
     try {
