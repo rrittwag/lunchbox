@@ -90,6 +90,29 @@ class LunchResolverKrauthofSpec extends FlatSpec with Matchers with MockFactory 
     offers should contain(LunchOffer(0, "Feines Kräutersüppchen mit Frühlingsgemüse, marinierten Shrimps", week.monday, euro("3.90"), Id))
   }
 
+  it should "resolve offers for week of 2018-09-14" in {
+    val url = getClass.getResource("/mittagsplaene/daskrauthof/KRAUTHOF-Lunch-10.09.-14.09.2018-.pdf")
+    val week = weekOf(s"2018-09-14")
+
+    val offers = resolver.resolveFromPdf(url)
+
+    offers should have size 35
+
+    offers.filter(_.day == week.monday) should have size 7
+    offers.filter(_.day == week.tuesday) should have size 7
+    offers.filter(_.day == week.wednesday) should have size 7
+    offers.filter(_.day == week.thursday) should have size 7
+    offers.filter(_.day == week.friday) should have size 7
+
+    offers should contain(LunchOffer(0, "Geeistes Gurken-Buttermilchsüppchen mit Dillspitzen, Shrimps", week.monday, euro("3.90"), Id))
+    offers should contain(LunchOffer(0, "Thai-Beef- Salat mit Chili, Bohnen, Champignons, Karotten, roten Zwiebeln, Sesam", week.monday, euro("5.20"), Id))
+    offers should contain(LunchOffer(0, "Vegetarische Gemüsebolognese mit Spaghetti, Kräuterschmand", week.monday, euro("5.90"), Id))
+    offers should contain(LunchOffer(0, "Knuspriges Hähnchenschnitzel mit Kohlrabi-Apfelgemüse, Kräuterkartoffeln", week.monday, euro("6.20"), Id))
+    offers should contain(LunchOffer(0, "Gebratenes Tilapiafilet auf Dillsauce, Gurken-Zwiebelgemüse, Kartoffeln", week.monday, euro("6.50"), Id))
+    offers should contain(LunchOffer(0, "Schweinesteak mit Feta-Nuss Haube mit Rahmsauce, Blumenkohl, Röstkartoffeln", week.monday, euro("6.90"), Id))
+    offers should contain(LunchOffer(0, "Cappuccinomousse mit Orangenkompott", week.monday, euro("2.90"), Id))
+  }
+
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)

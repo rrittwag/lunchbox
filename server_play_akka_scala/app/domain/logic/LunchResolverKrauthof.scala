@@ -7,8 +7,8 @@ import java.time.{DayOfWeek, LocalDate}
 
 import domain.models.{LunchOffer, LunchProvider}
 import domain.util.{PDFTextGroupStripper, TextLine}
+import domain.util.Html
 import org.apache.pdfbox.pdmodel.PDDocument
-import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}
 import util.PlayLogging
 
@@ -52,12 +52,9 @@ class LunchResolverKrauthof(dateValidator: DateValidator) extends LunchResolver 
       .flatMap(pdfPaths => resolveFromPdfs(pdfPaths))
 
   private[logic] def resolvePdfLinks(htmlUrl: URL): Seq[String] = {
-    val props = new CleanerProperties
-    props.setCharset("utf-8")
+    val siteAsXml = Html.load(htmlUrl)
 
-    val rootNode = new HtmlCleaner(props).clean(htmlUrl)
-    val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n }.toSet
-
+    val links = (siteAsXml \\ "a").map(n => (n \ "@href").text)
     links.filter(_ matches """.*/KRAUTHOF-Lunch-.+.pdf""").toList
   }
 
@@ -90,7 +87,7 @@ class LunchResolverKrauthof(dateValidator: DateValidator) extends LunchResolver 
         case r"""(.+)$text(\d{1,}[.,]\d{2})$priceString *€\*""" =>
           finishOffer()
           currentRow = Some(OfferRow(parseName(text), parsePrice(priceString)))
-        case "" =>
+        case "" | r""".*inklusive Tagesgetränk.*""" =>
           finishOffer()
         case text =>
           val thisRow = OfferRow(parseName(text), None)
@@ -156,8 +153,10 @@ class LunchResolverKrauthof(dateValidator: DateValidator) extends LunchResolver 
   private def parseName(text: String): String = text.trim
     .replaceAll("  ", " ")
     .replaceAll("–", "-")
-    .replaceAll("""[\│\|]""", ",")
-    .replaceAll(" ,", ",")
+    .replaceAll(""" *[\│\|] *""", ", ")
+    .replaceAll(" I ", ", ")
+    .replaceAll(" *,", ",")
+    .trim
 
   /**
    * Erzeugt ein Money-Objekt (in EURO) aus dem Format "*0,00*"
