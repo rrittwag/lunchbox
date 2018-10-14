@@ -10,7 +10,7 @@ lazy val root = project.in(file(".")).enablePlugins(PlayScala)
 
 // dependencies
 // ~~~~~~~~~~~~
-scalaVersion := "2.12.6"
+scalaVersion := "2.12.7"
 libraryDependencies ++= Seq(
 //  jdbc,
 //  cache,
@@ -18,12 +18,11 @@ libraryDependencies ++= Seq(
   filters,
   guice,
   // domain model
-  "org.joda"               %  "joda-money"  % "0.12",
+  "org.joda"               %  "joda-money"  % "1.0.1",
   // domain logic
-  "org.scala-lang.modules"      %% "scala-xml"     % "1.1.0",
+  "org.scala-lang.modules"      %% "scala-xml"     % "1.1.1",
   "org.ccil.cowan.tagsoup"      %  "tagsoup"       % "1.2.1",
-  "org.apache.commons"          %  "commons-text"  % "1.3",
-  "org.apache.pdfbox"           %  "pdfbox"        % "1.8.11",
+  "org.apache.pdfbox"           %  "pdfbox"        % "1.8.16",
   "org.scalactic"               %% "scalactic"     % "3.0.5",
   // external
   "net.databinder.dispatch"     %% "dispatch-core" % "0.13.4",

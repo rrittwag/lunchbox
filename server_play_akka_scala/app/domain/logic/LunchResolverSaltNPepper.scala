@@ -133,8 +133,7 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
   }
 
   private def parseName(node: Node): String = {
-    val pureText = StringEscapeUtils.unescapeHtml4(node.text.trim)
-    pureText.replaceAll("\n", " ").replaceAll("  ", " ")
+    node.text.trim.replaceAll("\n", " ").replaceAll("  ", " ")
   }
 
   private def parseLocalDate(dateString: String, dateFormat: String): Option[LocalDate] =

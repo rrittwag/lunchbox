@@ -179,7 +179,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     // Zeilenumbrüche durch Pipe-Zeichen ausdrücken
     if (node.label == "br" || node.label == "p") result.append("|")
     node.nonEmptyChildren.foreach {
-      case Text(text) => result.append(adjustText(StringEscapeUtils.unescapeHtml4(text)))
+      case Text(text) => result.append(adjustText(text))
       case childNode: Node => result.append(node2text(childNode))
       case _ =>
     }

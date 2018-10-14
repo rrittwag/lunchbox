@@ -74,7 +74,7 @@ class LunchResolverSchweinestall(util: DateValidator) extends LunchResolver {
 
   private def parseName(node: Node): Option[String] =
     Some(
-      StringEscapeUtils.unescapeHtml4(node.text.trim)
+      node.text.trim
         .replaceAll("„", "")
         .replaceAll("“", ""))
 
