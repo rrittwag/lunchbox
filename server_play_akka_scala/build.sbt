@@ -68,9 +68,9 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
 import com.typesafe.sbt.packager.docker._
 
 maintainer := "rori"
-dockerBaseImage := "frolvlad/alpine-oraclejdk8"
+dockerBaseImage := "openjdk:8-jre-alpine"
 dockerCommands := dockerCommands.value.flatMap{
-  case cmd@Cmd("FROM",_) => List(cmd, Cmd("RUN", "apk update && apk add bash"))
+  case cmd@Cmd("FROM",_) => List(cmd, Cmd("RUN", "apk update && apk --no-cache add bash"))
   case other => List(other)
 }
 dockerExposedPorts in Docker := Seq(9000)

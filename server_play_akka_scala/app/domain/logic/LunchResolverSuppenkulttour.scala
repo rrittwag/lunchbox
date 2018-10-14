@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter
 import domain.models.{LunchOffer, LunchProvider}
 import domain.util.Html
 import domain.util.Html._
-import org.apache.commons.text.StringEscapeUtils
 import org.joda.money.{CurrencyUnit, Money}
 import util.PlayDateTimeHelper._
 
