@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter
 
 import domain.models.{LunchOffer, LunchProvider}
 import domain.util.{PDFTextGroupStripper, TextGroup, TextLine}
+import domain.util.Html
 import org.apache.pdfbox.pdmodel.PDDocument
-import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}
 import java.time.{DayOfWeek, LocalDate}
 
@@ -53,12 +53,9 @@ class LunchResolverAokCafeteria(dateValidator: DateValidator) extends LunchResol
       .flatMap(relativePdfPaths => resolveFromPdfs(relativePdfPaths))
 
   private[logic] def resolvePdfLinks(htmlUrl: URL): Seq[String] = {
-    val props = new CleanerProperties
-    props.setCharset("utf-8")
+    val siteAsXml = Html.load(htmlUrl)
 
-    val rootNode = new HtmlCleaner(props).clean(htmlUrl)
-    val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n }.toSet
-
+    val links = (siteAsXml \\ "a").map(_ \@ "href")
     links.filter(_ matches """.*/[a-zA-Z]{3}[0-9_\.\-]*.pdf""").toList
   }
 

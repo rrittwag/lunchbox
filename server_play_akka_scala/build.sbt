@@ -22,7 +22,6 @@ libraryDependencies ++= Seq(
   // domain logic
   "org.scala-lang.modules"      %% "scala-xml"     % "1.1.0",
   "org.ccil.cowan.tagsoup"      %  "tagsoup"       % "1.2.1",
-  "net.sourceforge.htmlcleaner" %  "htmlcleaner"   % "2.22",
   "org.apache.commons"          %  "commons-text"  % "1.3",
   "org.apache.pdfbox"           %  "pdfbox"        % "1.8.11",
   "org.scalactic"               %% "scalactic"     % "3.0.5",

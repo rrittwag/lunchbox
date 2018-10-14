@@ -5,8 +5,9 @@ import java.time.{DayOfWeek, LocalDate}
 import java.time.format.DateTimeFormatter
 
 import domain.models.{LunchOffer, LunchProvider}
+import domain.util.Html
+import domain.util.Html._
 import infrastructure.OcrClient
-import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -39,11 +40,10 @@ class LunchResolverFeldkueche(
       .flatMap(imageUrls => resolveFromImageLinks(imageUrls))
 
   private[logic] def resolveImageLinks(htmlUrl: URL): Seq[URL] = {
-    val props = new CleanerProperties
-    props.setCharset("utf-8")
+    val siteAsXml = Html.load(htmlUrl)
 
-    val rootNode = new HtmlCleaner(props).clean(htmlUrl)
-    val links = rootNode.evaluateXPath("//div[@id='content_area']//a/@href").map { case n: String => n }.toSet
+    val divsWithContent = (siteAsXml \\ "div") filter hasId("content_area")
+    val links = (divsWithContent \\ "a").map(_ \@ "href")
     links.map { link => new URL(link) }.toSeq
   }
 

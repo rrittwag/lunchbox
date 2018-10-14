@@ -7,8 +7,8 @@ import java.time.format.DateTimeFormatter
 
 import domain.models.{LunchOffer, LunchProvider}
 import domain.util.{PDFTextGroupStripper, TextLine}
+import domain.util.Html
 import org.apache.pdfbox.pdmodel.PDDocument
-import org.htmlcleaner.{CleanerProperties, HtmlCleaner}
 import org.joda.money.{CurrencyUnit, Money}
 import util.PlayLogging
 import util.PlayDateTimeHelper._
@@ -54,12 +54,9 @@ class LunchResolverHotelAmRing(dateValidator: DateValidator) extends LunchResolv
       .flatMap(relativePdfPaths => resolveFromPdfs(relativePdfPaths))
 
   private[logic] def resolvePdfLinks(htmlUrl: URL): Seq[String] = {
-    val props = new CleanerProperties
-    props.setCharset("utf-8")
+    val siteAsXml = Html.load(htmlUrl)
 
-    val rootNode = new HtmlCleaner(props).clean(htmlUrl)
-    val links = rootNode.evaluateXPath("//a/@href").map { case n: String => n }.toSet
-
+    val links = (siteAsXml \\ "a").map(_ \@ "href").toSet
     links.filter(_ matches """.*/Mittagspause_.+.pdf""").toList
   }
 

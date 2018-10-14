@@ -5,26 +5,21 @@ import java.time.{DayOfWeek, LocalDate}
 import java.time.format.DateTimeFormatter
 
 import domain.models.{LunchOffer, LunchProvider}
+import domain.util.Html
+import domain.util.Html._
 import org.apache.commons.text.StringEscapeUtils
-import org.htmlcleaner._
 import org.joda.money.{CurrencyUnit, Money}
 import util.PlayDateTimeHelper._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.matching.Regex
+import scala.xml._
 
 class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchResolver {
 
   implicit class RegexContext(sc: StringContext) {
     def r = new Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
-  }
-
-  implicit class RichTagNode(node: TagNode) {
-    def hasClassAttr(cssClassName: String): Boolean = Option(node.getAttributeByName("class")) match {
-      case Some(classes) => classes.split(" ").contains(cssClassName)
-      case None => false
-    }
   }
 
   sealed abstract class Weekday(val name: String, val order: Int)
@@ -48,13 +43,11 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   private[logic] def resolve(url: URL): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
 
-    val props = new CleanerProperties
-    props.setCharset("utf-8")
-    val rootNode = new HtmlCleaner(props).clean(url)
+    val siteAsXml = Html.load(url)
 
     // Die Wochenangebote sind im section-Element mit der class "ce_accordionStart" enthalten
     for (
-      wochenplanSection <- rootNode.evaluateXPath("//section").map { case n: TagNode => n } if wochenplanSection.hasClassAttr("ce_accordionStart")
+      wochenplanSection <- (siteAsXml \\ "section") filter hasClass("ce_accordionStart")
     ) {
       resolveMonday(wochenplanSection).filter(dateValidator.isValid) match {
         case Some(monday) => result ++= parseOffers(wochenplanSection, monday)
@@ -64,9 +57,9 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     result
   }
 
-  private def resolveMonday(node: TagNode): Option[LocalDate] = {
-    val optDateSeq = for (dateDiv <- node.evaluateXPath("/div[@class='toggler']").map { case n: TagNode => n }) yield {
-      dateDiv.getText.toString.replace("\n", " ") match {
+  private def resolveMonday(node: Node): Option[LocalDate] = {
+    val optDateSeq = for (dateDiv <- (node \ "div") filter hasClass("toggler")) yield {
+      dateDiv.text.replace("\n", " ") match {
         case r""".*Suppen vom +([\d\.]+)$firstDayString.*""" =>
           parseDay(firstDayString).map{
             case firstDay if firstDay.getDayOfWeek == DayOfWeek.SUNDAY => firstDay.plusDays(1)
@@ -82,9 +75,9 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     optDateSeq.head // nicht ganz sauber: nur das erste Datum ist relevant
   }
 
-  private def parseOffers(wochenplanSection: TagNode, monday: LocalDate): Seq[LunchOffer] = {
+  private def parseOffers(wochenplanSection: Node, monday: LocalDate): Seq[LunchOffer] = {
     // die Daten stecken in vielen, undefiniert angeordneten HTML-Elementen, daher lieber als Reintext auswerten (mit Pipes als Zeilenumbrüchen)
-    val wochenplanString = html2text(wochenplanSection)
+    val wochenplanString = node2text(wochenplanSection)
 
     val wochensuppenStart = wochenplanString.indexOf("Die Wochensuppen")
     val tagessuppenStart = wochenplanString.indexOf("Die Tagessuppen")
@@ -181,13 +174,13 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
     wochenOffers.flatMap(offer => sortedDates.map(date => offer.copy(day = date)))
   }
 
-  private def html2text(node: TagNode): String = {
+  private def node2text(node: Node): String = {
     val result = new StringBuffer
     // Zeilenumbrüche durch Pipe-Zeichen ausdrücken
-    if (node.getName == "br" || node.getName == "p") result.append("|")
-    node.getAllChildren.toArray.foreach {
-      case content: ContentNode => result.append(adjustText(StringEscapeUtils.unescapeHtml4(content.getContent)))
-      case childNode: TagNode => result.append(html2text(childNode))
+    if (node.label == "br" || node.label == "p") result.append("|")
+    node.nonEmptyChildren.foreach {
+      case Text(text) => result.append(adjustText(StringEscapeUtils.unescapeHtml4(text)))
+      case childNode: Node => result.append(node2text(childNode))
       case _ =>
     }
     result.toString

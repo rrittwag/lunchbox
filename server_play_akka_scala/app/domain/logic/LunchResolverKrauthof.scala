@@ -54,7 +54,7 @@ class LunchResolverKrauthof(dateValidator: DateValidator) extends LunchResolver 
   private[logic] def resolvePdfLinks(htmlUrl: URL): Seq[String] = {
     val siteAsXml = Html.load(htmlUrl)
 
-    val links = (siteAsXml \\ "a").map(n => (n \ "@href").text)
+    val links = (siteAsXml \\ "a").map(_ \@ "href")
     links.filter(_ matches """.*/KRAUTHOF-Lunch-.+.pdf""").toList
   }
 

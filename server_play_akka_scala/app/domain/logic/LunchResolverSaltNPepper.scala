@@ -3,8 +3,8 @@ package domain.logic
 import java.net.URL
 
 import domain.models.{LunchOffer, LunchProvider}
+import domain.util.Html
 import org.apache.commons.lang3.StringEscapeUtils
-import org.htmlcleaner.{CleanerProperties, HtmlCleaner, TagNode}
 import org.joda.money.{CurrencyUnit, Money}
 import java.time.{DayOfWeek, LocalDate}
 import java.time.format.DateTimeFormatter
@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.matching.Regex
+import scala.xml._
 
 class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolver {
 
@@ -38,28 +39,26 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
     Future { resolve(new URL("http://www.partyservice-rohde.de/bistro-angebot-der-woche/")) }
 
   private[logic] def resolve(url: URL): Seq[LunchOffer] = {
-    val props = new CleanerProperties
-    props.setCharset("UTF-8")
-    val rootNode = new HtmlCleaner(props).clean(url)
+    val siteAsXml = Html.load(url)
 
-    val divs = rootNode.evaluateXPath("//div[@class='wpb_text_column wpb_content_element']").map { case n: TagNode => n }
+    val divs = (siteAsXml \\ "div").filter(n => (n \@ "class") == "wpb_text_column wpb_content_element")
     val mondayOpt = resolveMonday(divs)
 
     mondayOpt.map(resolveOffers(divs, _)).getOrElse(Nil)
   }
 
-  private def resolveMonday(nodes: Seq[TagNode]): Option[LocalDate] =
+  private def resolveMonday(nodes: NodeSeq): Option[LocalDate] =
     nodes
       .map(parseName(_).replaceAll("\n", ""))
       .find(_.contains(" Uhr"))
       .flatMap(parseDay)
       .map(toMonday)
 
-  private def resolveOffers(nodes: Seq[TagNode], monday: LocalDate): Seq[LunchOffer] = {
-    var section2node = Map[OfferSection, TagNode]()
+  private def resolveOffers(nodes: NodeSeq, monday: LocalDate): Seq[LunchOffer] = {
+    var section2node = Map[OfferSection, Node]()
 
     for (node <- nodes) {
-      val h4Opt = node.evaluateXPath("//h4").map { case n: TagNode => n }.headOption
+      val h4Opt = (node \\ "h4").headOption
       val title = h4Opt.map(parseName).getOrElse("")
 
       for (section <- OfferSection.values)
@@ -72,7 +71,7 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
     weekdayOffers ++ resolveWeekOffers(weekNodes, weekdayOffers.map(_.day).toSet)
   }
 
-  private def resolveWeekdayOffers(section2node: Map[OfferSection, TagNode], monday: LocalDate): Seq[LunchOffer] = {
+  private def resolveWeekdayOffers(section2node: Map[OfferSection, Node], monday: LocalDate): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
     for ((section, node) <- section2node) {
       val pureOffers = resolveSectionOffers(section, node)
@@ -81,7 +80,7 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
     result
   }
 
-  private def resolveWeekOffers(section2node: Map[OfferSection, TagNode], days: Set[LocalDate]): Seq[LunchOffer] = {
+  private def resolveWeekOffers(section2node: Map[OfferSection, Node], days: Set[LocalDate]): Seq[LunchOffer] = {
     var result = Seq[LunchOffer]()
     for (
       (section, node) <- section2node;
@@ -93,10 +92,10 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
     result
   }
 
-  private def resolveSectionOffers(section: OfferSection, node: TagNode): Seq[LunchOffer] = {
-    val tds = node.evaluateXPath("//td").map { case n: TagNode => n }
+  private def resolveSectionOffers(section: OfferSection, node: Node): Seq[LunchOffer] = {
+    val tds = (node \\ "td")
     tds.grouped(2).flatMap {
-      case Array(nameNode, priceNode) =>
+      case Seq(nameNode, priceNode) =>
         parsePrice(priceNode).map { price =>
           val name = parseName(nameNode)
             .replaceAll("^Topp-Preis:", "")
@@ -128,13 +127,13 @@ class LunchResolverSaltNPepper(dateValidator: DateValidator) extends LunchResolv
    * @param node HTML-Node mit auszuwertendem Text
    * @return
    */
-  private def parsePrice(node: TagNode): Option[Money] = node.getText match {
+  private def parsePrice(node: Node): Option[Money] = node.text match {
     case r""".*(\d{1,})$major[\.,](\d{2})$minor.*""" => Some(Money.ofMinor(CurrencyUnit.EUR, major.toInt * 100 + minor.toInt))
     case _ => None
   }
 
-  private def parseName(node: TagNode): String = {
-    val pureText = StringEscapeUtils.unescapeHtml4(node.getText.toString.trim)
+  private def parseName(node: Node): String = {
+    val pureText = StringEscapeUtils.unescapeHtml4(node.text.trim)
     pureText.replaceAll("\n", " ").replaceAll("  ", " ")
   }
 
