@@ -1,9 +1,10 @@
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-import Axios, { AxiosResponse } from 'axios'
+import Axios, { AxiosResponse, AxiosPromise } from 'axios'
 import store from '@/store/'
 import LunchLocation from '@/model/LunchLocation'
 import LunchProvider from '@/model/LunchProvider'
 import LunchOffer from '@/model/LunchOffer'
+import LoadingState from '@/store/LoadingState'
 
 @Module({ store, dynamic: true, name: 'lunch' })
 export default class LunchStoreModule extends VuexModule {
@@ -15,13 +16,6 @@ export default class LunchStoreModule extends VuexModule {
   @Mutation
   mutateProviders(providers: LunchProvider[]) {
     this.providers = providers
-  }
-
-  @Action
-  async fetchProviders() {
-    const response: AxiosResponse = await Axios.get('api/v1/lunchProvider')
-    // TODO: error handling!
-    this.context.commit('mutateProviders', response.data)
   }
 
   providersByLocation(location: LunchLocation): LunchProvider[] {
@@ -36,13 +30,6 @@ export default class LunchStoreModule extends VuexModule {
   @Mutation
   mutateOffers(offers: LunchOffer[]) {
     this.offers = offers
-  }
-
-  @Action
-  async fetchOffers() {
-    const response: AxiosResponse = await Axios.get('api/v1/lunchOffer')
-    // TODO: error handling!
-    this.context.commit('mutateOffers', response.data)
   }
 
   offersByDay(day: Date): LunchOffer[] {
@@ -62,11 +49,45 @@ export default class LunchStoreModule extends VuexModule {
   @Mutation
   mutateSelectedLocation(location: LunchLocation) {
     this.selectedLocation = location
-     // TODO: save to local storage
+     // TODO: save to local storage (via action!)
   }
 
   // --- selected day ---
 
   selectedDay: Date = new Date('2018-12-03')
+
+  // --- api call ---
+
+  loadingState: LoadingState = LoadingState.NotStarted
+
+  @Mutation
+  mutateLoadingState(loadingState: LoadingState) {
+    this.loadingState = loadingState
+  }
+
+  @Action
+  async fetchFromApi() {
+    try {
+      this.context.commit('mutateLoadingState', LoadingState.Loading)
+
+      const providerPromise: AxiosPromise = Axios.get('api/v1/lunchProvider')
+      const offerPromise: AxiosPromise = Axios.get('api/v1/lunchOffer')
+
+      const providerResponse: AxiosResponse = await providerPromise
+      const offerResponse: AxiosResponse = await offerPromise
+
+      if (providerResponse.status !== 200 || offerResponse.status !== 200) {
+        throw new Error('Response code must be 200 in \n' + JSON.stringify(providerResponse) + 'and in \n' + JSON.stringify(offerResponse))
+      }
+
+      this.context.commit('mutateProviders', providerResponse.data)
+      this.context.commit('mutateOffers', offerResponse.data)
+
+      this.context.commit('mutateLoadingState', LoadingState.Done)
+    } catch (error) {
+      console.error(error)
+      this.context.commit('mutateLoadingState', LoadingState.Failed)
+    }
+  }
 
 }

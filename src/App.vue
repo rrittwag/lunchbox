@@ -23,8 +23,7 @@ export default class App extends Vue {
   private lunchStore: LunchStore = getModule(LunchStore)
 
   created() {
-    this.lunchStore.fetchProviders()
-    this.lunchStore.fetchOffers()
+    this.lunchStore.fetchFromApi()
   }
 }
 </script>
