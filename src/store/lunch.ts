@@ -66,7 +66,7 @@ export default class LunchStoreModule extends VuexModule {
   }
 
   @Action
-  async fetchFromApi() {
+  async loadFromApi() {
     try {
       this.context.commit('mutateLoadingState', LoadingState.Loading)
 
