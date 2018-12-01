@@ -1,12 +1,12 @@
-import { shallowMount } from '@vue/test-utils';
-import HelloWorld from '@/components/HelloWorld.vue';
+import { shallowMount } from '@vue/test-utils'
+import Offers from '@/components/Offers.vue'
 
-describe('HelloWorld.vue', () => {
-  it('renders props.msg when passed', () => {
-    const msg = 'new message';
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg },
-    });
-    expect(wrapper.text()).toMatch(msg);
-  });
-});
+describe('Offers.vue', () => {
+  it('renders props.providerName when passed', () => {
+    const providerName = 'MyProvider'
+    const wrapper = shallowMount(Offers, {
+      propsData: { providerName },
+    })
+    expect(wrapper.text()).toMatch(providerName)
+  })
+})
