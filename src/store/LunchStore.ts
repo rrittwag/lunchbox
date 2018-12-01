@@ -1,13 +1,17 @@
+import { Inject } from 'vue-property-decorator'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-import Axios, { AxiosResponse, AxiosPromise } from 'axios'
+import { AxiosResponse, AxiosPromise } from 'axios'
 import store from '@/store/'
 import LunchLocation from '@/model/LunchLocation'
 import LunchProvider from '@/model/LunchProvider'
 import LunchOffer from '@/model/LunchOffer'
 import LoadingState from '@/store/LoadingState'
+import Api from '@/api/LunchApi'
 
 @Module({ store, dynamic: true, name: 'lunch' })
-export default class LunchStoreModule extends VuexModule {
+export default class LunchStore extends VuexModule {
+
+  @Inject() api: Api = new Api() // TODO: Vue can inject into components, but not into stores or modules!
 
   // --- providers ---
 
@@ -70,8 +74,8 @@ export default class LunchStoreModule extends VuexModule {
     try {
       this.context.commit('mutateLoadingState', LoadingState.Loading)
 
-      const providerPromise: AxiosPromise = Axios.get('api/v1/lunchProvider')
-      const offerPromise: AxiosPromise = Axios.get('api/v1/lunchOffer')
+      const providerPromise: AxiosPromise = this.api.getProviders()
+      const offerPromise: AxiosPromise = this.api.getOffers()
 
       const providerResponse: AxiosResponse = await providerPromise
       const offerResponse: AxiosResponse = await offerPromise

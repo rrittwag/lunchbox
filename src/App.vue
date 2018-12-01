@@ -8,10 +8,10 @@
 
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Provide } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import Header from '@/components/Header.vue'
-import LunchStore from '@/store/lunch'
+import LunchStore from '@/store/LunchStore'
 
 // vscode shows decorator errors -> https://github.com/vuejs/vetur/issues/815
 @Component({
@@ -20,7 +20,7 @@ import LunchStore from '@/store/lunch'
   },
 })
 export default class App extends Vue {
-  private lunchStore: LunchStore = getModule(LunchStore)
+  @Provide() lunchStore: LunchStore = getModule(LunchStore)
 
   created() {
     this.lunchStore.loadFromApi()

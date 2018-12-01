@@ -31,9 +31,8 @@
 
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { getModule } from 'vuex-module-decorators'
-import LunchStore from '@/store/lunch'
+import { Component, Vue, Inject } from 'vue-property-decorator'
+import LunchStore from '@/store/LunchStore'
 import OffersOfProvider from '@/components/OffersOfProvider.vue'
 import LunchProvider from '@/model/LunchProvider'
 
@@ -43,7 +42,7 @@ import LunchProvider from '@/model/LunchProvider'
   },
 })
 export default class Offers extends Vue {
-  private lunchStore: LunchStore = getModule(LunchStore)
+  @Inject() lunchStore!: LunchStore
 
   visibleProviders(): LunchProvider[] {
     return this.lunchStore.providers

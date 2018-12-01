@@ -8,15 +8,14 @@
 
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import { getModule } from 'vuex-module-decorators'
-import LunchStore from '@/store/lunch'
+import { Component, Prop, Vue, Inject } from 'vue-property-decorator'
+import LunchStore from '@/store/LunchStore'
 import LunchProvider from '@/model/LunchProvider'
 import LunchOffer from '@/model/LunchOffer'
 
 @Component
 export default class OffersOfProvider extends Vue {
-  private lunchStore: LunchStore = getModule(LunchStore)
+  @Inject() lunchStore!: LunchStore
 
   @Prop() private provider!: LunchProvider
 

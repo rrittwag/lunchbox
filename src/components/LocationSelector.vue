@@ -17,12 +17,12 @@
 
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Inject } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
-import LunchStore from '@/store/lunch'
+import LunchStore from '@/store/LunchStore'
 
 @Component
 export default class LocationSelector extends Vue {
-  private lunchStore: LunchStore = getModule(LunchStore)
+  @Inject() lunchStore!: LunchStore
 }
 </script>
