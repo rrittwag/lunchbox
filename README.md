@@ -50,3 +50,4 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 - Initiales Projekt erstellt mit [Vue CLI](https://cli.vuejs.org/).
 - Die zentrale Datenverwaltung übernimmt [Vuex](https://vuex.vuejs.org/guide/).
 - UI-Komponenten und Design implementiert [bootstrap-vue](https://bootstrap-vue.js.org/).
+- Die Definition von Components und deren Eigenschaften (z.B. Props) erleichtern [Decorators/Annotationen](https://github.com/kaorun343/vue-property-decorator). Ebenso [im Vuex-Store](https://github.com/championswimmer/vuex-module-decorators).
