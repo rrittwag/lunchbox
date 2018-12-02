@@ -11,7 +11,7 @@ import Api from '@/api/LunchApi'
 @Module({ store, dynamic: true, name: 'lunch' })
 export default class LunchStore extends VuexModule {
 
-  @Inject() api: Api = new Api() // TODO: Vue can inject into components, but not into stores or modules!
+  @Inject() api: Api = new Api() // bad: Vue injects into components, but not into store/modules!
 
   // --- providers ---
 
