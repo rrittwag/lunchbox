@@ -38,7 +38,7 @@ export default class LunchStore extends VuexModule {
 
   offersByDay(day: Date): LunchOffer[] {
     return this.offers
-                    .filter(p => new Date(p.day) === day)
+                    .filter(p => new Date(p.day).getTime() === day.getTime())
   }
 
   // --- locations ---
