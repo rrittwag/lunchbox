@@ -28,7 +28,8 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 
 ## TODOs
 
-- Funktionalitäten aus angular-Frontend übernehmen
+- Funktionalitäten aus angular-Frontend übernehmen (z.B. Preisangaben in LunchOffers, DaySelector, LunchOffer-Filterung, Message-Box, About-View, Settings-View, Responsive Design)
+- Unit-Tests schreiben (siehe angular-Frontend)
 - Info: [Alexa Skill von Falko P.](https://www.amazon.de/s/ref=nb_sb_noss_2?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Dalexa-skills&field-keywords=lunchbox) in Infoseite aufnehmen
 - PWA-tauglich machen
 - Design: Lunchbox-Logo für Jumbotron bereitstellen
