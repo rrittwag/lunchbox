@@ -1,13 +1,13 @@
 <template>
   <b-nav-item-dropdown
         class="d-none d-sm-block"
-        v-bind:text="lunchStore.selectedLocation.shortName"
+        :text="lunchStore.selectedLocation.shortName"
   >
     <b-dropdown-item
           v-for="location in lunchStore.locations"
-          v-bind:key="location.shortName"
-          v-on:click="lunchStore.mutateSelectedLocation(location)"
-          v-bind:active="location === lunchStore.selectedLocation"
+          :key="location.shortName"
+          @click="lunchStore.mutateSelectedLocation(location)"
+          :active="location === lunchStore.selectedLocation"
     >
       {{ location.name }}
     </b-dropdown-item>

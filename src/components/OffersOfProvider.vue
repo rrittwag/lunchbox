@@ -1,7 +1,7 @@
 <template>
   <b-list-group>
     <b-list-group-item variant="primary"><b>{{ provider.name }}</b></b-list-group-item>
-    <b-list-group-item v-for='offer in visibleOffers()' v-bind:key='offer.id'>{{ offer.name }}</b-list-group-item>
+    <b-list-group-item v-for='offer in visibleOffers()' :key='offer.id'>{{ offer.name }}</b-list-group-item>
   </b-list-group>
 </template>
 

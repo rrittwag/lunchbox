@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
       <b-row>
-        <b-col v-for='provider in visibleProviders()' v-bind:key='provider.id'>
+        <b-col v-for='provider in visibleProviders()' :key='provider.id'>
           <OffersOfProvider :provider='provider' />
         </b-col>
       </b-row>
