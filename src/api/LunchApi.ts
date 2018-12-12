@@ -1,6 +1,5 @@
 import Axios, { AxiosPromise } from 'axios'
-import LunchOffer from '@/model/LunchOffer'
-import LunchProvider from '@/model/LunchProvider'
+import { LunchOffer, LunchProvider } from '@/model'
 
 export default class LunchApi {
 
