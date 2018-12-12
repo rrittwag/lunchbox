@@ -33,7 +33,7 @@
 <script lang="ts">
 import { Component, Vue, Inject } from 'vue-property-decorator'
 import LunchStore from '@/store/LunchStore'
-import OffersOfProvider from '@/components/OffersOfProvider.vue'
+import OffersOfProvider from './OffersOfProvider.vue'
 import LunchProvider from '@/model/LunchProvider'
 
 @Component({

@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <Header/>
-    <router-view/>
+    <Layout/>
   </div>
 </template>
 
@@ -10,13 +9,13 @@
 <script lang="ts">
 import { Component, Vue, Provide } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
-import Header from '@/components/Header.vue'
+import Layout from '@/views/layout/Layout.vue'
 import LunchStore from '@/store/LunchStore'
 
 // vscode shows decorator errors -> https://github.com/vuejs/vetur/issues/815
 @Component({
   components: {
-    Header,
+    Layout,
   },
 })
 export default class App extends Vue {

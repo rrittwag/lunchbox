@@ -12,9 +12,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import DaySelector from '@/components/DaySelector.vue'
-import MessageBox from '@/components/MessageBox.vue'
-import Offers from '@/components/Offers.vue'
+import DaySelector from './components/DaySelector.vue'
+import MessageBox from './components/MessageBox.vue'
+import Offers from './offers/Offers.vue'
 
 @Component({
   components: {

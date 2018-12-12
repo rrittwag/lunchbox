@@ -2,7 +2,7 @@
   <b-navbar toggleable="sm" type="light">
 
     <b-navbar-brand to="/">
-      <img alt="Vue logo" width="32" src="../assets/lunchbox_logo.png">
+      <img alt="Vue logo" width="32" src="@/assets/lunchbox_logo.png">
       Lunchbox
     </b-navbar-brand>
 
