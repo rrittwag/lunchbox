@@ -1,10 +1,8 @@
 <template>
   <div class="home">
-    <b-container fluid>
-      <DaySelector/>
-      <MessageBox/>
-      <Offers/>
-    </b-container>
+    <DaySelector/>
+    <MessageBox/>
+    <Offers/>
   </div>
 </template>
 
