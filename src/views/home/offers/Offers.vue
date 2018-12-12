@@ -34,7 +34,7 @@
 import { Component, Vue, Inject } from 'vue-property-decorator'
 import LunchStore from '@/store/LunchStore'
 import OffersOfProvider from './OffersOfProvider.vue'
-import LunchProvider from '@/model/LunchProvider'
+import { LunchProvider, LunchOffer } from '@/model'
 
 @Component({
   components: {
@@ -45,8 +45,13 @@ export default class Offers extends Vue {
   @Inject() lunchStore!: LunchStore
 
   visibleProviders(): LunchProvider[] {
+    const offersForDay: LunchOffer[] = this.lunchStore.offers
+                              .filter(o => new Date(o.day).getTime() === this.lunchStore.selectedDay.getTime())
+    const providerIdsToday: number[] = offersForDay.map(o => o.provider)
     return this.lunchStore.providers
+                              .filter(p => providerIdsToday.includes(p.id))
                               .filter(p => p.location === this.lunchStore.selectedLocation.name)
+                              .sort((provider1, provider2) => provider1.name.localeCompare(provider2.name))
   }
 }
 </script>
