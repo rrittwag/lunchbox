@@ -32,9 +32,9 @@
 
 <script lang="ts">
 import { Component, Vue, Inject } from 'vue-property-decorator'
-import LunchStore from '@/store/LunchStore'
-import OffersOfProvider from './OffersOfProvider.vue'
+import { LunchStore } from '@/store'
 import { LunchProvider, LunchOffer } from '@/model'
+import OffersOfProvider from './OffersOfProvider.vue'
 
 @Component({
   components: {

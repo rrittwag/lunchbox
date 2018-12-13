@@ -1,4 +1,4 @@
-export default interface LunchOffer {
+export interface LunchOffer {
   id: number
   name: string
   day: string

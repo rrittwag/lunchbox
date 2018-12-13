@@ -19,7 +19,7 @@
 <script lang="ts">
 import { Component, Vue, Inject } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
-import LunchStore from '@/store/LunchStore'
+import { LunchStore } from '@/store'
 
 @Component
 export default class LocationSelector extends Vue {

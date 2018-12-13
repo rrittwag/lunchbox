@@ -1,15 +1,14 @@
 import { Inject } from 'vue-property-decorator'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 import { AxiosResponse, AxiosPromise } from 'axios'
-import store from '@/store/'
+import { store, LoadingState } from '@/store'
 import { LunchOffer, LunchProvider, LunchLocation } from '@/model'
-import LoadingState from '@/store/LoadingState'
-import Api from '@/api/LunchApi'
+import { LunchApi } from '@/api'
 
 @Module({ store, dynamic: true, name: 'lunch' })
-export default class LunchStore extends VuexModule {
+export class LunchStore extends VuexModule {
 
-  @Inject() api: Api = new Api() // bad: Vue injects into components, but not into store/modules!
+  @Inject() api: LunchApi = new LunchApi() // bad: Vue injects into components, but not into store/modules!
 
   // --- providers ---
 

@@ -1,4 +1,4 @@
-export default interface LunchProvider {
+export interface LunchProvider {
   id: number
   name: string
   location: string

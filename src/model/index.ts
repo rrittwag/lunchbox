@@ -1,3 +1,3 @@
-export { default as LunchOffer } from './LunchOffer'
-export { default as LunchProvider } from './LunchProvider'
-export { default as LunchLocation } from './LunchLocation'
+export { LunchOffer } from './LunchOffer'
+export { LunchProvider } from './LunchProvider'
+export { LunchLocation } from './LunchLocation'

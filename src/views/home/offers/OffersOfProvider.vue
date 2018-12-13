@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Inject } from 'vue-property-decorator'
-import LunchStore from '@/store/LunchStore'
+import { LunchStore } from '@/store'
 import { LunchOffer, LunchProvider } from '@/model'
 
 @Component
