@@ -8,8 +8,7 @@
 
 
 <script lang="ts">
-import { Component, Vue, Provide } from 'vue-property-decorator'
-import { getModule } from 'vuex-module-decorators'
+import { Component, Vue } from 'vue-property-decorator'
 import Header from './header/Header.vue'
 import Content from './Content.vue'
 
