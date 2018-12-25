@@ -1,8 +1,13 @@
 package info.rori.lunchbox.api.v1.resource;
 
-import io.swagger.annotations.*;
 import info.rori.lunchbox.api.v1.model.LunchProvider;
 import info.rori.lunchbox.api.v1.repository.LunchProviderRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -15,31 +20,36 @@ import java.util.List;
  * Stellt die Mittagsanbieter in der REST-API bereit.
  */
 @Path("/lunchProvider")
-@Api(value = "/lunchProvider", description = "Liefert die Mittagsanbieter")
+@Produces(MediaType.APPLICATION_JSON)
 public class LunchProviderResource {
 
     private LunchProviderRepository repo = new LunchProviderRepository();
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Liefert alle Mittagsanbieter")
-    @ApiResponses(value = {
-            @ApiResponse(code = 500, message = "Serverfehler")})
+    @Operation(summary = "Liefert alle Mittagsanbieter",
+               responses = {
+                    @ApiResponse(responseCode = "200", content = @Content(
+                        array = @ArraySchema( schema = @Schema(implementation = LunchProvider.class)
+                    ))),
+                    @ApiResponse(responseCode = "500", description = "Serverfehler")
+               })
     public List<LunchProvider> get() {
         return repo.findAll();
     }
 
     @GET
     @Path("{id : \\d+}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Liefert den Mittagsanbieter mit der angegebenen ID")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = LunchProvider.class),
-            @ApiResponse(code = 404, message = "Unter der angegebenen ID existiert kein Mittagsanbieter"),
-            @ApiResponse(code = 500, message = "Serverfehler")})
+    @Operation(summary = "Liefert den Mittagsanbieter mit der angegebenen ID",
+               responses = {
+                    @ApiResponse(responseCode = "200", content = @Content(
+                        schema = @Schema(implementation = LunchProvider.class)
+                    )),
+                    @ApiResponse(responseCode = "404", description = "Unter der angegebenen ID existiert kein Mittagsanbieter"),
+                    @ApiResponse(responseCode = "500", description = "Serverfehler")
+               })
     public LunchProvider getById(
             @PathParam("id")
-            @ApiParam(value = "ID des gesuchten Mittagsanbieters", required = true)
+            @Parameter(description = "ID des gesuchten Mittagsanbieters", required = true)
             int id) {
         return repo.findById(id);
     }

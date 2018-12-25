@@ -1,21 +1,32 @@
-apply plugin: 'idea'
-apply plugin: 'eclipse'
-
-apply plugin: 'war'
-apply plugin: 'jetty'
-
+plugins {
+  id 'idea'
+  id 'eclipse'
+  id 'java'
+  id 'application'
+}
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 repositories {
-   jcenter()
+  jcenter()
 }
 
 dependencies {
-     compile ('io.swagger:swagger-jersey2-jaxrs:1.5.9') {
-     	exclude module: 'scala-compiler'
-     }
-     compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.1'
-     compile 'org.scala-lang:scala-xml:2.11.0-M4'
+  // JAX RS-Implementierung Jersey + WebServer Grizzly
+  implementation platform('org.glassfish.jersey:jersey-bom:2.27')
+  implementation 'org.glassfish.jersey.containers:jersey-container-grizzly2-http'
+  implementation 'org.glassfish.jersey.containers:jersey-container-grizzly2-servlet'
+  implementation 'org.glassfish.jersey.inject:jersey-hk2'
+  implementation 'org.glassfish.jersey.media:jersey-media-json-binding'
+  implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
+  // OpenAPI für JAX RS
+  implementation 'io.swagger.core.v3:swagger-jaxrs2:2.0.6'
+  implementation 'io.swagger.core.v3:swagger-jaxrs2-servlet-initializer:2.0.6'
+}
+
+run {
+  mainClassName = 'info.rori.lunchbox.App'
+  standardInput = System.in
 }

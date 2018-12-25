@@ -1,9 +1,18 @@
 package info.rori.lunchbox.api.v1.resource;
 
-import io.swagger.annotations.*;
+//import io.swagger.annotations.*;
 import info.rori.lunchbox.api.v1.model.LunchOffer;
 import info.rori.lunchbox.api.v1.repository.LunchOfferRepository;
 import info.rori.lunchbox.api.v1.util.TypeConverter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -13,21 +22,32 @@ import java.util.List;
 /**
  * Stellt die Mittagsangebote in der REST-API bereit.
  */
+@OpenAPIDefinition(
+	    info = @Info(
+	            title = "Lunchbox API v1",
+	            version = "1.2.0",
+	            description = "API für die Abfrage von Mittagsangeboten"
+	    ),
+	    servers = @Server(url = "http://localhost:8080/api/v1")
+	)
 @Path("/lunchOffer")
-@Api(value = "/lunchOffer", description = "Liefert die Mittagsangebote")
+@Produces(MediaType.APPLICATION_JSON)
 public class LunchOfferResource {
 
     private LunchOfferRepository repo = new LunchOfferRepository();
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Liefert alle Mittagsangebote, ggf. gefiltert nach Gültigkeits-Tag")
-    @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "Bad Request - der Parameter 'day' ist nicht valide"),
-            @ApiResponse(code = 500, message = "Serverfehler")})
+    @Operation(summary = "Liefert alle Mittagsangebote, ggf. gefiltert nach Gültigkeits-Tag",
+               responses = {
+                    @ApiResponse(responseCode = "200", content = @Content(
+                        array = @ArraySchema( schema = @Schema(implementation = LunchOffer.class)
+                    ))),
+                    @ApiResponse(responseCode = "400", description = "Bad Request - der Parameter 'day' ist nicht valide"),
+                    @ApiResponse(responseCode = "500", description = "Serverfehler")
+               })
     public List<LunchOffer> get(
             @QueryParam("day")
-            @ApiParam(value = "Tag, an dem die Mittagsangebote gültig sein sollen. Format: 'YYYY-MM-DD' (ISO 8601)", required = false)
+            @Parameter(description = "Tag, an dem die Mittagsangebote gültig sein sollen. Format: 'YYYY-MM-DD' (ISO 8601)", required = false)
             String dayString) {
 
         LocalDate day = null;
@@ -45,15 +65,17 @@ public class LunchOfferResource {
 
     @GET
     @Path("{id : \\d+}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Liefert das Mittagsangebot mit der angegebenen ID")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = LunchOffer.class),
-            @ApiResponse(code = 404, message = "Unter der angegebenen ID existiert kein Mittagsangebot"),
-            @ApiResponse(code = 500, message = "Serverfehler")})
+    @Operation(summary = "Liefert das Mittagsangebot mit der angegebenen ID",
+               responses = {
+                    @ApiResponse(responseCode = "200", content = @Content(
+                        schema = @Schema(implementation = LunchOffer.class)
+                    )),
+                    @ApiResponse(responseCode = "404", description = "Unter der angegebenen ID existiert kein Mittagsangebot"),
+                    @ApiResponse(responseCode = "500", description = "Serverfehler")
+               })
     public LunchOffer getById(
             @PathParam("id")
-            @ApiParam(value = "ID des gesuchten Mittagsangebots", required = true)
+            @Parameter(description = "ID des gesuchten Mittagsangebots", required = true)
             int id) {
         return repo.findById(id);
     }
