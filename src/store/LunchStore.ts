@@ -45,17 +45,36 @@ export class LunchStore extends VuexModule {
     new LunchLocation('Berlin Springpfuhl', 'B'),
   ]
 
-  selectedLocation: LunchLocation = this.locations[0] // TODO: load from local storage
+  selectedLocation: LunchLocation = this.loadSelectedLocationFromLocalStorage()
+
+  loadSelectedLocationFromLocalStorage(): LunchLocation {
+    let locationName: string | null = localStorage.getItem('lunchboxWebapp.STORAGEKEY_LOCATION')
+    if (locationName === null || locationName.length === 0)
+      return this.locations[0]
+    locationName = locationName.replace(/\"/g, '') // die alte Angular-App speicherte den Wert mit ""
+    const filteredLocation = this.locations.filter(l => l.name === locationName)
+    if (filteredLocation.length > 0)
+      return filteredLocation[0]
+    return this.locations[0]
+  }
 
   @Mutation
   mutateSelectedLocation(location: LunchLocation) {
     this.selectedLocation = location
-     // TODO: save to local storage (via action!)
+    let locationName: string = ''
+    if (!!location)
+      locationName = location.name
+    localStorage.setItem('lunchboxWebapp.STORAGEKEY_LOCATION', locationName)
   }
 
   // --- selected day ---
 
-  selectedDay: Date = new Date('2018-12-03')
+  selectedDay: Date = this.today()
+
+  private today(): Date {
+    const localNow = new Date()
+    return new Date(Date.UTC(localNow.getFullYear(), localNow.getMonth(), localNow.getDate()))
+  }
 
   // --- api call ---
 
@@ -90,5 +109,4 @@ export class LunchStore extends VuexModule {
       this.context.commit('mutateLoadingState', LoadingState.Failed)
     }
   }
-
 }

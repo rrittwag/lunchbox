@@ -12,6 +12,13 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
 
+// TODO: Filter auslagern
+Vue.filter('formatEuro', (priceInCent: number) => {
+  if (!priceInCent) return ''
+  const centString = ('0' + (priceInCent % 100)).slice(-2)
+  return Math.floor(priceInCent / 100) + ',' + centString + ' €'
+})
+
 Vue.config.productionTip = false
 
 new Vue({

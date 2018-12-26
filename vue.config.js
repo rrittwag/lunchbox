@@ -5,7 +5,8 @@ module.exports = {
     open: true,
     proxy: {
       '/api': {
-        target: 'http://lunchbox.rori.info'
+//        target: 'https://lunchbox.rori.info'
+        target: 'http://localhost:8080'
       }
     }
   }
