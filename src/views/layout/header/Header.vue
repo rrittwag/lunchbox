@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="sm" type="light">
+  <b-navbar class='header' toggleable="sm" type="light">
 
     <b-navbar-brand to="/">
       <img alt="Vue logo" width="32" src="@/assets/lunchbox_logo.png">

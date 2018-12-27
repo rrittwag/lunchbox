@@ -28,12 +28,19 @@ import OffersOfProvider from './OffersOfProvider.vue'
 export default class Offers extends Vue {
   @Inject() lunchStore!: LunchStore
 
+  get visibleOffers(): LunchOffer[] {
+    const providerIDsForSelectedLocation: number[] = this.lunchStore.providers
+                              .filter(p => p.location === this.lunchStore.selectedLocation.name)
+                              .map(p => p.id)
+    return this.lunchStore.offers
+                  .filter(o => providerIDsForSelectedLocation.includes(o.provider))
+                  .filter(o => new Date(o.day).getTime() === this.lunchStore.selectedDay.getTime())
+  }
+
   visibleProviders(): LunchProvider[] {
-    const offersForDay: LunchOffer[] = this.lunchStore.offers
-                              .filter(o => new Date(o.day).getTime() === this.lunchStore.selectedDay.getTime())
-    const providerIdsToday: number[] = offersForDay.map(o => o.provider)
+    const providerIds: number[] = this.visibleOffers.map(o => o.provider)
     return this.lunchStore.providers
-                              .filter(p => providerIdsToday.includes(p.id))
+                              .filter(p => providerIds.includes(p.id))
                               .filter(p => p.location === this.lunchStore.selectedLocation.name)
                               .sort((provider1, provider2) => provider1.name.localeCompare(provider2.name))
   }

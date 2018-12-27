@@ -28,19 +28,24 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 
 ## TODOs
 
-- Funktionalitäten aus angular-Frontend übernehmen (z.B. Preisangaben in LunchOffers, DaySelector, LunchOffer-Filterung, Message-Box, About-View, Settings-View, Responsive Design)
+- Anzeige für keine Angebote
+- Lade-Status als [Spinner](https://scotch.io/tutorials/add-loading-indicators-to-your-vuejs-application) darstellen
+- Meldung bei fehlerhaftem Laden
+- About-View basteln
+- Settings-View basteln
+- Responsive Design: Ausdehnung auf ca. 1800px Breite beschränken
+- Design: Abstände der Provider-Boxen optimieren
+- Filter in main.ts auslagern
 - Unit-Tests schreiben (siehe angular-Frontend)
 - Info: [Alexa Skill von Falko P.](https://www.amazon.de/s/ref=nb_sb_noss_2?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Dalexa-skills&field-keywords=lunchbox) in Infoseite aufnehmen
-- PWA-tauglich machen
-- Design: Lunchbox-Logo für Jumbotron bereitstellen
+- Direkte Anwahl einer Sub-Adresse (z.B. 'http://localhost/about') ermöglichen.
+- als PWA realisieren -> Offline-Anzeige der Mittagsangebote
+- Design: neues Lunchbox-Logo designen
 - Model: Daten neu laden, wenn über 1 Tag alt
 - Projekt mit HTML5 Boilerplate abgleichen
-- Adress-Query-Parameter "day": gezielt die Angebote für einen Tag abfragen
-- in Feed Links zur Website setzen
 - System-Tests bereitstellen, via Selenium?
 - durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
 - i18n & l10n
-- Direkte Anwahl einer Sub-Adresse (z.B. 'http://localhost/about') ermöglichen.
 - [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
 
 

@@ -19,11 +19,6 @@ export class LunchStore extends VuexModule {
     this.providers = providers
   }
 
-  providersByLocation(location: LunchLocation): LunchProvider[] {
-    return this.providers
-                    .filter(p => p.location === location.name)
-  }
-
   // --- offers ---
 
   offers: LunchOffer[] = []
@@ -31,11 +26,6 @@ export class LunchStore extends VuexModule {
   @Mutation
   mutateOffers(offers: LunchOffer[]) {
     this.offers = offers
-  }
-
-  offersByDay(day: Date): LunchOffer[] {
-    return this.offers
-                    .filter(p => new Date(p.day).getTime() === day.getTime())
   }
 
   // --- locations ---
@@ -74,6 +64,11 @@ export class LunchStore extends VuexModule {
   private today(): Date {
     const localNow = new Date()
     return new Date(Date.UTC(localNow.getFullYear(), localNow.getMonth(), localNow.getDate()))
+  }
+
+  @Mutation
+  mutateSelectedDay(selectedDay: Date) {
+    this.selectedDay = selectedDay
   }
 
   // --- api call ---
