@@ -1,5 +1,5 @@
 <template>
-  <b-list-group>
+  <b-list-group class='offer-box'>
     <b-list-group-item variant='primary'>
       <b>{{ provider.name }}</b>
     </b-list-group-item>

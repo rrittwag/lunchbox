@@ -1,6 +1,6 @@
 <template>
   <b-nav-item-dropdown
-        class="d-none d-sm-block"
+        class="location-selector d-none d-sm-block"
         :text="lunchStore.selectedLocation.shortName"
   >
     <b-dropdown-item

@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid>
+  <b-container fluid class='offer-box-group'>
       <b-row>
         <b-col
           sm='6' md='4' lg='3'
