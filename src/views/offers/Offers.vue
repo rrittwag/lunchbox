@@ -1,8 +1,8 @@
 <template>
-  <div class="home">
+  <div class="offers">
     <DaySelector/>
     <MessageBox/>
-    <Offers/>
+    <OfferBoxGroup/>
   </div>
 </template>
 
@@ -12,14 +12,14 @@
 import { Component, Vue } from 'vue-property-decorator'
 import DaySelector from './components/DaySelector.vue'
 import MessageBox from './components/MessageBox.vue'
-import Offers from './offers/Offers.vue'
+import OfferBoxGroup from './components/OfferBoxGroup.vue'
 
 @Component({
   components: {
     DaySelector,
     MessageBox,
-    Offers,
+    OfferBoxGroup,
   },
 })
-export default class Home extends Vue {}
+export default class Offers extends Vue {}
 </script>

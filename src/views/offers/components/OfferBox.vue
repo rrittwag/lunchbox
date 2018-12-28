@@ -15,11 +15,11 @@
 
 
 <script lang="ts">
-import { Component, Prop, Vue, Inject } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { LunchOffer, LunchProvider } from '@/model'
 
 @Component
-export default class OffersOfProvider extends Vue {
+export default class OfferBox extends Vue {
   @Prop() private provider!: LunchProvider
 
   @Prop() private offers!: LunchOffer[]

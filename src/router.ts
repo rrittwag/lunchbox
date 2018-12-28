@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/home/Home.vue'
+import Offers from './views/offers/Offers.vue'
 
 Vue.use(Router)
 
@@ -10,8 +10,8 @@ export const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      name: 'offers',
+      component: Offers,
     },
     {
       path: '/about',

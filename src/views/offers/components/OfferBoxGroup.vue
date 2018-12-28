@@ -6,7 +6,7 @@
           v-for='provider in visibleProviders'
           :key='provider.id'
         >
-          <OffersOfProvider
+          <OfferBox
             :provider='provider'
             :offers='visibleOffersOf(provider)'
           />
@@ -21,14 +21,14 @@
 import { Component, Vue, Inject } from 'vue-property-decorator'
 import { LunchStore } from '@/store'
 import { LunchProvider, LunchOffer } from '@/model'
-import OffersOfProvider from './OffersOfProvider.vue'
+import OfferBox from './OfferBox.vue'
 
 @Component({
   components: {
-    OffersOfProvider,
+    OfferBox,
   },
 })
-export default class Offers extends Vue {
+export default class OfferBoxGroup extends Vue {
   @Inject() lunchStore!: LunchStore
 
   get visibleOffers(): LunchOffer[] {
