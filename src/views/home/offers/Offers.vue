@@ -3,10 +3,13 @@
       <b-row>
         <b-col
           sm='6' md='4' lg='3'
-          v-for='provider in visibleProviders()'
+          v-for='provider in visibleProviders'
           :key='provider.id'
         >
-          <OffersOfProvider :provider='provider' />
+          <OffersOfProvider
+            :provider='provider'
+            :offers='visibleOffersOf(provider)'
+          />
         </b-col>
       </b-row>
   </b-container>
@@ -37,11 +40,14 @@ export default class Offers extends Vue {
                   .filter(o => new Date(o.day).getTime() === this.lunchStore.selectedDay.getTime())
   }
 
-  visibleProviders(): LunchProvider[] {
-    const providerIds: number[] = this.visibleOffers.map(o => o.provider)
+  visibleOffersOf(provider: LunchProvider): LunchOffer[] {
+    return this.visibleOffers.filter(o => o.provider === provider.id)
+  }
+
+  get visibleProviders(): LunchProvider[] {
+    const providerIDs: number[] = this.visibleOffers.map(o => o.provider)
     return this.lunchStore.providers
-                              .filter(p => providerIds.includes(p.id))
-                              .filter(p => p.location === this.lunchStore.selectedLocation.name)
+                              .filter(p => providerIDs.includes(p.id))
                               .sort((provider1, provider2) => provider1.name.localeCompare(provider2.name))
   }
 }
