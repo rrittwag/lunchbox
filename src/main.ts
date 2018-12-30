@@ -2,39 +2,30 @@ import Vue from 'vue'
 import App from './App.vue'
 import { router } from './router'
 import { store } from './store'
+import * as filters from './filters'
 import './registerServiceWorker'
 
-// Import Bootstrap + styles
+// register Bootstrap components + styles
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
 
-// import FontAwesome
+// register FontAwesome
 import Icon from 'vue-awesome/components/Icon.vue'
 
 Vue.component('v-icon', Icon)
 
-// Filter anmelden
-Vue.filter('formatEuro', (priceInCent: number) => {
-  if (!priceInCent) return ''
-  const euroString = `${Math.floor(priceInCent / 100)}`
-  const centString = `0${priceInCent % 100}`.slice(-2)
-  return `${euroString},${centString} €`
-})
-Vue.filter('formatToWeekday', (date: Date) => {
-  if (!date) return ''
-  const options = { weekday: 'long' }
-  return date.toLocaleDateString(undefined, options)
-})
-Vue.filter('formatToDate', (date: Date) => {
-  if (!date) return ''
-  return date.toLocaleDateString()
-})
+// register filters
+type FunctionMap = { [key: string]: Function }
+const typedFilters: FunctionMap = filters // bugfixing https://github.com/Microsoft/TypeScript/issues/16248#issuecomment-306034585
+Object.keys(typedFilters).forEach((key: string) => Vue.filter(key, typedFilters[key]))
 
+// configuration
 Vue.config.productionTip = false
 
+// create root Vue instance
 new Vue({
   router,
   store,
