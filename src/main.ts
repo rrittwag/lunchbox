@@ -3,7 +3,7 @@ import App from './App.vue'
 import { router } from './router'
 import { store } from './store'
 import * as filters from './filters'
-import './registerServiceWorker'
+import './plugins/registerServiceWorker'
 
 // register Bootstrap components + styles
 import BootstrapVue from 'bootstrap-vue'
