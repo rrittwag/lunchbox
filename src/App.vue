@@ -10,7 +10,7 @@
 import { Component, Vue, Provide } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import { LunchStore } from '@/store'
-import Layout from '@/views/layout/Layout.vue'
+import Layout from '@/views/Layout.vue'
 
 // vscode shows decorator errors -> https://github.com/vuejs/vetur/issues/815
 @Component({

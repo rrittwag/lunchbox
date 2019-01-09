@@ -9,8 +9,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import Header from './header/Header.vue'
-import Content from './Content.vue'
+import { Header, Content } from './layout/'
 
 // vscode shows decorator errors -> https://github.com/vuejs/vetur/issues/815
 @Component({

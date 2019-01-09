@@ -10,9 +10,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import DaySelector from './components/DaySelector.vue'
-import MessageBox from './components/MessageBox.vue'
-import OfferBoxGroup from './components/OfferBoxGroup.vue'
+import { DaySelector, MessageBox, OfferBoxGroup } from './offers/'
 
 @Component({
   components: {
