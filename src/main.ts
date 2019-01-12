@@ -14,7 +14,6 @@ Vue.use(BootstrapVue)
 
 // register FontAwesome
 import Icon from 'vue-awesome/components/Icon.vue'
-
 Vue.component('v-icon', Icon)
 
 // register filters
