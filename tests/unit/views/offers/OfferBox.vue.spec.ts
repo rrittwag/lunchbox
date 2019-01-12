@@ -1,10 +1,10 @@
 import OfferBox from '@/views/offers/OfferBox.vue'
 import { mensa, gyros, soljanka } from '@tests/unit/test-data'
-import { createComponent } from '@tests/unit/test-util'
+import { simpleShallowMount } from '@tests/unit/test-util'
 
 describe('OfferBox', () => {
   it('renders title & offers as list items', () => {
-    const wrapper = createComponent(OfferBox, {
+    const wrapper = simpleShallowMount(OfferBox, {
       provider: mensa,
       offers: [gyros, soljanka],
     })
@@ -14,7 +14,7 @@ describe('OfferBox', () => {
   })
 
   it('renders title as first list item', () => {
-    const wrapper = createComponent(OfferBox, {
+    const wrapper = simpleShallowMount(OfferBox, {
       provider: mensa,
       offers: [gyros, soljanka],
     })
@@ -24,7 +24,7 @@ describe('OfferBox', () => {
   })
 
   it('renders offers in order', () => {
-    const wrapper = createComponent(OfferBox, {
+    const wrapper = simpleShallowMount(OfferBox, {
       provider: mensa,
       offers: [gyros, soljanka],
     })
@@ -41,7 +41,7 @@ describe('OfferBox', () => {
   })
 
   it('renders just title WHEN offers are empty', () => {
-    const wrapper = createComponent(OfferBox, {
+    const wrapper = simpleShallowMount(OfferBox, {
       provider: mensa,
       offers: [],
     })

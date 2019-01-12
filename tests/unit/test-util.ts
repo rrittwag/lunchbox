@@ -1,4 +1,4 @@
-import { createLocalVue, shallowMount, Wrapper, VueClass } from '@vue/test-utils'
+import { createLocalVue as createLocalVue_vtu, shallowMount as shallowMount_vtu, Wrapper, VueClass } from '@vue/test-utils'
 import Vue from 'vue'
 
 import BootstrapVue from 'bootstrap-vue'
@@ -8,9 +8,9 @@ import * as filters from '@/filters'
  * Create a testable Vue instance (instead of using global 'Vue' object),
  * including global Vue components & filters (see main.ts).
  */
-function createLunchLocalVue(): typeof Vue {
+function createLocalVue(): typeof Vue {
   // register Bootstrap components + styles
-  const localVue = createLocalVue()
+  const localVue = createLocalVue_vtu()
   localVue.use(BootstrapVue)
 
   // register filters
@@ -29,13 +29,13 @@ function createLunchLocalVue(): typeof Vue {
  * @param component
  * @param props
  */
-export function createComponent<V extends Vue>(
+export function simpleShallowMount<V extends Vue>(
   component: VueClass<V>,
   props: object = {}): Wrapper<V> {
 
-  const localVue = createLunchLocalVue()
+  const localVue = createLocalVue()
 
-  return shallowMount(component, {
+  return shallowMount_vtu(component, {
     localVue,
     propsData: { ...props },
   })
