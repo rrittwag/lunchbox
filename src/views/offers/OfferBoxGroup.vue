@@ -1,17 +1,17 @@
 <template>
   <b-container fluid class='offer-box-group'>
-      <b-row>
-        <b-col
-          sm='6' md='4' lg='3'
-          v-for='provider in visibleProviders'
-          :key='provider.id'
-        >
-          <OfferBox
-            :provider='provider'
-            :offers='visibleOffersOf(provider)'
-          />
-        </b-col>
-      </b-row>
+    <b-row>
+      <b-col
+        sm='6' md='4' lg='3'
+        v-for='provider in visibleProviders'
+        :key='provider.id'
+      >
+        <OfferBox
+          :provider='provider'
+          :offers='visibleOffersOf(provider)'
+        />
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
