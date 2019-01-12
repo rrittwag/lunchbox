@@ -1,6 +1,6 @@
 import OfferBox from '@/views/offers/OfferBox.vue'
-import { mensa, gyros, soljanka } from '../../test-data'
-import { createComponent } from '../../test-util'
+import { mensa, gyros, soljanka } from '@tests/unit/test-data'
+import { createComponent } from '@tests/unit/test-util'
 
 describe('OfferBox', () => {
   it('renders title & offers as list items', () => {
