@@ -12,17 +12,14 @@ export const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'offers',
       component: Offers,
     },
     {
       path: '/about',
-      name: 'about',
       component: About,
     },
     {
       path: '/settings',
-      name: 'settings',
       component: Settings,
     },
   ],
