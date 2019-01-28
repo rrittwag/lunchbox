@@ -57,12 +57,12 @@ export default class DaySelector extends Vue {
                     .map(o => o.day)
     return Array.from(new Set<string>(lunchDays))
               .map(dayString => new Date(dayString))
-              .sort((day1, day2) => day2.getTime() - day1.getTime())
+              .sort((day1, day2) => day1.getTime() - day2.getTime())
   }
 
   prevDay(): Date | undefined {
     return this.lunchDays
-                  .filter(day => day < this.lunchStore.selectedDay)
+                  .filter(day => day.getTime() < this.lunchStore.selectedDay.getTime())
                   .pop()
   }
 
