@@ -62,7 +62,7 @@ export default class DaySelector extends Vue {
 
   prevDay(): Date | undefined {
     return this.lunchDays
-                  .filter(day => day.getTime() < this.lunchStore.selectedDay.getTime())
+                  .filter(day => day < this.lunchStore.selectedDay)
                   .pop()
   }
 
