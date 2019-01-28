@@ -1,13 +1,15 @@
-import Axios, { AxiosPromise } from 'axios'
+import Axios from 'axios'
 import { LunchOffer, LunchProvider } from '@/model'
 
 export class LunchApi {
 
-  getOffers(): AxiosPromise<LunchOffer[]> {
+  async getOffers(): Promise<LunchOffer[]> {
     return Axios.get('api/v1/lunchOffer')
+                  .then(response => response.data)
   }
 
-  getProviders(): AxiosPromise<LunchProvider[]> {
+  async getProviders(): Promise<LunchProvider[]> {
     return Axios.get('api/v1/lunchProvider')
+                  .then(response => response.data)
   }
 }

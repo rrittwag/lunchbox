@@ -31,6 +31,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 - Anzeige für keine Angebote
 - Lade-Status als [Spinner](https://scotch.io/tutorials/add-loading-indicators-to-your-vuejs-application) darstellen
 - Meldung bei fehlerhaftem Laden
+- Mittagsangebote im LocalStorage halten und bei Neustart die Ladezeit überbrücken
 - About-View basteln
 - Settings-View basteln
 - Responsive Design: Ausdehnung auf ca. 1800px Breite beschränken

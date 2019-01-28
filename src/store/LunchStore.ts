@@ -82,25 +82,18 @@ export class LunchStore extends VuexModule {
 
   @Action
   async loadFromApi() {
+    this.context.commit('mutateLoadingState', LoadingState.Loading)
+
     try {
-      this.context.commit('mutateLoadingState', LoadingState.Loading)
+      const providers: LunchProvider[] = await this.api.getProviders()
+      const offers: LunchOffer[] = await this.api.getOffers()
 
-      const providerPromise: AxiosPromise = this.api.getProviders()
-      const offerPromise: AxiosPromise = this.api.getOffers()
-
-      const providerResponse: AxiosResponse = await providerPromise
-      const offerResponse: AxiosResponse = await offerPromise
-
-      if (providerResponse.status !== 200 || offerResponse.status !== 200) {
-        throw new Error('Response code must be 200 in \n' + JSON.stringify(providerResponse) + 'and in \n' + JSON.stringify(offerResponse))
-      }
-
-      this.context.commit('mutateProviders', providerResponse.data)
-      this.context.commit('mutateOffers', offerResponse.data)
+      this.context.commit('mutateProviders', providers)
+      this.context.commit('mutateOffers', offers)
 
       this.context.commit('mutateLoadingState', LoadingState.Done)
+
     } catch (error) {
-      console.error(error)
       this.context.commit('mutateLoadingState', LoadingState.Failed)
     }
   }
