@@ -8,8 +8,8 @@ module.exports = {
     open: true,
     proxy: {
       '/api': {
-//        target: 'https://lunchbox.rori.info'
-        target: 'http://localhost:8080'
+        target: 'https://lunchbox.rori.info'
+//        target: 'http://localhost:8080'
       }
     }
   }

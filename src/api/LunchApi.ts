@@ -1,15 +1,18 @@
-import Axios from 'axios'
+import { AxiosPromise } from 'axios'
+import http from './http'
 import { LunchOffer, LunchProvider } from '@/model'
 
 export class LunchApi {
 
-  async getOffers(): Promise<LunchOffer[]> {
-    return Axios.get('api/v1/lunchOffer')
-                  .then(response => response.data)
+  getOffers(): Promise<LunchOffer[]> {
+    const promise: AxiosPromise = http.get('api/v1/lunchOffer')
+    return promise
+            .then(response => response.data)
   }
 
-  async getProviders(): Promise<LunchProvider[]> {
-    return Axios.get('api/v1/lunchProvider')
-                  .then(response => response.data)
+  getProviders(): Promise<LunchProvider[]> {
+    const promise: AxiosPromise = http.get('api/v1/lunchProvider')
+    return promise
+            .then(response => response.data)
   }
 }

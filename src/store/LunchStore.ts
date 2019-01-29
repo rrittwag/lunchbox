@@ -85,8 +85,8 @@ export class LunchStore extends VuexModule {
     this.context.commit('mutateLoadingState', LoadingState.Loading)
 
     try {
-      const providers: LunchProvider[] = await this.api.getProviders()
-      const offers: LunchOffer[] = await this.api.getOffers()
+      const [providers, offers] =
+                await Promise.all([this.api.getProviders(), this.api.getOffers()])
 
       this.context.commit('mutateProviders', providers)
       this.context.commit('mutateOffers', offers)
