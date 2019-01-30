@@ -22,5 +22,9 @@ export const router = new Router({
       path: '/settings',
       component: Settings,
     },
+    {
+      path: '*',
+      redirect: '/',
+    },
   ],
 })
