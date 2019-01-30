@@ -20,9 +20,9 @@ import { LunchOffer, LunchProvider } from '@/model'
 
 @Component
 export default class OfferBox extends Vue {
-  @Prop() private provider!: LunchProvider
+  @Prop() provider!: LunchProvider
 
-  @Prop() private offers!: LunchOffer[]
+  @Prop() offers!: LunchOffer[]
 }
 </script>
 

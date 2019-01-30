@@ -1,6 +1,5 @@
 import { Inject } from 'vue-property-decorator'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-import { AxiosResponse, AxiosPromise } from 'axios'
 import { store, LoadingState } from '@/store'
 import { LunchOffer, LunchProvider, LunchLocation } from '@/model'
 import { LunchApi } from '@/api'
