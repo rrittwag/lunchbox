@@ -1,33 +1,33 @@
 <template>
-  <b-row class='day-selector'>
-    <b-col xs='12' sm='9' md='6' lg='4'>
-      <b-row align-v='center'>
+  <b-row class="day-selector pb-4">
+    <b-col xs="12" sm="9" md="6" lg="4">
+      <b-row align-v="center">
 
-        <b-col cols='2'>
+        <b-col cols="2">
           <b-button
-            variant='primary'
-            size='lg'
-            @click='goPrevDay'
-            :disabled='!prevDay()'
+            variant="primary"
+            size="lg"
+            @click="goPrevDay"
+            :disabled="!prevDay()"
           >
-            <v-icon name='angle-left' scale='3'/>
+            <v-icon name="angle-left" scale="3"/>
           </b-button>
         </b-col>
 
-        <b-col cols='8' class='text-center'>
+        <b-col cols="8" class="text-center">
           <h2><small>{{ lunchStore.selectedDay | formatToWeekday }}</small></h2>
-          <h2>{{ lunchStore.selectedDay | formatToDate }}</h2>
+          <h2 class="mt-0 mb-1">{{ lunchStore.selectedDay | formatToDate }}</h2>
         </b-col>
 
-        <b-col cols='2'>
+        <b-col cols="2">
           <b-button
-            class='float-right'
-            variant='primary'
-            size='lg'
-            @click='goNextDay'
-            :disabled='!nextDay()'
+            class="float-right"
+            variant="primary"
+            size="lg"
+            @click="goNextDay"
+            :disabled="!nextDay()"
           >
-            <v-icon name='angle-right' scale='3'/>
+            <v-icon name="angle-right" scale="3"/>
           </b-button>
         </b-col>
 
@@ -84,16 +84,3 @@ export default class DaySelector extends Vue {
   }
 }
 </script>
-
-
-
-<style lang="scss">
-.day-selector {
-  padding-bottom: 2em;
-
-  h2 {
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
-}
-</style>
