@@ -4,7 +4,7 @@ import { store, LoadingState } from '@/store'
 import { LunchOffer, LunchProvider, LunchLocation } from '@/model'
 import { LunchApi } from '@/api'
 
-@Module({ store, dynamic: true, name: 'lunch' })
+@Module({ store, dynamic: true, namespaced: true, name: 'lunch' })
 export class LunchStore extends VuexModule {
 
   @Inject() api: LunchApi = new LunchApi() // bad: Vue injects into components, but not into store/modules!
