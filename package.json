@@ -7,6 +7,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "lint:check": "vue-cli-service lint --no-fix",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -32,7 +33,7 @@
     "@vue/cli-service": "^3.3.1",
     "@vue/test-utils": "^1.0.0-beta.28",
     "babel-core": "7.0.0-bridge.0",
-    "lint-staged": "^8.1.1",
+    "lint-staged": "^8.1.4",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "ts-jest": "^23.10.5",
@@ -44,12 +45,8 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.ts": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
-      "vue-cli-service lint",
+    "*.{ts,vue}": [
+      "vue-cli-service lint:check",
       "git add"
     ]
   }
