@@ -113,6 +113,15 @@ class LunchResolverKrauthofSpec extends FlatSpec with Matchers with MockFactory 
     offers should contain(LunchOffer(0, "Cappuccinomousse mit Orangenkompott", week.monday, euro("2.90"), Id))
   }
 
+  it should "resolve PDF links for 2019-03-15" in {
+    val url = getClass.getResource("/mittagsplaene/daskrauthof_2019-03-15.html")
+
+    val links = resolver.resolvePdfLinks(url)
+
+    links should have size 1
+    links should contain (HttpUploadDir + "2019/03/KRAUTHOF.pdf")
+  }
+
   private def resolver = {
     val validatorStub = stub[DateValidator]
     (validatorStub.isValid _).when(*).returning(true)
