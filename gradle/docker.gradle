@@ -1,0 +1,15 @@
+// ---------------------------------
+//   Docker-Image erzeugen
+// ---------------------------------
+apply plugin: 'com.palantir.docker'
+
+ext.dockerRegistry = 'docker.vuk'
+
+docker {
+  dependsOn build
+  name "${dockerRegistry}/todo/${bootJar.baseName}"
+  tags "${project.version}", 'latest'
+  files bootJar.archivePath
+  buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
+  pull true
+}

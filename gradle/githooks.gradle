@@ -1,0 +1,20 @@
+// ---------------------------------
+//   git hooks kopieren
+// ---------------------------------
+//   Kopiert die git hooks aus gradle/githooks/ in das lokale git-Repository.
+//   Die git hooks stellen z.B. bei jedem Commit die korrekte Formatierung des Quellcodes sicher.
+// ---------------------------------
+task copyGitHooks(type: Copy) {
+  enabled = file("${rootDir}/.git/hooks").exists()
+
+  from("${rootDir}/gradle/githooks")
+  into("${rootDir}/.git/hooks")
+  eachFile {
+    if (it.relativePath.getFile(destinationDir).exists()) {
+      it.exclude()
+    }
+  }
+}
+
+// ausführen bei Aufruf der build-Task
+build.dependsOn copyGitHooks

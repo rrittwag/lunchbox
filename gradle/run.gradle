@@ -1,0 +1,24 @@
+// ------------------------
+//   Applikation starten
+// ------------------------
+def baseUrl = 'http://todo.localhost'
+
+bootRun {
+  doFirst {
+    //    args += '--logging.level.root=DEBUG'
+    args += '--debug'
+    args += '--todo.dev-mode=true' // verhindert CSRF- & CORS-Fehler beim Zugriff vom lokal gestarteten Frontend
+    args += "--BASE_URL=${baseUrl}"
+  }
+
+  jvmArgs=[
+    "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+  ]
+}
+
+task bootRunOnline(
+    description: 'Führt bootRun gegen das zentrale Keycloak auf http://todo.vuk aus.',
+    group: 'Application') {
+      finalizedBy 'bootRun'
+      doFirst { baseUrl = 'http://todo.vuk' }
+    }

@@ -1,0 +1,27 @@
+// -------------------
+//   Java
+// -------------------
+apply plugin: 'java'
+
+tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+tasks.withType(Javadoc) { options.encoding = 'UTF-8' }
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+// -------------------
+//   Kotlin
+// -------------------
+compileKotlin {
+  kotlinOptions {
+    freeCompilerArgs = ["-Xjsr305=strict"]
+    jvmTarget = "1.8"
+  }
+}
+compileTestKotlin {
+  kotlinOptions {
+    freeCompilerArgs = ["-Xjsr305=strict"]
+    jvmTarget = "1.8"
+  }
+}

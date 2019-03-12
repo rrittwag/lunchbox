@@ -1,0 +1,37 @@
+// ---------------------------------
+//   Code-Format prüfen & anwenden
+// ---------------------------------
+apply plugin: 'com.diffplug.gradle.spotless'
+
+spotless {
+  java {
+    // licenseHeaderFile     "${rootDir}/gradle/code_formatter/ceres.license"
+    importOrderFile       "${rootDir}/gradle/code_formatter/ceres.importorder"
+    removeUnusedImports()
+    eclipse().configFile  "${rootDir}/gradle/code_formatter/ceres.codeformat.xml"  // Export-Datei des Eclipse Formatters
+  }
+  kotlin {
+    ktlint().userData(
+      ['indent_size': '2',
+       'continuation_indent_size' : '2',
+       'insert_final_newline': 'true',
+       'max_line_length': '100'])
+  }
+  groovyGradle {
+    target '*.gradle', 'gradle/*.gradle'
+    greclipse().configFile "${rootDir}/gradle/code_formatter/ceres.codeformat.xml", "${rootDir}/gradle/code_formatter/ceres.groovyformat.prefs"
+    paddedCell()
+  }
+}
+
+// Der Task-Name 'format' ist eingängiger als 'spotlessApply' ...
+task format(
+    dependsOn: 'spotlessApply',
+    description: 'Formatiert den Quellcode (Alias für spotlessApply).',
+    group: 'Verification')
+
+// ... gleiches gilt für 'spotlessCheck'.
+task formatCheck(
+    dependsOn: 'spotlessCheck',
+    description: 'Prüft das Quellcode-Format (Alias für spotlessCheck).',
+    group: 'Verification')

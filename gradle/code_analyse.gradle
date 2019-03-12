@@ -1,0 +1,38 @@
+// -------------------
+//   Statische Code-Analyse mit SpotBugs
+// -------------------
+apply plugin: "com.github.spotbugs"
+
+spotbugs {
+  toolVersion = '3.1.11'
+  effort = "max"
+  reportLevel = "high"
+  ignoreFailures = false
+  // reportsDir = file("${buildDir}/reports/spotbugs")
+  // includeFilter = file("${rootDir}/config/spotbugs/includeFilter.xml")
+  // excludeFilter = file("${rootDir}/config/spotbugs/excludeFilter.xml")
+}
+
+spotbugsMain {
+  // Die SpotBugs-Analyse ist an die 'check'-Task gebunden, wird also auch
+  // beim häufig benutzten 'build' aufgerufen. Das frisst Zeit!
+  // Wir aktivieren sie daher nur bei explizitem Aufruf der Task 'codeAnalyse'.
+  enabled = gradle.startParameter.taskNames.contains('codeAnalyse')
+  reports {
+    // nur EINE Art von Report kann aktiv sein
+    xml.enabled = false
+    html.enabled = true
+  }
+}
+// Test-Code nicht analysieren
+spotbugsTest.enabled = false
+spotbugsIntegrationTest.enabled = false
+
+// Sammeltask 'codeAnalyse' fasst die Kind-Tasks für main- & test-Zweig zusammen
+task codeAnalyse(
+    dependsOn: [
+      'spotbugsMain',
+      'spotbugsTest'
+    ],
+    description: 'Führt die statische Code-Analyse mit SpotBugs aus.',
+    group: 'Verification')
