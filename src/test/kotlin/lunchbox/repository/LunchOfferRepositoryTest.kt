@@ -25,6 +25,16 @@ class LunchOfferRepositoryTest {
   }
 
   @Test
+  fun `WHEN findByDay  THEN success`() {
+    repo.offers = listOf(GYROS, SOLJANKA)
+
+    val result = repo.findByDay(GYROS.day)
+
+    assertThat(result).hasSize(1)
+    assertThat(result).contains(GYROS)
+  }
+
+  @Test
   fun `WHEN findById  THEN success`() {
     repo.offers = listOf(GYROS, SOLJANKA)
 
