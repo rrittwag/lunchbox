@@ -14,16 +14,6 @@ val GYROS = LunchOffer(
   LunchProvider.SCHWEINESTALL.id
 )
 
-const val GYROS_AS_JSON = """
-    {
-      id: 1,
-      name: "Gyros",
-      day: "2019-01-01",
-      price: 580,
-      provider: 1
-    }
-"""
-
 val SOLJANKA = LunchOffer(
   2,
   "Soljanka",

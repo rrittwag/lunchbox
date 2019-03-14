@@ -2,7 +2,6 @@ package lunchbox.api.v1.dto
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import lunchbox.domain.models.GYROS
-import lunchbox.domain.models.GYROS_AS_JSON
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.skyscreamer.jsonassert.JSONAssert.assertEquals
@@ -19,7 +18,20 @@ class LunchOfferDTOTest {
 
   @Test
   fun serialize() {
-    val json = mapper.writeValueAsString(GYROS)
+    val dto = LunchOfferDTO.of(GYROS)
+
+    val json = mapper.writeValueAsString(dto)
+
     assertEquals(json, GYROS_AS_JSON, true)
   }
 }
+
+const val GYROS_AS_JSON = """
+    {
+      id: 1,
+      name: "Gyros",
+      day: "2019-01-01",
+      price: 580,
+      provider: 1
+    }
+"""
