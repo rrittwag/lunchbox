@@ -15,11 +15,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
 import lunchbox.repository.LunchOfferRepository
-import com.fasterxml.jackson.databind.ObjectMapper
 import lunchbox.domain.models.DATE_NEWYEAR
 import lunchbox.domain.models.DATE_XMAS
 import lunchbox.domain.models.GYROS
-import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.SOLJANKA
 
 @WebMvcTest(LunchOfferController::class)
@@ -30,9 +28,6 @@ class LunchOfferControllerTest {
 
   @MockBean
   lateinit var repo: LunchOfferRepository
-
-  @Autowired
-  lateinit var objectMapper: ObjectMapper
 
   @BeforeEach
   fun before() {
@@ -79,13 +74,5 @@ class LunchOfferControllerTest {
     val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER/${GYROS.id}"))
 
     httpCall.andExpect(status().isNotFound)
-  }
-
-  private fun toJson(offer: LunchOffer): String {
-    try {
-      return objectMapper.writeValueAsString(offer)
-    } catch (e: Exception) {
-      throw RuntimeException(e)
-    }
   }
 }

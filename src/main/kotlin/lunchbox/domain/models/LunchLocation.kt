@@ -1,6 +1,8 @@
 package lunchbox.domain.models
 
-enum class LunchLocation {
-  NEUBRANDENBURG,
-  BERLIN_SPRINGPFUHL
+enum class LunchLocation (
+  val label: String
+) {
+  NEUBRANDENBURG("Neubrandenburg"),
+  BERLIN_SPRINGPFUHL("Berlin Springpfuhl")
 }

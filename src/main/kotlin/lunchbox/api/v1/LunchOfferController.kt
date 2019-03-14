@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.RestController
 import lunchbox.repository.LunchOfferRepository
 import org.springframework.web.bind.annotation.PathVariable
 
-const val URL_API_PREFIX = "/api/v1"
-const val URL_LUNCHOFFER = "$URL_API_PREFIX/lunchOffer"
-
 @RestController
 class LunchOfferController(val repo: LunchOfferRepository) {
 
