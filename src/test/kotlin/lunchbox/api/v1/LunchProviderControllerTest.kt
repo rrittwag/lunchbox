@@ -20,7 +20,7 @@ class LunchProviderControllerTest {
   lateinit var mockMvc: MockMvc
 
   @Test
-  fun `WHEN http GET lunchProvider  THEN success`() {
+  fun `WHEN get all  THEN success`() {
     val httpCall = mockMvc.perform(get(URL_LUNCHPROVIDER))
 
     httpCall.andExpect(status().isOk)
@@ -32,7 +32,7 @@ class LunchProviderControllerTest {
   }
 
   @Test
-  fun `WHEN http GET schweinestall  THEN success`() {
+  fun `WHEN get schweinestall  THEN success`() {
     val httpCall = mockMvc.perform(get("$URL_LUNCHPROVIDER/${SCHWEINESTALL.id}"))
 
     httpCall.andExpect(status().isOk)
@@ -42,7 +42,7 @@ class LunchProviderControllerTest {
   }
 
   @Test
-  fun `WHEN http GET unknown  THEN not found`() {
+  fun `WHEN get unknown  THEN not found`() {
     val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER/404"))
 
     httpCall.andExpect(status().isNotFound)
