@@ -16,7 +16,7 @@ class LunchOfferRepositoryTest {
   }
 
   @Test
-  fun `WHEN findAll  THEN get all`() {
+  fun `WHEN findAll  THEN success`() {
     repo.offers = listOf(GYROS, SOLJANKA)
 
     val result = repo.findAll()
@@ -25,7 +25,24 @@ class LunchOfferRepositoryTest {
   }
 
   @Test
-  fun `WHEN deleteAll  THEN delete all`() {
+  fun `WHEN findById  THEN success`() {
+    repo.offers = listOf(GYROS, SOLJANKA)
+
+    val result = repo.findByIdOrNull(GYROS.id)
+
+    assertThat(result).isNotNull
+    assertThat(result).isEqualTo(GYROS)
+  }
+
+  @Test
+  fun `WHEN findById  THEN not found`() {
+    val result = repo.findByIdOrNull(GYROS.id)
+
+    assertThat(result).isNull()
+  }
+
+  @Test
+  fun `WHEN deleteAll  THEN success`() {
     repo.offers = listOf(GYROS, SOLJANKA)
 
     repo.deleteAll()
@@ -34,7 +51,7 @@ class LunchOfferRepositoryTest {
   }
 
   @Test
-  fun `WHEN saveAll  THEN save all`() {
+  fun `WHEN saveAll  THEN success`() {
     repo.saveAll(listOf(GYROS, SOLJANKA))
 
     assertThat(repo.offers).containsExactly(GYROS, SOLJANKA)

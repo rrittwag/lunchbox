@@ -3,7 +3,7 @@ package lunchbox.domain.models
 import lunchbox.domain.models.LunchLocation.NEUBRANDENBURG
 import lunchbox.domain.models.LunchLocation.BERLIN_SPRINGPFUHL
 
-typealias LunchProviderId = Id
+typealias LunchProviderId = Long
 
 enum class LunchProvider(
   val id: LunchProviderId,

@@ -1,25 +1,26 @@
 package lunchbox.api.v1
-/*
+
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status */
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-// import org.mockito.Mockito.times
+import org.mockito.Mockito.anyLong
+import org.mockito.Mockito.times
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
 import lunchbox.repository.LunchOfferRepository
 import com.fasterxml.jackson.databind.ObjectMapper
-// import org.mockito.ArgumentMatchers.any
-// import org.mockito.ArgumentMatchers.notNull
-// import org.mockito.Mockito.never
+import lunchbox.domain.models.DATE_NEWYEAR
+import lunchbox.domain.models.DATE_XMAS
+import lunchbox.domain.models.GYROS
 import lunchbox.domain.models.LunchOffer
-import org.assertj.core.api.Assertions.assertThat
+import lunchbox.domain.models.SOLJANKA
 
 @WebMvcTest(LunchOfferController::class)
 class LunchOfferControllerTest {
@@ -39,20 +40,45 @@ class LunchOfferControllerTest {
   }
 
   @Test
-  fun `WHEN http GET lunchOffer  THEN return all offers`() {
-/*    Mockito.`when`(repo.findAll())
-        .thenReturn(listOf(PLAN_XMAS, PLAN_NEWYEAR))
+  fun `WHEN http GET lunchOffer  THEN success`() {
+    Mockito.`when`(repo.findAll())
+        .thenReturn(listOf(GYROS, SOLJANKA))
 
-    val httpCall = mockMvc.perform(get(URL_DAILYPLAN))
+    val httpCall = mockMvc.perform(get(URL_LUNCHOFFER))
 
     httpCall.andExpect(status().isOk)
         .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
         .andExpect(jsonPath("$").isArray)
         .andExpect(jsonPath("$.length()").value("2"))
         .andExpect(jsonPath("$[?(@.day == '$DATE_XMAS')]").exists())
-        .andExpect(jsonPath("$[?(@.day == '$DATE_NEWYEAR')]").exists()) */
+        .andExpect(jsonPath("$[?(@.day == '$DATE_NEWYEAR')]").exists())
 
-    assertThat(true).isEqualTo(false)
+    Mockito.verify(repo, times(1)).findAll()
+  }
+
+  @Test
+  fun `WHEN http GET gyros  THEN success`() {
+    Mockito.`when`(repo.findByIdOrNull(GYROS.id))
+      .thenReturn(GYROS)
+
+    val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER/${GYROS.id}"))
+
+    httpCall.andExpect(status().isOk)
+      .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+      .andExpect(jsonPath("$.id").value(GYROS.id))
+      .andExpect(jsonPath("$.name").value(GYROS.name))
+
+    Mockito.verify(repo, times(1)).findByIdOrNull(GYROS.id)
+  }
+
+  @Test
+  fun `WHEN http GET gyros  THEN not found`() {
+    Mockito.`when`(repo.findByIdOrNull(anyLong()))
+      .thenReturn(null)
+
+    val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER/${GYROS.id}"))
+
+    httpCall.andExpect(status().isNotFound)
   }
 
   private fun toJson(offer: LunchOffer): String {

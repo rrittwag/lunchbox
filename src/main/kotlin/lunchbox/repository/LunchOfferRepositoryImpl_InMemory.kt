@@ -12,6 +12,10 @@ class LunchOfferRepositoryImpl_InMemory(
     return offers
   }
 
+  override fun findByIdOrNull(id: Long): LunchOffer? {
+    return offers.find { it.id == id }
+  }
+
   override fun deleteAll() {
     offers = emptyList()
   }

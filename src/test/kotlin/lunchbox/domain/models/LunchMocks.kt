@@ -10,14 +10,24 @@ val GYROS = LunchOffer(
   1,
   "Gyros",
   DATE_NEWYEAR,
-  Money.parse("EUR 3.50"),
-  LunchProvider.TABBOULEH.id
+  Money.parse("EUR 5.80"),
+  LunchProvider.SCHWEINESTALL.id
 )
+
+const val GYROS_AS_JSON = """
+    {
+      id: 1,
+      name: "Gyros",
+      day: "2019-01-01",
+      price: 580,
+      provider: 1
+    }
+"""
 
 val SOLJANKA = LunchOffer(
   2,
   "Soljanka",
   DATE_XMAS,
   Money.parse("EUR 2.50"),
-  LunchProvider.SCHWEINESTALL.id
+  LunchProvider.AOK_CAFETERIA.id
 )
