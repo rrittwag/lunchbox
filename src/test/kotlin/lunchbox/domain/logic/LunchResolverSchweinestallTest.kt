@@ -3,9 +3,7 @@ package lunchbox.domain.logic /* ktlint-disable max-line-length no-wildcard-impo
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import org.assertj.core.api.Assertions.assertThat
-import org.joda.money.Money
 import org.junit.jupiter.api.Test
-import java.time.LocalDate
 
 class LunchResolverSchweinestallTest {
 
@@ -27,7 +25,3 @@ class LunchResolverSchweinestallTest {
 }
 
 private val ID = LunchProvider.SCHWEINESTALL.id
-
-private fun date(dateStr: String): LocalDate = LocalDate.parse(dateStr)
-
-private fun euro(moneyStr: String): Money = Money.parse("EUR $moneyStr")
