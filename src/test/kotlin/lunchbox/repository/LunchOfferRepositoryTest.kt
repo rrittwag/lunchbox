@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 
 class LunchOfferRepositoryTest {
 
-  val repo = LunchOfferRepositoryImpl_InMemory()
+  private val repo = LunchOfferRepositoryImpl_InMemory()
 
   @BeforeEach
   fun beforeEach() {
