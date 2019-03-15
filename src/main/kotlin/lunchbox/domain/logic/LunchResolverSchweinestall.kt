@@ -39,7 +39,6 @@ class LunchResolverSchweinestall : LunchResolver {
     val day = parseDay(dayElem) ?: return null
     val price = parsePrice(priceElem) ?: return null
     val name = parseName(nameElem)
-    println("$$ $name")
     return LunchOffer(0, name, day, price, SCHWEINESTALL.id)
   }
 
