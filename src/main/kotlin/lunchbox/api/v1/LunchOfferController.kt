@@ -26,8 +26,9 @@ class LunchOfferController(val repo: LunchOfferRepository) {
 
   @GetMapping("$URL_LUNCHOFFER/{id}")
   fun get(@PathVariable("id") id: Long): LunchOfferDTO {
-    val offer = repo.findByIdOrNull(id)
-      ?: throw HttpNotFoundException("Mittagsangebot mit ID $id nicht gefunden!")
+    val offer =
+      repo.findByIdOrNull(id)
+        ?: throw HttpNotFoundException("Mittagsangebot mit ID $id nicht gefunden!")
     return LunchOfferDTO.of(offer)
   }
 }

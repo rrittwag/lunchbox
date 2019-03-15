@@ -17,9 +17,10 @@ class LunchProviderController {
 
   @GetMapping("$URL_LUNCHPROVIDER/{id}")
   fun get(@PathVariable("id") id: Long): LunchProviderDTO {
-    val provider = LunchProvider.values()
-      .find { id == it.id }
-      ?: throw HttpNotFoundException("Mittagsanbieter mit ID $id nicht gefunden!")
+    val provider =
+      LunchProvider.values()
+        .find { id == it.id }
+          ?: throw HttpNotFoundException("Mittagsanbieter mit ID $id nicht gefunden!")
     return LunchProviderDTO.of(provider)
   }
 }
