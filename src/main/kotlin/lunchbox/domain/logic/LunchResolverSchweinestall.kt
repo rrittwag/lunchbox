@@ -3,7 +3,6 @@ package lunchbox.domain.logic
 import java.net.URL
 
 import lunchbox.domain.models.LunchOffer
-import java.util.concurrent.Future
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
 import lunchbox.util.html.Html
 import org.joda.money.CurrencyUnit
@@ -11,14 +10,11 @@ import org.joda.money.Money
 import org.jsoup.nodes.Element
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.concurrent.CompletableFuture.completedFuture
 
 class LunchResolverSchweinestall : LunchResolver {
 
-  override fun resolve(): Future<List<LunchOffer>> =
-    completedFuture(
-      resolve(SCHWEINESTALL.menuUrl)
-    )
+  override fun resolve(): List<LunchOffer> =
+    resolve(SCHWEINESTALL.menuUrl)
 
   fun resolve(url: URL): List<LunchOffer> {
     val site = Html.load(url, "iso-8859-1")

@@ -23,7 +23,7 @@ class LunchOfferRepositoryImpl_InMemory(
   }
 
   override fun saveAll(entities: Iterable<LunchOffer>): Iterable<LunchOffer> {
-    offers = offers.plus(entities)
+    offers += entities
     return entities
   }
 }

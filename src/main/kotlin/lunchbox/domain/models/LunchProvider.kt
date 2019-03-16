@@ -10,10 +10,11 @@ enum class LunchProvider(
   val id: LunchProviderId,
   val label: String,
   val location: LunchLocation,
-  val menuUrl: URL
+  val menuUrl: URL,
+  val active: Boolean = true
 ) {
   SCHWEINESTALL(1, "Schweinestall", NEUBRANDENBURG, URL("http://www.schweinestall-nb.de/index.php?id=159")),
-  HOTEL_AM_RING(2, "Hotel am Ring", NEUBRANDENBURG, URL("http://example.com")),
+  HOTEL_AM_RING(2, "Hotel am Ring", NEUBRANDENBURG, URL("http://example.com"), false),
   AOK_CAFETERIA(3, "AOK Cafeteria", NEUBRANDENBURG, URL("http://example.com")),
   SUPPENKULTTOUR(4, "Suppenkulttour", NEUBRANDENBURG, URL("http://example.com")),
   SALT_N_PEPPER(5, "Salt 'n' Pepper", BERLIN_SPRINGPFUHL, URL("http://example.com")),
