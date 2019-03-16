@@ -23,20 +23,6 @@ dependencies {
   implementation 'org.jsoup:jsoup:1.11.3'
   implementation 'org.joda:joda-money:1.0.1'
 
-  // security
-  //  implementation 'org.springframework.boot:spring-boot-starter-security'
-  //  implementation 'org.springframework.security:spring-security-oauth2-resource-server'
-  //  implementation 'org.springframework.security:spring-security-oauth2-jose'
-
-  // persistence
-  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-  //  implementation 'org.liquibase:liquibase-core'
-  //  runtime 'org.postgresql:postgresql:42.2.5'
-  runtime 'com.h2database:h2'
-
-  // logging
-  //  runtime 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
-
   // Test-Abhängigkeiten sind in test.gradle definiert
 }
 

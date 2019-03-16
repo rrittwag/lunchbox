@@ -1,26 +1,11 @@
 // -------------------
 //   Unit-Tests mit JUnit 5
 // -------------------
-repositories { maven { url "https://jitpack.io" } }
 dependencies {
   // JUnit 5
   testCompile 'org.springframework.boot:spring-boot-starter-test'
   testCompile 'org.junit.jupiter:junit-jupiter-api'
   testRuntime 'org.junit.jupiter:junit-jupiter-engine'
-
-  // security
-  testCompile 'org.springframework.security:spring-security-test'
-
-  // persistence
-  testRuntime 'com.h2database:h2'                                // schnelle In-Memory-DB für Repository-Unit-Tests
-  testCompile 'ru.yandex.qatools.embed:postgresql-embedded:2.10' // erspart externe PostgreSQL-Instanz in Integrations-Tests
-
-  // logging
-  testCompile 'net.ttddyy:datasource-proxy:1.4.10'              // erleichtert SQL-Logging
-  testCompile 'net.ttddyy:datasource-assert:1.0'
-
-  // serialisation
-  testCompile 'com.github.everit-org.json-schema:org.everit.json.schema:1.9.2'
 }
 
 configurations.all {
