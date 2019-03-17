@@ -1,11 +1,15 @@
 // -------------------
 //   Unit-Tests mit JUnit 5
 // -------------------
+repositories{ jcenter() }
 dependencies {
   // JUnit 5
   testCompile 'org.springframework.boot:spring-boot-starter-test'
   testCompile 'org.junit.jupiter:junit-jupiter-api'
   testRuntime 'org.junit.jupiter:junit-jupiter-engine'
+
+  // Kotlin
+  testCompile 'org.amshove.kluent:kluent:1.48'
 }
 
 configurations.all {

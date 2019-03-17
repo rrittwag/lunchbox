@@ -28,7 +28,7 @@ class LunchOfferDTOTest {
 
 const val GYROS_AS_JSON = """
     {
-      id: 1,
+      id: 0,
       name: "Gyros",
       day: "2019-01-01",
       price: 580,

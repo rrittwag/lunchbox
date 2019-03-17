@@ -1,6 +1,7 @@
 package lunchbox.repository
 
 import lunchbox.domain.models.LunchOffer
+import lunchbox.domain.models.LunchProviderId
 import java.time.LocalDate
 
 interface LunchOfferRepository {
@@ -10,7 +11,9 @@ interface LunchOfferRepository {
 
   fun findByIdOrNull(id: Long): LunchOffer?
 
-  fun deleteAll()
+  fun deleteBefore(day: LocalDate)
 
-  fun saveAll(entities: Iterable<LunchOffer>): Iterable<LunchOffer>
+  fun deleteFrom(day: LocalDate, providerId: LunchProviderId)
+
+  fun saveAll(newOffers: Iterable<LunchOffer>): Iterable<LunchOffer>
 }

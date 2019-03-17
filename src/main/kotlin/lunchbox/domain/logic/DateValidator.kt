@@ -1,9 +1,20 @@
 package lunchbox.domain.logic
 
-import java.time.DayOfWeek
 import java.time.LocalDate
 
-class DateValidator {
+interface DateValidator {
+
+  fun isValid(day: LocalDate): Boolean
+
+  companion object {
+    fun validFrom(fromDate: LocalDate): DateValidator =
+      DateValidator_From(fromDate)
+  }
+}
+
+class DateValidator_From(
+  private val fromDate: LocalDate
+) : DateValidator {
 
   /**
    * Es sind nur die Mittagsangebote ab der vergangenen Woche interessant. Diese Methode prüft, ein Tag innerhalb dieses Zeitrahmens liegt.
@@ -11,9 +22,7 @@ class DateValidator {
    * @param day der Tag
    * @return
    */
-  fun isValid(day: LocalDate): Boolean {
-    val mondayThisWeek = LocalDate.now().`with`(DayOfWeek.MONDAY)
-    val mondayLastWeek = mondayThisWeek.minusWeeks(1)
-    return day >= mondayLastWeek
+  override fun isValid(day: LocalDate): Boolean {
+    return day >= fromDate
   }
 }
