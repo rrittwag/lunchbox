@@ -7,27 +7,33 @@ import java.time.LocalDate
 
 @Repository
 class LunchOfferRepositoryImpl_InMemory(
-  @Volatile var offers: List<LunchOffer> = emptyList()
+  var offers: List<LunchOffer> = emptyList()
 ) : LunchOfferRepository {
 
+  @Synchronized
   override fun findAll(): List<LunchOffer> =
     offers
 
+  @Synchronized
   override fun findByDay(day: LocalDate): List<LunchOffer> =
     offers.filter { it.day == day }
 
+  @Synchronized
   override fun findByIdOrNull(id: Long): LunchOffer? =
     offers.find { it.id == id }
 
-  override fun deleteBefore(day: LocalDate) = synchronized(this) {
+  @Synchronized
+  override fun deleteBefore(day: LocalDate) {
     offers = offers.filter { it.day >= day }
   }
 
-  override fun deleteFrom(day: LocalDate, providerId: LunchProviderId) = synchronized(this) {
+  @Synchronized
+  override fun deleteFrom(day: LocalDate, providerId: LunchProviderId) {
     offers = offers.filter { it.provider != providerId || it.day < day }
   }
 
-  override fun saveAll(newOffers: Iterable<LunchOffer>): Iterable<LunchOffer> = synchronized(this) {
+  @Synchronized
+  override fun saveAll(newOffers: Iterable<LunchOffer>): Iterable<LunchOffer> {
     val nextId = (offers.map { it.id }.max() ?: 0) + 1
     val newOffersWithId = newOffers.mapIndexed {
         index, lunchOffer -> lunchOffer.copy(id = nextId + index)
