@@ -19,7 +19,7 @@ class LunchOfferController(val repo: LunchOfferRepository) {
 
   @GetMapping(URL_LUNCHOFFER)
   fun getAll(
-    @DateTimeFormat(iso = ISO.DATE) @RequestParam("day") day: LocalDate?
+    @RequestParam @DateTimeFormat(iso = ISO.DATE) day: LocalDate?
   ): List<LunchOfferDTO> {
     val offers =
       if (day != null) repo.findByDay(day)
@@ -28,7 +28,7 @@ class LunchOfferController(val repo: LunchOfferRepository) {
   }
 
   @GetMapping("$URL_LUNCHOFFER/{id}")
-  fun get(@PathVariable("id") id: Long): LunchOfferDTO {
+  fun get(@PathVariable id: Long): LunchOfferDTO {
     val offer =
       repo.findByIdOrNull(id)
         ?: throw HttpNotFoundException("Mittagsangebot mit ID $id nicht gefunden!")

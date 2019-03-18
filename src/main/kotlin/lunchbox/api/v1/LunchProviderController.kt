@@ -19,7 +19,7 @@ class LunchProviderController {
       .map { LunchProviderDTO.of(it) }
 
   @GetMapping("$URL_LUNCHPROVIDER/{id}")
-  fun get(@PathVariable("id") id: Long): LunchProviderDTO {
+  fun get(@PathVariable id: Long): LunchProviderDTO {
     val provider =
       LunchProvider.values()
         .find { id == it.id }
