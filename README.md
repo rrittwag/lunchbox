@@ -10,7 +10,9 @@ Backend für Lunchbox.
   - https://stackoverflow.com/questions/28069086/spring-dynamic-qualifier/28082689#28082689
   - https://stackoverflow.com/questions/42909283/how-to-dynamically-inject-a-service-using-a-runtime-qualifier-variable/42985496#42985496
 - LunchOfferUpdate: Unit-Tests schreiben
-- Atom-Feed
+- Atom-Feed implementieren
+  - https://spring.io/guides/tutorials/spring-boot-kotlin/
+  - https://github.com/wonwoo/spring-boot-kotlin-example
 - API: bei 4xx-/5xx-Exceptions eine message mitliefern
 - API test: validate against JSON schema
 
