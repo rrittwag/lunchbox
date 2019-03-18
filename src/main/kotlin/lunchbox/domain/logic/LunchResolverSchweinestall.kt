@@ -11,6 +11,9 @@ import org.jsoup.nodes.Element
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+/**
+ * Ermittelt Mittagsangebote für Schweinestall.
+ */
 class LunchResolverSchweinestall : LunchResolver {
 
   override fun resolve(): List<LunchOffer> =

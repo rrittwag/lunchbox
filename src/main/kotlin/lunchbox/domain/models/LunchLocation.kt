@@ -1,5 +1,8 @@
 package lunchbox.domain.models
 
+/**
+ * Ort eines Mittagsanbieters.
+ */
 enum class LunchLocation (
   val label: String
 ) {

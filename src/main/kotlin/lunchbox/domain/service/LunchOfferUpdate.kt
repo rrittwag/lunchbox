@@ -10,6 +10,9 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import javax.annotation.PostConstruct
 
+/**
+ * Aktualisiert die Mittagsangebote aller Anbieter.
+ */
 @Service
 class LunchOfferUpdate(
   val repo: LunchOfferRepository,
@@ -18,10 +21,10 @@ class LunchOfferUpdate(
 
   private val logger = LoggerFactory.getLogger(javaClass)
 
-  @PostConstruct // update on startup and ...
+  @PostConstruct // Aktualisiere beim Start und ...
   @Schedules(
-    Scheduled(cron = "0 0  7 * *   *", zone = "Europe/Berlin"), // every day at 7h and ...
-    Scheduled(cron = "0 0 10 * * MON", zone = "Europe/Berlin")  // every monday at 10h
+    Scheduled(cron = "0 0  7 * *   *", zone = "Europe/Berlin"), // jeden Tag um 7 Uhr und ...
+    Scheduled(cron = "0 0 10 * * MON", zone = "Europe/Berlin")  // jeden Montag um 10 Uhr
   )
   fun updateOffers() {
     logger.info("starting offer update")
@@ -40,14 +43,4 @@ class LunchOfferUpdate(
     val mondayThisWeek = LocalDate.now().with(DayOfWeek.MONDAY)
     return mondayThisWeek.minusWeeks(1)
   }
-
-/*
-  private fun resolveAndAddOffersFor(provider: LunchProvider) {
-    val job = GlobalScope.async {}
-    try {
-      job.await()
-    } catch (e: Exception) {
-      println("Caught ArithmeticException")
-    }
-  } */
 }

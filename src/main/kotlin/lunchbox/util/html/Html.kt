@@ -4,6 +4,9 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.net.URL
 
+/**
+ * Hilfsklasse für das Einlesen von HTML-Dokumente.
+ */
 class Html {
   companion object {
     fun load(url: URL): Document {

@@ -6,6 +6,9 @@ import org.joda.money.Money
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.SerializerProvider
 
+/**
+ * Money-Objekte zu JSON serialisieren
+ */
 @JsonComponent
 class MoneySerializer : JsonSerializer<Money>() {
   override fun serialize(value: Money?, gen: JsonGenerator?, serializers: SerializerProvider?) {

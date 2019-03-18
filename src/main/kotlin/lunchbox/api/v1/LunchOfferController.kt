@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import java.time.LocalDate
 
+/**
+ * REST API-Controller für Mittagsangebote.
+ */
 @RestController
 class LunchOfferController(val repo: LunchOfferRepository) {
 

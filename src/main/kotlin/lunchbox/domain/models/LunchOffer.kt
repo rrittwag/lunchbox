@@ -5,6 +5,9 @@ import java.time.LocalDate
 
 typealias LunchOfferId = Long
 
+/**
+ * Mittagsangebot
+ */
 data class LunchOffer(
   val id: LunchOfferId,
   val name: String,

@@ -4,6 +4,9 @@ import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProviderId
 import java.time.LocalDate
 
+/**
+ * Repository für Mittagsangebote.
+ */
 interface LunchOfferRepository {
   fun findAll(): List<LunchOffer>
 

@@ -6,6 +6,9 @@ import lunchbox.domain.models.LunchProviderId
 import org.joda.money.Money
 import java.time.LocalDate
 
+/**
+ * API-DTO für Mittagsangebot.
+ */
 data class LunchOfferDTO(
   val id: LunchOfferId,
   val name: String,

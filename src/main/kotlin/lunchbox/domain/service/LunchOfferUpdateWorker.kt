@@ -9,6 +9,11 @@ import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 
+/**
+ * Aktualisiert die Mittagsangebote eines Anbieters.
+ * <p>
+ * Der Aufruf erfolgt asynchron.
+ */
 @Service
 class LunchOfferUpdateWorker(
   val repo: LunchOfferRepository
@@ -43,7 +48,7 @@ class LunchOfferUpdateWorker(
       logger.info("finished resolving offers for $provider")
       offers
     } catch (e: Throwable) {
-      logger.error("resolving offers failed", e)
+      logger.error("failed resolving offers", e)
       emptyList()
     }
   }

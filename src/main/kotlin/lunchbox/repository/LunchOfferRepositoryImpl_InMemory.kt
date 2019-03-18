@@ -5,6 +5,9 @@ import lunchbox.domain.models.LunchProviderId
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
 
+/**
+ * Hält die Mittagsangebote im Arbeitsspeicher.
+ */
 @Repository
 class LunchOfferRepositoryImpl_InMemory(
   var offers: List<LunchOffer> = emptyList()

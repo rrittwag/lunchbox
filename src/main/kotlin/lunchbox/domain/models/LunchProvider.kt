@@ -6,6 +6,9 @@ import java.net.URL
 
 typealias LunchProviderId = Long
 
+/**
+ * Auflistung der Mittagsanbieter.
+ */
 enum class LunchProvider(
   val id: LunchProviderId,
   val label: String,
