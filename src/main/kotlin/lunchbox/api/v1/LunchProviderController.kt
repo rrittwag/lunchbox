@@ -19,7 +19,7 @@ class LunchProviderController {
       .map { LunchProviderDTO.of(it) }
 
   @GetMapping("$URL_LUNCHPROVIDER/{id}")
-  fun get(@PathVariable id: Long): LunchProviderDTO =
+  fun getById(@PathVariable id: Long): LunchProviderDTO =
     LunchProvider.values()
       .find { id == it.id }?.let { LunchProviderDTO.of(it) }
         ?: throw HttpNotFoundException("Mittagsanbieter mit ID $id nicht gefunden!")
