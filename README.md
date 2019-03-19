@@ -32,6 +32,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 - Lade-Status als [Spinner](https://scotch.io/tutorials/add-loading-indicators-to-your-vuejs-application) darstellen
 - Meldung bei fehlerhaftem Laden
 - Mittagsangebote im LocalStorage halten und bei Neustart die Ladezeit überbrücken
+    - https://github.com/robinvdvleuten/vuex-persistedstate
 - About-View basteln
 - Settings-View basteln
 - Responsive Design: Ausdehnung auf ca. 1800px Breite beschränken
