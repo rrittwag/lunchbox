@@ -20,12 +20,11 @@ class LunchOfferController(val repo: LunchOfferRepository) {
   @GetMapping(URL_LUNCHOFFER)
   fun getAll(
     @RequestParam @DateTimeFormat(iso = ISO.DATE) day: LocalDate?
-  ): List<LunchOfferDTO> {
-    val offers =
-      if (day != null) repo.findByDay(day)
-      else repo.findAll()
-    return offers.map { LunchOfferDTO.of(it) }
-  }
+  ): List<LunchOfferDTO> = when (day) {
+    null -> repo.findAll()
+    else -> repo.findByDay(day)
+  }.map { LunchOfferDTO.of(it) }
+
 
   @GetMapping("$URL_LUNCHOFFER/{id}")
   fun get(@PathVariable id: Long): LunchOfferDTO {
