@@ -50,8 +50,8 @@ export default class DaySelector extends Vue {
 
   get lunchDays(): Date[] {
     const providerIDsForSelectedLocation = this.lunchStore.providers
-                                            .filter(p => p.location === this.lunchStore.selectedLocation.name)
-                                            .map(p => p.id)
+                    .filter(p => p.location === this.lunchStore.selectedLocation.name)
+                    .map(p => p.id)
     const lunchDays: string[] = this.lunchStore.offers
                     .filter(o => providerIDsForSelectedLocation.includes(o.provider))
                     .map(o => o.day)

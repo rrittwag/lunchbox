@@ -7,7 +7,8 @@ import { LunchApi } from '@/api'
 @Module({ store, dynamic: true, namespaced: true, name: 'lunch' })
 export class LunchStore extends VuexModule {
 
-  @Inject() api: LunchApi = new LunchApi() // bad: Vue injects into components, but not into store/modules!
+  // manual injection: Vue injects into components, but not into store/modules
+  @Inject() api: LunchApi = new LunchApi()
 
   // --- providers ---
 
@@ -40,7 +41,10 @@ export class LunchStore extends VuexModule {
     let locationName: string | null = localStorage.getItem('lunchboxWebapp.STORAGEKEY_LOCATION')
     if (!locationName || locationName === '')
       return this.locations[0]
-    locationName = locationName.replace(/\"/g, '') // die alte Angular-App speicherte den Wert mit ""
+
+    // die alte Angular-App speicherte den Wert mit ""
+    locationName = locationName.replace(/\"/g, '')
+
     const filteredLocation = this.locations.filter(l => l.name === locationName)
     if (filteredLocation.length > 0)
       return filteredLocation[0]

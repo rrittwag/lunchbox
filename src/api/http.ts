@@ -6,8 +6,7 @@ const http = axios.create({
   timeout: 5000, // request timeout
 })
 
-http.interceptors.request.use(
-  (config) => {
+http.interceptors.request.use(config => {
     // TODO: config Authorization token
     return config
   },
@@ -20,6 +19,7 @@ http.interceptors.response.use(
 )
 
 function createApiError(error: AxiosError): ApiError {
+  // tslint:disable-next-line no-console
   console.log('AxiosError: ' + JSON.stringify(error))
 
   // non 2xx response

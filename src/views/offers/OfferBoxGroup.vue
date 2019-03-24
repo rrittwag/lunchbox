@@ -33,8 +33,8 @@ export default class OfferBoxGroup extends Vue {
 
   get visibleOffers(): LunchOffer[] {
     const providerIDsForSelectedLocation: number[] = this.lunchStore.providers
-                              .filter(p => p.location === this.lunchStore.selectedLocation.name)
-                              .map(p => p.id)
+                  .filter(p => p.location === this.lunchStore.selectedLocation.name)
+                  .map(p => p.id)
     return this.lunchStore.offers
                   .filter(o => providerIDsForSelectedLocation.includes(o.provider))
                   .filter(o => new Date(o.day).getTime() === this.lunchStore.selectedDay.getTime())
@@ -47,8 +47,8 @@ export default class OfferBoxGroup extends Vue {
   get visibleProviders(): LunchProvider[] {
     const providerIDs: number[] = this.visibleOffers.map(o => o.provider)
     return this.lunchStore.providers
-                              .filter(p => providerIDs.includes(p.id))
-                              .sort((provider1, provider2) => provider1.name.localeCompare(provider2.name))
+                  .filter(p => providerIDs.includes(p.id))
+                  .sort((provider1, provider2) => provider1.name.localeCompare(provider2.name))
   }
 }
 </script>

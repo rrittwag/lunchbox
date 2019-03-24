@@ -1,8 +1,11 @@
-import { createLocalVue as createLocalVue_vtu, shallowMount as shallowMount_vtu, Wrapper, VueClass } from '@vue/test-utils'
+import { createLocalVue as createLocalVue_vtu,
+  shallowMount as shallowMount_vtu, Wrapper, VueClass } from '@vue/test-utils'
 import Vue from 'vue'
 
 import BootstrapVue from 'bootstrap-vue'
 import * as filters from '@/filters'
+
+import Icon from 'vue-awesome/components/Icon.vue'
 
 /**
  * Create a testable Vue instance (instead of using global 'Vue' object),
@@ -14,9 +17,18 @@ function createLocalVue(): typeof Vue {
   localVue.use(BootstrapVue)
 
   // register filters
-  type FunctionMap = { [key: string]: Function }
-  const typedFilters: FunctionMap = filters // bugfixing https://github.com/Microsoft/TypeScript/issues/16248#issuecomment-306034585
-  Object.keys(typedFilters).forEach((key: string) => localVue.filter(key, typedFilters[key]))
+  interface FunctionMap {
+    // tslint:disable-next-line ban-types
+    [key: string]: Function
+  }
+
+  // bugfixing https://github.com/Microsoft/TypeScript/issues/16248#issuecomment-306034585
+  const typedFilters: FunctionMap = filters
+  Object.keys(typedFilters).forEach(
+    (key: string) => localVue.filter(key, typedFilters[key])
+  )
+
+  localVue.component('v-icon', Icon)
 
   return localVue
 }
@@ -24,7 +36,8 @@ function createLocalVue(): typeof Vue {
 /**
  * Create a testable shallowMount-ed component.
  * <p>
- * Note: shallowMount replaces child components with stubs. Stubs are named to '<component-name>-stub'.
+ * Note: shallowMount replaces child components with stubs.
+ * Stubs are named to '<component-name>-stub'.
  * <p>
  * @param component
  * @param props
