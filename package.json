@@ -45,7 +45,7 @@
   },
   "lint-staged": {
     "*.{ts,vue}": [
-      "vue-cli-service lint:check",
+      "yarn lint:check",
       "git add"
     ]
   }

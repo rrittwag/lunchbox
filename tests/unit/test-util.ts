@@ -42,7 +42,7 @@ function createLocalVue(): typeof Vue {
  * @param component
  * @param props
  */
-export function simpleShallowMount<V extends Vue>(
+export function shallowMount<V extends Vue>(
   component: VueClass<V>,
   props: object = {}): Wrapper<V> {
 

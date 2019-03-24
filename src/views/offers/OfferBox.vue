@@ -12,8 +12,11 @@
       :key="offer.id"
       class="d-flex justify-content-between"
     >
-      {{ offer.name }}
-      <span class="text-right text-nowrap pl-2">
+      <span class="offer-name">
+        {{ offer.name }}
+      </span>
+      <span class="offer-price
+                   text-right text-nowrap pl-2">
         {{ offer.price | formatEuro }}
       </span>
     </b-list-group-item>
