@@ -10,22 +10,11 @@ interface DateValidator {
   fun isValid(day: LocalDate): Boolean
 
   companion object {
-    fun validFrom(fromDate: LocalDate): DateValidator =
-      DateValidator_From(fromDate)
-  }
-}
-
-class DateValidator_From(
-  private val fromDate: LocalDate
-) : DateValidator {
-
-  /**
-   * Es sind nur die Mittagsangebote ab der vergangenen Woche interessant. Diese Methode prüft, ein Tag innerhalb dieses Zeitrahmens liegt.
-   * <p>
-   * @param day der Tag
-   * @return
-   */
-  override fun isValid(day: LocalDate): Boolean {
-    return day >= fromDate
+    /**
+     * Veraltete Mittagsangebote sind irrelevant.
+     */
+    fun validFrom(fromDate: LocalDate) = object : DateValidator {
+      override fun isValid(day: LocalDate) = day >= fromDate
+    }
   }
 }
