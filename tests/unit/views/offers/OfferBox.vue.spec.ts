@@ -1,35 +1,36 @@
 import OfferBox from '@/views/offers/OfferBox.vue'
 import { mensa, gyros, soljanka } from '@tests/unit/test-data'
-import { shallowMount } from '@tests/unit/test-util'
+import { mountUnit } from '@tests/unit/test-util'
+import BListGroupItem from 'bootstrap-vue/es/components/list-group/list-group-item'
 
 describe('OfferBox', () => {
   it('renders title & offers as list items', () => {
-    const wrapper = shallowMount(OfferBox, {
+    const wrapper = mountUnit(OfferBox, {
       provider: mensa,
       offers: [gyros, soljanka],
     })
 
-    const items = wrapper.findAll('b-list-group-item-stub')
+    const items = wrapper.findAll(BListGroupItem)
     expect(items.length).toEqual(3)
   })
 
   it('renders title as first list item', () => {
-    const wrapper = shallowMount(OfferBox, {
+    const wrapper = mountUnit(OfferBox, {
       provider: mensa,
       offers: [gyros, soljanka],
     })
 
-    const title = wrapper.findAll('b-list-group-item-stub').at(0)
+    const title = wrapper.findAll(BListGroupItem).at(0)
     expect(title.text()).toEqual(mensa.name)
   })
 
   it('renders offers in order', () => {
-    const wrapper = shallowMount(OfferBox, {
+    const wrapper = mountUnit(OfferBox, {
       provider: mensa,
       offers: [gyros, soljanka],
     })
 
-    const items = wrapper.findAll('b-list-group-item-stub')
+    const items = wrapper.findAll(BListGroupItem)
 
     const offerItem1 = items.at(1)
     expect(offerItem1.find('.offer-name').text()).toEqual('Gyros')
@@ -41,12 +42,12 @@ describe('OfferBox', () => {
   })
 
   it('renders just title WHEN offers are empty', () => {
-    const wrapper = shallowMount(OfferBox, {
+    const wrapper = mountUnit(OfferBox, {
       provider: mensa,
       offers: [],
     })
 
-    const items = wrapper.findAll('b-list-group-item-stub')
+    const items = wrapper.findAll(BListGroupItem)
     expect(items.length).toEqual(1)
   })
 
