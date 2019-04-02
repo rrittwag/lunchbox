@@ -4,6 +4,7 @@ import lunchbox.domain.logic.LunchResolver
 import lunchbox.domain.logic.LunchResolverSchweinestall
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
+import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
 import lunchbox.repository.LunchOfferRepository
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Async
@@ -24,8 +25,6 @@ class LunchOfferUpdateWorker(
   @Async
   fun refreshOffersOf(provider: LunchProvider) {
     val offers = resolve(provider)
-    if (offers.isEmpty())
-      return
 
     val minDay = offers.map { it.day }.min()
       ?: return
@@ -54,7 +53,7 @@ class LunchOfferUpdateWorker(
   }
 
   private fun createResolver(provider: LunchProvider): LunchResolver? = when (provider) {
-    LunchProvider.SCHWEINESTALL -> LunchResolverSchweinestall()
+    SCHWEINESTALL -> LunchResolverSchweinestall()
     else -> null
   }
 }

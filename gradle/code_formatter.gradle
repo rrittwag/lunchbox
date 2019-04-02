@@ -5,10 +5,10 @@ apply plugin: 'com.diffplug.gradle.spotless'
 
 spotless {
   java {
-    // licenseHeaderFile     "${rootDir}/gradle/code_formatter/ceres.license"
-    importOrderFile       "${rootDir}/gradle/code_formatter/ceres.importorder"
+    // licenseHeaderFile     "${rootDir}/gradle/code_formatter/lunchbox.license"
+    importOrderFile       "${rootDir}/gradle/code_formatter/lunchbox.importorder"
     removeUnusedImports()
-    eclipse().configFile  "${rootDir}/gradle/code_formatter/ceres.codeformat.xml"  // Export-Datei des Eclipse Formatters
+    eclipse().configFile  "${rootDir}/gradle/code_formatter/lunchbox.codeformat.xml"  // Export-Datei des Eclipse Formatters
   }
   kotlin {
     ktlint().userData(
@@ -19,7 +19,7 @@ spotless {
   }
   groovyGradle {
     target '*.gradle', 'gradle/*.gradle'
-    greclipse().configFile "${rootDir}/gradle/code_formatter/ceres.codeformat.xml", "${rootDir}/gradle/code_formatter/ceres.groovyformat.prefs"
+    greclipse().configFile "${rootDir}/gradle/code_formatter/lunchbox.codeformat.xml", "${rootDir}/gradle/code_formatter/lunchbox.groovyformat.prefs"
     paddedCell()
   }
 }
