@@ -9,7 +9,7 @@ import org.scalatest._
 
 class LunchResolverTabboulehSpec extends FlatSpec with Matchers with MockFactory {
 
-  it should "resolve offers for week of 2018-08-31" in {
+  ignore should "resolve offers for week of 2018-08-31" in {
     val url = getClass.getResource("/mittagsplaene/tabbouleh/2018-08-31.html")
 
     val offers = resolver.resolve(url)
@@ -59,7 +59,7 @@ class LunchResolverTabboulehSpec extends FlatSpec with Matchers with MockFactory
     offers should contain(LunchOffer(0, "Bockwurst mit Kartoffelsalat", date("2018-09-07"), euro("5.90"), Id))
   }
 
-  it should "resolve offers for week of 2018-09-14" in {
+  ignore should "resolve offers for week of 2018-09-14" in {
     val url = getClass.getResource("/mittagsplaene/tabbouleh/2018-09-07.html")
 
     val offers = resolver.resolve(url)
@@ -87,6 +87,35 @@ class LunchResolverTabboulehSpec extends FlatSpec with Matchers with MockFactory
     offers should contain(LunchOffer(0, "Pasta mit fruchtiger Tomatensauce", date("2018-09-14"), euro("4.90"), Id))
     offers should contain(LunchOffer(0, "Rotbarsch fritiert mit wahlweise Kräuterkartoffeln oder Kartoffelrösti", date("2018-09-14"), euro("5.90"), Id))
     offers should contain(LunchOffer(0, "Rindergeschnetzeltes mit Kirschtomaten und Ruccola dazu Basmatireis", date("2018-09-14"), euro("5.90"), Id))
+  }
+
+  it should "resolve offers for week of 2019-04-01" in {
+    val url = getClass.getResource("/mittagsplaene/tabbouleh/2019-04-01.html")
+
+    val offers = resolver.resolve(url)
+
+    offers should have size 15
+
+    // Woche vom 01.04. - 05.04.2019
+    offers should contain(LunchOffer(0, "Hähnchenfleisch mit Paprika in Tomatensauce, dazu Reis & grüne Bohnen", date("2019-04-01"), euro("5.90"), Id))
+    offers should contain(LunchOffer(0, "Nudeln Bolognese Art", date("2019-04-01"), euro("4.90"), Id))
+    offers should contain(LunchOffer(0, "Gemüseauflauf mit Mozzarella überbacken", date("2019-04-01"), euro("4.90"), Id))
+
+    offers should contain(LunchOffer(0, "Hähnchenbrust in Currysauce & dazu Reis", date("2019-04-02"), euro("5.90"), Id))
+    offers should contain(LunchOffer(0, "Bohneneintopf mit Kartoffelwürfel & Rindfleisch", date("2019-04-02"), euro("5.90"), Id))
+    offers should contain(LunchOffer(0, "Kippe mit Joghurt & Salat", date("2019-04-02"), euro("4.90"), Id))
+
+    offers should contain(LunchOffer(0, "Chicken Wings mit gebackenen Kartoffelecken", date("2019-04-03"), euro("5.90"), Id))
+    offers should contain(LunchOffer(0, "gefüllte Paprikaschoten in Tomatensauce & dazu Reis", date("2019-04-03"), euro("4.90"), Id))
+    offers should contain(LunchOffer(0, "Okra-Schoten in Olivenöl gebraten mit Zwiebeln & dazu Reis", date("2019-04-03"), euro("4.90"), Id))
+
+    offers should contain(LunchOffer(0, "Rinderleber mit Zwiebeln & Apfelscheiben, dazu Kartoffelpüree", date("2019-04-04"), euro("5.90"), Id))
+    offers should contain(LunchOffer(0, "Nudeln in Käsesauce", date("2019-04-04"), euro("4.90"), Id))
+    offers should contain(LunchOffer(0, "überbackener Kartoffelauflauf mit Gemüse & Rinderhackfleisch", date("2019-04-04"), euro("5.90"), Id))
+
+    offers should contain(LunchOffer(0, "gebackenes Fischfilet mit Erbsen & Kartoffeln", date("2019-04-05"), euro("5.90"), Id))
+    offers should contain(LunchOffer(0, "Kartoffelsuppe mit Einlage", date("2019-04-05"), euro("4.90"), Id))
+    offers should contain(LunchOffer(0, "überbackener Nudelauflauf mit Gemüse & Rinderhackfleisch", date("2019-04-05"), euro("5.90"), Id))
   }
 
   private def resolver = {

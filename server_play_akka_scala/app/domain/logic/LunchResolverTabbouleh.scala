@@ -49,10 +49,10 @@ class LunchResolverTabbouleh(util: DateValidator) extends LunchResolver {
     // 2 Preise: [0] = vegetarisch, [1] = fleischlich
     val prices = pricesAsString.split("/").map(parsePrice).flatten
 
-    val contentDivOpt = (siteAsXml \\ "div") find hasId("av_section_2")
+    val contentDivOpt = (siteAsXml \\ "div") find hasId("after_section_1")
 
     val offersOpt = for (contentDiv <- contentDivOpt) yield {
-      val wochenplanHeaders = (contentDiv \\ "div") filter hasClass("el_before_av_toggle_container")
+      val wochenplanHeaders = (contentDiv \\ "div") filter hasClass("avia_textblock")
       val wochenplanBodies = (contentDiv \\ "div") filter hasClass("togglecontainer")
 
       val day2wochenNode = wochenplanHeaders.map(parseDate).zip(wochenplanBodies)
@@ -68,7 +68,7 @@ class LunchResolverTabbouleh(util: DateValidator) extends LunchResolver {
       tagesNode <- (wochenNode \\ "section");
       weekday <- parseWeekday(tagesNode, dayOfWeek)
     ) yield {
-      val gerichte = (tagesNode \\ "_").filter(hasClass("toggle_wrap")).text.split("\n")
+      val gerichte = (tagesNode \\ "li").map(_.text)
         .map(_.replaceAll(" ", " ").replaceAll("  ", " ").trim)
         .filter(_.nonEmpty)
       gerichte.map(name => LunchOffer(0, name, weekday, findPrice(name, prices), TABBOULEH.id)).toSeq
@@ -87,7 +87,7 @@ class LunchResolverTabbouleh(util: DateValidator) extends LunchResolver {
     else if (prices.size == 1) prices(0)
     else {
       val vegetarisches = Seq("vegetarisch", "vegan")
-      val fleischiges = Seq("fleisch", "hähnchen", "geschnetzel", "schnitzel", "barsch", "fisch", "hack", "wurst", "lachs", "gulasch", "rinderfrikadelle", "brust", "roulade")
+      val fleischiges = Seq("fleisch", "hähnchen", "geschnetzel", "schnitzel", "barsch", "fisch", "hack", "wurst", "lachs", "gulasch", "rinder", "brust", "roulade", "chicken")
       val lowerName = name.toLowerCase
       if (vegetarisches.exists(t => lowerName.contains(t))) prices(0)
       else if (fleischiges.exists(t => lowerName.contains(t))) prices(1)
@@ -101,8 +101,9 @@ class LunchResolverTabbouleh(util: DateValidator) extends LunchResolver {
    * @param node HTML-Node mit auszuwertendem Text
    * @return
    */
-  private def parseDate(node: Node): Option[LocalDate] = node.text match {
+  private def parseDate(node: Node): Option[LocalDate] = node.text.trim match {
     case r""".*(\d{2}.\d{2}.\d{4})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yyyy")
+    case r""".*(\d{2}.\d{2}.\d{2})$dayString.*""" => parseLocalDate(dayString, "dd.MM.yy")
     case _ => None
   }
 
