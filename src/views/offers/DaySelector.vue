@@ -1,6 +1,6 @@
 <template>
   <b-row class="day-selector pb-4">
-    <b-col xs="12" sm="9" md="6" lg="4">
+    <b-col cols="12" sm="9" md="6" lg="4">
       <b-row align-v="center">
 
         <b-col cols="2">
