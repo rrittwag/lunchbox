@@ -4,6 +4,16 @@ import { store, LoadingState } from '@/store'
 import { LunchOffer, LunchProvider, LunchLocation } from '@/model'
 import { LunchApi } from '@/api'
 
+// --- mutations ---
+
+const SET_LOADING_STATE = 'SET_LOADING_STATE'
+const SET_PROVIDERS = 'SET_PROVIDERS'
+const SET_OFFERS = 'SET_OFFERS'
+const SET_SELECTED_DAY = 'SET_SELECTED_DAY'
+const SET_SELECTED_LOCATION = 'SET_SELECTED_LOCATION'
+
+// --- module ---
+
 @Module({ store, dynamic: true, namespaced: true, name: 'lunch' })
 export class LunchStore extends VuexModule {
 
@@ -15,7 +25,7 @@ export class LunchStore extends VuexModule {
   providers: LunchProvider[] = []
 
   @Mutation
-  mutateProviders(providers: LunchProvider[]) {
+  protected [SET_PROVIDERS](providers: LunchProvider[]) {
     this.providers = providers
   }
 
@@ -24,7 +34,7 @@ export class LunchStore extends VuexModule {
   offers: LunchOffer[] = []
 
   @Mutation
-  mutateOffers(offers: LunchOffer[]) {
+  protected [SET_OFFERS](offers: LunchOffer[]) {
     this.offers = offers
   }
 
@@ -52,12 +62,17 @@ export class LunchStore extends VuexModule {
   }
 
   @Mutation
-  mutateSelectedLocation(location: LunchLocation) {
+  protected [SET_SELECTED_LOCATION](location: LunchLocation) {
     this.selectedLocation = location
     let locationName = ''
     if (!!location)
       locationName = location.name
     localStorage.setItem('lunchboxWebapp.STORAGEKEY_LOCATION', locationName)
+  }
+
+  @Action
+  setSelectedLocation(location: LunchLocation) {
+    this.context.commit(SET_SELECTED_LOCATION, location)
   }
 
   // --- selected day ---
@@ -70,8 +85,13 @@ export class LunchStore extends VuexModule {
   }
 
   @Mutation
-  mutateSelectedDay(selectedDay: Date) {
+  protected [SET_SELECTED_DAY](selectedDay: Date) {
     this.selectedDay = selectedDay
+  }
+
+  @Action
+  setSelectedDay(selectedDay: Date) {
+    this.context.commit(SET_SELECTED_DAY, selectedDay)
   }
 
   // --- api call ---
@@ -79,25 +99,25 @@ export class LunchStore extends VuexModule {
   loadingState: LoadingState = LoadingState.NotStarted
 
   @Mutation
-  mutateLoadingState(loadingState: LoadingState) {
+  protected [SET_LOADING_STATE](loadingState: LoadingState) {
     this.loadingState = loadingState
   }
 
   @Action
   async loadFromApi() {
-    this.context.commit('mutateLoadingState', LoadingState.Loading)
+    this.context.commit(SET_LOADING_STATE, LoadingState.Loading)
 
     try {
       const [providers, offers] =
                 await Promise.all([this.api.getProviders(), this.api.getOffers()])
 
-      this.context.commit('mutateProviders', providers)
-      this.context.commit('mutateOffers', offers)
+      this.context.commit(SET_PROVIDERS, providers)
+      this.context.commit(SET_OFFERS, offers)
 
-      this.context.commit('mutateLoadingState', LoadingState.Done)
+      this.context.commit(SET_LOADING_STATE, LoadingState.Done)
 
     } catch (error) {
-      this.context.commit('mutateLoadingState', LoadingState.Failed)
+      this.context.commit(SET_LOADING_STATE, LoadingState.Failed)
     }
   }
 }

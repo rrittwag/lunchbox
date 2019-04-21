@@ -6,7 +6,7 @@
     <b-dropdown-item
           v-for="location in lunchStore.locations"
           :key="location.shortName"
-          @click="lunchStore.mutateSelectedLocation(location)"
+          @click="lunchStore.setSelectedLocation(location)"
           :active="location === lunchStore.selectedLocation"
     >
       {{ location.name }}
