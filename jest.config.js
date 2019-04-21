@@ -10,6 +10,7 @@ module.exports = {
   transform: {
     '^.+\\.vue$': 'vue-jest',
     '^.+\\.js$': 'babel-jest',
+    '^.+\\.svg$': '<rootDir>/tests/jest.vue-svg-loader',
     '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
     '^.+\\.tsx?$': 'ts-jest'
   },
@@ -27,6 +28,7 @@ module.exports = {
     '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
   ],
   testURL: 'http://localhost/',
+  setupTestFrameworkScriptFile: 'jest-extended',
   globals: {
     'ts-jest': {
       babelConfig: true

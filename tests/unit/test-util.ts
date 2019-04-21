@@ -1,20 +1,32 @@
 import Vue, { ComponentOptions } from 'vue'
-
+import Vuex from 'vuex'
 import {
   createLocalVue as createLocalVue_vtu,
   shallowMount,
   VueClass,
-  Wrapper
+  Wrapper,
+  mount,
+  MountOptions
 } from '@vue/test-utils'
 import BootstrapVue from 'bootstrap-vue'
 import * as filters from '@/filters'
 import Icon from 'vue-awesome/components/Icon.vue'
+import VueRouter from 'vue-router'
+import jestMock from 'jest-mock'
 
-function applyBootstrap(vue: typeof Vue) {
-  vue.use(BootstrapVue)
+function applyRouter(localVue: typeof Vue) {
+  localVue.use(VueRouter)
 }
 
-function applyFilters(vue: typeof Vue) {
+function applyVuex(localVue: typeof Vue) {
+  localVue.use(Vuex)
+}
+
+function applyBootstrap(localVue: typeof Vue) {
+  localVue.use(BootstrapVue)
+}
+
+function applyFilters(localVue: typeof Vue) {
   interface FunctionMap {
     // tslint:disable-next-line ban-types
     [key: string]: Function
@@ -22,12 +34,12 @@ function applyFilters(vue: typeof Vue) {
   // bugfixing https://github.com/Microsoft/TypeScript/issues/16248#issuecomment-306034585
   const typedFilters: FunctionMap = filters
   Object.keys(typedFilters).forEach(
-    (key: string) => vue.filter(key, typedFilters[key])
+    (key: string) => localVue.filter(key, typedFilters[key])
   )
 }
 
-function applyAwesome(vue: typeof Vue) {
-  vue.component('v-icon', Icon)
+function applyAwesome(localVue: typeof Vue) {
+  localVue.component('v-icon', Icon)
 }
 
 /**
@@ -37,6 +49,8 @@ function applyAwesome(vue: typeof Vue) {
 export function createLocalVue(): typeof Vue {
   const localVue = createLocalVue_vtu()
 
+  applyRouter(localVue)
+  applyVuex(localVue)
   applyBootstrap(localVue)
   applyFilters(localVue)
   applyAwesome(localVue)
@@ -58,16 +72,94 @@ export function mountUnit<V extends Vue>(
 
 export function mountUnit<V extends Vue>(
   component: VueClass<V>,
-  props: object): Wrapper<V>
+  props: object,
+  mountOptions?: MountOptions<V>): Wrapper<V>
 
 export function mountUnit<V extends Vue>(
   component: object,
-  props: object = {}): Wrapper<V> {
+  props: object = {},
+  mountOptions: MountOptions<V> = {}): Wrapper<V> {
 
   const localVue = createLocalVue()
 
   return shallowMount(component, {
     localVue,
     propsData: { ...props },
+    ...mountOptions
   })
+}
+
+/**
+ * Create a testable mount-ed component, including children.
+ * <p>
+ * @param component
+ * @param props
+ */
+export function mountWithChildren<V extends Vue>(
+  component: VueClass<V> | ComponentOptions<V>): Wrapper<V>
+
+export function mountWithChildren<V extends Vue>(
+  component: VueClass<V>,
+  props: object,
+  mountOptions?: MountOptions<V>): Wrapper<V>
+
+export function mountWithChildren<V extends Vue>(
+  component: object,
+  props: object = {},
+  mountOptions: MountOptions<V> = {}): Wrapper<V> {
+
+  const localVue = createLocalVue()
+
+  return mount(component, {
+    localVue,
+    propsData: { ...props },
+    ...mountOptions
+  })
+}
+
+/**
+ * Wait x millisecionds.
+ * <p>
+ * Useful in tests, that use implicit async calls.
+ * <p>
+ * @param millis delay by milliseconds
+ * @param func function to be called
+ */
+export function delayBy(millis: number, func: () => void) {
+  setTimeout(func, millis)
+}
+
+/**
+ * Wait 1ms.
+ * <p>
+ * Useful in tests, that use implicit async calls.
+ * <p>
+ * @param func function to be called
+ */
+export function delay(func: () => void) {
+  setTimeout(func, 1)
+}
+
+// tslint:disable
+type Constructor<T> = new(...args: any[]) => T
+
+/**
+ * Create a mock instance of clazz.
+ * <p>
+ * Implementation is a mix of
+ * - https://github.com/asvetliakov/jest-create-mock-instance
+ * - https://github.com/asvetliakov/jest-create-mock-instance/issues/4#issuecomment-412713215
+ * <p>
+ * @param clazz Class to be mocked.
+ */
+export function createMock<T>(clazz: Constructor<T>): jest.Mocked<T> {
+  var MockConstructor = jestMock.generateFromMetadata(jestMock.getMetadata(clazz)!)
+  const mock: any = new MockConstructor()
+  // Constructing by generateFromMetadata has 2 problems:
+  // - it does not mock getters
+  // - it does not work with jest.clearAllMocks()
+  // Let's mock all functions manually!
+  for (const key in Object.getOwnPropertyDescriptors(mock)) mock[key] = jest.fn()
+  for (const key in Object.getOwnPropertyDescriptors(clazz.prototype)) mock[key] = jest.fn()
+  return mock
 }
