@@ -41,7 +41,7 @@ describe('OfferBox', () => {
     expect(offerItem2.find('.offer-price').text()).toEqual('2,50 €')
   })
 
-  it('renders just title WHEN offers are empty', () => {
+  it('WHEN offers are empty  THEN render just title', () => {
     const wrapper = mountUnit(OfferBox, {
       provider: mensa,
       offers: [],

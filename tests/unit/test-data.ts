@@ -1,4 +1,4 @@
-import { LunchOffer, LunchProvider } from '@/model'
+import { LunchOffer, LunchProvider, LunchLocation } from '@/model'
 
 // --- test providers ---
 
@@ -24,4 +24,16 @@ export const soljanka: LunchOffer = {
   provider: 1,
   price: 250,
   day: '2018-01-31',
+}
+
+// --- test locations ---
+
+export const hamburg: LunchLocation = {
+  name: 'Hamburg',
+  shortName: 'HH',
+}
+
+export const münchen: LunchLocation = {
+  name: 'München',
+  shortName: 'M',
 }

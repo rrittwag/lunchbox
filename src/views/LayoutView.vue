@@ -1,5 +1,5 @@
 <template>
-  <div class="layout">
+  <div class="layout-view">
     <Header/>
     <Content/>
   </div>
@@ -18,5 +18,5 @@ import { Header, Content } from './layout/'
     Content,
   },
 })
-export default class Layout extends Vue {}
+export default class LayoutView extends Vue {}
 </script>

@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders snapshot 1`] = `
+<b-navbar-stub
+  class="header"
+  tag="nav"
+  toggleable="sm"
+  type="light"
+>
+  <b-navbar-brand-stub
+    event="click"
+    routertag="a"
+    tag="div"
+    target="_self"
+    to="/"
+  >
+    <img
+      alt="Vue logo"
+      src="@/assets/lunchbox_logo.png"
+      width="32"
+    />
+    
+    Lunchbox
+  
+  </b-navbar-brand-stub>
+   
+  <b-navbar-toggle-stub
+    label="Toggle navigation"
+    target="nav_collapse"
+  />
+   
+  <b-collapse-stub
+    id="nav_collapse"
+    isnav="true"
+    tag="div"
+  >
+    <b-navbar-nav-stub
+      tag="ul"
+    >
+      <locationselector-stub />
+    </b-navbar-nav-stub>
+     
+    <b-navbar-nav-stub
+      class="ml-auto"
+      tag="ul"
+    >
+      <b-nav-item-stub
+        event="click"
+        exact="true"
+        linkattrs="[object Object]"
+        routertag="a"
+        target="_self"
+        to="/"
+      >
+        Mittagsangebote
+      </b-nav-item-stub>
+       
+      <b-nav-item-stub
+        class="d-block d-sm-none"
+        event="click"
+        linkattrs="[object Object]"
+        routertag="a"
+        target="_self"
+        to="/settings"
+      >
+        Einstellungen
+      </b-nav-item-stub>
+       
+      <b-nav-item-stub
+        event="click"
+        linkattrs="[object Object]"
+        routertag="a"
+        target="_self"
+        to="/about"
+      >
+        Info
+      </b-nav-item-stub>
+    </b-navbar-nav-stub>
+  </b-collapse-stub>
+</b-navbar-stub>
+`;
