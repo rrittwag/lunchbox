@@ -1,5 +1,10 @@
+// List of boostrap-vue components.
+// Simplifies usage in unit tests.
+// ---
+
 // tslint:disable max-line-length
 
+// assorted components
 export { default as BAlert } from 'bootstrap-vue/es/components/alert/alert'
 export { default as BButton } from 'bootstrap-vue/es/components/button/button'
 export { default as BButtonClose } from 'bootstrap-vue/es/components/button/button-close'
