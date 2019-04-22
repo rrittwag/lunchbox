@@ -10,7 +10,7 @@ plugins {
 }
 
 description = "REST Backend der Lunchbox"
-group = 'web.rori'
+group = 'dev.rori'
 version = '1.0-SNAPSHOT'
 
 // -------------------
