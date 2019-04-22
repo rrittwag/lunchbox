@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Layout/>
+    <LayoutView/>
   </div>
 </template>
 
@@ -10,12 +10,12 @@
 import { Component, Vue, Provide } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import { LunchStore } from '@/store'
-import Layout from '@/views/Layout.vue'
+import LayoutView from '@/views/LayoutView.vue'
 
 // vscode shows decorator errors -> https://github.com/vuejs/vetur/issues/815
 @Component({
   components: {
-    Layout,
+    LayoutView,
   },
 })
 export default class App extends Vue {
