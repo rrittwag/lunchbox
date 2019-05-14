@@ -5,8 +5,6 @@ Backend für Lunchbox.
 
 ## TODOs
 
-- MockK einführen -> https://medium.com/@darych90/kotlin-spring-boot-mockk-6d1c1a6463ac
-- MockMVC in Kotlin-Syntax nutzen -> https://docs.spring.io/spring/docs/5.2.0.M1/spring-framework-reference/languages.html#mockmvc-dsl
 - LunchResolver: Scala-Implementierung übernehmen/"transponieren"
 - LunchOfferUpdate: LunchResolver als Spring-Component umschreiben ?
   - https://stackoverflow.com/questions/28069086/spring-dynamic-qualifier/28082689#28082689
@@ -17,6 +15,7 @@ Backend für Lunchbox.
   - https://github.com/wonwoo/spring-boot-kotlin-example
 - API: bei 4xx-/5xx-Exceptions eine message mitliefern
 - API test: validate against JSON schema
+- MockMVC in Kotlin-Syntax nutzen (mit Spring 5.2) -> https://docs.spring.io/spring/docs/5.2.0.M1/spring-framework-reference/languages.html#mockmvc-dsl
 - wenn Lunchbox-Backend fertig, testweise umschreiben mit Webflux, Kotlin DSL & Coroutines:
   - Gradle-Skripte auf Kotlin umstellen
     -> https://github.com/jnizet/gradle-kotlin-dsl-migration-guide

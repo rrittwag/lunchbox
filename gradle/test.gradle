@@ -9,12 +9,14 @@ dependencies {
   testRuntime 'org.junit.jupiter:junit-jupiter-engine'
 
   // Kotlin
-  testCompile 'org.amshove.kluent:kluent:1.49'
+  testCompile 'org.amshove.kluent:kluent:1.49'    // assertions
+  testCompile 'io.mockk:mockk:1.9.3'              // mocking
+  testCompile 'com.ninja-squad:springmockk:1.1.2' // support @MockkBean injection
 }
 
 configurations.all {
-  // entfernt die transitive Abhängigkeit zu JUnit 4, um Konflikte mit JUnit 5 und falsche Importe zu vermeiden
-  exclude group: 'junit', module: 'junit'
+  exclude group: 'junit', module: 'junit' // entfernt die transitive Abhängigkeit zu JUnit 4, um Konflikte mit JUnit 5 und falsche Importe zu vermeiden
+  exclude module: 'mockito-core'          // Mockito is replaced by MockK
 }
 
 test {

@@ -1,16 +1,18 @@
 package lunchbox.api.v1 /* ktlint-disable max-line-length no-wildcard-imports */
 
+import com.ninjasquad.springmockk.MockkBean
+import io.mockk.Called
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
-import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
+import io.mockk.clearAllMocks
+import io.mockk.every
+import io.mockk.verify
 import lunchbox.repository.LunchOfferRepository
 import lunchbox.domain.models.GYROS
 import lunchbox.domain.models.SOLJANKA
@@ -21,18 +23,17 @@ class LunchOfferControllerTest {
   @Autowired
   lateinit var mockMvc: MockMvc
 
-  @MockBean
+  @MockkBean
   lateinit var repo: LunchOfferRepository
 
   @BeforeEach
   fun before() {
-    Mockito.reset(repo)
+    clearAllMocks()
   }
 
   @Test
   fun `WHEN get all  THEN success`() {
-    Mockito.`when`(repo.findAll())
-        .thenReturn(listOf(GYROS, SOLJANKA))
+    every { repo.findAll() } returns listOf(GYROS, SOLJANKA)
 
     val httpCall = mockMvc.perform(get(URL_LUNCHOFFER))
 
@@ -43,13 +44,12 @@ class LunchOfferControllerTest {
         .andExpect(jsonPath("$[?(@.day == '${GYROS.day}')]").exists())
         .andExpect(jsonPath("$[?(@.day == '${SOLJANKA.day}')]").exists())
 
-    Mockito.verify(repo, times(1)).findAll()
+    verify(exactly = 1) { repo.findAll() }
   }
 
   @Test
   fun `WHEN get all for day  THEN success`() {
-    Mockito.`when`(repo.findByDay(GYROS.day))
-      .thenReturn(listOf(GYROS))
+    every { repo.findByDay(GYROS.day) } returns listOf(GYROS)
 
     val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER?day=${GYROS.day}"))
 
@@ -59,27 +59,23 @@ class LunchOfferControllerTest {
       .andExpect(jsonPath("$.length()").value("1"))
       .andExpect(jsonPath("$[?(@.day == '${GYROS.day}')]").exists())
 
-    Mockito.verify(repo, times(1)).findByDay(GYROS.day)
-    Mockito.verify(repo, never()).findAll()
+    verify(exactly = 1) { repo.findByDay(GYROS.day) }
+    verify(exactly = 0) { repo.findAll() }
   }
 
   @Test
   fun `WHEN get all with wrong day format  THEN 400`() {
-    Mockito.`when`(repo.findByDay(GYROS.day))
-      .thenReturn(listOf(GYROS))
+    every { repo.findByDay(GYROS.day) } returns listOf(GYROS)
 
     val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER?day=xmas"))
 
     httpCall.andExpect(status().isBadRequest)
-
-    Mockito.verify(repo, never()).findByDay(GYROS.day)
-    Mockito.verify(repo, never()).findAll()
+    verify { repo wasNot Called }
   }
 
   @Test
   fun `WHEN get gyros  THEN success`() {
-    Mockito.`when`(repo.findByIdOrNull(GYROS.id))
-      .thenReturn(GYROS)
+    every { repo.findByIdOrNull(GYROS.id) } returns GYROS
 
     val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER/${GYROS.id}"))
 
@@ -88,13 +84,12 @@ class LunchOfferControllerTest {
       .andExpect(jsonPath("$.id").value(GYROS.id))
       .andExpect(jsonPath("$.name").value(GYROS.name))
 
-    Mockito.verify(repo, times(1)).findByIdOrNull(GYROS.id)
+    verify(exactly = 1) { repo.findByIdOrNull(GYROS.id) }
   }
 
   @Test
   fun `WHEN get gyros  THEN not found`() {
-    Mockito.`when`(repo.findByIdOrNull(GYROS.id))
-      .thenReturn(null)
+    every { repo.findByIdOrNull(GYROS.id) } returns null
 
     val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER/${GYROS.id}"))
 
