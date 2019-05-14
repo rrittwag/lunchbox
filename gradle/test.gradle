@@ -9,7 +9,7 @@ dependencies {
   testRuntime 'org.junit.jupiter:junit-jupiter-engine'
 
   // Kotlin
-  testCompile 'org.amshove.kluent:kluent:1.48'
+  testCompile 'org.amshove.kluent:kluent:1.49'
 }
 
 configurations.all {
@@ -67,12 +67,10 @@ task allTests ( dependsOn: tasks.withType(Test) )
 // -------------------
 apply plugin: "jacoco"
 
-jacoco { toolVersion = "0.8.2" }
-
 jacocoTestReport {
   executionData tasks.withType(Test) // Ergebnisse der Unit- und Integrations-Tests zur Testabdeckung heranziehen
   doFirst {
-    executionData = files(executionData.findAll { it.exists() })
+    executionData.from = files(executionData.findAll { it.exists() })
   }
 }
 

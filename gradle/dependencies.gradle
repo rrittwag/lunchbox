@@ -1,7 +1,7 @@
 // -------------------
 //   Abhängigkeiten der Applikation
 // -------------------
-ext.springBootVersion = '2.1.3.RELEASE'
+ext.springBootVersion = '2.1.4.RELEASE'
 
 repositories { mavenCentral() }
 dependencies {
@@ -16,11 +16,11 @@ dependencies {
   // web
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation('org.springframework.boot:spring-boot-starter-undertow') { exclude module: 'undertow-websockets-jsr' }
-  implementation 'org.jboss.xnio:xnio-nio:3.6.5.Final' // Undertow nutzt eigentlich XNIO 3.3, was den Worker-ThreadPool maximal aufbläht (vgl. ConfigUndertow.java)
+  implementation 'org.jboss.xnio:xnio-nio:3.7.1.Final' // Undertow nutzt eigentlich XNIO 3.3, was den Worker-ThreadPool maximal aufbläht (vgl. ConfigUndertow.java)
   implementation 'javax.xml.bind:jaxb-api'
 
   // html/xml
-  implementation 'org.jsoup:jsoup:1.11.3'
+  implementation 'org.jsoup:jsoup:1.12.1'
   implementation 'org.joda:joda-money:1.0.1'
 
   // Test-Abhängigkeiten sind in test.gradle definiert
