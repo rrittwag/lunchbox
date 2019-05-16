@@ -1,7 +1,7 @@
 // -------------------
 //   Unit-Tests mit JUnit 5
 // -------------------
-repositories{ jcenter() }
+repositories { jcenter() }
 dependencies {
   // JUnit 5
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
