@@ -12,10 +12,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @JsonTest
 @ExtendWith(SpringExtension::class)
-class MoneySerializerTest {
-
-  @Autowired
-  lateinit var mapper: ObjectMapper
+class MoneySerializerTest(
+  @Autowired val mapper: ObjectMapper
+) {
 
   @Test
   fun serialize() {

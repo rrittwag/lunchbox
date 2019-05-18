@@ -12,10 +12,9 @@ import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
 import lunchbox.domain.models.LunchProvider.TABBOULEH
 
 @WebMvcTest(LunchProviderController::class)
-class LunchProviderControllerTest {
-
-  @Autowired
-  lateinit var mockMvc: MockMvc
+class LunchProviderControllerTest(
+  @Autowired val mockMvc: MockMvc
+) {
 
   @Test
   fun `WHEN get all  THEN success`() {

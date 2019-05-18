@@ -11,14 +11,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @JsonTest
 @ExtendWith(SpringExtension::class)
-class LunchOfferDTOTest {
-
-  @Autowired
-  lateinit var mapper: ObjectMapper
+class LunchOfferDTOTest(
+  @Autowired val mapper: ObjectMapper
+) {
 
   @Test
   fun serialize() {
-    val dto = LunchOfferDTO.of(GYROS)
+    val dto = GYROS.toDTOv1()
 
     val result = mapper.writeValueAsString(dto)
 

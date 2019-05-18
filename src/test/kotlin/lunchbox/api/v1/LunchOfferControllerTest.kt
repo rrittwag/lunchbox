@@ -18,10 +18,9 @@ import lunchbox.domain.models.GYROS
 import lunchbox.domain.models.SOLJANKA
 
 @WebMvcTest(LunchOfferController::class)
-class LunchOfferControllerTest {
-
-  @Autowired
-  lateinit var mockMvc: MockMvc
+class LunchOfferControllerTest(
+  @Autowired val mockMvc: MockMvc
+) {
 
   @MockkBean
   lateinit var repo: LunchOfferRepository

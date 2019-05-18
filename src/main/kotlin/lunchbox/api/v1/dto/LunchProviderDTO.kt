@@ -10,14 +10,10 @@ class LunchProviderDTO(
   val id: LunchProviderId,
   val name: String,
   val location: String
-) {
+)
 
-  companion object {
-    fun of(provider: LunchProvider) =
-      LunchProviderDTO(
-        provider.id,
-        provider.label,
-        provider.location.label
-      )
-  }
-}
+fun LunchProvider.toDTOv1() = LunchProviderDTO(
+  id,
+  label,
+  location.label
+)

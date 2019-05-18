@@ -1,6 +1,7 @@
 package lunchbox.api.v1
 
 import lunchbox.api.v1.dto.LunchOfferDTO
+import lunchbox.api.v1.dto.toDTOv1
 import lunchbox.util.exceptions.HttpNotFoundException
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -23,10 +24,10 @@ class LunchOfferController(val repo: LunchOfferRepository) {
   ): List<LunchOfferDTO> = when (day) {
     null -> repo.findAll()
     else -> repo.findByDay(day)
-  }.map { LunchOfferDTO.of(it) }
+  }.map { it.toDTOv1() }
 
   @GetMapping("$URL_LUNCHOFFER/{id}")
   fun getById(@PathVariable id: Long): LunchOfferDTO =
-    repo.findByIdOrNull(id)?.let { LunchOfferDTO.of(it) }
+    repo.findByIdOrNull(id)?.toDTOv1()
       ?: throw HttpNotFoundException("Mittagsangebot mit ID $id nicht gefunden!")
 }

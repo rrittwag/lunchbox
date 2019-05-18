@@ -6,20 +6,27 @@ import java.time.LocalDate
 val DATE_XMAS: LocalDate = LocalDate.of(2019, 12, 24)
 val DATE_NEWYEAR: LocalDate = LocalDate.of(2019, 1, 1)
 
-val GYROS = LunchOffer(
-  0,
-  "Gyros",
-  DATE_NEWYEAR,
-  Money.parse("EUR 5.80"),
-  LunchProvider.SCHWEINESTALL.id
+fun createOffer(
+  id: LunchOfferId = 0,
+  name: String = "Gyros",
+  day: LocalDate = DATE_NEWYEAR,
+  price: Money = Money.parse("EUR 5.80"),
+  provider: LunchProviderId = LunchProvider.SCHWEINESTALL.id
+) = LunchOffer(
+  id = id,
+  name = name,
+  day = day,
+  price = price,
+  provider = provider
 )
 
-val SOLJANKA = LunchOffer(
-  0,
-  "Soljanka",
-  DATE_XMAS,
-  Money.parse("EUR 2.50"),
-  LunchProvider.AOK_CAFETERIA.id
+val GYROS = createOffer()
+
+val SOLJANKA = createOffer(
+  name = "Soljanka",
+  day = DATE_XMAS,
+  price = Money.parse("EUR 2.50"),
+  provider = LunchProvider.AOK_CAFETERIA.id
 )
 
 val GYROS_NEXT_DAY = GYROS.copy(day = GYROS.day.plusDays(1))

@@ -15,16 +15,12 @@ data class LunchOfferDTO(
   val day: LocalDate,
   val price: Money,
   val provider: LunchProviderId
-) {
+)
 
-  companion object {
-    fun of(offer: LunchOffer) =
-      LunchOfferDTO(
-        offer.id,
-        offer.name,
-        offer.day,
-        offer.price,
-        offer.provider
-      )
-  }
-}
+fun LunchOffer.toDTOv1() = LunchOfferDTO(
+  id,
+  name,
+  day,
+  price,
+  provider
+)
