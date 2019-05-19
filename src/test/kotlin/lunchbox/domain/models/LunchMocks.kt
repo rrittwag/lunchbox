@@ -12,13 +12,7 @@ fun createOffer(
   day: LocalDate = DATE_NEWYEAR,
   price: Money = Money.parse("EUR 5.80"),
   provider: LunchProviderId = LunchProvider.SCHWEINESTALL.id
-) = LunchOffer(
-  id = id,
-  name = name,
-  day = day,
-  price = price,
-  provider = provider
-)
+) = LunchOffer(id, name, day, price, provider)
 
 val GYROS = createOffer()
 
