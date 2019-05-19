@@ -12,6 +12,9 @@ dependencies {
   testImplementation 'org.amshove.kluent:kluent:1.49'    // assertions
   testImplementation 'io.mockk:mockk:1.9.3'              // mocking
   testImplementation 'com.ninja-squad:springmockk:1.1.2' // support @MockkBean injection
+
+  // JSON
+  testImplementation 'net.javacrumbs.json-unit:json-unit-assertj:2.6.1' // JSON assertions
 }
 
 configurations.all {

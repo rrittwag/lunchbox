@@ -2,9 +2,8 @@ package lunchbox.api.v1.dto
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
+import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
 import org.junit.jupiter.api.Test
-import org.skyscreamer.jsonassert.JSONAssert.assertEquals
-import org.skyscreamer.jsonassert.JSONCompareMode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.json.JsonTest
 
@@ -19,7 +18,7 @@ class LunchProviderDTOTest(
 
     val result = mapper.writeValueAsString(dto)
 
-    assertEquals(SCHWEINESTALL_AS_JSON, result, JSONCompareMode.STRICT)
+    assertThatJson(result).isEqualTo(SCHWEINESTALL_AS_JSON)
   }
 }
 

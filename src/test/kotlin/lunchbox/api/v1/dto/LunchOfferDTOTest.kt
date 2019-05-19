@@ -2,9 +2,8 @@ package lunchbox.api.v1.dto
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import lunchbox.domain.models.GYROS
+import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
 import org.junit.jupiter.api.Test
-import org.skyscreamer.jsonassert.JSONAssert.assertEquals
-import org.skyscreamer.jsonassert.JSONCompareMode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.json.JsonTest
 
@@ -19,7 +18,7 @@ class LunchOfferDTOTest(
 
     val result = mapper.writeValueAsString(dto)
 
-    assertEquals(GYROS_AS_JSON, result, JSONCompareMode.STRICT)
+    assertThatJson(result).isEqualTo(GYROS_AS_JSON)
   }
 }
 
