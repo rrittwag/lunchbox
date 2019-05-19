@@ -8,13 +8,15 @@ val DATE_NEWYEAR: LocalDate = LocalDate.of(2019, 1, 1)
 
 fun createOffer(
   id: LunchOfferId = 0,
-  name: String = "Gyros",
+  name: String = "Mitagsangebot",
   day: LocalDate = DATE_NEWYEAR,
   price: Money = Money.parse("EUR 5.80"),
   provider: LunchProviderId = LunchProvider.SCHWEINESTALL.id
 ) = LunchOffer(id, name, day, price, provider)
 
-val GYROS = createOffer()
+val GYROS = createOffer(
+  name = "Gyros"
+)
 
 val SOLJANKA = createOffer(
   name = "Soljanka",
