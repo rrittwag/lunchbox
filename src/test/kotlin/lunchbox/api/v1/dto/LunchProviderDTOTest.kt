@@ -1,24 +1,22 @@
 package lunchbox.api.v1.dto
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
-import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.json.JsonTest
+import org.springframework.boot.test.json.JacksonTester
 
 @JsonTest
 class LunchProviderDTOTest(
-  @Autowired val mapper: ObjectMapper
+  @Autowired val json: JacksonTester<LunchProviderDTO>
 ) {
 
   @Test
   fun serialize() {
     val dto = SCHWEINESTALL.toDTOv1()
 
-    val result = mapper.writeValueAsString(dto)
-
-    assertThatJson(result).isEqualTo(SCHWEINESTALL_AS_JSON)
+    assertThat(json.write(dto)).isEqualTo(SCHWEINESTALL_AS_JSON)
   }
 }
 

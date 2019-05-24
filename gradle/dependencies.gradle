@@ -3,7 +3,7 @@
 // -------------------
 ext.springBootVersion = '2.1.4.RELEASE'
 
-repositories { mavenCentral() }
+repositories { jcenter() }
 dependencies {
   // Spring Boot BOM
   implementation(platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}"))

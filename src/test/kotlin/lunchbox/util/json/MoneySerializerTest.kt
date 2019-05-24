@@ -1,24 +1,22 @@
 package lunchbox.util.json
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
+import org.assertj.core.api.Assertions.assertThat
 import org.joda.money.Money
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.json.JsonTest
+import org.springframework.boot.test.json.JacksonTester
 
 @JsonTest
 class MoneySerializerTest(
-  @Autowired val mapper: ObjectMapper
+  @Autowired val json: JacksonTester<TestEntityWithMoney>
 ) {
 
   @Test
   fun serialize() {
     val entity = TestEntityWithMoney(Money.parse("EUR 15.20"))
 
-    val result = mapper.writeValueAsString(entity)
-
-    assertThatJson(result).isEqualTo("{ price: 1520 }")
+    assertThat(json.write(entity)).isEqualTo("{ price: 1520 }")
   }
 }
 
