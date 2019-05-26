@@ -43,3 +43,11 @@ tasks.eclipse.dependsOn(cleanEclipse)
 //   IntelliJ IDEA-Projektdateien generieren
 // ---------------------------------
 apply plugin: 'idea'
+
+idea {
+  module {
+    testSourceDirs += project.sourceSets.integrationTest.java.srcDirs
+    testSourceDirs += project.sourceSets.integrationTest.kotlin.srcDirs
+    testSourceDirs += project.sourceSets.integrationTest.resources.srcDirs
+  }
+}

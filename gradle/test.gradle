@@ -18,6 +18,11 @@ configurations.all {
   exclude module: 'mockito-core'          // Mockito is replaced by MockK
 }
 
+configurations.all {
+  exclude group: 'junit', module: 'junit' // entfernt die transitive Abhängigkeit zu JUnit 4, um Konflikte mit JUnit 5 und falsche Importe zu vermeiden
+  exclude module: 'mockito-core'          // Mockito is replaced by MockK
+}
+
 test {
   useJUnitPlatform()
   testLogging { exceptionFormat = 'full' }
@@ -27,30 +32,13 @@ test {
 // -------------------
 //   Integrations-Tests mit JUnit 5
 // -------------------
-sourceSets {
-  integrationTest { sourceSet ->
-    [
-      "java",
-      "groovy",
-      "scala",
-      "kotlin",
-      "resources"
-    ].each {
-      if (!sourceSet.hasProperty(it)) return
-        sourceSet."$it".srcDir file("src/integration-test/${it}")
-    }
-    compileClasspath += sourceSets.main.output + sourceSets.test.output + configurations.testCompile
-    runtimeClasspath += output + compileClasspath + configurations.testRuntime
-  }
-}
-
 task integrationTest(
     type: Test,
     description: 'Führt die Integrations-Tests aus.',
     group: 'Verification') {
       shouldRunAfter test
 
-      testClassesDirs = sourceSets.integrationTest.output
+      testClassesDirs = sourceSets.integrationTest.output.classesDirs
       classpath = sourceSets.integrationTest.runtimeClasspath
 
       useJUnitPlatform()

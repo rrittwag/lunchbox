@@ -25,7 +25,6 @@ allprojects {
   apply from: "${rootDir}/gradle/ide.gradle"
   apply from: "${rootDir}/gradle/test.gradle"
   apply from: "${rootDir}/gradle/code_analyse.gradle"
-  apply from: "${rootDir}/gradle/run.gradle"
   apply from: "${rootDir}/gradle/docker.gradle"
 }
 
