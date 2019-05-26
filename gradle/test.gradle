@@ -18,11 +18,6 @@ configurations.all {
   exclude module: 'mockito-core'          // Mockito is replaced by MockK
 }
 
-configurations.all {
-  exclude group: 'junit', module: 'junit' // entfernt die transitive Abhängigkeit zu JUnit 4, um Konflikte mit JUnit 5 und falsche Importe zu vermeiden
-  exclude module: 'mockito-core'          // Mockito is replaced by MockK
-}
-
 test {
   useJUnitPlatform()
   testLogging { exceptionFormat = 'full' }

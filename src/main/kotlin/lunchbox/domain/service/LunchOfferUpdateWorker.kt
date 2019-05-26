@@ -47,7 +47,7 @@ class LunchOfferUpdateWorker(
       logger.info("finished resolving offers for $provider")
       offers
     } catch (e: Throwable) {
-      logger.error("failed resolving offers", e)
+      logger.error("failed resolving offers for $provider", e)
       emptyList()
     }
   }
