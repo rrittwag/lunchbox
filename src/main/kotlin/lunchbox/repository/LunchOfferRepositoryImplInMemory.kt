@@ -9,7 +9,7 @@ import java.time.LocalDate
  * Hält die Mittagsangebote im Arbeitsspeicher.
  */
 @Repository
-class LunchOfferRepositoryImpl_InMemory(
+class LunchOfferRepositoryImplInMemory(
   var offers: List<LunchOffer> = emptyList()
 ) : LunchOfferRepository {
 

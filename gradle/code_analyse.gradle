@@ -1,37 +1,16 @@
 // -------------------
-//   Statische Code-Analyse mit SpotBugs
+//   Statische Code-Analyse mit Detekt
 // -------------------
-apply plugin: "com.github.spotbugs"
+apply plugin: "io.gitlab.arturbosch.detekt"
 
-spotbugs {
-  effort = "max"
-  reportLevel = "high"
-  ignoreFailures = false
-  // reportsDir = file("${buildDir}/reports/spotbugs")
-  // includeFilter = file("${rootDir}/config/spotbugs/includeFilter.xml")
-  // excludeFilter = file("${rootDir}/config/spotbugs/excludeFilter.xml")
+detekt {
+  toolVersion = '1.0.0-RC14'
+  input = files('src/main/kotlin')
+  config = files('gradle/code_analyse/detekt_config.yml')
 }
 
-spotbugsMain {
-  // Die SpotBugs-Analyse ist an die 'check'-Task gebunden, wird also auch
-  // beim häufig benutzten 'build' aufgerufen. Das frisst Zeit!
-  // Wir aktivieren sie daher nur bei explizitem Aufruf der Task 'codeAnalyse'.
-  enabled = gradle.startParameter.taskNames.contains('codeAnalyse')
-  reports {
-    // nur EINE Art von Report kann aktiv sein
-    xml.enabled = false
-    html.enabled = true
-  }
-}
-// Test-Code nicht analysieren
-spotbugsTest.enabled = false
-spotbugsIntegrationTest.enabled = false
-
-// Sammeltask 'codeAnalyse' fasst die Kind-Tasks für main- & test-Zweig zusammen
+// Der Task-Name 'codeAnalyse' ist eingängiger als 'detekt' ...
 task codeAnalyse(
-    dependsOn: [
-      'spotbugsMain',
-      'spotbugsTest'
-    ],
-    description: 'Führt die statische Code-Analyse mit SpotBugs aus.',
+    dependsOn: ['detekt'],
+    description: 'Führt die statische Code-Analyse aus.',
     group: 'Verification')

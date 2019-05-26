@@ -10,6 +10,7 @@ import org.joda.money.Money
 import org.jsoup.nodes.Element
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 /**
  * Ermittelt Mittagsangebote für Schweinestall.
@@ -77,7 +78,7 @@ class LunchResolverSchweinestall : LunchResolver {
   private fun parseLocalDate(dateString: String, dateFormat: String): LocalDate? =
     try {
       LocalDate.parse(dateString, DateTimeFormatter.ofPattern(dateFormat))
-    } catch (exc: Throwable) {
+    } catch (exc: DateTimeParseException) {
       null
     }
 }
