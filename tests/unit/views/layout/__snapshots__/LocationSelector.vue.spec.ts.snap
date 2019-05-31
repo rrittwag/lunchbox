@@ -2,42 +2,47 @@
 
 exports[`LocationSelector renders snapshot 1`] = `
 <li
-  class="location-selector d-none d-sm-block nav-item b-nav-dropdown dropdown"
+  class="nav-item b-nav-dropdown dropdown location-selector d-none d-sm-block"
 >
   <a
     aria-expanded="false"
     aria-haspopup="true"
     class="nav-link dropdown-toggle"
     href="#"
+    target="_self"
   >
     <span>
       HH
     </span>
   </a>
-  <div
-    class="dropdown-menu dropdown-menu-left"
+  <ul
+    class="dropdown-menu"
     tabindex="-1"
   >
-    <a
-      class="dropdown-item active"
-      href="#"
-      role="menuitem"
-      target="_self"
-    >
-      
+    <li>
+      <a
+        class="dropdown-item active"
+        href="#"
+        role="menuitem"
+        target="_self"
+      >
+        
     Hamburg
   
-    </a>
-    <a
-      class="dropdown-item"
-      href="#"
-      role="menuitem"
-      target="_self"
-    >
-      
+      </a>
+    </li>
+    <li>
+      <a
+        class="dropdown-item"
+        href="#"
+        role="menuitem"
+        target="_self"
+      >
+        
     München
   
-    </a>
-  </div>
+      </a>
+    </li>
+  </ul>
 </li>
 `;

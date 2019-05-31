@@ -2,7 +2,7 @@ import LocationSelector from '@/views/layout/LocationSelector.vue'
 import { createMock, mountWithChildren } from '@tests/unit/test-util'
 import { LunchStore } from '@/store'
 import { hamburg, münchen } from '@tests/unit/test-data'
-import { BNavItemDropdown, BDropdownItem } from '@tests/unit/bootstrap-vue-components'
+import { BNavItemDropdown, BDropdownItem, BLink } from 'bootstrap-vue'
 
 describe('LocationSelector', () => {
   afterEach(() => {
@@ -56,7 +56,7 @@ describe('LocationSelector', () => {
     const wrapper = mountWithChildren(LocationSelector, {}, { provide })
 
     const itemMünchen = wrapper.findAll(BDropdownItem).at(1)
-    itemMünchen.trigger('click')
+    itemMünchen.find(BLink).trigger('click')
 
     expect(mockStore.setSelectedLocation).toBeCalledTimes(1)
     expect(mockStore.setSelectedLocation).toBeCalledWith(münchen)

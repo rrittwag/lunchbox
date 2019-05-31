@@ -1,7 +1,7 @@
 import OfferBox from '@/views/offers/OfferBox.vue'
 import { mensa, gyros, soljanka } from '@tests/unit/test-data'
 import { mountUnit } from '@tests/unit/test-util'
-import { BListGroupItem } from '@tests/unit/bootstrap-vue-components'
+import { BListGroupItem } from 'bootstrap-vue'
 
 describe('OfferBox', () => {
   it('renders title & offers as list items', () => {

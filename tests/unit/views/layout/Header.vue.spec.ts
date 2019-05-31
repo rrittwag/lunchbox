@@ -1,6 +1,6 @@
 import Header from '@/views/layout/Header.vue'
 import { mountUnit } from '@tests/unit/test-util'
-import { BNavItem, BCollapse } from '@tests/unit/bootstrap-vue-components'
+import { BNavItem, BCollapse } from 'bootstrap-vue'
 
 describe('Header', () => {
   test('renders snapshot', () => {
