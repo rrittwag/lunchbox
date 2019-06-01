@@ -58,6 +58,8 @@ describe('LocationSelector', () => {
     const itemMünchen = wrapper.findAll(BDropdownItem).at(1)
     itemMünchen.find(BLink).trigger('click')
 
+    expect(wrapper.findAll(BDropdownItem).at(0).props('active')).toBeTrue()
+    expect(wrapper.findAll(BDropdownItem).at(1).props('active')).toBeFalse()
     expect(mockStore.setSelectedLocation).toBeCalledTimes(1)
     expect(mockStore.setSelectedLocation).toBeCalledWith(münchen)
   })
