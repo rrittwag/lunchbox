@@ -11,6 +11,6 @@ detekt {
 
 // Der Task-Name 'codeAnalyse' ist eingängiger als 'detekt' ...
 task codeAnalyse(
-    dependsOn: ['detekt'],
+    dependsOn: 'detekt',
     description: 'Führt die statische Code-Analyse aus.',
     group: 'Verification')
