@@ -59,7 +59,7 @@ class LunchResolverSuppenkulttour(dateValidator: DateValidator) extends LunchRes
   private def resolveMonday(node: Node): Option[LocalDate] = {
     val optDateSeq = for (dateDiv <- (node \ "div") filter hasClass("toggler")) yield {
       dateDiv.text.replace("\n", " ") match {
-        case r""".*Suppen vom +([\d\.]+)$firstDayString.*""" =>
+        case r""".*Suppen .*vom +([\d\.]+)$firstDayString.*""" =>
           parseDay(firstDayString).map{
             case firstDay if firstDay.getDayOfWeek == DayOfWeek.SUNDAY => firstDay.plusDays(1)
             case firstDay if firstDay.getDayOfWeek == DayOfWeek.SATURDAY => firstDay.plusDays(2)
