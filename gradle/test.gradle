@@ -8,7 +8,7 @@ dependencies {
   testRuntimeOnly    'org.junit.jupiter:junit-jupiter-engine'
 
   // Kotlin
-  testImplementation 'org.amshove.kluent:kluent:1.49'    // assertions
+  testImplementation 'org.amshove.kluent:kluent:1.50'    // assertions
   testImplementation 'io.mockk:mockk:1.9.3'              // mocking
   testImplementation 'com.ninja-squad:springmockk:1.1.2' // support @MockkBean injection
 }
