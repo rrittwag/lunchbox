@@ -35,6 +35,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - https://github.com/robinvdvleuten/vuex-persistedstate
 - About-View basteln
 - Settings-View basteln
+- Design: Umstellen auf TailwindCSS
 - Responsive Design: Ausdehnung auf ca. 1800px Breite beschränken
 - Design: Abstände der Provider-Boxen optimieren
 - build: Bootstrap-Importe minimieren (Unterschied?)
@@ -45,8 +46,10 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 - Design: neues Lunchbox-Logo designen
 - Model: Daten neu laden, wenn über 1 Tag alt
 - Projekt mit HTML5 Boilerplate abgleichen
-- System-Tests bereitstellen, via Selenium?
 - durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
+- Tags/Badges für "vegetarisch" & "vegan"
+- Nutzerbezogenes Sortieren & Filtern der Mittagsanbieter
+- System-Tests bereitstellen, via Selenium?
 - i18n & l10n
 - [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
 
