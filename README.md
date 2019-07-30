@@ -6,28 +6,15 @@ Backend für Lunchbox.
 ## TODOs
 
 - LunchResolver: Scala-Implementierung übernehmen/"transponieren"
-- LunchOfferUpdate: LunchResolver als Spring-Component umschreiben ?
-  - https://stackoverflow.com/questions/28069086/spring-dynamic-qualifier/28082689#28082689
-  - https://stackoverflow.com/questions/42909283/how-to-dynamically-inject-a-service-using-a-runtime-qualifier-variable/42985496#42985496
 - LunchOfferUpdate: Unit-Tests schreiben
-- Atom-Feed implementieren
-  - https://spring.io/guides/tutorials/spring-boot-kotlin/
-  - https://github.com/wonwoo/spring-boot-kotlin-example
+- Atom-Feed implementieren [1](https://spring.io/guides/tutorials/spring-boot-kotlin/) [2](https://github.com/wonwoo/spring-boot-kotlin-example)
 - API: bei 4xx-/5xx-Exceptions eine message mitliefern
 - API test: validate against JSON schema
-- MockMVC in Kotlin-Syntax nutzen (mit Spring 5.2) -> https://docs.spring.io/spring/docs/5.2.0.M1/spring-framework-reference/languages.html#mockmvc-dsl
+- MockMVC in Kotlin-Syntax nutzen ([mit Spring 5.2](https://docs.spring.io/spring/docs/5.2.0.M1/spring-framework-reference/languages.html#mockmvc-dsl))
 - wenn Lunchbox-Backend fertig, testweise umschreiben mit Webflux, Kotlin DSL & Coroutines:
-  - Gradle-Skripte auf Kotlin umstellen
-    -> https://github.com/jnizet/gradle-kotlin-dsl-migration-guide
-    -> https://github.com/mixitconf/mixit/blob/master/build.gradle.kts
-  - MongoDB nutzen
-    -> https://github.com/mixitconf/mixit/blob/master/src/main/kotlin/mixit/model/Event.kt
-    -> https://github.com/mixitconf/mixit/blob/master/src/main/kotlin/mixit/repository/EventRepository.kt
-    -> https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-mongodb
-  - Webflux & Coroutines verwenden
-    -> https://www.baeldung.com/kotlin-coroutines
-    -> https://spring.io/blog/2019/04/12/going-reactive-with-spring-coroutines-and-kotlin-flow#spring-mvc-or-webflux
-    -> https://docs.spring.io/spring/docs/5.2.0.M1/spring-framework-reference/languages.html#coroutines
+  - Gradle-Skripte auf Kotlin umstellen [1](https://github.com/jnizet/gradle-kotlin-dsl-migration-guide) [2](https://github.com/mixitconf/mixit/blob/master/build.gradle.kts)
+  - MongoDB nutzen [1](https://github.com/mixitconf/mixit/blob/master/src/main/kotlin/mixit/model/Event.kt) [2](https://github.com/mixitconf/mixit/blob/master/src/main/kotlin/mixit/repository/EventRepository.kt) [3](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-mongodb)
+  - Webflux & Coroutines verwenden [1](https://www.baeldung.com/kotlin-coroutines) [2](https://spring.io/blog/2019/04/12/going-reactive-with-spring-coroutines-and-kotlin-flow#spring-mvc-or-webflux) [3](https://docs.spring.io/spring/docs/5.2.0.M1/spring-framework-reference/languages.html#coroutines)
 
 
 ## Wissen

@@ -1,10 +1,8 @@
 package lunchbox.domain.service
 
 import lunchbox.domain.logic.LunchResolver
-import lunchbox.domain.logic.LunchResolverSchweinestall
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
-import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
 import lunchbox.repository.LunchOfferRepository
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Async
@@ -17,7 +15,8 @@ import org.springframework.stereotype.Service
  */
 @Service
 class LunchOfferUpdateWorker(
-  val repo: LunchOfferRepository
+  val repo: LunchOfferRepository,
+  val resolvers: List<LunchResolver>
 ) {
 
   private val logger = LoggerFactory.getLogger(javaClass)
@@ -34,7 +33,7 @@ class LunchOfferUpdateWorker(
   }
 
   private fun resolve(provider: LunchProvider): List<LunchOffer> {
-    val resolver = createResolver(provider)
+    val resolver = resolvers.find { it.provider == provider }
     if (resolver == null) {
       logger.error("no resolver for $provider")
       return emptyList()
@@ -50,10 +49,5 @@ class LunchOfferUpdateWorker(
       logger.error("failed resolving offers for $provider", e)
       emptyList()
     }
-  }
-
-  private fun createResolver(provider: LunchProvider): LunchResolver? = when (provider) {
-    SCHWEINESTALL -> LunchResolverSchweinestall()
-    else -> null
   }
 }

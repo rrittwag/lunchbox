@@ -3,11 +3,13 @@ package lunchbox.domain.logic
 import java.net.URL
 
 import lunchbox.domain.models.LunchOffer
+import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
 import lunchbox.util.html.Html
 import org.joda.money.CurrencyUnit
 import org.joda.money.Money
 import org.jsoup.nodes.Element
+import org.springframework.stereotype.Component
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -15,10 +17,12 @@ import java.time.format.DateTimeParseException
 /**
  * Ermittelt Mittagsangebote für Schweinestall.
  */
+@Component
 class LunchResolverSchweinestall : LunchResolver {
+  override val provider: LunchProvider = SCHWEINESTALL
 
   override fun resolve(): List<LunchOffer> =
-    resolve(SCHWEINESTALL.menuUrl)
+    resolve(provider.menuUrl)
 
   fun resolve(url: URL): List<LunchOffer> {
     val site = Html.load(url, "iso-8859-1")
@@ -39,7 +43,7 @@ class LunchResolverSchweinestall : LunchResolver {
     val day = parseDay(dayElem) ?: return null
     val price = parsePrice(priceElem) ?: return null
     val name = parseName(nameElem)
-    return LunchOffer(0, name, day, price, SCHWEINESTALL.id)
+    return LunchOffer(0, name, day, price, provider.id)
   }
 
   /**
