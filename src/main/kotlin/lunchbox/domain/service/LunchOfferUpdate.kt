@@ -1,13 +1,12 @@
 package lunchbox.domain.service
 
+import lunchbox.domain.logic.DateValidator
 import lunchbox.domain.models.LunchProvider
 import lunchbox.repository.LunchOfferRepository
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.scheduling.annotation.Schedules
 import org.springframework.stereotype.Service
-import java.time.DayOfWeek
-import java.time.LocalDate
 import javax.annotation.PostConstruct
 
 /**
@@ -36,11 +35,6 @@ class LunchOfferUpdate(
   }
 
   private fun removeOutdatedOffers() {
-    repo.deleteBefore(mondayLastWeek())
-  }
-
-  private fun mondayLastWeek(): LocalDate {
-    val mondayThisWeek = LocalDate.now().with(DayOfWeek.MONDAY)
-    return mondayThisWeek.minusWeeks(1)
+    repo.deleteBefore(DateValidator.mondayLastWeek())
   }
 }

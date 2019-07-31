@@ -8,8 +8,10 @@ Backend für Lunchbox.
 - LunchResolver: Scala-Implementierung übernehmen/"transponieren"
 - LunchOfferUpdate: Unit-Tests schreiben
 - Atom-Feed implementieren [1](https://spring.io/guides/tutorials/spring-boot-kotlin/) [2](https://github.com/wonwoo/spring-boot-kotlin-example)
+- PDFBox aktualisieren
+- Feature: an Feiertagen keine Mittagsangebote
 - API: bei 4xx-/5xx-Exceptions eine message mitliefern
-- API test: validate against JSON schema
+- Integration-Test schreiben
 - MockMVC in Kotlin-Syntax nutzen ([mit Spring 5.2](https://docs.spring.io/spring/docs/5.2.0.M1/spring-framework-reference/languages.html#mockmvc-dsl))
 - wenn Lunchbox-Backend fertig, testweise umschreiben mit Webflux, Kotlin DSL & Coroutines:
   - Gradle-Skripte auf Kotlin umstellen [1](https://github.com/jnizet/gradle-kotlin-dsl-migration-guide) [2](https://github.com/mixitconf/mixit/blob/master/build.gradle.kts)
