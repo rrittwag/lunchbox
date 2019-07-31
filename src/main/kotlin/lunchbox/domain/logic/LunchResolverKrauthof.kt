@@ -159,7 +159,7 @@ class LunchResolverKrauthof(
     text.trim()
       .replace("  ", " ")
       .replace("–", "-")
-      .replace(Regex(""" *[\│\|] *"""), ", ")
+      .replace(Regex(""" *[│|] *"""), ", ")
       .replace(" I ", ", ")
       .replace(" *,", ",")
       .trim()
