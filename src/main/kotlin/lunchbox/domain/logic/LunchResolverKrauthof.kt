@@ -141,7 +141,7 @@ class LunchResolverKrauthof(
       val (dateString) = it.destructured
       val yearToday = LocalDate.now().year
       val year =
-        if (LocalDate.now().monthValue == 12 && dayString.endsWith("01"))
+        if (LocalDate.now().monthValue == 12 && dateString.endsWith("01"))
           yearToday + 1
         else
           yearToday
