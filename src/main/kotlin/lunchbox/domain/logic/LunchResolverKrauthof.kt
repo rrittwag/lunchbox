@@ -84,10 +84,13 @@ class LunchResolverKrauthof(
       currentRow = currentRow?.merge(thisRow) ?: thisRow
     }
 
-    return PdfSection.weekdaysValues.flatMap { weekday ->
-      rows.map { row ->
-        LunchOffer(0, row.name, monday.plusDays(weekday.order), row.price!!, provider.id)
-      }
+    val mondayOffers = rows.map { row ->
+      LunchOffer(0, row.name, monday, row.price!!, provider.id)
+    }
+
+    // an allen Wochentagen gibt es das selbe Angebot
+    return LongRange(0, 4).flatMap { weekdayLong ->
+      mondayOffers.map { it.copy(day = monday.plusDays(weekdayLong)) }
     }
   }
 
@@ -178,23 +181,6 @@ class LunchResolverKrauthof(
     return Money.ofMinor(CurrencyUnit.EUR, major.toLong() * 100 + minor.toLong())
   }
 
-  enum class PdfSection(
-    val sectionStartPattern: String,
-    val order: Long
-  ) {
-    HEADER("<<Header>>", 0),
-    MONTAG("Montag", 0),
-    DIENSTAG("Dienstag", 1),
-    MITTWOCH("Mittwoch", 2),
-    DONNERSTAG("Donnerstag", 3),
-    FREITAG("Freitag", 4),
-    FOOTER("<<Footer>>", 0);
-
-    companion object {
-      val weekdaysValues = listOf(MONTAG, DIENSTAG, MITTWOCH, DONNERSTAG, FREITAG)
-    }
-  }
-
   data class OfferRow(
     val name: String,
     val price: Money?
@@ -204,6 +190,6 @@ class LunchResolverKrauthof(
       return OfferRow(newName, price ?: otherRow.price)
     }
 
-    fun isValid() = !name.isEmpty() && price != null
+    fun isValid() = name.isNotEmpty() && price != null
   }
 }
