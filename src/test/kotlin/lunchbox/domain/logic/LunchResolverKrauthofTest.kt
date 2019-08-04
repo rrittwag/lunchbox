@@ -13,7 +13,7 @@ class LunchResolverKrauthofTest {
 
   private val providerId = DAS_KRAUTHOF.id
 
-  private val httpUploadDir = "https://www.daskrauthof.de/wp-content/uploads/"
+  private val httpUploadDir = "https://www.daskrauthof.de/wp-content/uploads"
 
   @Test
   fun `resolve PDF links for 2017-05-01`() {
@@ -22,7 +22,7 @@ class LunchResolverKrauthofTest {
     val links = resolver().resolvePdfLinks(url)
 
     links shouldHaveSize 1
-    links shouldContain (httpUploadDir + "2017/04/KRAUTHOF-Lunch-02.05.-05.05.2017.pdf")
+    links shouldContain "$httpUploadDir/2017/04/KRAUTHOF-Lunch-02.05.-05.05.2017.pdf"
   }
 
   @Test
@@ -80,7 +80,7 @@ class LunchResolverKrauthofTest {
     val links = resolver().resolvePdfLinks(url)
 
     links shouldHaveSize 1
-    links shouldContain (httpUploadDir + "2017/09/KRAUTHOF-Lunch-25.09-29.09.2017-.pdf")
+    links shouldContain "$httpUploadDir/2017/09/KRAUTHOF-Lunch-25.09-29.09.2017-.pdf"
   }
 
   @Test
@@ -132,6 +132,6 @@ class LunchResolverKrauthofTest {
     val links = resolver().resolvePdfLinks(url)
 
     links shouldHaveSize 1
-    links shouldContain (httpUploadDir + "2019/03/KRAUTHOF.pdf")
+    links shouldContain "$httpUploadDir/2019/03/KRAUTHOF.pdf"
   }
 }

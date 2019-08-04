@@ -13,7 +13,7 @@ class LunchResolverAokCafeteriaTest {
   private fun resolver() = LunchResolverAokCafeteria(DateValidator.alwaysValid())
   private val providerId = AOK_CAFETERIA.id
 
-  private val httpMittagspauseDir = "fileadmin/ordner_redaktion/dokumente/Speisepl%C3%A4ne-Kantinen/"
+  private val httpPdfDir = "fileadmin/ordner_redaktion/dokumente/Speisepl%C3%A4ne-Kantinen"
 
   @Test
   fun `resolve PDF links for 2015-03-17`() {
@@ -22,8 +22,8 @@ class LunchResolverAokCafeteriaTest {
     val links = resolver().resolvePdfLinks(url)
 
     links shouldHaveSize 2
-    links shouldContain (httpMittagspauseDir + "AOK_16.03.-20.03..pdf")
-    links shouldContain (httpMittagspauseDir + "AOK_23.03.-27.03..pdf")
+    links shouldContain "$httpPdfDir/AOK_16.03.-20.03..pdf"
+    links shouldContain "$httpPdfDir/AOK_23.03.-27.03..pdf"
   }
 
   @Test
@@ -33,11 +33,11 @@ class LunchResolverAokCafeteriaTest {
     val links = resolver().resolvePdfLinks(url)
 
     links shouldHaveSize 5
-    links shouldContain (httpMittagspauseDir + "AOK_27.07.-31.07.2015.pdf")
-    links shouldContain (httpMittagspauseDir + "AFA_03.08.-07.08..pdf")
-    links shouldContain (httpMittagspauseDir + "AOK_10.08.-14.08..pdf")
-    links shouldContain (httpMittagspauseDir + "AOK_17.08.-21.08..pdf")
-    links shouldContain (httpMittagspauseDir + "AOK_24.08.-28.08..pdf")
+    links shouldContain "$httpPdfDir/AOK_27.07.-31.07.2015.pdf"
+    links shouldContain "$httpPdfDir/AFA_03.08.-07.08..pdf"
+    links shouldContain "$httpPdfDir/AOK_10.08.-14.08..pdf"
+    links shouldContain "$httpPdfDir/AOK_17.08.-21.08..pdf"
+    links shouldContain "$httpPdfDir/AOK_24.08.-28.08..pdf"
   }
 
   @Test
@@ -47,7 +47,7 @@ class LunchResolverAokCafeteriaTest {
     val links = resolver().resolvePdfLinks(url)
 
     links shouldHaveSize 1
-    links shouldContain (httpMittagspauseDir + "AOK01.05.2017-05.05.2017.pdf")
+    links shouldContain "$httpPdfDir/AOK01.05.2017-05.05.2017.pdf"
   }
 
   @Test
@@ -57,7 +57,7 @@ class LunchResolverAokCafeteriaTest {
     val links = resolver().resolvePdfLinks(url)
 
     links shouldHaveSize 1
-    links shouldContain (httpMittagspauseDir + "AOK.pdf")
+    links shouldContain "$httpPdfDir/AOK.pdf"
   }
 
   @Test
@@ -67,7 +67,7 @@ class LunchResolverAokCafeteriaTest {
     val links = resolver().resolvePdfLinks(url)
 
     links shouldHaveSize 1
-    links shouldContain (httpMittagspauseDir + "AOK.pdf")
+    links shouldContain "$httpPdfDir/AOK.pdf"
   }
 
   @Test
@@ -77,7 +77,7 @@ class LunchResolverAokCafeteriaTest {
     val links = resolver().resolvePdfLinks(url)
 
     links shouldHaveSize 1
-    links shouldContain (httpMittagspauseDir + "AOK.pdf")
+    links shouldContain "$httpPdfDir/AOK.pdf"
   }
 
   @Test
