@@ -63,7 +63,7 @@ class LunchResolverAokCafeteria(
       return emptyList()
     }
 
-    val priceRows = parsePriceRows(priceLines[0])
+    val priceColumns = parsePriceColumns(priceLines[0])
 
     val offers = mutableListOf<LunchOffer>()
 
@@ -72,17 +72,17 @@ class LunchResolverAokCafeteria(
       if (weekdayLines == null || weekdayLines.isEmpty())
         continue
 
-      for (priceRow in priceRows)
-        offers += parseDayOffer(weekdayLines, weekday, monday, priceRow)
+      for (priceColumn in priceColumns)
+        offers += parseDayOffer(weekdayLines, weekday, monday, priceColumn)
     }
     return offers
   }
 
-  fun parsePriceRows(priceHeader: TextLine): List<PriceRow> {
+  fun parsePriceColumns(priceHeader: TextLine): List<PriceColumn> {
     val normalizedPriceTexts = normalizePriceTexts(priceHeader.texts)
     val xCoords = normalizedPriceTexts.map { it.xMid() }
     val prices = normalizedPriceTexts.mapNotNull { parsePrice(it.toString()) }
-    return xCoords.zip(prices).map { PriceRow(it.first, it.second) }
+    return xCoords.zip(prices).map { PriceColumn(it.first, it.second) }
   }
 
   fun parseMonday(lines: List<TextLine>): LocalDate? =
@@ -132,11 +132,14 @@ class LunchResolverAokCafeteria(
     lines: List<TextLine>,
     weekday: PdfSection,
     monday: LocalDate,
-    priceRow: PriceRow
+    priceColumn: PriceColumn
   ): LunchOffer {
     val day = monday.plusDays(weekday.order)
-    val name = lines.flatMap { line -> line.texts.filter { it.xIn(priceRow.x) } }.joinToString(" ")
-    return LunchOffer(0, parseName(name), day, priceRow.price, LunchProvider.AOK_CAFETERIA.id)
+    val name =
+      lines
+        .flatMap { line -> line.texts.filter { it.xIn(priceColumn.x) } }
+        .joinToString(" ")
+    return LunchOffer(0, parseName(name), day, priceColumn.price, LunchProvider.AOK_CAFETERIA.id)
   }
 
   private fun findWeekdaySection(lines: List<TextLine>): PdfSection? {
@@ -223,7 +226,7 @@ class LunchResolverAokCafeteria(
     }
   }
 
-  data class PriceRow(
+  data class PriceColumn(
     val x: Float,
     val price: Money
   )
