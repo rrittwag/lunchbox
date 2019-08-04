@@ -6,11 +6,8 @@ import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldHaveSize
-import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.util.TextPosition
+import org.apache.pdfbox.text.TextPosition
 import org.junit.jupiter.api.Test
-import java.io.FileNotFoundException
-import java.net.URL
 
 class PdfTextGroupStripperTest {
 
@@ -84,7 +81,7 @@ class PdfTextGroupStripperTest {
   fun `extract text groups from simple table`() {
     val url = javaClass.getResource("/simple_table.pdf")
 
-    val textGroups = extract(url)
+    val textGroups = PdfExtractor.extractGroups(url)
 
     textGroups shouldHaveSize 4
 
@@ -116,28 +113,8 @@ class PdfTextGroupStripperTest {
     every { mockPos.y } returns pos.y
     every { mockPos.width } returns width
     every { mockPos.height } returns height
-    every { mockPos.character } returns char
+    every { mockPos.toString() } returns char
     return mockPos
-  }
-
-  private fun extract(pdfUrl: URL): List<TextGroup> {
-    var pdfDoc: PDDocument? = null
-    var pdfContent = emptyList<TextGroup>()
-
-    try {
-      pdfDoc = PDDocument.load(pdfUrl)
-      if (pdfDoc != null) {
-        val stripper = PdfTextGroupStripper()
-        pdfContent = stripper.getTextGroups(pdfDoc)
-      }
-    } catch (fnf: FileNotFoundException) {
-      System.out.println("file $pdfUrl not found")
-    } catch (t: Throwable) {
-      System.out.println(t.message)
-    } finally {
-      pdfDoc?.close()
-    }
-    return pdfContent
   }
 
   data class Pos(val x: Float, val y: Float)

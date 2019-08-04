@@ -22,7 +22,7 @@ dependencies {
   // html/xml/pdf
   implementation 'org.jsoup:jsoup:1.12.1'
   implementation 'org.joda:joda-money:1.0.1'
-  implementation 'org.apache.pdfbox:pdfbox:1.8.16'
+  implementation 'org.apache.pdfbox:pdfbox:2.0.16'
 
   // Test-Abhängigkeiten sind in test.gradle definiert
 }

@@ -1,8 +1,8 @@
 package lunchbox.util.pdf
 
 import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.util.PDFTextStripper
-import org.apache.pdfbox.util.TextPosition
+import org.apache.pdfbox.text.PDFTextStripper
+import org.apache.pdfbox.text.TextPosition
 import kotlin.math.abs
 
 fun Float.nearby(that: Float): Boolean = abs(this - that) <= 1.0f
@@ -53,7 +53,7 @@ data class TextGroup(var positions: List<TextPosition>) {
   fun yIn(yVal: Float): Boolean = yMin() <= yVal && yVal <= yMax()
 
   override fun toString(): String =
-    positions.joinToString(separator = "", transform = { it.character }).trim()
+    positions.joinToString("").trim()
 
   private fun validate() {
     require(positions.isNotEmpty())

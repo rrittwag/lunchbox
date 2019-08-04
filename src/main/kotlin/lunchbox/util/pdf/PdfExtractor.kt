@@ -13,15 +13,28 @@ object PdfExtractor {
 
   private val logger = LoggerFactory.getLogger(javaClass)
 
-  fun extractLines(pdfUrl: URL): List<TextLine> {
+  fun extractLines(pdfUrl: URL): List<TextLine> =
+    extract(pdfUrl) {
+      val stripper = PdfTextGroupStripper()
+      stripper.getTextLines(it)
+    }
+
+  fun extractStrings(pdfUrl: URL): List<String> =
+    extractLines(pdfUrl).map { it.toString() }
+
+  fun extractGroups(pdfUrl: URL): List<TextGroup> =
+    extract(pdfUrl) {
+      val stripper = PdfTextGroupStripper()
+      stripper.getTextGroups(it)
+    }
+
+  private fun <T> extract(pdfUrl: URL, transform: (pdfDoc: PDDocument) -> List<T>): List<T> {
     var pdfDoc: PDDocument? = null
-    var pdfContent = emptyList<TextLine>()
 
     try {
-      pdfDoc = PDDocument.load(pdfUrl)
+      pdfDoc = PDDocument.load(pdfUrl.openStream())
       pdfDoc?.let {
-        val stripper = PdfTextGroupStripper()
-        pdfContent = stripper.getTextLines(pdfDoc)
+        return transform(it)
       }
     } catch (fnf: FileNotFoundException) {
       logger.error("file $pdfUrl not found")
@@ -30,9 +43,6 @@ object PdfExtractor {
     } finally {
       pdfDoc?.close()
     }
-    return pdfContent
+    return emptyList()
   }
-
-  fun extractStrings(pdfUrl: URL): List<String> =
-    extractLines(pdfUrl).map { it.toString() }
 }
