@@ -3,7 +3,7 @@ package lunchbox.domain.service
 import lunchbox.domain.logic.DateValidator
 import lunchbox.domain.models.LunchProvider
 import lunchbox.repository.LunchOfferRepository
-import org.slf4j.LoggerFactory
+import mu.KotlinLogging
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.scheduling.annotation.Schedules
 import org.springframework.stereotype.Service
@@ -18,7 +18,7 @@ class LunchOfferUpdate(
   val worker: LunchOfferUpdateWorker
 ) {
 
-  private val logger = LoggerFactory.getLogger(javaClass)
+  private val logger = KotlinLogging.logger {}
 
   @PostConstruct // Aktualisiere beim Start und ...
   @Schedules(
@@ -26,7 +26,7 @@ class LunchOfferUpdate(
     Scheduled(cron = "0 0 10 * * MON", zone = "Europe/Berlin") // jeden Montag um 10 Uhr
   )
   fun updateOffers() {
-    logger.info("starting offer update")
+    logger.info { "starting offer update" }
 
     removeOutdatedOffers()
 

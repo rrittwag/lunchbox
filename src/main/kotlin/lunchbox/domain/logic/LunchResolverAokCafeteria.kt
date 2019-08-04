@@ -7,9 +7,9 @@ import lunchbox.util.html.Html
 import lunchbox.util.pdf.PdfExtractor
 import lunchbox.util.pdf.TextGroup
 import lunchbox.util.pdf.TextLine
+import mu.KotlinLogging
 import org.joda.money.CurrencyUnit
 import org.joda.money.Money
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.net.URL
 import java.time.DayOfWeek
@@ -21,7 +21,7 @@ class LunchResolverAokCafeteria(
   val dateValidator: DateValidator
 ) : LunchResolver {
 
-  private val logger = LoggerFactory.getLogger(javaClass)
+  private val logger = KotlinLogging.logger {}
 
   override val provider: LunchProvider = AOK_CAFETERIA
 
@@ -59,7 +59,7 @@ class LunchResolverAokCafeteria(
 
     val priceLines = section2lines[PdfSection.TABLE_HEADER]
     if (priceLines == null || priceLines.isEmpty()) {
-      logger.warn("Preis-Header nicht gefunden in $pdfUrl")
+      logger.warn { "Preis-Header nicht gefunden in $pdfUrl" }
       return emptyList()
     }
 

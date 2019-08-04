@@ -4,7 +4,7 @@ import lunchbox.domain.logic.LunchResolver
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import lunchbox.repository.LunchOfferRepository
-import org.slf4j.LoggerFactory
+import mu.KotlinLogging
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 
@@ -19,7 +19,7 @@ class LunchOfferUpdateWorker(
   val resolvers: List<LunchResolver>
 ) {
 
-  private val logger = LoggerFactory.getLogger(javaClass)
+  private val logger = KotlinLogging.logger {}
 
   @Async
   fun refreshOffersOf(provider: LunchProvider) {
@@ -35,18 +35,18 @@ class LunchOfferUpdateWorker(
   private fun resolve(provider: LunchProvider): List<LunchOffer> {
     val resolver = resolvers.find { it.provider == provider }
     if (resolver == null) {
-      logger.error("no resolver for $provider")
+      logger.error { "no resolver for $provider" }
       return emptyList()
     }
 
-    logger.info("start resolving offers for $provider")
+    logger.info { "start resolving offers for $provider" }
 
     return try {
       val offers = resolver.resolve()
-      logger.info("finished resolving offers for $provider")
+      logger.info { "finished resolving offers for $provider" }
       offers
     } catch (e: Throwable) {
-      logger.error("failed resolving offers for $provider", e)
+      logger.error(e) { "failed resolving offers for $provider" }
       emptyList()
     }
   }

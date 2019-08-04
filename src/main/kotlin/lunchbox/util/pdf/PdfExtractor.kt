@@ -1,7 +1,7 @@
 package lunchbox.util.pdf
 
+import mu.KotlinLogging
 import org.apache.pdfbox.pdmodel.PDDocument
-import org.slf4j.LoggerFactory
 import java.io.FileNotFoundException
 import java.net.URL
 
@@ -11,7 +11,7 @@ import java.net.URL
  */
 object PdfExtractor {
 
-  private val logger = LoggerFactory.getLogger(javaClass)
+  private val logger = KotlinLogging.logger {}
 
   fun extractLines(pdfUrl: URL): List<TextLine> =
     extract(pdfUrl) {
@@ -37,9 +37,9 @@ object PdfExtractor {
         return transform(it)
       }
     } catch (fnf: FileNotFoundException) {
-      logger.error("file $pdfUrl not found")
+      logger.error { "file $pdfUrl not found" }
     } catch (t: Throwable) {
-      logger.error("Fehler beim Einlesen von $pdfUrl", t)
+      logger.error(t) { "Fehler beim Einlesen von $pdfUrl" }
     } finally {
       pdfDoc?.close()
     }
