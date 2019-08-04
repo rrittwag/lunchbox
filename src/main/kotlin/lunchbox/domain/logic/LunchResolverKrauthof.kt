@@ -4,14 +4,10 @@ import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProvider.DAS_KRAUTHOF
 import lunchbox.util.html.Html
-import lunchbox.util.pdf.PdfTextGroupStripper
-import lunchbox.util.pdf.TextLine
-import org.apache.pdfbox.pdmodel.PDDocument
+import lunchbox.util.pdf.PdfExtractor
 import org.joda.money.CurrencyUnit
 import org.joda.money.Money
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
-import java.io.FileNotFoundException
 import java.net.URL
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -22,12 +18,10 @@ class LunchResolverKrauthof(
   val dateValidator: DateValidator
 ) : LunchResolver {
 
-  private val logger = LoggerFactory.getLogger(javaClass)
-
   override val provider: LunchProvider = DAS_KRAUTHOF
 
   override fun resolve(): List<LunchOffer> {
-    val pdfLinks = resolvePdfLinks(URL("https://www.daskrauthof.de/karte"))
+    val pdfLinks = resolvePdfLinks(provider.menuUrl)
     return resolveFromPdfs(pdfLinks)
   }
 
@@ -43,7 +37,7 @@ class LunchResolverKrauthof(
     pdfPaths.map { resolveFromPdf(URL(it)) }.flatten()
 
   fun resolveFromPdf(pdfUrl: URL): List<LunchOffer> {
-    val pdfContent = extractPdfContent(pdfUrl)
+    val pdfContent = PdfExtractor.extractStrings(pdfUrl)
 
     val monday = parseMondayFromContent(pdfContent)
     if (monday == null || !dateValidator.isValid(monday))
@@ -92,26 +86,6 @@ class LunchResolverKrauthof(
     return LongRange(0, 4).flatMap { weekdayLong ->
       mondayOffers.map { it.copy(day = monday.plusDays(weekdayLong)) }
     }
-  }
-
-  private fun extractPdfContent(pdfUrl: URL): List<String> {
-    var pdfDoc: PDDocument? = null
-    var pdfContent = emptyList<TextLine>()
-
-    try {
-      pdfDoc = PDDocument.load(pdfUrl)
-      pdfDoc?.let {
-        val stripper = PdfTextGroupStripper()
-        pdfContent = stripper.getTextLines(pdfDoc)
-      }
-    } catch (fnf: FileNotFoundException) {
-      logger.error("file $pdfUrl not found")
-    } catch (t: Throwable) {
-      logger.error("Fehler beim Einlesen von $pdfUrl", t)
-    } finally {
-      pdfDoc?.close()
-    }
-    return pdfContent.map { it.toString() }
   }
 
   private fun parseMondayFromContent(lines: List<String>): LocalDate? {

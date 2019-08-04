@@ -1,6 +1,4 @@
-package lunchbox.domain.logic
-
-/* ktlint-disable max-line-length no-wildcard-imports */
+package lunchbox.domain.logic /* ktlint-disable max-line-length no-wildcard-imports */
 
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.DAS_KRAUTHOF
@@ -14,6 +12,8 @@ class LunchResolverKrauthofTest {
     LunchResolverKrauthof(DateValidator.alwaysValid())
 
   private val providerId = DAS_KRAUTHOF.id
+
+  private val httpUploadDir = "https://www.daskrauthof.de/wp-content/uploads/"
 
   @Test
   fun `resolve PDF links for 2017-05-01`() {
@@ -134,6 +134,4 @@ class LunchResolverKrauthofTest {
     links shouldHaveSize 1
     links shouldContain (httpUploadDir + "2019/03/KRAUTHOF.pdf")
   }
-
-  private val httpUploadDir = "https://www.daskrauthof.de/wp-content/uploads/"
 }

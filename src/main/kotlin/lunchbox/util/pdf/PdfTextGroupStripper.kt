@@ -3,8 +3,9 @@ package lunchbox.util.pdf
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.util.PDFTextStripper
 import org.apache.pdfbox.util.TextPosition
+import kotlin.math.abs
 
-fun Float.nearby(that: Float): Boolean = Math.abs(this - that) <= 1.0f
+fun Float.nearby(that: Float): Boolean = abs(this - that) <= 1.0f
 
 class PdfTextGroupStripper : PDFTextStripper() {
   private val textGroups = mutableListOf<TextGroup>()
