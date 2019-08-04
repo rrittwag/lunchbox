@@ -109,7 +109,7 @@ class LunchResolverAokCafeteria(
 
     val linesBelowHeader = lines.filter { it.y > header.y }
 
-    var linesForDay = listOf<TextLine>()
+    var linesForDay = emptyList<TextLine>()
     for (line in linesBelowHeader) {
       if (line.oneTextMatches(Regex(""".*Zusatzstoffe.*"""))) {
         // an Feiertagen gibt es keine Angebote ... und keine Zusatzstoffe
@@ -117,7 +117,7 @@ class LunchResolverAokCafeteria(
           val weekday = findWeekdaySection(linesForDay)
           weekday?.let { result += it to linesForDay }
         }
-        linesForDay = listOf<TextLine>()
+        linesForDay = emptyList()
       } else if (line.oneTextMatches(Regex(""".*(Nährwerte|Kohlenhydrate).*"""))) {
         // ignore line
       } else {

@@ -99,7 +99,7 @@ complexity:
     active: false
     threshold: 6
   NestedBlockDepth:
-    active: true
+    active: false
     threshold: 4
   StringLiteralDuplication:
     active: false
@@ -108,7 +108,7 @@ complexity:
     excludeStringsWithLessThan5Characters: true
     ignoreStringsRegex: '$^'
   TooManyFunctions:
-    active: true
+    active: false
     thresholdInFiles: 11
     thresholdInClasses: 11
     thresholdInInterfaces: 11
