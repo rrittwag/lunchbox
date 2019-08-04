@@ -53,8 +53,7 @@ class LunchResolverSchweinestall : LunchResolver {
    * @return
    */
   private fun parseDay(elem: Element): LocalDate? {
-    val regex = Regex("""\d{2}.\d{2}.\d{4}""")
-    val matchResult = regex.find(elem.text())
+    val matchResult = Regex("""\d{2}.\d{2}.\d{4}""").find(elem.text())
       ?: return null
     return parseLocalDate(matchResult.value, "dd.MM.yyyy")
   }
@@ -66,8 +65,7 @@ class LunchResolverSchweinestall : LunchResolver {
    * @return
    */
   private fun parsePrice(elem: Element): Money? {
-    val regex = Regex("""(\d+)[.,](\d{2})""")
-    val matchResult = regex.find(elem.text())
+    val matchResult = Regex("""(\d+)[.,](\d{2})""").find(elem.text())
       ?: return null
     val (major, minor) = matchResult.destructured
     return Money.ofMinor(CurrencyUnit.EUR, major.toLong() * 100 + minor.toLong())

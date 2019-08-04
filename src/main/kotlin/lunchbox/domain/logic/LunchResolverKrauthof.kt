@@ -100,7 +100,7 @@ class LunchResolverKrauthof(
 
     try {
       pdfDoc = PDDocument.load(pdfUrl)
-      if (pdfDoc != null) {
+      pdfDoc?.let {
         val stripper = PdfTextGroupStripper()
         pdfContent = stripper.getTextLines(pdfDoc)
       }
@@ -174,8 +174,7 @@ class LunchResolverKrauthof(
    * @return
    */
   private fun parsePrice(priceString: String): Money? {
-    val regex = Regex(""".*(\d+)[.,](\d{2}).*""")
-    val matchResult = regex.find(priceString)
+    val matchResult = Regex(""".*(\d+)[.,](\d{2}).*""").find(priceString)
       ?: return null
     val (major, minor) = matchResult.destructured
     return Money.ofMinor(CurrencyUnit.EUR, major.toLong() * 100 + minor.toLong())
