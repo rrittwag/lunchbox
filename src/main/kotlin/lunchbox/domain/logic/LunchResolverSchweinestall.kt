@@ -6,13 +6,9 @@ import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
 import lunchbox.util.html.Html
-import org.joda.money.CurrencyUnit
-import org.joda.money.Money
+import lunchbox.util.string.StringParser
 import org.jsoup.nodes.Element
 import org.springframework.stereotype.Component
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
 
 /**
  * Ermittelt Mittagsangebote für Schweinestall.
@@ -40,35 +36,10 @@ class LunchResolverSchweinestall : LunchResolver {
   }
 
   private fun resolveOffer(dayElem: Element, priceElem: Element, nameElem: Element): LunchOffer? {
-    val day = parseDay(dayElem) ?: return null
-    val price = parsePrice(priceElem) ?: return null
+    val day = StringParser.parseLocalDate(dayElem.text()) ?: return null
+    val price = StringParser.parseMoney(priceElem.text()) ?: return null
     val name = parseName(nameElem)
     return LunchOffer(0, name, day, price, provider.id)
-  }
-
-  /**
-   * Erzeugt ein LocalDate aus dem Format "*dd.mm.yyyy*"
-   *
-   * @param elem HTML-Node mit auszuwertendem Text
-   * @return
-   */
-  private fun parseDay(elem: Element): LocalDate? {
-    val matchResult = Regex("""\d{2}.\d{2}.\d{4}""").find(elem.text())
-      ?: return null
-    return parseLocalDate(matchResult.value, "dd.MM.yyyy")
-  }
-
-  /**
-   * Erzeugt ein Money-Objekt (in EURO) aus dem Format "*0,00*"
-   *
-   * @param elem HTML-Node mit auszuwertendem Text
-   * @return
-   */
-  private fun parsePrice(elem: Element): Money? {
-    val matchResult = Regex("""(\d+)[.,](\d{2})""").find(elem.text())
-      ?: return null
-    val (major, minor) = matchResult.destructured
-    return Money.ofMinor(CurrencyUnit.EUR, major.toLong() * 100 + minor.toLong())
   }
 
   private fun parseName(elem: Element): String =
@@ -76,11 +47,4 @@ class LunchResolverSchweinestall : LunchResolver {
       .trim()
       .replace("\u0084", "") // merkwürdige Anführungszeichen rauswerfen
       .replace("\u0093", "")
-
-  private fun parseLocalDate(dateString: String, dateFormat: String): LocalDate? =
-    try {
-      LocalDate.parse(dateString, DateTimeFormatter.ofPattern(dateFormat))
-    } catch (exc: DateTimeParseException) {
-      null
-    }
 }

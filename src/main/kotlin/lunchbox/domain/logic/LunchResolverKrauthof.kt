@@ -5,13 +5,12 @@ import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProvider.DAS_KRAUTHOF
 import lunchbox.util.html.Html
 import lunchbox.util.pdf.PdfExtractor
-import org.joda.money.CurrencyUnit
+import lunchbox.util.string.StringParser
 import org.joda.money.Money
 import org.springframework.stereotype.Component
 import java.net.URL
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @Component
 class LunchResolverKrauthof(
@@ -59,7 +58,7 @@ class LunchResolverKrauthof(
       if (matchOffer != null) {
         val (text, priceString) = matchOffer.destructured
         finishOffer()
-        currentRow = OfferRow(parseName(text), parsePrice(priceString))
+        currentRow = OfferRow(parseName(text), StringParser.parseMoney(priceString))
         continue
       }
 
@@ -90,7 +89,7 @@ class LunchResolverKrauthof(
 
   private fun parseMondayFromContent(lines: List<String>): LocalDate? {
     // alle Datumse aus PDF ermitteln
-    val days = lines.mapNotNull { parseDay(it) }
+    val days = lines.mapNotNull { StringParser.parseLocalDate(it) }
     val mondays = days.map { it.with(DayOfWeek.MONDAY) }
 
     // den Montag der am häufigsten verwendeten Woche zurückgeben
@@ -100,38 +99,6 @@ class LunchResolverKrauthof(
       ?.key
   }
 
-  private fun parseDay(dayString: String): LocalDate? {
-    Regex(""".*(\d{2}.\d{2}.\d{4}).*""").find(dayString)?.let {
-      val (dateString) = it.destructured
-      return parseLocalDate(dateString, "dd.MM.yyyy")
-    }
-
-    Regex(""".*(\d{2}.\d{2}.\d{2}).*""").find(dayString)?.let {
-      val (dateString) = it.destructured
-      return parseLocalDate(dateString, "dd.MM.yy")
-    }
-
-    Regex(""".*(\d{2}.\d{2}).*""").find(dayString)?.let {
-      val (dateString) = it.destructured
-      val yearToday = LocalDate.now().year
-      val year =
-        if (LocalDate.now().monthValue == 12 && dateString.endsWith("01"))
-          yearToday + 1
-        else
-          yearToday
-      return parseLocalDate("$dateString.$year", "dd.MM.yyyy")
-    }
-
-    return null
-  }
-
-  private fun parseLocalDate(dateString: String, dateFormat: String): LocalDate? =
-    try {
-      LocalDate.from(DateTimeFormatter.ofPattern(dateFormat).parse(dateString))
-    } catch (exc: Throwable) {
-      null
-    }
-
   private fun parseName(text: String): String =
     text.trim()
       .replace("  ", " ")
@@ -140,19 +107,6 @@ class LunchResolverKrauthof(
       .replace(" I ", ", ")
       .replace(" *,", ",")
       .trim()
-
-  /**
-   * Erzeugt ein Money-Objekt (in EURO) aus dem Format "*0,00*"
-   *
-   * @param priceString String im Format "*0,00*"
-   * @return
-   */
-  private fun parsePrice(priceString: String): Money? {
-    val matchResult = Regex(""".*(\d+)[.,](\d{2}).*""").find(priceString)
-      ?: return null
-    val (major, minor) = matchResult.destructured
-    return Money.ofMinor(CurrencyUnit.EUR, major.toLong() * 100 + minor.toLong())
-  }
 
   data class OfferRow(
     val name: String,
