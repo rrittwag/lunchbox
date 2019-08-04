@@ -6,36 +6,27 @@ import java.io.FileNotFoundException
 import java.net.URL
 
 /**
- * User: robbel
- * Date: 2019-08-05
+ * Extrahiert Daten aus PDF-Dateien.
  */
 object PdfExtractor {
-
   private val logger = KotlinLogging.logger {}
 
   fun extractLines(pdfUrl: URL): List<TextLine> =
-    extract(pdfUrl) {
-      val stripper = PdfTextGroupStripper()
-      stripper.getTextLines(it)
-    }
+    extract(pdfUrl) { PdfTextGroupStripper().getTextLines(it) }
 
   fun extractStrings(pdfUrl: URL): List<String> =
     extractLines(pdfUrl).map { it.toString() }
 
   fun extractGroups(pdfUrl: URL): List<TextGroup> =
-    extract(pdfUrl) {
-      val stripper = PdfTextGroupStripper()
-      stripper.getTextGroups(it)
-    }
+    extract(pdfUrl) { PdfTextGroupStripper().getTextGroups(it) }
 
   private fun <T> extract(pdfUrl: URL, transform: (pdfDoc: PDDocument) -> List<T>): List<T> {
     var pdfDoc: PDDocument? = null
 
     try {
       pdfDoc = PDDocument.load(pdfUrl.openStream())
-      pdfDoc?.let {
-        return transform(it)
-      }
+      if (pdfDoc != null)
+        return transform(pdfDoc)
     } catch (fnf: FileNotFoundException) {
       logger.error { "file $pdfUrl not found" }
     } catch (t: Throwable) {

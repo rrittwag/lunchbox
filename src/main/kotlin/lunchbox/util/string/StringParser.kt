@@ -5,6 +5,9 @@ import org.joda.money.Money
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+/**
+ * Erzeugt Daten aus Zeichenketten.
+ */
 object StringParser {
 
   /**

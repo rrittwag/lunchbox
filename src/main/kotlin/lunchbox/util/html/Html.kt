@@ -5,16 +5,14 @@ import org.jsoup.nodes.Document
 import java.net.URL
 
 /**
- * Hilfsklasse für das Einlesen von HTML-Dokumente.
+ * Liest HTML-Dokumente ein.
  */
-class Html {
-  companion object {
-    fun load(url: URL): Document {
-      return load(url, "utf-8")
-    }
+object Html {
+  fun load(url: URL): Document {
+    return load(url, "utf-8")
+  }
 
-    fun load(url: URL, encoding: String): Document {
-      return Jsoup.parse(url.openStream(), encoding, "${url.protocol}:${url.authority}")
-    }
+  fun load(url: URL, encoding: String): Document {
+    return Jsoup.parse(url.openStream(), encoding, "${url.protocol}:${url.authority}")
   }
 }
