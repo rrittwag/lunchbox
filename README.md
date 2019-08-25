@@ -52,6 +52,8 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 - System-Tests bereitstellen, via Selenium?
 - i18n & l10n
 - [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
+- [Komponenten mit Storybook dokumentieren](https://github.com/vuesion/vuesion/tree/master/src/app/shared/components/VueButton)
+- [Store JavaScript-ish implementieren?](https://github.com/vuesion/vuesion/tree/master/src/app/app)
 
 
 
