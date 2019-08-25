@@ -6,6 +6,7 @@ import lunchbox.domain.models.SOLJANKA
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldContainSame
+import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -15,12 +16,12 @@ class LunchOfferRepositoryTest {
 
   @BeforeEach
   fun beforeEach() {
-    repo.offers = emptyList()
+    repo.offers.clear()
   }
 
   @Test
   fun `WHEN findAll  THEN success`() {
-    repo.offers = listOf(GYROS, SOLJANKA)
+    repo.offers += listOf(GYROS, SOLJANKA)
 
     val result = repo.findAll()
 
@@ -29,7 +30,7 @@ class LunchOfferRepositoryTest {
 
   @Test
   fun `WHEN findByDay  THEN success`() {
-    repo.offers = listOf(GYROS, SOLJANKA)
+    repo.offers += listOf(GYROS, SOLJANKA)
 
     val result = repo.findByDay(GYROS.day)
 
@@ -38,7 +39,7 @@ class LunchOfferRepositoryTest {
 
   @Test
   fun `WHEN findById  THEN success`() {
-    repo.offers = listOf(GYROS, SOLJANKA)
+    repo.offers += listOf(GYROS, SOLJANKA)
 
     val result = repo.findByIdOrNull(GYROS.id)
 
@@ -54,7 +55,7 @@ class LunchOfferRepositoryTest {
 
   @Test
   fun `WHEN deleteBefore  THEN success`() {
-    repo.offers = listOf(GYROS, GYROS_NEXT_DAY)
+    repo.offers += listOf(GYROS, GYROS_NEXT_DAY)
 
     repo.deleteBefore(GYROS_NEXT_DAY.day)
 
@@ -63,7 +64,7 @@ class LunchOfferRepositoryTest {
 
   @Test
   fun `WHEN deleteFrom  THEN success`() {
-    repo.offers = listOf(GYROS, GYROS_NEXT_DAY)
+    repo.offers += listOf(GYROS, GYROS_NEXT_DAY)
 
     repo.deleteFrom(GYROS_NEXT_DAY.day, GYROS.provider)
 
@@ -83,19 +84,19 @@ class LunchOfferRepositoryTest {
     val result = repo.saveAll(listOf(GYROS, SOLJANKA))
 
     result shouldContainSame repo.offers
-    repo.offers.size shouldBe 2
+    repo.offers shouldHaveSize 2
     repo.offers shouldContain GYROS.copy(id = 1)
     repo.offers shouldContain SOLJANKA.copy(id = 2)
   }
 
   @Test
   fun `WHEN save 1 offer while 1 existing  THEN add and assign unique id`() {
-    repo.offers = listOf(GYROS.copy(id = 1))
+    repo.offers += listOf(GYROS.copy(id = 1))
 
     val result = repo.saveAll(listOf(SOLJANKA))
 
     result shouldContain SOLJANKA.copy(id = 2)
-    repo.offers.size shouldBe 2
+    repo.offers shouldHaveSize 2
     repo.offers shouldContain GYROS.copy(id = 1)
     repo.offers shouldContain SOLJANKA.copy(id = 2)
   }
