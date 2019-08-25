@@ -78,10 +78,14 @@ class LunchResolverAokCafeteria(
   }
 
   fun parsePriceColumns(priceHeader: TextLine): List<PriceColumn> {
-    val normalizedPriceTexts = normalizePriceTexts(priceHeader.texts)
-    val xCoords = normalizedPriceTexts.map { it.xMid() }
-    val prices = normalizedPriceTexts.mapNotNull { StringParser.parseMoney(it.toString()) }
-    return xCoords.zip(prices).map { PriceColumn(it.first, it.second) }
+    val priceTexts = distinctPriceTexts(priceHeader.texts)
+    return priceTexts.mapNotNull { parsePriceColumn(it) }
+  }
+
+  fun parsePriceColumn(priceText: TextGroup): PriceColumn? {
+    val x = priceText.xMid()
+    val price = StringParser.parseMoney(priceText.toString()) ?: return null
+    return PriceColumn(x, price)
   }
 
   fun parseMonday(lines: List<TextLine>): LocalDate? =
@@ -142,22 +146,24 @@ class LunchResolverAokCafeteria(
   }
 
   private fun findWeekdaySection(lines: List<TextLine>): PdfSection? {
-    val weekdaysRegex = PdfSection.weekdayValues.map { it.label }.joinToString("|", "^(", ")$")
-    val weekdayTextGroupOpt =
+    val weekdaysRegex =
+      PdfSection.weekdayValues
+        .joinToString(prefix = "^(", separator = "|", postfix = ")$") { it.label }
+    val weekdayTextGroup =
       lines
         .mapNotNull { line -> line.texts.find { it.toString().matches(Regex(weekdaysRegex)) } }
         .firstOrNull()
-    return weekdayTextGroupOpt?.let { parseWeekdaySection(it.toString()) }
+    return weekdayTextGroup?.let { parseWeekdaySection(it.toString()) }
   }
 
   /**
    * Manchmal wird die fette Schrift durch Übereinanderlegen von Texten erreicht.
    * Zur Verarbeitung der Mittagsangebote brauchen wir jedoch lediglich "ein Layer".
    */
-  private fun normalizePriceTexts(texts: List<TextGroup>): List<TextGroup> =
+  private fun distinctPriceTexts(texts: List<TextGroup>): List<TextGroup> =
     texts.groupBy { it.toString() }
-      .values.map { text -> text.minBy { it.xMin() }!! }
-      .toList().sortedBy { it.xMin() }
+      .values.map { layeredTexts -> layeredTexts.minBy { it.xMin() }!! }
+      .sortedBy { it.xMin() }
 
   private fun parseName(text: String): String = text.trim().replace("  ", " ")
 
