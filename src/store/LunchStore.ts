@@ -1,4 +1,3 @@
-import { Inject } from 'vue-property-decorator'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 import { store, LoadingState } from '@/store'
 import { LunchOffer, LunchProvider, LunchLocation } from '@/model'
@@ -18,7 +17,7 @@ const SET_SELECTED_LOCATION = 'SET_SELECTED_LOCATION'
 export class LunchStore extends VuexModule {
 
   // manual injection: Vue injects into components, but not into store/modules
-  @Inject() api: LunchApi = new LunchApi()
+  api: LunchApi = new LunchApi()
 
   // --- providers ---
 
@@ -109,7 +108,7 @@ export class LunchStore extends VuexModule {
 
     try {
       const [providers, offers] =
-                await Promise.all([this.api.getProviders(), this.api.getOffers()])
+        await Promise.all([this.api.getProviders(), this.api.getOffers()])
 
       this.context.commit(SET_PROVIDERS, providers)
       this.context.commit(SET_OFFERS, offers)
