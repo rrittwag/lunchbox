@@ -33,7 +33,6 @@ class LunchOfferControllerTest(
 
   @Nested
   inner class GetAll {
-
     @Test
     fun success() {
       every { repo.findAll() } returns listOf(GYROS, SOLJANKA)
@@ -53,7 +52,6 @@ class LunchOfferControllerTest(
 
   @Nested
   inner class GetAllByDay {
-
     @Test
     fun success() {
       every { repo.findByDay(GYROS.day) } returns listOf(GYROS)
@@ -83,7 +81,6 @@ class LunchOfferControllerTest(
 
   @Nested
   inner class GetOne {
-
     @Test
     fun success() {
       every { repo.findByIdOrNull(GYROS.id) } returns GYROS

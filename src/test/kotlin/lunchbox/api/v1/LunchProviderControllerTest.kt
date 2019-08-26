@@ -19,7 +19,6 @@ class LunchProviderControllerTest(
 
   @Nested
   inner class GetAll {
-
     @Test
     fun success() {
       val httpCall = mockMvc.perform(get(URL_LUNCHPROVIDER))
@@ -35,7 +34,6 @@ class LunchProviderControllerTest(
 
   @Nested
   inner class GetOne {
-
     @Test
     fun `WHEN get schweinestall  THEN success`() {
       val httpCall = mockMvc.perform(get("$URL_LUNCHPROVIDER/${SCHWEINESTALL.id}"))

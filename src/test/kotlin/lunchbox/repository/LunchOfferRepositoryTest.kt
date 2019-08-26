@@ -22,7 +22,6 @@ class LunchOfferRepositoryTest {
 
   @Nested
   inner class FindAll {
-
     @Test
     fun success() {
       repo.offers += listOf(GYROS, SOLJANKA)
@@ -35,7 +34,6 @@ class LunchOfferRepositoryTest {
 
   @Nested
   inner class FindByDay {
-
     @Test
     fun success() {
       repo.offers += listOf(GYROS, SOLJANKA)
@@ -48,7 +46,6 @@ class LunchOfferRepositoryTest {
 
   @Nested
   inner class FindById {
-
     @Test
     fun success() {
       repo.offers += listOf(GYROS, SOLJANKA)
@@ -68,7 +65,6 @@ class LunchOfferRepositoryTest {
 
   @Nested
   inner class DeleteBefore {
-
     @Test
     fun success() {
       repo.offers += listOf(GYROS, GYROS_NEXT_DAY)
@@ -81,7 +77,6 @@ class LunchOfferRepositoryTest {
 
   @Nested
   inner class DeleteFrom {
-
     @Test
     fun success() {
       repo.offers += listOf(GYROS, GYROS_NEXT_DAY)
@@ -94,7 +89,6 @@ class LunchOfferRepositoryTest {
 
   @Nested
   inner class SaveAll {
-
     @Test
     fun `WHEN save 1 offer  THEN save and assign id`() {
       val result = repo.saveAll(listOf(GYROS))
