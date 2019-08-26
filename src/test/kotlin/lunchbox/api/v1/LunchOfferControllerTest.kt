@@ -16,6 +16,7 @@ import io.mockk.verify
 import lunchbox.repository.LunchOfferRepository
 import lunchbox.domain.models.GYROS
 import lunchbox.domain.models.SOLJANKA
+import org.junit.jupiter.api.Nested
 
 @WebMvcTest(LunchOfferController::class)
 class LunchOfferControllerTest(
@@ -30,68 +31,80 @@ class LunchOfferControllerTest(
     clearAllMocks()
   }
 
-  @Test
-  fun `WHEN get all  THEN success`() {
-    every { repo.findAll() } returns listOf(GYROS, SOLJANKA)
+  @Nested
+  inner class GetAll {
 
-    val httpCall = mockMvc.perform(get(URL_LUNCHOFFER))
+    @Test
+    fun success() {
+      every { repo.findAll() } returns listOf(GYROS, SOLJANKA)
 
-    httpCall.andExpect(status().isOk)
+      val httpCall = mockMvc.perform(get(URL_LUNCHOFFER))
+
+      httpCall.andExpect(status().isOk)
         .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
         .andExpect(jsonPath("$").isArray)
         .andExpect(jsonPath("$.length()").value("2"))
         .andExpect(jsonPath("$[?(@.day == '${GYROS.day}')]").exists())
         .andExpect(jsonPath("$[?(@.day == '${SOLJANKA.day}')]").exists())
 
-    verify(exactly = 1) { repo.findAll() }
+      verify(exactly = 1) { repo.findAll() }
+    }
   }
 
-  @Test
-  fun `WHEN get all for day  THEN success`() {
-    every { repo.findByDay(GYROS.day) } returns listOf(GYROS)
+  @Nested
+  inner class GetAllByDay {
 
-    val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER?day=${GYROS.day}"))
+    @Test
+    fun success() {
+      every { repo.findByDay(GYROS.day) } returns listOf(GYROS)
 
-    httpCall.andExpect(status().isOk)
-      .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
-      .andExpect(jsonPath("$").isArray)
-      .andExpect(jsonPath("$.length()").value("1"))
-      .andExpect(jsonPath("$[?(@.day == '${GYROS.day}')]").exists())
+      val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER?day=${GYROS.day}"))
 
-    verify(exactly = 1) { repo.findByDay(GYROS.day) }
-    verify(exactly = 0) { repo.findAll() }
+      httpCall.andExpect(status().isOk)
+        .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+        .andExpect(jsonPath("$").isArray)
+        .andExpect(jsonPath("$.length()").value("1"))
+        .andExpect(jsonPath("$[?(@.day == '${GYROS.day}')]").exists())
+
+      verify(exactly = 1) { repo.findByDay(GYROS.day) }
+      verify(exactly = 0) { repo.findAll() }
+    }
+
+    @Test
+    fun `WHEN wrong day format  THEN 400`() {
+      every { repo.findByDay(GYROS.day) } returns listOf(GYROS)
+
+      val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER?day=xmas"))
+
+      httpCall.andExpect(status().isBadRequest)
+      verify { repo wasNot Called }
+    }
   }
 
-  @Test
-  fun `WHEN get all with wrong day format  THEN 400`() {
-    every { repo.findByDay(GYROS.day) } returns listOf(GYROS)
+  @Nested
+  inner class GetOne {
 
-    val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER?day=xmas"))
+    @Test
+    fun success() {
+      every { repo.findByIdOrNull(GYROS.id) } returns GYROS
 
-    httpCall.andExpect(status().isBadRequest)
-    verify { repo wasNot Called }
-  }
+      val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER/${GYROS.id}"))
 
-  @Test
-  fun `WHEN get gyros  THEN success`() {
-    every { repo.findByIdOrNull(GYROS.id) } returns GYROS
+      httpCall.andExpect(status().isOk)
+        .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+        .andExpect(jsonPath("$.id").value(GYROS.id))
+        .andExpect(jsonPath("$.name").value(GYROS.name))
 
-    val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER/${GYROS.id}"))
+      verify(exactly = 1) { repo.findByIdOrNull(GYROS.id) }
+    }
 
-    httpCall.andExpect(status().isOk)
-      .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
-      .andExpect(jsonPath("$.id").value(GYROS.id))
-      .andExpect(jsonPath("$.name").value(GYROS.name))
+    @Test
+    fun `not found`() {
+      every { repo.findByIdOrNull(GYROS.id) } returns null
 
-    verify(exactly = 1) { repo.findByIdOrNull(GYROS.id) }
-  }
+      val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER/${GYROS.id}"))
 
-  @Test
-  fun `WHEN get gyros  THEN not found`() {
-    every { repo.findByIdOrNull(GYROS.id) } returns null
-
-    val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER/${GYROS.id}"))
-
-    httpCall.andExpect(status().isNotFound)
+      httpCall.andExpect(status().isNotFound)
+    }
   }
 }

@@ -8,6 +8,7 @@ import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldContainSame
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class LunchOfferRepositoryTest {
@@ -19,85 +20,109 @@ class LunchOfferRepositoryTest {
     repo.offers.clear()
   }
 
-  @Test
-  fun `WHEN findAll  THEN success`() {
-    repo.offers += listOf(GYROS, SOLJANKA)
+  @Nested
+  inner class FindAll {
 
-    val result = repo.findAll()
+    @Test
+    fun success() {
+      repo.offers += listOf(GYROS, SOLJANKA)
 
-    result shouldContainSame listOf(GYROS, SOLJANKA)
+      val result = repo.findAll()
+
+      result shouldContainSame listOf(GYROS, SOLJANKA)
+    }
   }
 
-  @Test
-  fun `WHEN findByDay  THEN success`() {
-    repo.offers += listOf(GYROS, SOLJANKA)
+  @Nested
+  inner class FindByDay {
 
-    val result = repo.findByDay(GYROS.day)
+    @Test
+    fun success() {
+      repo.offers += listOf(GYROS, SOLJANKA)
 
-    result shouldContainSame listOf(GYROS)
+      val result = repo.findByDay(GYROS.day)
+
+      result shouldContainSame listOf(GYROS)
+    }
   }
 
-  @Test
-  fun `WHEN findById  THEN success`() {
-    repo.offers += listOf(GYROS, SOLJANKA)
+  @Nested
+  inner class FindById {
 
-    val result = repo.findByIdOrNull(GYROS.id)
+    @Test
+    fun success() {
+      repo.offers += listOf(GYROS, SOLJANKA)
 
-    result shouldBe GYROS
+      val result = repo.findByIdOrNull(GYROS.id)
+
+      result shouldBe GYROS
+    }
+
+    @Test
+    fun `not found`() {
+      val result = repo.findByIdOrNull(GYROS.id)
+
+      result shouldBe null
+    }
   }
 
-  @Test
-  fun `WHEN findById  THEN not found`() {
-    val result = repo.findByIdOrNull(GYROS.id)
+  @Nested
+  inner class DeleteBefore {
 
-    result shouldBe null
+    @Test
+    fun success() {
+      repo.offers += listOf(GYROS, GYROS_NEXT_DAY)
+
+      repo.deleteBefore(GYROS_NEXT_DAY.day)
+
+      repo.offers shouldContainSame listOf(GYROS_NEXT_DAY)
+    }
   }
 
-  @Test
-  fun `WHEN deleteBefore  THEN success`() {
-    repo.offers += listOf(GYROS, GYROS_NEXT_DAY)
+  @Nested
+  inner class DeleteFrom {
 
-    repo.deleteBefore(GYROS_NEXT_DAY.day)
+    @Test
+    fun success() {
+      repo.offers += listOf(GYROS, GYROS_NEXT_DAY)
 
-    repo.offers shouldContainSame listOf(GYROS_NEXT_DAY)
+      repo.deleteFrom(GYROS_NEXT_DAY.day, GYROS.provider)
+
+      repo.offers shouldContainSame listOf(GYROS)
+    }
   }
 
-  @Test
-  fun `WHEN deleteFrom  THEN success`() {
-    repo.offers += listOf(GYROS, GYROS_NEXT_DAY)
+  @Nested
+  inner class SaveAll {
 
-    repo.deleteFrom(GYROS_NEXT_DAY.day, GYROS.provider)
+    @Test
+    fun `WHEN save 1 offer  THEN save and assign id`() {
+      val result = repo.saveAll(listOf(GYROS))
 
-    repo.offers shouldContainSame listOf(GYROS)
-  }
+      result shouldContainSame repo.offers
+      repo.offers shouldContainSame listOf(GYROS.copy(id = 1))
+    }
 
-  @Test
-  fun `WHEN save 1 offer  THEN save and assign id`() {
-    val result = repo.saveAll(listOf(GYROS))
+    @Test
+    fun `WHEN save 2 offers  THEN save and assign unique id`() {
+      val result = repo.saveAll(listOf(GYROS, SOLJANKA))
 
-    result shouldContainSame repo.offers
-    repo.offers shouldContainSame listOf(GYROS.copy(id = 1))
-  }
+      result shouldContainSame repo.offers
+      repo.offers shouldHaveSize 2
+      repo.offers shouldContain GYROS.copy(id = 1)
+      repo.offers shouldContain SOLJANKA.copy(id = 2)
+    }
 
-  @Test
-  fun `WHEN save 2 offers  THEN save and assign unique id`() {
-    val result = repo.saveAll(listOf(GYROS, SOLJANKA))
+    @Test
+    fun `WHEN save 1 offer while 1 existing  THEN add and assign unique id`() {
+      repo.offers += listOf(GYROS.copy(id = 1))
 
-    result shouldContainSame repo.offers
-    repo.offers shouldHaveSize 2
-    repo.offers shouldContain GYROS.copy(id = 1)
-    repo.offers shouldContain SOLJANKA.copy(id = 2)
-  }
+      val result = repo.saveAll(listOf(SOLJANKA))
 
-  @Test
-  fun `WHEN save 1 offer while 1 existing  THEN add and assign unique id`() {
-    repo.offers += listOf(GYROS.copy(id = 1))
-
-    val result = repo.saveAll(listOf(SOLJANKA))
-
-    result shouldContain SOLJANKA.copy(id = 2)
-    repo.offers shouldHaveSize 2
-    repo.offers shouldContain GYROS.copy(id = 1)
-    repo.offers shouldContain SOLJANKA.copy(id = 2)
+      result shouldContain SOLJANKA.copy(id = 2)
+      repo.offers shouldHaveSize 2
+      repo.offers shouldContain GYROS.copy(id = 1)
+      repo.offers shouldContain SOLJANKA.copy(id = 2)
+    }
   }
 }

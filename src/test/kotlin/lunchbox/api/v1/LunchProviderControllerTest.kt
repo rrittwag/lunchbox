@@ -10,38 +10,47 @@ import org.springframework.test.web.servlet.MockMvc
 import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
 import lunchbox.domain.models.LunchProvider.TABBOULEH
+import org.junit.jupiter.api.Nested
 
 @WebMvcTest(LunchProviderController::class)
 class LunchProviderControllerTest(
   @Autowired val mockMvc: MockMvc
 ) {
 
-  @Test
-  fun `WHEN get all  THEN success`() {
-    val httpCall = mockMvc.perform(get(URL_LUNCHPROVIDER))
+  @Nested
+  inner class GetAll {
 
-    httpCall.andExpect(status().isOk)
+    @Test
+    fun success() {
+      val httpCall = mockMvc.perform(get(URL_LUNCHPROVIDER))
+
+      httpCall.andExpect(status().isOk)
         .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
         .andExpect(jsonPath("$").isArray)
         .andExpect(jsonPath("$.length()").value("${LunchProvider.values().size}"))
         .andExpect(jsonPath("$[?(@.id == '${SCHWEINESTALL.id}')]").exists())
         .andExpect(jsonPath("$[?(@.id == '${TABBOULEH.id}')]").exists())
+    }
   }
 
-  @Test
-  fun `WHEN get schweinestall  THEN success`() {
-    val httpCall = mockMvc.perform(get("$URL_LUNCHPROVIDER/${SCHWEINESTALL.id}"))
+  @Nested
+  inner class GetOne {
 
-    httpCall.andExpect(status().isOk)
-      .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
-      .andExpect(jsonPath("$.id").value(SCHWEINESTALL.id))
-      .andExpect(jsonPath("$.name").value(SCHWEINESTALL.label))
-  }
+    @Test
+    fun `WHEN get schweinestall  THEN success`() {
+      val httpCall = mockMvc.perform(get("$URL_LUNCHPROVIDER/${SCHWEINESTALL.id}"))
 
-  @Test
-  fun `WHEN get unknown  THEN not found`() {
-    val httpCall = mockMvc.perform(get("$URL_LUNCHOFFER/404"))
+      httpCall.andExpect(status().isOk)
+        .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+        .andExpect(jsonPath("$.id").value(SCHWEINESTALL.id))
+        .andExpect(jsonPath("$.name").value(SCHWEINESTALL.label))
+    }
 
-    httpCall.andExpect(status().isNotFound)
+    @Test
+    fun `WHEN get unknown  THEN not found`() {
+      val httpCall = mockMvc.perform(get("$URL_LUNCHPROVIDER/404"))
+
+      httpCall.andExpect(status().isNotFound)
+    }
   }
 }
