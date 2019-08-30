@@ -8,7 +8,7 @@ dependencies {
   // Spring Boot BOM
   implementation(platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}"))
 
-  // kotlin
+  // Kotlin
   implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
   implementation 'org.jetbrains.kotlin:kotlin-reflect'
   implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
@@ -24,6 +24,9 @@ dependencies {
   implementation 'org.jsoup:jsoup:1.12.1'
   implementation 'org.joda:joda-money:1.0.1'
   implementation 'org.apache.pdfbox:pdfbox:2.0.16'
+
+  // RSS/Atom feed
+  implementation 'com.rometools:rome:1.12.1'
 
   // Test-Abhängigkeiten sind in test.gradle definiert
 }

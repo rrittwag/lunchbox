@@ -8,7 +8,6 @@ Backend für Lunchbox.
 - LunchResolver: Scala-Implementierung übernehmen/"transponieren"
 - LunchResolver Gesundheitszentrum: Facebook-Seite [headless rendern](https://github.com/GoogleChrome/rendertron)
 - LunchOfferUpdate: Unit-Tests schreiben
-- Atom-Feed implementieren [1](https://spring.io/guides/tutorials/spring-boot-kotlin/) [2](https://github.com/wonwoo/spring-boot-kotlin-example)
 - Feature: an Feiertagen keine Mittagsangebote
 - API: bei 4xx-/5xx-Exceptions eine message mitliefern
 - Integration-Test schreiben
