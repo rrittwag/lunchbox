@@ -95,15 +95,15 @@ class FeedController(
     for ((providerId, provOffers) in offers.groupBy { it.provider }) {
       val provider = LunchProvider.values().find { it.id == providerId } ?: continue
       result +=
-      """
-      |<table style="border:0px;">
-      |  <tr style="padding-bottom: 1.5em;">
-      |    <th>${provider.label}</th>
-      |    <th></th>
-      |  </tr>
-      |  ${createHtmlOffers(provOffers)}
-      |</table>
-      """
+        """
+        |<table style="border:0px;">
+        |  <tr style="padding-bottom: 1.5em;">
+        |    <th>${provider.label}</th>
+        |    <th></th>
+        |  </tr>
+        |  ${createHtmlOffers(provOffers)}
+        |</table>
+        """
     }
     return result.trimMargin()
   }
