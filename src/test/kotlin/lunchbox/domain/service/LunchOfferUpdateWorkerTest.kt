@@ -1,4 +1,6 @@
-package lunchbox.domain.service
+@file:Suppress("SameParameterValue")
+
+package lunchbox.domain.service /* ktlint-disable max-line-length no-wildcard-imports */
 
 import io.mockk.Called
 import io.mockk.Runs
@@ -22,9 +24,7 @@ import java.lang.RuntimeException
 class LunchOfferUpdateWorkerTest {
 
   private val repo = mockk<LunchOfferRepository>()
-
   private val resolvers = mutableListOf<LunchResolver>()
-
   private val testUnit = LunchOfferUpdateWorker(repo, resolvers)
 
   @BeforeEach
@@ -47,8 +47,6 @@ class LunchOfferUpdateWorkerTest {
 
   @Test
   fun `only call resolver of provider`() {
-    every { repo.deleteFrom(any(), SCHWEINESTALL.id) } just Runs
-    every { repo.saveAll(any()) } returns emptyList()
     val resolverAok = mockResolver(AOK_CAFETERIA)
     val resolverSuppe = mockResolver(SUPPENKULTTOUR)
     val resolverSchweinestall = mockResolver(SCHWEINESTALL)

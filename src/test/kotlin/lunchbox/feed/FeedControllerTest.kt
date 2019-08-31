@@ -1,3 +1,5 @@
+@file:Suppress("UsePropertyAccessSyntax")
+
 package lunchbox.feed /* ktlint-disable max-line-length no-wildcard-imports */
 
 import com.ninjasquad.springmockk.MockkBean
@@ -25,7 +27,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.time.LocalDate
 
 @WebMvcTest(FeedController::class)
-@Suppress("UsePropertyAccessSyntax")
 class FeedControllerTest(
   @Autowired val mockMvc: MockMvc,
   @Autowired val testUnit: FeedController
