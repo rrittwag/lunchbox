@@ -77,13 +77,52 @@ class FeedController(
         updated = toMidnightDate(day)
         contents = listOf(Content().apply {
           type = Content.HTML
-          value = ""
+          value = createHtmlLunchday(offersForDay)
         })
       }
       feed.entries.add(entry)
     }
 
     return feed
+  }
+
+  private fun createHtmlLunchday(offersForDay: List<LunchOffer>): String {
+    return "<div>${createHtmlForProviders(offersForDay)}</div>"
+  }
+
+  private fun createHtmlForProviders(offers: List<LunchOffer>): String {
+    var result = ""
+    for ((providerId, provOffers) in offers.groupBy { it.provider }) {
+      val provider = LunchProvider.values().find { it.id == providerId } ?: continue
+      result +=
+      """
+      |<table style="border:0px;">
+      |  <tr style="padding-bottom: 1.5em;">
+      |    <th>${provider.label}</th>
+      |    <th></th>
+      |  </tr>
+      |  ${createHtmlOffers(provOffers)}
+      |</table>
+      """
+    }
+    return result.trimMargin()
+  }
+
+  private fun createHtmlOffers(providerOffers: List<LunchOffer>): String {
+    var result = ""
+    for (offer in providerOffers) {
+      val price = "%d,%02d €".format(offer.price.amountMajorInt, offer.price.minorPart)
+      result +=
+        """
+        |<tr style="padding-bottom: 1.5em;">
+        |  <td>${offer.name}</td>
+        |  <td style="vertical-align: top;">
+        |    <span style="white-space: nowrap;">$price</span>
+        |  </td>
+        |</tr>
+        """
+    }
+    return result.trimMargin()
   }
 
   private fun toMidnightDate(date: LocalDate): Date {

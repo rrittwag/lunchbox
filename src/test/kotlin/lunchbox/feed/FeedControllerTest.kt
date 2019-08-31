@@ -11,6 +11,8 @@ import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
 import lunchbox.domain.models.createOffer
 import lunchbox.repository.LunchOfferRepository
 import org.assertj.core.api.Assertions.assertThat
+import org.joda.money.CurrencyUnit
+import org.joda.money.Money
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -87,6 +89,9 @@ class FeedControllerTest(
       assertThat(result.entries[0].updated).isNotNull()
       assertThat(result.entries[0].published).isNotNull()
       assertThat(result.entries[0].contents).hasSize(1)
+      assertThat(result.entries[0].contents[0].value).contains(AOK_CAFETERIA.label)
+      assertThat(result.entries[0].contents[0].value).contains(offerToday.name)
+      assertThat(result.entries[0].contents[0].value).contains("2,50 €")
 
       verify(exactly = 1) { repo.findAll() }
     }
@@ -149,7 +154,8 @@ class FeedControllerTest(
 
   private val offerToday = createOffer(
     provider = AOK_CAFETERIA.id,
-    day = today
+    day = today,
+    price = Money.ofMinor(CurrencyUnit.EUR, 250)
   )
 
   private val offerTomorrow = createOffer(
