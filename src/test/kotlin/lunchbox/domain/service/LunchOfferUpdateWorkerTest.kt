@@ -78,7 +78,10 @@ class LunchOfferUpdateWorkerTest {
 
   // --- mocks 'n' stuff ---
 
-  private fun mockResolver(provider: LunchProvider, offers: List<LunchOffer> = emptyList()): LunchResolver {
+  private fun mockResolver(
+    provider: LunchProvider,
+    offers: List<LunchOffer> = emptyList()
+  ): LunchResolver {
     val resolver = mockk<LunchResolver>()
     every { resolver.provider } returns provider
     every { resolver.resolve() } returns offers
