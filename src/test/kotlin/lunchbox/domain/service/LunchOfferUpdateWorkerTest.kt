@@ -9,6 +9,7 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
+import io.mockk.verifySequence
 import lunchbox.domain.logic.LunchResolver
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
@@ -20,6 +21,7 @@ import lunchbox.repository.LunchOfferRepository
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.lang.RuntimeException
+import java.time.LocalDate
 
 class LunchOfferUpdateWorkerTest {
 
@@ -35,14 +37,17 @@ class LunchOfferUpdateWorkerTest {
 
   @Test
   fun success() {
-    every { repo.deleteFrom(any(), SCHWEINESTALL.id) } just Runs
-    every { repo.saveAll(listOf(offer1, offer2)) } returns listOf(offer1, offer2)
-    mockResolver(SCHWEINESTALL, listOf(offer1, offer2))
+    val offers = listOf(offerYesterday, offerToday)
+    mockResolver(SCHWEINESTALL, offers)
+    every { repo.deleteFrom(yesterday, SCHWEINESTALL.id) } just Runs
+    every { repo.saveAll(offers) } returns offers
 
     testUnit.refreshOffersOf(SCHWEINESTALL)
 
-    verify(exactly = 1) { repo.deleteFrom(any(), SCHWEINESTALL.id) }
-    verify(exactly = 1) { repo.saveAll(listOf(offer1, offer2)) }
+    verifySequence {
+      repo.deleteFrom(yesterday, SCHWEINESTALL.id)
+      repo.saveAll(offers)
+    }
   }
 
   @Test
@@ -95,11 +100,17 @@ class LunchOfferUpdateWorkerTest {
     return resolver
   }
 
-  private val offer1 = createOffer(
-    name = "offer1"
+  private val today = LocalDate.now()
+
+  private val yesterday = today.minusDays(1)
+
+  private val offerYesterday = createOffer(
+    provider = SCHWEINESTALL.id,
+    day = yesterday
   )
 
-  private val offer2 = createOffer(
-    name = "offer2"
+  private val offerToday = createOffer(
+    provider = SCHWEINESTALL.id,
+    day = today
   )
 }
