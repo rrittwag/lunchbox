@@ -7,7 +7,6 @@ Backend für Lunchbox.
 
 - LunchResolver: Scala-Implementierung übernehmen/"transponieren"
 - LunchResolver Gesundheitszentrum: Facebook-Seite [headless rendern](https://github.com/GoogleChrome/rendertron)
-- LunchOfferUpdate: Unit-Tests schreiben
 - Feature: an Feiertagen keine Mittagsangebote
 - API: bei 4xx-/5xx-Exceptions eine message mitliefern
 - Integration-Test schreiben

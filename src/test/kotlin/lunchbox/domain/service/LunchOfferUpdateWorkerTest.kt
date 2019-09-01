@@ -67,7 +67,7 @@ class LunchOfferUpdateWorkerTest {
 
   @Test
   fun `WHEN resolver throws exception  THEN no repo call`() {
-    resolvers += mockResolverThrowingException(SCHWEINESTALL)
+    mockResolverThrowingException(SCHWEINESTALL)
 
     testUnit.refreshOffersOf(SCHWEINESTALL)
 
