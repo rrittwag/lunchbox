@@ -23,6 +23,9 @@ import javax.servlet.http.HttpServletRequest
 
 const val URL_FEED = "/feed"
 
+/**
+ * Stellt einen Atom-Feed mit den Mittagsangeboten bereit.
+ */
 @RestController
 class FeedController(
   val repo: LunchOfferRepository
@@ -63,7 +66,7 @@ class FeedController(
     val feed = Feed("atom_1.0").apply {
       id = "urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157"
       title = "Mittagstisch ${location.label}"
-      updated = toMidnightDate(LocalDate.now())
+      updated = toDateAtNoon(LocalDate.now())
       authors = listOf(author)
       alternateLinks = listOf(selfLink)
     }
@@ -71,10 +74,10 @@ class FeedController(
     for ((day, offersForDay) in offersByDay) {
       val entry = Entry().apply {
         id = "urn:date:$day"
-        title = toWeekdayString(day)
+        title = toStringWithWeekday(day)
         authors = feed.authors
-        published = toMidnightDate(day)
-        updated = toMidnightDate(day)
+        published = toDateAtNoon(day)
+        updated = toDateAtNoon(day)
         contents = listOf(Content().apply {
           type = Content.HTML
           value = createHtmlLunchday(offersForDay)
@@ -125,13 +128,13 @@ class FeedController(
     return result.trimMargin()
   }
 
-  private fun toMidnightDate(date: LocalDate): Date {
+  private fun toDateAtNoon(date: LocalDate): Date {
     val timeZoneBerlin = ZoneId.of("Europe/Berlin")
     val dateTime = date.atStartOfDay(timeZoneBerlin).plusHours(12)
     return Date(dateTime.toInstant().toEpochMilli())
   }
 
-  private fun toWeekdayString(date: LocalDate): String =
+  private fun toStringWithWeekday(date: LocalDate): String =
     DateTimeFormatter.ofPattern("EEEE, dd.MM.yyyy", Locale.GERMAN).format(date)
 }
 
