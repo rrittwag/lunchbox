@@ -1,7 +1,6 @@
 package lunchbox.domain.logic
 
 import lunchbox.domain.models.LunchOffer
-import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
 import lunchbox.util.html.Html
 import lunchbox.util.pdf.PdfExtractor
@@ -22,7 +21,7 @@ class LunchResolverAokCafeteria(
 
   private val logger = KotlinLogging.logger {}
 
-  override val provider: LunchProvider = AOK_CAFETERIA
+  override val provider = AOK_CAFETERIA
 
   override fun resolve(): List<LunchOffer> {
     val pdfLinks = resolvePdfLinks(provider.menuUrl)
@@ -142,7 +141,7 @@ class LunchResolverAokCafeteria(
       lines
         .flatMap { line -> line.texts.filter { it.xIn(priceColumn.x) } }
         .joinToString(" ")
-    return LunchOffer(0, parseName(name), day, priceColumn.price, LunchProvider.AOK_CAFETERIA.id)
+    return LunchOffer(0, parseName(name), day, priceColumn.price, provider.id)
   }
 
   private fun findWeekdaySection(lines: List<TextLine>): PdfSection? {

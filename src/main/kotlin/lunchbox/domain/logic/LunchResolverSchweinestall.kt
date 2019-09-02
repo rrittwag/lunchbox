@@ -3,7 +3,6 @@ package lunchbox.domain.logic
 import java.net.URL
 
 import lunchbox.domain.models.LunchOffer
-import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
 import lunchbox.util.html.Html
 import lunchbox.util.string.StringParser
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 class LunchResolverSchweinestall : LunchResolver {
-  override val provider: LunchProvider = SCHWEINESTALL
+  override val provider = SCHWEINESTALL
 
   override fun resolve(): List<LunchOffer> =
     resolve(provider.menuUrl)

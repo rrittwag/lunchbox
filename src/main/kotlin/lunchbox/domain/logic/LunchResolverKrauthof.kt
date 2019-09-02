@@ -1,7 +1,6 @@
 package lunchbox.domain.logic
 
 import lunchbox.domain.models.LunchOffer
-import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProvider.DAS_KRAUTHOF
 import lunchbox.util.html.Html
 import lunchbox.util.pdf.PdfExtractor
@@ -17,7 +16,7 @@ class LunchResolverKrauthof(
   val dateValidator: DateValidator
 ) : LunchResolver {
 
-  override val provider: LunchProvider = DAS_KRAUTHOF
+  override val provider = DAS_KRAUTHOF
 
   override fun resolve(): List<LunchOffer> {
     val pdfLinks = resolvePdfLinks(provider.menuUrl)
