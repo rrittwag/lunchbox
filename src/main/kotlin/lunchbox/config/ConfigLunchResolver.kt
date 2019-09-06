@@ -7,6 +7,6 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class ConfigLunchResolver {
   @Bean
-  fun dateValidator(): DateValidator =
+  fun dateValidator() =
     DateValidator.validFromMondayLastWeek()
 }

@@ -12,10 +12,10 @@ spotless {
   }
   kotlin {
     ktlint().userData(
-      ['indent_size': '2',
-       'continuation_indent_size' : '2',
-       'insert_final_newline': 'true',
-       'max_line_length': '100'])
+        ['indent_size': '2',
+          'continuation_indent_size' : '2',
+          'insert_final_newline': 'true',
+          'max_line_length': '100'])
   }
   groovyGradle {
     target '*.gradle', 'gradle/*.gradle'
