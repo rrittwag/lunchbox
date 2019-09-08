@@ -18,19 +18,23 @@ import java.time.Duration
 @Testcontainers
 class NginxTest {
 
-  @Container
-  private val resourcesContainer =
-    KtNginxContainer()
-      .withCustomContent(Paths.get("src/test/resources").toString())
-      .waitingFor(HttpWaitStrategy())
+  companion object {
+    // provide test resources in Docker-ed nginx (via TestContainers)
+    @Container
+    private val resourcesContainer =
+      KtNginxContainer()
+        .withCustomContent(Paths.get("src/test/resources").toString())
+        .waitingFor(HttpWaitStrategy())
+
+    private fun resourcesHost() = resourcesContainer.getBaseUrl("http", 80)
+  }
 
   @Test
   fun success() {
-    val resourcesHost = resourcesContainer.getBaseUrl("http", 80)
     val resourceFile = "menus/feldkueche/ocr/feldkueche_2016-10-10_ocr.txt"
 
     val httpResult =
-      WebClient.create("$resourcesHost/$resourceFile")
+      WebClient.create("${resourcesHost()}/$resourceFile")
         .get()
         .retrieve()
         .bodyToMono<String>()
@@ -40,4 +44,6 @@ class NginxTest {
   }
 }
 
+// BUGFIX: Kotlin does not support SELF types
+// -> https://github.com/testcontainers/testcontainers-java/issues/1010
 class KtNginxContainer : NginxContainer<KtNginxContainer>()

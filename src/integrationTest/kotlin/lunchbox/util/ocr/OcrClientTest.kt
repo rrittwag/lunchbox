@@ -13,6 +13,7 @@ import java.net.URL
 class OcrClientTest {
 
   companion object {
+    // start open-ocr-2 via Docker Compose (via TestContainers)
     @Container
     private val ocrContainer =
       KtDockerComposeContainer(File("src/integrationTest/resources/docker-compose.openocr.yml"))
