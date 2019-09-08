@@ -38,6 +38,16 @@ class LunchResolverFeldkuecheTest {
   }
 
   @Test
+  fun `resolve image link for 2019-09-02`() {
+    val url = javaClass.getResource("/menus/feldkueche/feldkueche_2019-09-02.html")
+
+    val links = resolver().resolveImageLinks(url)
+
+    links shouldHaveSize 1
+    links shouldContain URL("$httpMittagspauseDir/teaserbox_25241614.jpg?t=1567365592")
+  }
+
+  @Test
   fun `resolve offers for week of 2016-10-10`() {
     val text = readFileContent("/menus/feldkueche/ocr/feldkueche_2016-10-10_ocr.txt")
     val week = weekOf("2016-10-10")
@@ -180,6 +190,30 @@ class LunchResolverFeldkuecheTest {
 
     offers shouldContain LunchOffer(0, "Schweinebraten Sauerkraut Kartoffeln", week.friday, euro("4.80"), providerId)
     offers shouldContain LunchOffer(0, "Soljanka mit Brot", week.friday, euro("3.80"), providerId)
+  }
+
+  @Test
+  fun `resolve offers for week of 2019-09-02`() {
+    val text = readFileContent("/menus/feldkueche/ocr/feldkueche_2019-09-02_ocr.txt")
+    val week = weekOf("2019-09-02")
+
+    val offers = resolver().resolveOffersFromText(text)
+
+    offers shouldHaveSize 10
+    offers shouldContain LunchOffer(0, "Nudeln mit Carbonara", week.monday, euro("4.80"), providerId)
+    offers shouldContain LunchOffer(0, "Weißkohleintopf mit Brot", week.monday, euro("3.50"), providerId)
+
+    offers shouldContain LunchOffer(0, "Blutwurst Sauerkraut Kartoffeln", week.tuesday, euro("4.80"), providerId)
+    offers shouldContain LunchOffer(0, "Kartoffelsuppe mit Bockwurst", week.tuesday, euro("4.00"), providerId)
+
+    offers shouldContain LunchOffer(0, "Pilz - Gulasch mit Nudeln", week.wednesday, euro("4.80"), providerId)
+    offers shouldContain LunchOffer(0, "Brühnudeln mit Hähnchenfleisch Brot", week.wednesday, euro("3.50"), providerId)
+
+    offers shouldContain LunchOffer(0, "Schichtkohl mit Kartoffeln", week.thursday, euro("4.80"), providerId)
+    offers shouldContain LunchOffer(0, "Möhreneintopf mit Brot", week.thursday, euro("3.50"), providerId)
+
+    offers shouldContain LunchOffer(0, "Sahnegeschnetzeltes mit Nudeln", week.friday, euro("4.80"), providerId)
+    offers shouldContain LunchOffer(0, "Erbseneintopf mit Bockwurst", week.friday, euro("4.00"), providerId)
   }
 
   private fun readFileContent(path: String): String {
