@@ -75,11 +75,11 @@ class LunchResolverFeldkueche(
       val lunchName = text.dropWhile { it != ' ' }
       val weekday = Weekday.values().find { it.label == weekdayName } ?: return null
 
-      return RawOfferName(weekday, lunchName.replace(Regex(""" \d+,\d{2} €"""), "").trim())
+      return RawOfferName(weekday, lunchName.replace(Regex(""" \d+,\d{2} *€"""), "").trim())
     }
 
     val prices = contentAsLines
-      .filter { it.matches(Regex(""".*\d+,(\d{2}) €""")) }
+      .filter { it.matches(Regex(""".*\d+,(\d{2}) *€""")) }
       .mapNotNull { StringParser.parseMoney(it) }
 
     return offerTexts
@@ -103,7 +103,7 @@ class LunchResolverFeldkueche(
 
     val prices =
       followingRows
-        .filter { it.matches(Regex(""".*\d+,(\d{2}) €""")) }
+        .filter { it.matches(Regex(""".*\d+,(\d{2}) *€""")) }
         .mapNotNull { StringParser.parseMoney(it) }
 
     return weekdayRows

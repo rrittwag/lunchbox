@@ -45,10 +45,10 @@ class LunchResolverFeldkuecheTest {
     val offers = resolver().resolveOffersFromText(text)
 
     offers shouldHaveSize 10
-    // offers shouldContain LunchOffer(0, "Wurstgulasch Nudeln", week.monday, euro("4.80"), providerId) // OCR erkennt 4€ statt 4,80€
+    offers shouldContain LunchOffer(0, "Wurstgulasch Nudeln", week.monday, euro("4.60"), providerId)
     offers shouldContain LunchOffer(0, "Kartoffelsuppe mit Bockwurst", week.monday, euro("3.50"), providerId)
 
-    // offers shouldContain LunchOffer(0, "Blutwurst Sauerkraut Kartoffeln", week.tuesday, euro("4.80"), providerId) // OCR erkennt 4€ statt 4,80€
+    offers shouldContain LunchOffer(0, "Blutwurst Sauerkraut Kartoffeln", week.tuesday, euro("4.80"), providerId)
     offers shouldContain LunchOffer(0, "Grüne Bohneneintopf Brot", week.tuesday, euro("3.00"), providerId)
 
     offers shouldContain LunchOffer(0, "Gulasch mit Nudeln", week.wednesday, euro("4.60"), providerId)
@@ -169,16 +169,16 @@ class LunchResolverFeldkuecheTest {
     offers shouldContain LunchOffer(0, "Nudeln Bolognese", week.monday, euro("4.60"), providerId)
     offers shouldContain LunchOffer(0, "Bunter Gemüseeintopf Brot", week.monday, euro("3.50"), providerId)
 
-    offers shouldContain LunchOffer(0, "Blutwurst Sauerkraut Kartoffeln", week.tuesday, euro("4.30"), providerId)
+    offers shouldContain LunchOffer(0, "Blutwurst Sauerkraut Kartoffeln", week.tuesday, euro("4.80"), providerId)
     offers shouldContain LunchOffer(0, "Brühnudeln mit Hähnchenfleisch Brot", week.tuesday, euro("3.50"), providerId)
 
     offers shouldContain LunchOffer(0, "Jägerschnitzel Tomatensauce Nudeln", week.wednesday, euro("4.60"), providerId)
     offers shouldContain LunchOffer(0, "Erbseneintopf mit Bockwurst", week.wednesday, euro("4.00"), providerId)
 
-    offers shouldContain LunchOffer(0, "Gulasch mit Kartoffeln und Rotkohl", week.thursday, euro("4.30"), providerId)
+    offers shouldContain LunchOffer(0, "Gulasch mit Kartoffeln und Rotkohl", week.thursday, euro("4.80"), providerId)
     offers shouldContain LunchOffer(0, "Kräuterquark Kartoffeln Krautsalat", week.thursday, euro("4.00"), providerId)
 
-    offers shouldContain LunchOffer(0, "Schweinebraten Sauerkraut Kartoffeln", week.friday, euro("4.30"), providerId)
+    offers shouldContain LunchOffer(0, "Schweinebraten Sauerkraut Kartoffeln", week.friday, euro("4.80"), providerId)
     offers shouldContain LunchOffer(0, "Soljanka mit Brot", week.friday, euro("3.80"), providerId)
   }
 
