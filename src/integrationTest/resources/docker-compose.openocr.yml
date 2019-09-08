@@ -1,0 +1,52 @@
+version: '2'
+
+services:
+  # Anleitung -> https://github.com/tleyden/open-ocr/blob/master/README.md#launching-openocr-command-runsh
+  # Docker-Compose-File & scripts -> https://github.com/tleyden/open-ocr/tree/master/docker-compose
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "Phaish9ohbaidei6oole"
+
+  strokewidthtransform:
+    image: tleyden5iwx/open-ocr-preprocessor
+    volumes:
+      - ./scripts/:/opt/open-ocr/
+    dns: ["8.8.8.8"]
+    depends_on:
+      - rabbitmq
+    command: "/opt/open-ocr/open-ocr-preprocessor -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/ -preprocessor stroke-width-transform"
+
+  openocrworker:
+    image: tleyden5iwx/open-ocr-2
+    volumes:
+      - ./scripts/:/opt/open-ocr/
+    dns: ["8.8.8.8"]
+    depends_on:
+      - rabbitmq
+    command: "/opt/open-ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/"
+
+  openocr:
+    image: tleyden5iwx/open-ocr-2
+    volumes:
+      - ./scripts/:/opt/open-ocr/
+    ports:
+      - "9292:9292"
+    dns: ["8.8.8.8"]
+    depends_on:
+      - rabbitmq
+      - openocrworker
+      - strokewidthtransform
+    command: "/opt/open-ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/ -http_port 9292"
+
+
+  # test/resources müssen via HTTP im selben Netzwerk bereit stehen
+  test-resources:
+    image: nginx:alpine
+    volumes:
+      - ../../test/resources/:/usr/share/nginx/html:ro
+    ports:
+      - "80:80"

@@ -13,21 +13,24 @@ import java.time.Duration
 @Component
 class OcrClient {
 
-  fun doOCR(imageUrl: URL): String {
+  fun doOCR(
+    imageUrl: URL,
+    ocrServerUrl: String = "http://openocr:$OCR_SERVER_PORT"
+  ): String {
+
     val requestBody = mapOf(
       "img_url" to imageUrl,
       "engine" to "tesseract",
       "engine_args" to mapOf("lang" to "deu")
     )
 
-//    return WebClient.create("http://openocr:20080/ocr")
-    return WebClient.create("http://localhost:9292/ocr")
+    return WebClient.create("$ocrServerUrl/ocr")
       .post()
       .body(BodyInserters.fromObject(requestBody))
-//      .contentType(MediaType.APPLICATION_JSON)
-//      .setContentType("application/json", StandardCharsets.UTF_8)
       .retrieve()
       .bodyToMono<String>()
       .block(Duration.ofSeconds(60)) ?: ""
   }
 }
+
+const val OCR_SERVER_PORT = 9292
