@@ -95,6 +95,10 @@ class LunchResolverSaltNPepper(
 
   private fun resolveOffer(nameElem: Element, priceElem: Element): LunchOffer? {
     val price = StringParser.parseMoney(priceElem.text()) ?: return null
+
+    // Zusatzstoffe entfernen (hochgestellt/sup)
+    nameElem.children().filter { it.tagName() == "sup" }.forEach { it.remove() }
+
     val name = parseName(nameElem.text())
         .replace(Regex("^Topp-Preis:"), "")
         .replace(Regex("^Tipp:"), "")

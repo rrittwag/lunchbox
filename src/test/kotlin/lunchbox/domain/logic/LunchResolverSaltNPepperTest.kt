@@ -126,4 +126,26 @@ class LunchResolverSaltNPepperTest {
     offers shouldContain LunchOffer(0, "Serbischer Bohneneintopf", date("2018-09-10"), euro("3.50"), providerId)
     offers shouldContain LunchOffer(0, "Spaghetti Bolognese mit Reibekäse", date("2018-09-10"), euro("5.90"), providerId)
   }
+
+  @Test
+  fun `resolve offers for week of 2019-03-11`() {
+    val url = javaClass.getResource("/menus/salt_n_pepper/2019-03-11.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 19
+    offers shouldContain LunchOffer(0, "Linseneintopf mit gebratenen Wiener Würstchenscheiben (für Vegetarier extra)", date("2019-03-11"), euro("3.50"), providerId)
+    offers shouldContain LunchOffer(0, "Vegetarisch: frischer Blumenkohl mit sc. Hollandaise und Kartoffeln", date("2019-03-11"), euro("5.90"), providerId)
+  }
+
+  @Test
+  fun `resolve offers for week of 2019-09-09`() {
+    val url = javaClass.getResource("/menus/salt_n_pepper/2019-09-09.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 19
+    offers shouldContain LunchOffer(0, "Vegetarisch: Spinat-Lasagne", date("2019-09-09"), euro("5.90"), providerId)
+    offers shouldContain LunchOffer(0, "Lammbraten mit Speckbohnen und Petersilienkartoffeln", date("2019-09-10"), euro("6.30"), providerId)
+  }
 }
