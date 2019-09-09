@@ -9,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.MockMvc
 import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
-import lunchbox.domain.models.LunchProvider.TABBOULEH
+import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
 import org.junit.jupiter.api.Nested
 
 @WebMvcTest(LunchProviderController::class)
@@ -28,7 +28,7 @@ class LunchProviderControllerTest(
         .andExpect(jsonPath("$").isArray)
         .andExpect(jsonPath("$.length()").value("${LunchProvider.values().size}"))
         .andExpect(jsonPath("$[?(@.id == '${SCHWEINESTALL.id}')]").exists())
-        .andExpect(jsonPath("$[?(@.id == '${TABBOULEH.id}')]").exists())
+        .andExpect(jsonPath("$[?(@.id == '${SALT_N_PEPPER.id}')]").exists())
     }
   }
 
