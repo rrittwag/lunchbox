@@ -3,6 +3,8 @@ package lunchbox.util.ocr /* ktlint-disable max-line-length no-wildcard-imports 
 import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import org.testcontainers.containers.DockerComposeContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
@@ -26,25 +28,28 @@ class OcrClientTest {
     }
   }
 
-  @Test
-  fun `compare jpg OCR to saved OCR text`() {
-    val file = "menus/feldkueche/ocr/feldkueche_2016-10-10"
+  @ParameterizedTest
+  @ValueSource(strings = [
+    "menus/feldkueche/ocr/feldkueche_2016-10-10.jpg",
+    "menus/feldkueche/ocr/feldkueche_2019-09-02.jpg"
+  ])
+  fun `compare jpg OCR to saved OCR text`(file: String) {
     val ocrText = OcrClient().doOCR(
-      URL("http://test-resources/$file.jpg"),
+      URL("http://test-resources/$file"),
       ocrServerUrl()
     )
-    ocrText shouldEqual File("src/test/resources/${file}_ocr.txt").readText()
+    ocrText shouldEqual File("src/test/resources/$file.txt").readText()
   }
 
   @Test
   @Disabled
   fun `generate and save OCR text`() {
-    val file = "menus/feldkueche/ocr/feldkueche_2016-10-10"
+    val file = "menus/feldkueche/ocr/feldkueche_2016-10-10.jpg"
     val ocrText = OcrClient().doOCR(
-      URL("http://test-resources/$file.jpg"),
+      URL("http://test-resources/$file"),
       ocrServerUrl()
     )
-    File("src/test/resources/${file}_ocr.txt").apply {
+    File("src/test/resources/$file.txt").apply {
       createNewFile()
       writeText(ocrText)
     }
