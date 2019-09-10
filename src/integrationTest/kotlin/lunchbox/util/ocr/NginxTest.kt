@@ -31,7 +31,7 @@ class NginxTest {
 
   @Test
   fun `serve test resource files`() {
-    val resourceFile = "menus/feldkueche/ocr/feldkueche_2016-10-10.jpg.txt"
+    val resourceFile = "menus/feldkueche/ocr/2016-10-10.jpg.txt"
 
     val httpResult =
       WebClient.create("${resourcesHost()}/$resourceFile")

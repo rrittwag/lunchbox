@@ -13,15 +13,16 @@ class LunchResolverSchweinestallTest {
 
   @Test
   fun `resolve offers for week of 2015-02-09`() {
-    val url = javaClass.getResource("/menus/schweinestall/schweinestall_2015-02-09.html")
+    val url = javaClass.getResource("/menus/schweinestall/2015-02-09.html")
 
     val offers = resolver().resolve(url)
 
+    val week = weekOf("2015-02-09")
     offers shouldHaveSize 5
-    offers shouldContain LunchOffer(0, "Goldmakrelenfilet auf Gurken-Dillsauce mit Salzkartoffeln", date("2015-02-09"), euro("5.80"), providerId)
-    offers shouldContain LunchOffer(0, "Pilzgulasch mit Salzkartoffeln", date("2015-02-10"), euro("4.80"), providerId)
-    offers shouldContain LunchOffer(0, "Paniertes Hähnchenbrustfilet gefüllt mit Kräuterbutter, dazu Erbsen und Kartoffelpüree", date("2015-02-11"), euro("5.80"), providerId)
-    offers shouldContain LunchOffer(0, "Kasselersteak mit Ananas und Käse überbacken, dazu Buttermöhren und Pommes frites", date("2015-02-12"), euro("5.80"), providerId)
-    offers shouldContain LunchOffer(0, "Spaghetti Bolognese mit Parmesan", date("2015-02-13"), euro("4.80"), providerId)
+    offers shouldContain LunchOffer(0, "Goldmakrelenfilet auf Gurken-Dillsauce mit Salzkartoffeln", week.monday, euro("5.80"), providerId)
+    offers shouldContain LunchOffer(0, "Pilzgulasch mit Salzkartoffeln", week.tuesday, euro("4.80"), providerId)
+    offers shouldContain LunchOffer(0, "Paniertes Hähnchenbrustfilet gefüllt mit Kräuterbutter, dazu Erbsen und Kartoffelpüree", week.wednesday, euro("5.80"), providerId)
+    offers shouldContain LunchOffer(0, "Kasselersteak mit Ananas und Käse überbacken, dazu Buttermöhren und Pommes frites", week.thursday, euro("5.80"), providerId)
+    offers shouldContain LunchOffer(0, "Spaghetti Bolognese mit Parmesan", week.friday, euro("4.80"), providerId)
   }
 }

@@ -17,7 +17,7 @@ class LunchResolverAokCafeteriaTest {
 
   @Test
   fun `resolve PDF links for 2015-03-17`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/aok_cafeteria_2015-03-17.html")
+    val url = javaClass.getResource("/menus/aok_cafeteria/2015-03-17.html")
 
     val links = resolver().resolvePdfLinks(url)
 
@@ -28,7 +28,7 @@ class LunchResolverAokCafeteriaTest {
 
   @Test
   fun `resolve PDF links for 2015-08-03`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/aok_cafeteria_2015-08-03.html")
+    val url = javaClass.getResource("/menus/aok_cafeteria/2015-08-03.html")
 
     val links = resolver().resolvePdfLinks(url)
 
@@ -42,7 +42,7 @@ class LunchResolverAokCafeteriaTest {
 
   @Test
   fun `resolve PDF links for 2017-05-01`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/aok_cafeteria_2017-05-01.html")
+    val url = javaClass.getResource("/menus/aok_cafeteria/2017-05-01.html")
 
     val links = resolver().resolvePdfLinks(url)
 
@@ -52,7 +52,7 @@ class LunchResolverAokCafeteriaTest {
 
   @Test
   fun `resolve PDF links for 2018-01-22`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/aok_cafeteria_2018-01-22.html")
+    val url = javaClass.getResource("/menus/aok_cafeteria/2018-01-22.html")
 
     val links = resolver().resolvePdfLinks(url)
 
@@ -62,7 +62,7 @@ class LunchResolverAokCafeteriaTest {
 
   @Test
   fun `resolve PDF links for 2018-05-28`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/aok_cafeteria_2018-05-28.html")
+    val url = javaClass.getResource("/menus/aok_cafeteria/2018-05-28.html")
 
     val links = resolver().resolvePdfLinks(url)
 
@@ -72,7 +72,7 @@ class LunchResolverAokCafeteriaTest {
 
   @Test
   fun `resolve PDF links for 2018-11-19`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/aok_cafeteria_2018-11-19.html")
+    val url = javaClass.getResource("/menus/aok_cafeteria/2018-11-19.html")
 
     val links = resolver().resolvePdfLinks(url)
 

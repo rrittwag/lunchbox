@@ -19,7 +19,7 @@ class LunchResolverFeldkuecheTest {
 
   @Test
   fun `resolve image link for 2016-10-10`() {
-    val url = javaClass.getResource("/menus/feldkueche/feldkueche_2016-10-10.html")
+    val url = javaClass.getResource("/menus/feldkueche/2016-10-10.html")
 
     val links = resolver().resolveImageLinks(url)
 
@@ -29,7 +29,7 @@ class LunchResolverFeldkuecheTest {
 
   @Test
   fun `resolve image link for 2017-07-17`() {
-    val url = javaClass.getResource("/menus/feldkueche/feldkueche_2017-07-17.html")
+    val url = javaClass.getResource("/menus/feldkueche/2017-07-17.html")
 
     val links = resolver().resolveImageLinks(url)
 
@@ -39,7 +39,7 @@ class LunchResolverFeldkuecheTest {
 
   @Test
   fun `resolve image link for 2019-09-02`() {
-    val url = javaClass.getResource("/menus/feldkueche/feldkueche_2019-09-02.html")
+    val url = javaClass.getResource("/menus/feldkueche/2019-09-02.html")
 
     val links = resolver().resolveImageLinks(url)
 
@@ -49,7 +49,7 @@ class LunchResolverFeldkuecheTest {
 
   @Test
   fun `resolve offers for week of 2016-10-10`() {
-    val text = readFileContent("/menus/feldkueche/ocr/feldkueche_2016-10-10.jpg.txt")
+    val text = readFileContent("/menus/feldkueche/ocr/2016-10-10.jpg.txt")
     val week = weekOf("2016-10-10")
 
     val offers = resolver().resolveOffersFromText(text)
@@ -73,7 +73,7 @@ class LunchResolverFeldkuecheTest {
 
   @Test
   fun `resolve offers for week of 2016-10-17`() {
-    val text = readFileContent("/menus/feldkueche/ocr/feldkueche_2016-10-17.jpg.txt")
+    val text = readFileContent("/menus/feldkueche/ocr/2016-10-17.jpg.txt")
     val week = weekOf("2016-10-17")
 
     val offers = resolver().resolveOffersFromText(text)
@@ -98,7 +98,7 @@ class LunchResolverFeldkuecheTest {
 
   @Test
   fun `resolve offers for week of 2016-10-24`() {
-    val text = readFileContent("/menus/feldkueche/ocr/feldkueche_2016-10-24.jpg.txt")
+    val text = readFileContent("/menus/feldkueche/ocr/2016-10-24.jpg.txt")
     val week = weekOf("2016-10-24")
 
     val offers = resolver().resolveOffersFromText(text)
@@ -122,7 +122,7 @@ class LunchResolverFeldkuecheTest {
 
   @Test
   fun `resolve offers for week of 2016-10-31`() {
-    val text = readFileContent("/menus/feldkueche/ocr/feldkueche_2016-10-31.jpg.txt")
+    val text = readFileContent("/menus/feldkueche/ocr/2016-10-31.jpg.txt")
     val week = weekOf("2016-10-31")
 
     val offers = resolver().resolveOffersFromText(text)
@@ -146,7 +146,7 @@ class LunchResolverFeldkuecheTest {
 
   @Test
   fun `resolve offers for week of 2017-02-06`() {
-    val text = readFileContent("/menus/feldkueche/ocr/feldkueche_2017-02-06.jpg.txt")
+    val text = readFileContent("/menus/feldkueche/ocr/2017-02-06.jpg.txt")
     val week = weekOf("2017-02-06")
 
     val offers = resolver().resolveOffersFromText(text)
@@ -170,7 +170,7 @@ class LunchResolverFeldkuecheTest {
 
   @Test
   fun `resolve offers for week of 2017-07-17`() {
-    val text = readFileContent("/menus/feldkueche/ocr/feldkueche_2017-07-17.jpg.txt")
+    val text = readFileContent("/menus/feldkueche/ocr/2017-07-17.jpg.txt")
     val week = weekOf("2017-07-17")
 
     val offers = resolver().resolveOffersFromText(text)
@@ -194,7 +194,7 @@ class LunchResolverFeldkuecheTest {
 
   @Test
   fun `resolve offers for week of 2019-09-02`() {
-    val text = readFileContent("/menus/feldkueche/ocr/feldkueche_2019-09-02.jpg.txt")
+    val text = readFileContent("/menus/feldkueche/ocr/2019-09-02.jpg.txt")
     val week = weekOf("2019-09-02")
 
     val offers = resolver().resolveOffersFromText(text)

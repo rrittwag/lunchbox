@@ -17,7 +17,7 @@ class LunchResolverKrauthofTest {
 
   @Test
   fun `resolve PDF links for 2017-05-01`() {
-    val url = javaClass.getResource("/menus/krauthof/daskrauthof_2017-05-01.html")
+    val url = javaClass.getResource("/menus/krauthof/2017-05-01.html")
 
     val links = resolver().resolvePdfLinks(url)
 
@@ -75,7 +75,7 @@ class LunchResolverKrauthofTest {
 
   @Test
   fun `resolve PDF links for 2017-09-25`() {
-    val url = javaClass.getResource("/menus/krauthof/daskrauthof_2017-09-25.html")
+    val url = javaClass.getResource("/menus/krauthof/2017-09-25.html")
 
     val links = resolver().resolvePdfLinks(url)
 
@@ -127,7 +127,7 @@ class LunchResolverKrauthofTest {
 
   @Test
   fun `resolve PDF links for 2019-03-15`() {
-    val url = javaClass.getResource("/menus/krauthof/daskrauthof_2019-03-15.html")
+    val url = javaClass.getResource("/menus/krauthof/2019-03-15.html")
 
     val links = resolver().resolvePdfLinks(url)
 

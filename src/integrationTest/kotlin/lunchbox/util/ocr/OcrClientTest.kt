@@ -30,8 +30,8 @@ class OcrClientTest {
 
   @ParameterizedTest
   @ValueSource(strings = [
-    "menus/feldkueche/ocr/feldkueche_2016-10-10.jpg",
-    "menus/feldkueche/ocr/feldkueche_2019-09-02.jpg"
+    "menus/feldkueche/ocr/2016-10-10.jpg",
+    "menus/feldkueche/ocr/2019-09-02.jpg"
   ])
   fun `compare jpg OCR to saved OCR text`(file: String) {
     val ocrText = OcrClient().doOCR(
@@ -44,7 +44,7 @@ class OcrClientTest {
   @Test
   @Disabled
   fun `generate and save OCR text`() {
-    val file = "menus/feldkueche/ocr/feldkueche_2016-10-10.jpg"
+    val file = "menus/feldkueche/ocr/2019-09-02.jpg"
     val ocrText = OcrClient().doOCR(
       URL("http://test-resources/$file"),
       ocrServerUrl()
