@@ -14,66 +14,69 @@ class LunchResolverSaltNPepperTest {
   @Test
   fun `resolve offers for week of 2015-06-19`() {
     val url = javaClass.getResource("/menus/salt_n_pepper/2015-06-19.html")
+    val week = weekOf("2015-06-19")
 
     val offers = resolver().resolve(url)
 
     offers shouldHaveSize 24
-    offers shouldContain LunchOffer(0, "Grüne Bohneneintopf mit Kasslerfleisch", date("2015-06-15"), euro("3.90"), providerId)
-    offers shouldContain LunchOffer(0, "Hähnchenkeule in Curry-Mango-Rahm, frische Buttermöhren, Kartoffeln", date("2015-06-15"), euro("5.20"), providerId)
-    offers shouldContain LunchOffer(0, "Putenstreifen mit Pilzen in Käsesahnesauce auf Spaghetti", date("2015-06-15"), euro("5.70"), providerId)
-    offers shouldContain LunchOffer(0, "Sahnemilchreis mit Kirschen, 1 Tasse Kaffee", date("2015-06-15"), euro("5.30"), providerId)
-    offers shouldContain LunchOffer(0, "Wochenangebot: Rumpsteak (180gr.), Grillbutter, Pommes frites, Salatbeilage", date("2015-06-15"), euro("6.90"), providerId)
+    offers shouldContain LunchOffer(0, "Grüne Bohneneintopf mit Kasslerfleisch", week.monday, euro("3.90"), providerId)
+    offers shouldContain LunchOffer(0, "Hähnchenkeule in Curry-Mango-Rahm, frische Buttermöhren, Kartoffeln", week.monday, euro("5.20"), providerId)
+    offers shouldContain LunchOffer(0, "Putenstreifen mit Pilzen in Käsesahnesauce auf Spaghetti", week.monday, euro("5.70"), providerId)
+    offers shouldContain LunchOffer(0, "Sahnemilchreis mit Kirschen, 1 Tasse Kaffee", week.monday, euro("5.30"), providerId)
+    offers shouldContain LunchOffer(0, "Wochenangebot: Rumpsteak (180gr.), Grillbutter, Pommes frites, Salatbeilage", week.monday, euro("6.90"), providerId)
 
-    offers shouldContain LunchOffer(0, "Frische Paprikacremesuppe mit geröstetem Bacon", date("2015-06-16"), euro("3.90"), providerId)
-    offers shouldContain LunchOffer(0, "Putenleber, hausgemachter Apfelrotkohl, hausgemachtes Kartoffelpüree", date("2015-06-16"), euro("5.20"), providerId)
-    offers shouldContain LunchOffer(0, "Gefüllte Schnitzel „Cordon bleu“, mediterranem Gemüsegratin", date("2015-06-16"), euro("5.70"), providerId)
-    offers shouldContain LunchOffer(0, "Blumenkohlgratin, 1 Dessert", date("2015-06-16"), euro("4.90"), providerId)
-    offers shouldContain LunchOffer(0, "Wochenangebot: Rumpsteak (180gr.), Grillbutter, Pommes frites, Salatbeilage", date("2015-06-16"), euro("6.90"), providerId)
+    offers shouldContain LunchOffer(0, "Frische Paprikacremesuppe mit geröstetem Bacon", week.tuesday, euro("3.90"), providerId)
+    offers shouldContain LunchOffer(0, "Putenleber, hausgemachter Apfelrotkohl, hausgemachtes Kartoffelpüree", week.tuesday, euro("5.20"), providerId)
+    offers shouldContain LunchOffer(0, "Gefüllte Schnitzel „Cordon bleu“, mediterranem Gemüsegratin", week.tuesday, euro("5.70"), providerId)
+    offers shouldContain LunchOffer(0, "Blumenkohlgratin, 1 Dessert", week.tuesday, euro("4.90"), providerId)
+    offers shouldContain LunchOffer(0, "Wochenangebot: Rumpsteak (180gr.), Grillbutter, Pommes frites, Salatbeilage", week.tuesday, euro("6.90"), providerId)
 
-    offers shouldContain LunchOffer(0, "Erbseneintopf mit Wiener Würstchenscheiben", date("2015-06-17"), euro("3.90"), providerId)
-    offers shouldContain LunchOffer(0, "Frische Lachsfiletwürfel auf Bandnudeln, Spinat-Käse-Sauce", date("2015-06-17"), euro("5.70"), providerId)
-    offers shouldContain LunchOffer(0, "Hühnerfrikassee mit Butterreis", date("2015-06-17"), euro("5.20"), providerId)
-    offers shouldContain LunchOffer(0, "4 Kartoffelpuffer mit Apfelmus", date("2015-06-17"), euro("5.20"), providerId)
-    offers shouldContain LunchOffer(0, "Wochenangebot: Rumpsteak (180gr.), Grillbutter, Pommes frites, Salatbeilage", date("2015-06-17"), euro("6.90"), providerId)
+    offers shouldContain LunchOffer(0, "Erbseneintopf mit Wiener Würstchenscheiben", week.wednesday, euro("3.90"), providerId)
+    offers shouldContain LunchOffer(0, "Frische Lachsfiletwürfel auf Bandnudeln, Spinat-Käse-Sauce", week.wednesday, euro("5.70"), providerId)
+    offers shouldContain LunchOffer(0, "Hühnerfrikassee mit Butterreis", week.wednesday, euro("5.20"), providerId)
+    offers shouldContain LunchOffer(0, "4 Kartoffelpuffer mit Apfelmus", week.wednesday, euro("5.20"), providerId)
+    offers shouldContain LunchOffer(0, "Wochenangebot: Rumpsteak (180gr.), Grillbutter, Pommes frites, Salatbeilage", week.wednesday, euro("6.90"), providerId)
 
-    offers shouldContain LunchOffer(0, "Thai Suppe mit Hühnerfleisch und Frischem Koriander", date("2015-06-18"), euro("3.90"), providerId)
-    offers shouldContain LunchOffer(0, "Frische Hähnchenbrust auf gebratenen Asianudeln, Kokos-Sauce", date("2015-06-18"), euro("5.20"), providerId)
-    offers shouldContain LunchOffer(0, "Paprika-Gulasch oder Champignon-Gulasch mit Nudeln Sauerrahm", date("2015-06-18"), euro("5.70"), providerId)
-    offers shouldContain LunchOffer(0, "2 Eier, Senfsauce, Buttergemüse, Kartoffeln, 1 Dessert", date("2015-06-18"), euro("4.90"), providerId)
-    offers shouldContain LunchOffer(0, "Wochenangebot: Rumpsteak (180gr.), Grillbutter, Pommes frites, Salatbeilage", date("2015-06-18"), euro("6.90"), providerId)
+    offers shouldContain LunchOffer(0, "Thai Suppe mit Hühnerfleisch und Frischem Koriander", week.thursday, euro("3.90"), providerId)
+    offers shouldContain LunchOffer(0, "Frische Hähnchenbrust auf gebratenen Asianudeln, Kokos-Sauce", week.thursday, euro("5.20"), providerId)
+    offers shouldContain LunchOffer(0, "Paprika-Gulasch oder Champignon-Gulasch mit Nudeln Sauerrahm", week.thursday, euro("5.70"), providerId)
+    offers shouldContain LunchOffer(0, "2 Eier, Senfsauce, Buttergemüse, Kartoffeln, 1 Dessert", week.thursday, euro("4.90"), providerId)
+    offers shouldContain LunchOffer(0, "Wochenangebot: Rumpsteak (180gr.), Grillbutter, Pommes frites, Salatbeilage", week.thursday, euro("6.90"), providerId)
 
-    offers shouldContain LunchOffer(0, "Spaghetti-Bolognese", date("2015-06-19"), euro("5.20"), providerId)
-    offers shouldContain LunchOffer(0, "Kasslersteak mit Pommes frites und Weißkrautsalat", date("2015-06-19"), euro("5.70"), providerId)
-    offers shouldContain LunchOffer(0, "Sommerpommes, 1 Dessert", date("2015-06-19"), euro("4.90"), providerId)
-    offers shouldContain LunchOffer(0, "Wochenangebot: Rumpsteak (180gr.), Grillbutter, Pommes frites, Salatbeilage", date("2015-06-19"), euro("6.90"), providerId)
+    offers shouldContain LunchOffer(0, "Spaghetti-Bolognese", week.friday, euro("5.20"), providerId)
+    offers shouldContain LunchOffer(0, "Kasslersteak mit Pommes frites und Weißkrautsalat", week.friday, euro("5.70"), providerId)
+    offers shouldContain LunchOffer(0, "Sommerpommes, 1 Dessert", week.friday, euro("4.90"), providerId)
+    offers shouldContain LunchOffer(0, "Wochenangebot: Rumpsteak (180gr.), Grillbutter, Pommes frites, Salatbeilage", week.friday, euro("6.90"), providerId)
   }
 
   @Test
   fun `resolve offers for Easter week of 2015-03-30`() {
     val url = javaClass.getResource("/menus/salt_n_pepper/2015-03-30.html")
+    val week = weekOf("2015-03-30")
 
     val offers = resolver().resolve(url)
 
     offers shouldHaveSize 19
-    offers.filter { it.day == date("2015-03-30") } shouldHaveSize 5
-    offers.filter { it.day == date("2015-03-31") } shouldHaveSize 5
-    offers.filter { it.day == date("2015-04-01") } shouldHaveSize 5
-    offers.filter { it.day == date("2015-04-02") } shouldHaveSize 4
-    offers.filter { it.day == date("2015-04-03") } shouldHaveSize 0
+    offers.filter { it.day == week.monday } shouldHaveSize 5
+    offers.filter { it.day == week.tuesday } shouldHaveSize 5
+    offers.filter { it.day == week.wednesday } shouldHaveSize 5
+    offers.filter { it.day == week.thursday } shouldHaveSize 4
+    offers.filter { it.day == week.friday } shouldHaveSize 0
   }
 
   @Test
   fun `resolve offers for week of 2015-05-29`() {
     val url = javaClass.getResource("/menus/salt_n_pepper/2015-05-29.html")
+    val week = weekOf("2015-05-29")
 
     val offers = resolver().resolve(url)
 
     offers shouldHaveSize 19
-    offers.filter { it.day == date("2015-05-25") } shouldHaveSize 0
-    offers.filter { it.day == date("2015-05-26") } shouldHaveSize 5
-    offers.filter { it.day == date("2015-05-27") } shouldHaveSize 5
-    offers.filter { it.day == date("2015-05-28") } shouldHaveSize 5
-    offers.filter { it.day == date("2015-05-29") } shouldHaveSize 4
+    offers.filter { it.day == week.monday } shouldHaveSize 0
+    offers.filter { it.day == week.tuesday } shouldHaveSize 5
+    offers.filter { it.day == week.wednesday } shouldHaveSize 5
+    offers.filter { it.day == week.thursday } shouldHaveSize 5
+    offers.filter { it.day == week.friday } shouldHaveSize 4
   }
 
   @Test
@@ -88,13 +91,14 @@ class LunchResolverSaltNPepperTest {
   @Test
   fun `resolve offers for week of 2015-08-10`() {
     val url = javaClass.getResource("/menus/salt_n_pepper/2015-08-10.html")
+    val week = weekOf("2015-08-10")
 
     val offers = resolver().resolve(url)
 
     offers shouldHaveSize 24
-    offers shouldContain LunchOffer(0, "Gefülltes Schnitzel „Toskaner Art“ mit Tomatensalat und Pommes frites", date("2015-08-11"), euro("5.70"), providerId)
-    offers shouldContain LunchOffer(0, "Gefülltes Schnitzel „Cordon bleu“ mit buntem Krautsalat und Pommes frites", date("2015-08-12"), euro("5.70"), providerId)
-    offers shouldContain LunchOffer(0, "Hacksteak „Toskana“ mit mediterraner Gemüsepfanne dazu Pommes frites", date("2015-08-14"), euro("5.20"), providerId)
+    offers shouldContain LunchOffer(0, "Gefülltes Schnitzel „Toskaner Art“ mit Tomatensalat und Pommes frites", week.tuesday, euro("5.70"), providerId)
+    offers shouldContain LunchOffer(0, "Gefülltes Schnitzel „Cordon bleu“ mit buntem Krautsalat und Pommes frites", week.wednesday, euro("5.70"), providerId)
+    offers shouldContain LunchOffer(0, "Hacksteak „Toskana“ mit mediterraner Gemüsepfanne dazu Pommes frites", week.friday, euro("5.20"), providerId)
   }
 
   @Test
