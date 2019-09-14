@@ -107,11 +107,7 @@ class LunchResolverGesundheitszentrum(
     var currentSection: PdfSection = PdfSection.HEADER
     var linesForSection = mutableListOf<String>()
 
-    for (unformattedLine in text.split('\n')) {
-      val line = unformattedLine.trim()
-        .replace("Nlittwoch", "Mittwoch")
-        .replace("Freng", "Freitag")
-
+    for (line in text.split('\n').map { correctWeekday(it) }) {
       val section = PdfSection.values().find { sec -> line.startsWith(sec.label) }
       if (section != null) {
         result += currentSection to linesForSection
@@ -129,53 +125,145 @@ class LunchResolverGesundheitszentrum(
     lines: List<String>,
     monday: LocalDate
   ): List<LunchOffer> {
-    val rows = resolveOfferRows(lines)
-    return rows.filter { it.price != null }.map {
+    val rows = convertToRows(lines)
+    val mergedRows = mergeRows(rows)
+
+    return mergedRows.filter { it.price != null }.map {
       LunchOffer(0, it.name, monday.plusDays(section.order), it.price!!, provider.id)
     }
   }
 
-  private fun resolveOfferRows(lines: List<String>): List<OfferRow> {
+  private fun convertToRows(lines: List<String>): List<OfferRow> {
     val result = mutableListOf<OfferRow>()
-    var currentRow: OfferRow? = null
 
-    fun mergeRow(newRow: OfferRow) {
-      currentRow = currentRow?.merge(newRow) ?: newRow
-    }
+    for (rawLine in lines.takeWhile { !isEndingSection(it) }) {
+      val line = correctRowName(correctRowPrice(correctRowNumber(rawLine)))
 
-    val cleanedLines =
-      lines
-        .takeWhile { !isEndingSection(it) }
-        .map { removeUnnecessaryText(correctOcrErrors(it)) }
+      val lineWithoutFitnessTag =
+        line.replace(Regex("^Fitness "), "").trim()
 
-    for (line in cleanedLines) {
-      if (line.matches(Regex("""^[F\d]\.?( .*)?$"""))) {
-        if (currentRow != null)
-          result += currentRow!!
-        currentRow = null
+      val lineWithoutNumber =
+        lineWithoutFitnessTag.replace(Regex("""^[F\d]\. """), "").trim()
+
+      var lineWithoutPrice = lineWithoutNumber
+      var price: Money? = null
+
+      val matchResult = Regex("""(.*) (\d+,\d{2})""").find(lineWithoutNumber)
+      if (matchResult != null) {
+        val (lineBeforePrice, priceStr) = matchResult.destructured
+        lineWithoutPrice = lineBeforePrice
+        price = StringParser.parseMoney(priceStr)
       }
 
-      val correctedLine = line.replaceFirst(Regex("""^[F\d]\.?"""), "")
-
-      val matchResult = Regex("""(.*) (\d+,\d{2})""").find(correctedLine)
-      if (matchResult != null) {
-        val (name, priceStr) = matchResult.destructured
-        mergeRow(OfferRow(cleanName(name), StringParser.parseMoney(priceStr)))
-      } else
-        mergeRow(OfferRow(cleanName(correctedLine), null))
+      val name = removeZusatzinfos(lineWithoutPrice)
+      result += OfferRow(
+        name,
+        price,
+        line != lineWithoutFitnessTag,
+        lineWithoutFitnessTag != lineWithoutNumber,
+        lineWithoutPrice != name
+      )
     }
-    if (currentRow != null)
-      result += currentRow!!
 
     return result
   }
 
-  private fun correctOcrErrors(line: String) =
-    line.trim()
-      // neu
-      .replace(Regex("""^(\d)[.,:;]+ """), "$1. ")
-      .replace("T. ", "1. ")
+  private fun mergeRows(rows: List<OfferRow>): List<OfferRow> {
+    val result = mutableListOf<OfferRow>()
+
+    var undone: OfferRow? = null
+    for (row in mergeRowsByIncompleteStartEnd(rows)) {
+      if (undone == null) {
+        undone = row
+        continue
+      }
+
+      if (!undone.isCompleteOffer()) {
+        undone = undone.merge(row)
+        continue
+      }
+
+      if ((undone.hasZusatzinfos && row.hasZusatzinfos) || row.hasNumberOrFitnessTag()) {
+        result += undone
+        undone = row
+        continue
+      }
+
+      undone = undone.merge(row)
+    }
+
+    if (undone != null && undone.isCompleteOffer())
+      result += undone
+
+    return result
+  }
+
+  private fun mergeRowsByIncompleteStartEnd(rows: List<OfferRow>): List<OfferRow> {
+    val result = mutableListOf<OfferRow>()
+
+    var index = 0
+    while (index + 1 < rows.size) {
+      val first = rows[index]
+      val second = rows[index + 1]
+      if (first.hasIncompleteEnd() || second.hasIncompleteStart()) {
+        result += first.merge(second)
+        index += 2
+      } else {
+        result += first
+        index += 1
+      }
+    }
+    if (index < rows.size)
+      result += rows[index]
+
+    return result
+  }
+
+  private fun correctWeekday(text: String) =
+    text.trim()
+      .replace("Nlittwoch", "Mittwoch")
+      .replace("Freng", "Freitag")
+      .replace("Freita;", "Freitag")
+
+  private fun isEndingSection(line: String): Boolean =
+    line.startsWith("ACHTUNG") ||
+      line.startsWith("Wir wünschen") ||
+      line.startsWith("Öffnungszeiten") ||
+      line.startsWith("Alle Spelsen") ||
+      line.contains(" Mit ")
+
+  private fun correctRowNumber(row: String): String {
+    val rowWithCorrectedFitness =
+      row.trim()
+        .replace(Regex("""^FlTNESS """), "Fitness ")
+
+    val rowWithoutFitness =
+      rowWithCorrectedFitness
+        .replace(Regex("""^FITNESS """), "")
+
+    val correctedRowWithoutFitness =
+      rowWithoutFitness.trim()
+        .replace(Regex("""^(\d)[.,:;]* """), "$1. ")
+        .replace(Regex("""^[fF][.,:;]* """), "F. ")
+        .replace("T. ", "1. ")
+
+    return if (rowWithoutFitness == rowWithCorrectedFitness)
+        correctedRowWithoutFitness
+    else
+      "Fitness $correctedRowWithoutFitness"
+  }
+
+  private fun correctRowPrice(row: String) =
+    row.trim()
+      .replace(Regex(" 40€$"), " 4,90 €") // Hmm, blöd
+      .replace(Regex("9 *€$"), "0 €") // Der Preis ist immer in 10er Cents
+      .replace(Regex("""(\d+) ?[.,]? ?(\d{2}) ?[€g]?$"""), "$1,$2")
+      .trim()
+
+  private fun correctRowName(row: String) =
+    row.trim()
       .replace("*", "\"")
+      .replace(Regex("[„“”]"), "\"")
       .replace("%!B(MISSING)irne", "1/2 Birne")
       .replace("Scharfes-", "Scharfes ")
       .replace("Gamembert", "Camembert")
@@ -184,109 +272,21 @@ class LunchResolverGesundheitszentrum(
       .replace("2Setzeier", "2 Setzeier")
       .replace("Gnocei", "Gnocci")
       .replace("Cevapeici", "Cevapcici")
-      .replace(Regex("9 *€"), "0 €") // Der Preis ist immer in 10er Cents
-      .replace(Regex(" 40€$"), " 4,90 €") // Hmm, blöd
-
-      // alt
-      .replace("‚", ",")
-      .replace(Regex("""^[fF][.,]* """), "F. ")
-      .replace(Regex("""^l[.,]+ """), "1. ")
-      .replace(Regex("""^(\d)A """), "$1. ")
-      .replace(Regex("^Zl "), "2. ")
-      .replace(Regex("""L,(\d{2}) ?€?$"""), "4,$1")
-      .replace(Regex("""(\d+) ?[.,] ?(\d{2}) ?[€g]?$"""), "$1,$2")
-      .replace(Regex("""(\d)(\d{2}) ?[€g]?$"""), "$1,$2")
-      .replace(Regex(""" 1,(\d{2})$"""), " 4,$1") // für 1,**€ gibt's nix mehr, OCR-Fehler für 4,**€
-      .replace("ﬂ", "fl")
-      .replace("ﬁ", "fi")
-      .replace("IVi", "M")
-      .replace("IVl", "M")
-      .replace(Regex("""([a-zA-ZäöüßÄÖÜ])II"""), "$1ll")
-      .replace(Regex("""([a-zA-ZäöüßÄÖÜ])I"""), "$1l")
-      .replace("artoffei", "artoffel")
-      .replace("uiasch", "ulasch")
-      .replace("oiikorn", "ollkorn")
-      .replace("Kiöße", "Klöße")
-      .replace("kcai", "kcal")
-      .replace("Müiier", "Müller")
-      .replace("oreiie", "orelle")
-      .replace("Saiz", "Salz")
-      .replace(Regex("([kK]oh)i"), "$1l")
-      .replace(Regex("([mM])iich"), "$1ilch")
-      .replace("udein", "udeln")
-      .replace("zeriassen", "zerlassen")
-      .replace("Bitteki", "Bifteki")
-      .replace(Regex("([bB])iatt"), "$1latt")
-      .replace(Regex("([zZ]wiebe)i"), "$1l")
-      .replace("chnitzei", "chnitzel")
-      .replace("SCHNlTZ", "SCHNITZ")
-      .replace("SCHNITZELTAG", "Schnitzeltag") // Wieso rumschreien?
-      .replace("uflauf", "uflauf")
-      .replace("utiauf", "uflauf")
-      .replace("ufiauf", "uflauf")
-      .replace("uflaufmit", "uflauf mit")
-      .replace("Fiahm", "Rahm")
-      .replace("Fiei", "Rei")
-      .replace("Fiührei", "Rührei")
-      .replace("Blatispinat", "Blattspinat")
-      .replace("‘/2", "1/2")
-      .replace("au/3er", "außer")
-      .replace(Regex("""auf([A-Z])"""), "auf $1")
-      .replace("Fiind", "Rind")
-      .replace("Fiotkohl", "Rotkohl")
-      .replace("CeVapcici", "Cevapcici")
-      .replace(Regex("kc[nu]l"), "kcal")
-      .replace(Regex("""([^s])e-Hackfleisch"""), "$1Käse-Hackfleisch") // fuckin bad OCR
-      .replace(Regex("""([^J])agerschnitzel""""), "$1\"Jägerschnitzel\"")
-      .replace("Matjesmpt ", "Matjestopf ")
-      .replace("Reibeküse", "Reibekäse")
-      .replace("falisch", "fälisch")
-      .replace("lll ", "!!! ")
-      .replace(" lll", " !!!")
-      .replace("ScharfeseKartoffelePaprikszurry", "Scharfes Kartoffel-Paprika-Curry")
-      .replace("Möhren7Zucchiniinntopf", "Möhren-Zucchini-Eintopf")
-      .replace("Häl111cl1e11sclu1itzel", "Hähnchenschnitzel")
-      .replace("Pfeffelralnnsauce", "Pfefferrahmsauce")
-
-  private fun removeUnnecessaryText(text: String) =
-    text.trim()
-      .replace(Regex("""^FlTNESS [fF\d]\.* """), "F. ")
-      .replace(Regex("""^FlTNESS """), "")
-      .replace(Regex(""" ,?[unm]; """), " ")
-      .replace(Regex(""" [a-zA-Z]+kcal"""), " ")
-      .replace(" kcal", "")
-      .replace(Regex(" 2 ?und "), " und ")
-      .replace(Regex(" 2 ?mit "), " mit ")
-      .replace(" , ", ", ")
-      .replace(Regex(" 3.14 "), " ")
-      .replace(" 1,14m ", " ")
-      .replace(Regex(""" \d+[a-zA-Z]+ """), " ")
-      .replace(Regex(""" [a-zA-Z]+\d+ """), " ")
-      .replace(Regex(""" [a-zA-Z] """), " ")
-      .replace(Regex(""" [A-Z][^ ]+[A-Z] """), " ")
-      .replace(Regex(""" \|4 """), " ")
-      .replace(Regex(""" [Agl(‘!]{1,5} +(\d,\d\d)$"""), " $1")
-      .replace(Regex(""" [A-Z]{2}[^ ]* +(\d,\d\d)$"""), " $1")
       .replace("!!!", "")
-      .replace("Amame", "")
-      .replace(Regex(""" [^ ]+![^ ]+ """), "")
-      .replace(Regex(""" [^ ]+![^ ]+$"""), "")
-      .replace(Regex(""" [A-Za-z]+[A-Z0-9!].* +(\d,\d\d)$"""), " $1")
-      .replace(Regex(""" [0-9]+ +(\d,\d\d)$"""), " $1")
-      .replace(Regex(""" [0-9 |l]+$"""), "").trim() // schlecht OCR-ed Zusatzstoffe
+      .replace("SCHNITZELTAG", "Schnitzeltag") // Wieso rumschreien?
+      .replace(Regex("""([^s])e-Hackfleisch"""), "$1Käse-Hackfleisch") // fuckin bad OCR
+      .trim()
 
-  private fun isEndingSection(line: String): Boolean =
-    line.startsWith("ACHTUNG") || line.startsWith("Wir wünschen") ||
-      line.startsWith("Öffnungszeiten") || line.startsWith("Alle Spelsen")
-
-  private fun cleanName(text: String) =
-    text.trim()
-
-      // neu
-      .replace(Regex("[„“”]"), "\"")
-      .replace(Regex(""" [^ ]*[\d!_.\[\]{}|]+[^ ]*$"""), "")
-      .replace(Regex(""" [acgiınulACDGHIJU]{1,5}$"""), "")
+  private fun removeZusatzinfos(name: String) =
+    name.trim()
+      .replace(Regex(" 3.14 "), " ")
+      .replace(Regex(" 2 ?und "), " und ")
+      .replace(" kcal", "")
       .replace(Regex(""" \d+ [kK]cal"""), "")
+      .replace(Regex(""" [^ ]*[\d!_.\[\]{}|]+[^ ]*$"""), "")
+      .replace(Regex(""" [A-Z0-9 ()]+$"""), "")
+      .replace(Regex(""" [acgiınulACDGHIJU]{1,5}$"""), "")
+      .replace(Regex("""^[acgiınulACDGHIJU]{1,5}$"""), "")
       .trim()
 
   private fun isWochenplanRelevant(wochenplan: Wochenplan): Boolean =
@@ -311,13 +311,28 @@ class LunchResolverGesundheitszentrum(
 
   data class OfferRow(
     val name: String,
-    val price: Money?
+    val price: Money?,
+    val hasFitnessTag: Boolean,
+    val hasNumber: Boolean,
+    val hasZusatzinfos: Boolean
   ) {
-    fun merge(otherRow: OfferRow): OfferRow {
-      val newName = listOf(name, otherRow.name).filter { it.isNotEmpty() }.joinToString(" ")
-      return OfferRow(newName, price ?: otherRow.price)
-    }
+    fun merge(otherRow: OfferRow) =
+      OfferRow(
+        "$name ${otherRow.name}".trim(),
+        price ?: otherRow.price,
+        hasFitnessTag || otherRow.hasFitnessTag,
+        hasNumber || otherRow.hasNumber,
+        hasZusatzinfos || otherRow.hasZusatzinfos
+      )
 
-    fun isValid() = name.isNotEmpty() && price != null
+    fun hasNumberOrFitnessTag() = hasNumber || hasFitnessTag
+    fun isCompleteOffer() =
+      name.isNotEmpty() && price != null && !hasIncompleteStart() && !hasIncompleteEnd()
+
+    fun hasIncompleteStart(): Boolean =
+      name.matches(Regex("[a-züäö]+ .*")) // "^(dazu|mit|in|an) "
+
+    fun hasIncompleteEnd(): Boolean =
+      name.matches(Regex(".* (dazu|mit|und|in|an)"))
   }
 }
