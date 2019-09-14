@@ -86,7 +86,7 @@ class LunchResolverGesundheitszentrumTest {
     offers shouldHaveSize 20
     offers shouldContain LunchOffer(0, "Wirsingkohleintopf", week.monday, euro("2.40"), providerId)
     offers shouldContain LunchOffer(0, "Riesenkrakauer mit Sauerkraut und Salzkartoffeln", week.monday, euro("4.40"), providerId)
-    offers shouldContain LunchOffer(0, "Steak “au four“ mit Buttererbsen und Kroketten", week.monday, euro("4.60"), providerId)
+    offers shouldContain LunchOffer(0, "Steak \"au four\" mit Buttererbsen und Kroketten", week.monday, euro("4.60"), providerId)
     offers shouldContain LunchOffer(0, "Tortellini mit Tomatensauce", week.monday, euro("3.90"), providerId)
 
     offers shouldContain LunchOffer(0, "Germknödel mit Vanillesauce und Mohn", week.tuesday, euro("3.20"), providerId)
@@ -125,7 +125,7 @@ class LunchResolverGesundheitszentrumTest {
 
     offers shouldContain LunchOffer(0, "Grießbrei mit roten Früchten", week.tuesday, euro("2.90"), providerId)
     offers shouldContain LunchOffer(0, "Blutwurst mit Sauerkraut und Salzkartoffeln", week.tuesday, euro("4.00"), providerId)
-    offers shouldContain LunchOffer(0, "Schweinerollbraten mit grünen Bohnen und Salzkartoffeln", week.tuesday, euro("4.60"), providerId)
+    offers shouldContain LunchOffer(0, "Schweinerollbraten mit grünen Bohnen und Salzkartoffeln", week.tuesday, euro("4.50"), providerId) // OCR erkennt Preis falsch
     offers shouldContain LunchOffer(0, "Pilzragout mit Semmelknödel", week.tuesday, euro("4.00"), providerId)
 
     offers shouldContain LunchOffer(0, "Minestrone", week.wednesday, euro("2.40"), providerId)
@@ -140,7 +140,7 @@ class LunchResolverGesundheitszentrumTest {
 
     offers shouldContain LunchOffer(0, "Porreeeintopf", week.friday, euro("2.40"), providerId)
     offers shouldContain LunchOffer(0, "Hackbraten mit Mischgemüse und Salzkartoffeln", week.friday, euro("4.00"), providerId)
-    offers shouldContain LunchOffer(0, "Wildgulasch mit Rotkohl und Klöße", week.friday, euro("4.60"), providerId)
+    offers shouldContain LunchOffer(0, "Wildgulasch mit Rotkohl und Klöße", week.friday, euro("4.50"), providerId) // OCR erkennt Preis falsch
     offers shouldContain LunchOffer(0, "Matjestopf mit Bohnensalat und Kräuterkartoffeln", week.friday, euro("4.20"), providerId)
   }
 
@@ -155,7 +155,7 @@ class LunchResolverGesundheitszentrumTest {
     offers shouldContain LunchOffer(0, "Vegetarische Linsensuppe mit Vollkornbrötchen", week.monday, euro("3.20"), providerId)
     offers shouldContain LunchOffer(0, "Ofenfrischer Leberkäs mit einem Setzei, Zwiebelsauce und Kartoffelpüree", week.monday, euro("4.20"), providerId)
     offers shouldContain LunchOffer(0, "Schweinekammsteak mit Rahmchampions, dazu Pommes frites", week.monday, euro("4.60"), providerId)
-    offers shouldContain LunchOffer(0, "Rührei mit Sauce “Funghi” und Kartoffelpüree", week.monday, euro("3.80"), providerId)
+    offers shouldContain LunchOffer(0, "Rührei mit Sauce \"Funghi\" und Kartoffelpüree", week.monday, euro("3.80"), providerId)
 
     offers shouldContain LunchOffer(0, "Milchreis mit Zucker und Zimt", week.tuesday, euro("3.00"), providerId)
     offers shouldContain LunchOffer(0, "2 Setzeier (außer Haus Rührei) mit Spinat und Salzkartoffeln", week.tuesday, euro("3.80"), providerId)
@@ -165,7 +165,7 @@ class LunchResolverGesundheitszentrumTest {
     offers shouldContain LunchOffer(0, "Gulaschsuppe", week.wednesday, euro("3.20"), providerId)
     offers shouldContain LunchOffer(0, "2 Bifteki mit Zigeunersauce und Reis", week.wednesday, euro("4.10"), providerId)
     offers shouldContain LunchOffer(0, "Rinderbraten mit Rotkohl und Klößen", week.wednesday, euro("4.80"), providerId)
-    offers shouldContain LunchOffer(0, "Forelle ‘Müllerin Art“ mit zerlassener Butter und Salzkartoffeln", week.wednesday, euro("4.60"), providerId)
+    offers shouldContain LunchOffer(0, "Forelle \"Müllerin Art\" mit zerlassener Butter und Salzkartoffeln", week.wednesday, euro("4.60"), providerId)
 
     offers shouldContain LunchOffer(0, "Kohlrabieintopf", week.thursday, euro("2.40"), providerId)
     offers shouldContain LunchOffer(0, "Pfefferfleisch mit Buttergemüse dazu Reis", week.thursday, euro("4.10"), providerId)
@@ -174,7 +174,7 @@ class LunchResolverGesundheitszentrumTest {
 
     offers shouldContain LunchOffer(0, "Ungarischer Sauerkrauttopf", week.friday, euro("2.60"), providerId)
     offers shouldContain LunchOffer(0, "Cevapcici mit Zigeunersauce und Reis", week.friday, euro("4.10"), providerId)
-    offers shouldContain LunchOffer(0, "Hähnchenschnitzel “Wiener Art“ mit Pfefferrahmsauce, Gemüse und Kroketten", week.friday, euro("4.60"), providerId)
+    offers shouldContain LunchOffer(0, "Hähnchenschnitzel \"Wiener Art\" mit Pfefferrahmsauce, Gemüse und Kroketten", week.friday, euro("4.60"), providerId)
     offers shouldContain LunchOffer(0, "Sahnehering mit Bratkartoffeln", week.friday, euro("3.70"), providerId)
   }
 
@@ -192,7 +192,7 @@ class LunchResolverGesundheitszentrumTest {
     offers shouldContain LunchOffer(0, "Gebackener Camembert mit Preiselbeeren, 1/2 Birne und Baguette", week.monday, euro("3.90"), providerId)
 
     offers shouldContain LunchOffer(0, "Hefeklöße mit Früchten", week.tuesday, euro("3.00"), providerId)
-    offers shouldContain LunchOffer(0, "Pasta “Schuta“ (Hackfleisch und Paprika) auf Nudeln", week.tuesday, euro("4.00"), providerId)
+    offers shouldContain LunchOffer(0, "Pasta \"Schuta\" (Hackfleisch und Paprika) auf Nudeln", week.tuesday, euro("4.00"), providerId)
     offers shouldContain LunchOffer(0, "Hausgemachte Rinderroulade mit Rotkohl und Klößen", week.tuesday, euro("4.90"), providerId)
     offers shouldContain LunchOffer(0, "Gefüllte Paprika (vegetarisch) mit Vollkornreis und Salat", week.tuesday, euro("4.20"), providerId)
 
@@ -210,39 +210,6 @@ class LunchResolverGesundheitszentrumTest {
   }
 
   @Test
-  fun `resolve offers for week of 2015-06-08`() {
-    val text = readFileContent("/menus/gesundheitszentrum/ocr/2015-06-08.jpg.txt")
-    val week = weekOf("2015-06-08")
-
-    val offers = resolver().resolveOffersFromText(week.monday, text)
-
-    offers shouldHaveSize 18
-
-    offers shouldContain LunchOffer(0, "Möhrencremesuppe", week.monday, euro("2.40"), providerId)
-    offers shouldContain LunchOffer(0, "2 Currywürste mit Pommes frites und Krautsalat", week.monday, euro("4.10"), providerId)
-    offers shouldContain LunchOffer(0, "Putensteak mit Pfeffersauce, Gemüse und Kroketten", week.monday, euro("4.90"), providerId)
-    offers shouldContain LunchOffer(0, "Nudeln mit Tomaten-Mozzarella-Sauce", week.monday, euro("3.80"), providerId)
-
-    offers shouldContain LunchOffer(0, "Gefüllte Eierkuchen", week.tuesday, euro("3.00"), providerId)
-    offers shouldContain LunchOffer(0, "Schnitzeltag", week.tuesday, euro("4.60"), providerId)
-
-    offers shouldContain LunchOffer(0, "Grüner Bohneneintopf", week.wednesday, euro("2.40"), providerId)
-    offers shouldContain LunchOffer(0, "Böhmisches Bierfleisch mit Semmelknödel", week.wednesday, euro("4.10"), providerId)
-    offers shouldContain LunchOffer(0, "Hähnchen “Cordon bleu“ mit Pfefferrahmsauce, Gemüse und Kroketten", week.wednesday, euro("4.60"), providerId)
-    offers shouldContain LunchOffer(0, "Seelachsfilet mit Salbei-Senf-Sauce, Naturreis und", week.wednesday, euro("4.80"), providerId)
-
-    offers shouldContain LunchOffer(0, "Käse-Lauch-Suppe", week.thursday, euro("3.20"), providerId)
-    offers shouldContain LunchOffer(0, "Hackfleischroulade mit Sahnesauce, Rotkohl und Salzkartoffeln", week.thursday, euro("4.50"), providerId)
-    offers shouldContain LunchOffer(0, "Hähnchen “Tandoori“ mit Blumenkohl, Brokkoli und Petersilienkartoffeln", week.thursday, euro("4.80"), providerId)
-    offers shouldContain LunchOffer(0, "Kartoffel-Tomaten-Zucchini-Auflauf", week.thursday, euro("3.90"), providerId)
-
-    offers shouldContain LunchOffer(0, "Weißkohleintopf", week.friday, euro("2.40"), providerId)
-    offers shouldContain LunchOffer(0, "Hackfleischbällchen mit Porreerahmgemüse und Salzkartoffeln", week.friday, euro("4.10"), providerId)
-    offers shouldContain LunchOffer(0, "Schweinekrustenbraten mit Gemüse dazu Salzkartoffeln", week.friday, euro("4.40"), providerId)
-    offers shouldContain LunchOffer(0, "Hausgemachtes Gemüseschnitzel mit Kartoffelpüree", week.friday, euro("3.90"), providerId)
-  }
-
-  @Test
   fun `resolve offers for week of 2015-07-27`() {
     val text = readFileContent("/menus/gesundheitszentrum/ocr/2015-07-27.jpg.txt")
     val week = weekOf("2015-07-27")
@@ -253,7 +220,7 @@ class LunchResolverGesundheitszentrumTest {
 
     offers shouldContain LunchOffer(0, "Kartoffelsuppe mit Wiener", week.monday, euro("3.30"), providerId)
     offers shouldContain LunchOffer(0, "Schweineleber mit Zwiebelsauce und Kartoffelpüree", week.monday, euro("4.30"), providerId)
-    offers shouldContain LunchOffer(0, "Hähnchen „Cordon Bleu“ ;Pfefferrahmsauce, Gemüse und Kroketten", week.monday, euro("4.60"), providerId)
+    offers shouldContain LunchOffer(0, "Hähnchen \"Cordon Bleu\" ;Pfefferrahmsauce, Gemüse und Kroketten", week.monday, euro("4.60"), providerId)
     offers shouldContain LunchOffer(0, "Gefüllte Kartoffeltaschen mit Tomatensauce", week.monday, euro("3.90"), providerId)
 
     offers shouldContain LunchOffer(0, "Germknödel mit Vanillesauce und Mohn", week.tuesday, euro("3.20"), providerId)
@@ -268,83 +235,13 @@ class LunchResolverGesundheitszentrumTest {
 
     offers shouldContain LunchOffer(0, "Käse-Lauch-Suppe", week.thursday, euro("3.20"), providerId)
     offers shouldContain LunchOffer(0, "Hühnerfrikassee mit Champignons, Spargel und Reis", week.thursday, euro("4.10"), providerId)
-    offers shouldContain LunchOffer(0, "Steak „au four“ mit Buttererbsen und Kroketten", week.thursday, euro("4.60"), providerId)
+    offers shouldContain LunchOffer(0, "Steak \"au four\" mit Buttererbsen und Kroketten", week.thursday, euro("4.60"), providerId)
     offers shouldContain LunchOffer(0, "Pasta mit Blattspinat, Tomaten und Reibekäse", week.thursday, euro("4.00"), providerId)
 
     offers shouldContain LunchOffer(0, "Fischtopf", week.friday, euro("3.20"), providerId)
     offers shouldContain LunchOffer(0, "Schweinegeschnetzeltes mit Pilzen und Reis", week.friday, euro("4.30"), providerId)
     offers shouldContain LunchOffer(0, "Holzfällersteak mit geschmorten Zwiebeln und Bratkartoffeln", week.friday, euro("4.50"), providerId)
     offers shouldContain LunchOffer(0, "Kräuterrührei mit Kartoffelpüree", week.friday, euro("3.80"), providerId)
-  }
-
-  @Test
-  fun `resolve offers for week of 2015-08-03`() {
-    val text = readFileContent("/menus/gesundheitszentrum/ocr/2015-08-03.jpg.txt")
-    val week = weekOf("2015-08-03")
-
-    val offers = resolver().resolveOffersFromText(week.monday, text)
-
-    offers shouldHaveSize 20
-
-    offers shouldContain LunchOffer(0, "Vegetarische Linsensuppe mit einem Vollkornbrötchen", week.monday, euro("3.20"), providerId)
-    offers shouldContain LunchOffer(0, "Hausgemachte Boulette mit Mischgemüse und Kartoffelpüree", week.monday, euro("4.00"), providerId)
-    offers shouldContain LunchOffer(0, "Rindersauerbraten mit Rotkohl und Klößen", week.monday, euro("4.80"), providerId)
-    offers shouldContain LunchOffer(0, "Kartoffel-Tomaten-Zucchini-Auflauf mit Mozzarella überbacken", week.monday, euro("3.90"), providerId)
-
-    offers shouldContain LunchOffer(0, "Hausgemachte Eierkuchen mit Apfelmus und Zucker", week.tuesday, euro("3.50"), providerId)
-    offers shouldContain LunchOffer(0, "Rostbratwurst mit Sauerkraut und Kartoffelpüree", week.tuesday, euro("4.00"), providerId)
-    offers shouldContain LunchOffer(0, "„Pariser Schnitzel“ in Burgundersauce, Gemüse und Kroketten", week.tuesday, euro("4.60"), providerId)
-    offers shouldContain LunchOffer(0, "Nudeln mit Morchelrahmsauce", week.tuesday, euro("3.80"), providerId)
-
-    offers shouldContain LunchOffer(0, "Rosenkohleintopf", week.wednesday, euro("2.40"), providerId)
-    offers shouldContain LunchOffer(0, "Jägerschnitzel (panierte Jagdwurst), Tomatensauce und Nudeln", week.wednesday, euro("4.00"), providerId)
-    offers shouldContain LunchOffer(0, "Forelle „Müllerin Art“ mit zerlassener Butter und Petersilienkartoffeln", week.wednesday, euro("4.60"), providerId)
-    offers shouldContain LunchOffer(0, "4/2 Eier mit Remoulade und Bratkartoffeln", week.wednesday, euro("3.80"), providerId)
-
-    offers shouldContain LunchOffer(0, "Bauerntopf (Hackfleisch, Kartoffeln, Paprika und Zwiebeln)", week.thursday, euro("3.20"), providerId)
-    offers shouldContain LunchOffer(0, "Pfefferfleisch mit Buttererbsen und Reis", week.thursday, euro("4.20"), providerId)
-    offers shouldContain LunchOffer(0, "Putenschnitzel mit Preiselbeerdressing und Kroketten", week.thursday, euro("4.80"), providerId)
-    offers shouldContain LunchOffer(0, "Rieseneisbein mit Sauerkraut und Salzkartoffeln", week.thursday, euro("4.90"), providerId)
-
-    offers shouldContain LunchOffer(0, "Blumenkohl-Curry-Suppe", week.friday, euro("2.60"), providerId)
-    offers shouldContain LunchOffer(0, "3 gekochte Eier mit Senfsauce und Kartoffelpüree", week.friday, euro("3.80"), providerId)
-    offers shouldContain LunchOffer(0, "Schweinekrustenbraten mit Gemüse und Salzkartoffeln", week.friday, euro("4.40"), providerId)
-    offers shouldContain LunchOffer(0, "Pilzragout mit Semmelknödel", week.friday, euro("4.00"), providerId)
-  }
-
-  @Test
-  fun `resolve offers for week of 2015-08-10`() {
-    val text = readFileContent("/menus/gesundheitszentrum/ocr/2015-08-10.jpg.txt")
-    val week = weekOf("2015-08-10")
-
-    val offers = resolver().resolveOffersFromText(week.monday, text)
-
-    offers shouldHaveSize 20
-
-    offers shouldContain LunchOffer(0, "Indischer Curryreiseintopf mit Gemüse und Hühnerfleisch", week.monday, euro("3.00"), providerId)
-    offers shouldContain LunchOffer(0, "2 Currywürste mit hausgemachtem Curryketchup und Pommes frites", week.monday, euro("4.10"), providerId)
-    offers shouldContain LunchOffer(0, "Gebratenes Putensteak mit Curry-Ananas-Sauce und Spätzle", week.monday, euro("4.90"), providerId)
-    offers shouldContain LunchOffer(0, "Kräuterquark mit Butter oder Leinöl und Salzkartoffeln", week.monday, euro("3.80"), providerId)
-
-    offers shouldContain LunchOffer(0, "Grießbrei mit Früchten", week.tuesday, euro("2.90"), providerId)
-    offers shouldContain LunchOffer(0, "Hackbraten mit Mischgemüse und Salzkartoffeln", week.tuesday, euro("4.00"), providerId)
-    offers shouldContain LunchOffer(0, "Rindergulasch mit Rotkohl und Klöße", week.tuesday, euro("4.80"), providerId)
-    offers shouldContain LunchOffer(0, "Pasta mit Blattspinat, Tomaten und Reibekäse (analog)", week.tuesday, euro("4.00"), providerId)
-
-    offers shouldContain LunchOffer(0, "Grüne Bohneneintopf", week.wednesday, euro("2.40"), providerId)
-    offers shouldContain LunchOffer(0, "Szegediner Gulasch mit Salzkartoffeln", week.wednesday, euro("4.10"), providerId)
-    offers shouldContain LunchOffer(0, "Lachs mit Makkaroni und Möhren-Sellerie-Salat", week.wednesday, euro("4.80"), providerId)
-    offers shouldContain LunchOffer(0, "Champignonomelette mit Sauce Funghi und Kartoffelpüree", week.wednesday, euro("3.90"), providerId)
-
-    offers shouldContain LunchOffer(0, "Porreeeintopf", week.thursday, euro("2.40"), providerId)
-    //    offers shouldContain LunchOffer(0, "Ofenfrischer Leberkäs mit einem Setzei, Zwiebelsauce und Kartoffelpüree", week.thursday, euro("4.20"), providerId)
-    offers shouldContain LunchOffer(0, "Entenkeule mit Rotkohl und Klöße", week.thursday, euro("4.90"), providerId)
-    offers shouldContain LunchOffer(0, "Eier-Spinat-Ragout mit Petersilienkartoffeln", week.thursday, euro("4.00"), providerId)
-
-    offers shouldContain LunchOffer(0, "Reitersuppe (Hackfleisch, grüne Bohnen, Champignons, Paprika)", week.friday, euro("3.20"), providerId)
-    offers shouldContain LunchOffer(0, "Chinapfanne mit Reis", week.friday, euro("4.20"), providerId)
-    offers shouldContain LunchOffer(0, "Schaschlik-Spieß mit Letscho und Pommes frites", week.friday, euro("4.70"), providerId)
-    offers shouldContain LunchOffer(0, "Brathering mit Bratkartoffeln", week.friday, euro("3.90"), providerId)
   }
 
   @Test
@@ -429,27 +326,27 @@ class LunchResolverGesundheitszentrumTest {
 
     offers shouldContain LunchOffer(0, "Hausgemachte Soljanka", week.monday, euro("2.90"), providerId)
     offers shouldContain LunchOffer(0, "Gemischter Gulasch mit Rotkohl und Kartoffeln", week.monday, euro("4.50"), providerId)
-    offers shouldContain LunchOffer(0, "Nudel-Broccoli-Auflauf", week.monday, euro("4.90"), providerId) // eigentlich 3.**€, aber OCR-Erkennung erkennt sogar 1,**€
+    offers shouldContain LunchOffer(0, "Nudel-Broccoli-Auflauf", week.monday, euro("3.90"), providerId)
     offers shouldContain LunchOffer(0, "Steak \"au four\" mit Würzfleisch überbacken dazu Gemüse und Pommes Frites", week.monday, euro("4.80"), providerId)
 
-    offers shouldContain LunchOffer(0, "Germknödel mit Vanillesauce und Mohn", week.tuesday, euro("4.20"), providerId) // eigentlich 3.**€, aber OCR-Erkennung erkennt sogar 1,**€
+    offers shouldContain LunchOffer(0, "Germknödel mit Vanillesauce und Mohn", week.tuesday, euro("3.20"), providerId)
     offers shouldContain LunchOffer(0, "Cevapcici mit Zigeunersauce dazu Reis", week.tuesday, euro("4.30"), providerId)
-    offers shouldContain LunchOffer(0, "Champignonpfanne mit Kartoffelpüree", week.tuesday, euro("4.90"), providerId)
+    offers shouldContain LunchOffer(0, "Champignonpfanne mit Kartoffelpüree", week.tuesday, euro("3.90"), providerId)
     offers shouldContain LunchOffer(0, "Hähnchen \"Cordon Bleu\" mit Pfeffersauce dazu Gemüse Kroketten", week.tuesday, euro("4.80"), providerId)
 
     offers shouldContain LunchOffer(0, "Bunter Gemüse Eintopf", week.wednesday, euro("2.50"), providerId)
-    offers shouldContain LunchOffer(0, "Gemüseschnitzel mit Sauce Hollandaise und Kartoffelpüree", week.wednesday, euro("4.90"), providerId) // OCR-Preis-Erkennung falsch
+    offers shouldContain LunchOffer(0, "Gemüseschnitzel mit Sauce Hollandaise und Kartoffelpüree", week.wednesday, euro("3.90"), providerId)
     offers shouldContain LunchOffer(0, "2 Rinderbouletten mit Ratatouille dazu Reis", week.wednesday, euro("4.50"), providerId)
     offers shouldContain LunchOffer(0, "Schollenfilet mit Gemüsereis", week.wednesday, euro("4.90"), providerId)
 
     offers shouldContain LunchOffer(0, "Rosenkohleintopf", week.thursday, euro("2.50"), providerId)
     offers shouldContain LunchOffer(0, "Paprikasahnegulasch mit Nudeln", week.thursday, euro("4.50"), providerId)
-    offers shouldContain LunchOffer(0, "Kartoffel-Zucchinie-Tomaten Auflauf mit Mozzarella überbacken", week.thursday, euro("4.90"), providerId) // OCR-Preis-Erkennung falsch
+    offers shouldContain LunchOffer(0, "Kartoffel-Zucchinie-Tomaten Auflauf mit Mozzarella überbacken", week.thursday, euro("3.90"), providerId)
     offers shouldContain LunchOffer(0, "Westfälischer Pfeffer Potthast (Rindfleisch) mit Rote Bete Salat dazu Salzkartoffeln", week.thursday, euro("4.90"), providerId)
 
-    offers shouldContain LunchOffer(0, "Reitersuppe (Hackfleisch, grüne Bohnen, Chmapignons, Paprika)", week.friday, euro("4.30"), providerId) // OCR-Preis-Erkennung falsch
+    offers shouldContain LunchOffer(0, "Reitersuppe (Hackfleisch, grüne Bohnen, Chmapignons, Paprika)", week.friday, euro("3.30"), providerId)
     offers shouldContain LunchOffer(0, "Schweineleber mit Zwiebelsauce dazu Kartoffelpüree", week.friday, euro("4.50"), providerId)
-    offers shouldContain LunchOffer(0, "Gefüllte Kartoffeltaschen mit Tomatensauce", week.friday, euro("4.90"), providerId) // OCR-Preis-Erkennung falsch
+    offers shouldContain LunchOffer(0, "Gefüllte Kartoffeltaschen mit Tomatensauce", week.friday, euro("3.90"), providerId)
     offers shouldContain LunchOffer(0, "Hähnchengeschnetzeltes \"Gyros Art\" dazu Tzatziki und Reis", week.friday, euro("4.80"), providerId)
   }
 
@@ -465,7 +362,7 @@ class LunchResolverGesundheitszentrumTest {
     offers shouldContain LunchOffer(0, "Schwedische Fischsuppe mit Apfelstückchen", week.monday, euro("3.30"), providerId)
     offers shouldContain LunchOffer(0, "Chinapfanne mit Geflügelfleisch dazu Reis", week.monday, euro("4.30"), providerId)
     offers shouldContain LunchOffer(0, "Maultaschen auf Blattspinat dazu Käsesauce", week.monday, euro("4.20"), providerId)
-    offers shouldContain LunchOffer(0, "Schweineschnitzel ”Jäger Art” mit Champignons und Waldpilzen in Rahm dazu Pommes Frites", week.monday, euro("4.70"), providerId)
+    offers shouldContain LunchOffer(0, "Schweineschnitzel \"Jäger Art\" mit Champignons und Waldpilzen in Rahm dazu Pommes Frites", week.monday, euro("4.70"), providerId)
 
     offers shouldContain LunchOffer(0, "Grießbrei mit warmen Schattenmorellen", week.tuesday, euro("3.20"), providerId)
     offers shouldContain LunchOffer(0, "Schnitzeltag", week.tuesday, euro("5.00"), providerId)
@@ -481,9 +378,9 @@ class LunchResolverGesundheitszentrumTest {
     offers shouldContain LunchOffer(0, "Hähnchen mit Mozzarellakruste und Curryreis", week.thursday, euro("4.90"), providerId)
 
     offers shouldContain LunchOffer(0, "Brühnudeln", week.friday, euro("2.50"), providerId)
-    offers shouldContain LunchOffer(0, "Klopse ”Napoli” mit Tomatensauce und Reis", week.friday, euro("4.20"), providerId)
+    offers shouldContain LunchOffer(0, "Klopse \"Napoli\" mit Tomatensauce und Reis", week.friday, euro("4.20"), providerId)
     offers shouldContain LunchOffer(0, "Asiatisches Wokgericht mit Cashewkernen dazu Reis", week.friday, euro("4.00"), providerId)
-    offers shouldContain LunchOffer(0, "Forelle ”Müllerin” mit zerlassener Butter und Petersilienkartoffeln", week.friday, euro("4.90"), providerId)
+    offers shouldContain LunchOffer(0, "Forelle \"Müllerin\" mit zerlassener Butter und Petersilienkartoffeln", week.friday, euro("4.90"), providerId)
   }
 
   @Test

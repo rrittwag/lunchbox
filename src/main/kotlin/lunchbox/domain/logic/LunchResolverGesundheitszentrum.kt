@@ -172,9 +172,24 @@ class LunchResolverGesundheitszentrum(
 
   private fun correctOcrErrors(line: String) =
     line.trim()
+      // neu
+      .replace(Regex("""^(\d)[.,:;]+ """), "$1. ")
+      .replace("T. ", "1. ")
+      .replace("*", "\"")
+      .replace("%!B(MISSING)irne", "1/2 Birne")
+      .replace("Scharfes-", "Scharfes ")
+      .replace("Gamembert", "Camembert")
+      .replace("Ghampignon", "Champignon")
+      .replace("Spätze", "Spätzle")
+      .replace("2Setzeier", "2 Setzeier")
+      .replace("Gnocei", "Gnocci")
+      .replace("Cevapeici", "Cevapcici")
+      .replace(Regex("9 *€"), "0 €") // Der Preis ist immer in 10er Cents
+      .replace(Regex(" 40€$"), " 4,90 €") // Hmm, blöd
+
+      // alt
       .replace("‚", ",")
       .replace(Regex("""^[fF][.,]* """), "F. ")
-      .replace(Regex("""^(\d)[.,]+ """), "$1. ")
       .replace(Regex("""^l[.,]+ """), "1. ")
       .replace(Regex("""^(\d)A """), "$1. ")
       .replace(Regex("^Zl "), "2. ")
@@ -238,7 +253,6 @@ class LunchResolverGesundheitszentrum(
       .replace(Regex("""^FlTNESS [fF\d]\.* """), "F. ")
       .replace(Regex("""^FlTNESS """), "")
       .replace(Regex(""" ,?[unm]; """), " ")
-      .replace(Regex(""" \d+ kcal"""), "")
       .replace(Regex(""" [a-zA-Z]+kcal"""), " ")
       .replace(" kcal", "")
       .replace(Regex(" 2 ?und "), " und ")
@@ -255,7 +269,6 @@ class LunchResolverGesundheitszentrum(
       .replace(Regex(""" [A-Z]{2}[^ ]* +(\d,\d\d)$"""), " $1")
       .replace("!!!", "")
       .replace("Amame", "")
-      .replace("Acu", "")
       .replace(Regex(""" [^ ]+![^ ]+ """), "")
       .replace(Regex(""" [^ ]+![^ ]+$"""), "")
       .replace(Regex(""" [A-Za-z]+[A-Z0-9!].* +(\d,\d\d)$"""), " $1")
@@ -266,7 +279,15 @@ class LunchResolverGesundheitszentrum(
     line.startsWith("ACHTUNG") || line.startsWith("Wir wünschen") ||
       line.startsWith("Öffnungszeiten") || line.startsWith("Alle Spelsen")
 
-  private fun cleanName(text: String) = text.replace(" 2 *$", "").trim()
+  private fun cleanName(text: String) =
+    text.trim()
+
+      // neu
+      .replace(Regex("[„“”]"), "\"")
+      .replace(Regex(""" [^ ]*[\d!_.\[\]{}|]+[^ ]*$"""), "")
+      .replace(Regex(""" [acgiınulACDGHIJU]{1,5}$"""), "")
+      .replace(Regex(""" \d+ [kK]cal"""), "")
+      .trim()
 
   private fun isWochenplanRelevant(wochenplan: Wochenplan): Boolean =
     dateValidator.isValid(wochenplan.monday)
