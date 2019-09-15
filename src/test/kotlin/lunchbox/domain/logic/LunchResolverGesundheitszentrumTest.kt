@@ -1,8 +1,11 @@
 package lunchbox.domain.logic /* ktlint-disable max-line-length no-wildcard-imports */
 
+import com.fasterxml.jackson.module.kotlin.readValue
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.GESUNDHEITSZENTRUM
+import lunchbox.domain.logic.LunchResolverGesundheitszentrum.Wochenplan
+import lunchbox.domain.logic.LunchResolverGesundheitszentrum.WochenplanWithImageId
 import lunchbox.util.facebook.FacebookGraphApi
 import lunchbox.util.facebook.Image
 import lunchbox.util.facebook.Posts
@@ -11,6 +14,7 @@ import lunchbox.util.ocr.OcrClient
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldHaveSize
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.net.URL
 
@@ -22,58 +26,75 @@ class LunchResolverGesundheitszentrumTest {
   private val providerId = GESUNDHEITSZENTRUM.id
   private val objectMapper = createObjectMapper()
 
-  @Test
-  fun `resolve Wochenplaene for facebook page of 2015-07-05`() {
-    val content = readFileContent("/menus/gesundheitszentrum/graphapi/2015-07-05_posts.json")
-    val posts = objectMapper.readValue(content, Posts::class.java)
+  @Nested
+  inner class GraphApi {
+    @Test
+    fun `resolve Wochenplaene for posts of 2015-07-05`() {
+      val content = readFileContent("/menus/gesundheitszentrum/graphapi/2015-07-05_posts.json")
+      val posts = objectMapper.readValue<Posts>(content)
 
-    val wochenplaene = resolver().parseWochenplaene(posts.data)
+      val wochenplaene = resolver().parseWochenplaeneByGraphApi(posts.data)
 
-    wochenplaene shouldContain Wochenplan(date("2015-07-06"), "723372204440300")
-    wochenplaene shouldContain Wochenplan(date("2015-06-22"), "715616615215859")
-    wochenplaene shouldContain Wochenplan(date("2015-06-15"), "712691465508374")
+      wochenplaene shouldContain WochenplanWithImageId(date("2015-07-06"), "723372204440300")
+      wochenplaene shouldContain WochenplanWithImageId(date("2015-06-22"), "715616615215859")
+      wochenplaene shouldContain WochenplanWithImageId(date("2015-06-15"), "712691465508374")
+    }
+
+    @Test
+    fun `resolve Wochenplaene for posts of 2017-07-24`() {
+      val content = readFileContent("/menus/gesundheitszentrum/graphapi/2017-07-24_posts.json")
+      val posts = objectMapper.readValue<Posts>(content)
+
+      val wochenplaene = resolver().parseWochenplaeneByGraphApi(posts.data)
+
+      wochenplaene shouldContain WochenplanWithImageId(date("2017-07-24"), "1214480778662771")
+      wochenplaene shouldContain WochenplanWithImageId(date("2017-07-17"), "1208020239308825")
+      wochenplaene shouldContain WochenplanWithImageId(date("2017-07-10"), "1204499422994240")
+    }
+
+    @Test
+    fun `resolve double-imaged Wochenplan for posts of 2016-04-25`() {
+      val content = readFileContent("/menus/gesundheitszentrum/graphapi/2016-04-25_posts.json")
+      val posts = objectMapper.readValue<Posts>(content)
+
+      val wochenplaene = resolver().parseWochenplaeneByGraphApi(posts.data)
+
+      wochenplaene shouldContain WochenplanWithImageId(date("2016-04-25"), "855667961210723")
+    }
+
+    @Test
+    fun `resolve URL for image of 2015-07-05`() {
+      val content = readFileContent("/menus/gesundheitszentrum/graphapi/2015-07-05_image.json")
+      val image = objectMapper.readValue<Image>(content)
+
+      val url = resolver().parseImageLink(image)
+
+      url shouldEqual URL("https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg")
+    }
+
+    @Test
+    fun `resolve URL for image of 2017-07-24`() {
+      val content = readFileContent("/menus/gesundheitszentrum/graphapi/2017-07-24_image.json")
+      val image = objectMapper.readValue<Image>(content)
+
+      val url = resolver().parseImageLink(image)
+
+      url shouldEqual URL("https://scontent.xx.fbcdn.net/v/t31.0-8/20233053_1214480778662771_9100409891617048289_o.jpg?oh=a50f5058410183e8a5c631e82919f473&oe=5A09D7B9")
+    }
   }
 
-  @Test
-  fun `resolve Wochenplaene for facebook page of 2017-07-24`() {
-    val content = readFileContent("/menus/gesundheitszentrum/graphapi/2017-07-24_posts.json")
-    val posts = objectMapper.readValue(content, Posts::class.java)
+  @Nested
+  inner class HtmlParsing {
+    @Test
+    fun `resolve Wochenplaene for posts of 2019-09-16`() {
+      val url = javaClass.getResource("/menus/gesundheitszentrum/html/2019-09-16_posts.html")
 
-    val wochenplaene = resolver().parseWochenplaene(posts.data)
+      val wochenplaene = resolver().parseWochenplaeneByHtml(url)
 
-    wochenplaene shouldContain Wochenplan(date("2017-07-24"), "1214480778662771")
-    wochenplaene shouldContain Wochenplan(date("2017-07-17"), "1208020239308825")
-    wochenplaene shouldContain Wochenplan(date("2017-07-10"), "1204499422994240")
-  }
-
-  @Test
-  fun `resolve double-imaged Wochenplan for facebook page of 2016-04-25`() {
-    val content = readFileContent("/menus/gesundheitszentrum/graphapi/2016-04-25_posts.json")
-    val posts = objectMapper.readValue(content, Posts::class.java)
-
-    val wochenplaene = resolver().parseWochenplaene(posts.data)
-
-    wochenplaene shouldContain Wochenplan(date("2016-04-25"), "855667961210723")
-  }
-
-  @Test
-  fun `parse URL of biggest image for 2015-07-05`() {
-    val content = readFileContent("/menus/gesundheitszentrum/graphapi/2015-07-05_image.json")
-    val image = objectMapper.readValue(content, Image::class.java)
-
-    val url = resolver().parseUrlOfBiggestImage(image)
-
-    url shouldEqual URL("https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg")
-  }
-
-  @Test
-  fun `parse URL of biggest image for 2017-07-24`() {
-    val content = readFileContent("/menus/gesundheitszentrum/graphapi/2017-07-24_image.json")
-    val image = objectMapper.readValue(content, Image::class.java)
-
-    val url = resolver().parseUrlOfBiggestImage(image)
-
-    url shouldEqual URL("https://scontent.xx.fbcdn.net/v/t31.0-8/20233053_1214480778662771_9100409891617048289_o.jpg?oh=a50f5058410183e8a5c631e82919f473&oe=5A09D7B9")
+      wochenplaene shouldHaveSize 2
+      wochenplaene shouldContain Wochenplan(date("2019-09-16"), URL("https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnOmbEvG5WngTMx4RqIMiGBD4jDftJMUMYi2M5uwa3Nu3QAJUdseNXbSEr1Iejl_Ds&_nc_ht=scontent-ber1-1.xx&oh=e40ce027618fa63a5b7f4971fc02b83d&oe=5E06EF54"))
+      wochenplaene shouldContain Wochenplan(date("2019-09-09"), URL("https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/69761025_2164731656971007_4787155769139134464_o.jpg?_nc_cat=101&_nc_oc=AQlqnbM_DBfJ-eB1mBQK48kb8M3UWtjmyGo1knDG-9caTgaJAPraVhT6ZuHcff7_5P0&_nc_ht=scontent-ber1-1.xx&oh=77d585b271943105b09845d3ed23c00b&oe=5DF4A077"))
+    }
   }
 
   @Test

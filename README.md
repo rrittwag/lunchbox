@@ -5,7 +5,6 @@ Backend für Lunchbox.
 
 ## TODOs
 
-- LunchResolver Gesundheitszentrum: Facebook-Seite [headless rendern](https://github.com/GoogleChrome/rendertron)
 - Feature: an Feiertagen keine Mittagsangebote
 - API: bei 4xx-/5xx-Exceptions eine message mitliefern
 - Integration-Test schreiben

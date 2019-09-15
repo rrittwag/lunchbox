@@ -8,6 +8,7 @@ import lunchbox.util.facebook.Image
 import lunchbox.util.facebook.Post
 import lunchbox.util.facebook.Posts
 import lunchbox.util.facebook.query
+import lunchbox.util.html.Html
 import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser
 import org.joda.money.Money
@@ -15,11 +16,6 @@ import org.springframework.stereotype.Component
 import java.net.URL
 import java.time.DayOfWeek
 import java.time.LocalDate
-
-data class Wochenplan(
-  val monday: LocalDate,
-  val mittagsplanImageId: String
-)
 
 /**
  * Mittagsangebote von Gesundheitszentrum Springpfuhl über deren Facebook-Seite ermitteln.
@@ -34,19 +30,67 @@ class LunchResolverGesundheitszentrum(
   override val provider = GESUNDHEITSZENTRUM
 
   override fun resolve(): List<LunchOffer> {
+    // Als Folge des Datenskandals um Cambridge Analytica beschränkt Facebook den Zugriff auf
+    // seine Graph API. Ab 04.09.2019 können nur noch verifizierte Firmen auf die öffentlichen
+    // Posts der Nutzer zugreifen. Blöd für die Lunchbox ...
+
+    // return resolveByGraphApi()
+
+    // ... Na dann müssen wir halt die Webseite parsen. Allerdings ist die Webseite als WebApp
+    // mit viel JavaScript-Magie realisiert und rendert nur im Browser vollständig ... oder mit
+    // Rendertron.
+
+    return resolveByHtml()
+  }
+
+  fun resolveByHtml(): List<LunchOffer> {
+    val wochenplaene =
+      parseWochenplaeneByHtml(provider.menuUrl)
+
+    return resolveOffersFromWochenplaene(wochenplaene)
+  }
+
+  fun parseWochenplaeneByHtml(url: URL): List<Wochenplan> {
+    val site = Html.renderAndLoad(url)
+    val articles = site.select("""div[role="article"]""")
+
+    val plaene = mutableListOf<Wochenplan>()
+
+    for (article in articles) {
+      val monday =
+        // im Text steckt das Datum der Woche
+        StringParser
+          .parseLocalDate(article.text())
+          ?.with(DayOfWeek.MONDAY) ?: continue
+
+      val imageLink =
+        article
+          .selectFirst("a[data-ploi]")
+          .attr("data-ploi")
+          ?: continue
+
+        plaene += Wochenplan(monday, URL(imageLink))
+    }
+
+    return plaene
+  }
+
+  private fun resolveByGraphApi(): List<LunchOffer> {
     // von der Facebook-Seite der Kantine die Posts als JSON abfragen (beschränt auf Text und Anhänge)
     val facebookPosts = graphApi.query<Posts>("181190361991823/posts?fields=message,attachments")
       ?: return emptyList()
 
     val wochenplaene =
-      parseWochenplaene(facebookPosts.data)
-        .takeWhile { isWochenplanRelevant(it) }
+      parseWochenplaeneByGraphApi(facebookPosts.data)
+        .mapNotNull { (monday, mittagsplanImageId) ->
+          parseImageLink(mittagsplanImageId)?.let { Wochenplan(monday, it) }
+        }
 
     return resolveOffersFromWochenplaene(wochenplaene)
   }
 
-  fun parseWochenplaene(posts: List<Post>): List<Wochenplan> {
-    val plaene = mutableListOf<Wochenplan>()
+  fun parseWochenplaeneByGraphApi(posts: List<Post>): List<WochenplanWithImageId> {
+    val plaene = mutableListOf<WochenplanWithImageId>()
 
     for (post in posts) {
       val monday =
@@ -58,7 +102,7 @@ class LunchResolverGesundheitszentrum(
       val imageAttachment = findImageAttachment(post) ?: continue
       val imageId = imageAttachment.target.id
 
-      plaene += Wochenplan(monday, imageId)
+      plaene += WochenplanWithImageId(monday, imageId)
     }
 
     return plaene
@@ -76,25 +120,32 @@ class LunchResolverGesundheitszentrum(
     return attachment
   }
 
-  fun resolveOffersFromWochenplaene(wochenplaene: List<Wochenplan>): List<LunchOffer> =
-    // TODO: parallelize
-    wochenplaene.flatMap { resolveOffersFromWochenplan(it) }.distinct()
-
-  fun resolveOffersFromWochenplan(plan: Wochenplan): List<LunchOffer> {
-    val facebookImage = graphApi.query<Image>("${plan.mittagsplanImageId}?fields=images")
-      ?: return emptyList()
-
-    val ocrText = doOcr(parseUrlOfBiggestImage(facebookImage))
-    return resolveOffersFromText(plan.monday, ocrText)
+  private fun parseImageLink(mittagsplanImageId: String): URL? {
+    val facebookImage = graphApi.query<Image>("$mittagsplanImageId?fields=images")
+      ?: return null
+    return parseImageLink(facebookImage)
   }
 
-  fun doOcr(url: URL?): String = url?.let { ocrClient.doOCR(it) } ?: ""
-
-  fun parseUrlOfBiggestImage(image: Image): URL? {
+  fun parseImageLink(image: Image): URL? {
+    // das Bild mit der höchsten Auflösung bringt die besten OCR-Ergebnisse
     val sizedImages = image.images
     val biggestImage = sizedImages.maxBy { it.height }
     return biggestImage?.source
   }
+
+  private fun resolveOffersFromWochenplaene(wochenplaene: List<Wochenplan>): List<LunchOffer> =
+    // TODO: parallelize
+    wochenplaene
+      .distinctBy { it.monday }
+      .filter { isWochenplanRelevant(it) }
+      .flatMap { resolveOffersFromWochenplan(it) }
+
+  fun resolveOffersFromWochenplan(plan: Wochenplan): List<LunchOffer> {
+    val ocrText = doOcr(plan.mittagsplanImageUrl)
+    return resolveOffersFromText(plan.monday, ocrText)
+  }
+
+  fun doOcr(url: URL?): String = url?.let { ocrClient.doOCR(it) } ?: ""
 
   fun resolveOffersFromText(monday: LocalDate, text: String): List<LunchOffer> =
     groupBySection(text)
@@ -335,4 +386,14 @@ class LunchResolverGesundheitszentrum(
     fun hasIncompleteEnd(): Boolean =
       name.matches(Regex(".* (dazu|mit|und|in|an)")) // endet mit Bindewort
   }
+
+  data class WochenplanWithImageId(
+    val monday: LocalDate,
+    val mittagsplanImageId: String
+  )
+
+  data class Wochenplan(
+    val monday: LocalDate,
+    val mittagsplanImageUrl: URL
+  )
 }
