@@ -148,7 +148,7 @@ class LunchResolverGesundheitszentrum(
       var lineWithoutPrice = lineWithoutNumber
       var price: Money? = null
 
-      val matchResult = Regex("""(.*) (\d+,\d{2})""").find(lineWithoutNumber)
+      val matchResult = Regex("""(.*) (\d+,\d{2}) €$""").find(lineWithoutNumber)
       if (matchResult != null) {
         val (lineBeforePrice, priceStr) = matchResult.destructured
         lineWithoutPrice = lineBeforePrice
@@ -257,7 +257,7 @@ class LunchResolverGesundheitszentrum(
     row.trim()
       .replace(Regex(" 40€$"), " 4,90 €") // Hmm, blöd
       .replace(Regex("9 *€$"), "0 €") // Der Preis ist immer in 10er Cents
-      .replace(Regex("""(\d+) ?[.,]? ?(\d{2}) ?[€g]?$"""), "$1,$2")
+      .replace(Regex("""(\d+) ?[.,]? ?(\d{2}) ?[€g]?$"""), "$1,$2 €")
       .trim()
 
   private fun correctRowName(row: String) =
@@ -330,9 +330,9 @@ class LunchResolverGesundheitszentrum(
       name.isNotEmpty() && price != null && !hasIncompleteStart() && !hasIncompleteEnd()
 
     fun hasIncompleteStart(): Boolean =
-      name.matches(Regex("[a-züäö]+ .*")) // "^(dazu|mit|in|an) "
+      name.matches(Regex("[a-züäö]+ .*")) // beginnt klein geschrieben (und, dazu, mit, ...)
 
     fun hasIncompleteEnd(): Boolean =
-      name.matches(Regex(".* (dazu|mit|und|in|an)"))
+      name.matches(Regex(".* (dazu|mit|und|in|an)")) // endet mit Bindewort
   }
 }
