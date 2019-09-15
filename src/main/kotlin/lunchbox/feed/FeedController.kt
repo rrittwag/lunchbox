@@ -38,7 +38,7 @@ class FeedController(
   ): Feed =
     // Spring automatically converts Rome feeds
     // -> https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/converter/feed/AtomFeedHttpMessageConverter.html
-    createFeed(location, request.requestURL.toString())
+    createFeed(location, "${request.requestURL}?${request.queryString}")
 
   fun createFeed(
     location: LunchLocation,

@@ -52,6 +52,7 @@ class FeedControllerTest(
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_ATOM_XML))
         .andExpect(xpath("/feed").exists())
         .andExpect(xpath("/feed/entry").nodeCount(2))
+        .andExpect(xpath("/feed/link/@href").string("http://localhost$URL_FEED?location=${NEUBRANDENBURG.label}"))
 
       verify(exactly = 1) { repo.findAll() }
     }
