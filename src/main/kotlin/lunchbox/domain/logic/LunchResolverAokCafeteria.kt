@@ -2,7 +2,7 @@ package lunchbox.domain.logic
 
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
-import lunchbox.util.html.Html
+import lunchbox.util.html.HtmlParser
 import lunchbox.util.pdf.PdfExtractor
 import lunchbox.util.pdf.TextGroup
 import lunchbox.util.pdf.TextLine
@@ -29,7 +29,7 @@ class LunchResolverAokCafeteria(
   }
 
   fun resolvePdfLinks(htmlUrl: URL): List<String> {
-    val site = Html.load(htmlUrl)
+    val site = HtmlParser.parse(htmlUrl)
 
     val links = site.select("a").map { it.attr("href") }
     return links.filter { it.matches(Regex(""".*/[a-zA-Z]{3}[0-9_.\-]*.pdf""")) }.distinct()

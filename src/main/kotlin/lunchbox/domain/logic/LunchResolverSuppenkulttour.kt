@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
-import lunchbox.util.html.Html
+import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
 import org.joda.money.Money
 import org.jsoup.nodes.Element
@@ -26,7 +26,7 @@ class LunchResolverSuppenkulttour(
   fun resolve(url: URL): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
 
-    val site = Html.load(url)
+    val site = HtmlParser.parse(url)
 
     // Die Wochenangebote sind im section-Element mit der class "ce_accordionStart" enthalten
     for (wochenplanSection in site.select("section.ce_accordionStart")) {

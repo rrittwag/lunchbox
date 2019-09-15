@@ -2,7 +2,7 @@ package lunchbox.domain.logic
 
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.DAS_KRAUTHOF
-import lunchbox.util.html.Html
+import lunchbox.util.html.HtmlParser
 import lunchbox.util.pdf.PdfExtractor
 import lunchbox.util.string.StringParser
 import org.joda.money.Money
@@ -24,7 +24,7 @@ class LunchResolverKrauthof(
   }
 
   fun resolvePdfLinks(htmlUrl: URL): List<String> {
-    val site = Html.load(htmlUrl)
+    val site = HtmlParser.parse(htmlUrl)
 
     val links = site.select("a").map { it.attr("href") }
     return links.filter { it.matches(Regex(""".*/KRAUTHOF.*.pdf""")) }

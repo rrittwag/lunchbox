@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
-import lunchbox.util.html.Html
+import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
@@ -24,7 +24,7 @@ class LunchResolverSaltNPepper(
     resolve(provider.menuUrl)
 
   fun resolve(url: URL): List<LunchOffer> {
-    val site = Html.load(url)
+    val site = HtmlParser.parse(url)
 
     val divs = site.select("div.wpb_content_element")
     val monday = resolveMonday(divs) ?: return emptyList()

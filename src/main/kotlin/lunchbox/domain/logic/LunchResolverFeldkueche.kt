@@ -6,7 +6,7 @@ import java.time.LocalDate
 
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.FELDKUECHE
-import lunchbox.util.html.Html
+import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser
 import org.joda.money.Money
@@ -28,7 +28,7 @@ class LunchResolverFeldkueche(
     resolveFromImageLinks(resolveImageLinks(provider.menuUrl))
 
   fun resolveImageLinks(htmlUrl: URL): List<URL> {
-    val site = Html.load(htmlUrl)
+    val site = HtmlParser.parse(htmlUrl)
 
     val divsWithContent = site.select("div#content_area")
     val links = divsWithContent.select("a").map { it.attr("href") }

@@ -4,7 +4,7 @@ import java.net.URL
 
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
-import lunchbox.util.html.Html
+import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
 import org.jsoup.nodes.Element
 import org.springframework.stereotype.Component
@@ -20,7 +20,7 @@ class LunchResolverSchweinestall : LunchResolver {
     resolve(provider.menuUrl)
 
   fun resolve(url: URL): List<LunchOffer> {
-    val site = Html.load(url, "iso-8859-1")
+    val site = HtmlParser.parse(url, "iso-8859-1")
 
     // Die Tabelle 'cal_content' enthält die Wochenangebote
     val tdsInOffersTable = site.select("#cal_content td")

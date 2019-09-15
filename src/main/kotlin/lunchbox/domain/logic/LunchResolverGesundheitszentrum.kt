@@ -8,7 +8,7 @@ import lunchbox.util.facebook.Image
 import lunchbox.util.facebook.Post
 import lunchbox.util.facebook.Posts
 import lunchbox.util.facebook.query
-import lunchbox.util.html.Html
+import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser
 import org.joda.money.Money
@@ -51,7 +51,7 @@ class LunchResolverGesundheitszentrum(
   }
 
   fun parseWochenplaeneByHtml(url: URL): List<Wochenplan> {
-    val site = Html.renderAndLoad(url)
+    val site = HtmlParser.renderAndParse(url)
     val articles = site.select("""div[role="article"]""")
 
     val plaene = mutableListOf<Wochenplan>()
