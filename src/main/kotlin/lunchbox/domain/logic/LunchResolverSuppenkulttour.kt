@@ -136,15 +136,15 @@ class LunchResolverSuppenkulttour(
     offerAttributesAsStrings: List<String>,
     predictedPrice: Money?
   ): RawOffer? {
-    val description = mutableListOf<String>()
-    var price: Money? = predictedPrice
-
     val clearedParts = offerAttributesAsStrings.map { cleanUpString(it) }.filter { it.isNotEmpty() }
     if (clearedParts.isEmpty())
       return null
 
     val title = clearedParts.first().trim()
     val remainingParts = clearedParts.drop(1)
+
+    val description = mutableListOf<String>()
+    var price: Money? = predictedPrice
 
     for (part in remainingParts) {
       if (isZusatzInfo(part))
@@ -164,16 +164,20 @@ class LunchResolverSuppenkulttour(
     if (price == null)
       return null
 
-    description.removeIf { it.isEmpty() }
-
-    val name = when {
-      title.isEmpty() && description.isEmpty() -> return null
-      title.split(" ").contains("Feiertag") -> return null
-      description.isEmpty() -> title
-      else -> "$title: ${description.joinToString(" ")}"
-    }
+    val name = formatName(title, description) ?: return null
 
     return RawOffer(name, price)
+  }
+
+  private fun formatName(title: String, description: List<String>): String? {
+    val formattedDescription = description.filter { it.isNotEmpty() }
+
+    return when {
+      title.isEmpty() && formattedDescription.isEmpty() -> null
+      title.split(" ").contains("Feiertag") -> null
+      formattedDescription.isEmpty() -> title
+      else -> "$title: ${formattedDescription.joinToString(" ")}"
+    }
   }
 
   private fun cleanUpString(str: String): String {
