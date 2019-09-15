@@ -1,5 +1,6 @@
 package lunchbox.util.facebook /* ktlint-disable max-line-length no-wildcard-imports */
 
+import com.fasterxml.jackson.module.kotlin.readValue
 import lunchbox.util.json.createObjectMapper
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldContain
@@ -7,17 +8,15 @@ import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldHaveSize
 import org.amshove.kluent.shouldNotBe
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.fail
 import java.net.URL
 
-class FacebookGraphApiImplTest {
+class FacebookGraphApiTest {
 
   @Test
-  fun `convert posts from 2015-07-05`() {
+  fun `deserialize posts json from 2015-07-05`() {
     val contentAsString = readFileContent("/menus/gesundheitszentrum/graphapi/2015-07-05_posts.json")
 
-    val result = graphApi().fromJson(contentAsString, Posts::class.java)
-      ?: fail { "fail" }
+    val result = createObjectMapper().readValue<Posts>(contentAsString)
 
     result.data shouldHaveSize 25
     result.data[0].id shouldEqual "181190361991823_723372204440300"
@@ -30,11 +29,10 @@ class FacebookGraphApiImplTest {
   }
 
   @Test
-  fun `convert image from 2015-07-05`() {
+  fun `deserialize image json from 2015-07-05`() {
     val contentAsString = readFileContent("/menus/gesundheitszentrum/graphapi/2015-07-05_image.json")
 
-    val result = graphApi().fromJson(contentAsString, Image::class.java)
-      ?: fail { "fail" }
+    val result = createObjectMapper().readValue<Image>(contentAsString)
 
     result.id shouldEqual "723372204440300"
     result.images shouldHaveSize 9
@@ -49,6 +47,4 @@ class FacebookGraphApiImplTest {
     val url = javaClass.getResource(path)
     return url.readText(Charsets.UTF_8)
   }
-
-  private fun graphApi() = FacebookGraphApiImpl(createObjectMapper())
 }

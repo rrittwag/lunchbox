@@ -4,6 +4,8 @@ import java.net.URL
 
 /**
  * Führt ein Query via Facebook Graph API aus.
+ * <p>
+ * Das vorliegende Modell beschränkt sich auf die Resourcen Posts und Image der Graph API v2.10.
  */
 interface FacebookGraphApi {
   fun <T : GraphApiResource> query(url: String, clazz: Class<T>): T?
