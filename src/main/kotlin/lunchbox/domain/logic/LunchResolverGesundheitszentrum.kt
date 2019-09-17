@@ -12,6 +12,7 @@ import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser
 import org.joda.money.Money
+import org.jsoup.nodes.Element
 import org.springframework.stereotype.Component
 import java.net.URL
 import java.time.DayOfWeek
@@ -54,25 +55,23 @@ class LunchResolverGesundheitszentrum(
     val site = HtmlParser.renderAndParse(url)
     val articles = site.select("""div[role="article"]""")
 
-    val plaene = mutableListOf<Wochenplan>()
+    return articles.mapNotNull { parseWochenplanByHtml(it) }
+  }
 
-    for (article in articles) {
-      val monday =
-        // im Text steckt das Datum der Woche
-        StringParser
-          .parseLocalDate(article.text())
-          ?.with(DayOfWeek.MONDAY) ?: continue
+  fun parseWochenplanByHtml(article: Element): Wochenplan? {
+    val monday =
+      // im Text steckt das Datum der Woche
+      StringParser
+        .parseLocalDate(article.text())
+        ?.with(DayOfWeek.MONDAY) ?: return null
 
-      val imageLink =
-        article
-          .selectFirst("a[data-ploi]")
-          .attr("data-ploi")
-          ?: continue
+    val imageLink =
+      article
+        .selectFirst("a[data-ploi]")
+        .attr("data-ploi")
+        ?: return null
 
-        plaene += Wochenplan(monday, URL(imageLink))
-    }
-
-    return plaene
+    return Wochenplan(monday, URL(imageLink))
   }
 
   private fun resolveByGraphApi(): List<LunchOffer> {
