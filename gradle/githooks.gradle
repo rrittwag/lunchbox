@@ -16,5 +16,5 @@ task copyGitHooks(type: Copy) {
   }
 }
 
-// ausführen bei Aufruf der build-Task
-build.dependsOn copyGitHooks
+// an häufig ausgeführte Task 'classes' heften (Subtask von build & bootRun)
+classes.dependsOn copyGitHooks
