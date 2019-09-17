@@ -70,8 +70,11 @@ class LunchResolverAokCafeteria(
       if (weekdayLines == null || weekdayLines.isEmpty())
         continue
 
-      for (priceColumn in priceColumns)
-        offers += parseDayOffer(weekdayLines, weekday, monday, priceColumn)
+      for (priceColumn in priceColumns) {
+        val offer = parseDayOffer(weekdayLines, weekday, monday, priceColumn)
+          ?: continue
+        offers += offer
+      }
     }
     return offers
   }
@@ -135,13 +138,15 @@ class LunchResolverAokCafeteria(
     weekday: PdfSection,
     monday: LocalDate,
     priceColumn: PriceColumn
-  ): LunchOffer {
+  ): LunchOffer? {
     val day = monday.plusDays(weekday.order)
     val name =
       lines
         .flatMap { line -> line.texts.filter { it.xIn(priceColumn.x) } }
         .joinToString(" ")
-    return LunchOffer(0, parseName(name), day, priceColumn.price, provider.id)
+        .let { parseName(it) } ?: return null
+
+    return LunchOffer(0, name, day, priceColumn.price, provider.id)
   }
 
   private fun findWeekdaySection(lines: List<TextLine>): PdfSection? {
@@ -164,7 +169,14 @@ class LunchResolverAokCafeteria(
       .values.map { layeredTexts -> layeredTexts.minBy { it.xMin() }!! }
       .sortedBy { it.xMin() }
 
-  private fun parseName(text: String): String = text.trim().replace("  ", " ")
+  private fun parseName(text: String): String? {
+    val cleanedName =
+      text.trim().replace("  ", " ")
+
+    if (cleanedName.isEmpty() || cleanedName == "-")
+      return null
+    return cleanedName
+  }
 
   private fun parseWeekdaySection(weekdayString: String): PdfSection? =
     PdfSection.weekdayValues.find { it.label == weekdayString }

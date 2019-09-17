@@ -245,4 +245,19 @@ class LunchResolverAokCafeteriaTest {
     parse(listOf("16.03.-20.03.")) shouldEqual weekOf("$yearNow-03-20").monday
     parse(listOf("27.07.-31.07.2015 bla")) shouldEqual weekOf("2015-07-27").monday
   }
+
+  @Test
+  fun `resolve offers for week of 2019-09-16`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2019-09-16.pdf")
+    val week = weekOf("2019-09-16")
+
+    val offers = resolver().resolveFromPdf(url)
+
+    offers shouldHaveSize 13
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 2
+    offers.filter { it.day == week.friday } shouldHaveSize 2
+  }
 }
