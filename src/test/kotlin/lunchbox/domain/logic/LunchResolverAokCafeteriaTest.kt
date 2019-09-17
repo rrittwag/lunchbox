@@ -81,9 +81,9 @@ class LunchResolverAokCafeteriaTest {
   }
 
   @Test
-  fun `resolve offers for week of 2015-03-20`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/AOK_16.03.-20.03..pdf")
-    val week = weekOf("2015-03-20")
+  fun `resolve offers for week of 2015-03-16`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2015-03-16.pdf")
+    val week = weekOf("2015-03-16")
 
     val offers = resolver().resolveFromPdf(url)
 
@@ -106,9 +106,9 @@ class LunchResolverAokCafeteriaTest {
   }
 
   @Test
-  fun `resolve offers for week of 2015-03-27`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/AOK_23.03.-27.03..pdf")
-    val week = weekOf("2015-03-27")
+  fun `resolve offers for week of 2015-03-23`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2015-03-23.pdf")
+    val week = weekOf("2015-03-23")
 
     val offers = resolver().resolveFromPdf(url)
 
@@ -131,9 +131,9 @@ class LunchResolverAokCafeteriaTest {
   }
 
   @Test
-  fun `resolve offers for Easter week of 2015-04-02`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/AOK_30.03.-02.04..pdf")
-    val week = weekOf("2015-04-02")
+  fun `resolve offers for Easter week of 2015-03-30`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2015-03-30.pdf")
+    val week = weekOf("2015-03-30")
 
     val offers = resolver().resolveFromPdf(url)
 
@@ -146,9 +146,9 @@ class LunchResolverAokCafeteriaTest {
   }
 
   @Test
-  fun `resolve offers for Easter week of 2015-04-10`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/AOK_06.04.-10.04..pdf")
-    val week = weekOf("2015-04-10")
+  fun `resolve offers for Easter week of 2015-04-06`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2015-04-06.pdf")
+    val week = weekOf("2015-04-06")
 
     val offers = resolver().resolveFromPdf(url)
 
@@ -162,7 +162,7 @@ class LunchResolverAokCafeteriaTest {
 
   @Test
   fun `resolve offers for week of 2015-07-20`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/AOK_20.07.-24.07.2015.pdf")
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2015-07-20.pdf")
     val week = weekOf("2015-07-20")
 
     val offers = resolver().resolveFromPdf(url)
@@ -177,7 +177,7 @@ class LunchResolverAokCafeteriaTest {
 
   @Test
   fun `resolve offers for week of 2015-08-03`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/AFA_03.08.-07.08..pdf")
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2015-08-03.pdf")
     val week = weekOf("2015-08-03")
 
     val offers = resolver().resolveFromPdf(url)
@@ -192,7 +192,7 @@ class LunchResolverAokCafeteriaTest {
 
   @Test
   fun `resolve offers for week of 2017-05-01`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/AOK01.05.2017-05.05.2017.pdf")
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2017-05-01.pdf")
     val week = weekOf("2017-05-01")
 
     val offers = resolver().resolveFromPdf(url)
@@ -206,7 +206,7 @@ class LunchResolverAokCafeteriaTest {
 
   @Test
   fun `resolve offers for week of 2018-05-28`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/AOK_28.05.-01.06.2018.pdf")
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2018-05-28.pdf")
     val week = weekOf("2018-05-28")
 
     val offers = resolver().resolveFromPdf(url)
@@ -221,7 +221,7 @@ class LunchResolverAokCafeteriaTest {
 
   @Test
   fun `resolve offers for week of 2018-11-19`() {
-    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2018-11-19/AOK.pdf")
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2018-11-19.pdf")
     val week = weekOf("2018-11-19")
 
     val offers = resolver().resolveFromPdf(url)
@@ -235,7 +235,7 @@ class LunchResolverAokCafeteriaTest {
   }
 
   @Test
-  fun `parse date from PDF url`() {
+  fun `parse date by PDF url`() {
     fun parse(lines: List<String>): LocalDate? = resolver().parseMondayFromStrings(lines)
 
     val yearNow = LocalDate.now().year
