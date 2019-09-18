@@ -27,7 +27,7 @@ class LunchResolverKrauthofTest {
 
   @Test
   fun `resolve offers for shorter week of 2017-05-01`() {
-    val url = javaClass.getResource("/menus/krauthof/pdf/KRAUTHOF-Lunch-02.05.-05.05.2017.pdf")
+    val url = javaClass.getResource("/menus/krauthof/pdf/2017-05-01.pdf")
     val week = weekOf("2017-05-01")
 
     val offers = resolver().resolveFromPdf(url)
@@ -51,7 +51,7 @@ class LunchResolverKrauthofTest {
 
   @Test
   fun `resolve offers for shorter week of 2017-08-07`() {
-    val url = javaClass.getResource("/menus/krauthof/pdf/KRAUTHOF-Lunch-07.08-11.08.2017.pdf")
+    val url = javaClass.getResource("/menus/krauthof/pdf/2017-08-07.pdf")
     val week = weekOf("2017-08-07")
 
     val offers = resolver().resolveFromPdf(url)
@@ -85,7 +85,7 @@ class LunchResolverKrauthofTest {
 
   @Test
   fun `resolve offers for week of 2017-09-25`() {
-    val url = javaClass.getResource("/menus/krauthof/pdf/KRAUTHOF-Lunch-25.09-29.09.2017-.pdf")
+    val url = javaClass.getResource("/menus/krauthof/pdf/2017-09-25.pdf")
     val week = weekOf("2017-09-25")
 
     val offers = resolver().resolveFromPdf(url)
@@ -103,7 +103,7 @@ class LunchResolverKrauthofTest {
 
   @Test
   fun `resolve offers for week of 2018-09-14`() {
-    val url = javaClass.getResource("/menus/krauthof/pdf/KRAUTHOF-Lunch-10.09.-14.09.2018-.pdf")
+    val url = javaClass.getResource("/menus/krauthof/pdf/2018-09-14.pdf")
     val week = weekOf("2018-09-14")
 
     val offers = resolver().resolveFromPdf(url)
