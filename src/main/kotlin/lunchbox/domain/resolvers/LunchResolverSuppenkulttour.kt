@@ -1,4 +1,4 @@
-package lunchbox.domain.logic
+package lunchbox.domain.resolvers
 
 import org.springframework.stereotype.Component
 import java.net.URL

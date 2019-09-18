@@ -1,8 +1,12 @@
-package lunchbox.domain.logic
+package lunchbox.domain.resolvers
 
 import org.joda.money.Money
 import java.time.DayOfWeek
 import java.time.LocalDate
+
+/**
+ * Hilfsfunktionen für LunchResolver-Tests.
+ */
 
 fun date(dateStr: String): LocalDate = LocalDate.parse(dateStr)
 

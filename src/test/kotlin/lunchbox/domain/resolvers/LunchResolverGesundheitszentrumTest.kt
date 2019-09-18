@@ -1,11 +1,11 @@
-package lunchbox.domain.logic /* ktlint-disable max-line-length no-wildcard-imports */
+package lunchbox.domain.resolvers /* ktlint-disable max-line-length no-wildcard-imports */
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.GESUNDHEITSZENTRUM
-import lunchbox.domain.logic.LunchResolverGesundheitszentrum.Wochenplan
-import lunchbox.domain.logic.LunchResolverGesundheitszentrum.WochenplanWithImageId
+import lunchbox.domain.resolvers.LunchResolverGesundheitszentrum.Wochenplan
+import lunchbox.domain.resolvers.LunchResolverGesundheitszentrum.WochenplanWithImageId
 import lunchbox.util.facebook.FacebookGraphApi
 import lunchbox.util.facebook.Image
 import lunchbox.util.facebook.Posts

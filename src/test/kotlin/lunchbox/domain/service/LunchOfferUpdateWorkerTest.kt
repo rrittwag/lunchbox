@@ -10,7 +10,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifySequence
-import lunchbox.domain.logic.LunchResolver
+import lunchbox.domain.resolvers.LunchResolver
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA

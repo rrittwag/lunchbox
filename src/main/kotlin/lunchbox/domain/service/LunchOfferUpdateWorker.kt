@@ -1,6 +1,6 @@
 package lunchbox.domain.service
 
-import lunchbox.domain.logic.LunchResolver
+import lunchbox.domain.resolvers.LunchResolver
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import lunchbox.repository.LunchOfferRepository

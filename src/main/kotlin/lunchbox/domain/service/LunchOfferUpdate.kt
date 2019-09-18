@@ -1,6 +1,6 @@
 package lunchbox.domain.service
 
-import lunchbox.domain.logic.DateValidator
+import lunchbox.domain.resolvers.DateValidator
 import lunchbox.domain.models.LunchProvider
 import lunchbox.repository.LunchOfferRepository
 import mu.KotlinLogging

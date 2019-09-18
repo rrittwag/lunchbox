@@ -1,4 +1,4 @@
-package lunchbox.domain.logic
+package lunchbox.domain.resolvers
 
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.DAS_KRAUTHOF

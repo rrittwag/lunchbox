@@ -1,4 +1,4 @@
-package lunchbox.domain.logic
+package lunchbox.domain.resolvers
 
 import java.time.DayOfWeek
 import java.time.LocalDate
