@@ -1,5 +1,6 @@
 package lunchbox.util.ocr
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
@@ -8,16 +9,15 @@ import java.net.URL
 import java.time.Duration
 
 /**
- * Spricht einen WebService an, der Texterkennung auf dem übergebenen Bild ausführt (OCR).
+ * Führt Texterkennung (OCR) auf dem übergebenen Bild via externem Dienst OpenOCR aus.
  */
 @Component
-class OcrClient {
+class OcrClient(
+  @Value("\${external.ocr.server-url:http://openocr:$OCR_SERVER_PORT}")
+  val ocrServerUrl: String
+) {
 
-  fun doOCR(
-    imageUrl: URL,
-    ocrServerUrl: String = "http://openocr:$OCR_SERVER_PORT"
-  ): String {
-
+  fun doOCR(imageUrl: URL): String {
     val requestBody = mapOf(
       "img_url" to imageUrl,
       "engine" to "tesseract",

@@ -33,10 +33,10 @@ class OcrClientTest {
     "menus/feldkueche/ocr/2019-09-02.jpg"
   ])
   fun `compare jpg OCR to saved OCR text`(file: String) {
-    val ocrText = OcrClient().doOCR(
-      URL("http://test-resources/$file"),
-      ocrServerUrl()
-    )
+    val ocrText =
+      OcrClient(ocrServerUrl())
+        .doOCR(URL("http://test-resources/$file"))
+
     ocrText shouldEqual File("src/test/resources/$file.txt").readText()
   }
 
@@ -48,10 +48,10 @@ class OcrClientTest {
   ])
   @Disabled
   fun `generate and save OCR text`(file: String) {
-    val ocrText = OcrClient().doOCR(
-      URL("http://test-resources/$file"),
-      ocrServerUrl()
-    )
+    val ocrText =
+      OcrClient(ocrServerUrl())
+        .doOCR(URL("http://test-resources/$file"))
+
     File("src/test/resources/$file.txt").apply {
       createNewFile()
       writeText(ocrText)
