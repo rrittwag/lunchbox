@@ -16,7 +16,8 @@ import org.jsoup.nodes.TextNode
 
 @Component
 class LunchResolverSuppenkulttour(
-  val dateValidator: DateValidator
+  val dateValidator: DateValidator,
+  val htmlParser: HtmlParser
 ) : LunchResolver {
 
   override val provider = SUPPENKULTTOUR
@@ -26,7 +27,7 @@ class LunchResolverSuppenkulttour(
   fun resolve(url: URL): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
 
-    val site = HtmlParser.parse(url)
+    val site = htmlParser.parse(url)
 
     // Die Wochenangebote sind im section-Element mit der class "ce_accordionStart" enthalten
     for (wochenplanSection in site.select("section.ce_accordionStart")) {

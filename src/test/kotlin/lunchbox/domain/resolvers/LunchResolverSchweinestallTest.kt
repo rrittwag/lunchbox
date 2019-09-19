@@ -1,14 +1,17 @@
 package lunchbox.domain.resolvers /* ktlint-disable max-line-length no-wildcard-imports */
 
+import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
+import lunchbox.util.html.HtmlParser
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Test
 
 class LunchResolverSchweinestallTest {
 
-  private fun resolver() = LunchResolverSchweinestall()
+  private val htmlParser = HtmlParser(mockk())
+  private fun resolver() = LunchResolverSchweinestall(htmlParser)
   private val providerId = SCHWEINESTALL.id
 
   @Test

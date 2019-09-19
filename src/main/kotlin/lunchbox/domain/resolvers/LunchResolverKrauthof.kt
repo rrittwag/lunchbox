@@ -13,7 +13,8 @@ import java.time.LocalDate
 
 @Component
 class LunchResolverKrauthof(
-  val dateValidator: DateValidator
+  val dateValidator: DateValidator,
+  val htmlParser: HtmlParser
 ) : LunchResolver {
 
   override val provider = DAS_KRAUTHOF
@@ -24,7 +25,7 @@ class LunchResolverKrauthof(
   }
 
   fun resolvePdfLinks(htmlUrl: URL): List<String> {
-    val site = HtmlParser.parse(htmlUrl)
+    val site = htmlParser.parse(htmlUrl)
 
     val links = site.select("a").map { it.attr("href") }
     return links.filter { it.matches(Regex(""".*/KRAUTHOF.*.pdf""")) }

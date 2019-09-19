@@ -5,6 +5,7 @@ import java.net.URL
 
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.FELDKUECHE
+import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
@@ -13,7 +14,8 @@ import org.junit.jupiter.api.Test
 class LunchResolverFeldkuecheTest {
 
   private val ocrClient = mockk<OcrClient>()
-  private fun resolver() = LunchResolverFeldkueche(DateValidator.alwaysValid(), ocrClient)
+  private val htmlParser = HtmlParser(mockk())
+  private fun resolver() = LunchResolverFeldkueche(DateValidator.alwaysValid(), ocrClient, htmlParser)
   private val providerId = FELDKUECHE.id
   private val httpMittagspauseDir = "https://www.feldkuechebkarow.de/s/cc_images"
 

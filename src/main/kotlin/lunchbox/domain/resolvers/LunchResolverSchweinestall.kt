@@ -13,14 +13,17 @@ import org.springframework.stereotype.Component
  * Ermittelt Mittagsangebote für Schweinestall.
  */
 @Component
-class LunchResolverSchweinestall : LunchResolver {
+class LunchResolverSchweinestall(
+  val htmlParser: HtmlParser
+) : LunchResolver {
+
   override val provider = SCHWEINESTALL
 
   override fun resolve(): List<LunchOffer> =
     resolve(provider.menuUrl)
 
   fun resolve(url: URL): List<LunchOffer> {
-    val site = HtmlParser.parse(url, "iso-8859-1")
+    val site = htmlParser.parse(url, "iso-8859-1")
 
     // Die Tabelle 'cal_content' enthält die Wochenangebote
     val tdsInOffersTable = site.select("#cal_content td")

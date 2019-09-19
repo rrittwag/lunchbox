@@ -16,7 +16,8 @@ import java.time.LocalDate
 
 @Component
 class LunchResolverAokCafeteria(
-  val dateValidator: DateValidator
+  val dateValidator: DateValidator,
+  val htmlParser: HtmlParser
 ) : LunchResolver {
 
   private val logger = KotlinLogging.logger {}
@@ -29,7 +30,7 @@ class LunchResolverAokCafeteria(
   }
 
   fun resolvePdfLinks(htmlUrl: URL): List<String> {
-    val site = HtmlParser.parse(htmlUrl)
+    val site = htmlParser.parse(htmlUrl)
 
     val links = site.select("a").map { it.attr("href") }
     return links.filter { it.matches(Regex(""".*/[a-zA-Z]{3}[0-9_.\-]*.pdf""")) }.distinct()

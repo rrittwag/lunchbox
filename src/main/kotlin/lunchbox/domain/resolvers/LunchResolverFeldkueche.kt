@@ -18,7 +18,8 @@ import org.springframework.stereotype.Component
 @Component
 class LunchResolverFeldkueche(
   val dateValidator: DateValidator,
-  val ocrClient: OcrClient
+  val ocrClient: OcrClient,
+  val htmlParser: HtmlParser
 ) : LunchResolver {
 
   override val provider = FELDKUECHE
@@ -28,7 +29,7 @@ class LunchResolverFeldkueche(
     resolveFromImageLinks(resolveImageLinks(provider.menuUrl))
 
   fun resolveImageLinks(htmlUrl: URL): List<URL> {
-    val site = HtmlParser.parse(htmlUrl)
+    val site = htmlParser.parse(htmlUrl)
 
     val divsWithContent = site.select("div#content_area")
     val links = divsWithContent.select("a").map { it.attr("href") }

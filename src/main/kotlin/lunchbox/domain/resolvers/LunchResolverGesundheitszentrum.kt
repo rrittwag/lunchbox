@@ -25,6 +25,7 @@ import java.time.LocalDate
 class LunchResolverGesundheitszentrum(
   val dateValidator: DateValidator,
   val graphApi: FacebookGraphApi,
+  val htmlParser: HtmlParser,
   val ocrClient: OcrClient
 ) : LunchResolver {
 
@@ -52,7 +53,7 @@ class LunchResolverGesundheitszentrum(
   }
 
   fun parseWochenplaeneByHtml(url: URL): List<Wochenplan> {
-    val site = HtmlParser.renderAndParse(url)
+    val site = htmlParser.renderAndParse(url)
     val articles = site.select("""div[role="article"]""")
 
     return articles.mapNotNull { parseWochenplanByHtml(it) }

@@ -1,7 +1,9 @@
 package lunchbox.domain.resolvers /* ktlint-disable max-line-length no-wildcard-imports */
 
+import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
+import lunchbox.util.html.HtmlParser
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldHaveSize
@@ -10,7 +12,8 @@ import java.time.LocalDate
 
 class LunchResolverAokCafeteriaTest {
 
-  private fun resolver() = LunchResolverAokCafeteria(DateValidator.alwaysValid())
+  private val htmlParser = HtmlParser(mockk())
+  private fun resolver() = LunchResolverAokCafeteria(DateValidator.alwaysValid(), htmlParser)
   private val providerId = AOK_CAFETERIA.id
 
   private val httpPdfDir = "fileadmin/ordner_redaktion/dokumente/Speisepl%C3%A4ne-Kantinen"

@@ -15,7 +15,8 @@ import java.time.LocalDate
 
 @Component
 class LunchResolverSaltNPepper(
-  val dateValidator: DateValidator
+  val dateValidator: DateValidator,
+  val htmlParser: HtmlParser
 ) : LunchResolver {
 
   override val provider = SALT_N_PEPPER
@@ -24,7 +25,7 @@ class LunchResolverSaltNPepper(
     resolve(provider.menuUrl)
 
   fun resolve(url: URL): List<LunchOffer> {
-    val site = HtmlParser.parse(url)
+    val site = htmlParser.parse(url)
 
     val divs = site.select("div.wpb_content_element")
     val monday = resolveMonday(divs) ?: return emptyList()

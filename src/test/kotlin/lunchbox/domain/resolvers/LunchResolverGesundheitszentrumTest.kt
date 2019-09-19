@@ -9,6 +9,8 @@ import lunchbox.domain.resolvers.LunchResolverGesundheitszentrum.WochenplanWithI
 import lunchbox.util.facebook.FacebookGraphApi
 import lunchbox.util.facebook.Image
 import lunchbox.util.facebook.Posts
+import lunchbox.util.html.HtmlParser
+import lunchbox.util.html.HtmlRenderer
 import lunchbox.util.json.createObjectMapper
 import lunchbox.util.ocr.OcrClient
 import org.amshove.kluent.shouldContain
@@ -22,7 +24,11 @@ class LunchResolverGesundheitszentrumTest {
 
   private val graphApi = mockk<FacebookGraphApi>()
   private val ocrClient = mockk<OcrClient>()
-  private fun resolver() = LunchResolverGesundheitszentrum(DateValidator.alwaysValid(), graphApi, ocrClient)
+  private val htmlRenderer = object : HtmlRenderer {
+    override fun render(url: URL): String = url.readText() // example files are pre-rendered
+  }
+  private val htmlParser = HtmlParser(htmlRenderer)
+  private fun resolver() = LunchResolverGesundheitszentrum(DateValidator.alwaysValid(), graphApi, htmlParser, ocrClient)
   private val providerId = GESUNDHEITSZENTRUM.id
   private val objectMapper = createObjectMapper()
 

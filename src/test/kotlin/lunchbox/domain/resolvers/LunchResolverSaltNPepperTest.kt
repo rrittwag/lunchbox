@@ -1,14 +1,17 @@
 package lunchbox.domain.resolvers /* ktlint-disable max-line-length no-wildcard-imports */
 
+import io.mockk.mockk
 import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
 import lunchbox.domain.models.LunchOffer
+import lunchbox.util.html.HtmlParser
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Test
 
 class LunchResolverSaltNPepperTest {
 
-  private fun resolver() = LunchResolverSaltNPepper(DateValidator.alwaysValid())
+  private val htmlParser = HtmlParser(mockk())
+  private fun resolver() = LunchResolverSaltNPepper(DateValidator.alwaysValid(), htmlParser)
   private val providerId = SALT_N_PEPPER.id
 
   @Test
