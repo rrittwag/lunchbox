@@ -9,7 +9,9 @@ import java.net.URL
 import java.time.Duration
 
 /**
- * Führt Texterkennung (OCR) auf dem übergebenen Bild via externem Dienst OpenOCR aus.
+ * Führt Texterkennung (OCR) auf dem übergebenen Bild via OpenOCR aus.
+ * <p>
+ * OpenOCR wird in der Lunchbox via Docker bereitgestellt.
  */
 @Component
 class OcrClient(
@@ -29,7 +31,8 @@ class OcrClient(
       .body(BodyInserters.fromObject(requestBody))
       .retrieve()
       .bodyToMono<String>()
-      .block(Duration.ofSeconds(60)) ?: ""
+      .retryBackoff(5, Duration.ofSeconds(5), Duration.ofSeconds(60))
+      .block() ?: ""
   }
 }
 
