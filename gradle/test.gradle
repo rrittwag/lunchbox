@@ -16,9 +16,9 @@ dependencies {
   testImplementation 'com.ninja-squad:springmockk:1.1.2' // support @MockkBean injection
 
   // TestContainers for integration tests
-  integrationTestImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
-  integrationTestImplementation "org.testcontainers:nginx:${testcontainersVersion}"
-  integrationTestImplementation 'junit:junit' // Bugfixing https://github.com/testcontainers/testcontainers-java/issues/970
+  testIntegrationImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
+  testIntegrationImplementation "org.testcontainers:nginx:${testcontainersVersion}"
+  testIntegrationImplementation 'junit:junit' // Bugfixing https://github.com/testcontainers/testcontainers-java/issues/970
 }
 
 configurations {
@@ -35,14 +35,14 @@ test {
 // -------------------
 //   Integrations-Tests mit JUnit 5
 // -------------------
-task integrationTest(
+task testIntegration(
     type: Test,
     description: 'Führt die Integrations-Tests aus.',
     group: 'Verification') {
       shouldRunAfter test
 
-      testClassesDirs = sourceSets.integrationTest.output.classesDirs
-      classpath = sourceSets.integrationTest.runtimeClasspath
+      testClassesDirs = sourceSets.testIntegration.output.classesDirs
+      classpath = sourceSets.testIntegration.runtimeClasspath
 
       useJUnitPlatform()
       maxParallelForks = (int) (Runtime.runtime.availableProcessors().intdiv(2) ?: 1) // Test-Klassen parallel ausführen
@@ -51,7 +51,7 @@ task integrationTest(
       reports.html.enabled = false // Report-Generierung frisst unnötig CI-Zeit
     }
 
-task allTests ( dependsOn: tasks.withType(Test) )
+task testAll ( dependsOn: tasks.withType(Test) )
 
 
 // -------------------

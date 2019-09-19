@@ -46,8 +46,8 @@ apply plugin: 'idea'
 
 idea {
   module {
-    testSourceDirs += project.sourceSets.integrationTest.java.srcDirs
-    testSourceDirs += project.sourceSets.integrationTest.kotlin.srcDirs
-    testSourceDirs += project.sourceSets.integrationTest.resources.srcDirs
+    testSourceDirs += project.sourceSets.testIntegration.java.srcDirs
+    testSourceDirs += project.sourceSets.testIntegration.kotlin.srcDirs
+    testSourceDirs += project.sourceSets.testIntegration.resources.srcDirs
   }
 }

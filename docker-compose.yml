@@ -17,7 +17,7 @@ services:
   strokewidthtransform:
     image: tleyden5iwx/open-ocr-preprocessor
     volumes:
-      - ./src/integrationTest/resources/scripts/:/opt/open-ocr/
+      - ./src/testIntegration/resources/scripts/:/opt/open-ocr/
     dns: ["8.8.8.8"]
     depends_on:
       - rabbitmq
@@ -26,7 +26,7 @@ services:
   openocrworker:
     image: tleyden5iwx/open-ocr-2
     volumes:
-      - ./src/integrationTest/resources/scripts/:/opt/open-ocr/
+      - ./src/testIntegration/resources/scripts/:/opt/open-ocr/
     dns: ["8.8.8.8"]
     depends_on:
       - rabbitmq
@@ -35,7 +35,7 @@ services:
   openocr:
     image: tleyden5iwx/open-ocr-2
     volumes:
-      - ./src/integrationTest/resources/scripts/:/opt/open-ocr/
+      - ./src/testIntegration/resources/scripts/:/opt/open-ocr/
     ports:
       - "9292:9292"
     dns: ["8.8.8.8"]

@@ -11,18 +11,18 @@ targetCompatibility = 1.8
 
 
 // -------------------
-//   Source set 'integrationTest'
+//   Source set 'testIntegration'
 // -------------------
 sourceSets {
-  integrationTest {
+  testIntegration {
     compileClasspath += sourceSets.main.output + sourceSets.test.output
     runtimeClasspath += output + compileClasspath
   }
 }
 
 configurations {
-  integrationTestImplementation.extendsFrom testImplementation
-  integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+  testIntegrationImplementation.extendsFrom testImplementation
+  testIntegrationRuntimeOnly.extendsFrom testRuntimeOnly
 }
 
 
@@ -45,7 +45,7 @@ compileTestKotlin {
     jvmTarget = "1.8"
   }
 }
-compileIntegrationTestKotlin {
+compileTestIntegrationKotlin {
   kotlinOptions {
     freeCompilerArgs = [
       "-Xjsr305=strict"

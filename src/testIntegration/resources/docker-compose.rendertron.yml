@@ -11,8 +11,8 @@ services:
 #      - "3005:3005"
 
 
-  # test/resources müssen via HTTP im selben Netzwerk bereit stehen
+  # Resourcen müssen via HTTP im selben Netzwerk bereit stehen
   minimalwebapp:
     image: nginx:alpine
     volumes:
-      - ../../test/resources/minimalwebapp:/usr/share/nginx/html:ro
+      - ./minimalwebapp:/usr/share/nginx/html:ro
