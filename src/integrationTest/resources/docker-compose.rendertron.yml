@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  rendertron:
+    image: ammobindotca/rendertron
+    environment:
+      - PORT=3005
+    depends_on:
+      - minimalwebapp
+#    ports:
+#      - "3005:3005"
+
+
+  # test/resources müssen via HTTP im selben Netzwerk bereit stehen
+  minimalwebapp:
+    image: nginx:alpine
+    volumes:
+      - ../../test/resources/minimalwebapp:/usr/share/nginx/html:ro

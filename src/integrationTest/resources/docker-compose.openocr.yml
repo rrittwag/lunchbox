@@ -5,8 +5,8 @@ services:
   # Docker-Compose-File & scripts -> https://github.com/tleyden/open-ocr/tree/master/docker-compose
   rabbitmq:
     image: rabbitmq:3-management-alpine
-    ports:
-      - "5672:5672"
+#    ports:
+#      - "5672:5672"
     environment:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "Phaish9ohbaidei6oole"
@@ -33,8 +33,8 @@ services:
     image: tleyden5iwx/open-ocr-2
     volumes:
       - ./scripts/:/opt/open-ocr/
-    ports:
-      - "9292:9292"
+#    ports:
+#      - "9292:9292"
     dns: ["8.8.8.8"]
     depends_on:
       - rabbitmq
@@ -48,5 +48,5 @@ services:
     image: nginx:alpine
     volumes:
       - ../../test/resources/:/usr/share/nginx/html:ro
-    ports:
-      - "80:80"
+#    ports:
+#      - "80:80"
