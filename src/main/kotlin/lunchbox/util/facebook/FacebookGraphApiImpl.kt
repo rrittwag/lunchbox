@@ -5,14 +5,14 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import java.time.Duration
 
+/**
+ * Ruft eine Resource der Facebook GraphApi ab.
+ */
 @Component
-class FacebookGraphApiImpl : FacebookGraphApi {
-
-  @Value("\${credentials.facebook.appId:}")
-  lateinit var appId: String
-
-  @Value("\${credentials.facebook.appSecret:}")
-  lateinit var appSecret: String
+class FacebookGraphApiImpl(
+  @Value("\${external.facebook.appId:}") val appId: String,
+  @Value("\${external.facebook.appSecret:}") val appSecret: String
+) : FacebookGraphApi {
 
   override fun <T : GraphApiResource> query(url: String, clazz: Class<T>): T? {
     val resource = url.replaceFirst(Regex("^/"), "")
@@ -22,6 +22,7 @@ class FacebookGraphApiImpl : FacebookGraphApi {
       .get()
       .retrieve()
       .bodyToMono(clazz)
-      .block(Duration.ofSeconds(60)) ?: return null
+      .retryBackoff(5, Duration.ofSeconds(5), Duration.ofSeconds(60))
+      .block() ?: return null
   }
 }
