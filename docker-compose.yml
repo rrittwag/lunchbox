@@ -1,11 +1,13 @@
 version: '2'
 
 # ---
-#  Startet alle Container, die für den lokalen Betrieb der Lunchbox
+#  Startet alle externen Services, die für den lokalen Betrieb der Lunchbox
 #  via "gradle bootRun" notwendig sind.
 # ---
 services:
+  # ---
   # OpenOCR
+  # ---
   rabbitmq:
     image: rabbitmq:3-management-alpine
     environment:
@@ -42,3 +44,14 @@ services:
       - openocrworker
       - strokewidthtransform
     command: "/opt/open-ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/ -http_port 9292"
+
+
+  # ---
+  # rendertron
+  # ---
+  rendertron:
+    image: ammobindotca/rendertron
+    environment:
+      - PORT=3005
+    ports:
+      - "3005:3005"
