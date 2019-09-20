@@ -16,12 +16,12 @@ interface HtmlRenderer {
 
 @Component
 class HtmlRendererImpl(
-  @Value("\${external.rendertron.server-url:http://rendertron:$RENDERTRON_SERVER_PORT}")
-  val rendertronServerUrl: String
+  @Value("\${external.rendertron.url:http://rendertron:$RENDERTRON_PORT}")
+  val rendertronUrl: String
 ) : HtmlRenderer {
 
   override fun render(url: URL): String =
-    WebClient.create("$rendertronServerUrl/render/$url")
+    WebClient.create("$rendertronUrl/render/$url")
       .get()
       .retrieve()
       .bodyToMono<String>()
@@ -29,4 +29,4 @@ class HtmlRendererImpl(
       .block() ?: ""
 }
 
-const val RENDERTRON_SERVER_PORT = 3005
+const val RENDERTRON_PORT = 3005

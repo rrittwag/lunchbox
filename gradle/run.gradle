@@ -5,8 +5,8 @@ bootRun {
   doFirst {
     //    args += '--logging.level.root=DEBUG'
     args += '--debug'
-    args += "--external.ocr.server-url=http://localhost:9292"
-    args += "--external.rendertron.server-url=http://localhost:3005"
+    args += "--external.ocr.url=http://localhost:9292"
+    args += "--external.rendertron.url=http://localhost:3005"
   }
 
   debugOptions {

@@ -17,18 +17,20 @@ class HtmlRendererTest {
     @Container
     private val rendertronContainer =
       KtDockerComposeContainer(File("src/testIntegration/resources/docker-compose.rendertron.yml"))
-        .withExposedService("rendertron_1", RENDERTRON_SERVER_PORT)
+        .withExposedService("rendertron_1", RENDERTRON_PORT)
 
-    private fun rendertronServerUrl(): String {
-      val serverHost = rendertronContainer.getServiceHost("rendertron_1", RENDERTRON_SERVER_PORT)
-      val serverPort = rendertronContainer.getServicePort("rendertron_1", RENDERTRON_SERVER_PORT)
-      return "http://$serverHost:$serverPort"
+    private fun rendertronUrl(): String {
+      val host = rendertronContainer.getServiceHost("rendertron_1", RENDERTRON_PORT)
+      val port = rendertronContainer.getServicePort("rendertron_1", RENDERTRON_PORT)
+      return "http://$host:$port"
     }
   }
 
   @Test
-  fun `render HTML`() {
-    val pureHtml = HtmlRendererImpl(rendertronServerUrl()).render(URL("http://miniwebapp/"))
+  fun `render webapp`() {
+    val pureHtml =
+      HtmlRendererImpl(rendertronUrl())
+        .render(URL("http://miniwebapp/"))
 
     Jsoup.parse(pureHtml).select("li") shouldHaveSize 3 // dynamically populated by JavaScript in browser
   }
