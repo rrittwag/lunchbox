@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 # ---
 #  Startet alle externen Services, die für den lokalen Betrieb der Lunchbox
