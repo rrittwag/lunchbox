@@ -6,13 +6,13 @@ services:
     environment:
       - PORT=3005
     depends_on:
-      - minimalwebapp
+      - miniwebapp
 #    ports:
 #      - "3005:3005"
 
 
   # Resourcen müssen via HTTP im selben Netzwerk bereit stehen
-  minimalwebapp:
+  miniwebapp:
     image: nginx:alpine
     volumes:
-      - ./minimalwebapp:/usr/share/nginx/html:ro
+      - ./miniwebapp:/usr/share/nginx/html:ro

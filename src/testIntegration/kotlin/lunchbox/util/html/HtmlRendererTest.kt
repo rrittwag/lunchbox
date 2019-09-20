@@ -28,7 +28,7 @@ class HtmlRendererTest {
 
   @Test
   fun `render HTML`() {
-    val pureHtml = HtmlRendererImpl(rendertronServerUrl()).render(URL("http://minimalwebapp/"))
+    val pureHtml = HtmlRendererImpl(rendertronServerUrl()).render(URL("http://miniwebapp/"))
 
     Jsoup.parse(pureHtml).select("li") shouldHaveSize 3 // dynamically populated by JavaScript in browser
   }
