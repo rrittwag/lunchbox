@@ -69,10 +69,11 @@ unit:
 integration:
   stage: test
   services:
-    - docker:dind
+    - name: docker:dind # TestContainers nutzt Docker, inklusive Mounts. Das klappt nur mit DinD.
+      alias: docker
   variables:
-    DOCKER_HOST: "tcp://docker:2375"  # Instruct Testcontainers to use the daemon of DinD.
-    DOCKER_DRIVER: overlay2  # Improve performance with overlayfs.
+    DOCKER_HOST: "tcp://docker:2375"
+    DOCKER_DRIVER: overlay2
   script:
     - ./gradlew testIntegration
   artifacts:
