@@ -1,14 +1,9 @@
 image: openjdk:8
 
-services:
-  - docker:dind # TestContainers nutzt Docker, inklusive Mounts. Das klappt nur mit DinD.
-
 variables:
   DOCKER_REGISTRY_ADDR: docker.rori.dev
   DOCKER_REGISTRY_USER: deploy
   DOCKER_REGISTRY_TOKEN: $DOCKER_REGISTRY_TOKEN # wird von Gitlab hereingereicht
-  DOCKER_HOST: "tcp://docker:2375"
-  DOCKER_DRIVER: overlay2
 
 # Cachen der Dependencies
 # - Der Cache beschleunigt den CI-Lauf durch Vorhalten von Dependencies & anderen Downloads.
@@ -73,6 +68,11 @@ unit:
 
 integration:
   stage: test
+  services:
+    - docker:dind # TestContainers nutzt Docker, inklusive Mounts. Das klappt nur mit DinD.
+  variables:
+    DOCKER_HOST: "tcp://${HOSTNAME}-docker-0:2375"
+    DOCKER_DRIVER: overlay2
   script:
     - ./gradlew testIntegration
   artifacts:
