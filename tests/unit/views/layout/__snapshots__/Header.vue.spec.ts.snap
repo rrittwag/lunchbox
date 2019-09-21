@@ -47,7 +47,6 @@ exports[`Header renders snapshot 1`] = `
       <b-nav-item-stub
         event="click"
         exact="true"
-        linkattrs="[object Object]"
         routertag="a"
         target="_self"
         to="/"
@@ -58,7 +57,6 @@ exports[`Header renders snapshot 1`] = `
       <b-nav-item-stub
         class="d-block d-sm-none"
         event="click"
-        linkattrs="[object Object]"
         routertag="a"
         target="_self"
         to="/settings"
@@ -68,7 +66,6 @@ exports[`Header renders snapshot 1`] = `
        
       <b-nav-item-stub
         event="click"
-        linkattrs="[object Object]"
         routertag="a"
         target="_self"
         to="/about"
