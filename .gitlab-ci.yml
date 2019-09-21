@@ -1,7 +1,7 @@
 image: node:12
 
 variables:
-  CONTAINER_NAME: todo-frontend
+  CONTAINER_NAME: lunchbox-frontend
   DOCKER_REGISTRY_ADDR: docker.rori.dev
   DOCKER_REGISTRY_USER: deploy
   DOCKER_REGISTRY_TOKEN: $DOCKER_REGISTRY_TOKEN # wird von Gitlab hereingereicht
