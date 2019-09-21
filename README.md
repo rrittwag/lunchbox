@@ -3,6 +3,19 @@
 Backend für Lunchbox.
 
 
+## Features
+
+Version 1 ist vollständig implementiert. Es werden folgende Mittagsanbieter ausgewertet:
+
+* [Neubrandenburg: AOK Cafeteria](http://www.hotel-am-ring.de/aok-cafeteria.html)
+* [Neubrandenburg: Das Krauthof](https://www.daskrauthof.de/karte/)
+* [Neubrandenburg: Suppenkulttour](http://www.suppenkult.com/wochenplan.html)
+* [Neubrandenburg: Schweinestall](http://www.schweinestall-nb.de/)
+* [Berlin: Feldküche Karow](https://www.feldkuechebkarow.de/speiseplan)
+* [Berlin: Kantine B. Quakatz (Gesundheitszentrum)](https://de-de.facebook.com/pages/Kantine-BQuakatz-Allee-der-Kosmonauten/181190361991823)
+* [Berlin: Salt 'n' Pepper](http://www.partyservice-rohde.de/bistro-angebot-der-woche/)
+ 
+
 ## Lokaler Start
 
 Voraussetzungen: Es müssen Java 8, Docker und Docker Compose installiert sein.
