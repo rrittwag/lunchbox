@@ -1,0 +1,80 @@
+image: node:12
+
+variables:
+  CONTAINER_NAME: todo-frontend
+  DOCKER_REGISTRY_ADDR: docker.rori.dev
+  DOCKER_REGISTRY_USER: deploy
+  DOCKER_REGISTRY_TOKEN: $DOCKER_REGISTRY_TOKEN # wird von Gitlab hereingereicht
+
+# Cachen der Dependencies
+# - Der Cache beschleunigt den CI-Lauf durch Vorhalten von Dependencies & anderen Downloads.
+# - key: ${CI_COMMIT_REF_SLUG} cacht für alle CI-Läufe eines Branches, 'any-key' cacht für alle CI-Läufe eines Projekts
+# - Jobs des selben CI-Laufs tauschen ihre Resultate via 'artifacts' aus, nicht per Caching!
+# - ACHTUNG: Das Caching greift nicht zwingend! Jeder Job muss darauf gefasst sein, den Cache neu aufzubauen!
+# - Doku siehe https://docs.gitlab.com/ee/ci/caching/
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+  policy: pull
+
+before_script:
+  - export CI=true # vermeidet interaktive yarn-Aufrufe
+
+stages:
+  - build
+  - test
+  - docker
+  - deploy
+
+install & build:
+  stage: build
+  script:
+    - yarn install --non-interactive
+    - yarn build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+    policy: pull-push
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+
+lint:
+  stage: test
+  script:
+    - "[ ! -d node_modules/ ] && yarn install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
+    - yarn lint:check
+
+unit:
+  stage: test
+#  coverage: '/All files([^|]*\|){4}[^|]*\s+([\d\.]+)/'
+  script:
+    - "[ ! -d node_modules/ ] && yarn install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
+    - yarn test:unit
+
+e2e:
+  stage: test
+  script:
+    - "[ ! -d node_modules/ ] && yarn install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
+    - yarn test:e2e
+
+docker:
+  stage: docker
+  image: docker
+  only:
+    - master
+  script:
+    - echo "$DOCKER_REGISTRY_TOKEN" | docker login -u $DOCKER_REGISTRY_USER --password-stdin $DOCKER_REGISTRY_ADDR
+    - docker build -t ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest --pull .
+    - docker push ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest
+
+deploy:
+  stage: deploy
+  image: appropriate/curl
+  only:
+    - master
+  script:
+    - curl --request POST --form "token=${CI_DEPLOY_TOKEN}" --form ref=master https://git.rori.dev/api/v4/projects/42/trigger/pipeline
