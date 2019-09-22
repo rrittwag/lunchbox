@@ -73,9 +73,10 @@ integration:
   variables:
     DOCKER_HOST: "tcp://runner-xRzU8g4k-project-43-concurrent-0-docker-0:2375"
     DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
   script:
-    - ping docker || false
-    - "ping runner-xRzU8g4k-project-43-concurrent-0-docker-0 || false"
+    - ping docker || true
+    - "ping runner-xRzU8g4k-project-43-concurrent-0-docker-0 || true"
     - ./gradlew testIntegration
   artifacts:
     reports:
