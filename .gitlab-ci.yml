@@ -73,6 +73,7 @@ integration:
   variables:
     DOCKER_HOST: 'tcp://docker:2375'
     DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
   script:
     - ./gradlew testIntegration
   artifacts:
@@ -91,6 +92,7 @@ docker:
   variables:
     DOCKER_HOST: 'tcp://docker:2375'
     DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
   only:
     - master
   script:
