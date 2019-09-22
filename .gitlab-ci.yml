@@ -74,8 +74,8 @@ integration:
     DOCKER_HOST: "tcp://runner-xRzU8g4k-project-43-concurrent-0-docker-0:2375"
     DOCKER_DRIVER: overlay2
   script:
-    - ping docker
-    - "ping runner-xRzU8g4k-project-43-concurrent-0-docker-0"
+    - ping docker || false
+    - "ping runner-xRzU8g4k-project-43-concurrent-0-docker-0 || false"
     - ./gradlew testIntegration
   artifacts:
     reports:
