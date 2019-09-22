@@ -297,6 +297,8 @@ class LunchResolverGesundheitszentrum(
         .replace(Regex("""^(\d)[.,:;]* """), "$1. ")
         .replace(Regex("""^[fF][.,:;]* """), "F. ")
         .replace("T. ", "1. ")
+        .replace(Regex("""^\. """), "1. ")
+        .replace(Regex("^[0-9]$"), "") // Nummer ist in eigene Zeile gerutscht
 
     return if (rowWithoutFitness == rowWithCorrectedFitness)
         correctedRowWithoutFitness
@@ -315,12 +317,14 @@ class LunchResolverGesundheitszentrum(
     row.trim()
       .replace("*", "\"")
       .replace(Regex("[„“”]"), "\"")
+      .replace(Regex(",([a-zA-Z])"), ", $1")
       .replace("%!B(MISSING)irne", "1/2 Birne")
       .replace("Scharfes-", "Scharfes ")
       .replace("Gamembert", "Camembert")
       .replace("Ghampignon", "Champignon")
       .replace("Spätze", "Spätzle")
       .replace("2Setzeier", "2 Setzeier")
+      .replace("M2 Eier", "4/2 Eier")
       .replace("Gnocei", "Gnocci")
       .replace("Cevapeici", "Cevapcici")
       .replace("!!!", "")

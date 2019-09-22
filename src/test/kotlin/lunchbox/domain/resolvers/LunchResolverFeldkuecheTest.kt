@@ -218,6 +218,21 @@ class LunchResolverFeldkuecheTest {
     offers shouldContain LunchOffer(0, "Erbseneintopf mit Bockwurst", week.friday, euro("4.00"), providerId)
   }
 
+  @Test
+  fun `resolve offers for week of 2019-09-23`() {
+    val text = readFileContent("/menus/feldkueche/ocr/2019-09-23.jpg.txt")
+    val week = weekOf("2019-09-23")
+
+    val offers = resolver().resolveOffersFromText(text)
+
+    offers shouldHaveSize 9
+    offers.filter { it.day == week.monday } shouldHaveSize 2
+    offers.filter { it.day == week.tuesday } shouldHaveSize 2
+    offers.filter { it.day == week.wednesday } shouldHaveSize 2
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 0
+  }
+
   private fun readFileContent(path: String): String {
     val url = javaClass.getResource(path)
     return url.readText(Charsets.UTF_8)

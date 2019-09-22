@@ -101,6 +101,17 @@ class LunchResolverGesundheitszentrumTest {
       wochenplaene shouldContain Wochenplan(date("2019-09-16"), URL("https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnOmbEvG5WngTMx4RqIMiGBD4jDftJMUMYi2M5uwa3Nu3QAJUdseNXbSEr1Iejl_Ds&_nc_ht=scontent-ber1-1.xx&oh=e40ce027618fa63a5b7f4971fc02b83d&oe=5E06EF54"))
       wochenplaene shouldContain Wochenplan(date("2019-09-09"), URL("https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/69761025_2164731656971007_4787155769139134464_o.jpg?_nc_cat=101&_nc_oc=AQlqnbM_DBfJ-eB1mBQK48kb8M3UWtjmyGo1knDG-9caTgaJAPraVhT6ZuHcff7_5P0&_nc_ht=scontent-ber1-1.xx&oh=77d585b271943105b09845d3ed23c00b&oe=5DF4A077"))
     }
+
+    @Test
+    fun `resolve Wochenplaene for posts of 2019-09-23`() {
+      val url = javaClass.getResource("/menus/gesundheitszentrum/html/2019-09-23_posts.html")
+
+      val wochenplaene = resolver().parseWochenplaeneByHtml(url)
+
+      wochenplaene shouldHaveSize 2
+      wochenplaene shouldContain Wochenplan(date("2019-09-23"), URL("https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70741530_2188809777896528_1685416184234639360_o.jpg?_nc_cat=104&_nc_oc=AQn0voSe6PW2bpXJhANweSiOIyLcrYb0G-NmImMtPJ6Ka4swX6GfSG-Eudtb4LkGCe8&_nc_ht=scontent-ber1-1.xx&oh=be84961d17026c68fc74c1ecf23b2396&oe=5DF929A9"))
+      wochenplaene shouldContain Wochenplan(date("2019-09-16"), URL("https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnlw8UTdf_EHJa-WZ3OfYWP7TyOyahpP-xMOhEj_-x_78veJsYvEmYT68pImua8XLA&_nc_ht=scontent-ber1-1.xx&oh=00559a3cb8d8df7486d84dc607a7c2b0&oe=5E2E7C54"))
+    }
   }
 
   @Test
@@ -546,6 +557,20 @@ class LunchResolverGesundheitszentrumTest {
 
     offers shouldContain LunchOffer(0, "Linseneintopf", week.friday, euro("3.50"), providerId)
     offers shouldContain LunchOffer(0, "1/2 Hähnchen mit Pommes frites", week.friday, euro("4.80"), providerId)
+  }
+
+  @Test
+  fun `resolve offers for week of 2019-09-23`() {
+    val text = readFileContent("/menus/gesundheitszentrum/ocr/2019-09-23.jpg.txt")
+    val week = weekOf("2019-09-23")
+
+    val offers = resolver().resolveOffersFromText(week.monday, text)
+
+    offers shouldHaveSize 18
+    offers shouldContain LunchOffer(0, "4/2 Eier mit Remouladensauce dazu Bratkartoffeln", week.wednesday, euro("4.30"), providerId)
+    offers shouldContain LunchOffer(0, "Reitersuppe (Hackfleisch, grüne Bohnen, Champignons, Paprika)", week.thursday, euro("3.50"), providerId)
+    offers shouldContain LunchOffer(0, "Möhren-Zucchini-Eintopf", week.friday, euro("3.50"), providerId)
+    offers shouldContain LunchOffer(0, "Schweinesteak mit Waldpilzsauce und Rosmarinkartoffeln", week.friday, euro("5.20"), providerId)
   }
 
   private fun readFileContent(path: String): String {
