@@ -69,11 +69,11 @@ unit:
 integration:
   stage: test
   services:
-    - docker:dind # Notwendig für Docker-Mounts via TestContainers -> https://www.testcontainers.org/supported_docker_environment/continuous_integration/gitlab_ci/
+    - docker:dind # Notwendig für Volume-Mounts in TestContainers -> https://www.testcontainers.org/supported_docker_environment/continuous_integration/gitlab_ci/
   variables:
     DOCKER_HOST: 'tcp://docker:2375'
     DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
+    DOCKER_TLS_CERTDIR: "/certs"
   script:
     - ./gradlew testIntegration
   artifacts:
@@ -92,7 +92,7 @@ docker:
   variables:
     DOCKER_HOST: 'tcp://docker:2375'
     DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
+    DOCKER_TLS_CERTDIR: "/certs"
   only:
     - master
   script:
