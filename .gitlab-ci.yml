@@ -64,6 +64,12 @@ e2e:
 docker:
   stage: docker
   image: docker
+  services:
+  - docker:dind # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-workflow-with-docker-executor
+  variables:
+    DOCKER_HOST: 'tcp://docker:2375'
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
   only:
     - master
   script:
