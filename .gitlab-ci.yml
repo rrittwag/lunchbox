@@ -1,14 +1,17 @@
 image: openjdk:8
 
 services:
-  - docker:dind
+  - docker:dind # Notwendig für das Erstellen von Docker-Images (Job 'docker') und TestContainers (Job 'testIntegration').
+                # Für die Image-Erstellung funktioniert auch "Docker socket binding" statt "docker-in-docker workflow". TestContainers will jedoch auch Volumes mounten, was nur mit dind möglich ist.
+                # Siehe https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-workflow-with-docker-executor
+                # und https://www.testcontainers.org/supported_docker_environment/continuous_integration/gitlab_ci/
 
 variables:
   DOCKER_REGISTRY_ADDR: docker.rori.dev
   DOCKER_REGISTRY_USER: deploy
   DOCKER_REGISTRY_TOKEN: $DOCKER_REGISTRY_TOKEN # wird von Gitlab hereingereicht
-#  DOCKER_HOST: "tcp://docker:2375" # Z dind
-  DOCKER_DRIVER: overlay2 # Zugriff auf dind optimieren
+  DOCKER_HOST: "tcp://docker:2375" # Docker-Clients (z.B. Image 'docker:latest') greifen hierüber auf dind-Service zu
+  DOCKER_DRIVER: overlay2 # dind-Zugriff optimieren
 
 # Cachen der Dependencies
 # - Der Cache beschleunigt den CI-Lauf durch Vorhalten von Dependencies & anderen Downloads.
