@@ -71,12 +71,10 @@ integration:
   services:
     - docker:dind # TestContainers nutzt Docker, inklusive Mounts. Das klappt nur mit DinD.
   variables:
-    DOCKER_HOST: "tcp://runner-xRzU8g4k-project-43-concurrent-0-docker-0:2375"
+    DOCKER_HOST: "tcp://docker:2375"
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   script:
-    - ping docker || true
-    - "ping runner-xRzU8g4k-project-43-concurrent-0-docker-0 || true"
     - ./gradlew testIntegration
   artifacts:
     reports:
