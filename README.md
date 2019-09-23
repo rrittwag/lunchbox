@@ -5,7 +5,7 @@ Backend für Lunchbox.
 
 ## Features
 
-Version 1 ist vollständig implementiert. Es werden folgende Mittagsanbieter ausgewertet:
+Das Backend implementiert Version 1 vollständig. Es wertet folgende Mittagsanbieter aus:
 
 * [Neubrandenburg: AOK Cafeteria](http://www.hotel-am-ring.de/aok-cafeteria.html)
 * [Neubrandenburg: Das Krauthof](https://www.daskrauthof.de/karte/)
@@ -18,13 +18,13 @@ Version 1 ist vollständig implementiert. Es werden folgende Mittagsanbieter aus
 
 ## Lokaler Start
 
-Voraussetzungen: Es müssen Java 8, Docker und Docker Compose installiert sein.
+Voraussetzungen: Es müssen Java (mind. Version 8), Docker und Docker Compose installiert sein.
 
 Das Auswertung der Mittagsangebote bedarf der externen Dienste OpenOCR & Robotron. Sie werden via Docker Compose bereitgestellt:
                      
     docker-compose up -d
 
-Backend starten mit
+Das Backend startet mit dem Befehl
 
     ./gradlew bootRun
 
