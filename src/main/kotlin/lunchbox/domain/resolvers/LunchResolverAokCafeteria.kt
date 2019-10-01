@@ -12,7 +12,6 @@ import mu.KotlinLogging
 import org.joda.money.Money
 import org.springframework.stereotype.Component
 import java.net.URL
-import java.time.DayOfWeek
 import java.time.LocalDate
 
 @Component
@@ -93,19 +92,7 @@ class LunchResolverAokCafeteria(
   }
 
   fun parseMonday(lines: List<TextLine>): LocalDate? =
-    parseMondayFromStrings(lines.map { it.toString() })
-
-  fun parseMondayFromStrings(lines: List<String>): LocalDate? {
-    // alle Datumse aus PDF ermitteln
-    val days = lines.mapNotNull { StringParser.parseLocalDate(it) }
-    val mondays = days.map { it.with(DayOfWeek.MONDAY) }
-
-    // den Montag der am häufigsten verwendeten Woche zurückgeben
-    return mondays
-      .groupBy { it }
-      .maxBy { it.value.size }
-      ?.key
-  }
+    StringParser.parseMondayOfMostUsedWeek(lines.map { it.toString() })
 
   private fun groupBySection(lines: List<TextLine>): Map<PdfSection, List<TextLine>> {
     val header = lines.find { it.allTextsMatch(Regex("""^\d+[.,]\d{2} *€$""")) }

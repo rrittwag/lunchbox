@@ -2,6 +2,7 @@ package lunchbox.util.string
 
 import org.joda.money.CurrencyUnit
 import org.joda.money.Money
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -56,6 +57,21 @@ object StringParser {
     }
 
     return null
+  }
+
+  /**
+   * Parst alle Datumsangaben und gibt für die am häufigsten verwendete Woche den Montag zurück.
+   */
+  fun parseMondayOfMostUsedWeek(lines: List<String>): LocalDate? {
+    // alle Datumse aus PDF ermitteln
+    val days = lines.mapNotNull { StringParser.parseLocalDate(it) }
+    val mondays = days.map { it.with(DayOfWeek.MONDAY) }
+
+    // den Montag der am häufigsten verwendeten Woche zurückgeben
+    return mondays
+      .groupBy { it }
+      .maxBy { it.value.size }
+      ?.key
   }
 
   private fun parseLocalDate(dateString: String, dateFormat: String): LocalDate? =

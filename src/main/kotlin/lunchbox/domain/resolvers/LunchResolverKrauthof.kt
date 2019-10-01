@@ -9,7 +9,6 @@ import lunchbox.util.string.StringParser
 import org.joda.money.Money
 import org.springframework.stereotype.Component
 import java.net.URL
-import java.time.DayOfWeek
 import java.time.LocalDate
 
 @Component
@@ -39,7 +38,7 @@ class LunchResolverKrauthof(
   fun resolveFromPdf(pdfUrl: URL): List<LunchOffer> {
     val pdfContent = PdfExtractor.extractStrings(pdfUrl)
 
-    val monday = parseMondayFromContent(pdfContent)
+    val monday = StringParser.parseMondayOfMostUsedWeek(pdfContent)
     if (monday == null || !dateValidator.isValid(monday))
       return emptyList()
     return resolveFromPdfContent(pdfContent, monday)
@@ -86,18 +85,6 @@ class LunchResolverKrauthof(
     return LongRange(0, 4).flatMap { weekdayLong ->
       mondayOffers.map { it.copy(day = monday.plusDays(weekdayLong)) }
     }
-  }
-
-  private fun parseMondayFromContent(lines: List<String>): LocalDate? {
-    // alle Datumse aus PDF ermitteln
-    val days = lines.mapNotNull { StringParser.parseLocalDate(it) }
-    val mondays = days.map { it.with(DayOfWeek.MONDAY) }
-
-    // den Montag der am häufigsten verwendeten Woche zurückgeben
-    return mondays
-      .groupBy { it }
-      .maxBy { it.value.size }
-      ?.key
   }
 
   private fun parseName(text: String): String =
