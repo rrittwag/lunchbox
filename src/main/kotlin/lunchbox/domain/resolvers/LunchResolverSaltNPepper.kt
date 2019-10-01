@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
 import lunchbox.util.date.DateValidator
+import lunchbox.util.date.HolidayUtil
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
 import org.jsoup.nodes.Element
@@ -60,7 +61,9 @@ class LunchResolverSaltNPepper(
     val weekOffers = resolveWeekOffers(weekNodes, dayOffers.map { it.day }.toSet())
 
     val allOffers = dayOffers + weekOffers
-    return allOffers.filter { dateValidator.isValid(it.day) }
+    return allOffers
+      .filter { dateValidator.isValid(it.day) }
+      .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
   }
 
   private fun resolveDayOffers(

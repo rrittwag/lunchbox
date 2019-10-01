@@ -123,4 +123,20 @@ class LunchResolverSuppenkulttourTest {
     offers shouldContain LunchOffer(0, "Möhren - Käse - Suppe: Käsesuppe, Kurkuma, Juliennegemüsestreifen, wahlweise + mit Huhn", week.monday, euro("4.70"), providerId)
     offers shouldContain LunchOffer(0, "Soupe au Pistou: Gemüsesuppe aus der Provence - grüne Bohnen, weiße Bohnen, Zucchini, Kartoffel, Lauch, Tomaten, wahlweise + Ruccolapesto", week.monday, euro("4.70"), providerId)
   }
+
+  @Test
+  fun `resolve offers for week of 2019-09-30`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2019-09-30.html")
+
+    val offers = resolver().resolve(url)
+
+    val week = weekOf("2019-09-30")
+    offers.filter { it.day == week.monday } shouldHaveSize 4
+    offers.filter { it.day == week.tuesday } shouldHaveSize 4
+    offers.filter { it.day == week.wednesday } shouldHaveSize 4
+    offers.filter { it.day == week.thursday } shouldHaveSize 0
+    offers.filter { it.day == week.friday } shouldHaveSize 4
+
+    offers shouldContain LunchOffer(0, "Hühnersuppe: klare Brühe, Hühnchenbrust, Wurzelgemüse, wahlweise + Nudeln", week.friday, euro("4.70"), providerId)
+  }
 }

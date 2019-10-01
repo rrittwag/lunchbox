@@ -7,6 +7,7 @@ import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.FELDKUECHE
 import lunchbox.util.date.DateValidator
+import lunchbox.util.date.HolidayUtil
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser
@@ -53,9 +54,9 @@ class LunchResolverFeldkueche(
       else
         resolveOffersWith2rowSplit(contentAsLines)
 
-    return rawOffers.map {
-      LunchOffer(0, it.name, monday.plusDays(it.weekday.order), it.price, provider.id)
-    }
+    return rawOffers
+      .map { LunchOffer(0, it.name, monday.plusDays(it.weekday.order), it.price, provider.id) }
+      .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
   }
 
   private fun resolveMonday(contentAsLines: List<String>): LocalDate? {

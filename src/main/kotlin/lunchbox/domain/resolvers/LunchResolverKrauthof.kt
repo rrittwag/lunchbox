@@ -3,6 +3,7 @@ package lunchbox.domain.resolvers
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.DAS_KRAUTHOF
 import lunchbox.util.date.DateValidator
+import lunchbox.util.date.HolidayUtil
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.pdf.PdfExtractor
 import lunchbox.util.string.StringParser
@@ -41,7 +42,9 @@ class LunchResolverKrauthof(
     val monday = StringParser.parseMondayOfMostUsedWeek(pdfContent)
     if (monday == null || !dateValidator.isValid(monday))
       return emptyList()
+
     return resolveFromPdfContent(pdfContent, monday)
+      .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
   }
 
   private fun resolveFromPdfContent(pdfContent: List<String>, monday: LocalDate): List<LunchOffer> {

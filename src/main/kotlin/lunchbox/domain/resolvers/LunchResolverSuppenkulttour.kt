@@ -8,6 +8,7 @@ import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
 import lunchbox.util.date.DateValidator
+import lunchbox.util.date.HolidayUtil
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
 import org.joda.money.Money
@@ -35,7 +36,9 @@ class LunchResolverSuppenkulttour(
       val monday = resolveMonday(wochenplanSection) ?: continue
       if (!dateValidator.isValid(monday))
         continue
-      result += parseOffers(wochenplanSection, monday)
+      result +=
+        parseOffers(wochenplanSection, monday)
+          .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
     }
     return result
   }
@@ -110,7 +113,7 @@ class LunchResolverSuppenkulttour(
     val result = mutableListOf<LunchOffer>()
 
     val tagessuppenStrings =
-      highlightOfferBorders(text).split("|||").map { cleanUpPipes(it) }
+      cleanUnnecessaryInfo(highlightOfferBorders(text)).split("|||").map { cleanUpPipes(it) }
     val predictedPrice = predictPrice(tagessuppenStrings)
 
     for ((weekday, tagessuppeString) in groupByWeekday(tagessuppenStrings)) {
@@ -127,6 +130,11 @@ class LunchResolverSuppenkulttour(
       .replace(Regex("""\| *\|"""), "||")
       .replace(Regex("""groß *(\d+[.,]\d{2}) ?€? *\|"""), """groß $1 €||""")
 //      .replace("""|||""", "||")
+
+  private fun cleanUnnecessaryInfo(text: String): String =
+    text
+      .also { println(it) }
+      .replace(Regex("""\|\|[^|]*Standort[^|]*\|\|\|"""), "||")
 
   private fun predictPrice(lines: List<String>): Money? =
     lines

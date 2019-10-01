@@ -3,6 +3,7 @@ package lunchbox.domain.resolvers
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.GESUNDHEITSZENTRUM
 import lunchbox.util.date.DateValidator
+import lunchbox.util.date.HolidayUtil
 import lunchbox.util.facebook.Attachment
 import lunchbox.util.facebook.FacebookGraphApi
 import lunchbox.util.facebook.Image
@@ -140,6 +141,7 @@ class LunchResolverGesundheitszentrum(
       .distinctBy { it.monday }
       .filter { isWochenplanRelevant(it) }
       .flatMap { resolveOffersFromWochenplan(it) }
+      .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
 
   fun resolveOffersFromWochenplan(plan: Wochenplan): List<LunchOffer> {
     val ocrText = doOcr(plan.mittagsplanImageUrl)

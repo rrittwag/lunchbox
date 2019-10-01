@@ -3,6 +3,7 @@ package lunchbox.domain.resolvers
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
 import lunchbox.util.date.DateValidator
+import lunchbox.util.date.HolidayUtil
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.pdf.PdfExtractor
 import lunchbox.util.pdf.TextGroup
@@ -47,6 +48,7 @@ class LunchResolverAokCafeteria(
     if (monday == null || !dateValidator.isValid(monday))
       return emptyList()
     return resolveFromPdfContent(pdfUrl, lines, monday)
+      .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
   }
 
   private fun resolveFromPdfContent(

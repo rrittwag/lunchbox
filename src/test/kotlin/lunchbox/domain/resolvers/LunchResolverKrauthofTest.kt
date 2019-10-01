@@ -36,21 +36,21 @@ class LunchResolverKrauthofTest {
 
     val offers = resolver().resolveFromPdf(url)
 
-    offers shouldHaveSize 35 // TODO: eigentlich nur 28 Offers! 1. Mai ist frei!
+    offers shouldHaveSize 28
 
-    offers.filter { it.day == week.monday } shouldHaveSize 7
+    offers.filter { it.day == week.monday } shouldHaveSize 0
     offers.filter { it.day == week.tuesday } shouldHaveSize 7
     offers.filter { it.day == week.wednesday } shouldHaveSize 7
     offers.filter { it.day == week.thursday } shouldHaveSize 7
     offers.filter { it.day == week.friday } shouldHaveSize 7
 
-    offers shouldContain LunchOffer(0, "Karotten-Orangen-Suppe mit gebratenen Hähnchenstreifen", week.monday, euro("3.90"), providerId)
-    offers shouldContain LunchOffer(0, "Knackige Blattsalate mit Kirschtomaten, Pinienkernen, marinierten Mozzarella, hausgemachtes Balsamicodressing", week.monday, euro("5.50"), providerId)
-    offers shouldContain LunchOffer(0, "Gnocci mit würziger Blattspinat-Gorgonzolasauce, gerösteten Pinienkernen", week.monday, euro("6.60"), providerId)
-    offers shouldContain LunchOffer(0, "Frische Tagliatelle mit saftigen Putenbruststreifen in Champignon-Kräuterrahm, mariniertem Ruccola", week.monday, euro("6.80"), providerId)
-    offers shouldContain LunchOffer(0, "Gebratenes Rotbarschfilet auf Zitronenbuttersauce, Mandelbroccoli, Kräuterkartoffeln", week.monday, euro("7.20"), providerId)
-    offers shouldContain LunchOffer(0, "Saftige Schweinesteaks mit Kräuterbutter, Wedges, Sour Cream, Salat", week.monday, euro("6.90"), providerId)
-    offers shouldContain LunchOffer(0, "Feines Mousse von weißer Schokolade mit Kirschragout", week.monday, euro("3.10"), providerId)
+    offers shouldContain LunchOffer(0, "Karotten-Orangen-Suppe mit gebratenen Hähnchenstreifen", week.tuesday, euro("3.90"), providerId)
+    offers shouldContain LunchOffer(0, "Knackige Blattsalate mit Kirschtomaten, Pinienkernen, marinierten Mozzarella, hausgemachtes Balsamicodressing", week.tuesday, euro("5.50"), providerId)
+    offers shouldContain LunchOffer(0, "Gnocci mit würziger Blattspinat-Gorgonzolasauce, gerösteten Pinienkernen", week.tuesday, euro("6.60"), providerId)
+    offers shouldContain LunchOffer(0, "Frische Tagliatelle mit saftigen Putenbruststreifen in Champignon-Kräuterrahm, mariniertem Ruccola", week.tuesday, euro("6.80"), providerId)
+    offers shouldContain LunchOffer(0, "Gebratenes Rotbarschfilet auf Zitronenbuttersauce, Mandelbroccoli, Kräuterkartoffeln", week.tuesday, euro("7.20"), providerId)
+    offers shouldContain LunchOffer(0, "Saftige Schweinesteaks mit Kräuterbutter, Wedges, Sour Cream, Salat", week.tuesday, euro("6.90"), providerId)
+    offers shouldContain LunchOffer(0, "Feines Mousse von weißer Schokolade mit Kirschragout", week.tuesday, euro("3.10"), providerId)
   }
 
   @Test
@@ -137,5 +137,21 @@ class LunchResolverKrauthofTest {
 
     links shouldHaveSize 1
     links shouldContain "$httpUploadDir/2019/03/KRAUTHOF.pdf"
+  }
+
+  @Test
+  fun `resolve offers for week of 2019-09-30`() {
+    val url = javaClass.getResource("/menus/krauthof/pdf/2019-09-30.pdf")
+    val week = weekOf("2019-09-30")
+
+    val offers = resolver().resolveFromPdf(url)
+
+    offers shouldHaveSize 28
+
+    offers.filter { it.day == week.monday } shouldHaveSize 7
+    offers.filter { it.day == week.tuesday } shouldHaveSize 7
+    offers.filter { it.day == week.wednesday } shouldHaveSize 7
+    offers.filter { it.day == week.thursday } shouldHaveSize 0
+    offers.filter { it.day == week.friday } shouldHaveSize 7
   }
 }
