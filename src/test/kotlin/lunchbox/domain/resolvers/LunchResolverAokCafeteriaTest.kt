@@ -6,10 +6,8 @@ import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import org.amshove.kluent.shouldContain
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Test
-import java.time.LocalDate
 
 class LunchResolverAokCafeteriaTest {
 
@@ -236,18 +234,6 @@ class LunchResolverAokCafeteriaTest {
     offers.filter { it.day == week.wednesday } shouldHaveSize 3
     offers.filter { it.day == week.thursday } shouldHaveSize 3
     offers.filter { it.day == week.friday } shouldHaveSize 3
-  }
-
-  @Test
-  fun `parse date by PDF url`() {
-    fun parse(lines: List<String>): LocalDate? = resolver().parseMondayFromStrings(lines)
-
-    val yearNow = LocalDate.now().year
-
-    parse(listOf("16.03.-20.03.2016")) shouldEqual weekOf("2016-03-20").monday
-    parse(listOf("23.03.-27.03.")) shouldEqual weekOf("$yearNow-03-27").monday
-    parse(listOf("16.03.-20.03.")) shouldEqual weekOf("$yearNow-03-20").monday
-    parse(listOf("27.07.-31.07.2015 bla")) shouldEqual weekOf("2015-07-27").monday
   }
 
   @Test
