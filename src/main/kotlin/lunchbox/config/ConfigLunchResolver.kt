@@ -1,6 +1,6 @@
 package lunchbox.config
 
-import lunchbox.domain.resolvers.DateValidator
+import lunchbox.util.date.DateValidator
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 

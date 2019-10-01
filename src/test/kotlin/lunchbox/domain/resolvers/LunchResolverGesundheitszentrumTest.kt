@@ -6,6 +6,7 @@ import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.GESUNDHEITSZENTRUM
 import lunchbox.domain.resolvers.LunchResolverGesundheitszentrum.Wochenplan
 import lunchbox.domain.resolvers.LunchResolverGesundheitszentrum.WochenplanWithImageId
+import lunchbox.util.date.DateValidator
 import lunchbox.util.facebook.FacebookGraphApi
 import lunchbox.util.facebook.Image
 import lunchbox.util.facebook.Posts

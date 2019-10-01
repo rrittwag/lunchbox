@@ -6,6 +6,7 @@ import java.time.LocalDate
 
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.FELDKUECHE
+import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser

@@ -6,7 +6,7 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
-import lunchbox.domain.resolvers.DateValidator
+import lunchbox.util.date.DateValidator
 import lunchbox.domain.models.LunchProvider
 import lunchbox.repository.LunchOfferRepository
 import org.junit.jupiter.api.BeforeEach

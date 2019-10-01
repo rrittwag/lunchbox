@@ -2,6 +2,7 @@ package lunchbox.domain.resolvers
 
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.DAS_KRAUTHOF
+import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.pdf.PdfExtractor
 import lunchbox.util.string.StringParser
