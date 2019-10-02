@@ -113,7 +113,10 @@ class LunchResolverSuppenkulttour(
     val result = mutableListOf<LunchOffer>()
 
     val tagessuppenStrings =
-      cleanUnnecessaryInfo(highlightOfferBorders(text)).split("|||").map { cleanUpPipes(it) }
+      cleanUnnecessaryInfo(highlightOfferBorders(text))
+        .split("|||")
+        .map { cleanUpPipes(it) }
+
     val predictedPrice = predictPrice(tagessuppenStrings)
 
     for ((weekday, tagessuppeString) in groupByWeekday(tagessuppenStrings)) {
@@ -129,12 +132,10 @@ class LunchResolverSuppenkulttour(
     text
       .replace(Regex("""\| *\|"""), "||")
       .replace(Regex("""groß *(\d+[.,]\d{2}) ?€? *\|"""), """groß $1 €||""")
-//      .replace("""|||""", "||")
 
   private fun cleanUnnecessaryInfo(text: String): String =
     text
-      .also { println(it) }
-      .replace(Regex("""\|\|[^|]*Standort[^|]*\|\|\|"""), "||")
+      .replace(Regex("""\|\|[^|]*Standort[^|]*\|\|\|"""), "||") // z.B. "Standort nicht besetzt"
 
   private fun predictPrice(lines: List<String>): Money? =
     lines
@@ -232,8 +233,7 @@ class LunchResolverSuppenkulttour(
   private fun removeLeadingPipes(text: String) =
     text.trim()
       // remove leading pipes
-      .replaceFirst(Regex("""^\|\|"""), "")
-      .replaceFirst(Regex("""^\|"""), "")
+      .replaceFirst(Regex("""^[ |]+"""), "")
 
   private fun adjustText(text: String) =
     text
