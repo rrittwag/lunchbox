@@ -38,7 +38,7 @@ class FeedController(
   ): Feed =
     // Spring automatically converts Rome feeds
     // -> https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/converter/feed/AtomFeedHttpMessageConverter.html
-    createFeed(location, "${request.requestURL}?${request.queryString}")
+    createFeed(location, resolveRequestUrl(request))
 
   fun createFeed(
     location: LunchLocation,
@@ -126,6 +126,18 @@ class FeedController(
         """
     }
     return result.trimMargin()
+  }
+
+  fun resolveRequestUrl(request: HttpServletRequest): String {
+    val requestURL = request.requestURL.toString()
+
+    // Statt HTTPS liefert requestURL HTTP ... WTF?
+    val headers = request.getHeaders("X-Forwarded-Proto")
+    if (headers != null && headers.hasMoreElements()) {
+      val (_, postScheme) = requestURL.split("://")
+      return "${headers.nextElement()}://$postScheme?${request.queryString}"
+    }
+    return "$requestURL?${request.queryString}"
   }
 
   private fun toDateAtNoon(date: LocalDate): Date {
