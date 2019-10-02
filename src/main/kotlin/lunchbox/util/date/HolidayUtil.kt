@@ -1,37 +1,44 @@
 package lunchbox.util.date
 
 import lunchbox.domain.models.LunchLocation
+import lunchbox.domain.models.LunchLocation.BERLIN_SPRINGPFUHL
+import lunchbox.domain.models.LunchLocation.NEUBRANDENBURG
 import java.time.LocalDate
 import java.time.Month
 
+/**
+ * Hilfsmethoden für den Umgang mit deutschen Feiertagen.
+ */
 object HolidayUtil {
 
   fun isHoliday(day: LocalDate, location: LunchLocation): Boolean {
-    // Neujahr
-    if (day.month == Month.JANUARY && day.dayOfMonth == 1)
+    if (Holiday.values().any { it.isHoliday(day, location) })
       return true
 
-    // Tag der Arbeit
-    if (day.month == Month.MAY && day.dayOfMonth == 1)
-      return true
-
-    // Tag der deutschen Einheit
-    if (day.month == Month.OCTOBER && day.dayOfMonth == 3)
-      return true
-
-    // Weihnachten & Silvester
-    if (day.month == Month.DECEMBER && day.dayOfMonth in listOf(25, 26, 31))
-      return true
-
-    // Frauentag
-    if (location == LunchLocation.BERLIN_SPRINGPFUHL) {
-      if (day.month == Month.MARCH && day.dayOfMonth == 8)
-        return true
-    }
-
-    // TODO Ostertage berechnen
-    // TODO weitere Feiertage ergänzen
+    // TODO Ostertage, Christi Himmelfahrt & Pfingsten berechnen
 
     return false
   }
+}
+
+enum class Holiday(
+  private val month: Month,
+  private val dayOfMonth: Int,
+  private vararg val locations: LunchLocation = LunchLocation.values()
+) {
+  // bundesdeutsche Feiertage
+  NEUJAHR(Month.JANUARY, 1),
+  TAG_DER_ARBEIT(Month.MAY, 1),
+  TAG_DER_DEUTSCHEN_EINHEIT(Month.OCTOBER, 3),
+  WEIHNACHTSFEIERTAG_1(Month.DECEMBER, 25),
+  WEIHNACHTSFEIERTAG_2(Month.DECEMBER, 26),
+
+  // Feiertage Berlin
+  FRAUENTAG(Month.MARCH, 8, BERLIN_SPRINGPFUHL),
+
+  // Feiertage MV
+  REFORMATIONSTAG(Month.OCTOBER, 31, NEUBRANDENBURG);
+
+  fun isHoliday(day: LocalDate, location: LunchLocation): Boolean =
+    day.month == month && day.dayOfMonth == dayOfMonth && locations.contains(location)
 }
