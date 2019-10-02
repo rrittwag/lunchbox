@@ -23,6 +23,6 @@ class FacebookGraphApiImpl(
       .retrieve()
       .bodyToMono(clazz)
       .retryBackoff(5, Duration.ofSeconds(5), Duration.ofSeconds(60))
-      .block() ?: return null
+      .block()
   }
 }
