@@ -22,8 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.get
 import java.time.LocalDate
 
 @WebMvcTest(FeedController::class)
@@ -46,13 +45,15 @@ class FeedControllerTest(
     fun success() {
       every { repo.findAll() } returns listOf(offerYesterday, offerToday)
 
-      val httpCall = mockMvc.perform(get("$URL_FEED?location=${NEUBRANDENBURG.label}"))
+      mockMvc.get("$URL_FEED?location=${NEUBRANDENBURG.label}")
 
-      httpCall.andExpect(status().isOk)
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_ATOM_XML))
-        .andExpect(xpath("/feed").exists())
-        .andExpect(xpath("/feed/entry").nodeCount(2))
-        .andExpect(xpath("/feed/link/@href").string("http://localhost$URL_FEED?location=${NEUBRANDENBURG.label}"))
+      .andExpect {
+        status { isOk }
+        content { contentTypeCompatibleWith(MediaType.APPLICATION_ATOM_XML) }
+        xpath("/feed") { exists() }
+        xpath("/feed/entry") { nodeCount(2) }
+        xpath("/feed/link/@href") { string("http://localhost$URL_FEED?location=${NEUBRANDENBURG.label}") }
+      }
 
       verify(exactly = 1) { repo.findAll() }
     }
@@ -61,9 +62,11 @@ class FeedControllerTest(
     fun `WHEN param location is missing  THEN return 400`() {
       every { repo.findAll() } returns listOf(offerYesterday, offerToday)
 
-      val httpCall = mockMvc.perform(get(URL_FEED))
+      mockMvc.get(URL_FEED)
 
-      httpCall.andExpect(status().isBadRequest)
+      .andExpect {
+        status { isBadRequest }
+      }
     }
   }
 
