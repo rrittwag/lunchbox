@@ -3,8 +3,8 @@ module.exports = {
     /\bvue-awesome\b/,
   ],
   chainWebpack: config => {
-    const svgRule = config.module.rule('svg')
-    svgRule.uses.clear()
+    const svgRule = config.module.rule('svg');
+    svgRule.uses.clear();
     svgRule
       .use('vue-svg-loader')
       .loader('vue-svg-loader')
@@ -54,4 +54,4 @@ module.exports = {
       }]
     }
   }
-}
+};

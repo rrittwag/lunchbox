@@ -1,44 +1,12 @@
 module.exports = {
-  moduleFileExtensions: [
-    'js',
-    'jsx',
-    'json',
-    'vue',
-    'ts',
-    'tsx'
-  ],
-  transform: {
-    '^.+\\.vue$': 'vue-jest',
-    '^.+\\.js$': 'babel-jest',
-    '^.+\\.svg$': '<rootDir>/tests/jest.vue-svg-loader',
-    '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
-    '^.+\\.tsx?$': 'ts-jest'
-  },
+  preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
   transformIgnorePatterns: [
     '/node_modules(?![\\\\/]vue-awesome[\\\\/])/'
   ],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
     '^@tests/(.*)$': '<rootDir>/tests/$1'
   },
-  snapshotSerializers: [
-    'jest-serializer-vue'
-  ],
-  testMatch: [
-    '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
-  ],
-  testURL: 'http://localhost/',
   setupFilesAfterEnv: [
     'jest-extended',
   ],
-  globals: {
-    'ts-jest': {
-      babelConfig: true
-    }
-  },
-  collectCoverage: false,
-  collectCoverageFrom: [
-    '**/*.{ts,vue}',
-    '!**/node_modules/**'
-  ]
-}
+};
