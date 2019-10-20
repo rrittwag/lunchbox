@@ -26,7 +26,7 @@ module.exports = {
       runtimeCaching: [{
         // cache Google Fonts
         urlPattern: '/^https:\/\/fonts\.(?:googleapis|gstatic)\.com\//',
-        handler: 'cacheFirst',
+        handler: 'CacheFirst',
         options: {
           cacheName: 'google-fonts',
           expiration: { maxAgeSeconds: 30 * 24 * 60 * 60, maxEntries: 30 },
@@ -35,7 +35,7 @@ module.exports = {
       }, {
         // cache images
         urlPattern: '/\.(?:png|gif|jpg|jpeg|webp|svg)$/',
-        handler: 'cacheFirst',
+        handler: 'CacheFirst',
         options: {
           cacheName: 'images',
           expiration: { maxAgeSeconds: 30 * 24 * 60 * 60, maxEntries: 60 },
@@ -44,7 +44,7 @@ module.exports = {
       }, {
         // cache API calls
         urlPattern: /api/,
-        handler: 'networkFirst',
+        handler: 'NetworkFirst',
         options: {
           networkTimeoutSeconds: 10,
           cacheName: 'api-data',
