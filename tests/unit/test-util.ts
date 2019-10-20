@@ -140,7 +140,7 @@ export function delay(func: () => void) {
   setTimeout(func, 1)
 }
 
-// tslint:disable
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Constructor<T> = new(...args: any[]) => T
 
 /**
@@ -154,6 +154,7 @@ type Constructor<T> = new(...args: any[]) => T
  */
 export function createMock<T>(clazz: Constructor<T>): jest.Mocked<T> {
   var MockConstructor = jestMock.generateFromMetadata(jestMock.getMetadata(clazz)!)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mock: any = new MockConstructor()
   // Constructing by generateFromMetadata has 2 problems:
   // - it does not mock getters

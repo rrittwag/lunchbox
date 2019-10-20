@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////
 
 module.exports = {
-  beforeEach: (browser) => browser.init(),
+  beforeEach: browser => browser.init(),
 /*
   'e2e tests using page objects': (browser) => {
     const homepage = browser.page.homepage()
@@ -28,4 +28,4 @@ module.exports = {
     welcomeSection.expect.element('@cliPluginLinks').text.to.contain('e2e-nightwatch')
   }
 */
-};
+}

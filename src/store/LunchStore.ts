@@ -52,7 +52,7 @@ export class LunchStore extends VuexModule {
       return this.locations[0]
 
     // die alte Angular-App speicherte den Wert mit ""
-    locationName = locationName.replace(/\"/g, '')
+    locationName = locationName.replace(/"/g, '')
 
     const filteredLocation = this.locations.filter(l => l.name === locationName)
     if (filteredLocation.length > 0)
@@ -64,7 +64,7 @@ export class LunchStore extends VuexModule {
   protected [SET_SELECTED_LOCATION](location: LunchLocation) {
     this.selectedLocation = location
     let locationName = ''
-    if (!!location)
+    if (location)
       locationName = location.name
     localStorage.setItem('lunchboxWebapp.STORAGEKEY_LOCATION', locationName)
   }

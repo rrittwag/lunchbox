@@ -73,13 +73,13 @@ export default class DaySelector extends Vue {
 
   goPrevDay(): void {
     const prevDay = this.prevDay()
-    if (!!prevDay)
+    if (prevDay)
       this.lunchStore.setSelectedDay(prevDay)
   }
 
   goNextDay(): void {
     const nextDay = this.nextDay()
-    if (!!nextDay)
+    if (nextDay)
       this.lunchStore.setSelectedDay(nextDay)
   }
 }

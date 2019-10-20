@@ -3,8 +3,8 @@ module.exports = {
     /\bvue-awesome\b/,
   ],
   chainWebpack: config => {
-    const svgRule = config.module.rule('svg');
-    svgRule.uses.clear();
+    const svgRule = config.module.rule('svg')
+    svgRule.uses.clear()
     svgRule
       .use('vue-svg-loader')
       .loader('vue-svg-loader')
@@ -25,7 +25,7 @@ module.exports = {
       importWorkboxFrom: 'local', // provide workbox lib locally, not by CDN
       runtimeCaching: [{
         // cache Google Fonts
-        urlPattern: '/^https:\/\/fonts\.(?:googleapis|gstatic)\.com\//',
+        urlPattern: '/^https://fonts.(?:googleapis|gstatic).com//',
         handler: 'CacheFirst',
         options: {
           cacheName: 'google-fonts',
@@ -34,7 +34,7 @@ module.exports = {
         }
       }, {
         // cache images
-        urlPattern: '/\.(?:png|gif|jpg|jpeg|webp|svg)$/',
+        urlPattern: '/.(?:png|gif|jpg|jpeg|webp|svg)$/',
         handler: 'CacheFirst',
         options: {
           cacheName: 'images',
@@ -54,4 +54,4 @@ module.exports = {
       }]
     }
   }
-};
+}
