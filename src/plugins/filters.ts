@@ -2,7 +2,6 @@ import Vue from 'vue'
 import * as filters from '@/filters'
 
 interface FunctionMap {
-  // tslint:disable-next-line ban-types
   [key: string]: Function
 }
 

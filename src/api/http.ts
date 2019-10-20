@@ -19,7 +19,7 @@ http.interceptors.response.use(
 )
 
 function createApiError(error: AxiosError): ApiError {
-  // tslint:disable-next-line no-console
+  // eslint-disable-next-line no-console
   console.log('AxiosError: ' + JSON.stringify(error))
 
   // non 2xx response

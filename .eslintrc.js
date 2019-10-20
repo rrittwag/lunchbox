@@ -9,12 +9,13 @@ module.exports = {
     '@vue/typescript'
   ],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'max-len': ['error', { 'code': 100 }],
     'quotes': ['error', 'single'],
     'semi': ['error', 'never'],
     'arrow-parens': ['error', 'as-needed'],
+    '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
     '@typescript-eslint/no-explicit-any': ['error'],
     '@typescript-eslint/member-delimiter-style': [
       'error',
