@@ -28,7 +28,9 @@ module.exports = {
     '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
   ],
   testURL: 'http://localhost/',
-  setupTestFrameworkScriptFile: 'jest-extended',
+  setupFilesAfterEnv: [
+    'jest-extended',
+  ],
   globals: {
     'ts-jest': {
       babelConfig: true
