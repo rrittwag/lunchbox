@@ -55,7 +55,8 @@ unit:
     - "[ ! -d node_modules/ ] && yarn install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
     - yarn test:unit
 
-e2e:
+# TODO: End-to-End-Tests benötigen Chrome oder Firefox
+.e2e:
   stage: test
   script:
     - "[ ! -d node_modules/ ] && yarn install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
