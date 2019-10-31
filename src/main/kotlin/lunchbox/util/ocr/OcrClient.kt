@@ -28,7 +28,7 @@ class OcrClient(
 
     return WebClient.create("$ocrUrl/ocr")
       .post()
-      .body(BodyInserters.fromObject(requestBody))
+      .body(BodyInserters.fromValue(requestBody))
       .retrieve()
       .bodyToMono<String>()
       .retryBackoff(5, Duration.ofSeconds(5), Duration.ofSeconds(60))
