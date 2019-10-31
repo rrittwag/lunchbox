@@ -159,4 +159,20 @@ class LunchResolverSuppenkulttourTest {
     offers shouldContain LunchOffer(0, "Hähnchengulasch: Low Carb - Hähnchen, Paprika, Tomaten, Lauch", week.thursday, euro("4.70"), providerId)
     offers shouldContain LunchOffer(0, "Soljanka", week.friday, euro("4.70"), providerId) // Zusätzliche Info ist mit Preis verklebt
   }
+
+  @Test
+  fun `resolve offers for week of 2019-10-28`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2019-10-28.html")
+
+    val offers = resolver().resolve(url)
+
+    val week = weekOf("2019-10-28")
+    offers.filter { it.day == week.monday } shouldHaveSize 4
+    offers.filter { it.day == week.tuesday } shouldHaveSize 4
+    offers.filter { it.day == week.wednesday } shouldHaveSize 4
+    offers.filter { it.day == week.thursday } shouldHaveSize 0
+    offers.filter { it.day == week.friday } shouldHaveSize 4
+
+    offers shouldContain LunchOffer(0, "Soljanka: Wiener, Kassler, Bratwurst, Sauerkraut, Letscho, Zitrone, Schmand, Saure Gurken", week.friday, euro("4.70"), providerId) // Zusätzliche Info ist mit Preis verklebt
+  }
 }

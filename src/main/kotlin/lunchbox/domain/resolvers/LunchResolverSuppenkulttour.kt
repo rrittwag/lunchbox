@@ -135,7 +135,7 @@ class LunchResolverSuppenkulttour(
 
   private fun cleanUnnecessaryInfo(text: String): String =
     text
-      .replace(Regex("""\|\|[^|]*Standort[^|]*\|\|\|"""), "||") // z.B. "Standort nicht besetzt"
+      .replace(Regex("""\|{2,3}[^|]*Standort[^|]*\|{2,3} *"""), "||") // z.B. "Standort nicht besetzt"
 
   private fun predictPrice(lines: List<String>): Money? =
     lines
