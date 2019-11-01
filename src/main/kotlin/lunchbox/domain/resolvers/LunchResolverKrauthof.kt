@@ -56,7 +56,10 @@ class LunchResolverKrauthof(
       currentRow = null
     }
 
-    for (line in pdfContent.map { it.trim() }) {
+    val pdfContentOhneZusatzstoffe =
+      pdfContent.filterNot { it.matches(Regex("""^\([a-z0-9 ()│|]+\)$""")) }
+
+    for (line in pdfContentOhneZusatzstoffe.map { it.trim() }) {
       val matchOffer = Regex("""(.+)(\d+[.,]\d{2}) *€\*""").find(line)
       if (matchOffer != null) {
         val (text, priceString) = matchOffer.destructured
