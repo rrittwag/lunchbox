@@ -173,6 +173,7 @@ class LunchResolverSuppenkulttourTest {
     offers.filter { it.day == week.thursday } shouldHaveSize 0
     offers.filter { it.day == week.friday } shouldHaveSize 4
 
-    offers shouldContain LunchOffer(0, "Soljanka: Wiener, Kassler, Bratwurst, Sauerkraut, Letscho, Zitrone, Schmand, Saure Gurken", week.friday, euro("4.70"), providerId) // Zusätzliche Info ist mit Preis verklebt
+    offers shouldContain LunchOffer(0, "Soljanka: Wiener, Kassler, Bratwurst, Sauerkraut, Letscho, Zitrone, Schmand, Saure Gurken", week.friday, euro("4.70"), providerId)
+    offers shouldContain LunchOffer(0, "Kürbis-Kokos-Suppe: mit roten Linsen, Staudensellerie, Kürbis, roter Paprika, Kokosmilch, Kurkuma, Ingwer", week.friday, euro("4.70"), providerId)
   }
 }

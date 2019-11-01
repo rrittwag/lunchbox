@@ -132,6 +132,7 @@ class LunchResolverSuppenkulttour(
     text
       .replace(Regex("""\| *\|"""), "||")
       .replace(Regex("""groß *(\d+[.,]\d{2}) ?€? *\|"""), """groß $1 €||""")
+      .replace(Regex("""([^|]) *\(enthält"""), "$1|(enthält")
 
   private fun cleanUnnecessaryInfo(text: String): String =
     text
