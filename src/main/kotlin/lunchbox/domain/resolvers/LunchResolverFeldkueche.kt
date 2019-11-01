@@ -135,6 +135,7 @@ class LunchResolverFeldkueche(
       .replace("Erhsen", "Erbsen")
       .replace("Chili con Garne", "Chili con Carne")
       .replace("—", "-")
+      .replace(" _", " ")
 
   data class RawOfferName(
     val weekday: Weekday,
