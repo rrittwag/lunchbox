@@ -1,4 +1,4 @@
-image: openjdk:8
+image: adoptopenjdk/openjdk8
 
 variables:
   DOCKER_REGISTRY_ADDR: docker.rori.dev
