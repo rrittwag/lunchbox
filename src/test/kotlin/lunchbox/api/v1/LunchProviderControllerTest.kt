@@ -1,14 +1,14 @@
 package lunchbox.api.v1 /* ktlint-disable max-line-length no-wildcard-imports */
 
-import org.springframework.http.MediaType.APPLICATION_JSON
+import lunchbox.domain.models.LunchProvider
+import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
+import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.servlet.MockMvc
-import lunchbox.domain.models.LunchProvider
-import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
-import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
-import org.junit.jupiter.api.Nested
 import org.springframework.test.web.servlet.get
 
 @WebMvcTest(LunchProviderController::class)

@@ -1,7 +1,6 @@
 package lunchbox.domain.resolvers
 
 import java.net.URL
-
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
 import lunchbox.util.html.HtmlParser

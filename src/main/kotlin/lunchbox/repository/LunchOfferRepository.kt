@@ -1,8 +1,8 @@
 package lunchbox.repository
 
+import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProviderId
-import java.time.LocalDate
 
 /**
  * Repository für Mittagsangebote.

@@ -1,5 +1,8 @@
 package lunchbox.util.ocr /* ktlint-disable max-line-length no-wildcard-imports */
 
+import java.io.File
+import java.nio.file.Paths
+import java.time.Duration
 import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test
 import org.springframework.web.reactive.function.client.WebClient
@@ -8,9 +11,6 @@ import org.testcontainers.containers.NginxContainer
 import org.testcontainers.containers.wait.strategy.HttpWaitStrategy
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import java.io.File
-import java.nio.file.Paths
-import java.time.Duration
 
 /**
  * Der Test ist unsinnig. Er demonstriert nur die Funktionsweise von TestContainers' nginx Modul.

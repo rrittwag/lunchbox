@@ -1,9 +1,8 @@
 package lunchbox.domain.resolvers
 
 import java.net.URL
-
-import org.springframework.stereotype.Component
-
+import java.time.DayOfWeek
+import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
 import lunchbox.util.date.DateValidator
@@ -12,8 +11,7 @@ import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import java.time.DayOfWeek
-import java.time.LocalDate
+import org.springframework.stereotype.Component
 
 @Component
 class LunchResolverSaltNPepper(

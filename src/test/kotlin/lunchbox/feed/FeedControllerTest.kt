@@ -6,6 +6,7 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.verify
+import java.time.LocalDate
 import lunchbox.domain.models.LunchLocation.NEUBRANDENBURG
 import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
 import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
@@ -23,7 +24,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
-import java.time.LocalDate
 
 @WebMvcTest(FeedController::class)
 class FeedControllerTest(

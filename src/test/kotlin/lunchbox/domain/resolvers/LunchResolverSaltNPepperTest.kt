@@ -1,8 +1,8 @@
 package lunchbox.domain.resolvers /* ktlint-disable max-line-length no-wildcard-imports */
 
 import io.mockk.mockk
-import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
 import lunchbox.domain.models.LunchOffer
+import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import org.amshove.kluent.shouldContain

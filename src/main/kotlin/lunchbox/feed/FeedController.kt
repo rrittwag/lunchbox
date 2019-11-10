@@ -2,24 +2,24 @@ package lunchbox.feed
 
 import com.rometools.rome.feed.atom.Content
 import com.rometools.rome.feed.atom.Entry
-import lunchbox.repository.LunchOfferRepository
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
-import com.rometools.rome.feed.atom.Person
 import com.rometools.rome.feed.atom.Feed
 import com.rometools.rome.feed.atom.Link
-import lunchbox.domain.models.LunchLocation
-import lunchbox.domain.models.LunchOffer
-import lunchbox.domain.models.LunchProvider
-import org.springframework.core.convert.converter.Converter
-import org.springframework.stereotype.Component
-import org.springframework.web.bind.annotation.RequestParam
+import com.rometools.rome.feed.atom.Person
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 import javax.servlet.http.HttpServletRequest
+import lunchbox.domain.models.LunchLocation
+import lunchbox.domain.models.LunchOffer
+import lunchbox.domain.models.LunchProvider
+import lunchbox.repository.LunchOfferRepository
+import org.springframework.core.convert.converter.Converter
+import org.springframework.stereotype.Component
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
 const val URL_FEED = "/feed"
 

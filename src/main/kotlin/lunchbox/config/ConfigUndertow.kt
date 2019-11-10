@@ -1,13 +1,12 @@
 package todo.config
 
+import io.undertow.Undertow.Builder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.websocket.servlet.UndertowWebSocketServletWebServerCustomizer
 import org.springframework.boot.web.embedded.undertow.UndertowBuilderCustomizer
 import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory
 import org.springframework.context.annotation.Configuration
 import org.xnio.Options
-
-import io.undertow.Undertow.Builder
 
 /**
  * Konfiguriert den Undertow-Webserver, insbesondere dessen Worker-ThreadPool.

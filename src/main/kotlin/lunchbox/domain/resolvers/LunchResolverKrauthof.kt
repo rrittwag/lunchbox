@@ -1,5 +1,7 @@
 package lunchbox.domain.resolvers
 
+import java.net.URL
+import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.DAS_KRAUTHOF
 import lunchbox.util.date.DateValidator
@@ -9,8 +11,6 @@ import lunchbox.util.pdf.PdfExtractor
 import lunchbox.util.string.StringParser
 import org.joda.money.Money
 import org.springframework.stereotype.Component
-import java.net.URL
-import java.time.LocalDate
 
 @Component
 class LunchResolverKrauthof(

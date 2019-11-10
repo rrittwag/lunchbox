@@ -1,10 +1,10 @@
 package lunchbox.util.date
 
+import java.time.LocalDate
+import java.time.Month
 import lunchbox.domain.models.LunchLocation
 import lunchbox.domain.models.LunchLocation.BERLIN_SPRINGPFUHL
 import lunchbox.domain.models.LunchLocation.NEUBRANDENBURG
-import java.time.LocalDate
-import java.time.Month
 
 /**
  * Hilfsmethoden für den Umgang mit deutschen Feiertagen.

@@ -1,7 +1,7 @@
 // -------------------
 //   Abhängigkeiten der Applikation
 // -------------------
-ext.springBootVersion = '2.2.0.RELEASE'
+ext.springBootVersion = '2.2.1.RELEASE'
 
 repositories { jcenter() }
 dependencies {
@@ -17,16 +17,16 @@ dependencies {
   // web
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation('org.springframework.boot:spring-boot-starter-undertow') { exclude module: 'undertow-websockets-jsr' }
-  implementation 'org.jboss.xnio:xnio-nio:3.7.3.Final' // Undertow nutzt eigentlich XNIO 3.3, was den Worker-ThreadPool maximal aufbläht (vgl. ConfigUndertow.java)
+  implementation 'org.jboss.xnio:xnio-nio:3.7.6.Final' // Undertow nutzt eigentlich XNIO 3.3, was den Worker-ThreadPool maximal aufbläht (vgl. ConfigUndertow.java)
   implementation 'org.springframework.boot:spring-boot-starter-webflux'
   implementation 'javax.xml.bind:jaxb-api'
 
   // html/xml/pdf
-  implementation 'org.jsoup:jsoup:1.11.3'
-  implementation 'org.apache.pdfbox:pdfbox:2.0.16'
+  implementation 'org.jsoup:jsoup:1.12.1'
+  implementation 'org.apache.pdfbox:pdfbox:2.0.17'
 
   // RSS/Atom feed
-  implementation 'com.rometools:rome:1.12.1'
+  implementation 'com.rometools:rome:1.12.2'
 
   // money money money
   implementation 'org.joda:joda-money:1.0.1'

@@ -1,8 +1,8 @@
 package lunchbox.domain.models /* ktlint-disable max-line-length */
 
-import lunchbox.domain.models.LunchLocation.NEUBRANDENBURG
-import lunchbox.domain.models.LunchLocation.BERLIN_SPRINGPFUHL
 import java.net.URL
+import lunchbox.domain.models.LunchLocation.BERLIN_SPRINGPFUHL
+import lunchbox.domain.models.LunchLocation.NEUBRANDENBURG
 
 typealias LunchProviderId = Long
 

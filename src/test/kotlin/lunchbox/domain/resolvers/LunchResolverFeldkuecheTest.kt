@@ -2,7 +2,6 @@ package lunchbox.domain.resolvers /* ktlint-disable max-line-length no-wildcard-
 
 import io.mockk.mockk
 import java.net.URL
-
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.FELDKUECHE
 import lunchbox.util.date.DateValidator

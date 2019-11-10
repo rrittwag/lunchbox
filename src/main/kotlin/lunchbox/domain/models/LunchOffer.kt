@@ -1,7 +1,7 @@
 package lunchbox.domain.models
 
-import org.joda.money.Money
 import java.time.LocalDate
+import org.joda.money.Money
 
 typealias LunchOfferId = Long
 

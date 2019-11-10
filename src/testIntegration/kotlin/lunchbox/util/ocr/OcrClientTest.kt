@@ -1,5 +1,7 @@
 package lunchbox.util.ocr /* ktlint-disable max-line-length no-wildcard-imports */
 
+import java.io.File
+import java.net.URL
 import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.params.ParameterizedTest
@@ -7,8 +9,6 @@ import org.junit.jupiter.params.provider.ValueSource
 import org.testcontainers.containers.DockerComposeContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import java.io.File
-import java.net.URL
 
 @Testcontainers
 class OcrClientTest {

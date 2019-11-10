@@ -5,8 +5,8 @@ import lunchbox.api.v1.dto.toDTOv1
 import lunchbox.domain.models.LunchProvider
 import lunchbox.util.exceptions.HttpNotFoundException
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * REST API-Controller für Mittagsanbieter.

@@ -1,10 +1,8 @@
 package lunchbox.domain.resolvers
 
-import org.springframework.stereotype.Component
 import java.net.URL
 import java.time.DayOfWeek
 import java.time.LocalDate
-
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
 import lunchbox.util.date.DateValidator
@@ -15,6 +13,7 @@ import org.joda.money.Money
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
+import org.springframework.stereotype.Component
 
 @Component
 class LunchResolverSuppenkulttour(

@@ -1,8 +1,8 @@
 package lunchbox.domain.resolvers
 
-import org.joda.money.Money
 import java.time.DayOfWeek
 import java.time.LocalDate
+import org.joda.money.Money
 
 /**
  * Hilfsfunktionen für LunchResolver-Tests.

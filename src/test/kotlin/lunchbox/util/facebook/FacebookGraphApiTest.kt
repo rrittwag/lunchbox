@@ -1,6 +1,7 @@
 package lunchbox.util.facebook /* ktlint-disable max-line-length no-wildcard-imports */
 
 import com.fasterxml.jackson.module.kotlin.readValue
+import java.net.URL
 import lunchbox.util.json.createObjectMapper
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldContain
@@ -8,7 +9,6 @@ import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldHaveSize
 import org.amshove.kluent.shouldNotBe
 import org.junit.jupiter.api.Test
-import java.net.URL
 
 class FacebookGraphApiTest {
 
