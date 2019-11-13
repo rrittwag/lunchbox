@@ -7,8 +7,8 @@ ext.dockerRegistry = 'docker.rori.dev'
 
 docker {
   dependsOn build
-  name "${dockerRegistry}/lunchbox-backend"
-  tag 'version', "${dockerRegistry}/lunchbox-backend:${project.version}"
+  name "${dockerRegistry}/${rootProject.name}"
+  tag 'version', "${dockerRegistry}/${rootProject.name}:${rootProject.version}"
   files bootJar.archiveFile
   buildArgs(['JAR_FILE': "${bootJar.archiveFileName.get()}"])
   pull true
