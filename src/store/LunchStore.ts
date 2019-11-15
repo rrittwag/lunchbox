@@ -15,7 +15,6 @@ const SET_SELECTED_LOCATION = 'SET_SELECTED_LOCATION'
 
 @Module({ store, dynamic: true, namespaced: true, name: 'lunch' })
 export class LunchStore extends VuexModule {
-
   // manual injection: Vue injects into components, but not into store/modules
   api: LunchApi = new LunchApi()
 
@@ -48,15 +47,13 @@ export class LunchStore extends VuexModule {
 
   private loadSelectedLocationFromLocalStorage(): LunchLocation {
     let locationName: string | null = localStorage.getItem('lunchboxWebapp.STORAGEKEY_LOCATION')
-    if (!locationName || locationName === '')
-      return this.locations[0]
+    if (!locationName || locationName === '') return this.locations[0]
 
     // die alte Angular-App speicherte den Wert mit ""
     locationName = locationName.replace(/"/g, '')
 
     const filteredLocation = this.locations.filter(l => l.name === locationName)
-    if (filteredLocation.length > 0)
-      return filteredLocation[0]
+    if (filteredLocation.length > 0) return filteredLocation[0]
     return this.locations[0]
   }
 
@@ -64,8 +61,7 @@ export class LunchStore extends VuexModule {
   protected [SET_SELECTED_LOCATION](location: LunchLocation) {
     this.selectedLocation = location
     let locationName = ''
-    if (location)
-      locationName = location.name
+    if (location) locationName = location.name
     localStorage.setItem('lunchboxWebapp.STORAGEKEY_LOCATION', locationName)
   }
 
@@ -107,14 +103,12 @@ export class LunchStore extends VuexModule {
     this.context.commit(SET_LOADING_STATE, LoadingState.Loading)
 
     try {
-      const [providers, offers] =
-        await Promise.all([this.api.getProviders(), this.api.getOffers()])
+      const [providers, offers] = await Promise.all([this.api.getProviders(), this.api.getOffers()])
 
       this.context.commit(SET_PROVIDERS, providers)
       this.context.commit(SET_OFFERS, offers)
 
       this.context.commit(SET_LOADING_STATE, LoadingState.Done)
-
     } catch (error) {
       this.context.commit(SET_LOADING_STATE, LoadingState.Failed)
     }

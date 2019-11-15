@@ -1,14 +1,12 @@
 <template>
   <div v-if="loadingDone" class="offers">
-    <DaySelector/>
-    <MessageBox/>
-    <OfferBoxGroup/>
+    <DaySelector />
+    <MessageBox />
+    <OfferBoxGroup />
   </div>
   <ContentError v-else-if="loadingFailed" />
   <ContentLoading v-else />
 </template>
-
-
 
 <script lang="ts">
 import { Component, Vue, Inject } from 'vue-property-decorator'

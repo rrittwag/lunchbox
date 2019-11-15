@@ -3,14 +3,14 @@ module.exports = {
     extend: {
       backgroundColor: {
         primary: 'var(--color-bg-primary)',
-        secondary: 'var(--color-bg-secondary)'
+        secondary: 'var(--color-bg-secondary)',
       },
       textColor: {
         primary: 'var(--color-text-primary)',
-        accent: 'var(--color-text-accent)'
+        accent: 'var(--color-text-accent)',
       },
-    }
+    },
   },
   variants: {},
-  plugins: []
+  plugins: [],
 }

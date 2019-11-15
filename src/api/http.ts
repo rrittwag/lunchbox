@@ -6,16 +6,17 @@ const http = axios.create({
   timeout: 5000, // request timeout
 })
 
-http.interceptors.request.use(config => {
+http.interceptors.request.use(
+  config => {
     // TODO: config Authorization token
     return config
   },
-  error => Promise.reject(createApiError(error)),
+  error => Promise.reject(createApiError(error))
 )
 
 http.interceptors.response.use(
   response => response,
-  error => Promise.reject(createApiError(error)),
+  error => Promise.reject(createApiError(error))
 )
 
 function createApiError(error: AxiosError): ApiError {
@@ -60,8 +61,7 @@ function createApiError(error: AxiosError): ApiError {
 }
 
 function toString(value: string | undefined): string {
-  if (value)
-    return value
+  if (value) return value
   return ''
 }
 

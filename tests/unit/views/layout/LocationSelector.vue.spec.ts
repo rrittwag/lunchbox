@@ -46,8 +46,18 @@ describe('LocationSelector', () => {
 
     const wrapper = mountWithChildren(LocationSelector, {}, { provide })
 
-    expect(wrapper.findAll(BDropdownItem).at(0).props('active')).toBeFalse()
-    expect(wrapper.findAll(BDropdownItem).at(1).props('active')).toBeTrue()
+    expect(
+      wrapper
+        .findAll(BDropdownItem)
+        .at(0)
+        .props('active')
+    ).toBeFalse()
+    expect(
+      wrapper
+        .findAll(BDropdownItem)
+        .at(1)
+        .props('active')
+    ).toBeTrue()
   })
 
   test('WHEN select location  THEN call store.setSelectedLocation', () => {

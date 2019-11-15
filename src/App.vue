@@ -1,10 +1,8 @@
 <template>
   <div id="app">
-    <LayoutView/>
+    <LayoutView />
   </div>
 </template>
-
-
 
 <script lang="ts">
 import { Component, Vue, Provide } from 'vue-property-decorator'

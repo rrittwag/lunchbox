@@ -1,11 +1,9 @@
 <template>
   <div class="layout-view">
-    <Header/>
-    <Content/>
+    <Header />
+    <Content />
   </div>
 </template>
-
-
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'

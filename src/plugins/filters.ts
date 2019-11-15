@@ -7,6 +7,4 @@ interface FunctionMap {
 
 // bugfixing https://github.com/Microsoft/TypeScript/issues/16248#issuecomment-306034585
 const typedFilters: FunctionMap = filters
-Object.keys(typedFilters).forEach(
-  (key: string) => Vue.filter(key, typedFilters[key])
-)
+Object.keys(typedFilters).forEach((key: string) => Vue.filter(key, typedFilters[key]))

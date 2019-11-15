@@ -1,21 +1,12 @@
 <template>
   <b-container fluid class="offer-box-group">
     <b-row>
-      <b-col
-        sm="6" md="4" lg="3"
-        v-for="provider in visibleProviders"
-        :key="provider.id"
-      >
-        <OfferBox
-          :provider="provider"
-          :offers="visibleOffersOf(provider)"
-        />
+      <b-col sm="6" md="4" lg="3" v-for="provider in visibleProviders" :key="provider.id">
+        <OfferBox :provider="provider" :offers="visibleOffersOf(provider)" />
       </b-col>
     </b-row>
   </b-container>
 </template>
-
-
 
 <script lang="ts">
 import { Component, Vue, Inject } from 'vue-property-decorator'
@@ -33,11 +24,11 @@ export default class OfferBoxGroup extends Vue {
 
   get visibleOffers(): LunchOffer[] {
     const providerIDsForSelectedLocation: number[] = this.lunchStore.providers
-                  .filter(p => p.location === this.lunchStore.selectedLocation.name)
-                  .map(p => p.id)
+      .filter(p => p.location === this.lunchStore.selectedLocation.name)
+      .map(p => p.id)
     return this.lunchStore.offers
-                  .filter(o => providerIDsForSelectedLocation.includes(o.provider))
-                  .filter(o => new Date(o.day).getTime() === this.lunchStore.selectedDay.getTime())
+      .filter(o => providerIDsForSelectedLocation.includes(o.provider))
+      .filter(o => new Date(o.day).getTime() === this.lunchStore.selectedDay.getTime())
   }
 
   visibleOffersOf(provider: LunchProvider): LunchOffer[] {
@@ -47,8 +38,8 @@ export default class OfferBoxGroup extends Vue {
   get visibleProviders(): LunchProvider[] {
     const providerIDs: number[] = this.visibleOffers.map(o => o.provider)
     return this.lunchStore.providers
-                  .filter(p => providerIDs.includes(p.id))
-                  .sort((provider1, provider2) => provider1.name.localeCompare(provider2.name))
+      .filter(p => providerIDs.includes(p.id))
+      .sort((provider1, provider2) => provider1.name.localeCompare(provider2.name))
   }
 }
 </script>

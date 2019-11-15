@@ -50,5 +50,4 @@ describe('OfferBox', () => {
     const items = wrapper.findAll(BListGroupItem)
     expect(items.length).toEqual(1)
   })
-
 })

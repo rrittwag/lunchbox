@@ -8,7 +8,7 @@
 
 module.exports = {
   beforeEach: browser => browser.init(),
-/*
+  /*
   'e2e tests using page objects': (browser) => {
     const homepage = browser.page.homepage()
     homepage.waitForElementVisible('@appContainer')

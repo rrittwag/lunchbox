@@ -6,7 +6,7 @@ import {
   VueClass,
   Wrapper,
   mount,
-  MountOptions
+  MountOptions,
 } from '@vue/test-utils'
 import BootstrapVue from 'bootstrap-vue'
 import * as filters from '@/filters'
@@ -33,9 +33,7 @@ function applyFilters(localVue: typeof Vue) {
   }
   // bugfixing https://github.com/Microsoft/TypeScript/issues/16248#issuecomment-306034585
   const typedFilters: FunctionMap = filters
-  Object.keys(typedFilters).forEach(
-    (key: string) => localVue.filter(key, typedFilters[key])
-  )
+  Object.keys(typedFilters).forEach((key: string) => localVue.filter(key, typedFilters[key]))
 }
 
 function applyAwesome(localVue: typeof Vue) {
@@ -67,25 +65,25 @@ export function createLocalVue(): typeof Vue {
  * @param component
  * @param props
  */
-export function mountUnit<V extends Vue>(
-  component: VueClass<V> | ComponentOptions<V>): Wrapper<V>
+export function mountUnit<V extends Vue>(component: VueClass<V> | ComponentOptions<V>): Wrapper<V>
 
 export function mountUnit<V extends Vue>(
   component: VueClass<V>,
   props: object,
-  mountOptions?: MountOptions<V>): Wrapper<V>
+  mountOptions?: MountOptions<V>
+): Wrapper<V>
 
 export function mountUnit<V extends Vue>(
   component: object,
   props: object = {},
-  mountOptions: MountOptions<V> = {}): Wrapper<V> {
-
+  mountOptions: MountOptions<V> = {}
+): Wrapper<V> {
   const localVue = createLocalVue()
 
   return shallowMount(component, {
     localVue,
     propsData: { ...props },
-    ...mountOptions
+    ...mountOptions,
   })
 }
 
@@ -96,24 +94,26 @@ export function mountUnit<V extends Vue>(
  * @param props
  */
 export function mountWithChildren<V extends Vue>(
-  component: VueClass<V> | ComponentOptions<V>): Wrapper<V>
+  component: VueClass<V> | ComponentOptions<V>
+): Wrapper<V>
 
 export function mountWithChildren<V extends Vue>(
   component: VueClass<V>,
   props: object,
-  mountOptions?: MountOptions<V>): Wrapper<V>
+  mountOptions?: MountOptions<V>
+): Wrapper<V>
 
 export function mountWithChildren<V extends Vue>(
   component: object,
   props: object = {},
-  mountOptions: MountOptions<V> = {}): Wrapper<V> {
-
+  mountOptions: MountOptions<V> = {}
+): Wrapper<V> {
   const localVue = createLocalVue()
 
   return mount(component, {
     localVue,
     propsData: { ...props },
-    ...mountOptions
+    ...mountOptions,
   })
 }
 
@@ -141,7 +141,7 @@ export function delay(func: () => void) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Constructor<T> = new(...args: any[]) => T
+type Constructor<T> = new (...args: any[]) => T
 
 /**
  * Create a mock instance of clazz.
