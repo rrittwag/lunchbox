@@ -1,0 +1,15 @@
+@keyframes moveInOutX {
+  from {
+    transform: translateX(-10px);
+  }
+  to {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes pulse {
+  to {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+}

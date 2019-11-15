@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * theming inspired by & stolen from
+ * - https://github.com/adamwathan/theming-tailwind-demo
+ * - https://github.com/drehimself/gridsome-portfolio-starter
+ */
+
+@import 'style/animations.scss';
+@import 'style/transitions.scss';
+
+.theme-light {
+  --color-bg-primary: #fff;
+  --color-bg-secondary: #fff;
+  --color-text-primary: #000;
+  --color-text-accent: #42b983;
+}
+
+.theme-dark {
+  --color-bg-primary: #0D2438;
+  --color-bg-secondary: #667;
+  --color-text-primary: #fff;
+  --color-text-accent: #FF9060;
+;
+}

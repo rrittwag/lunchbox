@@ -14,7 +14,7 @@
           </b-button>
         </b-col>
 
-        <b-col cols="8" class="text-center">
+        <b-col cols="8" class="text-center bg-red-500">
           <h2><small>{{ lunchStore.selectedDay | formatToWeekday }}</small></h2>
           <h2 class="mt-0 mb-1">{{ lunchStore.selectedDay | formatToDate }}</h2>
         </b-col>

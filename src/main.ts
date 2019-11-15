@@ -6,6 +6,9 @@ import { store } from './store'
 // register PWA app
 import '@/plugins/registerServiceWorker'
 
+// Tailwind CSS styles
+import '@/assets/tailwind.scss'
+
 // register filters
 import '@/plugins/filters'
 
