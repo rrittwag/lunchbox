@@ -10,7 +10,6 @@ import { getModule } from 'vuex-module-decorators'
 import { LunchStore } from '@/store'
 import LayoutView from '@/views/LayoutView.vue'
 
-// vscode shows decorator errors -> https://github.com/vuejs/vetur/issues/815
 @Component({
   components: {
     LayoutView,
