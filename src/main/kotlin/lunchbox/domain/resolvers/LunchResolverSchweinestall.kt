@@ -1,6 +1,8 @@
 package lunchbox.domain.resolvers
 
 import java.net.URL
+import java.time.DayOfWeek
+import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
 import lunchbox.util.html.HtmlParser
@@ -22,30 +24,68 @@ class LunchResolverSchweinestall(
     resolve(provider.menuUrl)
 
   fun resolve(url: URL): List<LunchOffer> {
-    val site = htmlParser.parse(url, "iso-8859-1")
+    val site = htmlParser.parse(url)
 
-    // Die Tabelle 'cal_content' enthält die Wochenangebote
-    val tdsInOffersTable = site.select("#cal_content td")
+    val sections = site.select("section")
 
-    return tdsInOffersTable
-      .chunked(5) // je 5 td-Elemente sind ein Offer, aber ...
-      .filter { it.size >= 3 }
-      .mapNotNull {
-        // ... nur die ersten 3 td sind nützlich
-        (dayElem, priceElem, nameElem) -> resolveOffer(dayElem, priceElem, nameElem)
+    val sectionsByWeek =
+      sections // Datum-Section und Offers-Section filtern und je Woche gruppieren
+        .filter { it.text().matches(Regex("""[0-9 .-]+""")) || it.text().contains("€") }
+        .chunked(2)
+        .filter { it.size == 2 }
+
+    return sectionsByWeek.flatMap { (dateElem, offersElem) ->
+      resolveOffers(dateElem, offersElem)
+    }
+  }
+
+  private fun resolveOffers(dateElem: Element, offersElem: Element): List<LunchOffer> {
+    val monday: LocalDate = resolveMonday(dateElem) ?: return emptyList()
+
+    val tdsAsText = offersElem.select("td")
+      .map { it.text() }
+
+    return tdsAsText
+      .chunked(6) // 6 td sind ein Offer ...
+      .filter { it.size >= 4 } // ... nur die erste 4 enthalten Daten
+      .mapNotNull { (weekday, _, offerName, price) ->
+        resolveOffer(monday, weekday, offerName, price)
       }
   }
 
-  private fun resolveOffer(dayElem: Element, priceElem: Element, nameElem: Element): LunchOffer? {
-    val day = StringParser.parseLocalDate(dayElem.text()) ?: return null
-    val price = StringParser.parseMoney(priceElem.text()) ?: return null
-    val name = parseName(nameElem)
+  private fun resolveMonday(dateElem: Element): LocalDate? {
+    val dateString = dateElem.text().replace(" ", "")
+    val day = StringParser.parseLocalDate(dateString) ?: return null
+    return day.with(DayOfWeek.MONDAY)
+  }
+
+  private fun resolveOffer(
+    monday: LocalDate,
+    weekdayString: String,
+    nameString: String,
+    priceString: String
+  ): LunchOffer? {
+    val weekday = Weekday.values().find { it.label == weekdayString } ?: return null
+    val day = monday.plusDays(weekday.order)
+    val price = StringParser.parseMoney(priceString) ?: return null
+    val name = cleanName(nameString)
     return LunchOffer(0, name, day, price, provider.id)
   }
 
-  private fun parseName(elem: Element): String =
-    elem.text()
+  private fun cleanName(nameString: String): String =
+    nameString
       .trim()
       .replace("\u0084", "") // merkwürdige Anführungszeichen rauswerfen
       .replace("\u0093", "")
+
+  enum class Weekday(
+    val label: String,
+    val order: Long
+  ) {
+    MONTAG("Montag", 0),
+    DIENSTAG("Dienstag", 1),
+    MITTWOCH("Mittwoch", 2),
+    DONNERSTAG("Donnerstag", 3),
+    FREITAG("Freitag", 4);
+  }
 }

@@ -16,7 +16,7 @@ enum class LunchProvider(
   val menuUrl: URL,
   val active: Boolean = true
 ) {
-  SCHWEINESTALL(1, "Schweinestall", NEUBRANDENBURG, URL("http://www.schweinestall-nb.de/index.php?id=159")),
+  SCHWEINESTALL(1, "Schweinestall", NEUBRANDENBURG, URL("https://www.schweinestall-nb.de/mittagstisch-2/")),
   HOTEL_AM_RING(2, "Hotel am Ring", NEUBRANDENBURG, URL("http://www.hotel-am-ring.de/restaurant-rethra.html"), false),
   AOK_CAFETERIA(3, "AOK Cafeteria", NEUBRANDENBURG, URL("https://www.hotel-am-ring.de/aok-cafeteria.html")),
   SUPPENKULTTOUR(4, "Suppenkulttour", NEUBRANDENBURG, URL("https://www.suppenkult.com/wochenplan.html")),
