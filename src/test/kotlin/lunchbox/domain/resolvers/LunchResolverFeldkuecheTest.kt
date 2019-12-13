@@ -1,4 +1,4 @@
-package lunchbox.domain.resolvers /* ktlint-disable max-line-length no-wildcard-imports */
+package lunchbox.domain.resolvers /* ktlint-disable max-line-length */
 
 import io.mockk.mockk
 import java.net.URL

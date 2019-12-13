@@ -1,6 +1,6 @@
 @file:Suppress("UsePropertyAccessSyntax")
 
-package lunchbox.feed /* ktlint-disable max-line-length no-wildcard-imports */
+package lunchbox.feed /* ktlint-disable max-line-length */
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.clearAllMocks

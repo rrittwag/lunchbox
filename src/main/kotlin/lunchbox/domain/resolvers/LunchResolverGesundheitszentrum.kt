@@ -78,7 +78,8 @@ class LunchResolverGesundheitszentrum(
   }
 
   private fun resolveByGraphApi(): List<LunchOffer> {
-    // von der Facebook-Seite der Kantine die Posts als JSON abfragen (beschränt auf Text und Anhänge)
+    // von der Facebook-Seite der Kantine die Posts als JSON abfragen (beschränkt auf
+    // Text und Anhänge)
     val facebookPosts = graphApi.query<Posts>("181190361991823/posts?fields=message,attachments")
       ?: return emptyList()
 

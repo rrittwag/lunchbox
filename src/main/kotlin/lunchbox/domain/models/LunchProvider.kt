@@ -1,4 +1,6 @@
-package lunchbox.domain.models /* ktlint-disable max-line-length */
+/* ktlint-disable max-line-length */
+@file:Suppress("MaxLineLength")
+package lunchbox.domain.models
 
 import java.net.URL
 import lunchbox.domain.models.LunchLocation.BERLIN_SPRINGPFUHL

@@ -1,4 +1,4 @@
-package lunchbox.util.ocr /* ktlint-disable max-line-length no-wildcard-imports */
+package lunchbox.util.ocr /* ktlint-disable max-line-length */
 
 import java.io.File
 import java.nio.file.Paths

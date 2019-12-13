@@ -1,6 +1,6 @@
 @file:Suppress("SameParameterValue")
 
-package lunchbox.domain.service /* ktlint-disable max-line-length no-wildcard-imports */
+package lunchbox.domain.service /* ktlint-disable max-line-length */
 
 import io.mockk.Called
 import io.mockk.Runs

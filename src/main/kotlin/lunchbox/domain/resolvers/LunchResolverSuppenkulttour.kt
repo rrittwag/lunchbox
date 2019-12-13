@@ -68,7 +68,8 @@ class LunchResolverSuppenkulttour(
   }
 
   private fun parseOffers(wochenplanSection: Element, monday: LocalDate): List<LunchOffer> {
-    // die Daten stecken in vielen, undefiniert angeordneten HTML-Elementen, daher lieber als Reintext auswerten (mit Pipes als Zeilenumbrüchen)
+    // die Daten stecken in vielen, undefiniert angeordneten HTML-Elementen, daher lieber
+    // als Reintext auswerten (mit Pipes als Zeilenumbrüchen)
     val wochenplanString = node2text(wochenplanSection)
 
     val wochensuppenStart = wochenplanString.indexOf("Die Wochensuppen")
@@ -135,7 +136,8 @@ class LunchResolverSuppenkulttour(
 
   private fun cleanUnnecessaryInfo(text: String): String =
     text
-      .replace(Regex("""\|{2,3}[^|]*Standort[^|]*\|{2,3} *"""), "||") // z.B. "Standort nicht besetzt"
+      // unnütze Info "Standort nicht besetzt" entfernen
+      .replace(Regex("""\|{2,3}[^|]*Standort[^|]*\|{2,3} *"""), "||")
 
   private fun predictPrice(lines: List<String>): Money? =
     lines

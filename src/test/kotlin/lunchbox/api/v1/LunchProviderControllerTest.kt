@@ -1,4 +1,4 @@
-package lunchbox.api.v1 /* ktlint-disable max-line-length no-wildcard-imports */
+package lunchbox.api.v1
 
 import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER

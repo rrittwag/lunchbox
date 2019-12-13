@@ -1,4 +1,4 @@
-package lunchbox.util.html /* ktlint-disable max-line-length no-wildcard-imports */
+package lunchbox.util.html /* ktlint-disable max-line-length */
 
 import java.io.File
 import java.net.URL

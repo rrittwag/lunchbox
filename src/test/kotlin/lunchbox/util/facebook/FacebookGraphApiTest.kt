@@ -1,4 +1,4 @@
-package lunchbox.util.facebook /* ktlint-disable max-line-length no-wildcard-imports */
+package lunchbox.util.facebook /* ktlint-disable max-line-length */
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.net.URL

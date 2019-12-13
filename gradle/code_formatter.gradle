@@ -15,7 +15,8 @@ spotless {
         ['indent_size': '2',
           'continuation_indent_size' : '2',
           'insert_final_newline': 'true',
-          'max_line_length': '100'])
+          'max_line_length': '100',
+          'disable_rules': 'no-wildcard-imports'])
   }
   groovyGradle {
     target '*.gradle', 'gradle/*.gradle'

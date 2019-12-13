@@ -1,4 +1,4 @@
-package lunchbox.api.v1 /* ktlint-disable max-line-length no-wildcard-imports */
+package lunchbox.api.v1
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.Called
