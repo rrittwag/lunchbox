@@ -130,11 +130,11 @@ class LunchOfferDTOTest(
 
   @Test
   fun `convert DTO to JSON`() {
-    val dto = GYROS.toDTOv1()
-
-    assertThat(json.write(dto)).isEqualTo(GYROS_AS_JSON)
+    assertThat(json.write(GYROS_AS_DTO)).isEqualTo(GYROS_AS_JSON)
   }
 }
+
+val GYROS_AS_DTO = GYROS.toDTOv1()
 
 const val GYROS_AS_JSON = """
     {

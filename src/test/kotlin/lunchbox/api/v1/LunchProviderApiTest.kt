@@ -72,11 +72,11 @@ class LunchProviderDTOTest(
 
   @Test
   fun `convert DTO to JSON`() {
-    val dto = SCHWEINESTALL.toDTOv1()
-
-    assertThat(json.write(dto)).isEqualTo(SCHWEINESTALL_AS_JSON)
+    assertThat(json.write(SCHWEINESTALL_AS_DTO)).isEqualTo(SCHWEINESTALL_AS_JSON)
   }
 }
+
+val SCHWEINESTALL_AS_DTO = SCHWEINESTALL.toDTOv1()
 
 const val SCHWEINESTALL_AS_JSON = """
     {
