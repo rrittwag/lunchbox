@@ -8,17 +8,20 @@ import io.mockk.verify
 import lunchbox.domain.models.GYROS
 import lunchbox.domain.models.SOLJANKA
 import lunchbox.repository.LunchOfferRepository
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.json.JsonTest
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.json.JacksonTester
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
-@WebMvcTest(LunchOfferController::class)
-class LunchOfferControllerTest(
+@WebMvcTest(LunchOfferApi::class)
+class LunchOfferApiTest(
   @Autowired val mockMvc: MockMvc
 ) {
 
@@ -115,3 +118,30 @@ class LunchOfferControllerTest(
     }
   }
 }
+
+// ------
+//  DTOs
+// ------
+
+@JsonTest
+class LunchOfferDTOTest(
+  @Autowired val json: JacksonTester<LunchOfferDTO>
+) {
+
+  @Test
+  fun `convert DTO to JSON`() {
+    val dto = GYROS.toDTOv1()
+
+    assertThat(json.write(dto)).isEqualTo(GYROS_AS_JSON)
+  }
+}
+
+const val GYROS_AS_JSON = """
+    {
+      "id": 0,
+      "name": "Gyros",
+      "day": "2019-01-01",
+      "price": 580,
+      "provider": 1
+    }
+"""

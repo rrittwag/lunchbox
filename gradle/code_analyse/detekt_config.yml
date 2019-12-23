@@ -1,5 +1,5 @@
 build:
-  maxIssues: 10
+  maxIssues: 0
   weights:
     # complexity: 2
     # LongParameterList: 1
@@ -413,6 +413,8 @@ potential-bugs:
     excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
     excludeAnnotatedProperties: ""
     ignoreOnClassesPattern: ""
+  MapGetWithNotNullAssertionOperator:
+    active: false
   MissingWhenCase:
     active: true
   RedundantElseInWhen:
@@ -456,6 +458,9 @@ style:
     active: false
     imports: ''
     forbiddenPatterns: ""
+  ForbiddenPublicDataClass:
+    active: false
+    ignorePackages: '*.internal,*.internal.*'
   ForbiddenVoid:
     active: false
     ignoreOverridden: false
@@ -539,6 +544,8 @@ style:
   UnnecessaryAbstractClass:
     active: true
     excludeAnnotatedClasses: "dagger.Module"
+  UnnecessaryAnnotationUseSiteTarget:
+    active: false
   UnnecessaryApply:
     active: false
   UnnecessaryInheritance:

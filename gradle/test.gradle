@@ -13,7 +13,7 @@ dependencies {
   // Kotlin
   testImplementation 'org.amshove.kluent:kluent:1.58'    // assertions
   testImplementation 'io.mockk:mockk:1.9.3'              // mocking
-  testImplementation 'com.ninja-squad:springmockk:1.1.3' // support @MockkBean injection
+  testImplementation 'com.ninja-squad:springmockk:2.0.0' // support @MockkBean injection
 
   // TestContainers for integration tests
   testIntegrationImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
