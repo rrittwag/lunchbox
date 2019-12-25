@@ -98,7 +98,10 @@ class LunchResolverSuppenkulttour(
     val result = mutableListOf<LunchOffer>()
 
     val wochensuppenStrings =
-      highlightOfferBorders(text).split("|||").map { cleanUpPipes(it) }
+      cleanUnnecessaryInfo(highlightOfferBorders(text))
+        .split("|||")
+        .map { cleanUpPipes(it) }
+
     val predictedPrice = predictPrice(wochensuppenStrings)
 
     for (wochensuppeString in wochensuppenStrings) {
@@ -119,11 +122,10 @@ class LunchResolverSuppenkulttour(
 
     val predictedPrice = predictPrice(tagessuppenStrings)
 
-    for ((weekday, tagessuppeString) in groupByWeekday(tagessuppenStrings)) {
+    for ((day, tagessuppeString) in groupTagessuppeByDay(tagessuppenStrings, monday)) {
       val offerAsStrings = tagessuppeString.split("|").map { it.trim() }
       val rawOffer = parseOfferAttributes(offerAsStrings, predictedPrice) ?: continue
-      val weekdayDate = monday.plusDays(weekday.order)
-      result += LunchOffer(0, rawOffer.name, weekdayDate, rawOffer.price, provider.id)
+      result += LunchOffer(0, rawOffer.name, day, rawOffer.price, provider.id)
     }
     return result
   }
@@ -138,6 +140,12 @@ class LunchResolverSuppenkulttour(
     text
       // unnütze Info "Standort nicht besetzt" entfernen
       .replace(Regex("""\|{2,3}[^|]*Standort[^|]*\|{2,3} *"""), "||")
+      // unnütze Info "Achtung !!!!Plan gilt auch am" entfernen
+      .replace(Regex("""\|{2,3}[^|]*Achtung[^|]*\|{2,3} *"""), "||")
+      .replace(Regex("""\|{2,3}[^|]*Betriebsferien[^|]*\|{2,3} *"""), "||")
+      // TODO: Notbehelfe für krumm formatierte Weihnachtswoche entfernen
+      .replace(Regex("""\.(20\d\d)\|\|\|"""), ".$1||")
+      .replace(Regex("""([a-z]) *klein 3,50 €"""), "$1||klein 3,50 €")
 
   private fun predictPrice(lines: List<String>): Money? =
     lines
@@ -252,16 +260,40 @@ class LunchResolverSuppenkulttour(
     return string.split(Regex("[(), ]")).all { it.length < 3 || zusatzInfos.contains(it.trim()) }
   }
 
-  private fun groupByWeekday(tagessuppenStrings: List<String>): Map<Weekday, String> {
-    val result = mutableMapOf<Weekday, String>()
-    var currentWeekday = Weekday.MONTAG
+  private fun groupTagessuppeByDay(
+    tagessuppenStrings: List<String>,
+    monday: LocalDate
+  ): Map<LocalDate, String> {
+    val result = mutableMapOf<LocalDate, String>()
 
-    for (tagessuppeString in tagessuppenStrings) {
-      val weekday2name = extractWeekday(tagessuppeString, currentWeekday)
-      result += weekday2name.weekday to weekday2name.name
-      currentWeekday = Weekday.values().find { it.order == weekday2name.weekday.order + 1 } ?: break
+    // Wochen mit vielen Feiertagen enthalten ggf. Datumse
+    if (tagessuppenStrings.any { StringParser.parseLocalDate(it) != null }) {
+      for (tagessuppeString in tagessuppenStrings) {
+        val date2name = extractDate(tagessuppeString)
+        if (date2name != null)
+          result += date2name.date to date2name.name
+      }
+
+    // Standardfall: "Montag" bis "Freitag" (ohne Datum)
+    } else {
+      var currentWeekday = Weekday.MONTAG
+      for (tagessuppeString in tagessuppenStrings) {
+        val weekday2name = extractWeekday(tagessuppeString, currentWeekday)
+        val weekday = weekday2name.weekday
+        result += monday.plusDays(weekday.order) to weekday2name.name
+        currentWeekday = Weekday.values().find { it.order == weekday.order + 1 } ?: break
+      }
     }
     return result
+  }
+
+  private fun extractDate(text: String): Date2Name? {
+    val texts = text.split(Regex("""\|\|"""), 2)
+    if (texts.size < 2) return null
+
+    val (dateString, remainingText) = texts
+    val date = StringParser.parseLocalDate(dateString) ?: return null
+    return Date2Name(date, remainingText)
   }
 
   private fun extractWeekday(text: String, predictedWeekday: Weekday): Weekday2Name {
@@ -283,6 +315,11 @@ class LunchResolverSuppenkulttour(
 
   data class Weekday2Name(
     val weekday: Weekday,
+    val name: String
+  )
+
+  data class Date2Name(
+    val date: LocalDate,
     val name: String
   )
 

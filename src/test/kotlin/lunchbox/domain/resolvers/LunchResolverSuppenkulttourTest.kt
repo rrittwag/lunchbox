@@ -176,4 +176,21 @@ class LunchResolverSuppenkulttourTest {
     offers shouldContain LunchOffer(0, "Soljanka: Wiener, Kassler, Bratwurst, Sauerkraut, Letscho, Zitrone, Schmand, Saure Gurken", week.friday, euro("4.70"), providerId)
     offers shouldContain LunchOffer(0, "Kürbis-Kokos-Suppe: mit roten Linsen, Staudensellerie, Kürbis, roter Paprika, Kokosmilch, Kurkuma, Ingwer", week.friday, euro("4.70"), providerId)
   }
+
+  @Test
+  fun `resolve offers for week of 2020-01-02`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2020-01-02.html")
+
+    val offers = resolver().resolve(url)
+
+    var week = weekOf("2019-12-23")
+    offers.filter { it.day == week.monday } shouldHaveSize 4
+    offers shouldContain LunchOffer(0, "Oma´s Grüne Bohnen Eintopf: Brechbohnen, Kartoffeln, Möhren, Kassler, Bohnenkraut", week.monday, euro("4.70"), providerId)
+
+    week = weekOf("2020-01-02")
+    offers.filter { it.day == week.thursday } shouldHaveSize 4
+    offers.filter { it.day == week.friday } shouldHaveSize 4
+    offers shouldContain LunchOffer(0, "Süßkartoffel-Erbsencurry: grüne & gelbe Erbsen, Karotten, Süßkartoffeln, Kokosmilch, Ingwer, Kurkuma", week.thursday, euro("4.70"), providerId)
+    offers shouldContain LunchOffer(0, "Schnüsch: der bekannte Norddeutsche Gemüseeintopf, Kartoffeln, Bohnen, Kohlrabi, Möhren, Sellerie, Sahne, Kräuter", week.friday, euro("4.70"), providerId)
+  }
 }
