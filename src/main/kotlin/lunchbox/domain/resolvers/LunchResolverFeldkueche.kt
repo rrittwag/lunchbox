@@ -54,8 +54,26 @@ class LunchResolverFeldkueche(
         resolveOffersWith2rowSplit(contentAsLines)
 
     return rawOffers
-      .map { LunchOffer(0, it.name, monday.plusDays(it.weekday.order), it.price, provider.id) }
+      .map { createOffer(it, monday) }
       .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
+  }
+
+  private fun createOffer(raw: RawOffer, monday: LocalDate): LunchOffer {
+    val (title, details) =
+      StringParser.splitOfferName(
+        raw.name,
+        listOf(" mit ", "Kartoffeln", "Brot", "Nudeln", "Klöße")
+      )
+
+    return LunchOffer(
+      0,
+      title,
+      details,
+      monday.plusDays(raw.weekday.order),
+      raw.price,
+      emptyList(),
+      provider.id
+    )
   }
 
   private fun resolveMonday(contentAsLines: List<String>): LocalDate? {

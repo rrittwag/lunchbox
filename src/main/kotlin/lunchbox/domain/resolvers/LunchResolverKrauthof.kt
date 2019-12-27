@@ -83,14 +83,17 @@ class LunchResolverKrauthof(
       currentRow = currentRow?.merge(thisRow) ?: thisRow
     }
 
-    val mondayOffers = rows.map { row ->
-      LunchOffer(0, row.name, monday, row.price!!, provider.id)
-    }
+    val mondayOffers = rows.map { row -> createLunchOffer(row, monday) }
 
     // an allen Wochentagen gibt es das selbe Angebot
     return LongRange(0, 4).flatMap { weekdayLong ->
       mondayOffers.map { it.copy(day = monday.plusDays(weekdayLong)) }
     }
+  }
+
+  private fun createLunchOffer(row: OfferRow, monday: LocalDate): LunchOffer {
+    val (title, details) = StringParser.splitOfferName(row.name)
+    return LunchOffer(0, title, details, monday, row.price!!, emptyList(), provider.id)
   }
 
   private fun parseName(text: String): String =

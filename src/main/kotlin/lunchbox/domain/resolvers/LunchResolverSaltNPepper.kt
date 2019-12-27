@@ -84,7 +84,7 @@ class LunchResolverSaltNPepper(
     for ((_, node) in section2node)
       for (pureOffer in resolveSectionOffers(node))
         for (weekday in days)
-          result += pureOffer.copy(name = "Wochenangebot: ${pureOffer.name}", day = weekday)
+          result += pureOffer.copy(day = weekday, tags = pureOffer.tags + "Wochenangebot")
     return result
   }
 
@@ -98,16 +98,24 @@ class LunchResolverSaltNPepper(
 
   private fun resolveOffer(nameElem: Element, priceElem: Element): LunchOffer? {
     val price = StringParser.parseMoney(priceElem.text()) ?: return null
+    val tags = mutableListOf<String>()
 
     // Zusatzstoffe entfernen (hochgestellt/sup)
     nameElem.children().filter { it.tagName() == "sup" }.forEach { it.remove() }
 
-    val name = parseName(nameElem.text())
+    var name = parseName(nameElem.text())
         .replace(Regex("^Topp-Preis:"), "")
         .replace(Regex("^Tipp:"), "")
         .replace(Regex("[0-9]{1,2}(, [0-9]{1,2})*$"), "")
         .trim()
-    return LunchOffer(0, name, LocalDate.now(), price, provider.id)
+
+    if (name.startsWith("Vegetarisch:")) {
+      name = name.substring("Vegetarisch:".length)
+      tags += "vegetarisch"
+    }
+
+    val (title, details) = StringParser.splitOfferName(name)
+    return LunchOffer(0, title, details, LocalDate.now(), price, tags, provider.id)
   }
 
   private fun parseName(name: String): String =

@@ -1,4 +1,4 @@
-package lunchbox.api.v1
+package lunchbox.api.v2
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.Called
@@ -100,7 +100,12 @@ class LunchOfferApiTest(
         status { isOk }
         content { contentTypeCompatibleWith(APPLICATION_JSON) }
         jsonPath("$.id") { value(GYROS.id) }
-        jsonPath("$.name") { value("${GYROS.name} ${GYROS.details}") }
+        jsonPath("$.name") { value(GYROS.name) }
+        jsonPath("$.details") { value(GYROS.details) }
+        jsonPath("$.tags") { isArray }
+        jsonPath("$.tags.length()") { value("2") }
+        jsonPath("$.tags[0]") { value("Tagessuppe") }
+        jsonPath("$.tags[1]") { value("vegan") }
       }
 
       verify(exactly = 1) { repo.findByIdOrNull(GYROS.id) }
@@ -134,14 +139,16 @@ class LunchOfferDTOTest(
   }
 }
 
-val GYROS_AS_DTO = GYROS.toDTOv1()
+val GYROS_AS_DTO = GYROS.toDTOv2()
 
 const val GYROS_AS_JSON = """
     {
       "id": 0,
-      "name": "Gyros mit Pommes",
+      "name": "Gyros",
+      "details": "mit Pommes",
       "day": "2019-01-01",
       "price": 580,
+      "tags": ["Tagessuppe", "vegan"],
       "provider": 1
     }
 """

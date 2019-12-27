@@ -107,7 +107,15 @@ class LunchResolverSuppenkulttour(
     for (wochensuppeString in wochensuppenStrings) {
       val offerAsStrings = wochensuppeString.split("|").map { it.trim() }
       val rawOffer = parseOfferAttributes(offerAsStrings, predictedPrice) ?: continue
-      result += LunchOffer(0, rawOffer.name, monday, rawOffer.price, provider.id)
+      result += LunchOffer(
+        0,
+        rawOffer.name,
+        rawOffer.details,
+        monday,
+        rawOffer.price,
+        rawOffer.tags,
+        provider.id
+      )
     }
     return result
   }
@@ -125,7 +133,15 @@ class LunchResolverSuppenkulttour(
     for ((day, tagessuppeString) in groupTagessuppeByDay(tagessuppenStrings, monday)) {
       val offerAsStrings = tagessuppeString.split("|").map { it.trim() }
       val rawOffer = parseOfferAttributes(offerAsStrings, predictedPrice) ?: continue
-      result += LunchOffer(0, rawOffer.name, day, rawOffer.price, provider.id)
+      result += LunchOffer(
+        0,
+        rawOffer.name,
+        rawOffer.details,
+        day,
+        rawOffer.price,
+        rawOffer.tags + "Tagessuppe",
+        provider.id
+      )
     }
     return result
   }
@@ -141,7 +157,8 @@ class LunchResolverSuppenkulttour(
       // unnütze Info "Standort nicht besetzt" entfernen
       .replace(Regex("""\|{2,3}[^|]*Standort[^|]*\|{2,3} *"""), "||")
       // unnütze Info "Achtung !!!!Plan gilt auch am" entfernen
-      .replace(Regex("""\|{2,3}[^|]*Achtung[^|]*\|{2,3} *"""), "||")
+      .replace(Regex("""\|{2,3}[^|]*Achtung\|{2,3} *"""), "||")
+      .replace(Regex("""Achtung *!*\|[^|]*\|{2,3} *"""), "||")
       .replace(Regex("""\|{2,3}[^|]*Betriebsferien[^|]*\|{2,3} *"""), "||")
       // TODO: Notbehelfe für krumm formatierte Weihnachtswoche entfernen
       .replace(Regex("""\.(20\d\d)\|\|\|"""), ".$1||")
@@ -164,12 +181,16 @@ class LunchResolverSuppenkulttour(
     val title = clearedParts.first().trim()
     val remainingParts = clearedParts.drop(1)
 
-    val description = mutableListOf<String>()
+    val detailsList = mutableListOf<String>()
     var price: Money? = predictedPrice
 
+    var zusatzInfo = ""
+
     for (part in remainingParts) {
-      if (isZusatzInfo(part))
-        continue // erstmal ignorieren
+      if (isZusatzInfo(part)) {
+        zusatzInfo += part
+        continue
+      }
 
       val match = Regex("""(.+) (\d+[.,]\d{2}) ?€? *""").find(part)
       if (match != null) {
@@ -179,26 +200,29 @@ class LunchResolverSuppenkulttour(
         continue
       }
 
-      description += part.trim()
+      detailsList += part.trim()
     }
 
     if (price == null)
       return null
 
-    val name = formatName(title, description) ?: return null
+    if (title.isEmpty()) return null
+    if (title.split(" ").contains("Feiertag")) return null
 
-    return RawOffer(name, price)
+    val details = detailsList
+      .filter { it.isNotEmpty() }
+      .joinToString(separator = " ")
+
+    return RawOffer(title, details, price, parseVegetarisch(zusatzInfo, title, details))
   }
 
-  private fun formatName(title: String, description: List<String>): String? {
-    val formattedDescription = description.filter { it.isNotEmpty() }
-
-    return when {
-      title.isEmpty() && formattedDescription.isEmpty() -> null
-      title.split(" ").contains("Feiertag") -> null
-      formattedDescription.isEmpty() -> title
-      else -> "$title: ${formattedDescription.joinToString(" ")}"
+  private fun parseVegetarisch(vararg sources: String): List<String> {
+    val result = mutableSetOf<String>()
+    for (source in sources) {
+      if (source.contains("vegan", true)) result += "vegan"
+      if (source.contains("veget", true)) result += "vegetarisch"
     }
+    return result.toList()
   }
 
   private fun cleanUpString(str: String): String {
@@ -310,7 +334,9 @@ class LunchResolverSuppenkulttour(
 
   data class RawOffer(
     val name: String,
-    val price: Money
+    val details: String,
+    val price: Money,
+    val tags: List<String>
   )
 
   data class Weekday2Name(

@@ -69,7 +69,8 @@ class LunchResolverSchweinestall(
     val day = monday.plusDays(weekday.order)
     val price = StringParser.parseMoney(priceString) ?: return null
     val name = cleanName(nameString)
-    return LunchOffer(0, name, day, price, provider.id)
+    val (title, details) = StringParser.splitOfferName(name, listOf(" mit "))
+    return LunchOffer(0, title, details, day, price, emptyList(), provider.id)
   }
 
   private fun cleanName(nameString: String): String =

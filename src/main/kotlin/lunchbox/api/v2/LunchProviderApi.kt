@@ -1,4 +1,4 @@
-package lunchbox.api.v1
+package lunchbox.api.v2
 
 import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProviderId
@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.PathVariable
 /**
  * REST API-Controller für Mittagsanbieter.
  */
-@RestApi("lunchProviderApi_v1")
+@RestApi
 class LunchProviderApi {
 
   @GetMapping(URL_LUNCHPROVIDER)
   fun getAll(): List<LunchProviderDTO> =
     LunchProvider.values()
-      .map { it.toDTOv1() }
+      .map { it.toDTOv2() }
 
   @GetMapping("$URL_LUNCHPROVIDER/{id}")
   fun getById(@PathVariable id: Long): LunchProviderDTO =
     LunchProvider.values()
-      .find { id == it.id }?.toDTOv1()
+      .find { id == it.id }?.toDTOv2()
         ?: throw HttpNotFoundException("Mittagsanbieter mit ID $id nicht gefunden!")
 }
 
@@ -31,11 +31,13 @@ class LunchProviderApi {
 class LunchProviderDTO(
   val id: LunchProviderId,
   val name: String,
-  val location: String
+  val location: String,
+  val url: String
 )
 
-fun LunchProvider.toDTOv1() = LunchProviderDTO(
+fun LunchProvider.toDTOv2() = LunchProviderDTO(
   id,
   label,
-  location.label
+  location.label,
+  menuUrl.toString()
 )

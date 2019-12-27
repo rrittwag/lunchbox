@@ -184,7 +184,15 @@ class LunchResolverGesundheitszentrum(
     val mergedRows = mergeRows(rows)
 
     return mergedRows.filter { it.price != null }.map {
-      LunchOffer(0, it.name, monday.plusDays(section.order), it.price!!, provider.id)
+      LunchOffer(
+        0,
+        it.name,
+        "",
+        monday.plusDays(section.order),
+        it.price!!,
+        emptyList(),
+        provider.id
+      )
     }
   }
 

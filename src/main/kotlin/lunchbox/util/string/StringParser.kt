@@ -64,7 +64,7 @@ object StringParser {
    */
   fun parseMondayOfMostUsedWeek(lines: List<String>): LocalDate? {
     // alle Datumse aus PDF ermitteln
-    val days = lines.mapNotNull { StringParser.parseLocalDate(it) }
+    val days = lines.mapNotNull { parseLocalDate(it) }
     val mondays = days.map { it.with(DayOfWeek.MONDAY) }
 
     // den Montag der am häufigsten verwendeten Woche zurückgeben
@@ -80,4 +80,29 @@ object StringParser {
     } catch (exc: Throwable) {
       null
     }
+
+  /**
+   * Zerlegt die Bezeichnung eines Mittagsangebots in Titel und Beschreibung.
+   */
+  fun splitOfferName(
+    name: String,
+    splitBefore: List<String> = listOf(" auf ", " mit ", " von ", " im ", " in ", " an ")
+  ): OfferName {
+    val splitIndex = name.indexOfAny(splitBefore)
+
+    if (splitIndex < 0 && name.contains(",")) {
+      val (title, details) = name.split(Regex(","), 2)
+      return OfferName(title.trim(), details.trim())
+    }
+
+    return when {
+      splitIndex <= 0 -> OfferName(name.trim(), "")
+      else -> OfferName(name.substring(0, splitIndex).trim(), name.substring(splitIndex).trim())
+    }
+  }
+
+  data class OfferName(
+    val title: String,
+    val details: String
+  )
 }
