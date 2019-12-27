@@ -98,7 +98,7 @@ class LunchResolverSaltNPepper(
 
   private fun resolveOffer(nameElem: Element, priceElem: Element): LunchOffer? {
     val price = StringParser.parseMoney(priceElem.text()) ?: return null
-    val tags = mutableListOf<String>()
+    val tags = mutableSetOf<String>()
 
     // Zusatzstoffe entfernen (hochgestellt/sup)
     nameElem.children().filter { it.tagName() == "sup" }.forEach { it.remove() }

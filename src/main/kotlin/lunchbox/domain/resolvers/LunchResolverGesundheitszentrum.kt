@@ -190,7 +190,7 @@ class LunchResolverGesundheitszentrum(
         "",
         monday.plusDays(section.order),
         it.price!!,
-        emptyList(),
+        emptySet(),
         provider.id
       )
     }

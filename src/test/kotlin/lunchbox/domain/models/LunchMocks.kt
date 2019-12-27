@@ -12,7 +12,7 @@ fun createOffer(
   details: String = "Details",
   day: LocalDate = DATE_NEWYEAR,
   price: Money = Money.parse("EUR 5.80"),
-  tags: List<String> = listOf("Tagessuppe", "vegan"),
+  tags: Set<String> = setOf("Tagessuppe", "vegan"),
   provider: LunchProviderId = LunchProvider.SCHWEINESTALL.id
 ) = LunchOffer(id, name, details, day, price, tags, provider)
 

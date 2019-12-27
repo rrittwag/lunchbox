@@ -71,7 +71,7 @@ class LunchResolverFeldkueche(
       details,
       monday.plusDays(raw.weekday.order),
       raw.price,
-      emptyList(),
+      emptySet(),
       provider.id
     )
   }

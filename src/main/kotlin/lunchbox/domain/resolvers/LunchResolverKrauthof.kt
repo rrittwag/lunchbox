@@ -93,7 +93,7 @@ class LunchResolverKrauthof(
 
   private fun createLunchOffer(row: OfferRow, monday: LocalDate): LunchOffer {
     val (title, details) = StringParser.splitOfferName(row.name)
-    return LunchOffer(0, title, details, monday, row.price!!, emptyList(), provider.id)
+    return LunchOffer(0, title, details, monday, row.price!!, emptySet(), provider.id)
   }
 
   private fun parseName(text: String): String =

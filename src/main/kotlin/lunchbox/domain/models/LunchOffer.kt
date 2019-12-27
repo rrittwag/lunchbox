@@ -14,6 +14,6 @@ data class LunchOffer(
   val details: String,
   val day: LocalDate,
   val price: Money,
-  val tags: List<String>,
+  val tags: Set<String>,
   val provider: LunchProviderId
 )

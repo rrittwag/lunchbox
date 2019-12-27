@@ -23,17 +23,17 @@ class LunchResolverSchweinestallTest {
     offers shouldHaveSize 10
 
     var week = weekOf("2019-12-02")
-    offers shouldContain LunchOffer(0, "Backfischfilet", "mit Remoulade und Gemüsereis", week.monday, euro("6.10"), emptyList(), providerId)
-    offers shouldContain LunchOffer(0, "Gyros-Geschnetzeltes", "mit Tsatsiki und Pommes frites", week.tuesday, euro("6.10"), emptyList(), providerId)
-    offers shouldContain LunchOffer(0, "Hähnchenkeule", "mit Apfelrotkohl und Salzkartoffeln", week.wednesday, euro("6.10"), emptyList(), providerId)
-    offers shouldContain LunchOffer(0, "Paprikagulasch", "mit Böhmischen Knödeln", week.thursday, euro("5.60"), emptyList(), providerId)
-    offers shouldContain LunchOffer(0, "Chicken Nuggets", "mit Pommes frites und Sweet Chili Sauce", week.friday, euro("5.60"), emptyList(), providerId)
+    offers shouldContain LunchOffer(0, "Backfischfilet", "mit Remoulade und Gemüsereis", week.monday, euro("6.10"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Gyros-Geschnetzeltes", "mit Tsatsiki und Pommes frites", week.tuesday, euro("6.10"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Hähnchenkeule", "mit Apfelrotkohl und Salzkartoffeln", week.wednesday, euro("6.10"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Paprikagulasch", "mit Böhmischen Knödeln", week.thursday, euro("5.60"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Chicken Nuggets", "mit Pommes frites und Sweet Chili Sauce", week.friday, euro("5.60"), emptySet(), providerId)
 
     week = weekOf("2019-12-09")
-    offers shouldContain LunchOffer(0, "Currywurst", "mit Pommes frites", week.monday, euro("5.60"), emptyList(), providerId)
-    offers shouldContain LunchOffer(0, "Kohlroulade", "mit Salzkartoffeln", week.tuesday, euro("5.60"), emptyList(), providerId)
-    offers shouldContain LunchOffer(0, "Paniertes Hähnchenschnitzel", "mit Erbsen und Kartoffelpüree", week.wednesday, euro("5.60"), emptyList(), providerId)
-    offers shouldContain LunchOffer(0, "Bifteki auf Paprikarahmsauce", "mit Pommes frites", week.thursday, euro("6.10"), emptyList(), providerId)
-    offers shouldContain LunchOffer(0, "3 Spiegeleier auf Spinat", "mit Salzkartoffeln", week.friday, euro("5.60"), emptyList(), providerId)
+    offers shouldContain LunchOffer(0, "Currywurst", "mit Pommes frites", week.monday, euro("5.60"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Kohlroulade", "mit Salzkartoffeln", week.tuesday, euro("5.60"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Paniertes Hähnchenschnitzel", "mit Erbsen und Kartoffelpüree", week.wednesday, euro("5.60"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Bifteki auf Paprikarahmsauce", "mit Pommes frites", week.thursday, euro("6.10"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "3 Spiegeleier auf Spinat", "mit Salzkartoffeln", week.friday, euro("5.60"), emptySet(), providerId)
   }
 }

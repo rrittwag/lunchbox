@@ -216,13 +216,13 @@ class LunchResolverSuppenkulttour(
     return RawOffer(title, details, price, parseVegetarisch(zusatzInfo, title, details))
   }
 
-  private fun parseVegetarisch(vararg sources: String): List<String> {
+  private fun parseVegetarisch(vararg sources: String): Set<String> {
     val result = mutableSetOf<String>()
     for (source in sources) {
       if (source.contains("vegan", true)) result += "vegan"
       if (source.contains("veget", true)) result += "vegetarisch"
     }
-    return result.toList()
+    return result
   }
 
   private fun cleanUpString(str: String): String {
@@ -336,7 +336,7 @@ class LunchResolverSuppenkulttour(
     val name: String,
     val details: String,
     val price: Money,
-    val tags: List<String>
+    val tags: Set<String>
   )
 
   data class Weekday2Name(
