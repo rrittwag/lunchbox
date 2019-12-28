@@ -4,6 +4,15 @@ import { mountUnit } from '@tests/unit/test-util'
 import Offer from '@/views/offers/Offer.vue'
 
 describe('OfferBox', () => {
+  it('renders snapshot', () => {
+    const wrapper = mountUnit(OfferBox, {
+      provider: mensa,
+      offers: [gyros, soljanka],
+    })
+
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
   it('renders title & offers', () => {
     const wrapper = mountUnit(OfferBox, {
       provider: mensa,

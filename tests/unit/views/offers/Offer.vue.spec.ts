@@ -4,6 +4,14 @@ import { mountUnit } from '@tests/unit/test-util'
 import Badge from '@/views/offers/Badge.vue'
 
 describe('Offer', () => {
+  it('renders snapshot', () => {
+    const wrapper = mountUnit(Offer, {
+      offer: gyros,
+    })
+
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
   it('renders name, description & tags', () => {
     const wrapper = mountUnit(Offer, {
       offer: gyros,
