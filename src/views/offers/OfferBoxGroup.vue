@@ -1,11 +1,15 @@
 <template>
-  <b-container fluid class="offer-box-group">
-    <b-row>
-      <b-col sm="6" md="4" lg="3" v-for="provider in visibleProviders" :key="provider.id">
-        <OfferBox :provider="provider" :offers="visibleOffersOf(provider)" />
-      </b-col>
-    </b-row>
-  </b-container>
+  <div class="offer-box-group flex flex-wrap items-start">
+    <div
+      class="w-full sm:w-1/2 md:w-1/3 xl:w-1/4
+             sm:max-w-sm
+             p-2 lg:p-4"
+      v-for="provider in visibleProviders"
+      :key="provider.id"
+    >
+      <OfferBox :provider="provider" :offers="visibleOffersOf(provider)" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

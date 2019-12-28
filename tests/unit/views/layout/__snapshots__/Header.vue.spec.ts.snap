@@ -1,78 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Header renders snapshot 1`] = `
-<b-navbar-stub
-  class="header"
-  tag="nav"
-  toggleable="sm"
-  type="light"
+<div
+  class="flex flex-wrap items-center w-full"
 >
-  <b-navbar-brand-stub
-    event="click"
-    routertag="a"
-    tag="div"
-    target="_self"
-    to="/"
-  >
-    <img
-      alt="Vue logo"
-      src="@/assets/lunchbox_logo.png"
-      width="32"
-    />
-    
-    Lunchbox
-  
-  </b-navbar-brand-stub>
-   
-  <b-navbar-toggle-stub
-    label="Toggle navigation"
-    target="nav_collapse"
+  <dayselector-stub
+    class="w-full sm:w-1/2"
   />
    
-  <b-collapse-stub
-    id="nav_collapse"
-    isnav="true"
-    tag="div"
+  <div
+    class="flex-grow order-first md:order-last
+           w-full sm:w-1/2
+           px-4"
   >
-    <b-navbar-nav-stub
-      tag="ul"
+    <div
+      class="md:float-right"
     >
-      <locationselector-stub />
-    </b-navbar-nav-stub>
-     
-    <b-navbar-nav-stub
-      class="ml-auto"
-      tag="ul"
-    >
-      <b-nav-item-stub
+      <router-link-stub
+        class="px-1"
         event="click"
         exact="true"
-        routertag="a"
-        target="_self"
+        tag="a"
         to="/"
       >
         Mittagsangebote
-      </b-nav-item-stub>
+      </router-link-stub>
        
-      <b-nav-item-stub
-        class="d-block d-sm-none"
+      <router-link-stub
+        class="px-1"
         event="click"
-        routertag="a"
-        target="_self"
+        tag="a"
         to="/settings"
       >
         Einstellungen
-      </b-nav-item-stub>
+      </router-link-stub>
        
-      <b-nav-item-stub
+      <router-link-stub
+        class="px-1"
         event="click"
-        routertag="a"
-        target="_self"
+        tag="a"
         to="/about"
       >
         Info
-      </b-nav-item-stub>
-    </b-navbar-nav-stub>
-  </b-collapse-stub>
-</b-navbar-stub>
+      </router-link-stub>
+    </div>
+  </div>
+</div>
 `;

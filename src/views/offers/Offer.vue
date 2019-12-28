@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex flex-col
-             w-full pt-4"
+           w-full pt-4"
   >
     <div class="flex items-baseline w-full">
       <span class="flex-grow text-xl">{{ offer.name }}</span>

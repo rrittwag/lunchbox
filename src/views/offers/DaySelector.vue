@@ -1,34 +1,29 @@
 <template>
-  <b-row class="day-selector pb-4">
-    <b-col cols="12" sm="9" md="6" lg="4">
-      <b-row align-v="center">
-        <b-col cols="2">
-          <b-button variant="primary" size="lg" @click="goPrevDay" :disabled="!prevDay()">
-            <v-icon name="angle-left" scale="3" />
-          </b-button>
-        </b-col>
+  <div
+    class="w-full sm:w-3/4 md:w-1/2 lg:w-1/3
+           px-4 py-2"
+  >
+    <div class="flex items-center">
+      <div class="w-1/6">
+        <button class="text-red-500" @click="goPrevDay" :disabled="!prevDay()">
+          <v-icon name="angle-left" scale="3" />
+        </button>
+      </div>
 
-        <b-col cols="8" class="text-center bg-red-500">
-          <h2>
-            <small>{{ lunchStore.selectedDay | formatToWeekday }}</small>
-          </h2>
-          <h2 class="mt-0 mb-1">{{ lunchStore.selectedDay | formatToDate }}</h2>
-        </b-col>
+      <div class="w-2/3 text-center flex-grow">
+        <h2 class="text-3xl">
+          <small>{{ lunchStore.selectedDay | formatToWeekday }}</small>
+        </h2>
+        <h2 class="text-lg mb-1">{{ lunchStore.selectedDay | formatToDate }}</h2>
+      </div>
 
-        <b-col cols="2">
-          <b-button
-            class="float-right"
-            variant="primary"
-            size="lg"
-            @click="goNextDay"
-            :disabled="!nextDay()"
-          >
-            <v-icon name="angle-right" scale="3" />
-          </b-button>
-        </b-col>
-      </b-row>
-    </b-col>
-  </b-row>
+      <div class="w-1/6">
+        <button class="float-right text-red-500" @click="goNextDay" :disabled="!nextDay()">
+          <v-icon name="angle-right" scale="3" />
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

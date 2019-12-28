@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex flex-col items-center
-           w-full sm:max-w-sm m-8 px-4 py-2 sm:pt-4 sm:pb-6
+           px-4 py-2 sm:pt-4 sm:pb-6
            shadow-xl bg-white rounded-lg
            border-l-8 sm:border-t-8 sm:border-l-0 border-red-500"
   >

@@ -1,6 +1,6 @@
 # Lunchbox Web-Frontend mit Vue.js & TypeScript
 
-Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Die Umsetzung erfolgt mit [Vue.js](https://vuejs.org/), [TypeScript](https://www.typescriptlang.org/) und [Bootstrap](https://getbootstrap.com/).
+Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Die Umsetzung erfolgt mit [Vue.js](https://vuejs.org/), [TypeScript](https://www.typescriptlang.org/) und [Tailwind CSS](https://tailwindcss.com/).
 
 
 
@@ -35,10 +35,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - https://github.com/robinvdvleuten/vuex-persistedstate
 - About-View basteln
 - Settings-View basteln
-- Design: Umstellen auf TailwindCSS
 - Responsive Design: Ausdehnung auf ca. 1800px Breite beschränken
-- Design: Abstände der Provider-Boxen optimieren
-- build: Bootstrap-Importe minimieren (Unterschied?)
 - Unit-Tests schreiben (siehe angular-Frontend)
 - Info: [Alexa Skill von Falko P.](https://www.amazon.de/s/ref=nb_sb_noss_2?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Dalexa-skills&field-keywords=lunchbox) in Infoseite aufnehmen
 - Direkte Anwahl einer Sub-Adresse (z.B. 'http://localhost/about') ermöglichen.
@@ -47,7 +44,6 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 - Model: Daten neu laden, wenn über 1 Tag alt
 - Projekt mit HTML5 Boilerplate abgleichen
 - durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
-- Tags/Badges für "vegetarisch" & "vegan"
 - Nutzerbezogenes Sortieren & Filtern der Mittagsanbieter
 - System-Tests bereitstellen, via Selenium?
 - i18n & l10n
@@ -61,5 +57,5 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 
 - Initiales Projekt erstellt mit [Vue CLI](https://cli.vuejs.org/).
 - Die zentrale Datenverwaltung übernimmt [Vuex](https://vuex.vuejs.org/guide/).
-- UI-Komponenten und Design implementiert [bootstrap-vue](https://bootstrap-vue.js.org/).
+- Das UI-Design unterstützt [Tailwind CSS](https://tailwindcss.com/).
 - Die Definition von Components und deren Eigenschaften (z.B. Props) erleichtern [Decorators/Annotationen](https://github.com/kaorun343/vue-property-decorator). Ebenso [im Vuex-Store](https://github.com/championswimmer/vuex-module-decorators).

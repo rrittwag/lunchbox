@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="content">
+  <div class="content w-full p-2">
     <router-view />
-  </b-container>
+  </div>
 </template>

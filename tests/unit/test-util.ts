@@ -8,7 +8,6 @@ import {
   mount,
   MountOptions,
 } from '@vue/test-utils'
-import BootstrapVue from 'bootstrap-vue'
 import * as filters from '@/filters'
 import Icon from 'vue-awesome/components/Icon.vue'
 import VueRouter from 'vue-router'
@@ -20,10 +19,6 @@ function applyRouter(localVue: typeof Vue) {
 
 function applyVuex(localVue: typeof Vue) {
   localVue.use(Vuex)
-}
-
-function applyBootstrap(localVue: typeof Vue) {
-  localVue.use(BootstrapVue)
 }
 
 function applyFilters(localVue: typeof Vue) {
@@ -49,7 +44,6 @@ export function createLocalVue(): typeof Vue {
 
   applyRouter(localVue)
   applyVuex(localVue)
-  applyBootstrap(localVue)
   applyFilters(localVue)
   applyAwesome(localVue)
 

@@ -12,9 +12,6 @@ import '@/assets/tailwind.scss'
 // register filters
 import '@/plugins/filters'
 
-// register Bootstrap components + styles
-import '@/plugins/bootstrap-vue'
-
 // register FontAwesome icons
 import '@/plugins/vue-awesome'
 

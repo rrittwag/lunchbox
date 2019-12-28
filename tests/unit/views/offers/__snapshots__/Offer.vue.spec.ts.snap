@@ -3,7 +3,7 @@
 exports[`Offer renders snapshot 1`] = `
 <div
   class="flex flex-col
-           w-full pt-4"
+         w-full pt-4"
 >
   <div
     class="flex items-baseline w-full"

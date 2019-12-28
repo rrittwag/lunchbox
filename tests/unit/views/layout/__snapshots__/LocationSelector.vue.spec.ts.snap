@@ -1,52 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LocationSelector renders snapshot 1`] = `
-<li
-  class="nav-item b-nav-dropdown dropdown location-selector d-none d-sm-block"
->
-  <a
-    aria-expanded="false"
-    aria-haspopup="true"
-    class="nav-link dropdown-toggle"
-    href="#"
-    target="_self"
-  >
-    <span>
-      HH
-    </span>
-  </a>
-  <ul
-    class="dropdown-menu"
-    tabindex="-1"
-  >
-    <li
-      role="presentation"
-    >
-      <a
-        class="dropdown-item active"
-        href="#"
-        role="menuitem"
-        target="_self"
-      >
-        
-    Hamburg
-  
-      </a>
-    </li>
-    <li
-      role="presentation"
-    >
-      <a
-        class="dropdown-item"
-        href="#"
-        role="menuitem"
-        target="_self"
-      >
-        
-    München
-  
-      </a>
-    </li>
-  </ul>
-</li>
+<div>
+  TODO
+</div>
 `;
