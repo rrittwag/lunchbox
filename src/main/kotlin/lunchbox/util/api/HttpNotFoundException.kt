@@ -1,4 +1,4 @@
-package lunchbox.util.exceptions
+package lunchbox.util.api
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus

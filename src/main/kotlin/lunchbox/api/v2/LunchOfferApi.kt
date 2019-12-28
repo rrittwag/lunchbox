@@ -5,8 +5,8 @@ import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchOfferId
 import lunchbox.domain.models.LunchProviderId
 import lunchbox.repository.LunchOfferRepository
+import lunchbox.util.api.HttpNotFoundException
 import lunchbox.util.api.RestApi
-import lunchbox.util.exceptions.HttpNotFoundException
 import org.joda.money.Money
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.format.annotation.DateTimeFormat.ISO

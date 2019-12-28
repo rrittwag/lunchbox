@@ -2,8 +2,8 @@ package lunchbox.api.v2
 
 import lunchbox.domain.models.LunchProvider
 import lunchbox.domain.models.LunchProviderId
+import lunchbox.util.api.HttpNotFoundException
 import lunchbox.util.api.RestApi
-import lunchbox.util.exceptions.HttpNotFoundException
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 
