@@ -1,32 +1,25 @@
 <template>
-  <b-list-group class="offer-box">
-    <b-list-group-item variant="primary" class="text-center font-weight-bold">
-      {{ provider.name }}
-    </b-list-group-item>
-
-    <b-list-group-item
-      v-for="offer in offers"
-      :key="offer.id"
-      class="d-flex justify-content-between"
-    >
-      <span class="offer-name">
-        {{ offer.name }}
-      </span>
-      <span
-        class="offer-price
-                   text-right text-nowrap pl-2"
-      >
-        {{ offer.price | formatEuro }}
-      </span>
-    </b-list-group-item>
-  </b-list-group>
+  <div
+    class="flex flex-col items-center
+           w-full sm:max-w-sm m-8 px-4 py-2 sm:pt-4 sm:pb-6
+           shadow-xl bg-white rounded-lg
+           border-l-8 sm:border-t-8 sm:border-l-0 border-red-500"
+  >
+    <span class="text-4xl font-serif">{{ provider.name }}</span>
+    <Offer v-for="offer in offers" :key="offer.id" :offer="offer" />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { LunchOffer, LunchProvider } from '@/model'
+import Offer from './Offer.vue'
 
-@Component
+@Component({
+  components: {
+    Offer,
+  },
+})
 export default class OfferBox extends Vue {
   @Prop() provider!: LunchProvider
 

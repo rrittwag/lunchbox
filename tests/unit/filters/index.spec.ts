@@ -6,16 +6,16 @@ describe('formatEuro', () => {
     expect(formatEuro(undefined)).toEqual('')
   })
 
-  test('WHEN priceInCent = 1  THEN 0,01 €', () => {
-    expect(formatEuro(1)).toEqual('0,01 €')
+  test('WHEN priceInCent = 1  THEN 0,01', () => {
+    expect(formatEuro(1)).toEqual('0,01')
   })
 
-  test('WHEN priceInCent = 123  THEN return 1,23 €', () => {
-    expect(formatEuro(123)).toEqual('1,23 €')
+  test('WHEN priceInCent = 123  THEN return 1,23', () => {
+    expect(formatEuro(123)).toEqual('1,23')
   })
 
-  test('WHEN priceInCent = 1234  THEN return 12,34 €', () => {
-    expect(formatEuro(1234)).toEqual('12,34 €')
+  test('WHEN priceInCent = 1234  THEN return 12,34', () => {
+    expect(formatEuro(1234)).toEqual('12,34')
   })
 })
 

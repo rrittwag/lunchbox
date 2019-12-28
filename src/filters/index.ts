@@ -2,7 +2,7 @@ export function formatEuro(priceInCent?: number): string {
   if (!priceInCent) return ''
   const euroString = `${Math.floor(priceInCent / 100)}`
   const centString = `0${priceInCent % 100}`.slice(-2)
-  return `${euroString},${centString} €`
+  return `${euroString},${centString}`
 }
 
 export function formatToWeekday(date?: Date): string {
