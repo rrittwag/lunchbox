@@ -110,7 +110,7 @@ class LunchResolverSuppenkulttour(
       result += LunchOffer(
         0,
         rawOffer.name,
-        rawOffer.details,
+        rawOffer.description,
         monday,
         rawOffer.price,
         rawOffer.tags,
@@ -136,7 +136,7 @@ class LunchResolverSuppenkulttour(
       result += LunchOffer(
         0,
         rawOffer.name,
-        rawOffer.details,
+        rawOffer.description,
         day,
         rawOffer.price,
         rawOffer.tags + "Tagessuppe",
@@ -181,7 +181,7 @@ class LunchResolverSuppenkulttour(
     val title = clearedParts.first().trim()
     val remainingParts = clearedParts.drop(1)
 
-    val detailsList = mutableListOf<String>()
+    val descriptionList = mutableListOf<String>()
     var price: Money? = predictedPrice
 
     var zusatzInfo = ""
@@ -200,7 +200,7 @@ class LunchResolverSuppenkulttour(
         continue
       }
 
-      detailsList += part.trim()
+      descriptionList += part.trim()
     }
 
     if (price == null)
@@ -209,11 +209,11 @@ class LunchResolverSuppenkulttour(
     if (title.isEmpty()) return null
     if (title.split(" ").contains("Feiertag")) return null
 
-    val details = detailsList
+    val description = descriptionList
       .filter { it.isNotEmpty() }
       .joinToString(separator = " ")
 
-    return RawOffer(title, details, price, parseVegetarisch(zusatzInfo, title, details))
+    return RawOffer(title, description, price, parseVegetarisch(zusatzInfo, title, description))
   }
 
   private fun parseVegetarisch(vararg sources: String): Set<String> {
@@ -334,7 +334,7 @@ class LunchResolverSuppenkulttour(
 
   data class RawOffer(
     val name: String,
-    val details: String,
+    val description: String,
     val price: Money,
     val tags: Set<String>
   )

@@ -91,8 +91,8 @@ object StringParser {
     val splitIndex = name.indexOfAny(splitBefore)
 
     if (splitIndex < 0 && name.contains(",")) {
-      val (title, details) = name.split(Regex(","), 2)
-      return OfferName(title.trim(), details.trim())
+      val (title, description) = name.split(Regex(","), 2)
+      return OfferName(title.trim(), description.trim())
     }
 
     return when {
@@ -103,6 +103,6 @@ object StringParser {
 
   data class OfferName(
     val title: String,
-    val details: String
+    val description: String
   )
 }

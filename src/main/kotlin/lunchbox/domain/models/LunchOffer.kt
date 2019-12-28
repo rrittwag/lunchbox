@@ -11,7 +11,7 @@ typealias LunchOfferId = Long
 data class LunchOffer(
   val id: LunchOfferId,
   val name: String,
-  val details: String,
+  val description: String,
   val day: LocalDate,
   val price: Money,
   val tags: Set<String>,

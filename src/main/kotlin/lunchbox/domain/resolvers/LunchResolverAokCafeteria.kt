@@ -137,10 +137,10 @@ class LunchResolverAokCafeteria(
         .joinToString(" ")
         .let { parseName(it) } ?: return null
 
-    val (title, details) =
+    val (title, description) =
       StringParser.splitOfferName(name, listOf(" auf ", " mit ", " von ", " im ", " an "))
 
-    return LunchOffer(0, title, details, day, priceColumn.price, emptySet(), provider.id)
+    return LunchOffer(0, title, description, day, priceColumn.price, emptySet(), provider.id)
   }
 
   private fun findWeekdaySection(lines: List<TextLine>): PdfSection? {

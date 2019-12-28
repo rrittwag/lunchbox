@@ -114,8 +114,8 @@ class LunchResolverSaltNPepper(
       tags += "vegetarisch"
     }
 
-    val (title, details) = StringParser.splitOfferName(name)
-    return LunchOffer(0, title, details, LocalDate.now(), price, tags, provider.id)
+    val (title, description) = StringParser.splitOfferName(name)
+    return LunchOffer(0, title, description, LocalDate.now(), price, tags, provider.id)
   }
 
   private fun parseName(name: String): String =

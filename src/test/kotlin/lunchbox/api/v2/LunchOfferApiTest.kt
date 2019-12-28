@@ -101,7 +101,7 @@ class LunchOfferApiTest(
         content { contentTypeCompatibleWith(APPLICATION_JSON) }
         jsonPath("$.id") { value(GYROS.id) }
         jsonPath("$.name") { value(GYROS.name) }
-        jsonPath("$.details") { value(GYROS.details) }
+        jsonPath("$.description") { value(GYROS.description) }
         jsonPath("$.tags") { isArray }
         jsonPath("$.tags.length()") { value("2") }
         jsonPath("$.tags[0]") { value("Tagessuppe") }
@@ -145,7 +145,7 @@ const val GYROS_AS_JSON = """
     {
       "id": 0,
       "name": "Gyros",
-      "details": "mit Pommes",
+      "description": "mit Pommes",
       "day": "2019-01-01",
       "price": 580,
       "tags": ["Tagessuppe", "vegan"],

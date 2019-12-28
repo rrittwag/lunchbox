@@ -48,10 +48,10 @@ data class LunchOfferDTO(
 
 fun LunchOffer.toDTOv1(): LunchOfferDTO {
   var name = this.name
-  if (this.details.isNotEmpty())
+  if (this.description.isNotEmpty())
     name += when (this.provider) {
-      LunchProvider.SUPPENKULTTOUR.id -> ": ${this.details}"
-      else -> " ${this.details}"
+      LunchProvider.SUPPENKULTTOUR.id -> ": ${this.description}"
+      else -> " ${this.description}"
     }
 
   return LunchOfferDTO(

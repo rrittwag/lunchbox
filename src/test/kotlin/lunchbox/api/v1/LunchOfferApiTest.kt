@@ -100,7 +100,7 @@ class LunchOfferApiTest(
         status { isOk }
         content { contentTypeCompatibleWith(APPLICATION_JSON) }
         jsonPath("$.id") { value(GYROS.id) }
-        jsonPath("$.name") { value("${GYROS.name} ${GYROS.details}") }
+        jsonPath("$.name") { value("${GYROS.name} ${GYROS.description}") }
       }
 
       verify(exactly = 1) { repo.findByIdOrNull(GYROS.id) }

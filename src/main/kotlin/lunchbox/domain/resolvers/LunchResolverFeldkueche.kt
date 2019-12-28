@@ -59,7 +59,7 @@ class LunchResolverFeldkueche(
   }
 
   private fun createOffer(raw: RawOffer, monday: LocalDate): LunchOffer {
-    val (title, details) =
+    val (title, description) =
       StringParser.splitOfferName(
         raw.name,
         listOf(" mit ", "Kartoffeln", "Brot", "Nudeln", "Klöße")
@@ -68,7 +68,7 @@ class LunchResolverFeldkueche(
     return LunchOffer(
       0,
       title,
-      details,
+      description,
       monday.plusDays(raw.weekday.order),
       raw.price,
       emptySet(),

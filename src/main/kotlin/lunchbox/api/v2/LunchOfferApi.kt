@@ -40,7 +40,7 @@ class LunchOfferApi(val repo: LunchOfferRepository) {
 data class LunchOfferDTO(
   val id: LunchOfferId,
   val name: String,
-  val details: String,
+  val description: String,
   val day: LocalDate,
   val price: Money,
   val tags: Set<String>,
@@ -50,7 +50,7 @@ data class LunchOfferDTO(
 fun LunchOffer.toDTOv2() = LunchOfferDTO(
   id,
   name,
-  details,
+  description,
   day,
   price,
   tags,
