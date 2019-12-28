@@ -6,7 +6,7 @@ import org.springframework.core.annotation.AliasFor
 import org.springframework.web.bind.annotation.RestController
 
 /**
- * Kurzer Alias für den irritierend benannten @RestController.
+ * Kurzer, sprechender Alias für @RestController.
  */
 @Target(CLASS)
 @Retention(RUNTIME)
