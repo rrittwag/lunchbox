@@ -2,48 +2,38 @@
 
 exports[`Header renders snapshot 1`] = `
 <div
-  class="flex flex-wrap items-center w-full"
+  class="flex flex-wrap justify-between items-center
+         px-4 py-4"
 >
   <dayselector-stub
-    class="w-full sm:max-w-md"
+    class="w-full sm:max-w-sm"
   />
    
-  <div
-    class="flex-grow order-first md:order-last
-           w-full sm:w-1/2
-           px-4"
+  <nav
+    aria-label="Main"
+    class="flex justify-center
+           w-full sm:w-auto
+           order-first sm:order-last
+           px-4 pb-4 sm:pb-0"
   >
-    <div
-      class="md:float-right"
-    >
-      <router-link-stub
-        class="px-1"
-        event="click"
-        exact="true"
-        tag="a"
-        to="/"
-      >
-        Mittagsangebote
-      </router-link-stub>
-       
-      <router-link-stub
-        class="px-1"
-        event="click"
-        tag="a"
-        to="/settings"
-      >
-        Einstellungen
-      </router-link-stub>
-       
-      <router-link-stub
-        class="px-1"
-        event="click"
-        tag="a"
-        to="/about"
-      >
-        Info
-      </router-link-stub>
-    </div>
-  </div>
+    <router-link-stub
+      event="click"
+      exact="true"
+      tag="a"
+      to="/"
+    />
+     
+    <router-link-stub
+      event="click"
+      tag="a"
+      to="/settings"
+    />
+     
+    <router-link-stub
+      event="click"
+      tag="a"
+      to="/about"
+    />
+  </nav>
 </div>
 `;
