@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM fholzer/nginx-brotli
 LABEL author="Robert Rittwag <mail@rori.info>"
 
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
