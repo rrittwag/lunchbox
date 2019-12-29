@@ -1,40 +1,46 @@
 <template>
-  <div
-    class="w-full sm:w-3/4 md:w-1/2 lg:w-1/3
-           px-4 py-2"
-  >
-    <div class="flex items-center">
-      <div class="w-1/6">
-        <button class="text-red-500" @click="goPrevDay" :disabled="!prevDay()">
-          <v-icon name="angle-left" scale="3" />
-        </button>
-      </div>
+  <div class="flex justify-between items-center">
+    <button
+      class="flex justify-center items-center
+             w-16 h-16"
+      title="Zu vorherigem Tag wechseln"
+      aria-label="Zu vorherigem Tag wechseln"
+      @click="goPrevDay"
+      :disabled="!prevDay()"
+    >
+      <AngleLeftIcon class="w-16 h-16 text-red-500" />
+    </button>
 
-      <div class="w-2/3 text-center flex-grow">
-        <h2 class="text-3xl">
-          <small>{{ lunchStore.selectedDay | formatToWeekday }}</small>
-        </h2>
-        <h2 class="text-lg mb-1">{{ lunchStore.selectedDay | formatToDate }}</h2>
-      </div>
-
-      <div class="w-1/6">
-        <button
-          class="w-12 h-12 float-right text-red-500"
-          @click="goNextDay"
-          :disabled="!nextDay()"
-        >
-          <v-icon name="angle-right" scale="3" />
-        </button>
-      </div>
+    <div class="flex-grow text-center">
+      <h2 class="text-2xl">{{ lunchStore.selectedDay | formatToWeekday }}</h2>
+      <h2 class="text-lg">{{ lunchStore.selectedDay | formatToDate }}</h2>
     </div>
+
+    <button
+      class="flex justify-center items-center
+             w-16 h-16"
+      title="Zu nächstem Tag wechseln"
+      aria-label="Zu nächstem Tag wechseln"
+      @click="goNextDay"
+      :disabled="!nextDay()"
+    >
+      <AngleRightIcon class="w-16 h-16 text-red-500" />
+    </button>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Inject } from 'vue-property-decorator'
 import { LunchStore } from '@/store'
+import AngleLeftIcon from '@/assets/icons/angle-left.svg'
+import AngleRightIcon from '@/assets/icons/angle-right.svg'
 
-@Component
+@Component({
+  components: {
+    AngleLeftIcon,
+    AngleRightIcon,
+  },
+})
 export default class DaySelector extends Vue {
   @Inject() lunchStore!: LunchStore
 

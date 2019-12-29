@@ -1,16 +1,19 @@
 <template>
-  <div class="flex flex-wrap items-center w-full">
-    <DaySelector class="w-full sm:w-1/2" />
+  <div
+    class="flex flex-wrap justify-between items-center
+           px-4 py-4"
+  >
+    <DaySelector class="w-full sm:max-w-sm" />
+
     <div
-      class="flex-grow order-first md:order-last
-             w-full sm:w-1/2
+      class="flex justify-center
+             w-full sm:w-auto
+             order-first md:order-last
              px-4"
     >
-      <div class="md:float-right">
-        <router-link to="/" exact class="px-1">Mittagsangebote</router-link>
-        <router-link to="/settings" class="px-1">Einstellungen</router-link>
-        <router-link to="/about" class="px-1">Info</router-link>
-      </div>
+      <router-link to="/" exact class="px-1">Mittagsangebote</router-link>
+      <router-link to="/settings" class="px-1">Einstellungen</router-link>
+      <router-link to="/about" class="px-1">Info</router-link>
     </div>
   </div>
 </template>
