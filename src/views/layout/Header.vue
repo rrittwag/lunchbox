@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex flex-wrap justify-between items-center
-           px-4 py-4"
+           p-4"
   >
     <DaySelector class="w-full sm:max-w-sm" />
 
