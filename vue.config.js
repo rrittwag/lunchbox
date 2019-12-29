@@ -1,5 +1,4 @@
 module.exports = {
-  transpileDependencies: [/\bvue-awesome\b/],
   chainWebpack: config => {
     const svgRule = config.module.rule('svg')
     svgRule.uses.clear()

@@ -9,7 +9,6 @@ import {
   MountOptions,
 } from '@vue/test-utils'
 import * as filters from '@/filters'
-import Icon from 'vue-awesome/components/Icon.vue'
 import VueRouter from 'vue-router'
 import jestMock from 'jest-mock'
 
@@ -31,10 +30,6 @@ function applyFilters(localVue: typeof Vue) {
   Object.keys(typedFilters).forEach((key: string) => localVue.filter(key, typedFilters[key]))
 }
 
-function applyAwesome(localVue: typeof Vue) {
-  localVue.component('v-icon', Icon)
-}
-
 /**
  * Create a testable Vue instance (instead of using global 'Vue' object),
  * including global Vue components & filters (see main.ts).
@@ -45,7 +40,6 @@ export function createLocalVue(): typeof Vue {
   applyRouter(localVue)
   applyVuex(localVue)
   applyFilters(localVue)
-  applyAwesome(localVue)
 
   return localVue
 }

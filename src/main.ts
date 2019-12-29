@@ -12,9 +12,6 @@ import '@/assets/tailwind.scss'
 // register filters
 import '@/plugins/filters'
 
-// register FontAwesome icons
-import '@/plugins/vue-awesome'
-
 // configuration
 Vue.config.productionTip = false
 

@@ -18,7 +18,11 @@
       </div>
 
       <div class="w-1/6">
-        <button class="float-right text-red-500" @click="goNextDay" :disabled="!nextDay()">
+        <button
+          class="w-12 h-12 float-right text-red-500"
+          @click="goNextDay"
+          :disabled="!nextDay()"
+        >
           <v-icon name="angle-right" scale="3" />
         </button>
       </div>
@@ -29,8 +33,6 @@
 <script lang="ts">
 import { Component, Vue, Inject } from 'vue-property-decorator'
 import { LunchStore } from '@/store'
-import 'vue-awesome/icons/angle-left'
-import 'vue-awesome/icons/angle-right'
 
 @Component
 export default class DaySelector extends Vue {
