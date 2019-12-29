@@ -16,24 +16,27 @@ exports[`Header renders snapshot 1`] = `
            order-first sm:order-last
            px-4 pb-4 sm:pb-0"
   >
-    <router-link-stub
-      event="click"
+    <routerlinkicon-stub
       exact="true"
-      tag="a"
+      title="Mittagsangebote öffnen"
       to="/"
-    />
+    >
+      <offersicon-stub />
+    </routerlinkicon-stub>
      
-    <router-link-stub
-      event="click"
-      tag="a"
+    <routerlinkicon-stub
+      title="Einstellungen öffnen"
       to="/settings"
-    />
+    >
+      <settingsicon-stub />
+    </routerlinkicon-stub>
      
-    <router-link-stub
-      event="click"
-      tag="a"
+    <routerlinkicon-stub
+      title="Info öffnen"
       to="/about"
-    />
+    >
+      <infoicon-stub />
+    </routerlinkicon-stub>
   </nav>
 </div>
 `;

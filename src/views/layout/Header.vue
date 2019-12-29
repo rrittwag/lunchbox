@@ -12,45 +12,17 @@
              px-4 pb-4 sm:pb-0"
       aria-label="Main"
     >
-      <router-link to="/" exact v-slot="{ navigate, isActive }">
-        <button
-          class="flex justify-center items-center
-                 w-12 h-12
-                 mx-2"
-          :class="isActive ? 'text-gray-500' : 'text-gray-900'"
-          @click="navigate"
-          title="Mittagsangebote öffnen"
-          aria-label="Mittagsangebote öffnen"
-        >
-          <OffersIcon class="w-8 h-8" />
-        </button>
-      </router-link>
-      <router-link to="/settings" v-slot="{ navigate, isActive }">
-        <button
-          class="flex justify-center items-center
-                 w-12 h-12
-                 mx-2"
-          :class="isActive ? 'text-gray-500' : 'text-gray-900'"
-          @click="navigate"
-          title="Einstellungen öffnen"
-          aria-label="Einstellungen öffnen"
-        >
-          <SettingsIcon class="w-8 h-8" />
-        </button>
-      </router-link>
-      <router-link to="/about" v-slot="{ navigate, isActive }">
-        <button
-          class="flex justify-center items-center
-                 w-12 h-12
-                 mx-2"
-          :class="isActive ? 'text-gray-500' : 'text-gray-900'"
-          @click="navigate"
-          title="Info öffnen"
-          aria-label="Info öffnen"
-        >
-          <InfoIcon class="w-8 h-8" />
-        </button>
-      </router-link>
+      <RouterLinkIcon to="/" exact title="Mittagsangebote öffnen">
+        <OffersIcon />
+      </RouterLinkIcon>
+
+      <RouterLinkIcon to="/settings" title="Einstellungen öffnen">
+        <SettingsIcon />
+      </RouterLinkIcon>
+
+      <RouterLinkIcon to="/about" title="Info öffnen">
+        <InfoIcon />
+      </RouterLinkIcon>
     </nav>
   </div>
 </template>
@@ -62,9 +34,11 @@ import DaySelector from '@/views/offers/DaySelector.vue'
 import OffersIcon from '@/assets/icons/offers.svg'
 import SettingsIcon from '@/assets/icons/settings.svg'
 import InfoIcon from '@/assets/icons/info.svg'
+import RouterLinkIcon from '@/views/layout/RouterLinkIcon.vue'
 
 @Component({
   components: {
+    RouterLinkIcon,
     DaySelector,
     LocationSelector,
     OffersIcon,
