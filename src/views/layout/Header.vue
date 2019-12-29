@@ -34,7 +34,7 @@ import DaySelector from '@/views/offers/DaySelector.vue'
 import OffersIcon from '@/assets/icons/offers.svg'
 import SettingsIcon from '@/assets/icons/settings.svg'
 import InfoIcon from '@/assets/icons/info.svg'
-import RouterLinkIcon from '@/views/layout/RouterLinkIcon.vue'
+import RouterLinkIcon from '@/views/layout/header/RouterLinkIcon.vue'
 
 @Component({
   components: {
