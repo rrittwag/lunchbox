@@ -3,7 +3,7 @@
 exports[`Header renders snapshot 1`] = `
 <div
   class="flex flex-wrap justify-between items-center
-         px-4 py-4"
+         p-4"
 >
   <dayselector-stub
     class="w-full sm:max-w-sm"
