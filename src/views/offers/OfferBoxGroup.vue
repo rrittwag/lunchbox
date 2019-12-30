@@ -3,8 +3,8 @@
     <div
       v-for="provider in visibleProviders"
       :key="provider.id"
-      class="w-full sm:w-1/2 md:w-1/3 xl:w-1/4
-             sm:max-w-sm
+      class="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4
+             sm:max-w-md
              p-2 lg:p-4
              text-neutral-900"
     >
