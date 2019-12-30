@@ -27,7 +27,7 @@
     <span
       class="hidden sm:block
              pl-1
-             font-light text-neutral-900"
+             font-light text-neutral-600"
     >
       {{ offer.description }}
     </span>

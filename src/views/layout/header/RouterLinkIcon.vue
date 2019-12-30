@@ -4,7 +4,7 @@
       class="router-link-button flex justify-center items-center
              w-12 h-12
              mx-2"
-      :class="isActive ? 'text-neutral-300' : 'text-neutral-900'"
+      :class="isActive ? 'text-neutral-300' : 'text-neutral-800'"
       @click="navigate"
       :title="title"
       :aria-label="title"
