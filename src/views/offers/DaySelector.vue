@@ -8,12 +8,12 @@
       @click="goPrevDay"
       :disabled="!prevDay()"
     >
-      <AngleLeftIcon class="w-16 h-16 text-red-500" />
+      <AngleLeftIcon class="w-16 h-16 text-primary-500" />
     </button>
 
     <div class="flex-grow text-center">
-      <h2 class="text-2xl">{{ lunchStore.selectedDay | formatToWeekday }}</h2>
-      <h2 class="text-lg">{{ lunchStore.selectedDay | formatToDate }}</h2>
+      <h2 class="text-2xl text-neutral-900">{{ lunchStore.selectedDay | formatToWeekday }}</h2>
+      <h2 class="text-lg text-neutral-900">{{ lunchStore.selectedDay | formatToDate }}</h2>
     </div>
 
     <button
@@ -24,7 +24,7 @@
       @click="goNextDay"
       :disabled="!nextDay()"
     >
-      <AngleRightIcon class="w-16 h-16 text-red-500" />
+      <AngleRightIcon class="w-16 h-16 text-primary-500" />
     </button>
   </div>
 </template>

@@ -1,7 +1,5 @@
 <template>
-  <div v-if="loadingDone" class="offers">
-    <OfferBoxGroup />
-  </div>
+  <OfferBoxGroup v-if="loadingDone" class="offers" />
   <ContentError v-else-if="loadingFailed" />
   <ContentLoading v-else />
 </template>

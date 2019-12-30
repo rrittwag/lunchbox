@@ -1,11 +1,12 @@
 <template>
   <div class="offer-box-group flex flex-wrap items-start">
     <div
-      class="w-full sm:w-1/2 md:w-1/3 xl:w-1/4
-             sm:max-w-sm
-             p-2 lg:p-4"
       v-for="provider in visibleProviders"
       :key="provider.id"
+      class="w-full sm:w-1/2 md:w-1/3 xl:w-1/4
+             sm:max-w-sm
+             p-2 lg:p-4
+             text-neutral-900"
     >
       <OfferBox :provider="provider" :offers="visibleOffersOf(provider)" />
     </div>

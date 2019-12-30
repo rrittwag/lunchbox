@@ -1,7 +1,7 @@
 <template>
   <div
     class="rounded-full
-            bg-yellow-200 text-gray-900 font-light
+            bg-accent-200 text-neutral-900 font-light
             px-3 py-1 mr-1"
   >
     {{ label }}

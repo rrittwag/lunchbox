@@ -3,9 +3,9 @@
     class="flex flex-col items-center
            px-4 py-2 sm:pt-4 sm:pb-6
            shadow-xl bg-white rounded-lg
-           border-l-8 sm:border-t-8 sm:border-l-0 border-red-500"
+           border-l-8 sm:border-t-8 sm:border-l-0 border-primary-400"
   >
-    <span class="text-4xl font-serif">{{ provider.name }}</span>
+    <span class="text-4xl font-serif text-neutral-900">{{ provider.name }}</span>
     <Offer v-for="offer in offers" :key="offer.id" :offer="offer" />
   </div>
 </template>

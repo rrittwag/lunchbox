@@ -1,13 +1,40 @@
 module.exports = {
   theme: {
     extend: {
-      backgroundColor: {
-        primary: 'var(--color-bg-primary)',
-        secondary: 'var(--color-bg-secondary)',
-      },
-      textColor: {
-        primary: 'var(--color-text-primary)',
-        accent: 'var(--color-text-accent)',
+      colors: {
+        primary: {
+          '100': '#FFEEEE',
+          '200': '#FACDCD',
+          '300': '#F79E9E',
+          '400': '#E66A6A',
+          '500': '#D14545',
+          '600': '#B83B3B',
+          '700': '#993030',
+          '800': '#7D1B1B',
+          '900': '#610404',
+        },
+        accent: {
+          '100': '#FFFBEA',
+          '200': '#FFF3C4',
+          '300': '#FCE588',
+          '400': '#FADB5F',
+          '500': '#F7C948',
+          '600': '#F0B429',
+          '700': '#DE911D',
+          '800': '#CB6E17',
+          '900': '#B44D12',
+        },
+        neutral: {
+          '100': '#FAF9F7',
+          '200': '#F2EFE9',
+          '300': '#DBD6CC',
+          '400': '#BFB9AC',
+          '500': '#A39D8F',
+          '600': '#827C6F',
+          '700': '#665F54',
+          '800': '#423D33',
+          '900': '#27241D',
+        },
       },
     },
   },

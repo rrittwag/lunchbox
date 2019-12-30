@@ -4,13 +4,30 @@
            w-full pt-4"
   >
     <div class="flex items-baseline w-full">
-      <span class="flex-grow text-xl">{{ offer.name }}</span>
-      <span class="text-lg font-light pl-2">€</span>
-      <span class="text-xl pl-2">{{ offer.price | formatEuro }}</span>
+      <span
+        class="flex-grow
+               text-xl text-neutral-900"
+      >
+        {{ offer.name }}
+      </span>
+      <span
+        class="pl-2
+               text-lg font-light text-neutral-900"
+      >
+        €
+      </span>
+      <span
+        class="pl-2
+               text-xl text-neutral-900"
+      >
+        {{ offer.price | formatEuro }}
+      </span>
     </div>
+
     <span
       class="hidden sm:block
-               pl-1 text-gray-900 font-light"
+             pl-1
+             font-light text-neutral-900"
     >
       {{ offer.description }}
     </span>
