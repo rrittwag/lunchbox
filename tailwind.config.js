@@ -2,6 +2,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Farben sind
         primary: {
           '100': '#FFEEEE',
           '200': '#FACDCD',
@@ -15,7 +16,7 @@ module.exports = {
         },
         accent: {
           '100': '#FFFBEA',
-          '200': '#FFF3C4',
+          '200': 'var(--color-accent-200)',
           '300': '#FCE588',
           '400': '#FADB5F',
           '500': '#F7C948',
