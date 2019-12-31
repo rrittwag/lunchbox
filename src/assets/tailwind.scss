@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
- * theming inspired by & stolen from
- * - https://github.com/adamwathan/theming-tailwind-demo
- * - https://github.com/drehimself/gridsome-portfolio-starter
- */
-
 @import 'style/animations.scss';
 @import 'style/transitions.scss';
+@import 'style/themes.scss';

@@ -1,5 +1,5 @@
 <template>
-  <div
+  <header
     class="flex flex-wrap justify-between items-center
            p-4"
   >
@@ -24,7 +24,7 @@
         <InfoIcon />
       </RouterLinkIcon>
     </nav>
-  </div>
+  </header>
 </template>
 
 <script lang="ts">

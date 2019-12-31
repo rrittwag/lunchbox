@@ -1,0 +1,68 @@
+/*
+ * Theme:
+ * - Hauptfarbe Rot
+ * - warmes Grau
+ */
+.theme-red {
+  // TODO: Farbcodes für übrige Farben definieren
+  --color-primary-400: #E66A6A;
+
+  --color-neutral-100: #FAF9F7;
+  --color-neutral-200: #F2EFE9;
+  --color-neutral-300: #DBD6CC;
+  --color-neutral-400: #BFB9AC;
+  --color-neutral-500: #A39D8F;
+  --color-neutral-600: #827C6F;
+  --color-neutral-700: #665F54;
+  --color-neutral-800: #423D33;
+  --color-neutral-900: #27241D;
+}
+
+/*
+ * Theme:
+ * - Hauptfarbe Grün
+ * - neutrales Grau
+ */
+.theme-green {
+  // TODO: Farbcodes für übrige Farben definieren
+  --color-primary-400: #4DA088;
+
+  --color-neutral-100: #F5F5F5;
+  --color-neutral-200: #EEEEEE;
+  --color-neutral-300: #E0E0E0;
+  --color-neutral-400: #BDBDBD;
+  --color-neutral-500: #9E9E9E;
+  --color-neutral-600: #757575;
+  --color-neutral-700: #616161;
+  --color-neutral-800: #424242;
+  --color-neutral-900: #212121;
+}
+
+/*
+ * Theme:
+ * - Hauptfarbe Blau
+ * - kaltes Grau
+ */
+.theme-blue {
+  // TODO: Farbcodes für übrige Farben definieren
+  --color-primary-400: #4098D7;
+
+  --color-neutral-100: #F0F4F8;
+  --color-neutral-200: #EFF2F5;
+  --color-neutral-300: #C0CBD6;
+  --color-neutral-400: #91A4B7;
+  --color-neutral-500: #627D98;
+  --color-neutral-600: #587189;
+  --color-neutral-700: #3B4B5B;
+  --color-neutral-800: #2C3844;
+  --color-neutral-900: #1D262E;
+}
+
+/*
+ * Theme: Dark-Variante des theme-blue
+ */
+.theme-blue-dark {
+  // TODO: Farbcodes für Farben & Card-Background definieren
+  --color-primary-400: #eee;
+  --color-neutral-200: #243B53;
+}

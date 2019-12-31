@@ -32,7 +32,12 @@
       {{ offer.description }}
     </span>
     <div class="hidden sm:flex pt-1">
-      <Badge v-for="tagLabel in offer.tags" :key="tagLabel" :label="tagLabel" />
+      <Badge
+        v-for="tagLabel in offer.tags"
+        :key="tagLabel"
+        :label="tagLabel"
+        :color="isVeggie(tagLabel) ? 'bg-success-200' : 'bg-accent-200'"
+      />
     </div>
   </div>
 </template>
@@ -49,5 +54,9 @@ import Badge from '@/views/offers/Badge.vue'
 })
 export default class Offer extends Vue {
   @Prop() offer!: LunchOffer
+
+  isVeggie(tagLabel: string): Boolean {
+    return tagLabel === 'vegetarisch' || tagLabel === 'vegan'
+  }
 }
 </script>

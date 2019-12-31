@@ -5,7 +5,7 @@ const autoprefixer = require('autoprefixer')
 const purgecss =
   process.env.NODE_ENV === 'production'
     ? require('@fullhuman/postcss-purgecss')({
-        content: ['./src/**/*.html', './src/**/*.vue'],
+        content: ['./public/index.html', './src/**/*.html', './src/**/*.vue'],
         // Include any special characters you're using in this regular expression.
         // See: https://tailwindcss.com/docs/controlling-file-size/#understanding-the-regex
         defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
@@ -15,6 +15,7 @@ const purgecss =
           /-(leave|enter|appear)(|-(to|from|active))$/,
           /^(?!(|.*?:)cursor-move).+-move$/,
           /^router-link(|-exact)-active$/,
+          /^theme-.*$/,
         ],
       })
     : ''

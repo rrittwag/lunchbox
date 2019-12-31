@@ -2,7 +2,7 @@
 
 exports[`LayoutView renders snapshot 1`] = `
 <div
-  class="layout-view"
+  class="layout-view h-full w-full font-sans antialiased"
 >
   <header-stub />
    

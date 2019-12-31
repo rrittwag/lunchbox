@@ -1,5 +1,5 @@
 import LocationSelector from '@/views/layout/LocationSelector.vue'
-import { createMock, mountWithChildren } from '@tests/unit/test-util'
+import { createMock, mountUnit } from '@tests/unit/test-util'
 import { LunchStore } from '@/store'
 import { hamburg, münchen } from '@tests/unit/test-data'
 
@@ -12,7 +12,7 @@ describe('LocationSelector', () => {
     mockStore.selectedLocation = hamburg
     mockStore.locations = [hamburg, münchen]
 
-    const wrapper = mountWithChildren(LocationSelector, {}, { provide })
+    const wrapper = mountUnit(LocationSelector, {}, { provide })
 
     expect(wrapper.element).toMatchSnapshot()
   })

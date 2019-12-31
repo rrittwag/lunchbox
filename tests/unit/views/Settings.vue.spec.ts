@@ -1,9 +1,15 @@
 import Settings from '@/views/Settings.vue'
-import { mountUnit } from '@tests/unit/test-util'
+import { createMock, mountUnit } from '@tests/unit/test-util'
+import { ThemeStore } from '@/store'
 
 describe('Settings', () => {
   test('renders snapshot', () => {
-    const wrapper = mountUnit(Settings)
+    const wrapper = mountUnit(Settings, {}, { provide })
     expect(wrapper.element).toMatchSnapshot()
   })
 })
+
+// --- mocks 'n' stuff
+
+const mockStore = createMock(ThemeStore)
+const provide = { themeStore: mockStore }

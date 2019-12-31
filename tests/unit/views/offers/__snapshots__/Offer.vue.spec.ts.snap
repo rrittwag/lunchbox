@@ -50,9 +50,11 @@ exports[`Offer renders snapshot 1`] = `
     class="hidden sm:flex pt-1"
   >
     <badge-stub
+      color="bg-accent-200"
       label="Tagesgericht"
     />
     <badge-stub
+      color="bg-accent-200"
       label="lecker"
     />
   </div>
