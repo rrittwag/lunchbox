@@ -51,6 +51,6 @@ export class ThemeStore extends VuexModule {
   protected initialTheme(): Theme {
     // if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
     //   return THEME_BLUE_DARK
-    return THEME_BLUE
+    return THEME_RED
   }
 }
