@@ -5,7 +5,7 @@
       :key="provider.id"
       class="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4
              sm:max-w-md
-             p-2 xl:p-4
+             px-2 xl:px-4
              text-neutral-900"
     >
       <OfferBox :provider="provider" :offers="visibleOffersOf(provider)" />
