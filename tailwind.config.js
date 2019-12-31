@@ -5,7 +5,7 @@ module.exports = {
         // Farben sind
         primary: {
           '100': '#FFEEEE',
-          '200': '#FACDCD',
+          '200': 'var(--color-primary-200)',
           '300': '#F79E9E',
           '400': 'var(--color-primary-400)',
           '500': '#D14545',
@@ -42,6 +42,9 @@ module.exports = {
       },
     },
   },
-  variants: {},
+  variants: {
+    textColor: ['responsive', 'hover', 'focus', 'disabled'],
+    cursor: ['responsive', 'disabled'],
+  },
   plugins: [],
 }

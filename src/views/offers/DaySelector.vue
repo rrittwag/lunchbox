@@ -2,13 +2,15 @@
   <div class="flex justify-between items-center">
     <button
       class="flex justify-center items-center
-             w-16 h-16"
+             w-16 h-16
+             disabled:cursor-not-allowed
+             text-primary-400 disabled:text-primary-200"
       title="Zu vorherigem Tag wechseln"
       aria-label="Zu vorherigem Tag wechseln"
       @click="goPrevDay"
       :disabled="!prevDay()"
     >
-      <AngleLeftIcon class="w-16 h-16 text-primary-400" />
+      <AngleLeftIcon class="w-16 h-16" />
     </button>
 
     <div class="flex-grow text-center">
@@ -22,13 +24,15 @@
 
     <button
       class="flex justify-center items-center
-             w-16 h-16"
+             w-16 h-16
+             disabled:cursor-not-allowed
+             text-primary-400 disabled:text-primary-200"
       title="Zu nächstem Tag wechseln"
       aria-label="Zu nächstem Tag wechseln"
       @click="goNextDay"
       :disabled="!nextDay()"
     >
-      <AngleRightIcon class="w-16 h-16 text-primary-400" />
+      <AngleRightIcon class="w-16 h-16" />
     </button>
   </div>
 </template>
