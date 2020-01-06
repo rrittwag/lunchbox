@@ -1,5 +1,5 @@
 <template>
-  <section class="content w-full">
+  <main class="w-full">
     <router-view />
-  </section>
+  </main>
 </template>

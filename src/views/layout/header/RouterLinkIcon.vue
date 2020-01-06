@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="to" exact v-slot="{ navigate, isActive }">
+  <router-link :to="to" :exact="exact" v-slot="{ navigate, isActive }">
     <button
       class="router-link-button flex justify-center items-center
              w-12 h-12

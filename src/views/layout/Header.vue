@@ -12,17 +12,25 @@
              px-4 pb-4 sm:pb-0"
       aria-label="Main"
     >
-      <RouterLinkIcon to="/" exact title="Mittagsangebote öffnen">
-        <OffersIcon />
-      </RouterLinkIcon>
+      <ul class="flex list-none m-0 p-0">
+        <li>
+          <RouterLinkIcon to="/" exact title="Mittagsangebote öffnen">
+            <OffersIcon />
+          </RouterLinkIcon>
+        </li>
 
-      <RouterLinkIcon to="/settings" title="Einstellungen öffnen">
-        <SettingsIcon />
-      </RouterLinkIcon>
+        <li>
+          <RouterLinkIcon to="/settings" title="Einstellungen öffnen">
+            <SettingsIcon />
+          </RouterLinkIcon>
+        </li>
 
-      <RouterLinkIcon to="/about" title="Info öffnen">
-        <InfoIcon />
-      </RouterLinkIcon>
+        <li>
+          <RouterLinkIcon to="/about" title="Info öffnen">
+            <InfoIcon />
+          </RouterLinkIcon>
+        </li>
+      </ul>
     </nav>
   </header>
 </template>

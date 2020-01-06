@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Content renders snapshot 1`] = `
-<section
-  class="content w-full"
+<main
+  class="w-full"
 >
   <router-view-stub
     name="default"
   />
-</section>
+</main>
 `;
