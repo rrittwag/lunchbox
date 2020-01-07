@@ -1,7 +1,7 @@
 <template>
   <div
     class="rounded-full
-           text-neutral-900 font-light
+           font-light text-neutral-900
            px-3 py-1 mr-1"
     :class="color"
   >
