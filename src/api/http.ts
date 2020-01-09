@@ -1,68 +1,47 @@
-import axios, { AxiosError } from 'axios'
-import { ApiError } from '@/api'
+import { ApiError } from '@/api/ApiError'
 
-const http = axios.create({
-  baseURL: process.env.BASE_API,
-  timeout: 5000, // request timeout
-})
+/**
+ /**
+ * Enhances Fetch API with:
+ * <ul>
+ *   <li>4xx/5xx responses result in ApiError</li>
+ *   <li>configurable timeout (default 10 seconds)</li>
+ * </ul>
+ *
+ * @param url
+ * @param options
+ * @param time
+ */
+export function fetchWithTimeout(url: string, options: RequestInit = {}, time: number = 10000) {
+  const controller = new AbortController()
+  const config = { ...options, signal: controller.signal }
 
-http.interceptors.request.use(
-  config => {
-    // TODO: config Authorization token
-    return config
-  },
-  error => Promise.reject(createApiError(error))
-)
+  setTimeout(() => {
+    controller.abort()
+  }, time)
 
-http.interceptors.response.use(
-  response => response,
-  error => Promise.reject(createApiError(error))
-)
+  return fetch(url, config)
+    .then(async response => {
+      if (response.ok) return response
 
-function createApiError(error: AxiosError): ApiError {
-  // eslint-disable-next-line no-console
-  console.log('AxiosError: ' + JSON.stringify(error))
+      // when 4xx/5xx response, Spring backend answers with ApiError (prop 'name' excluded)
+      if (response.headers.get('content-type') === 'application/json')
+        throw { ...(await response.json()), name: 'ApiError' }
 
-  // non 2xx response
-  if (error.response) {
-    if (!error.response.data)
-      return {
-        name: 'ApiError',
-        message: error.response.statusText,
-        path: toString(error.config.url),
-        status: error.response.status,
-      }
-    if (typeof error.response.data === 'string')
-      return {
-        name: 'ApiError',
-        message: error.response.data,
-        path: toString(error.config.url),
-        status: error.response.status,
-      }
-    return error.response.data // Spring returns ApiError object
-  }
+      throw createApiError(response.status, url, await response.text())
+    })
+    .catch(error => {
+      // eslint-disable-next-line no-console
+      console.log(error)
+      return Promise.reject(error)
+    })
+}
 
-  // no response
-  if (error.request)
-    return {
-      name: 'ApiError',
-      message: error.message,
-      path: toString(error.config.url),
-      status: 0,
-    }
-
-  // error on creating request
+function createApiError(status: number, url: string, message: string): ApiError {
   return {
     name: 'ApiError',
-    message: error.message,
-    path: '',
-    status: 0,
+    message: message,
+    path: url,
+    status: status,
   }
 }
-
-function toString(value: string | undefined): string {
-  if (value) return value
-  return ''
-}
-
-export default http

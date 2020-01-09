@@ -1,15 +1,12 @@
-import { AxiosPromise } from 'axios'
-import http from './http'
 import { LunchOffer, LunchProvider } from '@/model'
+import { fetchWithTimeout } from '@/api/http'
 
 export class LunchApi {
   getOffers(): Promise<LunchOffer[]> {
-    const promise: AxiosPromise = http.get('api/v2/lunchOffer')
-    return promise.then(response => response.data)
+    return fetchWithTimeout('api/v2/lunchOffer').then(response => response.json())
   }
 
   getProviders(): Promise<LunchProvider[]> {
-    const promise: AxiosPromise = http.get('api/v2/lunchProvider')
-    return promise.then(response => response.data)
+    return fetchWithTimeout('api/v2/lunchProvider').then(response => response.json())
   }
 }
