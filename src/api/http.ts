@@ -1,10 +1,9 @@
 import { ApiError } from '@/api/ApiError'
 
 /**
- /**
  * Enhances Fetch API with:
  * <ul>
- *   <li>4xx/5xx responses result in ApiError</li>
+ *   <li>4xx/5xx responses resulting in ApiError</li>
  *   <li>configurable timeout (default 10 seconds)</li>
  * </ul>
  *
