@@ -3,7 +3,8 @@
 exports[`Offer renders snapshot 1`] = `
 <div
   class="flex flex-col
-         w-full pt-4"
+         w-full
+         pt-4"
 >
   <div
     class="flex items-baseline w-full"
@@ -47,7 +48,8 @@ exports[`Offer renders snapshot 1`] = `
   </span>
    
   <div
-    class="hidden sm:flex pt-1"
+    class="hidden sm:flex
+           pt-1"
   >
     <badge-stub
       color="bg-accent-200"
