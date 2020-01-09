@@ -24,7 +24,7 @@ module.exports = {
   },
   pwa: {
     workboxOptions: {
-      importWorkboxFrom: 'local', // provide workbox lib locally, not by CDN
+      // importWorkboxFrom: 'local', // provide workbox lib locally, not by CDN
       runtimeCaching: [
         {
           // cache Google Fonts
