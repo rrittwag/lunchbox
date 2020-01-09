@@ -26,7 +26,7 @@ export function fetchWithTimeout(url: string, options: RequestInit = {}, time: n
 
       // when 4xx/5xx response, Spring backend answers with ApiError (prop 'name' excluded)
       if (response.headers.get('content-type') === 'application/json')
-        throw { ...(await response.json()), name: 'ApiError' }
+        throw { name: 'ApiError', ...(await response.json()) }
 
       throw createApiError(response.status, url, await response.text())
     })
