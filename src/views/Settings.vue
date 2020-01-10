@@ -37,10 +37,10 @@
 <script lang="ts">
 import { Component, Vue, Provide } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
-import { ThemeStore } from '@/store'
+import { ThemeStore } from '@/store/modules/ThemeStore'
 
 @Component
-export default class DaySelector extends Vue {
+export default class Settings extends Vue {
   @Provide() themeStore: ThemeStore = getModule(ThemeStore)
 
   updateTheme(event: { target: HTMLSelectElement }) {

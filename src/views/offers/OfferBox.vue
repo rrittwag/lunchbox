@@ -14,9 +14,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { LunchOffer, LunchProvider } from '@/model'
-import Offer from './Offer.vue'
-
+import Offer from '@/views/offers/Offer.vue'
+import { LunchProvider } from '@/model/LunchProvider'
+import { LunchOffer } from '@/model/LunchOffer'
 @Component({
   components: {
     Offer,

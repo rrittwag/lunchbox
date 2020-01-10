@@ -1,5 +1,6 @@
-import { LunchOffer, LunchProvider } from '@/model'
 import { fetchWithTimeout } from '@/api/http'
+import { LunchOffer } from '@/model/LunchOffer'
+import { LunchProvider } from '@/model/LunchProvider'
 
 export class LunchApi {
   getOffers(): Promise<LunchOffer[]> {

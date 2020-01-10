@@ -6,9 +6,12 @@
 
 <script lang="ts">
 import { Component, Vue, Inject } from 'vue-property-decorator'
-import { LunchStore, LoadingState } from '@/store'
-import { DaySelector, OfferBoxGroup } from './offers/'
-import { ContentLoading, ContentError } from '@/views/layout/content/index'
+import ContentError from '@/views/layout/content/ContentError.vue'
+import ContentLoading from '@/views/layout/content/ContentLoading.vue'
+import { LunchStore } from '@/store/modules/LunchStore'
+import { LoadingState } from '@/store/LoadingState'
+import DaySelector from '@/views/offers/DaySelector.vue'
+import OfferBoxGroup from '@/views/offers/OfferBoxGroup.vue'
 
 @Component({
   components: {

@@ -7,9 +7,10 @@
 
 <script lang="ts">
 import { Component, Provide, Vue, Watch } from 'vue-property-decorator'
-import { Header, Content } from './layout/'
 import { Theme, ThemeStore } from '@/store/modules/ThemeStore'
 import { getModule } from 'vuex-module-decorators'
+import Content from '@/views/layout/Content.vue'
+import Header from '@/views/layout/Header.vue'
 
 @Component({
   components: {

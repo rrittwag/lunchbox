@@ -7,8 +7,8 @@
 <script lang="ts">
 import { Component, Vue, Provide } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
-import { LunchStore } from '@/store'
 import LayoutView from '@/views/LayoutView.vue'
+import { LunchStore } from '@/store/modules/LunchStore'
 
 @Component({
   components: {

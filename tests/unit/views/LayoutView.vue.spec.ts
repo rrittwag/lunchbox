@@ -1,6 +1,6 @@
 import LayoutView from '@/views/LayoutView.vue'
 import { createMock, mountUnit } from '@tests/unit/test-util'
-import { ThemeStore } from '@/store'
+import { ThemeStore } from '@/store/modules/ThemeStore'
 
 describe('LayoutView', () => {
   test('renders snapshot', () => {

@@ -39,9 +39,9 @@
 
 <script lang="ts">
 import { Component, Vue, Inject } from 'vue-property-decorator'
-import { LunchStore } from '@/store'
 import AngleLeftIcon from '@/assets/icons/angle-left.svg'
 import AngleRightIcon from '@/assets/icons/angle-right.svg'
+import { LunchStore } from '@/store/modules/LunchStore'
 
 @Component({
   components: {

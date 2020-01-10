@@ -1,7 +1,10 @@
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-import { store, LoadingState } from '@/store'
-import { LunchOffer, LunchProvider, LunchLocation } from '@/model'
-import { LunchApi } from '@/api'
+import { LunchApi } from '@/api/LunchApi'
+import { store } from '@/store'
+import { LoadingState } from '@/store/LoadingState'
+import { LunchProvider } from '@/model/LunchProvider'
+import { LunchOffer } from '@/model/LunchOffer'
+import { LunchLocation } from '@/model/LunchLocation'
 
 // --- mutations ---
 

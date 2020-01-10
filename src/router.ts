@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Offers from './views/Offers.vue'
+import Offers from '@/views/Offers.vue'
 
 Vue.use(Router)
 

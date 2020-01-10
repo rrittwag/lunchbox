@@ -1,5 +1,6 @@
-import { ActionResult, store } from '@/store'
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
+import { store } from '@/store'
+import { ActionResult } from '@/store/ActionResult'
 
 // --- mdoel ---
 

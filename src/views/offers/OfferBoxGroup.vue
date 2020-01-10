@@ -14,9 +14,10 @@
 
 <script lang="ts">
 import { Component, Vue, Inject } from 'vue-property-decorator'
-import { LunchStore } from '@/store'
-import { LunchProvider, LunchOffer } from '@/model'
-import OfferBox from './OfferBox.vue'
+import { LunchStore } from '@/store/modules/LunchStore'
+import OfferBox from '@/views/offers/OfferBox.vue'
+import { LunchOffer } from '@/model/LunchOffer'
+import { LunchProvider } from '@/model/LunchProvider'
 
 @Component({
   components: {

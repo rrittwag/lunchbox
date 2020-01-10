@@ -49,8 +49,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { LunchOffer } from '@/model'
 import Badge from '@/views/offers/Badge.vue'
+import { LunchOffer } from '@/model/LunchOffer'
 
 @Component({
   components: {

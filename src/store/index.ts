@@ -1,5 +1,6 @@
-export * from './ActionResult'
-export { store } from './store'
-export { LoadingState } from './LoadingState'
-export { LunchStore } from './modules/LunchStore'
-export { ThemeStore } from './modules/ThemeStore'
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export const store = new Vuex.Store({})
