@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <LayoutView />
+    <Layout />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Provide } from 'vue-property-decorator'
 import { getModule } from 'vuex-module-decorators'
-import LayoutView from '@/views/LayoutView.vue'
+import Layout from '@/views/Layout.vue'
 import { LunchStore } from '@/store/modules/LunchStore'
 
 @Component({
   components: {
-    LayoutView,
+    Layout,
   },
 })
 export default class App extends Vue {

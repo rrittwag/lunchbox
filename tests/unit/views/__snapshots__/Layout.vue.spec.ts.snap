@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout renders snapshot 1`] = `
+<div
+  class="h-full w-full font-sans antialiased"
+>
+  <header-stub />
+   
+  <content-stub />
+</div>
+`;

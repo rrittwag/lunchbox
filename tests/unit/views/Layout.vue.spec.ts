@@ -1,10 +1,10 @@
-import LayoutView from '@/views/LayoutView.vue'
+import Layout from '@/views/Layout.vue'
 import { createMock, mountUnit } from '@tests/unit/test-util'
 import { ThemeStore } from '@/store/modules/ThemeStore'
 
-describe('LayoutView', () => {
+describe('Layout', () => {
   test('renders snapshot', () => {
-    const wrapper = mountUnit(LayoutView, {}, { provide })
+    const wrapper = mountUnit(Layout, {}, { provide })
     expect(wrapper.element).toMatchSnapshot()
   })
 })

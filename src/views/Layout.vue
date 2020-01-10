@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-view h-full w-full font-sans antialiased">
+  <div class="h-full w-full font-sans antialiased">
     <Header />
     <Content />
   </div>
@@ -18,7 +18,7 @@ import Header from '@/views/layout/Header.vue'
     Content,
   },
 })
-export default class LayoutView extends Vue {
+export default class Layout extends Vue {
   @Provide() themeStore: ThemeStore = getModule(ThemeStore)
 
   created() {
