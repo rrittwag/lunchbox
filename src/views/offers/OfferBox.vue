@@ -17,6 +17,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import Offer from '@/views/offers/Offer.vue'
 import { LunchProvider } from '@/model/LunchProvider'
 import { LunchOffer } from '@/model/LunchOffer'
+
 @Component({
   components: {
     Offer,
