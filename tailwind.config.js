@@ -2,7 +2,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Farben sind
         primary: {
           '100': '#FFEEEE',
           '200': 'var(--color-primary-200)',
