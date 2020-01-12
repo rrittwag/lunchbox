@@ -12,20 +12,20 @@
              px-4 pb-4 sm:pb-0"
       aria-label="Main"
     >
-      <ul class="flex list-none m-0 p-0">
-        <li>
+      <ul class="flex list-none p-0">
+        <li class="inline-block mx-2">
           <RouterLinkIcon to="/" exact title="Mittagsangebote öffnen">
             <OffersIcon />
           </RouterLinkIcon>
         </li>
 
-        <li>
+        <li class="inline-block mx-2">
           <RouterLinkIcon to="/settings" title="Einstellungen öffnen">
             <SettingsIcon />
           </RouterLinkIcon>
         </li>
 
-        <li>
+        <li class="inline-block mx-2">
           <RouterLinkIcon to="/about" title="Info öffnen">
             <InfoIcon />
           </RouterLinkIcon>

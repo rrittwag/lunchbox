@@ -2,8 +2,7 @@
   <router-link :to="to" :exact="exact" v-slot="{ navigate, isActive }">
     <button
       class="router-link-button flex justify-center items-center
-             w-12 h-12
-             mx-2"
+             w-12 h-12"
       :class="isActive ? 'text-neutral-300' : 'text-neutral-800'"
       @click="navigate"
       :title="title"
