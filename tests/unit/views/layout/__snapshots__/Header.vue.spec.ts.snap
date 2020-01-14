@@ -17,9 +17,11 @@ exports[`Header renders snapshot 1`] = `
            px-4 pb-4 sm:pb-0"
   >
     <ul
-      class="flex list-none m-0 p-0"
+      class="flex list-none p-0"
     >
-      <li>
+      <li
+        class="inline-block mx-2"
+      >
         <routerlinkicon-stub
           exact="true"
           title="Mittagsangebote öffnen"
@@ -29,7 +31,9 @@ exports[`Header renders snapshot 1`] = `
         </routerlinkicon-stub>
       </li>
        
-      <li>
+      <li
+        class="inline-block mx-2"
+      >
         <routerlinkicon-stub
           title="Einstellungen öffnen"
           to="/settings"
@@ -38,7 +42,9 @@ exports[`Header renders snapshot 1`] = `
         </routerlinkicon-stub>
       </li>
        
-      <li>
+      <li
+        class="inline-block mx-2"
+      >
         <routerlinkicon-stub
           title="Info öffnen"
           to="/about"
