@@ -69,7 +69,7 @@ class LunchResolverSchweinestall(
     val day = monday.plusDays(weekday.order)
     val price = StringParser.parseMoney(priceString) ?: return null
     val name = cleanName(nameString)
-    val (title, description) = StringParser.splitOfferName(name, listOf(" mit "))
+    val (title, description) = StringParser.splitOfferName(name, listOf(" auf ", " mit "))
     return LunchOffer(0, title, description, day, price, emptySet(), provider.id)
   }
 
@@ -78,6 +78,8 @@ class LunchResolverSchweinestall(
       .trim()
       .replace("\u0084", "") // merkwürdige Anführungszeichen rauswerfen
       .replace("\u0093", "")
+      .replace("(", "")
+      .replace(")", "")
 
   enum class Weekday(
     val label: String,
