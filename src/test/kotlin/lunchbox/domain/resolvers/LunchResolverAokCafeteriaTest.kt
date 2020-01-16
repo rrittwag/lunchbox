@@ -34,9 +34,9 @@ class LunchResolverAokCafeteriaTest {
 
     val links = resolver().resolvePdfLinks(url)
 
-    links shouldHaveSize 5
+    links shouldHaveSize 4
     links shouldContain "$httpPdfDir/AOK_27.07.-31.07.2015.pdf"
-    links shouldContain "$httpPdfDir/AFA_03.08.-07.08..pdf"
+    // links shouldContain "$httpPdfDir/AFA_03.08.-07.08..pdf" // falsch benannt
     links shouldContain "$httpPdfDir/AOK_10.08.-14.08..pdf"
     links shouldContain "$httpPdfDir/AOK_17.08.-21.08..pdf"
     links shouldContain "$httpPdfDir/AOK_24.08.-28.08..pdf"
@@ -79,6 +79,17 @@ class LunchResolverAokCafeteriaTest {
     val links = resolver().resolvePdfLinks(url)
 
     links shouldHaveSize 1
+    links shouldContain "$httpPdfDir/AOK.pdf"
+  }
+
+  @Test
+  fun `resolve PDF links for 2020-01-13`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/2020-01-13.html")
+
+    val links = resolver().resolvePdfLinks(url)
+
+    links shouldHaveSize 2
+    links shouldContain "$httpPdfDir/AOK_Januar.pdf"
     links shouldContain "$httpPdfDir/AOK.pdf"
   }
 
@@ -249,5 +260,25 @@ class LunchResolverAokCafeteriaTest {
     offers.filter { it.day == week.wednesday } shouldHaveSize 3
     offers.filter { it.day == week.thursday } shouldHaveSize 2
     offers.filter { it.day == week.friday } shouldHaveSize 2
+  }
+
+  @Test
+  fun `resolve offers for week of 2020-01-13`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2020-01-13.pdf")
+    val week = weekOf("2020-01-13")
+
+    val offers = resolver().resolveFromPdf(url)
+
+    offers shouldHaveSize 10
+    offers shouldContain LunchOffer(0, "Wirsingkohlroulade", "mit Krautsauce und Salzkartoffeln", week.monday, euro("4.90"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Fischfilet \"Feinschmecker Art\"", "mit Petersiliensauce, Möhren und Salzkartoffeln", week.monday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Erbseneintopf", "mit Wiener Würstchen", week.tuesday, euro("4.90"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Hähnchenbrust \"orientalisch\"", "mit Erbsen und Reis", week.tuesday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Bulette", "mit Mischgemüse und Salzkartoffeln", week.wednesday, euro("4.90"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Fleischspieß", "mit Letscho und Röster", week.wednesday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Gemüselasagne", "mit Salatbeilage", week.thursday, euro("4.90"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "gebratenes Schweinekotelett", "mit Schwarzwurzel- Möhrengemüse und Petersilienkartoffeln", week.thursday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Nasi Goreng", "mit Salatbeilage", week.friday, euro("4.90"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Schweinesteak", "mit Rahmchampignons und Gratin", week.friday, euro("5.50"), emptySet(), providerId)
   }
 }

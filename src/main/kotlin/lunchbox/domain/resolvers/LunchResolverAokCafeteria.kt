@@ -34,7 +34,7 @@ class LunchResolverAokCafeteria(
     val site = htmlParser.parse(htmlUrl)
 
     val links = site.select("a").map { it.attr("href") }
-    return links.filter { it.matches(Regex(""".*/[a-zA-Z]{3}[0-9_.\-]*.pdf""")) }.distinct()
+    return links.filter { it.matches(Regex(""".*/AOK.*.pdf""")) }.distinct()
   }
 
   fun resolveFromPdfs(relativePdfPaths: List<String>): List<LunchOffer> =
