@@ -17,6 +17,7 @@ const purgecss =
           /^router-link(|-exact)-active$/,
           /^theme-.*$/,
         ],
+        variables: true,
       })
     : ''
 
