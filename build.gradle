@@ -32,4 +32,4 @@ allprojects {
 // -------------------
 //   Gradle Wrapper
 // -------------------
-wrapper { gradleVersion = '6.1' }
+wrapper { gradleVersion = '6.1.1' }
