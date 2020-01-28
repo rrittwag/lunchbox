@@ -93,7 +93,13 @@ class LunchResolverKrauthof(
 
   private fun createLunchOffer(row: OfferRow, monday: LocalDate): LunchOffer {
     val (title, description) = StringParser.splitOfferName(row.name)
-    return LunchOffer(0, title, description, monday, row.price!!, emptySet(), provider.id)
+    return LunchOffer(0, title, description, monday, row.price!!, parseTags(row.name), provider.id)
+  }
+
+  private fun parseTags(name: String): Set<String> = when {
+    name.contains("vegan", ignoreCase = true) -> setOf("vegan")
+    name.contains("vegetarisch", ignoreCase = true) -> setOf("vegetarisch")
+    else -> emptySet()
   }
 
   private fun parseName(text: String): String =
