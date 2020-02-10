@@ -36,4 +36,20 @@ class LunchResolverSchweinestallTest {
     offers shouldContain LunchOffer(0, "Jägerschnitzel", "mit Tomatensauce und Spirelli", week.thursday, euro("5.60"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Cheeseburger", "mit Pommes frites", week.friday, euro("6.10"), emptySet(), providerId)
   }
+
+  @Test
+  fun `resolve offers for week of 2020-02-10`() {
+    val url = javaClass.getResource("/menus/schweinestall/2020-02-10.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 10
+
+    val week = weekOf("2020-02-10")
+    offers shouldContain LunchOffer(0, "Pangasiusfilet", "mit Champignons und Paprika überbacken, dazu Pommes frites", week.monday, euro("6.10"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Geschnetzeltes in Sahnesauce", "mit Spätzle", week.tuesday, euro("5.60"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Hähnchenbrustfilet", "auf Ratatouille mit Reis", week.wednesday, euro("6.10"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Kohlroulade", "mit Salzkartoffeln", week.thursday, euro("5.60"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Spaghetti Carbonara", "", week.friday, euro("5.60"), emptySet(), providerId)
+  }
 }
