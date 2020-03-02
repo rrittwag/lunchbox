@@ -21,11 +21,7 @@ import Header from '@/views/layout/Header.vue'
 export default class Layout extends Vue {
   @Provide() themeStore: ThemeStore = getModule(ThemeStore)
 
-  created() {
-    this.onThemeChanged(this.themeStore.theme)
-  }
-
-  @Watch('themeStore.theme')
+  @Watch('themeStore.theme', { immediate: true })
   onThemeChanged(newTheme: Theme, oldTheme?: Theme) {
     // background color works best on <body />, so theme must be set on <body />
     const bodyClasses = window.document.body.classList
