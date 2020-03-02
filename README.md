@@ -28,23 +28,48 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 
 ## TODOs
 
-- Anzeige für keine Angebote
-- Lade-Status als [Spinner](https://scotch.io/tutorials/add-loading-indicators-to-your-vuejs-application) darstellen
-- Meldung bei fehlerhaftem Laden
-- Mittagsangebote im LocalStorage halten und bei Neustart die Ladezeit überbrücken
-    - https://github.com/robinvdvleuten/vuex-persistedstate
-- About-View basteln
+- Design
+    - in Figma übertragen
+    - Display-Font auswählen
+    - Font Display 1 bis 4 responsiv anwenden
+    - dunklblau/navy Theme
+    - Dark Theme (warm+kalt)
+    - Farben für Badges & Card Background definieren
+    - Max Width (ab FullHD)
+    - neues Logo designen
 - Settings-View basteln
-- Responsive Design: Ausdehnung auf ca. 1800px Breite beschränken
+    - Location wechseln
+    - Beschreibung immer einblenden
+    - Badges immer einblenden
+    - Theme auswählen
+    - Mittagsanbieter sortierbar/ausblendbar
+    - Nutzerbezogenes Sortieren & Filtern der Mittagsanbieter
+- Komponenten basteln
+    - [Tailwind UI](https://tailwindui.com/components)
+    - https://github.com/creativetimofficial/tailwind-starter-kit
+    - https://github.com/coreui/coreui-vue
+    - https://tailwindcomponents.com/
+    - https://vue-tailwind.com/components/table.html
+    - https://proton.efelle.co/#/documentation/components/sortable
+    - https://github.com/knipferrc/tails-ui/tree/master/src/components
+    - https://egghead.io/instructors/adam-wathan
+    - https://polished-sunset-0ex44e5cb9xt.tailwindcss.com/components/198272c2-e9b3-46e5-99da-d0911ad1e07c
+    - https://tailwindui.com/page-examples/detail-view-01#
+    - https://github.com/moesaid/cleopatra
+  Empty States
+    - Anzeige für keine Angebote
+    - Lade-Status als [Spinner](https://scotch.io/tutorials/add-loading-indicators-to-your-vuejs-application) darstellen
+    - Meldung bei fehlerhaftem Laden
+- PWA
+    - Mittagsangebote im LocalStorage halten und bei Neustart die Ladezeit überbrücken
+        - https://github.com/robinvdvleuten/vuex-persistedstate
+    - Offline-Anzeige der Mittagsangebote
+- About-View basteln
+    - Info: [Alexa Skill von Falko P.](https://www.amazon.de/s/ref=nb_sb_noss_2?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Dalexa-skills&field-keywords=lunchbox) in Infoseite aufnehmen
 - Unit-Tests schreiben (siehe angular-Frontend)
-- Info: [Alexa Skill von Falko P.](https://www.amazon.de/s/ref=nb_sb_noss_2?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Dalexa-skills&field-keywords=lunchbox) in Infoseite aufnehmen
 - Direkte Anwahl einer Sub-Adresse (z.B. 'http://localhost/about') ermöglichen.
-- als PWA realisieren -> Offline-Anzeige der Mittagsangebote
-- Design: neues Lunchbox-Logo designen
-- Model: Daten neu laden, wenn über 1 Tag alt
 - Projekt mit HTML5 Boilerplate abgleichen
 - durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
-- Nutzerbezogenes Sortieren & Filtern der Mittagsanbieter
 - System-Tests bereitstellen, via Selenium?
 - i18n & l10n
 - [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
