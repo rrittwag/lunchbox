@@ -72,8 +72,8 @@ jacocoTestCoverageVerification {
   }
 }
 
-// Der Task-Name 'coverage' ist eingängiger als 'jacocoTestReport' ...
-task coverage(
+// Der Task-Name 'testCoverage' ist eingängiger als 'jacocoTestReport' ...
+task testCoverage(
     dependsOn: 'jacocoTestReport',
     description: 'Gibt Coverageinformationen aus (Alias für jacocoTestReport).',
     group: 'Verification')
