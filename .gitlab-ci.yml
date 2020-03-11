@@ -47,7 +47,7 @@ lint:
   stage: test
   script:
     - ./gradlew formatCheck
-    - ./gradlew codeAnalyse
+    - ./gradlew lint
   artifacts:
     paths:
       - build/reports/detekt/*
