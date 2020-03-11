@@ -20,11 +20,11 @@ allprojects {
   // ... inklusive Root-Projekt
   apply from: "${rootDir}/gradle/kotlin.gradle"
   apply from: "${rootDir}/gradle/githooks.gradle"
-  apply from: "${rootDir}/gradle/code_formatter.gradle"
   apply from: "${rootDir}/gradle/dependencies.gradle"
   apply from: "${rootDir}/gradle/ide.gradle"
+  apply from: "${rootDir}/gradle/format.gradle"
+  apply from: "${rootDir}/gradle/lint.gradle"
   apply from: "${rootDir}/gradle/test.gradle"
-  apply from: "${rootDir}/gradle/code_analyse.gradle"
   apply from: "${rootDir}/gradle/run.gradle"
   apply from: "${rootDir}/gradle/docker.gradle"
 }
@@ -32,4 +32,7 @@ allprojects {
 // -------------------
 //   Gradle Wrapper
 // -------------------
-wrapper { gradleVersion = '6.1.1' }
+wrapper {
+  gradleVersion = '6.2.2'
+  distributionType = Wrapper.DistributionType.ALL
+}
