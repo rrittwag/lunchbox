@@ -15,8 +15,8 @@ import lunchbox.util.html.HtmlParser
 import lunchbox.util.html.HtmlRenderer
 import lunchbox.util.json.createObjectMapper
 import lunchbox.util.ocr.OcrClient
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContain
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -76,7 +76,7 @@ class LunchResolverGesundheitszentrumTest {
 
       val url = resolver().parseImageLink(image)
 
-      url shouldEqual URL("https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg")
+      url shouldBeEqualTo URL("https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg")
     }
 
     @Test
@@ -86,7 +86,7 @@ class LunchResolverGesundheitszentrumTest {
 
       val url = resolver().parseImageLink(image)
 
-      url shouldEqual URL("https://scontent.xx.fbcdn.net/v/t31.0-8/20233053_1214480778662771_9100409891617048289_o.jpg?oh=a50f5058410183e8a5c631e82919f473&oe=5A09D7B9")
+      url shouldBeEqualTo URL("https://scontent.xx.fbcdn.net/v/t31.0-8/20233053_1214480778662771_9100409891617048289_o.jpg?oh=a50f5058410183e8a5c631e82919f473&oe=5A09D7B9")
     }
   }
 

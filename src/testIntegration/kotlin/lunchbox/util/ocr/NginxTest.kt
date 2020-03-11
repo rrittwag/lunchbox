@@ -3,7 +3,7 @@ package lunchbox.util.ocr /* ktlint-disable max-line-length */
 import java.io.File
 import java.nio.file.Paths
 import java.time.Duration
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
@@ -40,7 +40,7 @@ class NginxTest {
         .bodyToMono<String>()
         .block(Duration.ofSeconds(5)) ?: ""
 
-    httpResult shouldEqual File("src/test/resources/$resourceFile").readText()
+    httpResult shouldBeEqualTo File("src/test/resources/$resourceFile").readText()
   }
 }
 

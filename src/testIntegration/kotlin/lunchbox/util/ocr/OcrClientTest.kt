@@ -2,7 +2,7 @@ package lunchbox.util.ocr /* ktlint-disable max-line-length */
 
 import java.io.File
 import java.net.URL
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -37,7 +37,7 @@ class OcrClientTest {
       OcrClient(ocrServerUrl())
         .doOCR(URL("http://test-resources/$file"))
 
-    ocrText shouldEqual File("src/test/resources/$file.txt").readText()
+    ocrText shouldBeEqualTo File("src/test/resources/$file.txt").readText()
   }
 
   @ParameterizedTest

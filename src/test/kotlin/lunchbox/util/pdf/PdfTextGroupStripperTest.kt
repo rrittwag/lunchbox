@@ -4,7 +4,6 @@ import io.mockk.every
 import io.mockk.mockk
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeEqualTo
-import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldHaveSize
 import org.apache.pdfbox.text.TextPosition
 import org.junit.jupiter.api.Test
@@ -19,16 +18,16 @@ class PdfTextGroupStripperTest {
 
     group.toString() shouldBeEqualTo "a"
 
-    group.xMin() shouldEqualTo 1.0f
-    group.xMid() shouldEqualTo 1.5f
-    group.xMax() shouldEqualTo 2.0f
+    group.xMin() shouldBeEqualTo 1.0f
+    group.xMid() shouldBeEqualTo 1.5f
+    group.xMax() shouldBeEqualTo 2.0f
 
-    group.yMin() shouldEqualTo 2.0f
-    group.yMid() shouldEqualTo 3.0f
-    group.yMax() shouldEqualTo 4.0f
+    group.yMin() shouldBeEqualTo 2.0f
+    group.yMid() shouldBeEqualTo 3.0f
+    group.yMax() shouldBeEqualTo 4.0f
 
-    group.width() shouldEqualTo 1.0f
-    group.height() shouldEqualTo 2.0f
+    group.width() shouldBeEqualTo 1.0f
+    group.height() shouldBeEqualTo 2.0f
 
     group.xIn(0.8f) shouldBe false
     group.xIn(1.0f) shouldBe true
@@ -53,16 +52,16 @@ class PdfTextGroupStripperTest {
 
     group.toString() shouldBeEqualTo "abc"
 
-    group.xMin() shouldEqualTo 1.0f
-    group.xMax() shouldEqualTo 4.0f
-    group.xMid() shouldEqualTo 2.5f
+    group.xMin() shouldBeEqualTo 1.0f
+    group.xMax() shouldBeEqualTo 4.0f
+    group.xMid() shouldBeEqualTo 2.5f
 
-    group.yMin() shouldEqualTo 2.0f
-    group.yMax() shouldEqualTo 4.0f
-    group.yMid() shouldEqualTo 3.0f
+    group.yMin() shouldBeEqualTo 2.0f
+    group.yMax() shouldBeEqualTo 4.0f
+    group.yMid() shouldBeEqualTo 3.0f
 
-    group.width() shouldEqualTo 3.0f
-    group.height() shouldEqualTo 2.0f
+    group.width() shouldBeEqualTo 3.0f
+    group.height() shouldBeEqualTo 2.0f
 
     group.xIn(0.8f) shouldBe false
     group.xIn(1.0f) shouldBe true

@@ -15,7 +15,7 @@ config:
 processors:
   active: true
   exclude:
-  # - 'DetektProgressListener'
+    - 'DetektProgressListener'
   # - 'FunctionCountProcessor'
   # - 'PropertyCountProcessor'
   # - 'ClassCountProcessor'
@@ -25,12 +25,11 @@ processors:
 console-reports:
   active: true
   exclude:
-  #  - 'ProjectStatisticsReport'
-  #  - 'ComplexityReport'
-  #  - 'NotificationReport'
+     - 'ProjectStatisticsReport'
+     - 'ComplexityReport'
+     - 'NotificationReport'
   #  - 'FindingsReport'
      - 'FileBasedFindingsReport'
-  #  - 'BuildFailureReport'
 
 comments:
   active: true
@@ -142,6 +141,8 @@ empty-blocks:
     active: true
   EmptySecondaryConstructor:
     active: true
+  EmptyTryBlock:
+    active: true
   EmptyWhenBlock:
     active: true
   EmptyWhileBlock:
@@ -219,6 +220,7 @@ formatting:
   FinalNewline:
     active: true
     autoCorrect: true
+    insertFinalNewLine: true
   ImportOrdering:
     active: false
     autoCorrect: true
@@ -352,6 +354,7 @@ naming:
     rootPackage: ''
   MatchingDeclarationName:
     active: true
+    mustBeFirst: true
   MemberNameEqualsClassName:
     active: true
     ignoreOverridden: true
@@ -458,6 +461,8 @@ style:
   EqualsNullCall:
     active: true
   EqualsOnSignatureLine:
+    active: false
+  ExplicitCollectionElementAccessMethod:
     active: false
   ExplicitItLambdaParameter:
     active: false
