@@ -46,9 +46,11 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - Nutzerbezogenes Sortieren & Filtern der Mittagsanbieter
 - Komponenten basteln
     - [Tailwind UI](https://tailwindui.com/components)
-    - https://github.com/creativetimofficial/tailwind-starter-kit
+    - https://github.com/bootstrap-vue/bootstrap-vue
+    - https://github.com/vuejs/ui/blob/master/src/components/VueButton.vue
     - https://github.com/coreui/coreui-vue
     - https://tailwindcomponents.com/
+    - https://github.com/creativetimofficial/tailwind-starter-kit
     - https://vue-tailwind.com/components/table.html
     - https://proton.efelle.co/#/documentation/components/sortable
     - https://github.com/knipferrc/tails-ui/tree/master/src/components
