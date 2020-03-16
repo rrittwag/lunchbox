@@ -3,7 +3,7 @@
     <button
       class="router-link-button flex justify-center items-center
              w-12 h-12"
-      :class="isActive ? 'text-neutral-300' : 'text-neutral-800'"
+      :class="isActive ? 'text-neutral-800' : 'text-neutral-300'"
       @click="navigate"
       :title="title"
       :aria-label="title"

@@ -1,15 +1,15 @@
 <template>
-  <div
+  <article
     class="flex flex-col items-center
            px-4 py-2 sm:pt-4 sm:pb-6
            shadow-xl bg-white rounded-lg
            border-l-8 sm:border-t-8 sm:border-l-0 border-primary-400"
   >
-    <span class="text-3xl sm:text-4xl font-serif text-neutral-800">
+    <h2 class="text-3xl sm:text-4xl font-serif text-neutral-800">
       {{ provider.name }}
-    </span>
+    </h2>
     <Offer v-for="offer in offers" :key="offer.id" :offer="offer" />
-  </div>
+  </article>
 </template>
 
 <script lang="ts">

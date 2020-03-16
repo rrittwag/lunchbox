@@ -14,12 +14,14 @@
     </button>
 
     <div class="flex-grow text-center">
-      <h2 class="text-2xl text-neutral-900">
+      <span class="text-2xl text-neutral-900">
         {{ lunchStore.selectedDay | formatToWeekday }}
-      </h2>
-      <h2 class="text-lg font-light text-neutral-700">
-        {{ lunchStore.selectedDay | formatToDate }}
-      </h2>
+      </span>
+      <h1 class="text-lg font-light text-neutral-700">
+        <time :datetime="lunchStore.selectedDay.toISOString().substring(0, 10)">
+          {{ lunchStore.selectedDay | formatToDate }}
+        </time>
+      </h1>
     </div>
 
     <button
