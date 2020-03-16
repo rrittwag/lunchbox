@@ -24,7 +24,7 @@ exports[`Header renders snapshot 1`] = `
       >
         <routerlinkicon-stub
           exact="true"
-          title="Mittagsangebote öffnen"
+          title="Mittagsangebote anzeigen"
           to="/"
         >
           <offersicon-stub />
@@ -35,7 +35,7 @@ exports[`Header renders snapshot 1`] = `
         class="inline-block mx-2"
       >
         <routerlinkicon-stub
-          title="Einstellungen öffnen"
+          title="Einstellungen anzeigen"
           to="/settings"
         >
           <settingsicon-stub />
@@ -46,7 +46,7 @@ exports[`Header renders snapshot 1`] = `
         class="inline-block mx-2"
       >
         <routerlinkicon-stub
-          title="Info öffnen"
+          title="Info anzeigen"
           to="/about"
         >
           <infoicon-stub />

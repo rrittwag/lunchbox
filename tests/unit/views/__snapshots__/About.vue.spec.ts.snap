@@ -8,10 +8,12 @@ exports[`About renders snapshot 1`] = `
     About
   </h1>
    
-  <a
-    href="https://github.com/data-experts/Lunchbox"
-  >
-    Github
-  </a>
+  <address>
+    <a
+      href="https://github.com/data-experts/Lunchbox"
+    >
+      Github
+    </a>
+  </address>
 </div>
 `;
