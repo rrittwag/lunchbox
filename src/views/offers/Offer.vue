@@ -15,14 +15,14 @@
         class="pl-2
                text-xl text-neutral-900 whitespace-no-wrap"
       >
-        <span
+        <small
           class="pl-2
                  text-lg font-light text-neutral-900"
           title="Euro"
           aria-label="Euro"
         >
           €
-        </span>
+        </small>
         {{ priceAsString }}
       </span>
     </div>
