@@ -3,7 +3,16 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ['plugin:vue/essential', '@vue/prettier', '@vue/typescript'],
+  extends: [
+    'plugin:vue/essential',
+    'eslint:recommended',
+    '@vue/typescript/recommended',
+    '@vue/prettier',
+    '@vue/prettier/@typescript-eslint',
+  ],
+  parserOptions: {
+    ecmaVersion: 2020,
+  },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
@@ -12,6 +21,7 @@ module.exports = {
     semi: ['error', 'never'],
     'arrow-parens': ['error', 'as-needed'],
     '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
+    '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-explicit-any': ['error'],
     '@typescript-eslint/member-delimiter-style': [
       'error',
@@ -26,9 +36,6 @@ module.exports = {
         },
       },
     ],
-  },
-  parserOptions: {
-    parser: '@typescript-eslint/parser',
   },
   overrides: [
     {

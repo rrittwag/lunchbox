@@ -1,6 +1,7 @@
 import Vue, { ComponentOptions } from 'vue'
 import Vuex from 'vuex'
 import {
+  /* eslint-disable-next-line @typescript-eslint/camelcase */
   createLocalVue as createLocalVue_vtu,
   shallowMount,
   VueClass,
@@ -141,7 +142,8 @@ type Constructor<T> = new (...args: any[]) => T
  * @param clazz Class to be mocked.
  */
 export function createMock<T>(clazz: Constructor<T>): jest.Mocked<T> {
-  var MockConstructor = jestMock.generateFromMetadata(jestMock.getMetadata(clazz)!)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const MockConstructor = jestMock.generateFromMetadata(jestMock.getMetadata(clazz)!)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mock: any = new MockConstructor()
   // Constructing by generateFromMetadata has 2 problems:

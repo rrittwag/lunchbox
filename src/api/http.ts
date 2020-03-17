@@ -11,7 +11,7 @@ import { ApiError } from '@/api/ApiError'
  * @param options
  * @param time
  */
-export function fetchWithTimeout(url: string, options: RequestInit = {}, time: number = 10000) {
+export function fetchWithTimeout(url: string, options: RequestInit = {}, time = 10000) {
   const controller = new AbortController()
   const config = { ...options, signal: controller.signal }
 

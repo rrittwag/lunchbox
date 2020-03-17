@@ -71,7 +71,7 @@ export default class Offer extends Vue {
     return formatEuro(this.offer.price)
   }
 
-  isVeggie(tagLabel: string): Boolean {
+  isVeggie(tagLabel: string): boolean {
     return tagLabel === 'vegetarisch' || tagLabel === 'vegan'
   }
 }
