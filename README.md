@@ -50,6 +50,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - https://github.com/vuejs/ui/blob/master/src/components/VueButton.vue
     - https://github.com/coreui/coreui-vue
     - https://tailwindcomponents.com/
+    - https://github.com/DivanteLtd/vue-storefront/tree/master/src/themes/default/components
     - https://github.com/creativetimofficial/tailwind-starter-kit
     - https://vue-tailwind.com/components/table.html
     - https://proton.efelle.co/#/documentation/components/sortable
