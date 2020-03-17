@@ -1,4 +1,4 @@
-import { formatToWeekday, formatToDate, formatEuro } from '@/filters'
+import { formatToWeekday, formatToDate, formatEuro } from '@/util/formatting'
 import 'jest-extended'
 
 describe('formatEuro', () => {

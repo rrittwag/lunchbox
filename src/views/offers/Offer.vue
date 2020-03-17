@@ -13,15 +13,17 @@
       </span>
       <span
         class="pl-2
-               text-lg font-light text-neutral-900"
+               text-xl text-neutral-900 whitespace-no-wrap"
       >
-        €
-      </span>
-      <span
-        class="pl-2
-               text-xl text-neutral-900"
-      >
-        {{ offer.price | formatEuro }}
+        <span
+          class="pl-2
+                 text-lg font-light text-neutral-900"
+          title="Euro"
+          aria-label="Euro"
+        >
+          €
+        </span>
+        {{ priceAsString }}
       </span>
     </div>
 
@@ -51,6 +53,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import Badge from '@/views/offers/Badge.vue'
 import { LunchOffer } from '@/model/LunchOffer'
+import { formatEuro } from '@/util/formatting'
 
 @Component({
   components: {
@@ -62,6 +65,10 @@ export default class Offer extends Vue {
 
   get sortedTags() {
     return this.offer.tags.sort()
+  }
+
+  get priceAsString(): string {
+    return formatEuro(this.offer.price)
   }
 
   isVeggie(tagLabel: string): Boolean {

@@ -8,7 +8,7 @@ import {
   mount,
   MountOptions,
 } from '@vue/test-utils'
-import * as filters from '@/filters'
+import * as filters from '@/util/formatting'
 import VueRouter from 'vue-router'
 import jestMock from 'jest-mock'
 

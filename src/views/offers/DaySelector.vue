@@ -15,11 +15,11 @@
 
     <div class="flex-grow text-center">
       <span class="text-2xl text-neutral-900">
-        {{ lunchStore.selectedDay | formatToWeekday }}
+        {{ selectedDayAsWeekday }}
       </span>
       <h1 class="text-lg font-light text-neutral-700">
-        <time :datetime="lunchStore.selectedDay.toISOString().substring(0, 10)">
-          {{ lunchStore.selectedDay | formatToDate }}
+        <time :datetime="selectedDayAsISOString">
+          {{ selectedDayAsDateString }}
         </time>
       </h1>
     </div>
@@ -44,6 +44,7 @@ import { Component, Vue, Inject } from 'vue-property-decorator'
 import AngleLeftIcon from '@/assets/icons/angle-left.svg'
 import AngleRightIcon from '@/assets/icons/angle-right.svg'
 import { LunchStore } from '@/store/modules/LunchStore'
+import { formatToDate, formatToWeekday } from '@/util/formatting'
 
 @Component({
   components: {
@@ -82,6 +83,18 @@ export default class DaySelector extends Vue {
   goNextDay(): void {
     const nextDay = this.nextDay()
     if (nextDay) this.lunchStore.setSelectedDay(nextDay)
+  }
+
+  get selectedDayAsWeekday(): string {
+    return formatToWeekday(this.lunchStore.selectedDay)
+  }
+
+  get selectedDayAsDateString(): string {
+    return formatToDate(this.lunchStore.selectedDay)
+  }
+
+  get selectedDayAsISOString(): string {
+    return this.lunchStore.selectedDay.toISOString().substring(0, 10)
   }
 }
 </script>

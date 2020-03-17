@@ -9,9 +9,6 @@ import '@/plugins/registerServiceWorker'
 // Tailwind CSS styles
 import '@/assets/tailwind.scss'
 
-// register filters
-import '@/plugins/filters'
-
 // configuration
 Vue.config.productionTip = false
 
