@@ -1,13 +1,14 @@
 <template>
-  <router-link :to="to" :exact="exact" v-slot="{ href, navigate, isActive }">
+  <router-link :to="to" :exact="exact" v-slot="{ navigate, isActive }">
     <a
       class="router-link flex justify-center items-center
              w-12 h-12"
       :class="isActive ? 'text-neutral-800' : 'text-neutral-300'"
-      :href="href"
-      @click="navigate"
+      :href="to"
       :title="title"
       :aria-label="title"
+      :aria-current="isActive ? 'true' : undefined"
+      @click="navigate"
     >
       <slot />
     </a>
