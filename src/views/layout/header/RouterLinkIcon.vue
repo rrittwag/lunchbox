@@ -1,7 +1,7 @@
 <template>
   <router-link :to="to" :exact="exact" v-slot="{ href, navigate, isActive }">
     <a
-      class="router-link-button flex justify-center items-center
+      class="router-link flex justify-center items-center
              w-12 h-12"
       :class="isActive ? 'text-neutral-800' : 'text-neutral-300'"
       :href="href"
@@ -26,7 +26,7 @@ export default class RouterLinkIcon extends Vue {
 </script>
 
 <style lang="scss">
-.router-link-button > svg {
+.router-link > svg {
   @apply w-8 h-8;
 }
 </style>
