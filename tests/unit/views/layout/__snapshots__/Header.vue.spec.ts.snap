@@ -22,35 +22,35 @@ exports[`Header renders snapshot 1`] = `
       <li
         class="inline-block mx-2"
       >
-        <routerlinkicon-stub
+        <navlink-stub
           exact="true"
-          title="Mittagsangebote anzeigen"
+          title="Mittagsangebote"
           to="/"
         >
           <offersicon-stub />
-        </routerlinkicon-stub>
+        </navlink-stub>
       </li>
        
       <li
         class="inline-block mx-2"
       >
-        <routerlinkicon-stub
-          title="Einstellungen anzeigen"
+        <navlink-stub
+          title="Einstellungen"
           to="/settings"
         >
           <settingsicon-stub />
-        </routerlinkicon-stub>
+        </navlink-stub>
       </li>
        
       <li
         class="inline-block mx-2"
       >
-        <routerlinkicon-stub
-          title="Info anzeigen"
+        <navlink-stub
+          title="Info"
           to="/about"
         >
           <infoicon-stub />
-        </routerlinkicon-stub>
+        </navlink-stub>
       </li>
     </ul>
   </nav>

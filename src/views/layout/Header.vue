@@ -14,21 +14,21 @@
     >
       <ul class="flex list-none p-0">
         <li class="inline-block mx-2">
-          <RouterLinkIcon to="/" exact title="Mittagsangebote">
+          <NavLink to="/" exact title="Mittagsangebote">
             <OffersIcon />
-          </RouterLinkIcon>
+          </NavLink>
         </li>
 
         <li class="inline-block mx-2">
-          <RouterLinkIcon to="/settings" title="Einstellungen">
+          <NavLink to="/settings" title="Einstellungen">
             <SettingsIcon />
-          </RouterLinkIcon>
+          </NavLink>
         </li>
 
         <li class="inline-block mx-2">
-          <RouterLinkIcon to="/about" title="Info">
+          <NavLink to="/about" title="Info">
             <InfoIcon />
-          </RouterLinkIcon>
+          </NavLink>
         </li>
       </ul>
     </nav>
@@ -42,11 +42,11 @@ import DaySelector from '@/views/offers/DaySelector.vue'
 import OffersIcon from '@/assets/icons/offers.svg'
 import SettingsIcon from '@/assets/icons/settings.svg'
 import InfoIcon from '@/assets/icons/info.svg'
-import RouterLinkIcon from '@/views/layout/header/RouterLinkIcon.vue'
+import NavLink from '@/views/layout/header/NavLink.vue'
 
 @Component({
   components: {
-    RouterLinkIcon,
+    NavLink,
     DaySelector,
     LocationSelector,
     OffersIcon,

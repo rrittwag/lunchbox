@@ -1,5 +1,5 @@
 import Header from '@/views/layout/Header.vue'
-import RouterLinkIcon from '@/views/layout/header/RouterLinkIcon.vue'
+import RouterLinkIcon from '@/views/layout/header/NavLink.vue'
 import { mountUnit } from '@tests/unit/test-util'
 
 describe('Header', () => {

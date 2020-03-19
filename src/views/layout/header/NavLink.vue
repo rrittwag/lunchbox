@@ -1,7 +1,7 @@
 <template>
   <router-link :to="to" :exact="exact" v-slot="{ navigate, isActive }">
     <a
-      class="router-link flex justify-center items-center
+      class="nav-link flex justify-center items-center
              w-12 h-12"
       :class="isActive ? 'text-neutral-800' : 'text-neutral-300'"
       :href="to"
@@ -19,7 +19,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
-export default class RouterLinkIcon extends Vue {
+export default class NavLink extends Vue {
   @Prop() to!: string
   @Prop({ type: Boolean }) exact!: boolean
   @Prop() title!: string
@@ -27,7 +27,7 @@ export default class RouterLinkIcon extends Vue {
 </script>
 
 <style lang="scss">
-.router-link > svg {
+.nav-link > svg {
   @apply w-8 h-8;
 }
 </style>
