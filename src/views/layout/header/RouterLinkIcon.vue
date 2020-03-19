@@ -1,15 +1,16 @@
 <template>
-  <router-link :to="to" :exact="exact" v-slot="{ navigate, isActive }">
-    <button
+  <router-link :to="to" :exact="exact" v-slot="{ href, navigate, isActive }">
+    <a
       class="router-link-button flex justify-center items-center
              w-12 h-12"
       :class="isActive ? 'text-neutral-800' : 'text-neutral-300'"
+      :href="href"
       @click="navigate"
       :title="title"
       :aria-label="title"
     >
       <slot />
-    </button>
+    </a>
   </router-link>
 </template>
 

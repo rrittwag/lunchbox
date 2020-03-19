@@ -14,19 +14,19 @@
     >
       <ul class="flex list-none p-0">
         <li class="inline-block mx-2">
-          <RouterLinkIcon to="/" exact title="Mittagsangebote anzeigen">
+          <RouterLinkIcon to="/" exact title="Mittagsangebote">
             <OffersIcon />
           </RouterLinkIcon>
         </li>
 
         <li class="inline-block mx-2">
-          <RouterLinkIcon to="/settings" title="Einstellungen anzeigen">
+          <RouterLinkIcon to="/settings" title="Einstellungen">
             <SettingsIcon />
           </RouterLinkIcon>
         </li>
 
         <li class="inline-block mx-2">
-          <RouterLinkIcon to="/about" title="Info anzeigen">
+          <RouterLinkIcon to="/about" title="Info">
             <InfoIcon />
           </RouterLinkIcon>
         </li>
