@@ -7,7 +7,7 @@
       :href="to"
       :title="title"
       :aria-label="title"
-      :aria-current="isActive ? 'true' : undefined"
+      :aria-current="isActive"
       @click="navigate"
     >
       <slot />
