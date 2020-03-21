@@ -1,47 +1,25 @@
 import Vue, { ComponentOptions } from 'vue'
 import Vuex from 'vuex'
 import {
-  /* eslint-disable-next-line @typescript-eslint/camelcase */
-  createLocalVue as createLocalVue_vtu,
+  createLocalVue,
   shallowMount,
   VueClass,
   Wrapper,
   mount,
   MountOptions,
 } from '@vue/test-utils'
-import * as filters from '@/util/formatting'
 import VueRouter from 'vue-router'
 import jestMock from 'jest-mock'
 
-function applyRouter(localVue: typeof Vue) {
-  localVue.use(VueRouter)
+export interface LocalVueOptions {
+  applyRouter?: boolean
+  applyVuex?: boolean
 }
 
-function applyVuex(localVue: typeof Vue) {
-  localVue.use(Vuex)
-}
-
-function applyFilters(localVue: typeof Vue) {
-  interface FunctionMap {
-    // tslint:disable-next-line ban-types
-    [key: string]: Function
-  }
-  // bugfixing https://github.com/Microsoft/TypeScript/issues/16248#issuecomment-306034585
-  const typedFilters: FunctionMap = filters
-  Object.keys(typedFilters).forEach((key: string) => localVue.filter(key, typedFilters[key]))
-}
-
-/**
- * Create a testable Vue instance (instead of using global 'Vue' object),
- * including global Vue components & filters (see main.ts).
- */
-export function createLocalVue(): typeof Vue {
-  const localVue = createLocalVue_vtu()
-
-  applyRouter(localVue)
-  applyVuex(localVue)
-  applyFilters(localVue)
-
+function createLocalVueInternal(options: LocalVueOptions): typeof Vue {
+  const localVue = createLocalVue()
+  options.applyRouter && localVue.use(VueRouter)
+  options.applyVuex && localVue.use(Vuex)
   return localVue
 }
 
@@ -53,24 +31,15 @@ export function createLocalVue(): typeof Vue {
  * <p>
  * @param component
  * @param props
+ * @param mountOptions
  */
-export function mountUnit<V extends Vue>(component: VueClass<V> | ComponentOptions<V>): Wrapper<V>
-
 export function mountUnit<V extends Vue>(
-  component: VueClass<V>,
-  props: object,
-  mountOptions?: MountOptions<V>
-): Wrapper<V>
-
-export function mountUnit<V extends Vue>(
-  component: object,
+  component: VueClass<V> | ComponentOptions<V>,
   props: object = {},
-  mountOptions: MountOptions<V> = {}
+  mountOptions: MountOptions<V> & LocalVueOptions = {}
 ): Wrapper<V> {
-  const localVue = createLocalVue()
-
-  return shallowMount(component, {
-    localVue,
+  return shallowMount(component as VueClass<V>, {
+    localVue: createLocalVueInternal(mountOptions),
     propsData: { ...props },
     ...mountOptions,
   })
@@ -81,26 +50,19 @@ export function mountUnit<V extends Vue>(
  * <p>
  * @param component
  * @param props
+ * @param mountOptions
  */
 export function mountWithChildren<V extends Vue>(
-  component: VueClass<V> | ComponentOptions<V>
-): Wrapper<V>
-
-export function mountWithChildren<V extends Vue>(
-  component: VueClass<V>,
-  props: object,
-  mountOptions?: MountOptions<V>
-): Wrapper<V>
-
-export function mountWithChildren<V extends Vue>(
-  component: object,
+  component: VueClass<V> | ComponentOptions<V>,
   props: object = {},
-  mountOptions: MountOptions<V> = {}
+  mountOptions: MountOptions<V> & LocalVueOptions = {}
 ): Wrapper<V> {
   const localVue = createLocalVue()
+  mountOptions.applyRouter && localVue.use(VueRouter)
+  mountOptions.applyVuex && localVue.use(Vuex)
 
-  return mount(component, {
-    localVue,
+  return mount(component as VueClass<V>, {
+    localVue: createLocalVueInternal(mountOptions),
     propsData: { ...props },
     ...mountOptions,
   })

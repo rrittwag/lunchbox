@@ -14,7 +14,7 @@
     </button>
 
     <div class="flex-grow text-center">
-      <span class="text-2xl text-neutral-900">
+      <span class="text-2xl text-neutral-800">
         {{ selectedDayAsWeekday }}
       </span>
       <h1 class="text-lg font-light text-neutral-700">

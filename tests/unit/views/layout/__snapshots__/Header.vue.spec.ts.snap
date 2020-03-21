@@ -1,20 +1,91 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Header renders snapshot 1`] = `
+exports[`Header renders snapshot with DaySelector 1`] = `
 <header
   class="flex flex-wrap justify-between items-center
          p-4"
 >
-  <dayselector-stub
-    class="w-full sm:max-w-sm"
-  />
+  <div
+    class="flex items-center justify-center sm:justify-start
+           w-full sm:h-16 sm:max-w-sm"
+  >
+    <dayselector-stub
+      class="w-full"
+    />
+  </div>
    
   <nav
     aria-label="Main"
     class="flex justify-center
            w-full sm:w-auto
            order-first sm:order-last
-           px-4 pb-4 sm:pb-0"
+           px-4 pb-2 sm:pb-0"
+  >
+    <ul
+      class="flex list-none p-0"
+    >
+      <li
+        class="inline-block mx-2"
+      >
+        <navlink-stub
+          exact="true"
+          title="Mittagsangebote"
+          to="/"
+        >
+          <offersicon-stub />
+        </navlink-stub>
+      </li>
+       
+      <li
+        class="inline-block mx-2"
+      >
+        <navlink-stub
+          title="Einstellungen"
+          to="/settings"
+        >
+          <settingsicon-stub />
+        </navlink-stub>
+      </li>
+       
+      <li
+        class="inline-block mx-2"
+      >
+        <navlink-stub
+          title="Info"
+          to="/about"
+        >
+          <infoicon-stub />
+        </navlink-stub>
+      </li>
+    </ul>
+  </nav>
+</header>
+`;
+
+exports[`Header renders snapshot with title 1`] = `
+<header
+  class="flex flex-wrap justify-between items-center
+         p-4"
+>
+  <div
+    class="flex items-center justify-center sm:justify-start
+           w-full sm:h-16 sm:max-w-sm"
+  >
+    <span
+      class="px-4 text-2xl text-neutral-800"
+    >
+      
+      Mock-Title
+    
+    </span>
+  </div>
+   
+  <nav
+    aria-label="Main"
+    class="flex justify-center
+           w-full sm:w-auto
+           order-first sm:order-last
+           px-4 pb-2 sm:pb-0"
   >
     <ul
       class="flex list-none p-0"
