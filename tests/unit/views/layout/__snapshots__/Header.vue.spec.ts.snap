@@ -29,7 +29,6 @@ exports[`Header renders snapshot with DaySelector 1`] = `
       >
         <navlink-stub
           exact="true"
-          title="Mittagsangebote"
           to="/"
         >
           <offersicon-stub />
@@ -40,7 +39,6 @@ exports[`Header renders snapshot with DaySelector 1`] = `
         class="inline-block mx-2"
       >
         <navlink-stub
-          title="Einstellungen"
           to="/settings"
         >
           <settingsicon-stub />
@@ -51,7 +49,6 @@ exports[`Header renders snapshot with DaySelector 1`] = `
         class="inline-block mx-2"
       >
         <navlink-stub
-          title="Info"
           to="/about"
         >
           <infoicon-stub />
@@ -95,7 +92,6 @@ exports[`Header renders snapshot with title 1`] = `
       >
         <navlink-stub
           exact="true"
-          title="Mittagsangebote"
           to="/"
         >
           <offersicon-stub />
@@ -106,7 +102,6 @@ exports[`Header renders snapshot with title 1`] = `
         class="inline-block mx-2"
       >
         <navlink-stub
-          title="Einstellungen"
           to="/settings"
         >
           <settingsicon-stub />
@@ -117,7 +112,6 @@ exports[`Header renders snapshot with title 1`] = `
         class="inline-block mx-2"
       >
         <navlink-stub
-          title="Info"
           to="/about"
         >
           <infoicon-stub />

@@ -1,12 +1,12 @@
 <template>
-  <router-link :to="to" :exact="exact" v-slot="{ navigate, isActive }">
+  <router-link :to="to" :exact="exact" v-slot="{ navigate, isActive, route }">
     <a
       class="nav-link flex justify-center items-center
              w-12 h-12"
       :class="isActive ? 'text-neutral-800' : 'text-neutral-300'"
       :href="to"
-      :title="title"
-      :aria-label="title"
+      :title="route.meta.title"
+      :aria-label="route.meta.title"
       :aria-current="isActive"
       @click="navigate"
     >
@@ -22,7 +22,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 export default class NavLink extends Vue {
   @Prop() to!: string
   @Prop({ type: Boolean }) exact!: boolean
-  @Prop() title!: string
 }
 </script>
 

@@ -41,8 +41,8 @@ describe('Header', () => {
     const wrapper = mountUnit(Header, {}, { mocks })
 
     const navitems = wrapper.findAll(RouterLinkIcon)
-    expect(navitems.at(0).props('title')).toContain('Mittagsangebote')
-    expect(navitems.at(1).props('title')).toContain('Einstellungen')
-    expect(navitems.at(2).props('title')).toContain('Info')
+    expect(navitems.at(0).props('to')).toContain('/')
+    expect(navitems.at(1).props('to')).toContain('/settings')
+    expect(navitems.at(2).props('to')).toContain('/about')
   })
 })

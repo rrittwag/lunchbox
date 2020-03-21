@@ -13,6 +13,7 @@ export const router = new Router({
       component: Offers,
       meta: {
         showDaySelector: true,
+        title: 'Mittagsangebote',
       },
     },
     {

@@ -22,19 +22,19 @@
     >
       <ul class="flex list-none p-0">
         <li class="inline-block mx-2">
-          <NavLink to="/" exact title="Mittagsangebote">
+          <NavLink to="/" exact>
             <OffersIcon />
           </NavLink>
         </li>
 
         <li class="inline-block mx-2">
-          <NavLink to="/settings" title="Einstellungen">
+          <NavLink to="/settings">
             <SettingsIcon />
           </NavLink>
         </li>
 
         <li class="inline-block mx-2">
-          <NavLink to="/about" title="Info">
+          <NavLink to="/about">
             <InfoIcon />
           </NavLink>
         </li>
