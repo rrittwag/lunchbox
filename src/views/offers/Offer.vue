@@ -2,18 +2,18 @@
   <div
     class="flex flex-col
            w-full
-           pt-4"
+           pt-3 sm:pt-4"
   >
     <div class="flex items-baseline w-full">
       <span
         class="flex-grow
-               text-xl text-neutral-900"
+               text-xl text-neutral-900 leading-tight"
       >
         {{ offer.name }}
       </span>
       <span
         class="pl-2
-               text-xl text-neutral-900 whitespace-no-wrap"
+               text-xl text-neutral-900 leading-tight whitespace-no-wrap"
       >
         <small
           class="pl-2
@@ -29,8 +29,8 @@
 
     <span
       class="hidden sm:block
-             pl-1
-             font-light text-neutral-600"
+             pt-px pl-px
+             font-light text-neutral-600 leading-snug"
     >
       {{ offer.description }}
     </span>

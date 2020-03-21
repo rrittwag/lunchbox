@@ -1,11 +1,11 @@
 <template>
   <article
     class="flex flex-col items-center
-           px-4 py-2 sm:pt-4 sm:pb-6
+           px-4 pt-2 pb-3 sm:pt-4 sm:pb-6
            shadow-xl bg-white rounded-lg
            border-l-8 sm:border-t-8 sm:border-l-0 border-primary-400"
   >
-    <h2 class="text-3xl sm:text-4xl font-serif text-neutral-800">
+    <h2 class="text-3xl sm:text-4xl font-serif text-neutral-700">
       {{ provider.name }}
     </h2>
     <Offer v-for="offer in offers" :key="offer.id" :offer="offer" />
