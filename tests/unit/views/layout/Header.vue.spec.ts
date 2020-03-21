@@ -3,18 +3,6 @@ import RouterLinkIcon from '@/views/layout/header/NavLink.vue'
 import { mountUnit } from '@tests/unit/test-util'
 import DaySelector from '@/views/offers/DaySelector.vue'
 
-const routeWithTitle = {
-  meta: {
-    title: 'Mock-Title',
-  },
-}
-
-const routeWithShowDaySelector = {
-  meta: {
-    showDaySelector: true,
-  },
-}
-
 describe('Header', () => {
   test('renders snapshot with DaySelector', () => {
     const mocks = { $route: routeWithShowDaySelector }
@@ -46,3 +34,17 @@ describe('Header', () => {
     expect(navitems.at(2).props('to')).toContain('/about')
   })
 })
+
+// --- mocks 'n' stuff
+
+const routeWithTitle = {
+  meta: {
+    title: 'Mock-Title',
+  },
+}
+
+const routeWithShowDaySelector = {
+  meta: {
+    showDaySelector: true,
+  },
+}
