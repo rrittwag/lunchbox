@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full font-sans antialiased">
+  <div class="h-full w-full max-w-4sm font-sans antialiased">
     <Header />
     <Content />
   </div>

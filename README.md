@@ -35,7 +35,6 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - dunklblau/navy Theme
     - Dark Theme (warm+kalt)
     - Farben für Badges & Card Background definieren
-    - Max Width (ab FullHD)
     - neues Logo designen
 - Settings-View basteln
     - Location wechseln

@@ -39,6 +39,9 @@ module.exports = {
           '200': '#E2F7DE',
         },
       },
+      maxWidth: {
+        '4sm': '112rem', // 4 x breakpoint sm
+      },
     },
   },
   variants: {
