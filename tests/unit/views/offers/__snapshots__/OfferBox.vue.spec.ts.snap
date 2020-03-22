@@ -15,11 +15,15 @@ exports[`OfferBox renders snapshot 1`] = `
   
   </h3>
    
-  <offer-stub
-    offer="[object Object]"
-  />
-  <offer-stub
-    offer="[object Object]"
-  />
+  <ul
+    class="w-full list-none"
+  >
+    <offer-stub
+      offer="[object Object]"
+    />
+    <offer-stub
+      offer="[object Object]"
+    />
+  </ul>
 </article>
 `;

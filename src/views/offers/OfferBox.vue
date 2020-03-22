@@ -8,7 +8,9 @@
     <h3 class="text-3xl sm:text-4xl font-serif text-neutral-700">
       {{ provider.name }}
     </h3>
-    <Offer v-for="offer in offers" :key="offer.id" :offer="offer" />
+    <ul class="w-full list-none">
+      <Offer v-for="offer in offers" :key="offer.id" :offer="offer" />
+    </ul>
   </article>
 </template>
 

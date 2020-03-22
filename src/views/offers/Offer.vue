@@ -1,9 +1,22 @@
 <template>
-  <div
+  <li
     class="flex flex-col
            w-full
            pt-3 sm:pt-4"
   >
+    <div
+      class="order-last
+             pt-1
+             hidden sm:flex"
+    >
+      <Badge
+        v-for="tagLabel in sortedTags"
+        :key="tagLabel"
+        :label="tagLabel"
+        :color="isVeggie(tagLabel) ? 'bg-success-200' : 'bg-accent-200'"
+      />
+    </div>
+
     <div class="flex items-baseline w-full">
       <span
         class="flex-grow
@@ -18,8 +31,6 @@
         <small
           class="pl-2
                  text-lg font-light text-neutral-900"
-          title="Euro"
-          aria-label="Euro"
         >
           €
         </small>
@@ -34,19 +45,7 @@
     >
       {{ offer.description }}
     </span>
-
-    <div
-      class="hidden sm:flex
-             pt-1"
-    >
-      <Badge
-        v-for="tagLabel in sortedTags"
-        :key="tagLabel"
-        :label="tagLabel"
-        :color="isVeggie(tagLabel) ? 'bg-success-200' : 'bg-accent-200'"
-      />
-    </div>
-  </div>
+  </li>
 </template>
 
 <script lang="ts">

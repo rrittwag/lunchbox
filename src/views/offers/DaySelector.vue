@@ -1,7 +1,18 @@
 <template>
   <div class="flex justify-between items-center">
+    <h2
+      class="flex-grow text-center
+             block text-2xl text-neutral-800"
+    >
+      {{ selectedDayAsWeekday }}
+      <time class="block text-lg font-light text-neutral-700" :datetime="selectedDayAsISOString">
+        {{ selectedDayAsDateString }}
+      </time>
+    </h2>
+
     <button
       class="flex justify-center items-center
+             order-first
              w-16 h-16
              disabled:cursor-not-allowed
              text-primary-400 disabled:text-primary-200"
@@ -12,17 +23,6 @@
     >
       <AngleLeftIcon class="w-16 h-16" />
     </button>
-
-    <div class="flex-grow text-center">
-      <span class="text-2xl text-neutral-800">
-        {{ selectedDayAsWeekday }}
-      </span>
-      <h2 class="text-lg font-light text-neutral-700">
-        <time :datetime="selectedDayAsISOString">
-          {{ selectedDayAsDateString }}
-        </time>
-      </h2>
-    </div>
 
     <button
       class="flex justify-center items-center

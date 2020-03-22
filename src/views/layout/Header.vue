@@ -7,7 +7,7 @@
       class="flex justify-center
              w-full sm:w-auto
              px-4 pb-2 sm:pb-0"
-      aria-label="Main"
+      aria-label="Haupt"
     >
       <ul class="flex list-none p-0">
         <NavLink to="/" exact>

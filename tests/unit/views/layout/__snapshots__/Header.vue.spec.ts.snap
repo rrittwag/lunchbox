@@ -6,7 +6,7 @@ exports[`Header renders snapshot with DaySelector 1`] = `
          p-4"
 >
   <nav
-    aria-label="Main"
+    aria-label="Haupt"
     class="flex justify-center
            w-full sm:w-auto
            px-4 pb-2 sm:pb-0"
@@ -61,7 +61,7 @@ exports[`Header renders snapshot with title as h1 tag 1`] = `
          p-4"
 >
   <nav
-    aria-label="Main"
+    aria-label="Haupt"
     class="flex justify-center
            w-full sm:w-auto
            px-4 pb-2 sm:pb-0"
