@@ -7,13 +7,13 @@ exports[`OfferBox renders snapshot 1`] = `
          shadow-xl bg-white rounded-lg
          border-l-8 sm:border-t-8 sm:border-l-0 border-primary-400"
 >
-  <h2
+  <h3
     class="text-3xl sm:text-4xl font-serif text-neutral-700"
   >
     
     Mensa
   
-  </h2>
+  </h3>
    
   <offer-stub
     offer="[object Object]"

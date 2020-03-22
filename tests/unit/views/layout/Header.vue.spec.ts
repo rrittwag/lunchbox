@@ -4,23 +4,27 @@ import { mountUnit } from '@tests/unit/test-util'
 import DaySelector from '@/views/offers/DaySelector.vue'
 
 describe('Header', () => {
+  test('renders snapshot with title as h1 tag', () => {
+    const mocks = { $route: routeWithTitleOnly }
+
+    const wrapper = mountUnit(Header, {}, { mocks })
+
+    expect(wrapper.element).toMatchSnapshot()
+    expect(wrapper.find('h1').exists()).toBeTrue()
+    expect(wrapper.find(DaySelector).exists()).toBeFalse()
+    expect(wrapper.text()).toEqual('Mock-Title')
+    expect(wrapper.find('h1').classes('sr-only')).toBeFalse()
+  })
+
   test('renders snapshot with DaySelector', () => {
     const mocks = { $route: routeWithShowDaySelector }
 
     const wrapper = mountUnit(Header, {}, { mocks })
 
     expect(wrapper.element).toMatchSnapshot()
-    const daySelector = wrapper.find(DaySelector)
-    expect(daySelector.exists()).toBeTrue()
-  })
-
-  test('renders snapshot with title', () => {
-    const mocks = { $route: routeWithTitle }
-
-    const wrapper = mountUnit(Header, {}, { mocks })
-
-    expect(wrapper.element).toMatchSnapshot()
-    expect(wrapper.text()).toEqual('Mock-Title')
+    expect(wrapper.find('h1').exists()).toBeTrue()
+    expect(wrapper.find(DaySelector).exists()).toBeTrue()
+    expect(wrapper.find('h1').classes()).toContain('sr-only')
   })
 
   test('has nav items in collapse', () => {
@@ -37,7 +41,7 @@ describe('Header', () => {
 
 // --- mocks 'n' stuff
 
-const routeWithTitle = {
+const routeWithTitleOnly = {
   meta: {
     title: 'Mock-Title',
   },
@@ -45,6 +49,7 @@ const routeWithTitle = {
 
 const routeWithShowDaySelector = {
   meta: {
+    title: 'Mock-Title',
     showDaySelector: true,
   },
 }

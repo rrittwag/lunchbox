@@ -5,9 +5,9 @@
            shadow-xl bg-white rounded-lg
            border-l-8 sm:border-t-8 sm:border-l-0 border-primary-400"
   >
-    <h2 class="text-3xl sm:text-4xl font-serif text-neutral-700">
+    <h3 class="text-3xl sm:text-4xl font-serif text-neutral-700">
       {{ provider.name }}
-    </h2>
+    </h3>
     <Offer v-for="offer in offers" :key="offer.id" :offer="offer" />
   </article>
 </template>

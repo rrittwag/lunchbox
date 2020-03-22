@@ -3,20 +3,9 @@
     class="flex flex-wrap justify-between items-center
            p-4"
   >
-    <div
-      class="flex items-center justify-center sm:justify-start
-             w-full sm:h-16 sm:max-w-sm"
-    >
-      <DaySelector v-if="$route.meta.showDaySelector" class="w-full" />
-      <span v-else class="px-4 text-2xl text-neutral-800">
-        {{ $route.meta.title }}
-      </span>
-    </div>
-
     <nav
       class="flex justify-center
              w-full sm:w-auto
-             order-first sm:order-last
              px-4 pb-2 sm:pb-0"
       aria-label="Main"
     >
@@ -34,6 +23,20 @@
         </NavLink>
       </ul>
     </nav>
+
+    <div
+      class="flex items-center justify-center sm:justify-start
+             sm:order-first
+             w-full sm:h-16 sm:max-w-sm"
+    >
+      <h1
+        class="px-4 text-2xl text-neutral-800"
+        :class="{ 'sr-only': $route.meta.showDaySelector }"
+      >
+        {{ $route.meta.title }}
+      </h1>
+      <DaySelector v-if="$route.meta.showDaySelector" class="w-full" />
+    </div>
   </header>
 </template>
 

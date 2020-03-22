@@ -17,11 +17,11 @@
       <span class="text-2xl text-neutral-800">
         {{ selectedDayAsWeekday }}
       </span>
-      <h1 class="text-lg font-light text-neutral-700">
+      <h2 class="text-lg font-light text-neutral-700">
         <time :datetime="selectedDayAsISOString">
           {{ selectedDayAsDateString }}
         </time>
-      </h1>
+      </h2>
     </div>
 
     <button
