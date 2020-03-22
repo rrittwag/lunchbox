@@ -16,7 +16,7 @@ export interface LocalVueOptions {
   applyVuex?: boolean
 }
 
-function createLocalVueInternal(options: LocalVueOptions): typeof Vue {
+function createLocalVueWith(options: LocalVueOptions): typeof Vue {
   const localVue = createLocalVue()
   options.applyRouter && localVue.use(VueRouter)
   options.applyVuex && localVue.use(Vuex)
@@ -39,7 +39,7 @@ export function mountUnit<V extends Vue>(
   mountOptions: MountOptions<V> & LocalVueOptions = {}
 ): Wrapper<V> {
   return shallowMount(component as VueClass<V>, {
-    localVue: createLocalVueInternal(mountOptions),
+    localVue: createLocalVueWith(mountOptions),
     propsData: { ...props },
     ...mountOptions,
   })
@@ -57,12 +57,8 @@ export function mountWithChildren<V extends Vue>(
   props: object = {},
   mountOptions: MountOptions<V> & LocalVueOptions = {}
 ): Wrapper<V> {
-  const localVue = createLocalVue()
-  mountOptions.applyRouter && localVue.use(VueRouter)
-  mountOptions.applyVuex && localVue.use(Vuex)
-
   return mount(component as VueClass<V>, {
-    localVue: createLocalVueInternal(mountOptions),
+    localVue: createLocalVueWith(mountOptions),
     propsData: { ...props },
     ...mountOptions,
   })
