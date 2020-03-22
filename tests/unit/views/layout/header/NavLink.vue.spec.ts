@@ -54,7 +54,7 @@ describe('NavLink', () => {
 
     const link = wrapper.find('a')
     expect(link.exists()).toBeTrue()
-    expect(link.attributes()['aria-current']).toBe('true')
+    expect(link.attributes()['aria-current']).toBe('page')
   })
 })
 

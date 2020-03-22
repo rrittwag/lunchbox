@@ -1,14 +1,14 @@
 <template>
-  <router-link :to="to" :exact="exact" v-slot="{ navigate, isActive, route }">
+  <router-link :to="to" :exact="exact" v-slot="{ navigate, isExactActive, route }">
     <li class="inline-block mx-2">
       <a
         class="nav-link flex justify-center items-center
                w-12 h-12"
-        :class="isActive ? 'text-neutral-800' : 'text-neutral-300'"
+        :class="isExactActive ? 'text-neutral-800' : 'text-neutral-300'"
         :href="to"
         :title="route.meta.title"
         :aria-label="route.meta.title"
-        :aria-current="isActive"
+        :aria-current="isExactActive ? 'page' : null"
         @click="navigate"
       >
         <slot />
