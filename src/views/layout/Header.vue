@@ -21,23 +21,17 @@
       aria-label="Main"
     >
       <ul class="flex list-none p-0">
-        <li class="inline-block mx-2">
-          <NavLink to="/" exact>
-            <OffersIcon />
-          </NavLink>
-        </li>
+        <NavLink to="/" exact>
+          <OffersIcon />
+        </NavLink>
 
-        <li class="inline-block mx-2">
-          <NavLink to="/settings">
-            <SettingsIcon />
-          </NavLink>
-        </li>
+        <NavLink to="/settings">
+          <SettingsIcon />
+        </NavLink>
 
-        <li class="inline-block mx-2">
-          <NavLink to="/about">
-            <InfoIcon />
-          </NavLink>
-        </li>
+        <NavLink to="/about">
+          <InfoIcon />
+        </NavLink>
       </ul>
     </nav>
   </header>

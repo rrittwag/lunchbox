@@ -1,11 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NavLink renders snapshot 1`] = `
-<a
-  aria-label="Mock-Route"
-  class="nav-link flex justify-center items-center
-           w-12 h-12 text-neutral-300"
-  href="/mock-route"
-  title="Mock-Route"
-/>
+<li
+  class="inline-block mx-2"
+>
+  <a
+    aria-label="Mock-Route"
+    class="nav-link flex justify-center items-center
+             w-12 h-12 text-neutral-300"
+    href="/mock-route"
+    title="Mock-Route"
+  />
+</li>
 `;

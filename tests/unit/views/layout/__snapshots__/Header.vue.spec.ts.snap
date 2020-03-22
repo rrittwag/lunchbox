@@ -24,36 +24,24 @@ exports[`Header renders snapshot with DaySelector 1`] = `
     <ul
       class="flex list-none p-0"
     >
-      <li
-        class="inline-block mx-2"
+      <navlink-stub
+        exact="true"
+        to="/"
       >
-        <navlink-stub
-          exact="true"
-          to="/"
-        >
-          <offersicon-stub />
-        </navlink-stub>
-      </li>
+        <offersicon-stub />
+      </navlink-stub>
        
-      <li
-        class="inline-block mx-2"
+      <navlink-stub
+        to="/settings"
       >
-        <navlink-stub
-          to="/settings"
-        >
-          <settingsicon-stub />
-        </navlink-stub>
-      </li>
+        <settingsicon-stub />
+      </navlink-stub>
        
-      <li
-        class="inline-block mx-2"
+      <navlink-stub
+        to="/about"
       >
-        <navlink-stub
-          to="/about"
-        >
-          <infoicon-stub />
-        </navlink-stub>
-      </li>
+        <infoicon-stub />
+      </navlink-stub>
     </ul>
   </nav>
 </header>
@@ -87,36 +75,24 @@ exports[`Header renders snapshot with title 1`] = `
     <ul
       class="flex list-none p-0"
     >
-      <li
-        class="inline-block mx-2"
+      <navlink-stub
+        exact="true"
+        to="/"
       >
-        <navlink-stub
-          exact="true"
-          to="/"
-        >
-          <offersicon-stub />
-        </navlink-stub>
-      </li>
+        <offersicon-stub />
+      </navlink-stub>
        
-      <li
-        class="inline-block mx-2"
+      <navlink-stub
+        to="/settings"
       >
-        <navlink-stub
-          to="/settings"
-        >
-          <settingsicon-stub />
-        </navlink-stub>
-      </li>
+        <settingsicon-stub />
+      </navlink-stub>
        
-      <li
-        class="inline-block mx-2"
+      <navlink-stub
+        to="/about"
       >
-        <navlink-stub
-          to="/about"
-        >
-          <infoicon-stub />
-        </navlink-stub>
-      </li>
+        <infoicon-stub />
+      </navlink-stub>
     </ul>
   </nav>
 </header>
