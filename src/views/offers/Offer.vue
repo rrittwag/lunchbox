@@ -4,26 +4,13 @@
            w-full
            pt-3 sm:pt-4"
   >
-    <div
-      class="order-last
-             pt-1
-             hidden sm:flex"
-    >
-      <Badge
-        v-for="tagLabel in sortedTags"
-        :key="tagLabel"
-        :label="tagLabel"
-        :color="isVeggie(tagLabel) ? 'bg-success-200' : 'bg-accent-200'"
-      />
-    </div>
-
     <div class="flex items-baseline w-full">
-      <span
+      <h4
         class="flex-grow
                text-xl text-neutral-900 leading-tight"
       >
         {{ offer.name }}
-      </span>
+      </h4>
       <span
         class="pl-2
                text-xl text-neutral-900 leading-tight whitespace-no-wrap"
@@ -45,6 +32,18 @@
     >
       {{ offer.description }}
     </span>
+
+    <div
+      class="hidden sm:flex
+             pt-1"
+    >
+      <Badge
+        v-for="tagLabel in sortedTags"
+        :key="tagLabel"
+        :label="tagLabel"
+        :color="isVeggie(tagLabel) ? 'bg-success-200' : 'bg-accent-200'"
+      />
+    </div>
   </li>
 </template>
 

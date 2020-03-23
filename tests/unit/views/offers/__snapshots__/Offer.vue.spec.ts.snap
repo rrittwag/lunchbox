@@ -7,31 +7,16 @@ exports[`Offer renders snapshot 1`] = `
          pt-3 sm:pt-4"
 >
   <div
-    class="order-last
-           pt-1
-           hidden sm:flex"
-  >
-    <badge-stub
-      color="bg-accent-200"
-      label="Tagesgericht"
-    />
-    <badge-stub
-      color="bg-accent-200"
-      label="lecker"
-    />
-  </div>
-   
-  <div
     class="flex items-baseline w-full"
   >
-    <span
+    <h4
       class="flex-grow
              text-xl text-neutral-900 leading-tight"
     >
       
       Gyros
     
-    </span>
+    </h4>
      
     <span
       class="pl-2
@@ -60,5 +45,19 @@ exports[`Offer renders snapshot 1`] = `
     mit Pommes
   
   </span>
+   
+  <div
+    class="hidden sm:flex
+           pt-1"
+  >
+    <badge-stub
+      color="bg-accent-200"
+      label="Tagesgericht"
+    />
+    <badge-stub
+      color="bg-accent-200"
+      label="lecker"
+    />
+  </div>
 </li>
 `;
