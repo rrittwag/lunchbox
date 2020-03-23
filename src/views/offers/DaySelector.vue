@@ -20,6 +20,7 @@
       aria-label="Zu vorherigem Tag wechseln"
       @click="goPrevDay"
       :disabled="!prevDay()"
+      aria-keyshortcuts="ArrowLeft"
     >
       <AngleLeftIcon class="w-16 h-16" />
     </button>
@@ -33,6 +34,7 @@
       aria-label="Zu nächstem Tag wechseln"
       @click="goNextDay"
       :disabled="!nextDay()"
+      aria-keyshortcuts="ArrowRight"
     >
       <AngleRightIcon class="w-16 h-16" />
     </button>
@@ -54,6 +56,14 @@ import { formatToDate, formatToWeekday } from '@/util/formatting'
 })
 export default class DaySelector extends Vue {
   @Inject() lunchStore!: LunchStore
+
+  mounted() {
+    window.addEventListener('keydown', this.handleKeydown)
+  }
+
+  destroyed() {
+    window.removeEventListener('keydown', this.handleKeydown)
+  }
 
   get lunchDays(): Date[] {
     const providerIDsForSelectedLocation = this.lunchStore.providers
@@ -95,6 +105,28 @@ export default class DaySelector extends Vue {
 
   get selectedDayAsISOString(): string {
     return this.lunchStore.selectedDay.toISOString().substring(0, 10)
+  }
+
+  handleKeydown(event: KeyboardEvent) {
+    if (event.defaultPrevented) {
+      return // Do nothing if the event was already processed
+    }
+
+    switch (event.key) {
+      case 'Left': // IE/Edge specific value
+      case 'ArrowLeft':
+        this.goPrevDay()
+        break
+      case 'Right': // IE/Edge specific value
+      case 'ArrowRight':
+        this.goNextDay()
+        break
+      default:
+        return // Quit when this doesn't handle the key event.
+    }
+
+    // Cancel the default action to avoid it being handled twice
+    event.preventDefault()
   }
 }
 </script>
