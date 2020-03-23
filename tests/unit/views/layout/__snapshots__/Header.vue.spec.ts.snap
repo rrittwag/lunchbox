@@ -1,18 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Header renders snapshot with DaySelector 1`] = `
+exports[`Header renders snapshot 1`] = `
 <header
   class="flex flex-wrap justify-between items-center
-         p-4"
+         sm:absolute sm:top-0 sm:right-0
+         px-8 pt-4 pb-2 sm:pb-4"
 >
   <nav
     aria-label="Haupt"
     class="flex justify-center
-           w-full sm:w-auto
-           px-4 pb-2 sm:pb-0"
+           w-full sm:w-auto"
   >
     <ul
-      class="flex list-none p-0"
+      class="flex items-center
+             sm:h-16
+             list-none"
     >
       <navlink-stub
         exact="true"
@@ -34,86 +36,5 @@ exports[`Header renders snapshot with DaySelector 1`] = `
       </navlink-stub>
     </ul>
   </nav>
-   
-  <transition-stub
-    mode="out-in"
-    name="fade"
-  >
-    <div
-      class="flex items-center justify-center sm:justify-start
-             sm:order-first
-             w-full sm:h-16 sm:max-w-sm"
-    >
-      <h1
-        class="px-4 text-2xl text-neutral-800 sr-only"
-      >
-        
-        Mock-Title
-      
-      </h1>
-       
-      <dayselector-stub
-        class="w-full"
-      />
-    </div>
-  </transition-stub>
-</header>
-`;
-
-exports[`Header renders snapshot with title as h1 tag 1`] = `
-<header
-  class="flex flex-wrap justify-between items-center
-         p-4"
->
-  <nav
-    aria-label="Haupt"
-    class="flex justify-center
-           w-full sm:w-auto
-           px-4 pb-2 sm:pb-0"
-  >
-    <ul
-      class="flex list-none p-0"
-    >
-      <navlink-stub
-        exact="true"
-        to="/"
-      >
-        <offersicon-stub />
-      </navlink-stub>
-       
-      <navlink-stub
-        to="/settings"
-      >
-        <settingsicon-stub />
-      </navlink-stub>
-       
-      <navlink-stub
-        to="/about"
-      >
-        <infoicon-stub />
-      </navlink-stub>
-    </ul>
-  </nav>
-   
-  <transition-stub
-    mode="out-in"
-    name="fade"
-  >
-    <div
-      class="flex items-center justify-center sm:justify-start
-             sm:order-first
-             w-full sm:h-16 sm:max-w-sm"
-    >
-      <h1
-        class="px-4 text-2xl text-neutral-800"
-      >
-        
-        Mock-Title
-      
-      </h1>
-       
-      <!---->
-    </div>
-  </transition-stub>
 </header>
 `;

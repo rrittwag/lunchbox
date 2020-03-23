@@ -12,7 +12,6 @@ export const router = new Router({
       path: '/',
       component: Offers,
       meta: {
-        showDaySelector: true,
         title: 'Mittagsangebote',
       },
     },
