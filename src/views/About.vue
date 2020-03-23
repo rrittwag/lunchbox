@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col sm:p-4">
+  <div class="sm:p-4">
     <h1
       class="flex items-center justify-center sm:justify-start
              sm:h-16 px-4

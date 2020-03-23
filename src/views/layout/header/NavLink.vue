@@ -1,6 +1,6 @@
 <template>
   <router-link :to="to" :exact="exact" v-slot="{ navigate, isExactActive, route }">
-    <li class="inline-block mx-2">
+    <li class="inline-block px-2">
       <a
         class="nav-link flex justify-center items-center
                w-12 h-12"

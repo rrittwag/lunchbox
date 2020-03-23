@@ -1,19 +1,14 @@
 <template>
   <header
-    class="flex flex-wrap justify-between items-center
-           sm:absolute sm:top-0 sm:right-0
-           px-8 pt-4 pb-2 sm:pb-4"
+    class="sm:absolute sm:top-0 sm:right-0
+           sm:px-8 pt-4 pb-2 sm:pb-4"
   >
     <nav
-      class="flex justify-center
-             w-full sm:w-auto"
+      class="flex items-center justify-center
+             sm:h-16"
       aria-label="Haupt"
     >
-      <ul
-        class="flex items-center
-               sm:h-16
-               list-none"
-      >
+      <ul class="list-none">
         <NavLink to="/" exact>
           <OffersIcon />
         </NavLink>

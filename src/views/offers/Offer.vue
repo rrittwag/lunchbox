@@ -1,7 +1,6 @@
 <template>
   <li
-    class="flex flex-col
-           w-full
+    class="w-full
            pt-3 sm:pt-4"
   >
     <div class="flex items-baseline w-full">

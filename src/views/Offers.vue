@@ -1,10 +1,10 @@
 <template>
-  <div class="flex flex-col sm:py-4" v-if="loadingDone">
+  <div class="sm:py-4" v-if="loadingDone">
     <div class="px-4">
       <h1 class="sr-only">
         Mittagsangebote
       </h1>
-      <DaySelector class="w-full sm:max-w-sm sm:h-16" />
+      <DaySelector class="sm:max-w-sm h-16" />
     </div>
     <OfferBoxGroup class="pt-4" />
   </div>
