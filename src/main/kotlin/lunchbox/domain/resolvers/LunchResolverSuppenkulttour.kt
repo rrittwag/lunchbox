@@ -213,14 +213,14 @@ class LunchResolverSuppenkulttour(
       .filter { it.isNotEmpty() }
       .joinToString(separator = " ")
 
-    return RawOffer(title, description, price, parseVegetarisch(zusatzInfo, title, description))
+    return RawOffer(title, description, price, parseVeggie(zusatzInfo, title, description))
   }
 
-  private fun parseVegetarisch(vararg sources: String): Set<String> {
+  private fun parseVeggie(vararg sources: String): Set<String> {
     val result = mutableSetOf<String>()
     for (source in sources) {
       if (source.contains("vegan", true)) result += "vegan"
-      if (source.contains("veget", true)) result += "vegetarisch"
+      if (source.contains(Regex("[Vv]ege*t"))) result += "vegetarisch"
     }
     return result
   }
@@ -279,7 +279,7 @@ class LunchResolverSuppenkulttour(
   private fun isZusatzInfo(string: String): Boolean {
     val zusatzInfos = listOf(
       "vegan", "glutenfrei", "vegetarisch", "veg.", "veget.",
-      "laktosefrei", "veget.gf", "gf", "lf", "enthält", "enthälti"
+      "laktosefrei", "veget.gf", "gf", "lf", "enthält", "enthälti", "vegt."
     )
     return string.split(Regex("[(), ]")).all { it.length < 3 || zusatzInfos.contains(it.trim()) }
   }

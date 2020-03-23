@@ -195,4 +195,15 @@ class LunchResolverSuppenkulttourTest {
     offers shouldContain LunchOffer(0, "Süßkartoffel-Erbsencurry", "grüne & gelbe Erbsen, Karotten, Süßkartoffeln, Kokosmilch, Ingwer, Kurkuma", week.thursday, euro("4.70"), setOf("vegan", "Tagessuppe"), providerId)
     offers shouldContain LunchOffer(0, "Schnüsch", "der bekannte Norddeutsche Gemüseeintopf, Kartoffeln, Bohnen, Kohlrabi, Möhren, Sellerie, Sahne, Kräuter", week.friday, euro("4.70"), setOf("vegetarisch", "Tagessuppe"), providerId)
   }
+
+  @Test
+  fun `resolve offers for week of 2020-03-23`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2020-03-23.html")
+
+    val offers = resolver().resolve(url)
+
+    var week = weekOf("2020-03-23")
+    offers shouldHaveSize 20
+    offers shouldContain LunchOffer(0, "Gemüsegeschnetzeltes", "mit Reis, Karotten, Kohlrabi, Zucchini, Pastinaken, Tomaten, in einer fruchtigen Sahnesoße", week.thursday, euro("4.70"), setOf("Tagessuppe", "vegetarisch"), providerId)
+  }
 }
