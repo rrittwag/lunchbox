@@ -40,7 +40,7 @@ module.exports = {
         },
       },
       maxWidth: {
-        '4sm': '112rem', // 4 x breakpoint sm
+        '4md': '112rem', // 4 x OfferBox mit max-w-md (siehe OfferBoxGroup)
       },
     },
   },
