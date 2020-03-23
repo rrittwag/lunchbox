@@ -1,5 +1,7 @@
 <template>
   <main class="w-full">
-    <router-view />
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
   </main>
 </template>

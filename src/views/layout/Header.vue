@@ -24,19 +24,22 @@
       </ul>
     </nav>
 
-    <div
-      class="flex items-center justify-center sm:justify-start
-             sm:order-first
-             w-full sm:h-16 sm:max-w-sm"
-    >
-      <h1
-        class="px-4 text-2xl text-neutral-800"
-        :class="{ 'sr-only': $route.meta.showDaySelector }"
+    <transition name="fade" mode="out-in">
+      <div
+        class="flex items-center justify-center sm:justify-start
+               sm:order-first
+               w-full sm:h-16 sm:max-w-sm"
+        :key="$route.path"
       >
-        {{ $route.meta.title }}
-      </h1>
-      <DaySelector v-if="$route.meta.showDaySelector" class="w-full" />
-    </div>
+        <h1
+          class="px-4 text-2xl text-neutral-800"
+          :class="{ 'sr-only': $route.meta.showDaySelector }"
+        >
+          {{ $route.meta.title }}
+        </h1>
+        <DaySelector v-if="$route.meta.showDaySelector" class="w-full" />
+      </div>
+    </transition>
   </header>
 </template>
 

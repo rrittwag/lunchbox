@@ -1,3 +1,13 @@
-.bg-transition {
+.theme-transition {
   transition: background-color .25s;
+}
+
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.125s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }

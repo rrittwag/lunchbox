@@ -29,7 +29,7 @@ export default class Layout extends Vue {
     if (newTheme) bodyClasses.add(newTheme.value)
 
     // transition on theme change AFTER initial page load
-    if (oldTheme && !bodyClasses.contains('bg-transition')) bodyClasses.add('bg-transition')
+    if (oldTheme && !bodyClasses.contains('theme-transition')) bodyClasses.add('theme-transition')
   }
 }
 </script>
