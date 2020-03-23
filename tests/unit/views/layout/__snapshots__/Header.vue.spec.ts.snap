@@ -35,23 +35,28 @@ exports[`Header renders snapshot with DaySelector 1`] = `
     </ul>
   </nav>
    
-  <div
-    class="flex items-center justify-center sm:justify-start
-           sm:order-first
-           w-full sm:h-16 sm:max-w-sm"
+  <transition-stub
+    mode="out-in"
+    name="fade"
   >
-    <h1
-      class="px-4 text-2xl text-neutral-800 sr-only"
+    <div
+      class="flex items-center justify-center sm:justify-start
+             sm:order-first
+             w-full sm:h-16 sm:max-w-sm"
     >
+      <h1
+        class="px-4 text-2xl text-neutral-800 sr-only"
+      >
+        
+        Mock-Title
       
-      Mock-Title
-    
-    </h1>
-     
-    <dayselector-stub
-      class="w-full"
-    />
-  </div>
+      </h1>
+       
+      <dayselector-stub
+        class="w-full"
+      />
+    </div>
+  </transition-stub>
 </header>
 `;
 
@@ -90,20 +95,25 @@ exports[`Header renders snapshot with title as h1 tag 1`] = `
     </ul>
   </nav>
    
-  <div
-    class="flex items-center justify-center sm:justify-start
-           sm:order-first
-           w-full sm:h-16 sm:max-w-sm"
+  <transition-stub
+    mode="out-in"
+    name="fade"
   >
-    <h1
-      class="px-4 text-2xl text-neutral-800"
+    <div
+      class="flex items-center justify-center sm:justify-start
+             sm:order-first
+             w-full sm:h-16 sm:max-w-sm"
     >
+      <h1
+        class="px-4 text-2xl text-neutral-800"
+      >
+        
+        Mock-Title
       
-      Mock-Title
-    
-    </h1>
-     
-    <!---->
-  </div>
+      </h1>
+       
+      <!---->
+    </div>
+  </transition-stub>
 </header>
 `;

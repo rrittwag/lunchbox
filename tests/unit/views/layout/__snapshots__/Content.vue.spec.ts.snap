@@ -4,8 +4,13 @@ exports[`Content renders snapshot 1`] = `
 <main
   class="w-full"
 >
-  <router-view-stub
-    name="default"
-  />
+  <transition-stub
+    mode="out-in"
+    name="fade"
+  >
+    <router-view-stub
+      name="default"
+    />
+  </transition-stub>
 </main>
 `;
