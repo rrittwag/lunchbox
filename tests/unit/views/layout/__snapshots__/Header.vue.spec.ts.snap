@@ -2,19 +2,16 @@
 
 exports[`Header renders snapshot 1`] = `
 <header
-  class="flex flex-wrap justify-between items-center
-         sm:absolute sm:top-0 sm:right-0
-         px-8 pt-4 pb-2 sm:pb-4"
+  class="sm:absolute sm:top-0 sm:right-0
+         sm:px-8 pt-4 pb-2 sm:pb-4"
 >
   <nav
     aria-label="Haupt"
-    class="flex justify-center
-           w-full sm:w-auto"
+    class="flex items-center justify-center
+           sm:h-16"
   >
     <ul
-      class="flex items-center
-             sm:h-16
-             list-none"
+      class="list-none"
     >
       <navlink-stub
         exact="true"

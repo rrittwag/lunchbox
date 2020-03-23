@@ -2,8 +2,7 @@
 
 exports[`Offer renders snapshot 1`] = `
 <li
-  class="flex flex-col
-         w-full
+  class="w-full
          pt-3 sm:pt-4"
 >
   <div
