@@ -202,8 +202,22 @@ class LunchResolverSuppenkulttourTest {
 
     val offers = resolver().resolve(url)
 
-    var week = weekOf("2020-03-23")
+    val week = weekOf("2020-03-23")
     offers shouldHaveSize 20
     offers shouldContain LunchOffer(0, "Gemüsegeschnetzeltes", "mit Reis, Karotten, Kohlrabi, Zucchini, Pastinaken, Tomaten, in einer fruchtigen Sahnesoße", week.thursday, euro("4.70"), setOf("Tagessuppe", "vegetarisch"), providerId)
+  }
+
+  @Test
+  fun `resolve offers for easter week of 2020-04-06`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2020-04-06.html")
+
+    val offers = resolver().resolve(url)
+
+    val week = weekOf("2020-04-06")
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 0
   }
 }

@@ -207,7 +207,7 @@ class LunchResolverSuppenkulttour(
       return null
 
     if (title.isEmpty()) return null
-    if (title.split(" ").contains("Feiertag")) return null
+    if (title.split(Regex("[ ()]")).contains("Feiertag")) return null
 
     val description = descriptionList
       .filter { it.isNotEmpty() }
@@ -220,7 +220,7 @@ class LunchResolverSuppenkulttour(
     val result = mutableSetOf<String>()
     for (source in sources) {
       if (source.contains("vegan", true)) result += "vegan"
-      if (source.contains(Regex("[Vv]ege*t"))) result += "vegetarisch"
+      if (source.contains(Regex("[Vv]ege?t"))) result += "vegetarisch"
     }
     return result
   }
