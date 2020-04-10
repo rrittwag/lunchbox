@@ -213,11 +213,18 @@ class LunchResolverSuppenkulttourTest {
 
     val offers = resolver().resolve(url)
 
-    val week = weekOf("2020-04-06")
+    var week = weekOf("2020-04-06")
     offers.filter { it.day == week.monday } shouldHaveSize 3
     offers.filter { it.day == week.tuesday } shouldHaveSize 3
     offers.filter { it.day == week.wednesday } shouldHaveSize 3
     offers.filter { it.day == week.thursday } shouldHaveSize 3
     offers.filter { it.day == week.friday } shouldHaveSize 0
+
+    week = weekOf("2020-04-13")
+    offers.filter { it.day == week.monday } shouldHaveSize 0
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 3
   }
 }
