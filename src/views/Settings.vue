@@ -8,7 +8,7 @@
       Einstellungen
     </h1>
     <div>
-      <label id="settings-theme">
+      <label for="settings-theme">
         Theme:
       </label>
       <div class="m-8 inline-block relative w-32">
@@ -18,8 +18,8 @@
                  px-4 py-2 pr-8 rounded leading-tight
                  border border-neutral-400 hover:border-neutral-800
                  focus:outline-none focus:shadow-outline"
+          id="settings-theme"
           name="theme"
-          aria-labelledby="settings-theme"
           :value="themeStore.theme.value"
           @change="updateTheme"
         >
