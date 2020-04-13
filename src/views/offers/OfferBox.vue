@@ -3,7 +3,7 @@
     class="flex flex-col items-center
            px-4 pt-2 pb-3 sm:pt-4 sm:pb-6
            shadow-xl bg-white rounded-lg
-           border-l-8 sm:border-l-0 sm:border-t-8 border-primary-400"
+           border-l-8 sm:border-l-0 sm:border-t-8 border-primary-500"
   >
     <h3 class="text-3xl sm:text-4xl font-serif text-neutral-700">
       {{ provider.name }}

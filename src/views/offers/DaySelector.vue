@@ -10,49 +10,23 @@
       </time>
     </h2>
 
-    <button
-      class="flex justify-center items-center
-             order-first
-             w-16 h-16
-             disabled:cursor-not-allowed
-             text-primary-400 disabled:text-primary-200"
-      title="Zu vorherigem Tag wechseln"
-      aria-label="Zu vorherigem Tag wechseln"
+    <DaySelectorButton
+      class="order-first"
+      direction="prev"
       @click="goPrevDay"
       :disabled="!prevDay()"
-      aria-keyshortcuts="ArrowLeft"
-    >
-      <AngleLeftIcon class="w-16 h-16" />
-    </button>
-
-    <button
-      class="flex justify-center items-center
-             w-16 h-16
-             disabled:cursor-not-allowed
-             text-primary-400 disabled:text-primary-200"
-      title="Zu nächstem Tag wechseln"
-      aria-label="Zu nächstem Tag wechseln"
-      @click="goNextDay"
-      :disabled="!nextDay()"
-      aria-keyshortcuts="ArrowRight"
-    >
-      <AngleRightIcon class="w-16 h-16" />
-    </button>
+    />
+    <DaySelectorButton direction="next" @click="goNextDay" :disabled="!nextDay()" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Inject } from 'vue-property-decorator'
-import AngleLeftIcon from '@/assets/icons/angle-left.svg'
-import AngleRightIcon from '@/assets/icons/angle-right.svg'
 import { LunchStore } from '@/store/modules/LunchStore'
 import { formatToDate, formatToWeekday } from '@/util/formatting'
-
+import DaySelectorButton from '@/views/offers/dayselector/DaySelectorButton.vue'
 @Component({
-  components: {
-    AngleLeftIcon,
-    AngleRightIcon,
-  },
+  components: { DaySelectorButton },
 })
 export default class DaySelector extends Vue {
   @Inject() lunchStore!: LunchStore

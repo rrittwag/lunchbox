@@ -16,7 +16,7 @@ exports[`Settings renders snapshot 1`] = `
    
   <div>
     <label
-      id="settings-theme"
+      for="settings-theme"
     >
       
       Theme:
@@ -27,12 +27,12 @@ exports[`Settings renders snapshot 1`] = `
       class="m-8 inline-block relative w-32"
     >
       <select
-        aria-labelledby="settings-theme"
         class="block appearance-none w-full
                bg-neutral-200 text-neutral-900
                px-4 py-2 pr-8 rounded leading-tight
                border border-neutral-400 hover:border-neutral-800
                focus:outline-none focus:shadow-outline"
+        id="settings-theme"
         name="theme"
       >
         <option

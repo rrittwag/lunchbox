@@ -4,9 +4,15 @@
  * - warmes Grau
  */
 .theme-red {
-  // TODO: Farbcodes für übrige Farben definieren
-  --color-primary-200: #facdcd;
-  --color-primary-400: #e66a6a;
+  --color-primary-100: #fff5f5;
+  --color-primary-200: #fedcdc;
+  --color-primary-300: #f9bdbd;
+  --color-primary-400: #f29797;
+  --color-primary-500: #e66a6a;
+  --color-primary-600: #ca4444;
+  --color-primary-700: #a82424;
+  --color-primary-800: #821212;
+  --color-primary-900: #4d0000;
 
   --color-accent-200: #fff3C4;
 
@@ -27,9 +33,15 @@
  * - neutrales Grau
  */
 .theme-green {
-  // TODO: Farbcodes für übrige Farben definieren
-  --color-primary-200: #bfddd5;
-  --color-primary-400: #4da088;
+  --color-primary-100: #f2fdf8;
+  --color-primary-200: #c7ebdd;
+  --color-primary-300: #99d1bb;
+  --color-primary-400: #69b596;
+  --color-primary-500: #3c9a75;
+  --color-primary-600: #1b835f;
+  --color-primary-700: #066544;
+  --color-primary-800: #00472e;
+  --color-primary-900: #002417;
 
   --color-accent-200: #ffefe6;
 
@@ -50,9 +62,15 @@
  * - kaltes Grau
  */
 .theme-blue {
-  // TODO: Farbcodes für übrige Farben definieren
-  --color-primary-200: #c0daf0;
-  --color-primary-400: #4098D7;
+  --color-primary-100: #f5fbff;
+  --color-primary-200: #daedfb;
+  --color-primary-300: #b5d9f2;
+  --color-primary-400: #83bde7;
+  --color-primary-500: #4098d7;
+  --color-primary-600: #207bbc;
+  --color-primary-700: #115f97;
+  --color-primary-800: #0c456e;
+  --color-primary-900: #072c46;
 
   --color-accent-200: #fcefc7;
 
