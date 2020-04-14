@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import DaySelectorButton from '@/views/offers/dayselector/DaySelectorButton.vue'
 import { mountUnit } from '@tests/unit/test-util'
 
@@ -36,6 +37,6 @@ describe('DaySelectorButton', () => {
     wrapper.find('button').trigger('click')
 
     expect(wrapper.emitted().click).toBeDefined()
-    expect(wrapper.emitted().click?.length).toBe(1)
+    expect(wrapper.emitted().click!.length).toBe(1)
   })
 })

@@ -21,15 +21,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Inject } from 'vue-property-decorator'
-import { LunchStore } from '@/store/modules/LunchStore'
-import { formatToDate, formatToWeekday } from '@/util/formatting'
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { formatToLocalDate, formatToISODate, formatToWeekday } from '@/util/formatting'
 import DaySelectorButton from '@/views/offers/dayselector/DaySelectorButton.vue'
+import { DaySelectorDirection, DaySelectorEvent } from '@/views/offers/dayselector/DaySelectorEvent'
+
 @Component({
   components: { DaySelectorButton },
 })
 export default class DaySelector extends Vue {
-  @Inject() lunchStore!: LunchStore
+  @Prop() selectedDay!: Date
+  @Prop() days!: Date[]
+
+  get selectedDayAsWeekday(): string {
+    return formatToWeekday(this.selectedDay)
+  }
+
+  get selectedDayAsDateString(): string {
+    return formatToLocalDate(this.selectedDay)
+  }
+
+  get selectedDayAsISOString(): string {
+    return formatToISODate(this.selectedDay)
+  }
 
   mounted() {
     window.addEventListener('keydown', this.handleKeydown)
@@ -37,48 +51,6 @@ export default class DaySelector extends Vue {
 
   destroyed() {
     window.removeEventListener('keydown', this.handleKeydown)
-  }
-
-  get lunchDays(): Date[] {
-    const providerIDsForSelectedLocation = this.lunchStore.providers
-      .filter(p => p.location === this.lunchStore.selectedLocation.name)
-      .map(p => p.id)
-    const lunchDays: string[] = this.lunchStore.offers
-      .filter(o => providerIDsForSelectedLocation.includes(o.provider))
-      .map(o => o.day)
-    return Array.from(new Set<string>(lunchDays))
-      .map(dayString => new Date(dayString))
-      .sort((day1, day2) => day1.getTime() - day2.getTime())
-  }
-
-  prevDay(): Date | undefined {
-    return this.lunchDays.filter(day => day < this.lunchStore.selectedDay).pop()
-  }
-
-  nextDay(): Date | undefined {
-    return this.lunchDays.filter(day => day > this.lunchStore.selectedDay)[0]
-  }
-
-  goPrevDay(): void {
-    const prevDay = this.prevDay()
-    if (prevDay) this.lunchStore.setSelectedDay(prevDay)
-  }
-
-  goNextDay(): void {
-    const nextDay = this.nextDay()
-    if (nextDay) this.lunchStore.setSelectedDay(nextDay)
-  }
-
-  get selectedDayAsWeekday(): string {
-    return formatToWeekday(this.lunchStore.selectedDay)
-  }
-
-  get selectedDayAsDateString(): string {
-    return formatToDate(this.lunchStore.selectedDay)
-  }
-
-  get selectedDayAsISOString(): string {
-    return this.lunchStore.selectedDay.toISOString().substring(0, 10)
   }
 
   handleKeydown(event: KeyboardEvent) {
@@ -101,6 +73,36 @@ export default class DaySelector extends Vue {
 
     // Cancel the default action to avoid it being handled twice
     event.preventDefault()
+  }
+
+  prevDay(): Date | undefined {
+    return this.days.filter(day => day < this.selectedDay).pop()
+  }
+
+  nextDay(): Date | undefined {
+    return this.days.filter(day => day > this.selectedDay)[0]
+  }
+
+  goPrevDay(): void {
+    const prevDay = this.prevDay()
+    if (!prevDay) return
+
+    const event: DaySelectorEvent = {
+      direction: DaySelectorDirection.PREVIOUS,
+      day: prevDay,
+    }
+    this.$emit('change', event)
+  }
+
+  goNextDay(): void {
+    const nextDay = this.nextDay()
+    if (!nextDay) return
+
+    const event: DaySelectorEvent = {
+      direction: DaySelectorDirection.NEXT,
+      day: nextDay,
+    }
+    this.$emit('change', event)
   }
 }
 </script>

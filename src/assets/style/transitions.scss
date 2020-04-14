@@ -11,3 +11,8 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+// TODO: Entfernen mit Tailwind CSS v1.3 -> https://github.com/tailwindcss/tailwindcss/pull/1462
+.delay-100 {
+  transition-delay: 200ms;
+}

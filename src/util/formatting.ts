@@ -11,7 +11,12 @@ export function formatToWeekday(date?: Date): string {
   return date.toLocaleDateString(undefined, options)
 }
 
-export function formatToDate(date?: Date): string {
+export function formatToLocalDate(date?: Date): string {
   if (!date) return ''
   return date.toLocaleDateString()
+}
+
+export function formatToISODate(date?: Date): string {
+  if (!date) return ''
+  return date.toISOString().substring(0, 10)
 }

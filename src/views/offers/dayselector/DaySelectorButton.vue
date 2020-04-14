@@ -18,6 +18,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import AngleLeftIcon from '@/assets/icons/angle-left.svg'
 import AngleRightIcon from '@/assets/icons/angle-right.svg'
+import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorEvent'
 
 @Component({
   components: {
@@ -27,14 +28,14 @@ import AngleRightIcon from '@/assets/icons/angle-right.svg'
 })
 export default class DaySelectorButton extends Vue {
   @Prop() disabled!: boolean
-  @Prop() direction!: 'prev' | 'next'
+  @Prop() direction!: DaySelectorDirection
 
   clicked() {
     this.$emit('click')
   }
 
   get isPrevious(): boolean {
-    return this.direction === 'prev'
+    return this.direction === DaySelectorDirection.PREVIOUS
   }
 
   get title(): string {

@@ -1,4 +1,4 @@
-import { formatToWeekday, formatToDate, formatEuro } from '@/util/formatting'
+import { formatToWeekday, formatToLocalDate, formatEuro, formatToISODate } from '@/util/formatting'
 import 'jest-extended'
 
 describe('formatEuro', () => {
@@ -30,14 +30,25 @@ describe('formatToWeekday', () => {
   })
 })
 
-describe('formatToDate', () => {
+describe('formatToLocalDate', () => {
   test('WHEN undefined  THEN empty string', () => {
-    expect(formatToDate(undefined)).toEqual('')
+    expect(formatToLocalDate(undefined)).toEqual('')
   })
 
   test('WHEN 2018-03-27  THEN locale date format', () => {
-    const result = formatToDate(DATE_2018_03_27)
+    const result = formatToLocalDate(DATE_2018_03_27)
     expect(result).toBeOneOf(['27.3.2018', '3/27/2018'])
+  })
+})
+
+describe('formatToISODate', () => {
+  test('WHEN undefined  THEN empty string', () => {
+    expect(formatToISODate(undefined)).toEqual('')
+  })
+
+  test('WHEN 2018-03-27  THEN iso date string', () => {
+    const result = formatToISODate(DATE_2018_03_27)
+    expect(result).toEqual('2018-03-27')
   })
 })
 
