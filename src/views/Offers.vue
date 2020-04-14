@@ -14,9 +14,9 @@
     <transition
       mode="out-in"
       leave-active-class="transition-all duration-100 ease-in transform"
-      :leave-to-class="isDirectionNext ? '-translate-x-12 opacity-0' : 'translate-x-12 opacity-0'"
+      :leave-to-class="`opacity-0 ${isDirectionNext ? '-translate-x-12' : 'translate-x-12'}`"
       enter-active-class="delay-100 transition-all duration-50 ease-out transform"
-      :enter-class="isDirectionNext ? 'translate-x-1 opacity-0' : '-translate-x-1 opacity-0'"
+      :enter-class="`opacity-0 ${isDirectionNext ? 'translate-x-1' : '-translate-x-1'}`"
     >
       <OfferBoxGroup :key="lunchStore.selectedDay" class="pt-4" />
     </transition>

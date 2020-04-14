@@ -26,7 +26,7 @@ describe('formatToWeekday', () => {
 
   test('WHEN 2018-03-27  THEN Mittwoch', () => {
     const result = formatToWeekday(DATE_2018_03_27)
-    expect(result).toBeOneOf(['Dienstag', 'Tuesday'])
+    expect(result).toEqual('Dienstag')
   })
 })
 
@@ -37,7 +37,7 @@ describe('formatToLocalDate', () => {
 
   test('WHEN 2018-03-27  THEN locale date format', () => {
     const result = formatToLocalDate(DATE_2018_03_27)
-    expect(result).toBeOneOf(['27.3.2018', '3/27/2018'])
+    expect(result).toEqual('27.3.2018') // LANG=de_DE.UTF-8
   })
 })
 

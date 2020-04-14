@@ -46,7 +46,7 @@ describe('DaySelector', () => {
     expect(buttons.at(1).attributes().disabled).toBeFalsy()
   })
 
-  it('emits previous day', () => {
+  it('emits event for previous day', () => {
     const wrapper = mountWithChildren(DaySelector, {
       days: [YESTERDAY, TODAY, TOMORROW],
       selectedDay: TODAY,
@@ -67,7 +67,7 @@ describe('DaySelector', () => {
     ])
   })
 
-  it('emits next day', () => {
+  it('emits event for next day', () => {
     const wrapper = mountWithChildren(DaySelector, {
       days: [YESTERDAY, TODAY, TOMORROW],
       selectedDay: TODAY,
