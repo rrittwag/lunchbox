@@ -5,8 +5,11 @@ exports[`Content renders snapshot 1`] = `
   class="w-full"
 >
   <transition-stub
+    enteractiveclass="transition-opacity duration-150"
+    enterclass="opacity-0"
+    leaveactiveclass="transition-opacity duration-150"
+    leavetoclass="opacity-0"
     mode="out-in"
-    name="fade"
   >
     <router-view-stub
       name="default"

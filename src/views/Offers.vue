@@ -15,7 +15,7 @@
       mode="out-in"
       leave-active-class="transition-all duration-100 ease-in transform"
       :leave-to-class="`opacity-0 ${isDirectionNext ? '-translate-x-12' : 'translate-x-12'}`"
-      enter-active-class="delay-100 transition-all duration-50 ease-out transform"
+      enter-active-class="delay-200 transition-all duration-50 ease-out transform"
       :enter-class="`opacity-0 ${isDirectionNext ? 'translate-x-1' : '-translate-x-1'}`"
     >
       <OfferBoxGroup :key="selectedDayAsISOString" class="pt-4" />
