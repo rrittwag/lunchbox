@@ -18,7 +18,7 @@
       enter-active-class="delay-100 transition-all duration-50 ease-out transform"
       :enter-class="`opacity-0 ${isDirectionNext ? 'translate-x-1' : '-translate-x-1'}`"
     >
-      <OfferBoxGroup :key="lunchStore.selectedDay" class="pt-4" />
+      <OfferBoxGroup :key="selectedDayAsISOString" class="pt-4" />
     </transition>
   </div>
   <ContentError v-else-if="loadingFailed" />
@@ -34,6 +34,7 @@ import { LoadingState } from '@/store/LoadingState'
 import DaySelector from '@/views/offers/DaySelector.vue'
 import OfferBoxGroup from '@/views/offers/OfferBoxGroup.vue'
 import { DaySelectorDirection, DaySelectorEvent } from '@/views/offers/dayselector/DaySelectorEvent'
+import { formatToISODate } from '@/util/formatting'
 
 @Component({
   components: {
@@ -65,6 +66,10 @@ export default class Offers extends Vue {
     return Array.from(new Set<string>(lunchDays))
       .map(dayString => new Date(dayString))
       .sort((day1, day2) => day1.getTime() - day2.getTime())
+  }
+
+  get selectedDayAsISOString(): string {
+    return formatToISODate(this.lunchStore.selectedDay)
   }
 
   daySelected(event: DaySelectorEvent) {
