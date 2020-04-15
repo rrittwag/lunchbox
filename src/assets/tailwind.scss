@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'style/focus-visible.scss';
 @import 'style/animations.scss';
 @import 'style/transitions.scss';
 @import 'style/themes.scss';
