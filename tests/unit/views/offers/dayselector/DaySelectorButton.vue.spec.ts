@@ -19,14 +19,16 @@ describe('DaySelectorButton', () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it('has no active state when disabled', () => {
+  it('has no `active` style when disabled', () => {
     const wrapper = mountUnit(DaySelectorButton, {
       direction: 'prev',
       disabled: true,
     })
 
-    // Die Spec ist uneindeutig: Ein disabled Button kann bei Klick den Zustand active annehmen
-    expect(wrapper.classes().find(c => c.startsWith('active'))).toBeFalsy()
+    // Trotz disabled-Zustand kann ein Button bei Klick active werden.
+    // -> https://stackoverflow.com/a/12592035
+    // Für diesen unschönen Fall unterbinden wir das Stylen des Buttons.
+    expect(wrapper.classes().find(c => c.startsWith('active'))).toBeUndefined()
   })
 
   it('emits click event', () => {

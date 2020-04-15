@@ -46,7 +46,7 @@ describe('DaySelector', () => {
     expect(buttons.at(1).attributes().disabled).toBeFalsy()
   })
 
-  it('emits event for previous day', () => {
+  it('emits event WHEN click previous day', () => {
     const wrapper = mountWithChildren(DaySelector, {
       days: [YESTERDAY, TODAY, TOMORROW],
       selectedDay: TODAY,
@@ -67,7 +67,7 @@ describe('DaySelector', () => {
     ])
   })
 
-  it('emits event for next day', () => {
+  it('emits event WHEN click next day', () => {
     const wrapper = mountWithChildren(DaySelector, {
       days: [YESTERDAY, TODAY, TOMORROW],
       selectedDay: TODAY,
@@ -77,6 +77,42 @@ describe('DaySelector', () => {
       .findAll('button')
       .at(1)
       .trigger('click')
+
+    expect(wrapper.emitted().change).toBeDefined()
+    expect(wrapper.emitted().change!.length).toBe(1)
+    expect(wrapper.emitted().change![0]).toEqual([
+      {
+        direction: DaySelectorDirection.NEXT,
+        day: TOMORROW,
+      },
+    ])
+  })
+
+  it('emits event WHEN pressing left arrow key', () => {
+    const wrapper = mountWithChildren(DaySelector, {
+      days: [YESTERDAY, TODAY, TOMORROW],
+      selectedDay: TODAY,
+    })
+
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }))
+
+    expect(wrapper.emitted().change).toBeDefined()
+    expect(wrapper.emitted().change!.length).toBe(1)
+    expect(wrapper.emitted().change![0]).toEqual([
+      {
+        direction: DaySelectorDirection.PREVIOUS,
+        day: YESTERDAY,
+      },
+    ])
+  })
+
+  it('emits event WHEN pressing right arrow key', () => {
+    const wrapper = mountWithChildren(DaySelector, {
+      days: [YESTERDAY, TODAY, TOMORROW],
+      selectedDay: TODAY,
+    })
+
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
 
     expect(wrapper.emitted().change).toBeDefined()
     expect(wrapper.emitted().change!.length).toBe(1)
