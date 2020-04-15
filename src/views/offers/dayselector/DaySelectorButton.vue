@@ -1,7 +1,7 @@
 <template>
   <button
     class="text-primary-500 hover:text-primary-600
-           disabled:text-primary-300 disabled:cursor-not-allowed"
+           disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed"
     :class="{ 'active:text-primary-800': !disabled }"
     :title="title"
     :aria-label="title"

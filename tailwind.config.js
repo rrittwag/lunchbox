@@ -46,6 +46,7 @@ module.exports = {
   },
   variants: {
     textColor: ['responsive', 'hover', 'focus', 'disabled', 'active'],
+    opacity: ['responsive', 'hover', 'focus', 'disabled'],
     cursor: ['responsive', 'disabled'],
   },
   plugins: [],
