@@ -10,7 +10,7 @@ exports[`Offer renders snapshot 1`] = `
   >
     <h4
       class="flex-grow
-             text-xl text-neutral-900 leading-tight"
+             text-xl text-neutral-800 leading-tight"
     >
       
       Gyros
@@ -19,11 +19,11 @@ exports[`Offer renders snapshot 1`] = `
      
     <span
       class="pl-2
-             text-xl text-neutral-900 leading-tight whitespace-no-wrap"
+             text-xl text-neutral-800 leading-tight whitespace-no-wrap"
     >
       <small
         class="pl-2
-               text-lg font-light text-neutral-900"
+               text-lg font-light text-neutral-800"
       >
         
         €

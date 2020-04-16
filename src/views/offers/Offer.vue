@@ -6,17 +6,17 @@
     <div class="flex items-baseline w-full">
       <h4
         class="flex-grow
-               text-xl text-neutral-900 leading-tight"
+               text-xl text-neutral-800 leading-tight"
       >
         {{ offer.name }}
       </h4>
       <span
         class="pl-2
-               text-xl text-neutral-900 leading-tight whitespace-no-wrap"
+               text-xl text-neutral-800 leading-tight whitespace-no-wrap"
       >
         <small
           class="pl-2
-                 text-lg font-light text-neutral-900"
+                 text-lg font-light text-neutral-800"
         >
           €
         </small>

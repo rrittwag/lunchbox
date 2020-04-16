@@ -28,14 +28,20 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 
 ## TODOs
 
+- a11y: am Anfang Link "Zum Inhalt springen" + onVRoute Fokus auf Seitenanfang setzen
+    - https://marcus.io/blog/improved-accessible-routing-vuejs
+    - https://codesandbox.io/s/improved-accessible-routing-vue-correct-recommendation-better-aria-current-cxw8w
+    - https://github.com/tailwindcss/tailwindcss/releases/tag/v1.1.0#added-utilities-for-screenreader-visibility
+- Tagwechsel mit Transition versehen
+    - swipe: _forschung/vue-touch (auch Datum swipen?)
+    - a11y: dynamic update mit aria-live
 - Design
     - in Figma übertragen
-    - Display-Font auswählen
-    - Font Display 1 bis 4 responsiv anwenden
     - dunklblau/navy Theme
     - Dark Theme (warm+kalt)
     - Farben für Badges & Card Background definieren
     - neues Logo designen
+    - NavLinks barrierefrei gestalten
 - Settings-View basteln
     - Location wechseln
     - Beschreibung immer einblenden
@@ -48,6 +54,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - https://github.com/bootstrap-vue/bootstrap-vue
     - https://github.com/vuejs/ui/blob/master/src/components/VueButton.vue
     - https://github.com/coreui/coreui-vue
+    - https://quatrochan.github.io/Equal/
     - https://tailwindcomponents.com/
     - https://github.com/DivanteLtd/vue-storefront/tree/master/src/themes/default/components
     - https://github.com/creativetimofficial/tailwind-starter-kit
@@ -68,10 +75,6 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - Offline-Anzeige der Mittagsangebote
 - About-View basteln
     - Info: [Alexa Skill von Falko P.](https://www.amazon.de/s/ref=nb_sb_noss_2?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Dalexa-skills&field-keywords=lunchbox) in Infoseite aufnehmen
-- Unit-Tests schreiben (siehe angular-Frontend)
-- Direkte Anwahl einer Sub-Adresse (z.B. 'http://localhost/about') ermöglichen.
-- Projekt mit HTML5 Boilerplate abgleichen
-- durch Tage "swipen": auf Smartphone nach links und nach rechts ziehen
 - System-Tests bereitstellen, via Selenium?
 - i18n & l10n
 - [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)

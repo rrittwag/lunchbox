@@ -5,7 +5,7 @@
            shadow-xl bg-white rounded-lg
            border-l-8 sm:border-l-0 sm:border-t-8 border-primary-500"
   >
-    <h3 class="text-3xl sm:text-4xl font-serif text-neutral-700">
+    <h3 class="text-3xl sm:text-4xl font-display text-neutral-700">
       {{ provider.name }}
     </h3>
     <ul class="w-full list-none">

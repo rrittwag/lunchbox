@@ -2,7 +2,7 @@
   <div class="flex justify-between items-center">
     <h2
       class="flex-grow text-center
-             block text-2xl text-neutral-800"
+             block text-xl text-neutral-800"
     >
       {{ selectedDayAsWeekday }}
       <time class="block text-lg font-light text-neutral-700" :datetime="selectedDayAsISOString">

@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   theme: {
     extend: {
@@ -41,6 +44,10 @@ module.exports = {
       },
       maxWidth: {
         '4md': '112rem', // 4 x OfferBox mit max-w-md (siehe OfferBoxGroup)
+      },
+      fontFamily: {
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        display: ['Chewy', ...defaultTheme.fontFamily.serif],
       },
     },
   },

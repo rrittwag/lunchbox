@@ -6,7 +6,7 @@ exports[`DaySelector renders snapshot 1`] = `
 >
   <h2
     class="flex-grow text-center
-           block text-2xl text-neutral-800"
+           block text-xl text-neutral-800"
   >
     
     Sonntag
