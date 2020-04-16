@@ -25,16 +25,18 @@
     </div>
 
     <span
-      class="hidden sm:block
+      class="sm:block
              pt-px pl-px
              font-light text-neutral-600 leading-snug"
+      :class="showDetailsInXS ? 'flex' : 'hidden'"
     >
       {{ offer.description }}
     </span>
 
     <div
-      class="hidden sm:flex
+      class="sm:flex
              pt-1"
+      :class="showDetailsInXS ? 'flex' : 'hidden'"
     >
       <Badge
         v-for="tagLabel in sortedTags"
@@ -59,6 +61,7 @@ import { formatEuro } from '@/util/formatting'
 })
 export default class Offer extends Vue {
   @Prop() offer!: LunchOffer
+  @Prop() showDetailsInXS!: boolean
 
   get sortedTags() {
     return this.offer.tags.sort()

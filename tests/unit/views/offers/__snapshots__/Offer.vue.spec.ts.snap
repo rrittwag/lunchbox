@@ -36,9 +36,9 @@ exports[`Offer renders snapshot 1`] = `
   </div>
    
   <span
-    class="hidden sm:block
+    class="sm:block
            pt-px pl-px
-           font-light text-neutral-600 leading-snug"
+           font-light text-neutral-600 leading-snug hidden"
   >
     
     mit Pommes
@@ -46,8 +46,8 @@ exports[`Offer renders snapshot 1`] = `
   </span>
    
   <div
-    class="hidden sm:flex
-           pt-1"
+    class="sm:flex
+           pt-1 hidden"
   >
     <badge-stub
       color="bg-accent-200"

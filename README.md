@@ -35,6 +35,9 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 - Tagwechsel mit Transition versehen
     - swipe: _forschung/vue-touch (auch Datum swipen?)
     - a11y: dynamic update mit aria-live
+- Details verstecken auf Smartphone
+    - Details a11y-freundlich wiedergeben
+    - Button zum Aufklappen (?)
 - Design
     - in Figma übertragen
     - dunklblau/navy Theme

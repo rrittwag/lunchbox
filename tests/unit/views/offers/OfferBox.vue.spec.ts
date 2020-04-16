@@ -45,4 +45,29 @@ describe('OfferBox', () => {
     const items = wrapper.findAll(Offer)
     expect(items.length).toBe(0)
   })
+
+  it('hide details for screen size XS', () => {
+    const wrapper = mountUnit(OfferBox, {
+      provider: mensa,
+      offers: [gyros, soljanka],
+    })
+
+    const items = wrapper.findAll(Offer)
+    expect(items.at(0).props('showDetailsInXS')).toEqual(false)
+    expect(items.at(1).props('showDetailsInXS')).toEqual(false)
+  })
+
+  it('WHEN clicked  THEN show details for screen size XS', async () => {
+    const wrapper = mountUnit(OfferBox, {
+      provider: mensa,
+      offers: [gyros, soljanka],
+    })
+
+    wrapper.trigger('click')
+    await wrapper.vm.$nextTick() // Wait until trigger events have been handled
+
+    const items = wrapper.findAll(Offer)
+    expect(items.at(0).props('showDetailsInXS')).toEqual(true)
+    expect(items.at(1).props('showDetailsInXS')).toEqual(true)
+  })
 })
