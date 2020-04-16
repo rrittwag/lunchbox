@@ -93,7 +93,10 @@ class LunchResolverKrauthof(
 
   private fun createLunchOffer(row: OfferRow, monday: LocalDate): LunchOffer {
     val (title, description) = StringParser.splitOfferName(row.name)
-    return LunchOffer(0, title, description, monday, row.price!!, parseTags(row.name), provider.id)
+    val titleOhneZusatz = title.replace(Regex("""\([a-z0-9, ]+\)"""), "").trim()
+    val tags = parseTags(row.name)
+
+    return LunchOffer(0, titleOhneZusatz, description, monday, row.price!!, tags, provider.id)
   }
 
   private fun parseTags(name: String): Set<String> = when {
