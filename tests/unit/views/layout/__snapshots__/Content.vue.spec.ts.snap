@@ -2,7 +2,7 @@
 
 exports[`Content renders snapshot 1`] = `
 <main
-  class="w-full"
+  class="w-full h-full"
 >
   <transition-stub
     enteractiveclass="transition-opacity duration-150"

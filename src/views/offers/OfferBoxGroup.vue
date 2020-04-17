@@ -1,5 +1,5 @@
 <template>
-  <div class="offer-box-group flex flex-wrap items-start">
+  <div class="flex flex-wrap content-start">
     <div
       v-for="provider in visibleProviders"
       :key="provider.id"

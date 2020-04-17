@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { mountWithChildren } from '@tests/unit/test-util'
 import DaySelector from '@/views/offers/DaySelector.vue'
-import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorEvent'
+import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
 
 describe('DaySelector', () => {
   it('renders snapshot', () => {
     const wrapper = mountWithChildren(DaySelector, {
-      days: [YESTERDAY, TODAY, TOMORROW],
       selectedDay: YESTERDAY,
     })
 
@@ -15,8 +14,8 @@ describe('DaySelector', () => {
 
   it('has disabled previous button', () => {
     const wrapper = mountWithChildren(DaySelector, {
-      days: [YESTERDAY, TODAY, TOMORROW],
       selectedDay: YESTERDAY,
+      disabledPrev: true,
     })
 
     const buttons = wrapper.findAll('button')
@@ -26,8 +25,8 @@ describe('DaySelector', () => {
 
   it('has disabled next button', () => {
     const wrapper = mountWithChildren(DaySelector, {
-      days: [YESTERDAY, TODAY, TOMORROW],
       selectedDay: TOMORROW,
+      disabledNext: true,
     })
 
     const buttons = wrapper.findAll('button')
@@ -35,20 +34,8 @@ describe('DaySelector', () => {
     expect(buttons.at(1).attributes().disabled).toBeTruthy()
   })
 
-  it('has no disabled button', () => {
-    const wrapper = mountWithChildren(DaySelector, {
-      days: [YESTERDAY, TODAY, TOMORROW],
-      selectedDay: TODAY,
-    })
-
-    const buttons = wrapper.findAll('button')
-    expect(buttons.at(0).attributes().disabled).toBeFalsy()
-    expect(buttons.at(1).attributes().disabled).toBeFalsy()
-  })
-
   it('emits event WHEN click previous day', () => {
     const wrapper = mountWithChildren(DaySelector, {
-      days: [YESTERDAY, TODAY, TOMORROW],
       selectedDay: TODAY,
     })
 
@@ -59,17 +46,11 @@ describe('DaySelector', () => {
 
     expect(wrapper.emitted().change).toBeDefined()
     expect(wrapper.emitted().change!.length).toBe(1)
-    expect(wrapper.emitted().change![0]).toEqual([
-      {
-        direction: DaySelectorDirection.PREVIOUS,
-        day: YESTERDAY,
-      },
-    ])
+    expect(wrapper.emitted().change![0]).toEqual([DaySelectorDirection.PREVIOUS])
   })
 
   it('emits event WHEN click next day', () => {
     const wrapper = mountWithChildren(DaySelector, {
-      days: [YESTERDAY, TODAY, TOMORROW],
       selectedDay: TODAY,
     })
 
@@ -80,12 +61,7 @@ describe('DaySelector', () => {
 
     expect(wrapper.emitted().change).toBeDefined()
     expect(wrapper.emitted().change!.length).toBe(1)
-    expect(wrapper.emitted().change![0]).toEqual([
-      {
-        direction: DaySelectorDirection.NEXT,
-        day: TOMORROW,
-      },
-    ])
+    expect(wrapper.emitted().change![0]).toEqual([DaySelectorDirection.NEXT])
   })
 
   it('emits event WHEN pressing left arrow key', () => {
@@ -98,12 +74,7 @@ describe('DaySelector', () => {
 
     expect(wrapper.emitted().change).toBeDefined()
     expect(wrapper.emitted().change!.length).toBe(1)
-    expect(wrapper.emitted().change![0]).toEqual([
-      {
-        direction: DaySelectorDirection.PREVIOUS,
-        day: YESTERDAY,
-      },
-    ])
+    expect(wrapper.emitted().change![0]).toEqual([DaySelectorDirection.PREVIOUS])
   })
 
   it('emits event WHEN pressing right arrow key', () => {
@@ -116,12 +87,7 @@ describe('DaySelector', () => {
 
     expect(wrapper.emitted().change).toBeDefined()
     expect(wrapper.emitted().change!.length).toBe(1)
-    expect(wrapper.emitted().change![0]).toEqual([
-      {
-        direction: DaySelectorDirection.NEXT,
-        day: TOMORROW,
-      },
-    ])
+    expect(wrapper.emitted().change![0]).toEqual([DaySelectorDirection.NEXT])
   })
 })
 

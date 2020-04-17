@@ -1,5 +1,5 @@
 <template>
-  <main class="w-full">
+  <main class="w-full h-full">
     <transition
       mode="out-in"
       leave-active-class="transition-opacity duration-150"

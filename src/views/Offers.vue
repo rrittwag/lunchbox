@@ -1,12 +1,18 @@
 <template>
-  <div class="sm:py-4" v-if="loadingDone">
+  <div
+    class="flex flex-col
+           h-full
+           sm:py-4"
+    v-if="loadingDone"
+  >
     <div class="px-4">
       <h1 class="sr-only">
         Mittagsangebote
       </h1>
       <DaySelector
-        :days="lunchDays"
         :selectedDay="lunchStore.selectedDay"
+        :disabledNext="!nextDay()"
+        :disabledPrev="!prevDay()"
         @change="daySelected"
         class="sm:max-w-sm h-16"
       />
@@ -18,7 +24,12 @@
       enter-active-class="delay-200 transition-all duration-50 ease-out transform"
       :enter-class="`opacity-0 ${isDirectionNext ? 'translate-x-1' : '-translate-x-1'}`"
     >
-      <OfferBoxGroup :key="selectedDayAsISOString" class="pt-4" />
+      <OfferBoxGroup
+        v-touch:swipe="swiped"
+        :key="selectedDayAsISOString"
+        class="flex-grow
+               pt-4"
+      />
     </transition>
   </div>
   <ContentError v-else-if="loadingFailed" />
@@ -33,7 +44,7 @@ import { LunchStore } from '@/store/modules/LunchStore'
 import { LoadingState } from '@/store/LoadingState'
 import DaySelector from '@/views/offers/DaySelector.vue'
 import OfferBoxGroup from '@/views/offers/OfferBoxGroup.vue'
-import { DaySelectorDirection, DaySelectorEvent } from '@/views/offers/dayselector/DaySelectorEvent'
+import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
 import { formatToISODate } from '@/util/formatting'
 
 @Component({
@@ -68,13 +79,29 @@ export default class Offers extends Vue {
       .sort((day1, day2) => day1.getTime() - day2.getTime())
   }
 
+  prevDay(): Date | undefined {
+    return this.lunchDays.filter(day => day < this.lunchStore.selectedDay).pop()
+  }
+
+  nextDay(): Date | undefined {
+    return this.lunchDays.filter(day => day > this.lunchStore.selectedDay)[0]
+  }
+
   get selectedDayAsISOString(): string {
     return formatToISODate(this.lunchStore.selectedDay)
   }
 
-  daySelected(event: DaySelectorEvent) {
-    this.isDirectionNext = event.direction === DaySelectorDirection.NEXT
-    this.lunchStore.setSelectedDay(event.day)
+  daySelected(direction: DaySelectorDirection) {
+    const gotoDay = direction === DaySelectorDirection.NEXT ? this.nextDay() : this.prevDay()
+    if (!gotoDay) return
+
+    this.isDirectionNext = direction === DaySelectorDirection.NEXT
+    this.lunchStore.setSelectedDay(gotoDay)
+  }
+
+  swiped(swipeDirection: string) {
+    if (swipeDirection === 'left') this.daySelected(DaySelectorDirection.NEXT)
+    else if (swipeDirection === 'right') this.daySelected(DaySelectorDirection.PREVIOUS)
   }
 }
 </script>

@@ -18,7 +18,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import AngleLeftIcon from '@/assets/icons/angle-left.svg'
 import AngleRightIcon from '@/assets/icons/angle-right.svg'
-import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorEvent'
+import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
 
 @Component({
   components: {

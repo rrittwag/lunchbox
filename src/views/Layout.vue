@@ -1,7 +1,12 @@
 <template>
-  <div class="h-full w-full max-w-4md font-sans antialiased relative">
+  <div
+    class="flex flex-col
+           w-full max-w-4md min-h-screen
+           font-sans antialiased
+           relative"
+  >
     <Header />
-    <Content />
+    <Content class="flex-grow" />
   </div>
 </template>
 

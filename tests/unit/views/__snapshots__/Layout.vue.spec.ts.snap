@@ -2,10 +2,15 @@
 
 exports[`Layout renders snapshot 1`] = `
 <div
-  class="h-full w-full max-w-4md font-sans antialiased relative"
+  class="flex flex-col
+         w-full max-w-4md min-h-screen
+         font-sans antialiased
+         relative"
 >
   <header-stub />
    
-  <content-stub />
+  <content-stub
+    class="flex-grow"
+  />
 </div>
 `;

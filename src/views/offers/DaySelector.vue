@@ -13,10 +13,10 @@
     <DaySelectorButton
       class="order-first"
       direction="prev"
-      @click="goPrevDay"
-      :disabled="!prevDay()"
+      @click="prevClicked"
+      :disabled="disabledPrev"
     />
-    <DaySelectorButton direction="next" @click="goNextDay" :disabled="!nextDay()" />
+    <DaySelectorButton direction="next" @click="nextClicked" :disabled="disabledNext" />
   </div>
 </template>
 
@@ -24,14 +24,15 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { formatToLocalDate, formatToISODate, formatToWeekday } from '@/util/formatting'
 import DaySelectorButton from '@/views/offers/dayselector/DaySelectorButton.vue'
-import { DaySelectorDirection, DaySelectorEvent } from '@/views/offers/dayselector/DaySelectorEvent'
+import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
 
 @Component({
   components: { DaySelectorButton },
 })
 export default class DaySelector extends Vue {
   @Prop() selectedDay!: Date
-  @Prop() days!: Date[]
+  @Prop() disabledPrev!: boolean
+  @Prop() disabledNext!: boolean
 
   get selectedDayAsWeekday(): string {
     return formatToWeekday(this.selectedDay)
@@ -61,11 +62,11 @@ export default class DaySelector extends Vue {
     switch (event.key) {
       case 'Left': // IE/Edge specific value
       case 'ArrowLeft':
-        this.goPrevDay()
+        this.prevClicked()
         break
       case 'Right': // IE/Edge specific value
       case 'ArrowRight':
-        this.goNextDay()
+        this.nextClicked()
         break
       default:
         return // Quit when this doesn't handle the key event.
@@ -75,34 +76,12 @@ export default class DaySelector extends Vue {
     event.preventDefault()
   }
 
-  prevDay(): Date | undefined {
-    return this.days.filter(day => day < this.selectedDay).pop()
+  prevClicked(): void {
+    this.$emit('change', DaySelectorDirection.PREVIOUS)
   }
 
-  nextDay(): Date | undefined {
-    return this.days.filter(day => day > this.selectedDay)[0]
-  }
-
-  goPrevDay(): void {
-    const prevDay = this.prevDay()
-    if (!prevDay) return
-
-    const event: DaySelectorEvent = {
-      direction: DaySelectorDirection.PREVIOUS,
-      day: prevDay,
-    }
-    this.$emit('change', event)
-  }
-
-  goNextDay(): void {
-    const nextDay = this.nextDay()
-    if (!nextDay) return
-
-    const event: DaySelectorEvent = {
-      direction: DaySelectorDirection.NEXT,
-      day: nextDay,
-    }
-    this.$emit('change', event)
+  nextClicked(): void {
+    this.$emit('change', DaySelectorDirection.NEXT)
   }
 }
 </script>

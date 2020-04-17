@@ -33,18 +33,16 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - https://codesandbox.io/s/improved-accessible-routing-vue-correct-recommendation-better-aria-current-cxw8w
     - https://github.com/tailwindcss/tailwindcss/releases/tag/v1.1.0#added-utilities-for-screenreader-visibility
 - Tagwechsel mit Transition versehen
-    - swipe: _forschung/vue-touch (auch Datum swipen?)
     - a11y: dynamic update mit aria-live
 - Details verstecken auf Smartphone
     - Details a11y-freundlich wiedergeben
     - Button zum Aufklappen (?)
-- Design
-    - in Figma übertragen
-    - dunklblau/navy Theme
-    - Dark Theme (warm+kalt)
-    - Farben für Badges & Card Background definieren
-    - neues Logo designen
+- Navigation
     - NavLinks barrierefrei gestalten
+- Design
+    - Dark Themes für warm+grün+kalt realisieren
+    - weitere Themes? dunklblau/navy Theme
+    - neues Logo designen
 - Settings-View basteln
     - Location wechseln
     - Beschreibung immer einblenden
