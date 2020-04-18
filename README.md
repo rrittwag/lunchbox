@@ -28,28 +28,26 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 
 ## TODOs
 
-- a11y: am Anfang Link "Zum Inhalt springen" + onVRoute Fokus auf Seitenanfang setzen
+- a11y Navigation
+    - Farbkontrastregeln für non-active NavLinks einhalten
+    - am Anfang Link "Zum Inhalt springen" + onVRoute Fokus auf Seitenanfang setzen
     - https://marcus.io/blog/improved-accessible-routing-vuejs
     - https://codesandbox.io/s/improved-accessible-routing-vue-correct-recommendation-better-aria-current-cxw8w
     - https://github.com/tailwindcss/tailwindcss/releases/tag/v1.1.0#added-utilities-for-screenreader-visibility
-- Tagwechsel mit Transition versehen
-    - a11y: dynamic update mit aria-live
-- Details verstecken auf Smartphone
-    - Details a11y-freundlich wiedergeben
-    - Button zum Aufklappen (?)
-- Navigation
-    - NavLinks barrierefrei gestalten
+- a11y Mittagsangebote
+    - Tag-/Angebotswechsel via aria-live anouncen
+    - Versteckte Offer-Details mit Screen Reader wiedergeben
+    - Versteckte Offer-Details tastaturfreundlich gestalten, z.B. Button zum Aufklappen
 - Design
     - Dark Themes für warm+grün+kalt realisieren
-    - weitere Themes? dunklblau/navy Theme
     - neues Logo designen
+    - weitere Themes? navy/rosa/neon Theme
 - Settings-View basteln
-    - Location wechseln
-    - Beschreibung immer einblenden
-    - Badges immer einblenden
+    - LunchLocation wechseln
+    - Details immer einblenden
+    - Mittagsanbieter sortieren & ausblenden
     - Theme auswählen
-    - Mittagsanbieter sortierbar/ausblendbar
-    - Nutzerbezogenes Sortieren & Filtern der Mittagsanbieter
+    - Dark Mode: ja/nein/System
 - Komponenten basteln
     - [Tailwind UI](https://tailwindui.com/components)
     - https://github.com/bootstrap-vue/bootstrap-vue
@@ -66,21 +64,21 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - https://polished-sunset-0ex44e5cb9xt.tailwindcss.com/components/198272c2-e9b3-46e5-99da-d0911ad1e07c
     - https://tailwindui.com/page-examples/detail-view-01#
     - https://github.com/moesaid/cleopatra
-  Empty States
+- Empty States gestalten
     - Anzeige für keine Angebote
-    - Lade-Status als [Spinner](https://scotch.io/tutorials/add-loading-indicators-to-your-vuejs-application) darstellen
-    - Meldung bei fehlerhaftem Laden
+    - ContentLoading: Lade-Status als [Spinner](https://scotch.io/tutorials/add-loading-indicators-to-your-vuejs-application) darstellen
+    - ContentError: Meldung bei fehlerhaftem Laden
 - PWA
     - Mittagsangebote im LocalStorage halten und bei Neustart die Ladezeit überbrücken
         - https://github.com/robinvdvleuten/vuex-persistedstate
     - Offline-Anzeige der Mittagsangebote
 - About-View basteln
     - Info: [Alexa Skill von Falko P.](https://www.amazon.de/s/ref=nb_sb_noss_2?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Dalexa-skills&field-keywords=lunchbox) in Infoseite aufnehmen
-- System-Tests bereitstellen, via Selenium?
+- System-Tests: Selenium-Tests schreiben
 - i18n & l10n
 - [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
-- [Komponenten mit Storybook dokumentieren](https://github.com/vuesion/vuesion/tree/master/src/app/shared/components/VueButton)
-- [Store JavaScript-ish implementieren?](https://github.com/vuesion/vuesion/tree/master/src/app/app)
+- Dokumentation & Test von Komponenten: [Storybook](https://github.com/vuesion/vuesion/tree/master/src/app/shared/components/VueButton)
+- VueX-Store: entfernen oder [JavaScript-ish implementieren?](https://github.com/vuesion/vuesion/tree/master/src/app/app)
 
 
 
