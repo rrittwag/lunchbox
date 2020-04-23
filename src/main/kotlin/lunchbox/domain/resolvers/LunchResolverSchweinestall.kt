@@ -5,6 +5,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
+import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
 import org.jsoup.nodes.Element
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 class LunchResolverSchweinestall(
+  val dateValidator: DateValidator,
   val htmlParser: HtmlParser
 ) : LunchResolver {
 
@@ -41,6 +43,7 @@ class LunchResolverSchweinestall(
 
   private fun resolveOffers(dateElem: Element, offersElem: Element): List<LunchOffer> {
     val monday: LocalDate = resolveMonday(dateElem) ?: return emptyList()
+    if (!dateValidator.isValid(monday)) return emptyList()
 
     val tdsAsText = offersElem.select("td")
       .map { it.text() }

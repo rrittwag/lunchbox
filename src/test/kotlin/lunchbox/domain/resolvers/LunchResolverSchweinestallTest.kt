@@ -3,6 +3,7 @@ package lunchbox.domain.resolvers /* ktlint-disable max-line-length */
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SCHWEINESTALL
+import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Test
 class LunchResolverSchweinestallTest {
 
   private val htmlParser = HtmlParser(mockk())
-  private fun resolver() = LunchResolverSchweinestall(htmlParser)
+  private fun resolver() = LunchResolverSchweinestall(DateValidator.alwaysValid(), htmlParser)
   private val providerId = SCHWEINESTALL.id
 
   @Test
