@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const tailwindcss = require('tailwindcss')
 const autoprefixer = require('autoprefixer')
-const focusvisible = require('postcss-focus-visible')
 
 // Only add purgecss in production
 const purgecss =
@@ -25,5 +24,5 @@ const purgecss =
     : ''
 
 module.exports = {
-  plugins: [tailwindcss, autoprefixer, focusvisible, purgecss],
+  plugins: [tailwindcss, autoprefixer, purgecss],
 }
