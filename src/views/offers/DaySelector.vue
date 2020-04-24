@@ -59,6 +59,8 @@ export default class DaySelector extends Vue {
       return // Do nothing if the event was already processed
     }
 
+    if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
+
     switch (event.key) {
       case 'Left': // IE/Edge specific value
       case 'ArrowLeft':
