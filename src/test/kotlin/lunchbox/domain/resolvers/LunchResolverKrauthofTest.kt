@@ -213,4 +213,24 @@ class LunchResolverKrauthofTest {
     offers shouldContain LunchOffer(0, "Gebratene Hähnchenbrust", "mit Champignons in leichtem Thymianrahm, Pommes frites", week.monday, euro("7.50"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Knuspriges Schnitzel", "mit Spiegelei, Bratkartoffeln, Gurkensalat", week.monday, euro("6.50"), emptySet(), providerId)
   }
+
+  @Test
+  fun `resolve offers for week of 2020-04-27`() {
+    val url = javaClass.getResource("/menus/krauthof/pdf/2020-04-27.pdf")
+    val week = weekOf("2020-04-27")
+
+    val offers = resolver().resolveFromPdf(url)
+
+    offers shouldHaveSize 12
+
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 0
+
+    offers shouldContain LunchOffer(0, "Gefüllte Tomaten", "mit Quinoa, Tomatensauce, Gemüsereis, marinierte Blattsalate", week.monday, euro("5.80"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Tagliatelle", "mit Hähnchenbruststreifen, Paprika-Zwiebelrahm, Champignons, Frühlingszwiebeln", week.monday, euro("6.90"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Zartes Matjesfilet", "mit roten Zwiebeln, Apfel-Gurken-Creme fraîche, Röstkartoffeln", week.monday, euro("7.50"), emptySet(), providerId)
+  }
 }

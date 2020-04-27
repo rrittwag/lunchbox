@@ -73,7 +73,7 @@ class LunchResolverKrauthof(
         continue
       }
 
-      val matchLastLine = Regex(""".*inklusive Tagesgetränk.*""").find(line)
+      val matchLastLine = Regex(""".*(inklusive Tagesgetränk|Zusatzstoffe).*""").find(line)
       if (matchLastLine != null) {
         finishOffer()
         continue
