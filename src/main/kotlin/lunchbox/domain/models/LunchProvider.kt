@@ -26,5 +26,6 @@ enum class LunchProvider(
   GESUNDHEITSZENTRUM(6, "Gesundheitszentrum", BERLIN_SPRINGPFUHL, URL("https://de-de.facebook.com/pages/Kantine-BQuakatz-Allee-der-Kosmonauten/181190361991823"), false),
   FELDKUECHE(7, "Feldküche Karow", BERLIN_SPRINGPFUHL, URL("https://www.feldkuechebkarow.de/speiseplan")),
   DAS_KRAUTHOF(8, "Das Krauthof", NEUBRANDENBURG, URL("https://www.daskrauthof.de/karte")),
-  TABBOULEH(9, "Tabbouleh", BERLIN_SPRINGPFUHL, URL("https://www.restaurant-tabbouleh.de/menu"), false)
+  TABBOULEH(9, "Tabbouleh", BERLIN_SPRINGPFUHL, URL("https://www.restaurant-tabbouleh.de/menu"), false),
+  PHOENIXEUM(10, "Phoenixeum", NEUBRANDENBURG, URL("https://www.suppenkult.com/wochenplan.html"))
 }
