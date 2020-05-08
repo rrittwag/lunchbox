@@ -25,17 +25,21 @@ class LunchResolverPhoenixeum(
   override fun resolve(): List<LunchOffer> = resolve(provider.menuUrl)
 
   fun resolve(url: URL): List<LunchOffer> {
+    val result = mutableListOf<LunchOffer>()
+
     val site = htmlParser.parse(url)
 
-    val wochenplanDiv = site.selectFirst("#wochenplaene > div.ce_text")
-      ?: return emptyList()
-    val monday = resolveMonday(wochenplanDiv)
-      ?: return emptyList()
-    if (!dateValidator.isValid(monday))
-      return emptyList()
+    for (wochenplanDiv in site.select("#wochenplaene > div.ce_text")) {
+      val monday = resolveMonday(wochenplanDiv)
+        ?: continue
+      if (!dateValidator.isValid(monday))
+        continue
 
-    return parseOffers(wochenplanDiv, monday)
+      result += parseOffers(wochenplanDiv, monday)
         .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
+    }
+
+    return result
   }
 
   private fun parseOffers(wochenplanDiv: Element, monday: LocalDate): List<LunchOffer> {
