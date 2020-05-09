@@ -28,6 +28,9 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 
 ## TODOs
 
+- browserslist aktualisieren
+    - https://dev.to/amplifr/outdated-browser-detection-with-browserslist-10co
+    - https://github.com/browserslist/browserslist/blob/master/README.md#debug
 - a11y Navigation
     - Farbkontrastregeln für non-active NavLinks einhalten
     - am Anfang Link "Zum Inhalt springen" + onVRoute Fokus auf Seitenanfang setzen
@@ -40,14 +43,17 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - Versteckte Offer-Details tastaturfreundlich gestalten, z.B. Button zum Aufklappen
 - Design
     - Dark Themes für warm+grün+kalt realisieren
+    - [semantische Farben?](https://twitter.com/adamwathan/status/1256657059770257410)
     - neues Logo designen
     - weitere Themes? navy/rosa/neon Theme
 - Settings-View basteln
+    - GUI-Inspiration [1](https://tailwindui.com/components) + [2](https://tailwindui.com/components/marketing/sections/faq-sections)
     - LunchLocation wechseln
     - Details immer einblenden
     - Mittagsanbieter sortieren & ausblenden
     - Theme auswählen
     - Dark Mode: ja/nein/System
+    - Transitions on/off
 - Komponenten basteln
     - [Tailwind UI](https://tailwindui.com/components)
     - https://github.com/bootstrap-vue/bootstrap-vue
