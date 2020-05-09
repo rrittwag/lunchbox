@@ -39,8 +39,9 @@ module.exports = {
           '900': 'var(--color-neutral-900)',
         },
         success: {
-          '200': '#E2F7DE',
+          '200': 'var(--color-success-200)',
         },
+        card: 'var(--color-card)',
       },
       maxWidth: {
         '4md': '112rem', // 4 x OfferBox mit max-w-md (siehe OfferBoxGroup)
