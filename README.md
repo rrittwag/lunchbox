@@ -28,9 +28,6 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 
 ## TODOs
 
-- browserslist aktualisieren
-    - https://dev.to/amplifr/outdated-browser-detection-with-browserslist-10co
-    - https://github.com/browserslist/browserslist/blob/master/README.md#debug
 - a11y Navigation
     - Farbkontrastregeln für non-active NavLinks einhalten
     - am Anfang Link "Zum Inhalt springen" + onVRoute Fokus auf Seitenanfang setzen
