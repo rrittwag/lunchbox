@@ -281,4 +281,34 @@ class LunchResolverAokCafeteriaTest {
     offers shouldContain LunchOffer(0, "Nasi Goreng", "mit Salatbeilage", week.friday, euro("4.90"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Schweinesteak", "mit Rahmchampignons und Gratin", week.friday, euro("5.50"), emptySet(), providerId)
   }
+
+  @Test
+  fun `resolve offers for Corona week of 2020-05-04`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2020-05-04.pdf")
+    val week = weekOf("2020-05-04")
+
+    val offers = resolver().resolveFromPdf(url)
+
+    offers shouldHaveSize 5
+    offers shouldContain LunchOffer(0, "Kasslerbraten oder Krustenbraten", "mit Rotkohl und Kartoffeln", week.monday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Linseneintopf", "", week.tuesday, euro("4.90"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Hähnchen", "mit Gemüse süß-sauer und Basmatireis", week.wednesday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "mediterraner Braten", "mit Pfannengemüse und Brezenknödel", week.thursday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Grießbrei", "mit warmen Früchten", week.friday, euro("4.90"), emptySet(), providerId)
+  }
+
+  @Test
+  fun `resolve offers for Corona week of 2020-05-11`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2020-05-11.pdf")
+    val week = weekOf("2020-05-11")
+
+    val offers = resolver().resolveFromPdf(url)
+
+    offers shouldHaveSize 5
+    offers shouldContain LunchOffer(0, "Senfeier", "mit Kartoffeln und Möhrensalat", week.monday, euro("4.90"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "kleine Buletten", "mit Blumenkohl und Kartoffeln", week.tuesday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Hähnchenschenkel", "mit Rahmchampignons und Bandnudeln", week.wednesday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "gedünstetes Fischfilet", "mit Dillsauce, buntem Gemüse und Kartoffelpüree", week.thursday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Milchreis", "mit Obst", week.friday, euro("4.90"), emptySet(), providerId)
+  }
 }

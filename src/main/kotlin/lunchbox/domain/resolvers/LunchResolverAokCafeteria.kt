@@ -56,7 +56,20 @@ class LunchResolverAokCafeteria(
     lines: List<TextLine>,
     monday: LocalDate
   ): List<LunchOffer> {
-    val section2lines = groupBySection(lines)
+    val hasLineWithPrices = lines.any { it.allTextsMatch(Regex("""^\d+[.,]\d{2} *€$""")) }
+
+    return if (hasLineWithPrices)
+      resolveFromPdfContentWithHorizontalPrice(pdfUrl, lines, monday)
+    else
+      resolveFromPdfContentWithVerticalPrice(lines, monday)
+  }
+
+  private fun resolveFromPdfContentWithHorizontalPrice(
+    pdfUrl: URL,
+    lines: List<TextLine>,
+    monday: LocalDate
+  ): List<LunchOffer> {
+    val section2lines = groupBySectionWithHorizontalPrice(lines)
 
     val priceLines = section2lines[PdfSection.TABLE_HEADER]
     if (priceLines == null || priceLines.isEmpty()) {
@@ -96,7 +109,9 @@ class LunchResolverAokCafeteria(
   fun parseMonday(lines: List<TextLine>): LocalDate? =
     StringParser.parseMondayOfMostUsedWeek(lines.map { it.toString() })
 
-  private fun groupBySection(lines: List<TextLine>): Map<PdfSection, List<TextLine>> {
+  private fun groupBySectionWithHorizontalPrice(
+    lines: List<TextLine>
+  ): Map<PdfSection, List<TextLine>> {
     val header = lines.find { it.allTextsMatch(Regex("""^\d+[.,]\d{2} *€$""")) }
       ?: return emptyMap()
 
@@ -119,6 +134,57 @@ class LunchResolverAokCafeteria(
       } else {
         linesForDay = linesForDay + line
       }
+    }
+
+    return result
+  }
+
+  private fun resolveFromPdfContentWithVerticalPrice(
+    lines: List<TextLine>,
+    monday: LocalDate
+  ): List<LunchOffer> {
+    val section2lines = groupBySectionWithVerticalPrice(lines)
+
+    val offers = mutableListOf<LunchOffer>()
+
+    for ((weekday, weekdayLines) in section2lines) {
+      val mainLine = weekdayLines.find { it.oneTextMatches(Regex(".*€.*")) }
+        ?: continue
+      val price = StringParser.parseMoney(mainLine.toString())
+        ?: continue
+      if (mainLine.texts.size < 3)
+        continue
+
+      val priceColumn = PriceColumn(mainLine.texts[1].xMid(), price)
+      val offer = parseDayOffer(weekdayLines, weekday, monday, priceColumn)
+        ?: continue
+      offers += offer
+    }
+    return offers
+  }
+
+  private fun groupBySectionWithVerticalPrice(
+    lines: List<TextLine>
+  ): Map<PdfSection, List<TextLine>> {
+    val sortedLines = lines.sortedBy { it.y }
+    val averageY = sortedLines.windowed(2, 1).map { it[1].y - it[0].y }.average()
+
+    val result = mutableMapOf<PdfSection, List<TextLine>>()
+    val currentLines = mutableListOf<TextLine>()
+    var previousLine: TextLine? = null
+
+    for (line in sortedLines) {
+      if (previousLine != null && line.y - previousLine.y > averageY) {
+        val mainLine = currentLines.find { it.oneTextMatches(Regex(".*€.*")) }
+        if (mainLine != null) {
+          val section = PdfSection.weekdayValues.find { mainLine.toString().startsWith(it.label) }
+          if (section != null)
+            result += section to currentLines.toList()
+        }
+        currentLines.clear()
+      }
+      currentLines += line
+      previousLine = line
     }
 
     return result
@@ -165,7 +231,10 @@ class LunchResolverAokCafeteria(
 
   private fun parseName(text: String): String? {
     val cleanedName =
-      text.trim().replace("  ", " ")
+      text
+        .trim()
+        .replace("  ", " ")
+        .replace("süß- sauer", "süß-sauer")
 
     if (cleanedName.isEmpty() || cleanedName == "-")
       return null
