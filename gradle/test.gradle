@@ -1,7 +1,7 @@
 // -------------------
 //   Unit-Tests mit JUnit 5
 // -------------------
-ext.testcontainersVersion = '1.13.0'
+ext.testcontainersVersion = '1.14.1'
 
 dependencies {
   // JUnit 5
@@ -12,8 +12,8 @@ dependencies {
 
   // Kotlin
   testImplementation 'org.amshove.kluent:kluent:1.60'    // assertions
-  testImplementation 'io.mockk:mockk:1.9.3'              // mocking
-  testImplementation 'com.ninja-squad:springmockk:2.0.0' // support @MockkBean injection
+  testImplementation 'io.mockk:mockk:1.10.0'             // mocking
+  testImplementation 'com.ninja-squad:springmockk:2.0.1' // support @MockkBean injection
 
   // TestContainers for integration tests
   testIntegrationImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"

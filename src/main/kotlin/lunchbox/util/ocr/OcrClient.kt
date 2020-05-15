@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
+import reactor.util.retry.Retry.backoff
 
 /**
  * Führt Texterkennung (OCR) auf dem übergebenen Bild via OpenOCR aus.
@@ -31,7 +32,7 @@ class OcrClient(
       .body(BodyInserters.fromValue(requestBody))
       .retrieve()
       .bodyToMono<String>()
-      .retryBackoff(5, Duration.ofSeconds(5), Duration.ofSeconds(60))
+      .retryWhen(backoff(5, Duration.ofSeconds(5)))
       .block() ?: ""
   }
 }

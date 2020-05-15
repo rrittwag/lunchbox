@@ -4,6 +4,7 @@ import java.time.Duration
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
+import reactor.util.retry.Retry.backoff
 
 /**
  * Ruft eine Resource der Facebook GraphApi ab.
@@ -22,7 +23,7 @@ class FacebookGraphApiImpl(
       .get()
       .retrieve()
       .bodyToMono(clazz)
-      .retryBackoff(5, Duration.ofSeconds(5), Duration.ofSeconds(60))
+      .retryWhen(backoff(5, Duration.ofSeconds(5)))
       .block()
   }
 }
