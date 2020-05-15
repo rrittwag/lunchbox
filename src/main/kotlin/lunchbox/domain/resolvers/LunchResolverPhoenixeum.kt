@@ -93,7 +93,14 @@ class LunchResolverPhoenixeum(
 
     val (weekdayStr, name, priceStr) = clearedParts
 
-    val weekdays = Weekday.values().filter { weekdayStr.contains(it.label) }
+    val weekdays =
+      if (weekdayStr.contains("bis"))
+        Weekday.values()
+          .dropLastWhile { !weekdayStr.contains(it.label) }
+          .dropWhile { !weekdayStr.contains(it.label) }
+      else
+        Weekday.values().filter { weekdayStr.contains(it.label) }
+
     if (weekdays.isEmpty()) return emptyList()
 
     val (title, description) = StringParser.splitOfferName(name)

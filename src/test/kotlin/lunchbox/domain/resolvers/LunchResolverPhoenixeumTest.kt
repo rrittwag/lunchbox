@@ -68,4 +68,18 @@ class LunchResolverPhoenixeumTest {
     offers shouldContain LunchOffer(0, "Schweineroulade", "mit Rotkohl und Klößen", week.wednesday, euro("5.00"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Schweineroulade", "mit Rotkohl und Klößen", week.thursday, euro("5.00"), emptySet(), providerId)
   }
+
+  @Test
+  fun `resolve offers for week of 2020-05-18`() {
+    val url = javaClass.getResource("/menus/phoenixeum/2020-05-18.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 3
+
+    val week = weekOf("2020-05-18")
+    offers shouldContain LunchOffer(0, "Boullette", "mit Mischgemüse und Salzkartoffeln", week.monday, euro("5.00"), setOf(), providerId)
+    offers shouldContain LunchOffer(0, "Boullette", "mit Mischgemüse und Salzkartoffeln", week.tuesday, euro("5.00"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Boullette", "mit Mischgemüse und Salzkartoffeln", week.wednesday, euro("5.00"), emptySet(), providerId)
+  }
 }
