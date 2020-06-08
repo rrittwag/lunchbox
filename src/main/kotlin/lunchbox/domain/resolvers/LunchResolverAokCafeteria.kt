@@ -118,23 +118,35 @@ class LunchResolverAokCafeteria(
     val result = mutableMapOf<PdfSection, List<TextLine>>()
     result += PdfSection.TABLE_HEADER to listOf(header)
 
-    val linesBelowHeader = lines.filter { it.y > header.y }
+    val linesBelowHeader =
+      lines
+        .filter { it.y > header.y }
+        .filterNot { it.oneTextMatches(Regex(""".*Zusatzstoffe.*""")) }
+        .filterNot { it.oneTextMatches(Regex(""".*(Nährwerte|Kohlenhydrate).*""")) }
+
+    val sortedLines =
+      linesBelowHeader
+        .sortedBy { it.y }
+        .takeWhile { !it.toString().contains("Salat nach Art des Hauses") }
+
+    val averageY = sortedLines.windowed(2, 1).map { it[1].y - it[0].y }.average()
+
+    var previousLine: TextLine? = null
 
     var linesForDay = emptyList<TextLine>()
-    for (line in linesBelowHeader) {
-      if (line.oneTextMatches(Regex(""".*Zusatzstoffe.*"""))) {
-        // an Feiertagen gibt es keine Angebote ... und keine Zusatzstoffe
-        if (line.texts.size > 1) {
-          val weekday = findWeekdaySection(linesForDay)
-          weekday?.let { result += it to linesForDay }
-        }
-        linesForDay = emptyList()
-      } else if (line.oneTextMatches(Regex(""".*(Nährwerte|Kohlenhydrate).*"""))) {
-        // ignore line
+    for (line in sortedLines) {
+      if (previousLine != null && line.y - previousLine.y > averageY) {
+        val weekday = findWeekdaySection(linesForDay)
+        weekday?.let { result += it to linesForDay }
+        linesForDay = arrayListOf(line)
       } else {
         linesForDay = linesForDay + line
       }
+      previousLine = line
     }
+    val weekday = findWeekdaySection(linesForDay)
+    weekday?.let { result += it to linesForDay }
+    linesForDay = emptyList()
 
     return result
   }
@@ -196,6 +208,9 @@ class LunchResolverAokCafeteria(
     monday: LocalDate,
     priceColumn: PriceColumn
   ): LunchOffer? {
+    if (lines.any { it.oneTextMatches(Regex(".*(Feiertag|Ostermontag|Osterfreitag).*")) })
+      return null
+
     val day = monday.plusDays(weekday.order)
     val name =
       lines
@@ -206,7 +221,16 @@ class LunchResolverAokCafeteria(
     val (title, description) =
       StringParser.splitOfferName(name, listOf(" auf ", " mit ", " von ", " im ", " an "))
 
-    return LunchOffer(0, title, description, day, priceColumn.price, emptySet(), provider.id)
+    return LunchOffer(0, title, description, day, priceColumn.price, parseTags(name), provider.id)
+  }
+
+  private fun parseTags(name: String): Set<String> {
+    val tags = mutableSetOf<String>()
+    if (name.contains("vegetarisch", true))
+      tags += "vegetarisch"
+    if (name.contains("vegan", true))
+      tags += "vegan"
+    return tags
   }
 
   private fun findWeekdaySection(lines: List<TextLine>): PdfSection? {

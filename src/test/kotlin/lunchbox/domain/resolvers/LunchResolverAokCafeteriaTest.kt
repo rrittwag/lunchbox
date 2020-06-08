@@ -311,4 +311,24 @@ class LunchResolverAokCafeteriaTest {
     offers shouldContain LunchOffer(0, "gedünstetes Fischfilet", "mit Dillsauce, buntem Gemüse und Kartoffelpüree", week.thursday, euro("5.50"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Milchreis", "mit Obst", week.friday, euro("4.90"), emptySet(), providerId)
   }
+
+  @Test
+  fun `resolve offers for week of 2020-06-08`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/pdf/2020-06-08.pdf")
+    val week = weekOf("2020-06-08")
+
+    val offers = resolver().resolveFromPdf(url)
+
+    offers shouldHaveSize 10
+    offers shouldContain LunchOffer(0, "gefüllte Eierpfannkuchen", "", week.monday, euro("4.90"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Schnitzel", "mit Spiegelei, Bratkartoffeln und Gewürzgurke", week.monday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "vegetarischer Linseneintopf", "", week.tuesday, euro("4.90"), setOf("vegetarisch"), providerId)
+    offers shouldContain LunchOffer(0, "mediterrane Gemüselasagne", "mit Salat", week.tuesday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Grießbrei", "mit Apfelmus", week.wednesday, euro("4.90"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Backfisch", "mit Kartoffelsalat und Remouladensauce", week.wednesday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Senfeier", "mit Kartoffeln und Rote Bete", week.thursday, euro("4.90"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Nudeln", "mit Tomatensauce und Jägerschnitzel", week.thursday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Tagesangebot", "", week.friday, euro("4.90"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Maispoularde", "mit feinen Möhrchen und Kräuterkartoffeln", week.friday, euro("5.50"), emptySet(), providerId)
+  }
 }
