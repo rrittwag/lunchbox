@@ -131,22 +131,20 @@ class LunchResolverAokCafeteria(
 
     val averageY = sortedLines.windowed(2, 1).map { it[1].y - it[0].y }.average()
 
+    var currentLines = listOf<TextLine>()
     var previousLine: TextLine? = null
 
-    var linesForDay = emptyList<TextLine>()
     for (line in sortedLines) {
       if (previousLine != null && line.y - previousLine.y > averageY) {
-        val weekday = findWeekdaySection(linesForDay)
-        weekday?.let { result += it to linesForDay }
-        linesForDay = arrayListOf(line)
-      } else {
-        linesForDay = linesForDay + line
+        val weekday = findWeekdaySection(currentLines)
+        weekday?.let { result += it to currentLines }
+        currentLines = emptyList()
       }
+      currentLines = currentLines + line
       previousLine = line
     }
-    val weekday = findWeekdaySection(linesForDay)
-    weekday?.let { result += it to linesForDay }
-    linesForDay = emptyList()
+    val weekday = findWeekdaySection(currentLines)
+    weekday?.let { result += it to currentLines }
 
     return result
   }
@@ -182,20 +180,16 @@ class LunchResolverAokCafeteria(
     val averageY = sortedLines.windowed(2, 1).map { it[1].y - it[0].y }.average()
 
     val result = mutableMapOf<PdfSection, List<TextLine>>()
-    val currentLines = mutableListOf<TextLine>()
+    var currentLines = listOf<TextLine>()
     var previousLine: TextLine? = null
 
     for (line in sortedLines) {
       if (previousLine != null && line.y - previousLine.y > averageY) {
-        val mainLine = currentLines.find { it.oneTextMatches(Regex(".*€.*")) }
-        if (mainLine != null) {
-          val section = PdfSection.weekdayValues.find { mainLine.toString().startsWith(it.label) }
-          if (section != null)
-            result += section to currentLines.toList()
-        }
-        currentLines.clear()
+        val weekday = findWeekdaySection(currentLines)
+        weekday?.let { result += it to currentLines }
+        currentLines = emptyList()
       }
-      currentLines += line
+      currentLines = currentLines + line
       previousLine = line
     }
 
