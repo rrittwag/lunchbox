@@ -132,7 +132,7 @@ class LunchResolverGesundheitszentrum(
   fun parseImageLink(image: Image): URL? {
     // das Bild mit der höchsten Auflösung bringt die besten OCR-Ergebnisse
     val sizedImages = image.images
-    val biggestImage = sizedImages.maxBy { it.height }
+    val biggestImage = sizedImages.maxByOrNull { it.height }
     return biggestImage?.source
   }
 

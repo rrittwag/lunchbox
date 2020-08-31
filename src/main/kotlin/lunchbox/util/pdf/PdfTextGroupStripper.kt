@@ -41,10 +41,10 @@ data class TextGroup(var positions: List<TextPosition>) {
     positions += position
   }
 
-  fun xMin(): Float = positions.map { it.x }.min() ?: 0f
-  fun xMax(): Float = positions.map { it.x + it.width }.max() ?: 0f
-  fun yMin(): Float = positions.map { it.y }.min() ?: 0f
-  fun yMax(): Float = positions.map { it.y + it.height }.max() ?: 0f
+  fun xMin(): Float = positions.map { it.x }.minOrNull() ?: 0f
+  fun xMax(): Float = positions.map { it.x + it.width }.maxOrNull() ?: 0f
+  fun yMin(): Float = positions.map { it.y }.minOrNull() ?: 0f
+  fun yMax(): Float = positions.map { it.y + it.height }.maxOrNull() ?: 0f
   fun xMid(): Float = (xMin() + xMax()) / 2
   fun yMid(): Float = (yMin() + yMax()) / 2
   fun width(): Float = xMax() - xMin()

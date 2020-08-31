@@ -36,7 +36,7 @@ class LunchOfferRepositoryImplInMemory : LunchOfferRepository {
 
   @Synchronized
   override fun saveAll(newOffers: Iterable<LunchOffer>): Iterable<LunchOffer> {
-    val nextId = (offers.map { it.id }.max() ?: 0) + 1
+    val nextId = (offers.map { it.id }.maxOrNull() ?: 0) + 1
     val newOffersWithId = newOffers.mapIndexed { index, offer ->
         offer.copy(id = nextId + index)
       }

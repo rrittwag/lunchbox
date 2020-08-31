@@ -70,7 +70,7 @@ object StringParser {
     // den Montag der am häufigsten verwendeten Woche zurückgeben
     return mondays
       .groupBy { it }
-      .maxBy { it.value.size }
+      .maxByOrNull { it.value.size }
       ?.key
   }
 

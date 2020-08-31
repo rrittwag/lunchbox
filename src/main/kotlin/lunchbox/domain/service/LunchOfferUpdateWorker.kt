@@ -25,7 +25,7 @@ class LunchOfferUpdateWorker(
   fun refreshOffersOf(provider: LunchProvider) {
     val offers = resolve(provider)
 
-    val minDay = offers.map { it.day }.min()
+    val minDay = offers.map { it.day }.minOrNull()
       ?: return
 
     repo.deleteFrom(minDay, provider.id)

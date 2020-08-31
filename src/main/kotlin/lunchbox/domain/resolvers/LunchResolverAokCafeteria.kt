@@ -244,7 +244,7 @@ class LunchResolverAokCafeteria(
    */
   private fun distinctPriceTexts(texts: List<TextGroup>): List<TextGroup> =
     texts.groupBy { it.toString() }
-      .values.map { layeredTexts -> layeredTexts.minBy { it.xMin() }!! }
+      .values.map { layeredTexts -> layeredTexts.minByOrNull { it.xMin() }!! }
       .sortedBy { it.xMin() }
 
   private fun parseName(text: String): String? {

@@ -1,7 +1,7 @@
 // ---------------------------------
 //   Code-Format prüfen & anwenden
 // ---------------------------------
-apply plugin: 'com.diffplug.gradle.spotless'
+apply plugin: 'com.diffplug.spotless'
 
 spotless {
   java {
