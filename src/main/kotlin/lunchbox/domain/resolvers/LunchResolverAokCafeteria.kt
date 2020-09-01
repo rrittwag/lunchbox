@@ -1,6 +1,8 @@
 package lunchbox.domain.resolvers
 
+import java.math.BigDecimal
 import java.net.URL
+import java.time.DayOfWeek
 import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
@@ -11,8 +13,6 @@ import org.joda.money.CurrencyUnit
 import org.joda.money.Money
 import org.jsoup.nodes.Element
 import org.springframework.stereotype.Component
-import java.math.BigDecimal
-import java.time.DayOfWeek
 
 @Component
 class LunchResolverAokCafeteria(
@@ -70,14 +70,16 @@ class LunchResolverAokCafeteria(
       val zusatzstoffe = offerElem.select("small").text()
       val (title, description) = StringParser.splitOfferName(name)
       val tags = parseTags(name, zusatzstoffe)
-      offers += LunchOffer(0, title, description, day, Money.of(CurrencyUnit.EUR, BigDecimal.ZERO), tags, provider.id)
+      val noMoney = Money.of(CurrencyUnit.EUR, BigDecimal.ZERO)
+      offers += LunchOffer(0, title, description, day, noMoney, tags, provider.id)
     }
     return offers
   }
 
   private fun parseTags(name: String, zusatzstoffe: String): Set<String> = when {
     name.contains("vegan", ignoreCase = true) -> setOf("vegan")
-    name.contains("vegetarisch", ignoreCase = true) || zusatzstoffe.contains("V") -> setOf("vegetarisch")
+    name.contains("vegetarisch", ignoreCase = true) ||
+      zusatzstoffe.contains("V") -> setOf("vegetarisch")
     else -> emptySet()
   }
 
