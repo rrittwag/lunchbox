@@ -13,7 +13,7 @@ data class LunchOffer(
   val name: String,
   val description: String,
   val day: LocalDate,
-  val price: Money,
+  val price: Money?,
   val tags: Set<String>,
   val provider: LunchProviderId
 )

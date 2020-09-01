@@ -1,5 +1,6 @@
 package lunchbox.api.v1
 
+import java.math.BigDecimal
 import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchOfferId
@@ -8,6 +9,7 @@ import lunchbox.domain.models.LunchProviderId
 import lunchbox.repository.LunchOfferRepository
 import lunchbox.util.api.HttpNotFoundException
 import lunchbox.util.api.RestApi
+import org.joda.money.CurrencyUnit
 import org.joda.money.Money
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.format.annotation.DateTimeFormat.ISO
@@ -58,7 +60,7 @@ fun LunchOffer.toDTOv1(): LunchOfferDTO {
     id,
     name,
     day,
-    price,
+    price ?: Money.of(CurrencyUnit.EUR, BigDecimal.ZERO),
     provider
   )
 }

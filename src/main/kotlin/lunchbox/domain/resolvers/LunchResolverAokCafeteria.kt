@@ -1,6 +1,5 @@
 package lunchbox.domain.resolvers
 
-import java.math.BigDecimal
 import java.net.URL
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -9,8 +8,6 @@ import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
-import org.joda.money.CurrencyUnit
-import org.joda.money.Money
 import org.jsoup.nodes.Element
 import org.springframework.stereotype.Component
 
@@ -70,8 +67,7 @@ class LunchResolverAokCafeteria(
       val zusatzstoffe = offerElem.select("small").text()
       val (title, description) = StringParser.splitOfferName(name)
       val tags = parseTags(name, zusatzstoffe)
-      val noMoney = Money.of(CurrencyUnit.EUR, BigDecimal.ZERO)
-      offers += LunchOffer(0, title, description, day, noMoney, tags, provider.id)
+      offers += LunchOffer(0, title, description, day, null, tags, provider.id)
     }
     return offers
   }

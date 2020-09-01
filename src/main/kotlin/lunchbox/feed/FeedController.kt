@@ -114,7 +114,11 @@ class FeedController(
   private fun createHtmlOffers(providerOffers: List<LunchOffer>): String {
     var result = ""
     for (offer in providerOffers) {
-      val price = "%d,%02d €".format(offer.price.amountMajorInt, offer.price.minorPart)
+      val price =
+        if (offer.price != null)
+          "%d,%02d €".format(offer.price.amountMajorInt, offer.price.minorPart)
+        else ""
+
       result +=
         """
         |<tr style="padding-bottom: 1.5em;">
