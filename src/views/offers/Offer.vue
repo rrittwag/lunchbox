@@ -13,6 +13,7 @@
       <span
         class="pl-2
                text-xl text-neutral-800 leading-tight whitespace-no-wrap"
+        v-if="offer.price"
       >
         <small
           class="pl-2

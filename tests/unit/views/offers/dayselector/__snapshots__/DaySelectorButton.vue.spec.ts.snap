@@ -5,6 +5,7 @@ exports[`DaySelectorButton renders snapshot for next day 1`] = `
   aria-keyshortcuts="ArrowRight"
   aria-label="Zu nächstem Tag wechseln"
   class="text-primary-500 hover:text-primary-600
+         origin-center transform hover:scale-110
          disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed active:text-primary-800"
   title="Zu nächstem Tag wechseln"
 >
@@ -19,6 +20,7 @@ exports[`DaySelectorButton renders snapshot for previous day 1`] = `
   aria-keyshortcuts="ArrowLeft"
   aria-label="Zu vorherigem Tag wechseln"
   class="text-primary-500 hover:text-primary-600
+         origin-center transform hover:scale-110
          disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed active:text-primary-800"
   title="Zu vorherigem Tag wechseln"
 >

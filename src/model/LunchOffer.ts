@@ -3,7 +3,7 @@ export interface LunchOffer {
   name: string
   description: string
   day: string
-  price: number
+  price?: number
   tags: string[]
   provider: number
 }
