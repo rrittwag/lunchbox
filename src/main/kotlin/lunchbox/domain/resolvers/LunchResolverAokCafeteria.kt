@@ -3,6 +3,7 @@ package lunchbox.domain.resolvers
 import java.net.URL
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.Month
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
 import lunchbox.util.date.DateValidator
@@ -52,8 +53,14 @@ class LunchResolverAokCafeteria(
 
   private fun calcDay(dateElem: Element, date: LocalDate): LocalDate? {
     val weekdayString = dateElem.select(".day").text()
-    val weekday = Weekday.values().find { weekdayString.startsWith(it.label) } ?: return null
-    return date.plusDays(weekday.order)
+    val weekday = Weekday.values().find { weekdayString.startsWith(it.label) }
+    if (weekday != null)
+      return date.plusDays(weekday.order)
+    val shortDate = dateElem.select(".short-date").text()
+    val year =
+      if (shortDate.trim().endsWith("01.") && date.month == Month.DECEMBER) date.year + 1
+      else date.year
+    return StringParser.parseLocalDate("$shortDate$year")
   }
 
   private fun resolveByDay(day: LocalDate, offersDiv: Element): List<LunchOffer> {
