@@ -68,22 +68,41 @@ class LunchResolverAokCafeteria(
 
     val offers = mutableListOf<LunchOffer>()
     for (offerElem in offerDivs) {
+      val typ = offerElem.selectFirst("span").text()
       val name = offerElem.select("span:nth-of-type(2)").text()
       if (name.isEmpty())
         continue
       val zusatzstoffe = offerElem.select("small").text()
-      val (title, description) = StringParser.splitOfferName(name)
-      val tags = parseTags(name, zusatzstoffe)
+      var (title, description) = StringParser.splitOfferName(
+        name, listOf(" auf ", " mit ", " von ", " im ", " in ", " an ", " (")
+      )
+      description = clearDescription(description)
+      val tags = parseTags(name, typ, zusatzstoffe)
       offers += LunchOffer(0, title, description, day, null, tags, provider.id)
     }
+
     return offers
   }
 
-  private fun parseTags(name: String, zusatzstoffe: String): Set<String> = when {
-    name.contains("vegan", ignoreCase = true) -> setOf("vegan")
-    name.contains("vegetarisch", ignoreCase = true) ||
-      zusatzstoffe.contains("V") -> setOf("vegetarisch")
-    else -> emptySet()
+  private fun clearDescription(description: String): String =
+    description
+      .replace("(", "")
+      .replace(")", ",")
+      .replace(Regex(",([^ ])"), ", $1")
+      .replace(", , ", ", ")
+
+  private fun parseTags(name: String, typ: String, zusatzstoffe: String): Set<String> {
+    val result = mutableSetOf<String>()
+
+    if (name.contains("vegan", ignoreCase = true))
+      result += "vegan"
+    else if (name.contains("vegetarisch", ignoreCase = true) || zusatzstoffe.contains("V"))
+      result += "vegetarisch"
+
+    if (typ.contains("vorbestellen", ignoreCase = true))
+      result += "auf Vorbestellung"
+
+    return result
   }
 
   enum class Weekday(

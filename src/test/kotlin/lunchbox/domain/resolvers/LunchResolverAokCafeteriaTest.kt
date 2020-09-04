@@ -56,28 +56,38 @@ class LunchResolverAokCafeteriaTest {
 
     val offers = resolver().resolve(url)
 
-    offers shouldHaveSize 20
+    offers shouldHaveSize 29
     var week = weekOf("2020-08-31")
     offers shouldContain LunchOffer(0, "Gemüse-Spaghetti", "in Sahnesaue", week.monday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Fruchtige Asia-Gemüse Pfanne", "mit Hähnchen und Reis", week.monday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Schnitzel", "mit Champignonrahm und Rosmarinkartoffeln", week.tuesday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(0, "vegetarische Tortellini", "mit Pilzrahm", week.tuesday, null, setOf("vegetarisch"), providerId)
+    offers shouldContain LunchOffer(0, "Bunter Vitaminsalat", "Ananas, Gemüsemais, Feta, Eisbergsalat, Grüne Gurke, Ei, Porree und geriebene süße Mandel, Joghurtdressing", week.tuesday, null, setOf("auf Vorbestellung"), providerId)
     offers shouldContain LunchOffer(0, "Vanille Milchreis", "mit Apfelmus", week.wednesday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Schweinebraten", "mit Sauce, Speckbohnen und Kartoffeln", week.wednesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Bunter Vitaminsalat", "Ananas, Gemüsemais, Feta, Eisbergsalat, Grüne Gurke, Ei, Porree und geriebene süße Mandel, Joghurtdressing", week.wednesday, null, setOf("auf Vorbestellung"), providerId)
     offers shouldContain LunchOffer(0, "Hackbraten", "Buttermöhren und Kartoffeln", week.thursday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Hähnchenschnitzel", "mit Blumenkohlsauce und Kartoffeln", week.thursday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Bunter Vitaminsalat", "Ananas, Gemüsemais, Feta, Eisbergsalat, Grüne Gurke, Ei, Porree und geriebene süße Mandel, Joghurtdressing", week.thursday, null, setOf("auf Vorbestellung"), providerId)
     offers shouldContain LunchOffer(0, "gebratendes Seelachs", "mit Dillsauce und Kartoffeln", week.friday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(0, "gebrat. Seelachs", "mit Dillsoße, Kartoffeln und Rohkost", week.friday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Bunter Vitaminsalat", "Ananas, Gemüsemais, Feta, Eisbergsalat, Grüne Gurke, Ei, Porree und geriebene süße Mandel, Joghurtdressing", week.friday, null, setOf("auf Vorbestellung"), providerId)
 
     week = weekOf("2020-09-07")
     offers shouldContain LunchOffer(0, "Boulette", "mit Blumenkohl- Erbsengemüse und Kartoffeln", week.monday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Putenfrikasse", "mit Reis und Rohkost", week.monday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Griechischer Bauernsalat", "Tomate, Gurke, Rote Zwiebeln, Feta, Oliven, Joghurt Dressing", week.monday, null, setOf("auf Vorbestellung"), providerId)
     offers shouldContain LunchOffer(0, "Gabelspaghetti", "mit Bolognesesoße", week.tuesday, null, setOf("vegetarisch"), providerId)
     offers shouldContain LunchOffer(0, "Hähnchenbrustfilet", "mit Wachsbohnen und Kartoffeln", week.tuesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Griechischer Bauernsalat", "Tomate, Gurke, Rote Zwiebeln, Feta, Oliven, Joghurt Dressing", week.tuesday, null, setOf("auf Vorbestellung"), providerId)
     offers shouldContain LunchOffer(0, "Eierkuchen", "mit Erdbeer- Rhabarbarsoße", week.wednesday, null, setOf("vegetarisch"), providerId)
     offers shouldContain LunchOffer(0, "Kräuterbraten", "mit Soße, Rotkohl und Kartoffeln", week.wednesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Griechischer Bauernsalat", "Tomate, Gurke, Rote Zwiebeln, Feta, Oliven, Joghurt Dressing", week.wednesday, null, setOf("auf Vorbestellung"), providerId)
     offers shouldContain LunchOffer(0, "Seelachs", "mit Meerettich- Petersiliensoße, Kartoffeln und Rohkost", week.thursday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Hähnchencurry", "mit Wildreis und Dessert", week.thursday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Griechischer Bauernsalat", "Tomate, Gurke, Rote Zwiebeln, Feta, Oliven, Joghurt Dressing", week.thursday, null, setOf("auf Vorbestellung"), providerId)
     offers shouldContain LunchOffer(0, "Gemüseschnitzel", "mit Mischgemüse und Kartoffeln", week.friday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Paprika Gulasch", "mit Kartoffeln, dazu einen Joghurt", week.friday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Griechischer Bauernsalat", "Tomate, Gurke, Rote Zwiebeln, Feta, Oliven, Joghurt Dressing", week.friday, null, setOf("auf Vorbestellung"), providerId)
   }
 }
