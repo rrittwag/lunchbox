@@ -88,10 +88,12 @@ class LunchResolverPhoenixeum(
     monday: LocalDate
   ): List<LunchOffer> {
     val clearedParts = offerAttributesAsStrings.map { cleanUpString(it) }.filter { it.isNotEmpty() }
-    if (clearedParts.size != 3)
+    if (clearedParts.size < 3)
       return emptyList()
 
-    val (weekdayStr, name, priceStr) = clearedParts
+    val weekdayStr = clearedParts.first()
+    val priceStr = clearedParts.last()
+    val name = clearedParts.drop(1).dropLast(1).joinToString(" ")
 
     val weekdays =
       if (weekdayStr.contains("bis"))
