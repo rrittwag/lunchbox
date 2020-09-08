@@ -93,7 +93,13 @@ class LunchResolverPhoenixeum(
 
     val weekdayStr = clearedParts.first()
     val priceStr = clearedParts.last()
-    val name = clearedParts.drop(1).dropLast(1).joinToString(" ")
+
+    val nameParts = clearedParts.drop(1).dropLast(1)
+    val (title, description) = if (nameParts.size > 1) {
+      StringParser.OfferName(nameParts[0], nameParts.drop(1).joinToString(" "))
+    } else
+      StringParser.splitOfferName(nameParts[0])
+    if (title.contains("Feiertag")) return emptyList()
 
     val weekdays =
       if (weekdayStr.contains("bis"))
@@ -105,14 +111,11 @@ class LunchResolverPhoenixeum(
 
     if (weekdays.isEmpty()) return emptyList()
 
-    val (title, description) = StringParser.splitOfferName(name)
-    if (title.contains("Feiertag")) return emptyList()
-
     val price = StringParser.parseMoney(priceStr) ?: return emptyList()
 
     return weekdays.map {
       val day = monday.plusDays(it.order)
-      val zusatzInfo = parseZusatzinfo(name)
+      val zusatzInfo = parseZusatzinfo("$title $description")
       LunchOffer(0, title, description, day, price, zusatzInfo, provider.id)
     }
   }
