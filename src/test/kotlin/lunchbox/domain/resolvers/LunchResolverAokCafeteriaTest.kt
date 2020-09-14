@@ -90,4 +90,24 @@ class LunchResolverAokCafeteriaTest {
     offers shouldContain LunchOffer(0, "Paprika Gulasch", "mit Kartoffeln, dazu einen Joghurt", week.friday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Griechischer Bauernsalat", "Tomate, Gurke, Rote Zwiebeln, Feta, Oliven, Joghurt Dressing", week.friday, null, setOf("auf Vorbestellung"), providerId)
   }
+
+  @Test
+  fun `resolve offers for week of 2020-09-14`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/2020-09-14.html")
+
+    val offers = resolver().resolve(url)
+
+    val week = weekOf("2020-09-14")
+    offers shouldHaveSize 10
+    offers shouldContain LunchOffer(0, "Minikönigsberge", "Kartoffeln mit Sauce und Roter Beete", week.monday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Makkaroni Pilzpfanne", "Champignon, Zwiebel, und Ratatouligemüse, dazu Joghurt", week.monday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Sahnegeschnetzeltes", "mit Nudeln", week.tuesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "geb. Fischfilet", "mit Rahmwirsing und Reis", week.tuesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Steckrübenmöhreneintopf", "mit Brötchen", week.wednesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Kasslerkohlpfanne", "mit Kartoffeln", week.wednesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Eierragout", "und Kartoffeln", week.thursday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Schweineleber", "mit Kartoffelpüree und Apfel-Zwiebel-Sauce", week.thursday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Vanillemilchsuppe", "mit Nudeln und Obst", week.friday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Schweinegulasch", "mit Kartoffeln und Senfgurke", week.friday, null, emptySet(), providerId)
+  }
 }

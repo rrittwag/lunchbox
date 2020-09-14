@@ -74,7 +74,7 @@ class LunchResolverAokCafeteria(
         continue
       val zusatzstoffe = offerElem.select("small").text()
       var (title, description) = StringParser.splitOfferName(
-        name, listOf(" auf ", " mit ", " von ", " im ", " in ", " an ", " (")
+        name, listOf(" auf ", " mit ", " von ", " im ", " in ", " an ", ", ", " (", " und ")
       )
       description = clearDescription(description)
       val tags = parseTags(name, typ, zusatzstoffe)
@@ -86,10 +86,12 @@ class LunchResolverAokCafeteria(
 
   private fun clearDescription(description: String): String =
     description
+      .replace(Regex("^, "), "")
       .replace("(", "")
       .replace(")", ",")
       .replace(Regex(",([^ ])"), ", $1")
       .replace(", , ", ", ")
+      .trim()
 
   private fun parseTags(name: String, typ: String, zusatzstoffe: String): Set<String> {
     val result = mutableSetOf<String>()
