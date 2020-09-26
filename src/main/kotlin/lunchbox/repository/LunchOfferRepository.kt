@@ -2,6 +2,7 @@ package lunchbox.repository
 
 import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
+import lunchbox.domain.models.LunchOfferId
 import lunchbox.domain.models.LunchProviderId
 
 /**
@@ -12,7 +13,7 @@ interface LunchOfferRepository {
 
   fun findByDay(day: LocalDate): List<LunchOffer>
 
-  fun findByIdOrNull(id: Long): LunchOffer?
+  fun findByIdOrNull(id: LunchOfferId): LunchOffer?
 
   fun deleteBefore(day: LocalDate)
 

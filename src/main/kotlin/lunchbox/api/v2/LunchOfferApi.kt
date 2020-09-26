@@ -29,7 +29,7 @@ class LunchOfferApi(val repo: LunchOfferRepository) {
   }.map { it.toDTOv2() }
 
   @GetMapping("$URL_LUNCHOFFER/{id}")
-  fun getById(@PathVariable id: Long): LunchOfferDTO =
+  fun getById(@PathVariable id: LunchOfferId): LunchOfferDTO =
     repo.findByIdOrNull(id)?.toDTOv2()
       ?: throw HttpNotFoundException("Mittagsangebot mit ID $id nicht gefunden!")
 }

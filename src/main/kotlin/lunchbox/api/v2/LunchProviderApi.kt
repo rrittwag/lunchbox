@@ -19,7 +19,7 @@ class LunchProviderApi {
       .map { it.toDTOv2() }
 
   @GetMapping("$URL_LUNCHPROVIDER/{id}")
-  fun getById(@PathVariable id: Long): LunchProviderDTO =
+  fun getById(@PathVariable id: LunchProviderId): LunchProviderDTO =
     LunchProvider.values()
       .find { id == it.id }?.toDTOv2()
         ?: throw HttpNotFoundException("Mittagsanbieter mit ID $id nicht gefunden!")

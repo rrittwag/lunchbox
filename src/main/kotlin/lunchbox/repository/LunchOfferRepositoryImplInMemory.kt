@@ -3,6 +3,7 @@ package lunchbox.repository
 import java.time.LocalDate
 import java.util.concurrent.CopyOnWriteArrayList
 import lunchbox.domain.models.LunchOffer
+import lunchbox.domain.models.LunchOfferId
 import lunchbox.domain.models.LunchProviderId
 import org.springframework.stereotype.Repository
 
@@ -21,7 +22,7 @@ class LunchOfferRepositoryImplInMemory : LunchOfferRepository {
   override fun findByDay(day: LocalDate): List<LunchOffer> =
     offers.filter { it.day == day }
 
-  override fun findByIdOrNull(id: Long): LunchOffer? =
+  override fun findByIdOrNull(id: LunchOfferId): LunchOffer? =
     offers.find { it.id == id }
 
   @Synchronized
