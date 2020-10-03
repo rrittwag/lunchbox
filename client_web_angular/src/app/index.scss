@@ -33,6 +33,12 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   align-items: center;
 }
 
+// horizontales Ausrichten von Reihen
+.horizontal-align {
+  display: flex;
+  justify-content: center;
+}
+
 // entfernt oberhalb der ersten Tabellenzeile die Border
 .table-no-top-border {
   tr:first-child > td {
