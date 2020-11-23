@@ -241,4 +241,18 @@ class LunchResolverSuppenkulttourTest {
     offers.filter { it.day == week.thursday } shouldHaveSize 0
     offers.filter { it.day == week.friday } shouldHaveSize 0
   }
+
+  @Test
+  fun `resolve offers for week of 2020-11-23`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2020-11-23.html")
+
+    val offers = resolver().resolve(url)
+
+    val week = weekOf("2020-11-23")
+    offers.filter { it.day == week.monday } shouldHaveSize 4
+    offers.filter { it.day == week.tuesday } shouldHaveSize 4
+    offers.filter { it.day == week.wednesday } shouldHaveSize 4
+    offers.filter { it.day == week.thursday } shouldHaveSize 4
+    offers.filter { it.day == week.friday } shouldHaveSize 4
+  }
 }

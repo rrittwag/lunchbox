@@ -112,4 +112,19 @@ class LunchResolverPhoenixeumTest {
     offers shouldContain LunchOffer(0, "Gulasch", "mit Schweinefleisch, Paprika, Möhren, Zwiebeln dazu Nudeln", week.wednesday, euro("6.00"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Gulasch", "mit Schweinefleisch, Paprika, Möhren, Zwiebeln dazu Nudeln", week.thursday, euro("6.00"), emptySet(), providerId)
   }
+
+  @Test
+  fun `resolve offers for week of 2020-11-23`() {
+    val url = javaClass.getResource("/menus/phoenixeum/2020-11-23.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 4
+
+    val week = weekOf("2020-11-23")
+    offers shouldContain LunchOffer(0, "Backfisch mit Holsteiner Kartoffelsalat", "aus Kartoffeln, Äpfeln, Zwiebeln, Rucola, Mandelsplitter, Mayo, Joghurt, Olivenöl", week.monday, euro("6.00"), setOf(), providerId)
+    offers shouldContain LunchOffer(0, "Backfisch mit Holsteiner Kartoffelsalat", "aus Kartoffeln, Äpfeln, Zwiebeln, Rucola, Mandelsplitter, Mayo, Joghurt, Olivenöl", week.tuesday, euro("6.00"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Paprikaschoten", "rote Paprika gefüllt mit Rinderhack & Reis, dazu deftige,dunkle Soße und Salzkartoffeln", week.wednesday, euro("6.00"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Paprikaschoten", "rote Paprika gefüllt mit Rinderhack & Reis, dazu deftige,dunkle Soße und Salzkartoffeln", week.thursday, euro("6.00"), emptySet(), providerId)
+  }
 }

@@ -29,7 +29,10 @@ class LunchResolverPhoenixeum(
 
     val site = htmlParser.parse(url)
 
-    for (wochenplanDiv in site.select("#wochenplaene > div.ce_text")) {
+    val elements = site.select("div.wrapplan")
+    elements.addAll(site.select("#wochenplaene > div.ce_text"))
+
+    for (wochenplanDiv in elements) {
       val monday = resolveMonday(wochenplanDiv)
         ?: continue
       if (!dateValidator.isValid(monday))
@@ -95,10 +98,7 @@ class LunchResolverPhoenixeum(
     val priceStr = clearedParts.last()
 
     val nameParts = clearedParts.drop(1).dropLast(1)
-    val (title, description) = if (nameParts.size > 1) {
-      StringParser.OfferName(nameParts[0], nameParts.drop(1).joinToString(" "))
-    } else
-      StringParser.splitOfferName(nameParts[0])
+    val (title, description) = splitOfferName(nameParts)
     if (title.contains("Feiertag")) return emptyList()
 
     val weekdays =
@@ -118,6 +118,22 @@ class LunchResolverPhoenixeum(
       val zusatzInfo = parseZusatzinfo("$title $description")
       LunchOffer(0, title, description, day, price, zusatzInfo, provider.id)
     }
+  }
+
+  private fun splitOfferName(nameParts: List<String>): StringParser.OfferName {
+    if (nameParts[0].contains(" - ")) {
+      val (titleTemp, behindMinus) = nameParts[0].split(" - ")
+      val descr = "$behindMinus ${nameParts.drop(1).joinToString(" ")}"
+      return StringParser.OfferName(titleTemp, descr)
+    }
+
+    if (nameParts.size > 1) {
+      val titleTemp = nameParts[0]
+      val descr = nameParts.drop(1).joinToString(" ")
+      return StringParser.OfferName(titleTemp, descr)
+    }
+
+    return StringParser.splitOfferName(nameParts[0])
   }
 
   private fun parseZusatzinfo(name: String): Set<String> {

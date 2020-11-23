@@ -31,7 +31,10 @@ class LunchResolverSuppenkulttour(
     val site = htmlParser.parse(url)
 
     // Die Wochenangebote sind im section-Element mit der class "ce_accordionStart" enthalten
-    for (wochenplanSection in site.select("section.ce_accordionStart")) {
+    val elements = site.select("section.ce_accordionStart")
+    elements.addAll(site.select("section.wrapplan"))
+
+    for (wochenplanSection in elements) {
       val monday = resolveMonday(wochenplanSection) ?: continue
       if (!dateValidator.isValid(monday))
         continue
@@ -54,7 +57,10 @@ class LunchResolverSuppenkulttour(
   }
 
   private fun resolveMonday(text: String): LocalDate? {
-    val matchOffer = Regex(""".*Suppen .*vom +([\d.]+).*""").find(text) ?: return null
+    var matchOffer = Regex(""".*Suppen .*vom +([\d.]+).*""").find(text)
+    if (matchOffer == null)
+      matchOffer = Regex("""([\d.]+) bis .*""").find(text) ?: return null
+
     val (firstDayString) = matchOffer.destructured
     val firstDay = StringParser.parseLocalDate(firstDayString) ?: return null
 
