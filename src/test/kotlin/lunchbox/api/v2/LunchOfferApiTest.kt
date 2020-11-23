@@ -42,9 +42,9 @@ class LunchOfferApiTest(
       mockMvc.get(URL_LUNCHOFFER)
 
       .andExpect {
-        status { isOk }
+        status { isOk() }
         content { contentTypeCompatibleWith(APPLICATION_JSON) }
-        jsonPath("$") { isArray }
+        jsonPath("$") { isArray() }
         jsonPath("$.length()") { value("2") }
         jsonPath("$[?(@.day == '${GYROS.day}')]") { exists() }
         jsonPath("$[?(@.day == '${SOLJANKA.day}')]") { exists() }
@@ -63,9 +63,9 @@ class LunchOfferApiTest(
       mockMvc.get("$URL_LUNCHOFFER?day=${GYROS.day}")
 
       .andExpect {
-        status { isOk }
+        status { isOk() }
         content { contentTypeCompatibleWith(APPLICATION_JSON) }
-        jsonPath("$") { isArray }
+        jsonPath("$") { isArray() }
         jsonPath("$.length()") { value("1") }
         jsonPath("$[?(@.day == '${GYROS.day}')]") { exists() }
       }
@@ -81,7 +81,7 @@ class LunchOfferApiTest(
       mockMvc.get("$URL_LUNCHOFFER?day=xmas")
 
       .andExpect {
-        status { isBadRequest }
+        status { isBadRequest() }
       }
 
       verify { repo wasNot Called }
@@ -97,12 +97,12 @@ class LunchOfferApiTest(
       mockMvc.get("$URL_LUNCHOFFER/${GYROS.id}")
 
       .andExpect {
-        status { isOk }
+        status { isOk() }
         content { contentTypeCompatibleWith(APPLICATION_JSON) }
         jsonPath("$.id") { value(GYROS.id) }
         jsonPath("$.name") { value(GYROS.name) }
         jsonPath("$.description") { value(GYROS.description) }
-        jsonPath("$.tags") { isArray }
+        jsonPath("$.tags") { isArray() }
         jsonPath("$.tags.length()") { value("2") }
         jsonPath("$.tags[0]") { value("Tagessuppe") }
         jsonPath("$.tags[1]") { value("vegan") }
@@ -118,7 +118,7 @@ class LunchOfferApiTest(
       mockMvc.get("$URL_LUNCHOFFER/${GYROS.id}")
 
       .andExpect {
-        status { isNotFound }
+        status { isNotFound() }
       }
     }
   }

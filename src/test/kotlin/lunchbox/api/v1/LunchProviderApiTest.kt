@@ -26,9 +26,9 @@ class LunchProviderApiTest(
       mockMvc.get(URL_LUNCHPROVIDER)
 
       .andExpect {
-        status { isOk }
+        status { isOk() }
         content { contentTypeCompatibleWith(APPLICATION_JSON) }
-        jsonPath("$") { isArray }
+        jsonPath("$") { isArray() }
         jsonPath("$.length()") { value("${LunchProvider.values().size}") }
         jsonPath("$[?(@.id == '${SCHWEINESTALL.id}')]") { exists() }
         jsonPath("$[?(@.id == '${SALT_N_PEPPER.id}')]") { exists() }
@@ -43,7 +43,7 @@ class LunchProviderApiTest(
       mockMvc.get("$URL_LUNCHPROVIDER/${SCHWEINESTALL.id}")
 
       .andExpect {
-        status { isOk }
+        status { isOk() }
         content { contentTypeCompatibleWith(APPLICATION_JSON) }
         jsonPath("$.id") { value(SCHWEINESTALL.id) }
         jsonPath("$.name") { value(SCHWEINESTALL.label) }
@@ -55,7 +55,7 @@ class LunchProviderApiTest(
       mockMvc.get("$URL_LUNCHPROVIDER/404")
 
       .andExpect {
-        status { isNotFound }
+        status { isNotFound() }
       }
     }
   }

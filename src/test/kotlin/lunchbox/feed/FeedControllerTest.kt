@@ -48,7 +48,7 @@ class FeedControllerTest(
       mockMvc.get("$URL_FEED?location=${NEUBRANDENBURG.label}")
 
       .andExpect {
-        status { isOk }
+        status { isOk() }
         content { contentTypeCompatibleWith(MediaType.APPLICATION_ATOM_XML) }
         xpath("/feed") { exists() }
         xpath("/feed/entry") { nodeCount(2) }
@@ -65,7 +65,7 @@ class FeedControllerTest(
       mockMvc.get(URL_FEED)
 
       .andExpect {
-        status { isBadRequest }
+        status { isBadRequest() }
       }
     }
   }

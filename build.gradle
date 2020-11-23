@@ -1,12 +1,11 @@
 plugins {
-  id 'org.springframework.boot' version '2.3.4.RELEASE'
-  id 'com.diffplug.spotless' version '5.6.1'
-  id 'io.gitlab.arturbosch.detekt' version '1.14.0'
+  id 'org.springframework.boot' version '2.4.0'
+  id 'com.diffplug.spotless' version '5.8.2'
+  id 'io.gitlab.arturbosch.detekt' version '1.14.2'
   id 'com.palantir.docker' version '0.25.0'
 
-  id 'org.jetbrains.kotlin.jvm' version '1.4.10'
-  id 'org.jetbrains.kotlin.plugin.spring' version '1.4.10'
-  id 'org.jetbrains.kotlin.plugin.jpa' version '1.4.10'
+  id 'org.jetbrains.kotlin.jvm' version '1.4.20'
+  id 'org.jetbrains.kotlin.plugin.spring' version '1.4.20'
 }
 
 description = "REST Backend der Lunchbox"
@@ -33,6 +32,6 @@ allprojects {
 //   Gradle Wrapper
 // -------------------
 wrapper {
-  gradleVersion = '6.6.1'
+  gradleVersion = '6.7.1'
   distributionType = Wrapper.DistributionType.ALL
 }
