@@ -127,4 +127,19 @@ class LunchResolverPhoenixeumTest {
     offers shouldContain LunchOffer(0, "Paprikaschoten", "rote Paprika gefüllt mit Rinderhack & Reis, dazu deftige,dunkle Soße und Salzkartoffeln", week.wednesday, euro("6.00"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Paprikaschoten", "rote Paprika gefüllt mit Rinderhack & Reis, dazu deftige,dunkle Soße und Salzkartoffeln", week.thursday, euro("6.00"), emptySet(), providerId)
   }
+
+  @Test
+  fun `resolve offers for week of 2020-11-30`() {
+    val url = javaClass.getResource("/menus/phoenixeum/2020-11-30.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 4
+
+    val week = weekOf("2020-11-30")
+    offers shouldContain LunchOffer(0, "Bangs & Mash", "Bratwurst in Zwiebelsoße mit grünen Erbsen & Kartoffelstampf", week.monday, euro("5.50"), setOf(), providerId)
+    offers shouldContain LunchOffer(0, "Bangs & Mash", "Bratwurst in Zwiebelsoße mit grünen Erbsen & Kartoffelstampf", week.tuesday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Senfei", "2 Bio-Eier in Senfsoße, dazu Kartoffeln", week.wednesday, euro("5.50"), emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Senfei", "2 Bio-Eier in Senfsoße, dazu Kartoffeln", week.thursday, euro("5.50"), emptySet(), providerId)
+  }
 }

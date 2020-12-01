@@ -29,7 +29,9 @@ class LunchResolverPhoenixeum(
 
     val site = htmlParser.parse(url)
 
+    // neue Website-Struktur seit 23.11.2020 ...
     val elements = site.select("div.wrapplan")
+    // ... alte Website-Struktur
     elements.addAll(site.select("#wochenplaene > div.ce_text"))
 
     for (wochenplanDiv in elements) {
@@ -48,8 +50,19 @@ class LunchResolverPhoenixeum(
   private fun parseOffers(wochenplanDiv: Element, monday: LocalDate): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
 
-    for (offerNode in wochenplanDiv.select("p")) {
-      val pipedOffer = node2text(offerNode)
+    val pipedWeek = node2text(wochenplanDiv).replace("||", "|")
+    val pipedOffers = pipedWeek.split("|").fold(emptyList<String>()) { days, elem ->
+      if (days.isEmpty()) days + elem
+      else {
+        val lastDay = days.last()
+        if (Weekday.values().any { elem.contains(it.label) })
+          days + elem
+        else
+          days.dropLast(1) + "$lastDay|$elem"
+      }
+    }
+
+    for (pipedOffer in pipedOffers) {
       val offerAsStrings = pipedOffer.split("|").map { it.trim() }
 
       val offers = parseOfferAttributes(offerAsStrings, monday)
@@ -68,7 +81,7 @@ class LunchResolverPhoenixeum(
   private fun node2text(node: Node): String {
     var result = ""
     // Zeilenumbrüche durch Pipe-Zeichen ausdrücken
-    if (node is Element && node.tagName() in listOf("br")) result += "|"
+    if (node is Element && node.tagName() in listOf("br", "p")) result += "|"
 
     for (child in node.childNodes()) {
       result += when (child) {
