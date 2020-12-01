@@ -50,17 +50,7 @@ class LunchResolverPhoenixeum(
   private fun parseOffers(wochenplanDiv: Element, monday: LocalDate): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
 
-    val pipedWeek = node2text(wochenplanDiv).replace("||", "|")
-    val pipedOffers = pipedWeek.split("|").fold(emptyList<String>()) { days, elem ->
-      if (days.isEmpty()) days + elem
-      else {
-        val lastDay = days.last()
-        if (Weekday.values().any { elem.contains(it.label) })
-          days + elem
-        else
-          days.dropLast(1) + "$lastDay|$elem"
-      }
-    }
+    val pipedOffers = splitByOffers(wochenplanDiv)
 
     for (pipedOffer in pipedOffers) {
       val offerAsStrings = pipedOffer.split("|").map { it.trim() }
@@ -70,6 +60,20 @@ class LunchResolverPhoenixeum(
     }
 
     return result
+  }
+
+  private fun splitByOffers(wochenplanDiv: Element): List<String> {
+    val pipedWeek = node2text(wochenplanDiv).replace("||", "|")
+    return pipedWeek.split("|").fold(emptyList<String>()) { days, elem ->
+      if (days.isEmpty()) days + elem
+      else {
+        val lastDay = days.last()
+        if (Weekday.values().any { elem.contains(it.label) })
+          days + elem
+        else
+          days.dropLast(1) + "$lastDay|$elem"
+      }
+    }
   }
 
   private fun resolveMonday(node: Element): LocalDate? {
