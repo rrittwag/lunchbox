@@ -40,9 +40,9 @@ Sub-Projekte
 ------------
 
 * [Dokumentation der REST API für Server-Client-Kommunikation](https://github.com/rrittwag/lunchbox/tree/master/api). Das Projekt enthält eine Mock-Implementierung mit Beispieldaten.
-* Server-Implementierung realisiert mit ...
+* Backend-Implementierung realisiert mit
   * [Spring Boot & Kotlin](https://github.com/rrittwag/lunchbox-backend-spring-kotlin)
-  * [Play, Akka & Scala](https://github.com/rrittwag/lunchbox/tree/master/server_play_akka_scala) (wird nicht mehr gepflegt)
-* [Web-App realisiert mit AngularJS & Bootstrap](https://github.com/rrittwag/lunchbox/tree/master/client_web_angular)
+  * [Play, Akka & Scala](https://github.com/rrittwag/lunchbox/tree/master/backend-play-akka-scala) (wird seit November 2019 nicht mehr gepflegt)
+* [Web-App realisiert mit AngularJS & Bootstrap](https://github.com/rrittwag/lunchbox/tree/master/frontend-web-angularjs)
 * [Android-App](https://github.com/data-experts/Lunchbox)
 * [Alexa-Skill](https://www.amazon.de/Falko-V-Partzsch-DEG-Lunchbox/dp/B074XD9G5D/ref=sr_1_1?__mk_de_DE=ÅMÅŽÕÑ&keywords=lunchbox&qid=1569082911&s=digital-skills&sr=1-1)
