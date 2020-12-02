@@ -1,0 +1,53 @@
+services:
+  - docker:dind # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-workflow-with-docker-executor
+
+variables:
+  DOCKER_REGISTRY_ADDR: docker.rori.dev
+  DOCKER_REGISTRY_USER: deploy
+  DOCKER_REGISTRY_TOKEN: $DOCKER_REGISTRY_TOKEN # wird von Gitlab hereingereicht
+  DOCKER_HOST: 'tcp://docker:2375'
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
+stages:
+ - deploy
+
+.deploy2intranet:
+  image: jaromirpufler/docker-openssh-client
+  stage: deploy
+  variables:
+    DEPLOY_HOST: ${SSH_DEPLOY_HOST_INTRANET}
+    DEPLOY_USER: ${SSH_DEPLOY_USER_INTRANET}
+  script:
+    - ssh-keyscan -t rsa ${DEPLOY_HOST} > ~/.ssh/known_hosts 2> /dev/null
+    - ssh ${DEPLOY_USER}@${DEPLOY_HOST} "mkdir -p ${CI_PROJECT_PATH} && ln -s \"\$(pwd)/.env\" ${CI_PROJECT_PATH}/.env || true"
+    - scp docker-compose.yml ${DEPLOY_USER}@${DEPLOY_HOST}:${CI_PROJECT_PATH}/
+    - scp -r scripts ${DEPLOY_USER}@${DEPLOY_HOST}:${CI_PROJECT_PATH}/
+    - ssh ${DEPLOY_USER}@${DEPLOY_HOST} "echo '${DOCKER_REGISTRY_TOKEN}' | docker login -u ${DOCKER_REGISTRY_USER} --password-stdin ${DOCKER_REGISTRY_ADDR}"
+    - ssh ${DEPLOY_USER}@${DEPLOY_HOST} "cd ${CI_PROJECT_PATH} && docker-compose pull --quiet && docker-compose up --detach --remove-orphans"
+  only:
+    - master
+
+deploy2online:
+  image: docker:git
+  stage: deploy
+  variables:
+    DEPLOY_HOST: ${SSH_DEPLOY_HOST_ONLINE}
+    DEPLOY_USER: ${SSH_DEPLOY_USER_ONLINE}
+  script:
+    - mkdir ~/.ssh
+    - echo "${SSH_DEPLOY_KEY}" > ~/.ssh/id_rsa
+    - chmod 400 ~/.ssh/id_rsa
+    - ssh-keyscan -t rsa ${DEPLOY_HOST} > ~/.ssh/known_hosts 2> /dev/null
+    - ssh ${DEPLOY_USER}@${DEPLOY_HOST} "mkdir -p ${CI_PROJECT_PATH} && ln -s \"\$(pwd)/.env\" ${CI_PROJECT_PATH}/.env || true"
+    - echo "${DOCKER_REGISTRY_TOKEN}" | docker login -u ${DOCKER_REGISTRY_USER} --password-stdin ${DOCKER_REGISTRY_ADDR}
+    - for i in `sed -n -e "s/.*\(${DOCKER_REGISTRY_ADDR}\/[^[:space:]]*\).*/\1/p" docker-compose.yml`;
+      do docker pull --quiet $i && docker save $i --output `echo $i | sed -e "s/.*\/\([^:]*\).*/\1.tar/g"`;
+      done
+    - scp *.tar ${DEPLOY_USER}@${DEPLOY_HOST}:${CI_PROJECT_PATH}/
+    - ssh ${DEPLOY_USER}@${DEPLOY_HOST} "cd ${CI_PROJECT_PATH}"' && (for curfile in *.tar ; do docker load --input "$curfile" ; done) && rm -rf *.tar'
+    - scp docker-compose.yml ${DEPLOY_USER}@${DEPLOY_HOST}:${CI_PROJECT_PATH}/
+    - scp -r scripts ${DEPLOY_USER}@${DEPLOY_HOST}:${CI_PROJECT_PATH}/
+    - ssh ${DEPLOY_USER}@${DEPLOY_HOST} "cd ${CI_PROJECT_PATH} && (docker-compose pull --ignore-pull-failures --quiet || true) && docker-compose up --detach --remove-orphans"
+  only:
+    - master

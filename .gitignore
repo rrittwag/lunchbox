@@ -1,7 +1,3 @@
-# Android
-gen/
-lint.xml
-
 # Eclipse
 bin/
 .classpath
@@ -10,7 +6,7 @@ bin/
 .cache
 .checkstyle
 
-#IntelliJ IDEA
+# IntelliJ IDEA
 out/
 .idea
 *.iml
@@ -25,6 +21,7 @@ release.properties
 # Gradle
 build/
 .gradle/
+.gradletasknamecache
 
 # SBT
 target/
@@ -32,9 +29,29 @@ tmp/
 dist/
 
 # runtime
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 logs/
 *.log
 
+# Yarn/NPM
+node_modules/
+coverage/
+build/
+es/
+lib/
+demo/dist/
+pacts/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+-/tests/e2e/reports/
+-selenium-debug.log
+
 # other
 .DS_Store
+Thumbs.db
+*.lnk
 *~
