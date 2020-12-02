@@ -9,12 +9,12 @@ image: adoptopenjdk/openjdk8
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - backend/.gradle/wrapper
-    - backend/.gradle/caches
+    - backend-spring-kotlin/.gradle/wrapper
+    - backend-spring-kotlin/.gradle/caches
   policy: pull
 
 before_script:
-  - cd backend # Gitlab startet Jobs in Root-Pfad. Die meisten folgenden Aufrufe sind jedoch auf den Sub-Pfad bezogen.
+  - cd backend-spring-kotlin # Gitlab startet Jobs in Root-Pfad. Die meisten folgenden Aufrufe sind jedoch auf den Sub-Pfad bezogen.
   - export GRADLE_USER_HOME=`pwd`/.gradle
   - export GRADLE_OPTS="-Dorg.gradle.daemon=false -Dorg.gradle.internal.launcher.welcomeMessageEnabled=false"
 
@@ -30,12 +30,12 @@ build:
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - backend/.gradle/wrapper
-      - backend/.gradle/caches
+      - backend-spring-kotlin/.gradle/wrapper
+      - backend-spring-kotlin/.gradle/caches
     policy: pull-push
   artifacts:
     paths:
-      - backend/build/libs/*.jar
+      - backend-spring-kotlin/build/libs/*.jar
     expire_in: 1 hour
 
 lint:
@@ -45,7 +45,7 @@ lint:
     - ./gradlew lint
   artifacts:
     paths:
-      - backend/build/reports/detekt/*
+      - backend-spring-kotlin/build/reports/detekt/*
     when: always
     expire_in: 1 week
 
@@ -55,9 +55,9 @@ unit:
     - ./gradlew test
   artifacts:
     reports:
-      junit: backend/build/test-results/test/TEST-*.xml
+      junit: backend-spring-kotlin/build/test-results/test/TEST-*.xml
     paths:
-      - backend/build/test-results/test/TEST-*.xml
+      - backend-spring-kotlin/build/test-results/test/TEST-*.xml
     when: always
     expire_in: 1 week
 
@@ -73,9 +73,9 @@ integration:
     - ./gradlew testIntegration
   artifacts:
     reports:
-      junit: backend/build/test-results/testIntegration/TEST-*.xml
+      junit: backend-spring-kotlin/build/test-results/testIntegration/TEST-*.xml
     paths:
-      - backend/build/test-results/testIntegration/TEST-*.xml
+      - backend-spring-kotlin/build/test-results/testIntegration/TEST-*.xml
     when: always
     expire_in: 1 week
 

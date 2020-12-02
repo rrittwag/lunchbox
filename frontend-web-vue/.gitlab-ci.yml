@@ -9,11 +9,11 @@ image: node:13
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - frontend/node_modules/
+    - frontend-web-vue/node_modules/
   policy: pull
 
 before_script:
-  - cd frontend # Gitlab startet Jobs in Root-Pfad. Die meisten folgenden Aufrufe sind jedoch auf den Sub-Pfad bezogen.
+  - cd frontend-web-vue # Gitlab startet Jobs in Root-Pfad. Die meisten folgenden Aufrufe sind jedoch auf den Sub-Pfad bezogen.
   - export CI=true # vermeidet interaktive yarn-Aufrufe
 
 stages:
@@ -29,11 +29,11 @@ install & build:
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - frontend/node_modules/
+      - frontend-web-vue/node_modules/
     policy: pull-push
   artifacts:
     paths:
-      - frontend/dist/
+      - frontend-web-vue/dist/
     expire_in: 1 hour
 
 lint:

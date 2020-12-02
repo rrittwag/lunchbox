@@ -2,23 +2,23 @@ stages:
   - build
   - deploy
 
-build_frontend:
+build_frontend-web-vue:
   stage: build
   trigger:
-    include: frontend/.gitlab-ci.yml
+    include: frontend-web-vue/.gitlab-ci.yml
     strategy: depend
   rules:
     - changes:
-      - frontend/**/*
+      - frontend-web-vue/**/*
 
-build_backend:
+build_backend-spring-kotlin:
   stage: build
   trigger:
-    include: backend/.gitlab-ci.yml
+    include: backend-spring-kotlin/.gitlab-ci.yml
     strategy: depend
   rules:
     - changes:
-      - backend/**/*
+      - backend-spring-kotlin/**/*
 
 deploy:
   stage: deploy
