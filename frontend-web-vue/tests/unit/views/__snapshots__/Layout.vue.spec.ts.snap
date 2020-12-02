@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout renders snapshot 1`] = `
+<div
+  class="flex flex-col
+         w-full max-w-4md min-h-screen
+         font-sans antialiased
+         relative"
+>
+  <header-stub />
+   
+  <content-stub
+    class="flex-grow"
+  />
+</div>
+`;

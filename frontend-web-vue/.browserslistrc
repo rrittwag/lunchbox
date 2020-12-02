@@ -1,0 +1,7 @@
+> 1%
+last 2 versions
+not dead
+not ie 11         # does not support css variables
+not baidu >= 0    # does not support css variables
+not op_mini all   # does not support css variables
+not and_qq >= 0   # does not support css variables

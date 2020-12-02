@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders snapshot 1`] = `
+<header
+  class="sm:absolute sm:top-0 sm:right-0
+         sm:px-8 pt-4 pb-2 sm:pb-4"
+>
+  <nav
+    aria-label="Haupt"
+    class="flex items-center justify-center
+           sm:h-16"
+  >
+    <ul
+      class="list-none"
+    >
+      <navlink-stub
+        exact="true"
+        to="/"
+      >
+        <offersicon-stub />
+      </navlink-stub>
+       
+      <navlink-stub
+        to="/settings"
+      >
+        <settingsicon-stub />
+      </navlink-stub>
+       
+      <navlink-stub
+        to="/about"
+      >
+        <infoicon-stub />
+      </navlink-stub>
+    </ul>
+  </nav>
+</header>
+`;

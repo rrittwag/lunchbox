@@ -47,7 +47,8 @@ pacts/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
--/tests/e2e/reports/
+report.*.json
+/tests/e2e/reports/
 -selenium-debug.log
 
 # other
