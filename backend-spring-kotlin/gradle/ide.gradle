@@ -1,0 +1,53 @@
+// ---------------------------------
+//   Eclipse-Projektdateien generieren
+// ---------------------------------
+apply plugin: 'eclipse'
+
+eclipse {
+  project {
+    // in allen Eclipse-Projekten das Verzeichnis 'build' verbergen
+    file.withXml { provider ->
+      Node filteredResources = provider.asNode().appendNode('filteredResources')
+      Node filter = filteredResources.appendNode('filter')
+      filter.appendNode('id', '1095850624')
+      filter.appendNode('name', '')
+      filter.appendNode('type', '10')
+      Node matcher = filter.appendNode('matcher')
+      matcher.appendNode('id', 'org.eclipse.ui.ide.multiFilter')
+      matcher.appendNode('arguments', '1.0-name-matches-false-false-build')
+    }
+  }
+
+  classpath {
+    // Dependencies wie 'testCompile project(':util').sourceSets.test.output'
+    // erzeugen unnötige, problematische Eclipse-Abhängigkeiten. Raus damit!
+    file.whenMerged { classpath ->
+      classpath.entries.removeAll { it.path.contains '/build/' }
+    }
+  }
+
+  jdt {
+    file {
+      withProperties { properties ->
+        properties['org.eclipse.jdt.core.compiler.problem.missingSerialVersion'] = 'ignore'
+      }
+    }
+  }
+}
+
+// Eclipse-Projektdateien immer neu erstellen (nicht mergen)
+tasks.eclipse.dependsOn(cleanEclipse)
+
+
+// ---------------------------------
+//   IntelliJ IDEA-Projektdateien generieren
+// ---------------------------------
+apply plugin: 'idea'
+
+idea {
+  module {
+    testSourceDirs += project.sourceSets.testIntegration.java.srcDirs
+    testSourceDirs += project.sourceSets.testIntegration.kotlin.srcDirs
+    testSourceDirs += project.sourceSets.testIntegration.resources.srcDirs
+  }
+}

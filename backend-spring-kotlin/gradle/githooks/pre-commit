@@ -1,0 +1,25 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NORMAL='\033[0;39m'
+
+# Prüft vor dem git-Commit, ob der Quellcode dem vorgegebenen Format entspricht.
+# git führt das Skript aus, wenn es im Verzeichnis ".git/hooks" liegt.
+printf "Prüfe Quellcode-Format ... "
+
+if ! ./gradlew formatCheck &>/dev/null
+then
+  echo "${RED}✘${NORMAL}"
+	cat <<\EOF
+Quellcode nicht korrekt formatiert! Bitte prüfen mit
+
+  ./gradlew formatCheck
+
+oder automatisch formatieren mit
+
+  ./gradlew format
+EOF
+	exit 1
+fi
+echo "${GREEN}✔︎${NORMAL}"

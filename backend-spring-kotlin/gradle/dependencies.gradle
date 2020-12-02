@@ -1,0 +1,38 @@
+// -------------------
+//   Abhängigkeiten der Applikation
+// -------------------
+ext.springBootVersion = '2.4.0'
+
+repositories { jcenter() }
+dependencies {
+  // Spring Boot BOM
+  implementation(platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}"))
+
+  // Kotlin
+  implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+  implementation 'org.jetbrains.kotlin:kotlin-reflect'
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+  implementation 'io.github.microutils:kotlin-logging:2.0.3'
+
+  // web
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation('org.springframework.boot:spring-boot-starter-undertow') { exclude module: 'undertow-websockets-jsr' }
+  implementation 'org.jboss.xnio:xnio-nio:3.8.2.Final' // Undertow nutzt eigentlich XNIO 3.3, was den Worker-ThreadPool maximal aufbläht (vgl. ConfigUndertow.java)
+  implementation 'org.springframework.boot:spring-boot-starter-webflux'
+  implementation 'javax.xml.bind:jaxb-api'
+
+  // html/xml/pdf
+  implementation 'org.jsoup:jsoup:1.13.1'
+  implementation 'org.apache.pdfbox:pdfbox:2.0.21'
+
+  // RSS/Atom feed
+  implementation 'com.rometools:rome:1.15.0'
+
+  // money money money
+  implementation 'org.joda:joda-money:1.0.1'
+
+  // Test-Abhängigkeiten sind in test.gradle definiert
+}
+
+// wir nutzen den resourcenschonenden Undertow statt Tomcat
+configurations.all { exclude module: 'spring-boot-starter-tomcat' }

@@ -1,0 +1,55 @@
+// -------------------
+//   Java
+// -------------------
+apply plugin: 'java'
+
+tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+tasks.withType(Javadoc) { options.encoding = 'UTF-8' }
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+// -------------------
+//   Source set 'testIntegration'
+// -------------------
+sourceSets {
+  testIntegration {
+    compileClasspath += sourceSets.main.output + sourceSets.test.output
+    runtimeClasspath += output + compileClasspath
+  }
+}
+
+configurations {
+  testIntegrationImplementation.extendsFrom testImplementation
+  testIntegrationRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+
+// -------------------
+//   Kotlin
+// -------------------
+compileKotlin {
+  kotlinOptions {
+    freeCompilerArgs = [
+      "-Xjsr305=strict"
+    ]
+    jvmTarget = "1.8"
+  }
+}
+compileTestKotlin {
+  kotlinOptions {
+    freeCompilerArgs = [
+      "-Xjsr305=strict"
+    ]
+    jvmTarget = "1.8"
+  }
+}
+compileTestIntegrationKotlin {
+  kotlinOptions {
+    freeCompilerArgs = [
+      "-Xjsr305=strict"
+    ]
+    jvmTarget = "1.8"
+  }
+}

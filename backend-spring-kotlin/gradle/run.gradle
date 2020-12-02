@@ -1,0 +1,24 @@
+// ------------------------
+//   Applikation starten
+// ------------------------
+bootRun {
+  doFirst {
+    //    args += '--logging.level.root=DEBUG'
+    args += '--debug'
+    args += "--external.ocr.url=http://localhost:9292"
+    args += "--external.rendertron.url=http://localhost:3005"
+  }
+
+  debugOptions {
+    enabled = true
+    port = 5005
+    server = true
+    suspend = false
+  }
+}
+
+// Der Task-Name 'run' ist eingängiger und technologie-neutraler als 'bootRun'
+task run(
+    dependsOn: 'bootRun',
+    description: 'Startet das Backend lokal (Alias für bootRun).',
+    group: 'Application')

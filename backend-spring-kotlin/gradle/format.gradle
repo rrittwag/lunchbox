@@ -1,0 +1,37 @@
+// ---------------------------------
+//   Code-Format prüfen & anwenden
+// ---------------------------------
+apply plugin: 'com.diffplug.spotless'
+
+spotless {
+  java {
+    // licenseHeaderFile     "${rootDir}/gradle/format/lunchbox.license"
+    importOrderFile       "${rootDir}/gradle/format/lunchbox.importorder"
+    removeUnusedImports()
+    eclipse().configFile  "${rootDir}/gradle/format/lunchbox.javaformat.xml"  // Export-Datei des Eclipse Formatters
+  }
+  kotlin {
+    ktlint().userData(
+        ['indent_size': '2',
+          'continuation_indent_size' : '2',
+          'insert_final_newline': 'true',
+          'max_line_length': '100',
+          'disable_rules': 'no-wildcard-imports'])
+  }
+  groovyGradle {
+    target '*.gradle', 'gradle/*.gradle'
+    greclipse().configFile "${rootDir}/gradle/format/lunchbox.javaformat.xml", "${rootDir}/gradle/format/lunchbox.groovyformat.prefs"
+  }
+}
+
+// Der Task-Name 'format' ist eingängiger als 'spotlessApply' ...
+task format(
+    dependsOn: 'spotlessApply',
+    description: 'Formatiert den Quellcode (Alias für spotlessApply).',
+    group: 'Verification')
+
+// ... gleiches gilt für 'spotlessCheck'.
+task formatCheck(
+    dependsOn: 'spotlessCheck',
+    description: 'Prüft das Quellcode-Format (Alias für spotlessCheck).',
+    group: 'Verification')

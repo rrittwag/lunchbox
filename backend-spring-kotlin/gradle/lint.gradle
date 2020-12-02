@@ -1,0 +1,16 @@
+// -------------------
+//   Statische Code-Analyse mit Detekt
+// -------------------
+apply plugin: "io.gitlab.arturbosch.detekt"
+
+detekt {
+  toolVersion = '1.14.2'
+  input = files('src/main/kotlin')
+  config = files('gradle/lint/detekt_config.yml')
+}
+
+// Der Task-Name 'lint' ist eingängiger und technologie-neutraler als 'detekt'
+task lint(
+    dependsOn: 'detekt',
+    description: 'Führt die statische Code-Analyse aus.',
+    group: 'Verification')
