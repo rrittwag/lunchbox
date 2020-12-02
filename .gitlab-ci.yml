@@ -1,0 +1,27 @@
+stages:
+  - build
+  - deploy
+
+build_frontend:
+  stage: build
+  trigger:
+    include: frontend/.gitlab-ci.yml
+    strategy: depend
+  rules:
+    - changes:
+      - frontend/**/*
+
+build_backend:
+  stage: build
+  trigger:
+    include: backend/.gitlab-ci.yml
+    strategy: depend
+  rules:
+    - changes:
+      - backend/**/*
+
+deploy:
+  stage: deploy
+  trigger:
+    include: app/.gitlab-ci.yml
+    strategy: depend

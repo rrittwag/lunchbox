@@ -1,6 +1,10 @@
 // ------------------------
 //   Applikation starten
 // ------------------------
+bootJar {
+  archiveFileName = 'app.jar'
+}
+
 bootRun {
   doFirst {
     //    args += '--logging.level.root=DEBUG'

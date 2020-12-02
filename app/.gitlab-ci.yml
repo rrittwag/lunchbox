@@ -9,6 +9,9 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
 
+before_script:
+  - cd app # Gitlab startet Jobs in Root-Pfad. Die meisten folgenden Aufrufe sind jedoch auf den Sub-Pfad bezogen.
+
 stages:
  - deploy
 

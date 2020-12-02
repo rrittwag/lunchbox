@@ -2,7 +2,6 @@ plugins {
   id 'org.springframework.boot' version '2.4.0'
   id 'com.diffplug.spotless' version '5.8.2'
   id 'io.gitlab.arturbosch.detekt' version '1.14.2'
-  id 'com.palantir.docker' version '0.25.0'
 
   id 'org.jetbrains.kotlin.jvm' version '1.4.20'
   id 'org.jetbrains.kotlin.plugin.spring' version '1.4.20'
@@ -25,7 +24,6 @@ allprojects {
   apply from: "${rootDir}/gradle/lint.gradle"
   apply from: "${rootDir}/gradle/test.gradle"
   apply from: "${rootDir}/gradle/run.gradle"
-  apply from: "${rootDir}/gradle/docker.gradle"
 }
 
 // -------------------

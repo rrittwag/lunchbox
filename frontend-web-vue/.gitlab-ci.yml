@@ -1,11 +1,5 @@
 image: node:13
 
-variables:
-  CONTAINER_NAME: lunchbox-frontend
-  DOCKER_REGISTRY_ADDR: docker.rori.dev
-  DOCKER_REGISTRY_USER: deploy
-  DOCKER_REGISTRY_TOKEN: $DOCKER_REGISTRY_TOKEN # wird von Gitlab hereingereicht
-
 # Cachen der Dependencies
 # - Der Cache beschleunigt den CI-Lauf durch Vorhalten von Dependencies & anderen Downloads.
 # - key: ${CI_COMMIT_REF_SLUG} cacht für alle CI-Läufe eines Branches, 'any-key' cacht für alle CI-Läufe eines Projekts
@@ -15,17 +9,17 @@ variables:
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - node_modules/
+    - frontend/node_modules/
   policy: pull
 
 before_script:
+  - cd frontend # Gitlab startet Jobs in Root-Pfad. Die meisten folgenden Aufrufe sind jedoch auf den Sub-Pfad bezogen.
   - export CI=true # vermeidet interaktive yarn-Aufrufe
 
 stages:
   - build
   - test
   - docker
-  - deploy
 
 install & build:
   stage: build
@@ -35,11 +29,11 @@ install & build:
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - node_modules/
+      - frontend/node_modules/
     policy: pull-push
   artifacts:
     paths:
-      - dist/
+      - frontend/dist/
     expire_in: 1 hour
 
 lint:
@@ -66,8 +60,12 @@ docker:
   stage: docker
   image: docker
   services:
-  - docker:dind # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-workflow-with-docker-executor
+    - docker:dind # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-workflow-with-docker-executor
   variables:
+    CONTAINER_NAME: lunchbox-frontend
+    DOCKER_REGISTRY_ADDR: docker.rori.dev
+    DOCKER_REGISTRY_USER: deploy
+    DOCKER_REGISTRY_TOKEN: $DOCKER_REGISTRY_TOKEN # wird von Gitlab hereingereicht
     DOCKER_HOST: 'tcp://docker:2375'
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
@@ -77,11 +75,3 @@ docker:
     - echo "$DOCKER_REGISTRY_TOKEN" | docker login -u $DOCKER_REGISTRY_USER --password-stdin $DOCKER_REGISTRY_ADDR
     - docker build -t ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest --pull .
     - docker push ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest
-
-deploy:
-  stage: deploy
-  image: appropriate/curl
-  only:
-    - master
-  script:
-    - curl --request POST --form "token=${CI_DEPLOY_TOKEN}" --form ref=master https://git.rori.dev/api/v4/projects/42/trigger/pipeline
