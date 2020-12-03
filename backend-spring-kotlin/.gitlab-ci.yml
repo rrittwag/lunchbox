@@ -21,7 +21,7 @@ before_script:
 stages:
   - build
   - test
-  - docker
+  - publish
 
 build:
   stage: build
@@ -80,7 +80,7 @@ integration:
     expire_in: 1 week
 
 docker:
-  stage: docker
+  stage: publish
   image: docker
   services:
     - docker:dind # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-workflow-with-docker-executor

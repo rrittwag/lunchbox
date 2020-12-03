@@ -19,7 +19,7 @@ before_script:
 stages:
   - build
   - test
-  - docker
+  - publish
 
 install & build:
   stage: build
@@ -57,7 +57,7 @@ unit:
     - yarn test:e2e
 
 docker:
-  stage: docker
+  stage: publish
   image: docker
   services:
     - docker:dind # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-workflow-with-docker-executor
