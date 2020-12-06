@@ -1,6 +1,6 @@
-import { LunchProvider } from '@/model/LunchProvider'
-import { LunchOffer } from '@/model/LunchOffer'
-import { LunchLocation } from '@/model/LunchLocation'
+import { LunchProvider } from '/@/model/LunchProvider'
+import { LunchOffer } from '/@/model/LunchOffer'
+import { LunchLocation } from '/@/model/LunchLocation'
 
 // --- test providers ---
 

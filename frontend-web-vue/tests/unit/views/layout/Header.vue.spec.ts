@@ -1,6 +1,6 @@
-import Header from '@/views/layout/Header.vue'
-import RouterLinkIcon from '@/views/layout/header/NavLink.vue'
-import { mountUnit } from '@tests/unit/test-util'
+import Header from '/@/views/layout/Header.vue'
+import RouterLinkIcon from '/@/views/layout/header/NavLink.vue'
+import { mountUnit } from '/@tests/unit/test-util'
 
 describe('Header', () => {
   test('renders snapshot', () => {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import DaySelectorButton from '@/views/offers/dayselector/DaySelectorButton.vue'
-import { mountUnit } from '@tests/unit/test-util'
+import DaySelectorButton from '/@/views/offers/dayselector/DaySelectorButton.vue'
+import { mountUnit } from '/@tests/unit/test-util'
 
 describe('DaySelectorButton', () => {
   it('renders snapshot for previous day', () => {

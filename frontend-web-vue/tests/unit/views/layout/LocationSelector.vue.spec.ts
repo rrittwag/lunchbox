@@ -1,7 +1,7 @@
-import LocationSelector from '@/views/layout/LocationSelector.vue'
-import { createMock, mountUnit } from '@tests/unit/test-util'
-import { hamburg, münchen } from '@tests/unit/test-data'
-import { LunchStore } from '@/store/modules/LunchStore'
+import LocationSelector from '/@/views/layout/LocationSelector.vue'
+import { createMock, mountUnit } from '/@tests/unit/test-util'
+import { hamburg, münchen } from '/@tests/unit/test-data'
+import { LunchStore } from '/@/store/modules/LunchStore'
 
 describe('LocationSelector', () => {
   afterEach(() => {

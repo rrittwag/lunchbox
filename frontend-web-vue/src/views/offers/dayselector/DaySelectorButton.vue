@@ -3,11 +3,11 @@
     class="text-primary-500 hover:text-primary-600
            origin-center transform hover:scale-110
            disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed"
-    :class="{ 'active:text-primary-800': !disabled }"
+    :class="{ 'active:text-primary-800': !props.disabled }"
     :title="title"
     :aria-label="title"
-    @click="clicked"
-    :disabled="disabled"
+    @click="onClick"
+    :disabled="props.disabled"
     :aria-keyshortcuts="isPrevious ? 'ArrowLeft' : 'ArrowRight'"
   >
     <AngleLeftIcon v-if="isPrevious" class="w-16 h-16" />
@@ -15,32 +15,23 @@
   </button>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import AngleLeftIcon from '@/assets/icons/angle-left.svg'
-import AngleRightIcon from '@/assets/icons/angle-right.svg'
-import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
+<script setup lang="ts">
+import AngleLeftIcon from '/@/assets/icons/angle-left.svg'
+import AngleRightIcon from '/@/assets/icons/angle-right.svg'
+import { defineEmit, defineProps, computed } from 'vue'
+import { DaySelectorDirection } from '/@/views/offers/dayselector/DaySelectorDirection'
 
-@Component({
-  components: {
-    AngleLeftIcon,
-    AngleRightIcon,
-  },
-})
-export default class DaySelectorButton extends Vue {
-  @Prop() disabled!: boolean
-  @Prop() direction!: DaySelectorDirection
+const props = defineProps<{
+  disabled: boolean
+  direction: DaySelectorDirection
+}>()
+const emit = defineEmit<(e: 'click') => void>()
 
-  clicked() {
-    this.$emit('click')
-  }
+const onClick = () => emit('click')
 
-  get isPrevious(): boolean {
-    return this.direction === DaySelectorDirection.PREVIOUS
-  }
+const isPrevious = computed(() => props.direction === 'prev')
 
-  get title(): string {
-    return this.isPrevious ? 'Zu vorherigem Tag wechseln' : 'Zu nächstem Tag wechseln'
-  }
-}
+const title = computed(() =>
+  isPrevious.value ? 'Zu vorherigem Tag wechseln' : 'Zu nächstem Tag wechseln'
+)
 </script>

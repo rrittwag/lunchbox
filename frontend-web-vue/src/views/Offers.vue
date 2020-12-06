@@ -10,7 +10,7 @@
         Mittagsangebote
       </h1>
       <DaySelector
-        :selectedDay="lunchStore.selectedDay"
+        :selectedDay="selectedDay"
         :disabledNext="!nextDay()"
         :disabledPrev="!prevDay()"
         @change="daySelected"
@@ -22,10 +22,16 @@
       leave-active-class="transition-all duration-100 ease-in transform"
       :leave-to-class="`opacity-0 ${isDirectionNext ? '-translate-x-12' : 'translate-x-12'}`"
       enter-active-class="delay-200 transition-all duration-50 ease-out transform"
-      :enter-class="`opacity-0 ${isDirectionNext ? 'translate-x-1' : '-translate-x-1'}`"
+      :enter-from-class="`opacity-0 ${isDirectionNext ? 'translate-x-1' : '-translate-x-1'}`"
     >
+      <!--       <OfferBoxGroup
+        v-touch:swipe="onSwipe"
+        :key="selectedDayAsISOString"
+        class="flex-grow
+               pt-4"
+      />
+-->
       <OfferBoxGroup
-        v-touch:swipe="swiped"
         :key="selectedDayAsISOString"
         class="flex-grow
                pt-4"
@@ -36,72 +42,62 @@
   <ContentLoading v-else />
 </template>
 
-<script lang="ts">
-import { Component, Inject, Vue } from 'vue-property-decorator'
-import ContentError from '@/views/layout/content/ContentError.vue'
-import ContentLoading from '@/views/layout/content/ContentLoading.vue'
-import { LunchStore } from '@/store/modules/LunchStore'
-import { LoadingState } from '@/store/LoadingState'
-import DaySelector from '@/views/offers/DaySelector.vue'
-import OfferBoxGroup from '@/views/offers/OfferBoxGroup.vue'
-import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
-import { formatToISODate } from '@/util/formatting'
+<script setup lang="ts">
+import ContentError from '/@/views/layout/content/ContentError.vue'
+import ContentLoading from '/@/views/layout/content/ContentLoading.vue'
+import DaySelector from '/@/views/offers/DaySelector.vue'
+import OfferBoxGroup from '/@/views/offers/OfferBoxGroup.vue'
+import { DaySelectorDirection } from '/@/views/offers/dayselector/DaySelectorDirection'
+import { formatToISODate } from '/@/util/formatting'
+import { useLunchStore } from '/@/store/lunch'
+import { computed, ref } from 'vue'
 
-@Component({
-  components: {
-    DaySelector,
-    OfferBoxGroup,
-    ContentLoading,
-    ContentError,
-  },
+const {
+  isLoading,
+  error,
+  providers,
+  offers,
+  selectedLocation,
+  selectedDay,
+  selectDay,
+} = useLunchStore()
+const isDirectionNext = ref(true)
+
+const loadingDone = computed(() => !isLoading.value && !error.value)
+const loadingFailed = computed(() => error.value)
+
+const lunchDays = computed<Date[]>(() => {
+  const providerIDsForSelectedLocation = providers.value
+    .filter(p => p.location === selectedLocation.value.name)
+    .map(p => p.id)
+  const lunchDays: string[] = offers.value
+    .filter(o => providerIDsForSelectedLocation.includes(o.provider))
+    .map(o => o.day)
+  return Array.from(new Set<string>(lunchDays))
+    .map(dayString => new Date(dayString))
+    .sort((day1, day2) => day1.getTime() - day2.getTime())
 })
-export default class Offers extends Vue {
-  @Inject() lunchStore!: LunchStore
-  isDirectionNext = true
 
-  get loadingDone(): boolean {
-    return this.lunchStore.loadingState === LoadingState.Done
-  }
+function prevDay(): Date | undefined {
+  return lunchDays.value.filter(day => day < selectedDay.value).pop()
+}
 
-  get loadingFailed(): boolean {
-    return this.lunchStore.loadingState === LoadingState.Failed
-  }
+function nextDay(): Date | undefined {
+  return lunchDays.value.filter(day => day > selectedDay.value)[0]
+}
 
-  get lunchDays(): Date[] {
-    const providerIDsForSelectedLocation = this.lunchStore.providers
-      .filter(p => p.location === this.lunchStore.selectedLocation.name)
-      .map(p => p.id)
-    const lunchDays: string[] = this.lunchStore.offers
-      .filter(o => providerIDsForSelectedLocation.includes(o.provider))
-      .map(o => o.day)
-    return Array.from(new Set<string>(lunchDays))
-      .map(dayString => new Date(dayString))
-      .sort((day1, day2) => day1.getTime() - day2.getTime())
-  }
+const selectedDayAsISOString = computed(() => formatToISODate(selectedDay.value))
 
-  prevDay(): Date | undefined {
-    return this.lunchDays.filter(day => day < this.lunchStore.selectedDay).pop()
-  }
+function daySelected(direction: DaySelectorDirection) {
+  const gotoDay = direction === DaySelectorDirection.NEXT ? nextDay() : prevDay()
+  if (!gotoDay) return
 
-  nextDay(): Date | undefined {
-    return this.lunchDays.filter(day => day > this.lunchStore.selectedDay)[0]
-  }
+  isDirectionNext.value = direction === DaySelectorDirection.NEXT
+  selectDay(gotoDay)
+}
 
-  get selectedDayAsISOString(): string {
-    return formatToISODate(this.lunchStore.selectedDay)
-  }
-
-  daySelected(direction: DaySelectorDirection) {
-    const gotoDay = direction === DaySelectorDirection.NEXT ? this.nextDay() : this.prevDay()
-    if (!gotoDay) return
-
-    this.isDirectionNext = direction === DaySelectorDirection.NEXT
-    this.lunchStore.setSelectedDay(gotoDay)
-  }
-
-  swiped(swipeDirection: string) {
-    if (swipeDirection === 'left') this.daySelected(DaySelectorDirection.NEXT)
-    else if (swipeDirection === 'right') this.daySelected(DaySelectorDirection.PREVIOUS)
-  }
+function onSwipe(swipeDirection: string) {
+  if (swipeDirection === 'left') daySelected(DaySelectorDirection.NEXT)
+  else if (swipeDirection === 'right') daySelected(DaySelectorDirection.PREVIOUS)
 }
 </script>

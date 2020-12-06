@@ -25,20 +25,9 @@
   </header>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import OffersIcon from '@/assets/icons/offers.svg'
-import SettingsIcon from '@/assets/icons/settings.svg'
-import InfoIcon from '@/assets/icons/info.svg'
-import NavLink from '@/views/layout/header/NavLink.vue'
-
-@Component({
-  components: {
-    NavLink,
-    OffersIcon,
-    SettingsIcon,
-    InfoIcon,
-  },
-})
-export default class Header extends Vue {}
+<script setup lang="ts">
+import OffersIcon from '/@/assets/icons/offers.svg'
+import SettingsIcon from '/@/assets/icons/settings.svg'
+import InfoIcon from '/@/assets/icons/info.svg'
+import NavLink from '/@/views/layout/header/NavLink.vue'
 </script>

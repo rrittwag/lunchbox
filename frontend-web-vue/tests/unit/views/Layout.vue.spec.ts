@@ -1,6 +1,6 @@
-import Layout from '@/views/Layout.vue'
-import { createMock, mountUnit } from '@tests/unit/test-util'
-import { ThemeStore } from '@/store/modules/ThemeStore'
+import Layout from '/@/views/Layout.vue'
+import { createMock, mountUnit } from '/@tests/unit/test-util'
+import { ThemeStore } from '/@/store/modules/ThemeStore'
 
 describe('Layout', () => {
   test('renders snapshot', () => {

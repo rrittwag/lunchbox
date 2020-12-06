@@ -1,5 +1,5 @@
-import { mountWithChildren } from '@tests/unit/test-util'
-import NavLink from '@/views/layout/header/NavLink.vue'
+import { mountWithChildren } from '/@tests/unit/test-util'
+import NavLink from '/@/views/layout/header/NavLink.vue'
 import VueRouter from 'vue-router'
 
 describe('NavLink', () => {

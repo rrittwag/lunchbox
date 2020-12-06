@@ -1,5 +1,5 @@
-import About from '@/views/About.vue'
-import { mountUnit } from '@tests/unit/test-util'
+import About from '/@/views/About.vue'
+import { mountUnit } from '/@tests/unit/test-util'
 
 describe('About', () => {
   test('renders snapshot', () => {

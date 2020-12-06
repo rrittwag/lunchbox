@@ -1,7 +1,7 @@
-import Offer from '@/views/offers/Offer.vue'
-import { gyros } from '@tests/unit/test-data'
-import { mountUnit } from '@tests/unit/test-util'
-import Badge from '@/views/offers/Badge.vue'
+import Offer from '/@/views/offers/Offer.vue'
+import { gyros } from '/@tests/unit/test-data'
+import { mountUnit } from '/@tests/unit/test-util'
+import Badge from '/@/views/offers/Badge.vue'
 
 describe('Offer', () => {
   it('renders snapshot', () => {

@@ -1,5 +1,5 @@
-import ContentError from '@/views/layout/content/ContentError.vue'
-import { mountUnit } from '@tests/unit/test-util'
+import ContentError from '/@/views/layout/content/ContentError.vue'
+import { mountUnit } from '/@tests/unit/test-util'
 
 describe('ContentError', () => {
   test('renders snapshot', () => {

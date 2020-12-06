@@ -1,4 +1,4 @@
-import { formatToWeekday, formatToLocalDate, formatEuro, formatToISODate } from '@/util/formatting'
+import { formatToWeekday, formatToLocalDate, formatEuro, formatToISODate } from '/@/util/formatting'
 import 'jest-extended'
 
 describe('formatEuro', () => {

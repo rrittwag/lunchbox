@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="to" :exact="exact" v-slot="{ navigate, isExactActive, route }">
+  <router-link :to="props.to" :exact="props.exact" v-slot="{ navigate, isExactActive, route }">
     <li class="inline-block px-2">
       <a
         class="nav-link flex justify-center items-center
@@ -17,14 +17,13 @@
   </router-link>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+<script setup lang="ts">
+import { defineProps } from 'vue'
 
-@Component
-export default class NavLink extends Vue {
-  @Prop() to!: string
-  @Prop({ type: Boolean }) exact!: boolean
-}
+const props = defineProps<{
+  to: string
+  exact: boolean
+}>()
 </script>
 
 <style lang="scss">

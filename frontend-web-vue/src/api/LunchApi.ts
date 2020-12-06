@@ -1,13 +1,17 @@
-import { fetchWithTimeout } from '@/api/http'
-import { LunchOffer } from '@/model/LunchOffer'
-import { LunchProvider } from '@/model/LunchProvider'
+import { fetchWithTimeout } from '/@/api/http'
+import { LunchOffer } from '/@/model/LunchOffer'
+import { LunchProvider } from '/@/model/LunchProvider'
 
-export class LunchApi {
+const URL_API_V2 = '/api/v2'
+export const URL_API_LUNCHOFFER = `${URL_API_V2}/lunchOffer`
+export const URL_API_LUNCHPROVIDER = `${URL_API_V2}/lunchProvider`
+
+export default {
   getOffers(): Promise<LunchOffer[]> {
-    return fetchWithTimeout('api/v2/lunchOffer').then(response => response.json())
-  }
+    return fetchWithTimeout(URL_API_LUNCHOFFER).then(response => response.json())
+  },
 
   getProviders(): Promise<LunchProvider[]> {
-    return fetchWithTimeout('api/v2/lunchProvider').then(response => response.json())
-  }
+    return fetchWithTimeout(URL_API_LUNCHPROVIDER).then(response => response.json())
+  },
 }

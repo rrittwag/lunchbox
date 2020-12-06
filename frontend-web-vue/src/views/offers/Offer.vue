@@ -8,12 +8,12 @@
         class="flex-grow
                text-xl text-neutral-800 leading-tight"
       >
-        {{ offer.name }}
+        {{ props.offer.name }}
       </h4>
       <span
         class="pl-2
                text-xl text-neutral-800 leading-tight whitespace-no-wrap"
-        v-if="offer.price"
+        v-if="props.offer.price"
       >
         <small
           class="pl-2
@@ -29,15 +29,15 @@
       class="sm:block
              pt-px pl-px
              font-light text-neutral-600 leading-snug"
-      :class="showDetailsInXS ? 'flex' : 'hidden'"
+      :class="props.showDetailsInXS ? 'flex' : 'hidden'"
     >
-      {{ offer.description }}
+      {{ props.offer.description }}
     </span>
 
     <div
       class="sm:flex
              pt-1"
-      :class="showDetailsInXS ? 'flex' : 'hidden'"
+      :class="props.showDetailsInXS ? 'flex' : 'hidden'"
     >
       <Badge
         v-for="tagLabel in sortedTags"
@@ -49,31 +49,18 @@
   </li>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import Badge from '@/views/offers/Badge.vue'
-import { LunchOffer } from '@/model/LunchOffer'
-import { formatEuro } from '@/util/formatting'
+<script setup lang="ts">
+import { defineProps, computed } from 'vue'
+import Badge from '/@/views/offers/Badge.vue'
+import { LunchOffer } from '/@/model/LunchOffer'
+import { formatEuro } from '/@/util/formatting'
 
-@Component({
-  components: {
-    Badge,
-  },
-})
-export default class Offer extends Vue {
-  @Prop() offer!: LunchOffer
-  @Prop() showDetailsInXS!: boolean
+const props = defineProps<{
+  offer: LunchOffer
+  showDetailsInXS: boolean
+}>()
 
-  get sortedTags() {
-    return this.offer.tags.sort()
-  }
-
-  get priceAsString(): string {
-    return formatEuro(this.offer.price)
-  }
-
-  isVeggie(tagLabel: string): boolean {
-    return tagLabel === 'vegetarisch' || tagLabel === 'vegan'
-  }
-}
+const sortedTags = computed(() => props.offer.tags.sort())
+const priceAsString = computed(() => formatEuro(props.offer.price))
+const isVeggie = (tagLabel: string) => tagLabel === 'vegetarisch' || tagLabel === 'vegan'
 </script>

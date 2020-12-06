@@ -1,5 +1,5 @@
-import Content from '@/views/layout/Content.vue'
-import { mountUnit } from '@tests/unit/test-util'
+import Content from '/@/views/layout/Content.vue'
+import { mountUnit } from '/@tests/unit/test-util'
 
 describe('Content', () => {
   test('renders snapshot', () => {

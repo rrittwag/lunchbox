@@ -20,11 +20,11 @@
                  focus:outline-none focus:shadow-outline"
           id="settings-theme"
           name="theme"
-          :value="themeStore.theme.value"
-          @change="updateTheme"
+          :value="currentTheme.cssClass"
+          @change="onSelectTheme"
         >
-          <option v-for="theme in themeStore.themes" :key="theme.value" :value="theme.value">
-            {{ theme.text }}
+          <option v-for="theme in themes" :key="theme.cssClass" :value="theme.cssClass">
+            {{ theme.label }}
           </option>
         </select>
         <div
@@ -42,17 +42,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue, Provide } from 'vue-property-decorator'
-import { getModule } from 'vuex-module-decorators'
-import { ThemeStore } from '@/store/modules/ThemeStore'
+<script setup lang="ts">
+import { useTheme } from '/@/store/theme'
 
-@Component
-export default class Settings extends Vue {
-  @Provide() themeStore: ThemeStore = getModule(ThemeStore)
+const { themes, currentTheme, setCurrentTheme } = useTheme()
 
-  updateTheme(event: { target: HTMLSelectElement }) {
-    this.themeStore.updateTheme(event.target.value)
-  }
+function onSelectTheme(event: { target: HTMLSelectElement }) {
+  const newTheme = themes.value.find(theme => theme.cssClass === event.target.value)
+  newTheme && setCurrentTheme(newTheme)
 }
 </script>

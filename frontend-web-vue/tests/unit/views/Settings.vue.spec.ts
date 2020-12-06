@@ -1,6 +1,6 @@
-import Settings from '@/views/Settings.vue'
-import { createMock, mountUnit } from '@tests/unit/test-util'
-import { ThemeStore } from '@/store/modules/ThemeStore'
+import Settings from '/@/views/Settings.vue'
+import { createMock, mountUnit } from '/@tests/unit/test-util'
+import { ThemeStore } from '/@/store/modules/ThemeStore'
 
 describe('Settings', () => {
   test('renders snapshot', () => {
