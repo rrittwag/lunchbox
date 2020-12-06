@@ -7,7 +7,7 @@ services:
       webgateway:
     restart: unless-stopped
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.lunchbox-frontend-v1.rule: Host(`lunchbox.${BASE_DOMAIN}`)
       traefik.http.routers.lunchbox-frontend-v1.entrypoints: web
 
@@ -17,7 +17,7 @@ services:
       webgateway:
     restart: unless-stopped
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.lunchbox-frontend-v2.rule: Host(`lunchbox2.${BASE_DOMAIN}`)
       traefik.http.routers.lunchbox-frontend-v2.entrypoints: web
 
@@ -31,7 +31,7 @@ services:
       default:
     restart: unless-stopped
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.lunchbox-backend.rule: Host(`lunchbox.${BASE_DOMAIN}`, `lunchbox2.${BASE_DOMAIN}`) && PathPrefix(`/api`, `/feed`)
       traefik.http.routers.lunchbox-backend.entrypoints: web
       traefik.http.services.lunchbox-backend.loadbalancer.server.port: 8080
