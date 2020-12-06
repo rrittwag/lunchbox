@@ -29,7 +29,7 @@ const emit = defineEmit<(e: 'click') => void>()
 
 const onClick = () => emit('click')
 
-const isPrevious = computed(() => props.direction === 'prev')
+const isPrevious = computed(() => props.direction === DaySelectorDirection.PREVIOUS)
 
 const title = computed(() =>
   isPrevious.value ? 'Zu vorherigem Tag wechseln' : 'Zu nächstem Tag wechseln'
