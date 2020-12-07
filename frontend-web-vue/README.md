@@ -51,6 +51,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
         - https://css-tricks.com/piecing-together-approaches-for-a-css-masonry-layout/
 - Komponenten basteln
     - [Tailwind UI](https://tailwindui.com/components)
+    - https://github.com/tailwindlabs/headlessui/tree/develop/packages/%40headlessui-vue
     - https://mertjf.github.io/tailblocks/
     - https://github.com/bootstrap-vue/bootstrap-vue
     - https://github.com/vuejs/ui/blob/master/src/components/VueButton.vue
