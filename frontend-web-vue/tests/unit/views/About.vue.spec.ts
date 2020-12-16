@@ -1,9 +1,9 @@
 import About from '/@/views/About.vue'
-import { mountUnit } from '/@tests/unit/test-util'
+import { shallowMount } from '@vue/test-utils'
 
 describe('About', () => {
   test('renders snapshot', () => {
-    const wrapper = mountUnit(About)
+    const wrapper = shallowMount(About)
     expect(wrapper.element).toMatchSnapshot()
   })
 })

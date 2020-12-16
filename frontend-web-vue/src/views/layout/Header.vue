@@ -4,7 +4,7 @@
            sm:px-8 pt-4 pb-2 sm:pb-4"
   >
     <Nav>
-      <NavLink to="/" exact>
+      <NavLink to="/">
         <OffersIcon />
       </NavLink>
 
@@ -18,6 +18,11 @@
     </Nav>
   </header>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+export default defineComponent({ name: 'Header' })
+</script>
 
 <script setup lang="ts">
 import OffersIcon from '/@/assets/icons/offers.svg'

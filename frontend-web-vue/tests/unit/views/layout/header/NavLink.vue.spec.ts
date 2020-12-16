@@ -1,55 +1,37 @@
-import { mountWithChildren } from '/@tests/unit/test-util'
 import NavLink from '/@/views/layout/header/NavLink.vue'
-import VueRouter from 'vue-router'
+import { mount } from '@vue/test-utils'
+import { createMemoryHistory, createRouter, RouteRecordRaw } from 'vue-router'
 
 describe('NavLink', () => {
   test('renders snapshot', () => {
-    const router = new VueRouter({ routes })
-
-    const wrapper = mountWithChildren(
-      NavLink,
-      {
-        to: mockRoute.path,
-        exact: true,
-      },
-      { applyRouter: true, router }
-    )
+    const wrapper = mount(NavLink, {
+      props: { to: mockRoute.path },
+      global: { plugins: [mockRouter] },
+    })
 
     expect(wrapper.element).toMatchSnapshot()
   })
 
   test('renders link tag for route', () => {
-    const router = new VueRouter({ routes })
-
-    const wrapper = mountWithChildren(
-      NavLink,
-      {
-        to: mockRoute.path,
-        exact: true,
-      },
-      { applyRouter: true, router }
-    )
+    const wrapper = mount(NavLink, {
+      props: { to: mockRoute.path },
+      global: { plugins: [mockRouter] },
+    })
 
     const link = wrapper.find('a')
     expect(link.exists()).toBeTrue()
     expect(link.attributes()['href']).toBe(mockRoute.path)
-    expect(link.attributes()['title']).toBe(mockRoute.meta.title)
-    expect(link.attributes()['aria-label']).toBe(mockRoute.meta.title)
+    expect(link.attributes()['title']).toBe(mockRoute.meta?.title)
+    expect(link.attributes()['aria-label']).toBe(mockRoute.meta?.title)
   })
 
   test('adds aria-current if route is active', async () => {
-    const router = new VueRouter({ routes })
+    const wrapper = mount(NavLink, {
+      props: { to: mockRoute.path },
+      global: { plugins: [mockRouter] },
+    })
 
-    const wrapper = mountWithChildren(
-      NavLink,
-      {
-        to: mockRoute.path,
-        exact: true,
-      },
-      { applyRouter: true, router }
-    )
-
-    await router.push(mockRoute.path)
+    await mockRouter.push(mockRoute.path)
     await wrapper.vm.$nextTick()
 
     const link = wrapper.find('a')
@@ -60,11 +42,22 @@ describe('NavLink', () => {
 
 // --- mocks 'n' stuff
 
-const mockRoute = {
+const homeRoute = ({
+  path: '/',
+  meta: { title: 'Home' },
+  component: {},
+} as unknown) as RouteRecordRaw
+const mockRoute = ({
   path: '/mock-route',
   meta: {
     title: 'Mock-Route',
   },
-}
+  component: {},
+} as unknown) as RouteRecordRaw
 
-const routes = [mockRoute]
+const routes = [mockRoute, homeRoute]
+
+const mockRouter = createRouter({
+  history: createMemoryHistory(),
+  routes,
+})

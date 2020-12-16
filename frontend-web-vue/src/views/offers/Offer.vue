@@ -49,6 +49,11 @@
   </li>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue'
+export default defineComponent({ name: 'Offer' })
+</script>
+
 <script setup lang="ts">
 import { defineProps, computed } from 'vue'
 import Badge from '/@/views/offers/Badge.vue'

@@ -4,16 +4,8 @@ exports[`Content renders snapshot 1`] = `
 <main
   class="w-full h-full"
 >
-  <transition-stub
-    enteractiveclass="transition-opacity duration-150"
-    enterclass="opacity-0"
-    leaveactiveclass="transition-opacity duration-150"
-    leavetoclass="opacity-0"
-    mode="out-in"
-  >
-    <router-view-stub
-      name="default"
-    />
+  <transition-stub>
+    <!---->
   </transition-stub>
 </main>
 `;

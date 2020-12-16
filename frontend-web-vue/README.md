@@ -40,37 +40,12 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - Versteckte Offer-Details mit Screen Reader wiedergeben
     - Versteckte Offer-Details tastaturfreundlich gestalten, z.B. Button zum Aufklappen
 - Design
-    - Regeln für Dark Themes aufstellen [Link 1](https://css-tricks.com/a-complete-guide-to-dark-mode-on-the-web/), [Link 2](https://stackoverflow.blog/2020/03/31/building-dark-mode-on-stack-overflow/)
-    - Dark Themes für warm+grün+kalt realisieren
-    - [semantische Farben?](https://twitter.com/adamwathan/status/1256657059770257410)
     - neues Logo designen
-    - weitere Themes? navy/rosa/neon Theme, [Inspirationen](https://colorsinspo.com/)
+    - Farb-Themes basteln (rot/grün/blau/navy/rosa/neon) + Dark Themes
     - OfferBoxes bei "Überlauf" stapeln, z.B. 6 Anbieter auf 4 oder weniger Spalten verteilen
         - https://tobiasahlin.com/blog/common-flexbox-patterns/#masonry-or-mosaic
         - https://w3bits.com/css-grid-masonry/
         - https://css-tricks.com/piecing-together-approaches-for-a-css-masonry-layout/
-- Komponenten basteln
-    - [Tailwind UI](https://tailwindui.com/components)
-    - https://github.com/tailwindlabs/headlessui/tree/develop/packages/%40headlessui-vue
-    - https://mertjf.github.io/tailblocks/
-    - https://github.com/bootstrap-vue/bootstrap-vue
-    - https://github.com/vuejs/ui/blob/master/src/components/VueButton.vue
-    - https://github.com/coreui/coreui-vue
-    - https://quatrochan.github.io/Equal/
-    - https://tailwindcomponents.com/
-    - https://stegosource.com/vuetensils-0-6-simpler-forms-better-accessibility-useful-filters/
-    - https://vue.chakra-ui.com/
-    - https://github.com/DivanteLtd/vue-storefront/tree/master/src/themes/default/components
-    - https://github.com/creativetimofficial/tailwind-starter-kit
-    - https://vue-tailwind.com/components/table.html
-    - https://proton.efelle.co/#/documentation/components/sortable
-    - https://github.com/knipferrc/tails-ui/tree/master/src/components
-    - https://egghead.io/instructors/adam-wathan
-    - https://polished-sunset-0ex44e5cb9xt.tailwindcss.com/components/198272c2-e9b3-46e5-99da-d0911ad1e07c
-    - https://tailwindui.com/page-examples/detail-view-01#
-    - https://github.com/moesaid/cleopatra
-    - https://shoelace.style/
-    - https://ui.black-kro.dev/themes
 - Beschreibung für Mittagsanbieter
     - in OfferBox anzeigen, optional: auch wenn keine Mittagsangebote vorhanden
     - kann Links wiedergeben
@@ -91,10 +66,6 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 - i18n & l10n
 - [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
 - Dokumentation & Test von Komponenten: [Storybook](https://github.com/vuesion/vuesion/tree/master/src/app/shared/components/VueButton)
-- VueX-Store
-    - entfernen?
-    - [ohne VueX realisieren?](https://vueschool.io/articles/vuejs-tutorials/state-management-with-composition-api/)
-    - [JavaScript-ish implementieren?](https://github.com/vuesion/vuesion/tree/master/src/app/app)
 - [Lighthouse-Performance-Index erhöhen](https://blog.checklyhq.com/how-we-got-a-100-lighthouse-performance-score-for-our-vue-js-app/)
 
 

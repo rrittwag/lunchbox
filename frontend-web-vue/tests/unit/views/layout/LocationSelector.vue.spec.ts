@@ -1,7 +1,5 @@
 import LocationSelector from '/@/views/layout/LocationSelector.vue'
-import { createMock, mountUnit } from '/@tests/unit/test-util'
-import { hamburg, münchen } from '/@tests/unit/test-data'
-import { LunchStore } from '/@/store/modules/LunchStore'
+import { mount } from '@vue/test-utils'
 
 describe('LocationSelector', () => {
   afterEach(() => {
@@ -9,10 +7,7 @@ describe('LocationSelector', () => {
   })
 
   test('renders snapshot', () => {
-    mockStore.selectedLocation = hamburg
-    mockStore.locations = [hamburg, münchen]
-
-    const wrapper = mountUnit(LocationSelector, {}, { provide })
+    const wrapper = mount(LocationSelector)
 
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -71,8 +66,3 @@ describe('LocationSelector', () => {
     expect(mockStore.setSelectedLocation).toBeCalledWith(münchen)
   })*/
 })
-
-// --- mocks 'n' stuff
-
-const mockStore = createMock(LunchStore)
-const provide = { lunchStore: mockStore }

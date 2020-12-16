@@ -44,3 +44,9 @@ export const münchen: LunchLocation = {
   name: 'München',
   shortName: 'M',
 }
+
+// --- test themes ---
+
+export const themeRed = { cssClass: 'theme-red', label: 'Red' }
+export const themeGreen = { cssClass: 'theme-green', label: 'Green' }
+export const themeBlue = { cssClass: 'theme-blue', label: 'Blue' }

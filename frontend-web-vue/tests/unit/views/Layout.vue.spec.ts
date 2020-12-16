@@ -1,15 +1,15 @@
 import Layout from '/@/views/Layout.vue'
-import { createMock, mountUnit } from '/@tests/unit/test-util'
-import { ThemeStore } from '/@/store/modules/ThemeStore'
+import { shallowMount } from '@vue/test-utils'
+import { mocked } from 'ts-jest/utils'
+jest.mock('/@/store/theme')
+import { useTheme } from '/@/store/theme'
 
 describe('Layout', () => {
   test('renders snapshot', () => {
-    const wrapper = mountUnit(Layout, {}, { provide })
+    mocked(useTheme)
+
+    const wrapper = shallowMount(Layout)
+
     expect(wrapper.element).toMatchSnapshot()
   })
 })
-
-// --- mocks 'n' stuff
-
-const mockStore = createMock(ThemeStore)
-const provide = { themeStore: mockStore }

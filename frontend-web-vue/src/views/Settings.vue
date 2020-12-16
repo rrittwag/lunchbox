@@ -20,7 +20,7 @@
                  focus:outline-none focus:shadow-outline"
           id="settings-theme"
           name="theme"
-          :value="currentTheme.cssClass"
+          :value="currentTheme?.cssClass"
           @change="onSelectTheme"
         >
           <option v-for="theme in themes" :key="theme.cssClass" :value="theme.cssClass">

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Nav renders snapshot 1`] = `
+<nav
+  aria-label="Haupt"
+  class="flex items-center justify-center
+             sm:h-16"
+>
+  <ul
+    class="list-none"
+  >
+    
+    
+  </ul>
+</nav>
+`;

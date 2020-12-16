@@ -1,20 +1,25 @@
 import Header from '/@/views/layout/Header.vue'
-import RouterLinkIcon from '/@/views/layout/header/NavLink.vue'
-import { mountUnit } from '/@tests/unit/test-util'
+import NavLink from '/@/views/layout/header/NavLink.vue'
+import { mount } from '@vue/test-utils'
+import router from '/@/router'
 
 describe('Header', () => {
   test('renders snapshot', () => {
-    const wrapper = mountUnit(Header)
+    const wrapper = mount(Header, {
+      global: { plugins: [router] },
+    })
 
     expect(wrapper.element).toMatchSnapshot()
   })
 
   test('has all nav items', () => {
-    const wrapper = mountUnit(Header)
+    const wrapper = mount(Header, {
+      global: { plugins: [router] },
+    })
 
-    const navitems = wrapper.findAll(RouterLinkIcon)
-    expect(navitems.at(0).props('to')).toContain('/')
-    expect(navitems.at(1).props('to')).toContain('/settings')
-    expect(navitems.at(2).props('to')).toContain('/about')
+    const navitems = wrapper.findAllComponents(NavLink)
+    expect(navitems[0].props('to')).toContain('/')
+    expect(navitems[1].props('to')).toContain('/settings')
+    expect(navitems[2].props('to')).toContain('/about')
   })
 })

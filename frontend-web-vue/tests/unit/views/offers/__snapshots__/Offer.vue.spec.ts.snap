@@ -3,60 +3,45 @@
 exports[`Offer renders snapshot 1`] = `
 <li
   class="w-full
-         pt-3 sm:pt-4"
+           pt-3 sm:pt-4"
 >
   <div
     class="flex items-baseline w-full"
   >
     <h4
       class="flex-grow
-             text-xl text-neutral-800 leading-tight"
+               text-xl text-neutral-800 leading-tight"
     >
-      
       Gyros
-    
     </h4>
-     
     <span
       class="pl-2
-             text-xl text-neutral-800 leading-tight whitespace-no-wrap"
+               text-xl text-neutral-800 leading-tight whitespace-no-wrap"
     >
       <small
         class="pl-2
-               text-lg font-light text-neutral-800"
+                 text-lg font-light text-neutral-800"
       >
-        
-        €
-      
+         € 
       </small>
-      
-      3,50
-    
+       3,50
     </span>
   </div>
-   
   <span
     class="sm:block
-           pt-px pl-px
-           font-light text-neutral-600 leading-snug hidden"
+             pt-px pl-px
+             font-light text-neutral-600 leading-snug hidden"
   >
-    
     mit Pommes
-  
   </span>
-   
   <div
     class="sm:flex
-           pt-1 hidden"
+             pt-1 hidden"
   >
-    <badge-stub
-      color="bg-accent-200"
-      label="Tagesgericht"
-    />
-    <badge-stub
-      color="bg-accent-200"
-      label="lecker"
-    />
+    
+    <badge-stub />
+    <badge-stub />
+    
   </div>
 </li>
 `;

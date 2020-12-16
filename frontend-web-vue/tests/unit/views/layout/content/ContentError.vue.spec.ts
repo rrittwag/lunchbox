@@ -1,9 +1,9 @@
 import ContentError from '/@/views/layout/content/ContentError.vue'
-import { mountUnit } from '/@tests/unit/test-util'
+import { mount } from '@vue/test-utils'
 
 describe('ContentError', () => {
   test('renders snapshot', () => {
-    const wrapper = mountUnit(ContentError)
+    const wrapper = mount(ContentError)
     expect(wrapper.element).toMatchSnapshot()
   })
 })
