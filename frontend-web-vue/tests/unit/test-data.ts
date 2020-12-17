@@ -1,6 +1,7 @@
 import { LunchProvider } from '/@/model/LunchProvider'
 import { LunchOffer } from '/@/model/LunchOffer'
 import { LunchLocation } from '/@/model/LunchLocation'
+import { Theme } from '/@/store/theme'
 
 // --- test providers ---
 
@@ -47,6 +48,6 @@ export const münchen: LunchLocation = {
 
 // --- test themes ---
 
-export const themeRed = { cssClass: 'theme-red', label: 'Red' }
-export const themeGreen = { cssClass: 'theme-green', label: 'Green' }
-export const themeBlue = { cssClass: 'theme-blue', label: 'Blue' }
+export const themeRed: Theme = { cssClass: 'theme-red', label: 'Red' }
+export const themeGreen: Theme = { cssClass: 'theme-green', label: 'Green' }
+export const themeBlue: Theme = { cssClass: 'theme-blue', label: 'Blue' }
