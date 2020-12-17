@@ -17,7 +17,7 @@
                  bg-neutral-200 text-neutral-900
                  px-4 py-2 pr-8 rounded leading-tight
                  border border-neutral-400 hover:border-neutral-800
-                 focus:outline-none focus:shadow-outline"
+                 focus:outline-none focus:ring-4"
           id="settings-theme"
           name="theme"
           :value="currentTheme?.cssClass"

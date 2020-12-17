@@ -12,7 +12,7 @@
       </h4>
       <span
         class="pl-2
-               text-xl text-neutral-800 leading-tight whitespace-no-wrap"
+               text-xl text-neutral-800 leading-tight whitespace-nowrap"
         v-if="props.offer.price"
       >
         <small
