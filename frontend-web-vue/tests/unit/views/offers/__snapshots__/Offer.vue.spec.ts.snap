@@ -16,7 +16,7 @@ exports[`Offer renders snapshot 1`] = `
     </h4>
     <span
       class="pl-2
-               text-xl text-neutral-800 leading-tight whitespace-no-wrap"
+               text-xl text-neutral-800 leading-tight whitespace-nowrap"
     >
       <small
         class="pl-2
