@@ -6,7 +6,7 @@ import router from '/@/router'
 import '/@/assets/style/index.scss'
 
 // register PWA app
-import '/@/plugins/registerServiceWorker'
+// import '/@/plugins/registerServiceWorker'
 
 // Polyfill für CSS4-Feature focus-visible
 import '../node_modules/focus-visible/dist/focus-visible.min.js'
