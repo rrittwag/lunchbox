@@ -7,3 +7,9 @@ spring:
     deserialization:
       fail-on-unknown-properties: false
     default-property-inclusion: NON_NULL
+
+server:
+  compression:
+    enabled: true
+  http2:
+    enabled: true
