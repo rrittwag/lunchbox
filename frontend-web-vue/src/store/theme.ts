@@ -7,12 +7,12 @@ export interface Theme {
 
 export type ColorScheme = 'system' | 'light' | 'dark'
 
-export const THEME_RED = { cssClass: 'theme-red', label: 'Red' }
-export const THEME_GREEN = { cssClass: 'theme-green', label: 'Green' }
-export const THEME_BLUE = { cssClass: 'theme-blue', label: 'Blue' }
-export const THEME_BLUE_DARK = { cssClass: 'theme-blue-dark', label: 'Blue (Dark)' }
+export const THEME_RED: Theme = { cssClass: 'theme-red', label: 'Red' }
+export const THEME_GREEN: Theme = { cssClass: 'theme-green', label: 'Green' }
+export const THEME_BLUE: Theme = { cssClass: 'theme-blue', label: 'Blue' }
+export const THEME_BLUE_DARK: Theme = { cssClass: 'theme-blue-dark', label: 'Blue (Dark)' }
 
-const currentTheme = ref<Theme | undefined>(undefined)
+const currentTheme = ref<Theme | undefined>()
 const colorScheme = ref<ColorScheme>('system')
 
 export function useTheme() {

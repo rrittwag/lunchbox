@@ -65,7 +65,7 @@ function selectDay(newSelectedDay: Date) {
 }
 
 // ---------------------
-//  export use function
+//  export
 // ---------------------
 export function useLunchStore() {
   return {
