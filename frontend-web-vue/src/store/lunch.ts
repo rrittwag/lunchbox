@@ -1,4 +1,4 @@
-import { computed, ref, Ref } from 'vue'
+import { computed, ref } from 'vue'
 import api from '/@/api/LunchApi'
 import { ApiError } from '/@/api/http'
 import { LunchProvider } from '/@/model/LunchProvider'
@@ -6,18 +6,34 @@ import { LunchOffer } from '/@/model/LunchOffer'
 import { today } from '/@/util/date'
 import { LunchLocation } from '/@/model/LunchLocation'
 
+// --------------------
+//  offers & providers
+// --------------------
+const offers = ref<LunchOffer[]>([])
+const providers = ref<LunchProvider[]>([])
+const isLoading = ref(false)
+const error = ref<ApiError | undefined>()
+
+async function loadFromApi() {
+  isLoading.value = true
+  try {
+    const providersPromise = api.getProviders()
+    const offersPromise = api.getOffers()
+    providers.value = await providersPromise
+    offers.value = await offersPromise
+  } catch (e) {
+    error.value = e
+  }
+  isLoading.value = false
+}
+
+// -------------------
+//  locations
+// -------------------
 const locations: LunchLocation[] = [
   new LunchLocation('Neubrandenburg', 'NB'),
   new LunchLocation('Berlin Springpfuhl', 'B'),
 ]
-
-const offers: Ref<LunchOffer[]> = ref([])
-const providers: Ref<LunchProvider[]> = ref([])
-const isLoading: Ref<boolean> = ref(false)
-const error: Ref<ApiError | null> = ref(null)
-
-const selectedDay = ref(today())
-
 const selectedLocation = ref(loadSelectedLocationFromLocalStorage())
 
 function loadSelectedLocationFromLocalStorage(): LunchLocation {
@@ -32,42 +48,37 @@ function loadSelectedLocationFromLocalStorage(): LunchLocation {
   return locations[0]
 }
 
+function selectLocation(newLocation: LunchLocation) {
+  selectedLocation.value = newLocation
+  let locationName = ''
+  if (newLocation) locationName = newLocation.name
+  localStorage.setItem('lunchboxWebapp.STORAGEKEY_LOCATION', locationName)
+}
+
+// ------------------
+//  selected day
+// ------------------
+const selectedDay = ref(today())
+
+function selectDay(newSelectedDay: Date) {
+  selectedDay.value = newSelectedDay
+}
+
+// ---------------------
+//  export use function
+// ---------------------
 export function useLunchStore() {
-  async function loadFromApi() {
-    isLoading.value = true
-    try {
-      const providersPromise = api.getProviders()
-      const offersPromise = api.getOffers()
-      providers.value = await providersPromise
-      offers.value = await offersPromise
-    } catch (e) {
-      error.value = e
-    }
-    isLoading.value = false
-  }
-
-  function selectDay(newSelectedDay: Date) {
-    selectedDay.value = newSelectedDay
-  }
-
-  function selectLocation(newLocation: LunchLocation) {
-    selectedLocation.value = newLocation
-    let locationName = ''
-    if (newLocation) locationName = newLocation.name
-    localStorage.setItem('lunchboxWebapp.STORAGEKEY_LOCATION', locationName)
-  }
-
   return {
-    locations: computed(() => locations),
     offers: computed(() => offers.value),
     providers: computed(() => providers.value),
     isLoading: computed(() => isLoading.value),
     error: computed(() => error.value),
     loadFromApi,
-    selectedDay: computed(() => selectedDay.value),
-    selectDay,
+    locations: computed(() => locations),
     selectedLocation: computed(() => selectedLocation.value),
     selectLocation,
+    selectedDay: computed(() => selectedDay.value),
+    selectDay,
   }
 }
 
@@ -76,7 +87,7 @@ export function __reset__TEST_ONLY__() {
   offers.value = []
   providers.value = []
   isLoading.value = false
-  error.value = null
+  error.value = undefined
   selectedDay.value = today()
   selectedLocation.value = locations[0]
 }
