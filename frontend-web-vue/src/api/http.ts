@@ -22,7 +22,7 @@ export interface ApiError extends Error {
  * @param options
  * @param timeoutMillis
  */
-export function fetchWithTimeout(
+export async function fetchWithTimeout(
   url: string,
   options: RequestInit = {},
   timeoutMillis = 10000
@@ -34,30 +34,21 @@ export function fetchWithTimeout(
     controller.abort()
   }, timeoutMillis)
 
-  return fetch(url, config)
-    .then(async response => {
-      const contentType = response.headers.get('content-type') || ''
-      if (!response.ok) {
-        // when 4xx/5xx response, Spring backend answers with ApiError (prop 'name' excluded)
-        if (contentType.startsWith('application/json'))
-          throw { name: 'ApiError', ...(await response.json()) }
-
-        throw createApiError(response.status, url, await response.text())
-      }
-      /*
-      // unpack JSON data automatically
+  try {
+    const response = await fetch(url, config)
+    const contentType = response.headers.get('content-type') || ''
+    if (!response.ok) {
+      // when 4xx/5xx response, Spring backend answers with ApiError (prop 'name' excluded)
       if (contentType.startsWith('application/json'))
-        return response.json()
-
-      // TODO: unpack text() & blob()
-*/
-      return response
-    })
-    .catch(error => {
-      // eslint-disable-next-line no-console
-      console.log(error)
-      return Promise.reject(error)
-    })
+        return Promise.reject({ name: 'ApiError', ...(await response.json()) })
+      return Promise.reject(createApiError(response.status, url, await response.text()))
+    }
+    return response
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error)
+    return Promise.reject(error)
+  }
 }
 
 function createApiError(status: number, url: string, message: string): ApiError {
