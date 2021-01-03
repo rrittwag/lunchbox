@@ -36,9 +36,9 @@ export async function fetchWithTimeout(
 
   try {
     const response = await fetch(url, config)
-    const contentType = response.headers.get('content-type') || ''
     if (!response.ok) {
       // when 4xx/5xx response, Spring backend answers with ApiError (prop 'name' excluded)
+      const contentType = response.headers.get('content-type') || ''
       if (contentType.startsWith('application/json'))
         return Promise.reject({ name: 'ApiError', ...(await response.json()) })
       return Promise.reject(createApiError(response.status, url, await response.text()))
