@@ -11,9 +11,9 @@
       </h1>
       <DaySelector
         :selectedDay="selectedDay"
-        :disabledNext="!nextDay()"
-        :disabledPrev="!prevDay()"
-        @change="daySelected"
+        :disabledNext="!nextDay"
+        :disabledPrev="!prevDay"
+        @change="onDaySelected"
         class="sm:max-w-sm h-16"
       />
     </div>
@@ -77,19 +77,13 @@ const lunchDays = computed<Date[]>(() => {
     .map(dayString => new Date(dayString))
     .sort((day1, day2) => day1.getTime() - day2.getTime())
 })
-
-function prevDay(): Date | undefined {
-  return lunchDays.value.filter(day => day < selectedDay.value).pop()
-}
-
-function nextDay(): Date | undefined {
-  return lunchDays.value.filter(day => day > selectedDay.value)[0]
-}
+const prevDay = computed(() => lunchDays.value.filter(day => day < selectedDay.value).pop())
+const nextDay = computed(() => lunchDays.value.filter(day => day > selectedDay.value)[0])
 
 const selectedDayAsISOString = computed(() => formatToISODate(selectedDay.value))
 
-function daySelected(direction: DaySelectorDirection) {
-  const gotoDay = direction === DaySelectorDirection.NEXT ? nextDay() : prevDay()
+function onDaySelected(direction: DaySelectorDirection) {
+  const gotoDay = direction === DaySelectorDirection.NEXT ? nextDay.value : prevDay.value
   if (!gotoDay) return
 
   isDirectionNext.value = direction === DaySelectorDirection.NEXT
@@ -97,7 +91,7 @@ function daySelected(direction: DaySelectorDirection) {
 }
 
 function onSwipe(swipeDirection: string) {
-  if (swipeDirection === 'left') daySelected(DaySelectorDirection.NEXT)
-  else if (swipeDirection === 'right') daySelected(DaySelectorDirection.PREVIOUS)
+  if (swipeDirection === 'left') onDaySelected(DaySelectorDirection.NEXT)
+  else if (swipeDirection === 'right') onDaySelected(DaySelectorDirection.PREVIOUS)
 }
 </script>
