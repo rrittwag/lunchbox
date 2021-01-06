@@ -9,6 +9,7 @@ import lunchbox.util.date.DateValidator
 import lunchbox.util.date.HolidayUtil
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
+import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
@@ -35,7 +36,7 @@ class LunchResolverPhoenixeum(
     elements.addAll(site.select("#wochenplaene > div.ce_text"))
 
     for (wochenplanDiv in elements) {
-      val monday = resolveMonday(wochenplanDiv)
+      val monday = resolveMonday(wochenplanDiv, site)
         ?: continue
       if (!dateValidator.isValid(monday))
         continue
@@ -45,6 +46,14 @@ class LunchResolverPhoenixeum(
     }
 
     return result
+  }
+
+  fun jahr(site: Document): Int? {
+    val elements = site.select("section.ce_accordionStart")
+    elements.addAll(site.select("section.wrapplan"))
+
+    val date = LunchResolverSuppenkulttour.resolveMonday(elements.first().text())
+    return date?.year
   }
 
   private fun parseOffers(wochenplanDiv: Element, monday: LocalDate): List<LunchOffer> {
@@ -76,9 +85,12 @@ class LunchResolverPhoenixeum(
     }
   }
 
-  private fun resolveMonday(node: Element): LocalDate? {
+  private fun resolveMonday(node: Element, site: Document): LocalDate? {
     val h3 = node.selectFirst("h3")
-    val day = StringParser.parseLocalDate(h3.text()) ?: return null
+    var day = StringParser.parseLocalDate(h3.text()) ?: return null
+    val jahr = jahr(site)
+    if (jahr != null)
+      day = day.withYear(jahr)
     return day.with(DayOfWeek.MONDAY)
   }
 

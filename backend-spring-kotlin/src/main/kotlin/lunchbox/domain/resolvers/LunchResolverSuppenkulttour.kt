@@ -56,23 +56,6 @@ class LunchResolverSuppenkulttour(
     return null
   }
 
-  private fun resolveMonday(text: String): LocalDate? {
-    var matchOffer = Regex(""".*Suppen .*vom +([\d.]+).*""").find(text)
-    if (matchOffer == null)
-      matchOffer = Regex("""([\d.]+) bis .*""").find(text) ?: return null
-
-    val (firstDayString) = matchOffer.destructured
-    val firstDay = StringParser.parseLocalDate(firstDayString) ?: return null
-
-    // manchmal verrutscht der Wochenbeginn auf den Samstag oder Sonntag davor
-    val correctedFirstDay = when (firstDay.dayOfWeek) {
-      DayOfWeek.SUNDAY -> firstDay.plusDays(1)
-      DayOfWeek.SATURDAY -> firstDay.plusDays(2)
-      else -> firstDay
-    }
-    return correctedFirstDay.with(DayOfWeek.MONDAY)
-  }
-
   private fun parseOffers(wochenplanSection: Element, monday: LocalDate): List<LunchOffer> {
     // die Daten stecken in vielen, undefiniert angeordneten HTML-Elementen, daher lieber
     // als Reintext auswerten (mit Pipes als Zeilenumbrüchen)
@@ -365,5 +348,24 @@ class LunchResolverSuppenkulttour(
     MITTWOCH("Mittwoch", 2),
     DONNERSTAG("Donnerstag", 3),
     FREITAG("Freitag", 4);
+  }
+
+  companion object {
+    fun resolveMonday(text: String): LocalDate? {
+      var matchOffer = Regex(""".*Suppen .*vom +([\d.]+).*""").find(text)
+      if (matchOffer == null)
+        matchOffer = Regex("""([\d.]+) bis .*""").find(text) ?: return null
+
+      val (firstDayString) = matchOffer.destructured
+      val firstDay = StringParser.parseLocalDate(firstDayString) ?: return null
+
+      // manchmal verrutscht der Wochenbeginn auf den Samstag oder Sonntag davor
+      val correctedFirstDay = when (firstDay.dayOfWeek) {
+        DayOfWeek.SUNDAY -> firstDay.plusDays(1)
+        DayOfWeek.SATURDAY -> firstDay.plusDays(2)
+        else -> firstDay
+      }
+      return correctedFirstDay.with(DayOfWeek.MONDAY)
+    }
   }
 }
