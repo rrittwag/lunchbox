@@ -34,11 +34,11 @@ const selectedDayAsWeekday = computed(() => formatToWeekday(props.selectedDay))
 const selectedDayAsDateString = computed(() => formatToLocalDate(props.selectedDay))
 const selectedDayAsISOString = computed(() => formatToISODate(props.selectedDay))
 
-onMounted(() => window.addEventListener('keydown', onKeydown))
-onUnmounted(() => window.removeEventListener('keydown', onKeydown))
-
 const onClickPrev = () => emit('change', DaySelectorDirection.PREVIOUS)
 const onClickNext = () => emit('change', DaySelectorDirection.NEXT)
+
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 
 function onKeydown(event: KeyboardEvent) {
   if (event.defaultPrevented) {
