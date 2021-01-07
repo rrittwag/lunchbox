@@ -1,7 +1,7 @@
-import Settings from '/@/views/Settings.vue'
+import Settings from '@/views/Settings.vue'
 import { mocked } from 'ts-jest/utils'
-jest.mock('/@/store/theme')
-import { useTheme } from '/@/store/theme'
+jest.mock('@/store/theme')
+import { useTheme } from '@/store/theme'
 import { shallowMount } from '@vue/test-utils'
 import { computed } from 'vue'
 import { themeBlue, themeGreen, themeRed } from '/@tests/unit/test-data'

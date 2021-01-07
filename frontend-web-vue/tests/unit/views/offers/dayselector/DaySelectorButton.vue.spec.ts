@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import DaySelectorButton from '/@/views/offers/dayselector/DaySelectorButton.vue'
+import DaySelectorButton from '@/views/offers/dayselector/DaySelectorButton.vue'
 import { mount } from '@vue/test-utils'
 
 describe('DaySelectorButton', () => {

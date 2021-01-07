@@ -1,4 +1,4 @@
-import NavLink from '/@/views/layout/header/NavLink.vue'
+import NavLink from '@/views/layout/header/NavLink.vue'
 import { mount } from '@vue/test-utils'
 import { createMemoryHistory, createRouter, RouteRecordRaw } from 'vue-router'
 

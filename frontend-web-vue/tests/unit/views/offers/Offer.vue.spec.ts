@@ -1,5 +1,5 @@
-import Offer from '/@/views/offers/Offer.vue'
-import Badge from '/@/views/offers/Badge.vue'
+import Offer from '@/views/offers/Offer.vue'
+import Badge from '@/views/offers/Badge.vue'
 import { gyros } from '/@tests/unit/test-data'
 import { shallowMount } from '@vue/test-utils'
 

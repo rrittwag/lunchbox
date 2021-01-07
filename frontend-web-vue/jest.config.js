@@ -5,7 +5,7 @@ module.exports = {
     '^.+\\.svg$': '<rootDir>/tests/jest.vue-svg-loader',
   },
   moduleNameMapper: {
-    '^/@/(.*)$': '<rootDir>/src/$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
     '^/@tests/(.*)$': '<rootDir>/tests/$1',
   },
   setupFilesAfterEnv: ['jest-extended'],

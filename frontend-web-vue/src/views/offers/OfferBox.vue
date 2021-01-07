@@ -22,9 +22,9 @@
 
 <script setup lang="ts">
 import { defineProps, ref } from 'vue'
-import Offer from '/@/views/offers/Offer.vue'
-import { LunchProvider } from '/@/model/LunchProvider'
-import { LunchOffer } from '/@/model/LunchOffer'
+import Offer from '@/views/offers/Offer.vue'
+import { LunchProvider } from '@/model/LunchProvider'
+import { LunchOffer } from '@/model/LunchOffer'
 
 const props = defineProps<{
   provider: LunchProvider

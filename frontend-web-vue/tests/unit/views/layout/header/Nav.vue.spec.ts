@@ -1,4 +1,4 @@
-import Nav from '/@/views/layout/header/Nav.vue'
+import Nav from '@/views/layout/header/Nav.vue'
 import { shallowMount } from '@vue/test-utils'
 
 describe('Nav', () => {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import DaySelector from '/@/views/offers/DaySelector.vue'
-import { DaySelectorDirection } from '/@/views/offers/dayselector/DaySelectorDirection'
+import DaySelector from '@/views/offers/DaySelector.vue'
+import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
 import { mount } from '@vue/test-utils'
 
 describe('DaySelector', () => {

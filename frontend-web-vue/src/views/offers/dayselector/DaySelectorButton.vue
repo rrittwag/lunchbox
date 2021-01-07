@@ -16,10 +16,10 @@
 </template>
 
 <script setup lang="ts">
-import AngleLeftIcon from '/@/assets/icons/angle-left.svg'
-import AngleRightIcon from '/@/assets/icons/angle-right.svg'
+import AngleLeftIcon from '@/assets/icons/angle-left.svg'
+import AngleRightIcon from '@/assets/icons/angle-right.svg'
 import { defineEmit, defineProps, computed } from 'vue'
-import { DaySelectorDirection } from '/@/views/offers/dayselector/DaySelectorDirection'
+import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
 
 const props = defineProps<{
   disabled: boolean

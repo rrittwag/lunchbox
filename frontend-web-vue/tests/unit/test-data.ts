@@ -1,7 +1,7 @@
-import { LunchProvider } from '/@/model/LunchProvider'
-import { LunchOffer } from '/@/model/LunchOffer'
-import { LunchLocation } from '/@/model/LunchLocation'
-import { Theme } from '/@/store/theme'
+import { LunchProvider } from '@/model/LunchProvider'
+import { LunchOffer } from '@/model/LunchOffer'
+import { LunchLocation } from '@/model/LunchLocation'
+import { Theme } from '@/store/theme'
 
 // --- test providers ---
 

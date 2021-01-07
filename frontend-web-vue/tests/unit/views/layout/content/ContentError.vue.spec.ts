@@ -1,4 +1,4 @@
-import ContentError from '/@/views/layout/content/ContentError.vue'
+import ContentError from '@/views/layout/content/ContentError.vue'
 import { mount } from '@vue/test-utils'
 
 describe('ContentError', () => {

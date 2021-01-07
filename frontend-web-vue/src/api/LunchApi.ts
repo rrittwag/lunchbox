@@ -1,6 +1,6 @@
-import { fetchWithTimeout } from '/@/api/http'
-import { LunchOffer } from '/@/model/LunchOffer'
-import { LunchProvider } from '/@/model/LunchProvider'
+import { fetchWithTimeout } from '@/api/http'
+import { LunchOffer } from '@/model/LunchOffer'
+import { LunchProvider } from '@/model/LunchProvider'
 
 const URL_API_V2 = '/api/v2'
 export const URL_API_LUNCHOFFER = `${URL_API_V2}/lunchOffer`

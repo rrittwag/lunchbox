@@ -1,16 +1,16 @@
 import { createApp } from 'vue'
-import App from '/@/App.vue'
-import '/@/assets/style/index.scss'
-import router from '/@/router'
+import App from '@/App.vue'
+import '@/assets/style/index.scss'
+import router from '@/router'
 
-import '/@/assets/style/index.scss'
+import '@/assets/style/index.scss'
 
 // register PWA app
-// import '/@/plugins/registerServiceWorker'
+// import '@/plugins/registerServiceWorker'
 
 // Polyfill für CSS4-Feature focus-visible
 import '../node_modules/focus-visible/dist/focus-visible.min.js'
-import '/@/assets/style/focus-visible.scss'
+import '@/assets/style/focus-visible.scss'
 
 // Swipe- & Touch-Gesten erkennen
 // import Vue2TouchEvents from 'vue2-touch-events'

@@ -1,4 +1,4 @@
-import Content from '/@/views/layout/Content.vue'
+import Content from '@/views/layout/Content.vue'
 import { mount } from '@vue/test-utils'
 import { createMemoryHistory, createRouter, RouteRecordRaw } from 'vue-router'
 

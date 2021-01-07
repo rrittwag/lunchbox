@@ -56,9 +56,9 @@ export default defineComponent({ name: 'Offer' })
 
 <script setup lang="ts">
 import { defineProps, computed } from 'vue'
-import Badge from '/@/views/offers/Badge.vue'
-import { LunchOffer } from '/@/model/LunchOffer'
-import { formatEuro } from '/@/util/formatting'
+import Badge from '@/views/offers/Badge.vue'
+import { LunchOffer } from '@/model/LunchOffer'
+import { formatEuro } from '@/util/formatting'
 
 const props = defineProps<{
   offer: LunchOffer

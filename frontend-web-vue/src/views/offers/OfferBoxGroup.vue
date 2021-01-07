@@ -14,10 +14,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import OfferBox from '/@/views/offers/OfferBox.vue'
-import { LunchOffer } from '/@/model/LunchOffer'
-import { LunchProvider } from '/@/model/LunchProvider'
-import { useLunchStore } from '/@/store/lunch'
+import OfferBox from '@/views/offers/OfferBox.vue'
+import { LunchOffer } from '@/model/LunchOffer'
+import { LunchProvider } from '@/model/LunchProvider'
+import { useLunchStore } from '@/store/lunch'
 
 const { providers, offers, selectedDay, selectedLocation } = useLunchStore()
 

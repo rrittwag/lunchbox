@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Offers from '/@/views/Offers.vue'
+import Offers from '@/views/Offers.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -11,14 +11,14 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/about',
-    component: () => import(/* webpackChunkName: "about" */ '/@/views/About.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
     meta: {
       title: 'Info',
     },
   },
   {
     path: '/settings',
-    component: () => import(/* webpackChunkName: "settings" */ '/@/views/Settings.vue'),
+    component: () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue'),
     meta: {
       title: 'Einstellungen',
     },

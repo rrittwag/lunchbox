@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { useTheme } from '/@/store/theme'
+import { useTheme } from '@/store/theme'
 
 const { themes, currentTheme, setCurrentTheme } = useTheme()
 

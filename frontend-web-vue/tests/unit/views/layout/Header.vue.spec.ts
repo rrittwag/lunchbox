@@ -1,7 +1,7 @@
-import Header from '/@/views/layout/Header.vue'
-import NavLink from '/@/views/layout/header/NavLink.vue'
+import Header from '@/views/layout/Header.vue'
+import NavLink from '@/views/layout/header/NavLink.vue'
 import { mount } from '@vue/test-utils'
-import router from '/@/router'
+import router from '@/router'
 
 describe('Header', () => {
   test('renders snapshot', () => {

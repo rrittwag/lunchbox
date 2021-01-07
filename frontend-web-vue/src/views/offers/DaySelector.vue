@@ -19,9 +19,9 @@
 
 <script setup lang="ts">
 import { computed, defineProps, defineEmit, onMounted, onUnmounted } from 'vue'
-import { formatToLocalDate, formatToISODate, formatToWeekday } from '/@/util/formatting'
-import DaySelectorButton from '/@/views/offers/dayselector/DaySelectorButton.vue'
-import { DaySelectorDirection } from '/@/views/offers/dayselector/DaySelectorDirection'
+import { formatToLocalDate, formatToISODate, formatToWeekday } from '@/util/formatting'
+import DaySelectorButton from '@/views/offers/dayselector/DaySelectorButton.vue'
+import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
 
 const props = defineProps<{
   selectedDay: Date

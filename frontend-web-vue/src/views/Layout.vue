@@ -11,9 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import Content from '/@/views/layout/Content.vue'
-import Header from '/@/views/layout/Header.vue'
-import { useTheme } from '/@/store/theme'
+import Content from '@/views/layout/Content.vue'
+import Header from '@/views/layout/Header.vue'
+import { useTheme } from '@/store/theme'
 
 useTheme()
 </script>

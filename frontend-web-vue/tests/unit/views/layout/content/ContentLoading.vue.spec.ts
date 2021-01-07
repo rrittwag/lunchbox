@@ -1,4 +1,4 @@
-import ContentLoading from '/@/views/layout/content/ContentLoading.vue'
+import ContentLoading from '@/views/layout/content/ContentLoading.vue'
 import { mount } from '@vue/test-utils'
 
 describe('ContentLoading', () => {

@@ -1,10 +1,10 @@
 import { computed, ref } from 'vue'
-import api from '/@/api/LunchApi'
-import { ApiError } from '/@/api/http'
-import { LunchProvider } from '/@/model/LunchProvider'
-import { LunchOffer } from '/@/model/LunchOffer'
-import { today } from '/@/util/date'
-import { LunchLocation } from '/@/model/LunchLocation'
+import api from '@/api/LunchApi'
+import { ApiError } from '@/api/http'
+import { LunchProvider } from '@/model/LunchProvider'
+import { LunchOffer } from '@/model/LunchOffer'
+import { today } from '@/util/date'
+import { LunchLocation } from '@/model/LunchLocation'
 
 // --------------------
 //  offers & providers

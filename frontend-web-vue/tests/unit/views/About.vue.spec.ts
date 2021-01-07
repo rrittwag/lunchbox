@@ -1,4 +1,4 @@
-import About from '/@/views/About.vue'
+import About from '@/views/About.vue'
 import { shallowMount } from '@vue/test-utils'
 
 describe('About', () => {

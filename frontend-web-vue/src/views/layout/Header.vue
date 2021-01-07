@@ -25,9 +25,9 @@ export default defineComponent({ name: 'Header' })
 </script>
 
 <script setup lang="ts">
-import OffersIcon from '/@/assets/icons/offers.svg'
-import SettingsIcon from '/@/assets/icons/settings.svg'
-import InfoIcon from '/@/assets/icons/info.svg'
-import NavLink from '/@/views/layout/header/NavLink.vue'
-import Nav from '/@/views/layout/header/Nav.vue'
+import OffersIcon from '@/assets/icons/offers.svg'
+import SettingsIcon from '@/assets/icons/settings.svg'
+import InfoIcon from '@/assets/icons/info.svg'
+import NavLink from '@/views/layout/header/NavLink.vue'
+import Nav from '@/views/layout/header/Nav.vue'
 </script>

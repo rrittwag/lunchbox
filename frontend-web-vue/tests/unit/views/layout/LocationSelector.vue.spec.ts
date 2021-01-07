@@ -1,4 +1,4 @@
-import LocationSelector from '/@/views/layout/LocationSelector.vue'
+import LocationSelector from '@/views/layout/LocationSelector.vue'
 import { mount } from '@vue/test-utils'
 
 describe('LocationSelector', () => {
