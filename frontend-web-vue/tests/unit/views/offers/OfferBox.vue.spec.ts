@@ -1,5 +1,5 @@
 import OfferBox from '@/views/offers/OfferBox.vue'
-import { mensa, gyros, soljanka } from '/@tests/unit/test-data'
+import { mensa, gyros, soljanka } from '@tests/unit/test-data'
 import Offer from '@/views/offers/Offer.vue'
 import { shallowMount } from '@vue/test-utils'
 
