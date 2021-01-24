@@ -1,7 +1,7 @@
 plugins {
-  id 'org.springframework.boot' version '2.4.1'
-  id 'com.diffplug.spotless' version '5.8.2'
-  id 'io.gitlab.arturbosch.detekt' version '1.14.2'
+  id 'org.springframework.boot' version '2.4.2'
+  id 'com.diffplug.spotless' version '5.9.0'
+  id 'io.gitlab.arturbosch.detekt' version '1.15.0'
 
   id 'org.jetbrains.kotlin.jvm' version '1.4.21'
   id 'org.jetbrains.kotlin.plugin.spring' version '1.4.21'
@@ -30,6 +30,6 @@ allprojects {
 //   Gradle Wrapper
 // -------------------
 wrapper {
-  gradleVersion = '6.7.1'
+  gradleVersion = '6.8.1'
   distributionType = Wrapper.DistributionType.ALL
 }

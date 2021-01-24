@@ -1,7 +1,7 @@
 // -------------------
 //   Abhängigkeiten der Applikation
 // -------------------
-ext.springBootVersion = '2.4.1'
+ext.springBootVersion = '2.4.2'
 
 repositories { jcenter() }
 dependencies {
@@ -12,18 +12,18 @@ dependencies {
   implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
   implementation 'org.jetbrains.kotlin:kotlin-reflect'
   implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-  implementation 'io.github.microutils:kotlin-logging:2.0.3'
+  implementation 'io.github.microutils:kotlin-logging:2.0.4'
 
   // web
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation('org.springframework.boot:spring-boot-starter-undertow') { exclude module: 'undertow-websockets-jsr' }
-  implementation 'org.jboss.xnio:xnio-nio:3.8.2.Final' // Undertow nutzt eigentlich XNIO 3.3, was den Worker-ThreadPool maximal aufbläht (vgl. ConfigUndertow.java)
+  implementation 'org.jboss.xnio:xnio-nio:3.8.4.Final' // Undertow nutzt eigentlich XNIO 3.3, was den Worker-ThreadPool maximal aufbläht (vgl. ConfigUndertow.java)
   implementation 'org.springframework.boot:spring-boot-starter-webflux'
   implementation 'javax.xml.bind:jaxb-api'
 
   // html/xml/pdf
   implementation 'org.jsoup:jsoup:1.13.1'
-  implementation 'org.apache.pdfbox:pdfbox:2.0.21'
+  implementation 'org.apache.pdfbox:pdfbox:2.0.22'
 
   // RSS/Atom feed
   implementation 'com.rometools:rome:1.15.0'
