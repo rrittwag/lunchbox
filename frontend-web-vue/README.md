@@ -39,6 +39,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - Tag-/Angebotswechsel via aria-live anouncen
     - Versteckte Offer-Details mit Screen Reader wiedergeben
     - Versteckte Offer-Details tastaturfreundlich gestalten, z.B. Button zum Aufklappen
+- [Mittagsangebote swipen](https://github.com/vueuse/vueuse/blob/main/packages/core/useMouse/index.ts)
 - Design
     - neues Logo designen
     - Farb-Themes basteln (rot/grün/blau/navy/rosa/neon) + Dark Themes
@@ -64,6 +65,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - Info: [Alexa Skill von Falko P.](https://www.amazon.de/s/ref=nb_sb_noss_2?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Dalexa-skills&field-keywords=lunchbox) in Infoseite aufnehmen
 - System-Tests: Selenium-Tests schreiben
 - i18n & l10n
+- [HTML Boilerplate übernehmen](https://www.matuzo.at/blog/html-boilerplate/)
 - [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
 - Dokumentation & Test von Komponenten: [Storybook](https://github.com/vuesion/vuesion/tree/master/src/app/shared/components/VueButton)
 - [Lighthouse-Performance-Index erhöhen](https://blog.checklyhq.com/how-we-got-a-100-lighthouse-performance-score-for-our-vue-js-app/)
