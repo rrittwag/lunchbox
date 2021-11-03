@@ -27,7 +27,7 @@ describe('Offer', () => {
   })
 
   it('renders offer without price', () => {
-    const gyrosWithoutPrice = { ...gyros, price: null }
+    const gyrosWithoutPrice = { ...gyros, price: undefined }
     const wrapper = shallowMount(Offer, {
       props: { offer: gyrosWithoutPrice },
     })
@@ -49,7 +49,7 @@ describe('Offer', () => {
     const hiddenItems = wrapper.findAll('.hidden')
     expect(hiddenItems.length).toEqual(2)
     expect(hiddenItems[0].text()).toEqual(gyros.description)
-    expect(hiddenItems[1].findAll('badge-stub').length).toEqual(2)
+    expect(hiddenItems[1].findAllComponents(Badge).length).toEqual(2)
   })
 
   it('shows details for screen size XS', () => {

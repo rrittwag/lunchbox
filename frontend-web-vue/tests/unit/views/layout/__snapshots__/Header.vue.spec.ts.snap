@@ -2,13 +2,11 @@
 
 exports[`Header renders snapshot 1`] = `
 <header
-  class="sm:absolute sm:top-0 sm:right-0
-           sm:px-8 pt-4 pb-2 sm:pb-4"
+  class="sm:absolute sm:top-0 sm:right-0 sm:px-8 pt-4 pb-2 sm:pb-4"
 >
   <nav
     aria-label="Haupt"
-    class="flex items-center justify-center
-             sm:h-16"
+    class="flex items-center justify-center sm:h-16"
   >
     <ul
       class="list-none"
@@ -20,8 +18,7 @@ exports[`Header renders snapshot 1`] = `
         
         <a
           aria-label="Mittagsangebote"
-          class="nav-link flex justify-center items-center
-               w-12 h-12 text-neutral-300"
+          class="nav-link flex justify-center items-center w-12 h-12 text-neutral-300"
           href="/"
           title="Mittagsangebote"
         >
@@ -37,8 +34,7 @@ exports[`Header renders snapshot 1`] = `
         
         <a
           aria-label="Einstellungen"
-          class="nav-link flex justify-center items-center
-               w-12 h-12 text-neutral-300"
+          class="nav-link flex justify-center items-center w-12 h-12 text-neutral-300"
           href="/settings"
           title="Einstellungen"
         >
@@ -54,8 +50,7 @@ exports[`Header renders snapshot 1`] = `
         
         <a
           aria-label="Info"
-          class="nav-link flex justify-center items-center
-               w-12 h-12 text-neutral-300"
+          class="nav-link flex justify-center items-center w-12 h-12 text-neutral-300"
           href="/about"
           title="Info"
         >

@@ -7,8 +7,7 @@ export function formatEuro(priceInCent?: number): string {
 
 export function formatToWeekday(date?: Date): string {
   if (!date) return ''
-  const options = { weekday: 'long' }
-  return date.toLocaleDateString(undefined, options)
+  return date.toLocaleDateString(undefined, { weekday: 'long' })
 }
 
 export function formatToLocalDate(date?: Date): string {

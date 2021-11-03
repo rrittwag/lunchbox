@@ -1,14 +1,19 @@
 <template>
   <button
-    class="text-primary-500 hover:text-primary-600
-           origin-center transform hover:scale-110
-           disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed"
+    class="
+      text-primary-500
+      hover:text-primary-600
+      origin-center
+      transform
+      hover:scale-110
+      disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed
+    "
     :class="{ 'active:text-primary-800': !props.disabled }"
     :title="title"
     :aria-label="title"
-    @click="onClick"
     :disabled="props.disabled"
     :aria-keyshortcuts="isPrevious ? 'ArrowLeft' : 'ArrowRight'"
+    @click="onClick"
   >
     <AngleLeftIcon v-if="isPrevious" class="w-16 h-16" />
     <AngleRightIcon v-else class="w-16 h-16" />
@@ -18,14 +23,14 @@
 <script setup lang="ts">
 import AngleLeftIcon from '@/assets/icons/angle-left.svg'
 import AngleRightIcon from '@/assets/icons/angle-right.svg'
-import { defineEmit, defineProps, computed } from 'vue'
+import { defineEmits, defineProps } from 'vue'
 import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
 
 const props = defineProps<{
-  disabled: boolean
+  disabled?: boolean
   direction: DaySelectorDirection
 }>()
-const emit = defineEmit<(e: 'click') => void>()
+const emit = defineEmits<(e: 'click') => void>()
 
 const onClick = () => emit('click')
 

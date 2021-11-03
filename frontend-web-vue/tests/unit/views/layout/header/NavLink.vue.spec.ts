@@ -1,6 +1,7 @@
 import NavLink from '@/views/layout/header/NavLink.vue'
 import { mount } from '@vue/test-utils'
 import { createMemoryHistory, createRouter, RouteRecordRaw } from 'vue-router'
+import { defineComponent } from 'vue'
 
 describe('NavLink', () => {
   test('renders snapshot', () => {
@@ -19,7 +20,7 @@ describe('NavLink', () => {
     })
 
     const link = wrapper.find('a')
-    expect(link.exists()).toBeTrue()
+    expect(link.exists()).toBe(true)
     expect(link.attributes()['href']).toBe(mockRoute.path)
     expect(link.attributes()['title']).toBe(mockRoute.meta?.title)
     expect(link.attributes()['aria-label']).toBe(mockRoute.meta?.title)
@@ -35,25 +36,25 @@ describe('NavLink', () => {
     await wrapper.vm.$nextTick()
 
     const link = wrapper.find('a')
-    expect(link.exists()).toBeTrue()
+    expect(link.exists()).toBe(true)
     expect(link.attributes()['aria-current']).toBe('page')
   })
 })
 
 // --- mocks 'n' stuff
 
-const homeRoute = ({
+const homeRoute = {
   path: '/',
   meta: { title: 'Home' },
   component: {},
-} as unknown) as RouteRecordRaw
-const mockRoute = ({
+} as unknown as RouteRecordRaw
+const mockRoute = {
   path: '/mock-route',
   meta: {
     title: 'Mock-Route',
   },
   component: {},
-} as unknown) as RouteRecordRaw
+} as unknown as RouteRecordRaw
 
 const routes = [mockRoute, homeRoute]
 

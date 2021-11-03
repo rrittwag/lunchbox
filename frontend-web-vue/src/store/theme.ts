@@ -50,7 +50,6 @@ export function useTheme() {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/camelcase
 export function __reset__TEST_ONLY__() {
   currentTheme.value = undefined
 }

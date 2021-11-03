@@ -1,22 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "allowJs": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env",
-      "jest"
+      "vite/client",
+      "jest",
+      "node" /* FIXME: replacing Vite/ESM's import.meta.env with Node's process.env, assuring Jest support. https://github.com/vitejs/vite/issues/1149#issuecomment-857686209 */
     ],
     "paths": {
       "@/*": [
@@ -41,6 +40,7 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }

@@ -2,10 +2,7 @@
 
 exports[`OfferBox renders snapshot 1`] = `
 <article
-  class="flex flex-col items-center
-           px-4 pt-2 pb-3 sm:pt-4 sm:pb-6
-           shadow-xl bg-card rounded-lg
-           border-l-8 sm:border-l-0 sm:border-t-8 border-primary-500"
+  class="flex flex-col items-center px-4 pt-2 pb-3 sm:pt-4 sm:pb-6 shadow-xl bg-card rounded-lg border-l-8 sm:border-l-0 sm:border-t-8 border-primary-500"
 >
   <h3
     class="text-3xl sm:text-4xl font-display text-neutral-700"
@@ -16,8 +13,14 @@ exports[`OfferBox renders snapshot 1`] = `
     class="w-full list-none"
   >
     
-    <offer-stub />
-    <offer-stub />
+    <anonymous-stub
+      offer="[object Object]"
+      showdetailsinxs="false"
+    />
+    <anonymous-stub
+      offer="[object Object]"
+      showdetailsinxs="false"
+    />
     
   </ul>
 </article>

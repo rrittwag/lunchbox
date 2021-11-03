@@ -1,20 +1,13 @@
 <template>
-  <div
-    class="flex flex-col
-           h-full
-           sm:py-4"
-    v-if="loadingDone"
-  >
+  <div v-if="loadingDone" class="flex flex-col h-full sm:py-4">
     <div class="px-4">
-      <h1 class="sr-only">
-        Mittagsangebote
-      </h1>
+      <h1 class="sr-only">Mittagsangebote</h1>
       <DaySelector
-        :selectedDay="selectedDay"
-        :disabledNext="!nextDay"
-        :disabledPrev="!prevDay"
-        @change="onDaySelected"
+        :selected-day="selectedDay"
+        :disabled-next="!nextDay"
+        :disabled-prev="!prevDay"
         class="sm:max-w-sm h-16"
+        @change="onDaySelected"
       />
     </div>
     <transition
@@ -31,11 +24,7 @@
                pt-4"
       />
 -->
-      <OfferBoxGroup
-        :key="selectedDayAsISOString"
-        class="flex-grow
-               pt-4"
-      />
+      <OfferBoxGroup :key="selectedDayAsISOString" class="flex-grow pt-4" />
     </transition>
   </div>
   <ContentError v-else-if="loadingFailed" />
@@ -52,15 +41,8 @@ import { formatToISODate } from '@/util/formatting'
 import { useLunchStore } from '@/store/lunch'
 import { computed, ref } from 'vue'
 
-const {
-  isLoading,
-  error,
-  providers,
-  offers,
-  selectedLocation,
-  selectedDay,
-  selectDay,
-} = useLunchStore()
+const { isLoading, error, providers, offers, selectedLocation, selectedDay, selectDay } =
+  useLunchStore()
 const isDirectionNext = ref(true)
 
 const loadingDone = computed(() => !isLoading.value && !error.value)
@@ -68,30 +50,31 @@ const loadingFailed = computed(() => error.value)
 
 const lunchDays = computed<Date[]>(() => {
   const providerIDsForSelectedLocation = providers.value
-    .filter(p => p.location === selectedLocation.value.name)
-    .map(p => p.id)
+    .filter((p) => p.location === selectedLocation.value.name)
+    .map((p) => p.id)
   const lunchDays: string[] = offers.value
-    .filter(o => providerIDsForSelectedLocation.includes(o.provider))
-    .map(o => o.day)
+    .filter((o) => providerIDsForSelectedLocation.includes(o.provider))
+    .map((o) => o.day)
   return Array.from(new Set<string>(lunchDays))
-    .map(dayString => new Date(dayString))
+    .map((dayString) => new Date(dayString))
     .sort((day1, day2) => day1.getTime() - day2.getTime())
 })
-const prevDay = computed(() => lunchDays.value.filter(day => day < selectedDay.value).pop())
-const nextDay = computed(() => lunchDays.value.filter(day => day > selectedDay.value)[0])
+const prevDay = computed(() => lunchDays.value.filter((day) => day < selectedDay.value).pop())
+const nextDay = computed(() => lunchDays.value.filter((day) => day > selectedDay.value)[0])
 
 const selectedDayAsISOString = computed(() => formatToISODate(selectedDay.value))
 
 function onDaySelected(direction: DaySelectorDirection) {
-  const gotoDay = direction === DaySelectorDirection.NEXT ? nextDay.value : prevDay.value
+  const gotoDay = direction === 'next' ? nextDay.value : prevDay.value
   if (!gotoDay) return
 
-  isDirectionNext.value = direction === DaySelectorDirection.NEXT
+  isDirectionNext.value = direction === 'next'
   selectDay(gotoDay)
 }
-
+/*
 function onSwipe(swipeDirection: string) {
   if (swipeDirection === 'left') onDaySelected(DaySelectorDirection.NEXT)
   else if (swipeDirection === 'right') onDaySelected(DaySelectorDirection.PREVIOUS)
 }
+ */
 </script>

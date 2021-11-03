@@ -1,9 +1,19 @@
 <template>
   <article
-    class="flex flex-col items-center
-           px-4 pt-2 pb-3 sm:pt-4 sm:pb-6
-           shadow-xl bg-card rounded-lg
-           border-l-8 sm:border-l-0 sm:border-t-8 border-primary-500"
+    class="
+      flex flex-col
+      items-center
+      px-4
+      pt-2
+      pb-3
+      sm:pt-4 sm:pb-6
+      shadow-xl
+      bg-card
+      rounded-lg
+      border-l-8
+      sm:border-l-0 sm:border-t-8
+      border-primary-500
+    "
     @click="onClick"
   >
     <h3 class="text-3xl sm:text-4xl font-display text-neutral-700">
@@ -14,7 +24,7 @@
         v-for="offer in props.offers"
         :key="offer.id"
         :offer="offer"
-        :showDetailsInXS="showDetails"
+        :show-details-in-x-s="showDetails"
       />
     </ul>
   </article>

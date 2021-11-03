@@ -1,6 +1,6 @@
 <template>
   <main class="w-full h-full">
-    <router-view v-slot="{ Component }">
+    <RouterView v-slot="{ Component }">
       <transition
         mode="out-in"
         leave-active-class="transition-opacity duration-150"
@@ -10,11 +10,6 @@
       >
         <component :is="Component" />
       </transition>
-    </router-view>
+    </RouterView>
   </main>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-export default defineComponent({ name: 'Content' })
-</script>

@@ -22,7 +22,7 @@ async function loadFromApi() {
     providers.value = await providersPromise
     offers.value = await offersPromise
   } catch (e) {
-    error.value = e
+    error.value = e as ApiError
   }
   isLoading.value = false
 }
@@ -43,7 +43,7 @@ function loadSelectedLocationFromLocalStorage(): LunchLocation {
   // die alte Angular-App speicherte den Wert mit ""
   locationName = locationName.replace(/"/g, '')
 
-  const filteredLocation = locations.filter(l => l.name === locationName)
+  const filteredLocation = locations.filter((l) => l.name === locationName)
   if (filteredLocation.length > 0) return filteredLocation[0]
   return locations[0]
 }
@@ -82,7 +82,6 @@ export function useLunchStore() {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/camelcase
 export function __reset__TEST_ONLY__() {
   offers.value = []
   providers.value = []

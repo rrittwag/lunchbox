@@ -1,6 +1,8 @@
 module.exports = {
-  preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
+  moduleFileExtensions: ['vue', 'ts', 'js'],
+  testEnvironment: 'jsdom',
   transform: {
+    '^.+\\.ts$': 'ts-jest',
     '^.+\\.vue$': 'vue-jest',
     '^.+\\.svg$': '<rootDir>/tests/jest.vue-svg-loader',
   },
@@ -8,5 +10,4 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@tests/(.*)$': '<rootDir>/tests/$1',
   },
-  setupFilesAfterEnv: ['jest-extended'],
 }

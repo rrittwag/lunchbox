@@ -1,10 +1,5 @@
 <template>
-  <div
-    class="flex flex-col
-           w-full max-w-4md min-h-screen
-           font-sans antialiased
-           relative"
-  >
+  <div class="flex flex-col w-full max-w-4md min-h-screen font-sans antialiased relative">
     <Header />
     <Content class="flex-grow" />
   </div>

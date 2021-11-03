@@ -32,7 +32,7 @@ describe('DaySelector', () => {
     expect(buttons[1].attributes()).toHaveProperty('disabled')
   })
 
-  it.skip('emits event WHEN click previous day', async () => {
+  it('emits event WHEN click previous day', async () => {
     const wrapper = mount(DaySelector, {
       props: { selectedDay: TODAY },
     })
@@ -44,7 +44,7 @@ describe('DaySelector', () => {
     expect(wrapper.emitted().change![0]).toEqual([DaySelectorDirection.PREVIOUS])
   })
 
-  it.skip('emits event WHEN click next day', () => {
+  it('emits event WHEN click next day', () => {
     const wrapper = mount(DaySelector, {
       props: { selectedDay: TODAY },
     })
@@ -56,7 +56,7 @@ describe('DaySelector', () => {
     expect(wrapper.emitted().change![0]).toEqual([DaySelectorDirection.NEXT])
   })
 
-  it.skip('emits event WHEN pressing left arrow key', () => {
+  it('emits event WHEN pressing left arrow key', () => {
     const wrapper = mount(DaySelector, {
       props: { days: [YESTERDAY, TODAY, TOMORROW], selectedDay: TODAY },
     })
@@ -68,7 +68,7 @@ describe('DaySelector', () => {
     expect(wrapper.emitted().change![0]).toEqual([DaySelectorDirection.PREVIOUS])
   })
 
-  it.skip('emits event WHEN pressing right arrow key', () => {
+  it('emits event WHEN pressing right arrow key', () => {
     const wrapper = mount(DaySelector, {
       props: { days: [YESTERDAY, TODAY, TOMORROW], selectedDay: TODAY },
     })

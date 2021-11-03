@@ -42,6 +42,12 @@ lint:
     - "[ ! -d node_modules/ ] && yarn install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
     - yarn lint:check
 
+typecheck:
+  stage: test
+  script:
+    - "[ ! -d node_modules/ ] && yarn install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
+    - yarn typecheck
+
 unit:
   stage: test
 #  coverage: '/All files([^|]*\|){4}[^|]*\s+([\d\.]+)/'

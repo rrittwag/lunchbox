@@ -1,19 +1,18 @@
 <template>
   <li class="inline-block px-2">
-    <router-link :to="props.to" custom v-slot="{ navigate, isExactActive, route }">
+    <RouterLink v-slot="{ navigate, isExactActive, route }" :to="props.to" custom>
       <a
-        class="nav-link flex justify-center items-center
-               w-12 h-12"
+        class="nav-link flex justify-center items-center w-12 h-12"
         :class="isExactActive ? 'text-neutral-800' : 'text-neutral-300'"
         :href="route.path"
         :title="route.meta.title"
         :aria-label="route.meta.title"
-        :aria-current="isExactActive ? 'page' : null"
+        :aria-current="isExactActive ? 'page' : undefined"
         @click="navigate"
       >
         <slot />
       </a>
-    </router-link>
+    </RouterLink>
   </li>
 </template>
 

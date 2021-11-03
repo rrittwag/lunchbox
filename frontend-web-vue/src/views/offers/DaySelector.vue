@@ -9,26 +9,30 @@
 
     <DaySelectorButton
       class="order-first"
-      direction="prev"
-      @click="onClickPrev"
+      :direction="DaySelectorDirection.PREVIOUS"
       :disabled="props.disabledPrev"
+      @click="onClickPrev"
     />
-    <DaySelectorButton direction="next" @click="onClickNext" :disabled="props.disabledNext" />
+    <DaySelectorButton
+      :direction="DaySelectorDirection.NEXT"
+      :disabled="props.disabledNext"
+      @click="onClickNext"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, defineEmit, onMounted, onUnmounted } from 'vue'
-import { formatToLocalDate, formatToISODate, formatToWeekday } from '@/util/formatting'
+import { computed, defineEmits, defineProps, onMounted, onUnmounted } from 'vue'
+import { formatToISODate, formatToLocalDate, formatToWeekday } from '@/util/formatting'
 import DaySelectorButton from '@/views/offers/dayselector/DaySelectorButton.vue'
 import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
 
 const props = defineProps<{
   selectedDay: Date
-  disabledPrev: boolean
-  disabledNext: boolean
+  disabledPrev?: boolean
+  disabledNext?: boolean
 }>()
-const emit = defineEmit<(e: 'change', direction: DaySelectorDirection) => void>()
+const emit = defineEmits<(e: 'change', direction: DaySelectorDirection) => void>()
 
 const selectedDayAsWeekday = computed(() => formatToWeekday(props.selectedDay))
 const selectedDayAsDateString = computed(() => formatToLocalDate(props.selectedDay))
