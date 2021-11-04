@@ -1,22 +1,16 @@
 import Settings from '@/views/Settings.vue'
-import { mocked } from 'ts-jest/utils'
-jest.mock('@/store/theme')
-import { useTheme } from '@/store/theme'
+import { useTheme, THEME_RED } from '@/store/theme'
 import { shallowMount } from '@vue/test-utils'
-import { computed } from 'vue'
-import { themeBlue, themeGreen, themeRed } from '@tests/unit/test-data'
+import { createTestingPinia } from '@pinia/testing'
 
 describe('Settings', () => {
   test('renders snapshot', () => {
-    mocked(useTheme).mockReturnValue({
-      themes: computed(() => [themeRed, themeGreen, themeBlue]),
-      currentTheme: computed(() => themeRed),
-      setCurrentTheme: () => void 0,
-      colorScheme: computed(() => 'system'),
-      setColorScheme: () => void 0,
-    })
+    const pinia = createTestingPinia()
+    useTheme().$patch({ currentTheme: THEME_RED, colorScheme: 'system' })
 
-    const wrapper = shallowMount(Settings)
+    const wrapper = shallowMount(Settings, {
+      global: { plugins: [pinia] },
+    })
 
     expect(wrapper.element).toMatchSnapshot()
   })

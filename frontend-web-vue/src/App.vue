@@ -6,6 +6,5 @@
 import Layout from '@/views/Layout.vue'
 import { useLunchStore } from '@/store/lunch'
 
-const { loadFromApi } = useLunchStore()
-loadFromApi()
+useLunchStore().loadFromApi()
 </script>

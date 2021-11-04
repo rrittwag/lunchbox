@@ -39,6 +39,11 @@ exports[`Settings renders snapshot 1`] = `
         >
           Blue
         </option>
+        <option
+          value="theme-blue-dark"
+        >
+          Blue (Dark)
+        </option>
         
       </select>
       <div

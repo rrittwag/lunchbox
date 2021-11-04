@@ -40,9 +40,10 @@ import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDire
 import { formatToISODate } from '@/util/formatting'
 import { useLunchStore } from '@/store/lunch'
 import { computed, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 
-const { isLoading, error, providers, offers, selectedLocation, selectedDay, selectDay } =
-  useLunchStore()
+const store = useLunchStore()
+const { isLoading, error, providers, offers, selectedLocation, selectedDay } = storeToRefs(store)
 const isDirectionNext = ref(true)
 
 const loadingDone = computed(() => !isLoading.value && !error.value)
@@ -69,7 +70,7 @@ function onDaySelected(direction: DaySelectorDirection) {
   if (!gotoDay) return
 
   isDirectionNext.value = direction === 'next'
-  selectDay(gotoDay)
+  store.selectDay(gotoDay)
 }
 /*
 function onSwipe(swipeDirection: string) {

@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from '@/App.vue'
 import router from '@/router'
 import '@/assets/style/index.scss'
+import { createPinia } from 'pinia'
 
 // register PWA app
 // import '@/plugins/registerServiceWorker'
@@ -14,4 +15,4 @@ import '@/assets/style/focus-visible.scss'
 // import Vue2TouchEvents from 'vue2-touch-events'
 // Vue.use(Vue2TouchEvents)
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(router).use(createPinia()).mount('#app')

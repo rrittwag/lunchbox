@@ -16,8 +16,10 @@ import OfferBox from '@/views/offers/OfferBox.vue'
 import { LunchOffer } from '@/model/LunchOffer'
 import { LunchProvider } from '@/model/LunchProvider'
 import { useLunchStore } from '@/store/lunch'
+import { storeToRefs } from 'pinia'
 
-const { providers, offers, selectedDay, selectedLocation } = useLunchStore()
+const store = useLunchStore()
+const { providers, offers, selectedDay, selectedLocation } = storeToRefs(store)
 
 const visibleOffers = computed<LunchOffer[]>(() => {
   const providerIDsForSelectedLocation: number[] = providers.value

@@ -1,4 +1,5 @@
 import { computed, ref } from 'vue'
+import { defineStore } from 'pinia'
 
 export interface Theme {
   cssClass: string
@@ -12,12 +13,12 @@ export const THEME_GREEN: Theme = { cssClass: 'theme-green', label: 'Green' }
 export const THEME_BLUE: Theme = { cssClass: 'theme-blue', label: 'Blue' }
 export const THEME_BLUE_DARK: Theme = { cssClass: 'theme-blue-dark', label: 'Blue (Dark)' }
 
-const currentTheme = ref<Theme | undefined>()
-const colorScheme = ref<ColorScheme>('system')
+export const useTheme = defineStore('theme', () => {
+  const currentTheme = ref<Theme | undefined>()
+  const colorScheme = ref<ColorScheme>('system')
 
-export function useTheme() {
   // TODO: register listener for media query
-  if (colorScheme.value === 'system')
+  if (colorScheme.value === 'system' && window.matchMedia)
     colorScheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 
   // TODO: Theme von ColorScheme lösen?
@@ -43,13 +44,9 @@ export function useTheme() {
 
   return {
     themes: computed(() => [THEME_RED, THEME_GREEN, THEME_BLUE, THEME_BLUE_DARK]),
-    currentTheme: computed(() => currentTheme.value),
+    currentTheme,
     setCurrentTheme,
-    colorScheme: computed(() => colorScheme.value),
+    colorScheme,
     setColorScheme,
   }
-}
-
-export function __reset__TEST_ONLY__() {
-  currentTheme.value = undefined
-}
+})

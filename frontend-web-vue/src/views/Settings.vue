@@ -63,12 +63,14 @@
 
 <script setup lang="ts">
 import { useTheme } from '@/store/theme'
+import { storeToRefs } from 'pinia'
 
-const { themes, currentTheme, setCurrentTheme } = useTheme()
+const store = useTheme()
+const { themes, currentTheme } = storeToRefs(store)
 
 function onSelectTheme(event: Event) {
   const selectElem = event?.target as HTMLSelectElement
   const newTheme = themes.value.find((theme) => theme.cssClass === selectElem?.value)
-  newTheme && setCurrentTheme(newTheme)
+  newTheme && store.setCurrentTheme(newTheme)
 }
 </script>
