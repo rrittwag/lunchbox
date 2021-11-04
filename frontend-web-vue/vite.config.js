@@ -13,9 +13,9 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'https://lunchbox.rori.info',
+        // target: 'http://localhost:8080',
         changeOrigin: true,
       },
-      // '/api': 'http://localhost:8080',
     },
   },
 })
