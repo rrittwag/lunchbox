@@ -5,10 +5,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test:unit": "jest tests",
+    "test:unit": "cross-env LANG=de_DE.UTF-8 jest tests",
     "lint": "yarn lint:check --fix",
     "lint:check": "eslint --no-error-on-unmatched-pattern --ext .vue,.ts,.js src/**",
-    "typecheck": "cross-env LANG=de_DE.UTF-8 vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
     "focus-visible": "^5.2.0",
