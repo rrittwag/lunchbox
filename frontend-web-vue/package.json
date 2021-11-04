@@ -8,7 +8,7 @@
     "test:unit": "jest tests",
     "lint": "yarn lint:check --fix",
     "lint:check": "eslint --no-error-on-unmatched-pattern --ext .vue,.ts,.js src/**",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "cross-env LANG=de_DE.UTF-8 vue-tsc --noEmit"
   },
   "dependencies": {
     "focus-visible": "^5.2.0",
@@ -26,6 +26,7 @@
     "@vue/eslint-config-typescript": "^9.0.0",
     "@vue/test-utils": "^2.0.0-rc.16",
     "autoprefixer": "^10.4.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.0.3",
