@@ -1,7 +1,5 @@
 <template>
-  <div id="app" class="flex justify-center">
-    <Layout />
-  </div>
+  <Layout />
 </template>
 
 <script setup lang="ts">
