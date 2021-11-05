@@ -4,9 +4,6 @@ import router from '@/router'
 import '@/assets/style/index.scss'
 import { createPinia } from 'pinia'
 
-// register PWA app
-// import '@/plugins/registerServiceWorker'
-
 // Polyfill für CSS4-Feature focus-visible
 import '../node_modules/focus-visible/dist/focus-visible.min.js'
 import '@/assets/style/focus-visible.scss'
