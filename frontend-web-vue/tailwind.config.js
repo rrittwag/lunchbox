@@ -57,12 +57,4 @@ module.exports = {
       },
     },
   },
-  variants: {
-    extend: {
-      textColor: ['disabled', 'active'],
-      opacity: ['disabled'],
-      cursor: ['disabled'],
-    },
-  },
-  plugins: [],
 }
