@@ -12,8 +12,9 @@ import '@/assets/style/focus-visible.scss'
 // import Vue2TouchEvents from 'vue2-touch-events'
 // Vue.use(Vue2TouchEvents)
 
-createApp(App).use(router).use(createPinia()).mount('#app')
-
+// activate PWA
 if (typeof window !== 'undefined') {
   import('./pwa')
 }
+
+createApp(App).use(router).use(createPinia()).mount('#app')
