@@ -18,6 +18,7 @@ export default defineConfig({
         name: 'Lunchbox',
         short_name: 'Lunchbox',
         theme_color: '#007755',
+        lang: 'de',
         icons: [
           {
             src: '/android-chrome-192x192.png',
@@ -28,12 +29,6 @@ export default defineConfig({
             src: '/android-chrome-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-          },
-          {
-            src: '/android-chrome-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable',
           },
         ],
       },
