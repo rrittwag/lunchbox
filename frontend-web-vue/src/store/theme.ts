@@ -18,7 +18,7 @@ export const useTheme = defineStore('theme', () => {
   const colorScheme = ref<ColorScheme>('system')
 
   // TODO: register listener for media query
-  if (colorScheme.value === 'system' && window.matchMedia)
+  if (colorScheme.value === 'system' && window?.matchMedia)
     colorScheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 
   // TODO: Theme von ColorScheme lösen?
