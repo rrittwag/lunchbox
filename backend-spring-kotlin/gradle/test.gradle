@@ -1,7 +1,7 @@
 // -------------------
 //   Unit-Tests mit JUnit 5
 // -------------------
-ext.testcontainersVersion = '1.15.3'
+ext.testcontainersVersion = '1.16.2'
 
 dependencies {
   // JUnit 5
@@ -11,7 +11,7 @@ dependencies {
   testImplementation 'org.junit.jupiter:junit-jupiter-params'
 
   // Kotlin
-  testImplementation 'org.amshove.kluent:kluent:1.65'    // assertions
+  testImplementation 'org.amshove.kluent:kluent:1.68'    // assertions
   testImplementation 'io.mockk:mockk'                    // mocking
   testImplementation 'com.ninja-squad:springmockk:3.0.1' // support @MockkBean injection
 
@@ -48,7 +48,7 @@ task testIntegration(
       maxParallelForks = (int) (Runtime.runtime.availableProcessors().intdiv(2) ?: 1) // Test-Klassen parallel ausführen
       testLogging { exceptionFormat = 'full' }
 
-      reports.html.enabled = false // Report-Generierung frisst unnötig CI-Zeit
+      reports.html.required = false // Report-Generierung frisst unnötig CI-Zeit
     }
 
 task testAll ( dependsOn: tasks.withType(Test) )
