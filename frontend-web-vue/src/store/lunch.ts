@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import api from '@/api/LunchApi'
+import api from '@/api/lunch'
 import { ApiError } from '@/api/http'
 import { LunchProvider } from '@/model/LunchProvider'
 import { LunchOffer } from '@/model/LunchOffer'
