@@ -34,8 +34,8 @@
 <script setup lang="ts">
 import { defineProps, computed } from 'vue'
 import Badge from '@/views/offers/Badge.vue'
-import { LunchOffer } from '@/model/LunchOffer'
 import { formatEuro } from '@/util/formatting'
+import { LunchOffer } from '@/model/lunch'
 
 const props = defineProps<{
   offer: LunchOffer

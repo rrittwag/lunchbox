@@ -1,11 +1,9 @@
 import { ref } from 'vue'
 import api from '@/api/lunch'
 import { ApiError } from '@/api/http'
-import { LunchProvider } from '@/model/LunchProvider'
-import { LunchOffer } from '@/model/LunchOffer'
 import { today } from '@/util/date'
-import { LunchLocation } from '@/model/LunchLocation'
 import { defineStore } from 'pinia'
+import { LunchLocation, LunchOffer, LunchProvider } from '@/model/lunch'
 
 export const useLunchStore = defineStore('lunch', () => {
   // --------------------

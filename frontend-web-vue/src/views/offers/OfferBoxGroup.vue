@@ -13,10 +13,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import OfferBox from '@/views/offers/OfferBox.vue'
-import { LunchOffer } from '@/model/LunchOffer'
-import { LunchProvider } from '@/model/LunchProvider'
 import { useLunchStore } from '@/store/lunch'
 import { storeToRefs } from 'pinia'
+import { LunchOffer, LunchProvider } from '@/model/lunch'
 
 const store = useLunchStore()
 const { providers, offers, selectedDay, selectedLocation } = storeToRefs(store)
