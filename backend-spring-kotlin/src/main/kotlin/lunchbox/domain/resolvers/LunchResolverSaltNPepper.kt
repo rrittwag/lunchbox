@@ -44,7 +44,7 @@ class LunchResolverSaltNPepper(
     val section2node = mutableMapOf<OfferSection, Element>()
 
     for (div in divs) {
-      val h4 = div.select("h4") ?: continue
+      val h4 = div.select("h4")
       val title = parseName(h4.text())
 
       for (section in OfferSection.values())

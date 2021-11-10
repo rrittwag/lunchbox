@@ -52,7 +52,8 @@ class LunchResolverPhoenixeum(
     val elements = site.select("section.ce_accordionStart")
     elements.addAll(site.select("section.wrapplan"))
 
-    val date = LunchResolverSuppenkulttour.resolveMonday(elements.first().text())
+    val dateText = elements.first()?.text() ?: return null
+    val date = LunchResolverSuppenkulttour.resolveMonday(dateText)
     return date?.year
   }
 
@@ -73,7 +74,7 @@ class LunchResolverPhoenixeum(
 
   private fun splitByOffers(wochenplanDiv: Element): List<String> {
     val pipedWeek = node2text(wochenplanDiv).replace("||", "|")
-    return pipedWeek.split("|").fold(emptyList<String>()) { days, elem ->
+    return pipedWeek.split("|").fold(emptyList()) { days, elem ->
       if (days.isEmpty()) days + elem
       else {
         val lastDay = days.last()
@@ -86,7 +87,7 @@ class LunchResolverPhoenixeum(
   }
 
   private fun resolveMonday(node: Element, site: Document): LocalDate? {
-    val h3 = node.selectFirst("h3")
+    val h3 = node.selectFirst("h3") ?: return null
     var day = StringParser.parseLocalDate(h3.text()) ?: return null
     val jahr = jahr(site)
     if (jahr != null)

@@ -71,7 +71,7 @@ class LunchResolverGesundheitszentrum(
     val imageLink =
       article
         .selectFirst("a[data-ploi]")
-        .attr("data-ploi")
+        ?.attr("data-ploi")
         ?: return null
 
     return Wochenplan(monday, URL(imageLink))

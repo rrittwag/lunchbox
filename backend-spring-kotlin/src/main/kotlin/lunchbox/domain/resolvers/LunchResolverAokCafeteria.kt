@@ -68,7 +68,7 @@ class LunchResolverAokCafeteria(
 
     val offers = mutableListOf<LunchOffer>()
     for (offerElem in offerDivs) {
-      val typ = offerElem.selectFirst("span").text()
+      val typ = offerElem.selectFirst("span")?.text() ?: ""
       val name = offerElem.select("span:nth-of-type(2)").text()
       if (name.isEmpty())
         continue
