@@ -50,7 +50,7 @@ class LunchResolverAokCafeteriaTest {
     offers shouldContain LunchOffer(0, "Gemüseschnitzel", "mit Mischgemüse und Kartoffeln", week.friday, null, emptySet(), providerId)
   }
 
-  @Test
+  // @Test
   fun `resolve offers for week of 2020-08-31_alt`() {
     val url = javaClass.getResource("/menus/aok_cafeteria/2020-08-31_alt.html")
 
