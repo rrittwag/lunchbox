@@ -21,7 +21,7 @@ class LunchResolverAokCafeteria(
   override val provider = AOK_CAFETERIA
 
   override fun resolve(): List<LunchOffer> =
-    resolve(URL("${provider.menuUrl}/speiseplan/3/ajax/"))
+    resolve(URL("${provider.menuUrl}/speiseplan/2/ajax/"))
 
   fun resolve(htmlUrl: URL): List<LunchOffer> {
     val site = htmlParser.parse(htmlUrl)
@@ -70,7 +70,7 @@ class LunchResolverAokCafeteria(
     for (offerElem in offerDivs) {
       val typ = offerElem.selectFirst("span")?.text() ?: ""
       val name = offerElem.select("span:nth-of-type(2)").text()
-      if (name.isEmpty())
+      if (!typ.contains("Tagesgericht") || name.isEmpty())
         continue
       val zusatzstoffe = offerElem.select("small").text()
       var (title, description) = StringParser.splitOfferName(

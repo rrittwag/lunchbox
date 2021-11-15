@@ -110,4 +110,36 @@ class LunchResolverAokCafeteriaTest {
     offers shouldContain LunchOffer(0, "Vanillemilchsuppe", "mit Nudeln und Obst", week.friday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Schweinegulasch", "mit Kartoffeln und Senfgurke", week.friday, null, emptySet(), providerId)
   }
+
+  @Test
+  fun `resolve offers for week of 2021-11-15`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/2021-11-15.html")
+
+    val offers = resolver().resolve(url)
+
+    var week = weekOf("2021-11-15")
+    offers shouldHaveSize 30
+    offers shouldContain LunchOffer(0, "Gemüseschnitzel", "mit Kohlrabi- Möhrengemüse und Kartoffeln", week.monday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Chili con Carne", "Rinderhack, mit Reis, Obst", week.monday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Kotelett", "120g ohne Knochen, mit Bohnengemüse und Kartoffeln", week.monday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Nudeln Bolognese", "Obst", week.tuesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Weißkohleintopf", "mit Schweinefleisch, Brötchen", week.tuesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Rinderschmorbraten", "mit Rotkohl und Klöße", week.tuesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Fischfilet", "mit Dillsoße und Kartoffeln, dazu Rohkost", week.wednesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Szegediner Gulasch", "mit Kartoffeln", week.wednesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Kaninchenkeule", "in Sahne-Zwiebel-Sauce mit Speckbohnen und Kartoffeln", week.wednesday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Mini Königsberger Klopse", "in Kapernsoße und Kartoffeln", week.thursday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Putenbrust", "mit Spinat-Käse-Sauce und Nudeln", week.thursday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "gebratene Forelle 160g", "mit Püree, Rohkost", week.thursday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Eier", "in Senfsoße und Kartoffeln, Rohkost", week.friday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Bratwurst", "mit Bayrischkraut und Kartoffeln", week.friday, null, emptySet(), providerId)
+    offers shouldContain LunchOffer(0, "Wildgulasch", "mit Spätzle", week.friday, null, emptySet(), providerId)
+
+    week = weekOf("2021-11-22")
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 3
+  }
 }
