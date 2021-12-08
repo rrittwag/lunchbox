@@ -13,7 +13,7 @@ exports[`Offer renders snapshot 1`] = `
       Gyros
     </h4>
     <span
-      class="pl-2 text-xl text-neutral-800 leading-tight whitespace-nowrap"
+      class="flex-shrink-0 pl-2 text-xl text-neutral-800 leading-tight"
     >
       <small
         class="pl-2 text-lg font-light text-neutral-800"

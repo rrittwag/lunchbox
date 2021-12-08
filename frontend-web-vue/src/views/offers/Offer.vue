@@ -6,7 +6,7 @@
       </h4>
       <span
         v-if="props.offer.price"
-        class="pl-2 text-xl text-neutral-800 leading-tight whitespace-nowrap"
+        class="flex-shrink-0 pl-2 text-xl text-neutral-800 leading-tight"
       >
         <small class="pl-2 text-lg font-light text-neutral-800"> € </small>
         {{ priceAsString }}
