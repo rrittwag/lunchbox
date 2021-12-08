@@ -32,7 +32,9 @@ const props = defineProps<{
   disabledPrev?: boolean
   disabledNext?: boolean
 }>()
-const emit = defineEmits<(e: 'change', direction: DaySelectorDirection) => void>()
+const emit = defineEmits<{
+  (e: 'change', direction: DaySelectorDirection): void
+}>()
 
 const selectedDayAsWeekday = computed(() => formatToWeekday(props.selectedDay))
 const selectedDayAsDateString = computed(() => formatToLocalDate(props.selectedDay))

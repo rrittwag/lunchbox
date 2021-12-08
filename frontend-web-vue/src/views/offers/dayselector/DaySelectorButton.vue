@@ -30,7 +30,9 @@ const props = defineProps<{
   disabled?: boolean
   direction: DaySelectorDirection
 }>()
-const emit = defineEmits<(e: 'click') => void>()
+const emit = defineEmits<{
+  (e: 'click'): void
+}>()
 
 const onClick = () => emit('click')
 
