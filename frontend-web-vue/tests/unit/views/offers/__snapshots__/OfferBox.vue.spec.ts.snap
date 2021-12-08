@@ -13,11 +13,11 @@ exports[`OfferBox renders snapshot 1`] = `
     class="w-full list-none"
   >
     
-    <anonymous-stub
+    <offer-stub
       offer="[object Object]"
       showdetailsinxs="false"
     />
-    <anonymous-stub
+    <offer-stub
       offer="[object Object]"
       showdetailsinxs="false"
     />

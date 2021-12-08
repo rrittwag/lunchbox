@@ -32,11 +32,11 @@ exports[`Offer renders snapshot 1`] = `
     class="sm:flex pt-1 hidden"
   >
     
-    <anonymous-stub
+    <badge-stub
       color="bg-accent-200"
       label="Tagesgericht"
     />
-    <anonymous-stub
+    <badge-stub
       color="bg-accent-200"
       label="lecker"
     />
