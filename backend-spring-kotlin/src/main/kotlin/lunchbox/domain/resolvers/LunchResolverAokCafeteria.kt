@@ -1,9 +1,5 @@
 package lunchbox.domain.resolvers
 
-import java.net.URL
-import java.time.DayOfWeek
-import java.time.LocalDate
-import java.time.Month
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
 import lunchbox.util.date.DateValidator
@@ -11,6 +7,10 @@ import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
 import org.jsoup.nodes.Element
 import org.springframework.stereotype.Component
+import java.net.URL
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.Month
 
 @Component
 class LunchResolverAokCafeteria(

@@ -24,15 +24,14 @@ class LunchProviderApiTest(
     @Test
     fun success() {
       mockMvc.get(URL_LUNCHPROVIDER)
-
-      .andExpect {
-        status { isOk() }
-        content { contentTypeCompatibleWith(APPLICATION_JSON) }
-        jsonPath("$") { isArray() }
-        jsonPath("$.length()") { value("${LunchProvider.values().size}") }
-        jsonPath("$[?(@.id == '${SCHWEINESTALL.id}')]") { exists() }
-        jsonPath("$[?(@.id == '${SALT_N_PEPPER.id}')]") { exists() }
-      }
+        .andExpect {
+          status { isOk() }
+          content { contentTypeCompatibleWith(APPLICATION_JSON) }
+          jsonPath("$") { isArray() }
+          jsonPath("$.length()") { value("${LunchProvider.values().size}") }
+          jsonPath("$[?(@.id == '${SCHWEINESTALL.id}')]") { exists() }
+          jsonPath("$[?(@.id == '${SALT_N_PEPPER.id}')]") { exists() }
+        }
     }
   }
 
@@ -41,23 +40,21 @@ class LunchProviderApiTest(
     @Test
     fun `WHEN get schweinestall  THEN success`() {
       mockMvc.get("$URL_LUNCHPROVIDER/${SCHWEINESTALL.id}")
-
-      .andExpect {
-        status { isOk() }
-        content { contentTypeCompatibleWith(APPLICATION_JSON) }
-        jsonPath("$.id") { value(SCHWEINESTALL.id) }
-        jsonPath("$.name") { value(SCHWEINESTALL.label) }
-        jsonPath("$.url") { value(SCHWEINESTALL.menuUrl.toString()) }
-      }
+        .andExpect {
+          status { isOk() }
+          content { contentTypeCompatibleWith(APPLICATION_JSON) }
+          jsonPath("$.id") { value(SCHWEINESTALL.id) }
+          jsonPath("$.name") { value(SCHWEINESTALL.label) }
+          jsonPath("$.url") { value(SCHWEINESTALL.menuUrl.toString()) }
+        }
     }
 
     @Test
     fun `WHEN get unknown  THEN not found`() {
       mockMvc.get("$URL_LUNCHPROVIDER/404")
-
-      .andExpect {
-        status { isNotFound() }
-      }
+        .andExpect {
+          status { isNotFound() }
+        }
     }
   }
 }

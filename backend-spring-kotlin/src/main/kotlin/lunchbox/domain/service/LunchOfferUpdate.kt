@@ -1,6 +1,5 @@
 package lunchbox.domain.service
 
-import javax.annotation.PostConstruct
 import lunchbox.domain.models.LunchProvider
 import lunchbox.repository.LunchOfferRepository
 import lunchbox.util.date.DateValidator
@@ -8,6 +7,7 @@ import mu.KotlinLogging
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.scheduling.annotation.Schedules
 import org.springframework.stereotype.Service
+import javax.annotation.PostConstruct
 
 /**
  * Aktualisiert die Mittagsangebote aller Anbieter.

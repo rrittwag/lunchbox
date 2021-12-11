@@ -1,7 +1,6 @@
 package lunchbox.domain.resolvers /* ktlint-disable max-line-length */
 
 import io.mockk.mockk
-import java.net.URL
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.FELDKUECHE
 import lunchbox.util.date.DateValidator
@@ -10,6 +9,7 @@ import lunchbox.util.ocr.OcrClient
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Test
+import java.net.URL
 
 class LunchResolverFeldkuecheTest {
 

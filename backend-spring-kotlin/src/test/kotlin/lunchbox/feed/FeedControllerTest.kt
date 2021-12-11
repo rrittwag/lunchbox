@@ -6,7 +6,6 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.verify
-import java.time.LocalDate
 import lunchbox.domain.models.LunchLocation.NEUBRANDENBURG
 import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
 import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
@@ -24,6 +23,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import java.time.LocalDate
 
 @WebMvcTest(FeedController::class)
 class FeedControllerTest(
@@ -46,14 +46,13 @@ class FeedControllerTest(
       every { repo.findAll() } returns listOf(offerYesterday, offerToday)
 
       mockMvc.get("$URL_FEED?location=${NEUBRANDENBURG.label}")
-
-      .andExpect {
-        status { isOk() }
-        content { contentTypeCompatibleWith(MediaType.APPLICATION_ATOM_XML) }
-        xpath("/feed") { exists() }
-        xpath("/feed/entry") { nodeCount(2) }
-        xpath("/feed/link/@href") { string("http://localhost$URL_FEED?location=${NEUBRANDENBURG.label}") }
-      }
+        .andExpect {
+          status { isOk() }
+          content { contentTypeCompatibleWith(MediaType.APPLICATION_ATOM_XML) }
+          xpath("/feed") { exists() }
+          xpath("/feed/entry") { nodeCount(2) }
+          xpath("/feed/link/@href") { string("http://localhost$URL_FEED?location=${NEUBRANDENBURG.label}") }
+        }
 
       verify(exactly = 1) { repo.findAll() }
     }
@@ -63,10 +62,9 @@ class FeedControllerTest(
       every { repo.findAll() } returns listOf(offerYesterday, offerToday)
 
       mockMvc.get(URL_FEED)
-
-      .andExpect {
-        status { isBadRequest() }
-      }
+        .andExpect {
+          status { isBadRequest() }
+        }
     }
   }
 

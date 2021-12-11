@@ -1,9 +1,9 @@
 package lunchbox.util.string
 
-import java.time.LocalDate
 import lunchbox.domain.resolvers.weekOf
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
 
 class StringParserTest {
 

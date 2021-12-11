@@ -40,15 +40,14 @@ class LunchOfferApiTest(
       every { repo.findAll() } returns listOf(GYROS, SOLJANKA)
 
       mockMvc.get(URL_LUNCHOFFER)
-
-      .andExpect {
-        status { isOk() }
-        content { contentTypeCompatibleWith(APPLICATION_JSON) }
-        jsonPath("$") { isArray() }
-        jsonPath("$.length()") { value("2") }
-        jsonPath("$[?(@.day == '${GYROS.day}')]") { exists() }
-        jsonPath("$[?(@.day == '${SOLJANKA.day}')]") { exists() }
-      }
+        .andExpect {
+          status { isOk() }
+          content { contentTypeCompatibleWith(APPLICATION_JSON) }
+          jsonPath("$") { isArray() }
+          jsonPath("$.length()") { value("2") }
+          jsonPath("$[?(@.day == '${GYROS.day}')]") { exists() }
+          jsonPath("$[?(@.day == '${SOLJANKA.day}')]") { exists() }
+        }
 
       verify(exactly = 1) { repo.findAll() }
     }
@@ -61,14 +60,13 @@ class LunchOfferApiTest(
       every { repo.findByDay(GYROS.day) } returns listOf(GYROS)
 
       mockMvc.get("$URL_LUNCHOFFER?day=${GYROS.day}")
-
-      .andExpect {
-        status { isOk() }
-        content { contentTypeCompatibleWith(APPLICATION_JSON) }
-        jsonPath("$") { isArray() }
-        jsonPath("$.length()") { value("1") }
-        jsonPath("$[?(@.day == '${GYROS.day}')]") { exists() }
-      }
+        .andExpect {
+          status { isOk() }
+          content { contentTypeCompatibleWith(APPLICATION_JSON) }
+          jsonPath("$") { isArray() }
+          jsonPath("$.length()") { value("1") }
+          jsonPath("$[?(@.day == '${GYROS.day}')]") { exists() }
+        }
 
       verify(exactly = 1) { repo.findByDay(GYROS.day) }
       verify(exactly = 0) { repo.findAll() }
@@ -79,10 +77,9 @@ class LunchOfferApiTest(
       every { repo.findByDay(GYROS.day) } returns listOf(GYROS)
 
       mockMvc.get("$URL_LUNCHOFFER?day=xmas")
-
-      .andExpect {
-        status { isBadRequest() }
-      }
+        .andExpect {
+          status { isBadRequest() }
+        }
 
       verify { repo wasNot Called }
     }
@@ -95,13 +92,12 @@ class LunchOfferApiTest(
       every { repo.findByIdOrNull(GYROS.id) } returns GYROS
 
       mockMvc.get("$URL_LUNCHOFFER/${GYROS.id}")
-
-      .andExpect {
-        status { isOk() }
-        content { contentTypeCompatibleWith(APPLICATION_JSON) }
-        jsonPath("$.id") { value(GYROS.id) }
-        jsonPath("$.name") { value("${GYROS.name} ${GYROS.description}") }
-      }
+        .andExpect {
+          status { isOk() }
+          content { contentTypeCompatibleWith(APPLICATION_JSON) }
+          jsonPath("$.id") { value(GYROS.id) }
+          jsonPath("$.name") { value("${GYROS.name} ${GYROS.description}") }
+        }
 
       verify(exactly = 1) { repo.findByIdOrNull(GYROS.id) }
     }
@@ -111,10 +107,9 @@ class LunchOfferApiTest(
       every { repo.findByIdOrNull(GYROS.id) } returns null
 
       mockMvc.get("$URL_LUNCHOFFER/${GYROS.id}")
-
-      .andExpect {
-        status { isNotFound() }
-      }
+        .andExpect {
+          status { isNotFound() }
+        }
     }
   }
 }

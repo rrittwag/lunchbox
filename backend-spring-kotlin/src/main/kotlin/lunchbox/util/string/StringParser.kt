@@ -1,10 +1,10 @@
 package lunchbox.util.string
 
+import org.joda.money.CurrencyUnit
+import org.joda.money.Money
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import org.joda.money.CurrencyUnit
-import org.joda.money.Money
 
 /**
  * Erzeugt Daten aus Zeichenketten.

@@ -1,9 +1,9 @@
 package lunchbox.util.pdf
 
-import java.io.FileNotFoundException
-import java.net.URL
 import mu.KotlinLogging
 import org.apache.pdfbox.pdmodel.PDDocument
+import java.io.FileNotFoundException
+import java.net.URL
 
 /**
  * Extrahiert Daten aus PDF-Dateien.

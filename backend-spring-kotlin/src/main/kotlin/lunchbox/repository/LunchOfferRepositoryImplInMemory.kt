@@ -1,11 +1,11 @@
 package lunchbox.repository
 
-import java.time.LocalDate
-import java.util.concurrent.CopyOnWriteArrayList
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchOfferId
 import lunchbox.domain.models.LunchProviderId
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
+import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Hält die Mittagsangebote im Arbeitsspeicher.
@@ -39,8 +39,8 @@ class LunchOfferRepositoryImplInMemory : LunchOfferRepository {
   override fun saveAll(newOffers: Iterable<LunchOffer>): Iterable<LunchOffer> {
     val nextId = (offers.map { it.id }.maxOrNull() ?: 0) + 1
     val newOffersWithId = newOffers.mapIndexed { index, offer ->
-        offer.copy(id = nextId + index)
-      }
+      offer.copy(id = nextId + index)
+    }
     offers += newOffersWithId
     return newOffersWithId
   }

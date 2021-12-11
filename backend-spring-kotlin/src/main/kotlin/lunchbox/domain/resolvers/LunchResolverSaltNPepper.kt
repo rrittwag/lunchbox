@@ -1,8 +1,5 @@
 package lunchbox.domain.resolvers
 
-import java.net.URL
-import java.time.DayOfWeek
-import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
 import lunchbox.util.date.DateValidator
@@ -12,6 +9,9 @@ import lunchbox.util.string.StringParser
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import org.springframework.stereotype.Component
+import java.net.URL
+import java.time.DayOfWeek
+import java.time.LocalDate
 
 @Component
 class LunchResolverSaltNPepper(
@@ -104,10 +104,10 @@ class LunchResolverSaltNPepper(
     nameElem.children().filter { it.tagName() == "sup" }.forEach { it.remove() }
 
     var name = parseName(nameElem.text())
-        .replace(Regex("^Topp-Preis:"), "")
-        .replace(Regex("^Tipp:"), "")
-        .replace(Regex("[0-9]{1,2}(, [0-9]{1,2})*$"), "")
-        .trim()
+      .replace(Regex("^Topp-Preis:"), "")
+      .replace(Regex("^Tipp:"), "")
+      .replace(Regex("[0-9]{1,2}(, [0-9]{1,2})*$"), "")
+      .trim()
 
     if (name.startsWith("Vegetarisch:")) {
       name = name.substring("Vegetarisch:".length)

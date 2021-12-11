@@ -1,9 +1,9 @@
 package lunchbox.util.api
 
-import kotlin.annotation.AnnotationRetention.RUNTIME
-import kotlin.annotation.AnnotationTarget.CLASS
 import org.springframework.core.annotation.AliasFor
 import org.springframework.web.bind.annotation.RestController
+import kotlin.annotation.AnnotationRetention.RUNTIME
+import kotlin.annotation.AnnotationTarget.CLASS
 
 /**
  * Kurzer, sprechender Alias für @RestController.

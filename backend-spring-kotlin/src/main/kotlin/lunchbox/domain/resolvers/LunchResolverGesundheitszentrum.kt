@@ -1,8 +1,5 @@
 package lunchbox.domain.resolvers
 
-import java.net.URL
-import java.time.DayOfWeek
-import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.GESUNDHEITSZENTRUM
 import lunchbox.util.date.DateValidator
@@ -19,6 +16,9 @@ import lunchbox.util.string.StringParser
 import org.joda.money.Money
 import org.jsoup.nodes.Element
 import org.springframework.stereotype.Component
+import java.net.URL
+import java.time.DayOfWeek
+import java.time.LocalDate
 
 /**
  * Mittagsangebote von Gesundheitszentrum Springpfuhl über deren Facebook-Seite ermitteln.
@@ -313,7 +313,7 @@ class LunchResolverGesundheitszentrum(
         .replace(Regex("^[0-9]$"), "") // Nummer ist in eigene Zeile gerutscht
 
     return if (rowWithoutFitness == rowWithCorrectedFitness)
-        correctedRowWithoutFitness
+      correctedRowWithoutFitness
     else
       "Fitness $correctedRowWithoutFitness"
   }

@@ -5,12 +5,6 @@ import com.rometools.rome.feed.atom.Entry
 import com.rometools.rome.feed.atom.Feed
 import com.rometools.rome.feed.atom.Link
 import com.rometools.rome.feed.atom.Person
-import java.time.LocalDate
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.Locale
-import javax.servlet.http.HttpServletRequest
 import lunchbox.domain.models.LunchLocation
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
@@ -20,6 +14,12 @@ import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
+import javax.servlet.http.HttpServletRequest
 
 const val URL_FEED = "/feed"
 
@@ -78,10 +78,12 @@ class FeedController(
         authors = feed.authors
         published = toDateAtNoon(day)
         updated = toDateAtNoon(day)
-        contents = listOf(Content().apply {
-          type = Content.HTML
-          value = createHtmlLunchday(offersForDay)
-        })
+        contents = listOf(
+          Content().apply {
+            type = Content.HTML
+            value = createHtmlLunchday(offersForDay)
+          }
+        )
       }
       feed.entries.add(entry)
     }

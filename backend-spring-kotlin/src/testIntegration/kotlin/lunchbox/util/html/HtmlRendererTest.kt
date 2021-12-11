@@ -1,7 +1,5 @@
 package lunchbox.util.html /* ktlint-disable max-line-length */
 
-import java.io.File
-import java.net.URL
 import lunchbox.util.ocr.KtDockerComposeContainer
 import org.amshove.kluent.shouldHaveSize
 import org.jsoup.Jsoup
@@ -9,6 +7,8 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import java.io.File
+import java.net.URL
 
 @Testcontainers
 class HtmlRendererTest {

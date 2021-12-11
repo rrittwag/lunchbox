@@ -1,9 +1,9 @@
 package lunchbox.util.pdf
 
-import kotlin.math.abs
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
 import org.apache.pdfbox.text.TextPosition
+import kotlin.math.abs
 
 fun Float.nearby(that: Float): Boolean = abs(this - that) <= 1.0f
 

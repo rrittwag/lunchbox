@@ -2,7 +2,6 @@ package lunchbox.domain.resolvers /* ktlint-disable max-line-length */
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.mockk.mockk
-import java.net.URL
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.GESUNDHEITSZENTRUM
 import lunchbox.domain.resolvers.LunchResolverGesundheitszentrum.Wochenplan
@@ -20,6 +19,7 @@ import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.net.URL
 
 class LunchResolverGesundheitszentrumTest {
 

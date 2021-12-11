@@ -1,6 +1,5 @@
 package lunchbox.api.v2
 
-import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchOfferId
 import lunchbox.domain.models.LunchProviderId
@@ -13,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
+import java.time.LocalDate
 
 /**
  * REST API-Controller für Mittagsangebote.

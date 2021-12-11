@@ -22,7 +22,7 @@ class LunchProviderApi {
   fun getById(@PathVariable id: LunchProviderId): LunchProviderDTO =
     LunchProvider.values()
       .find { id == it.id }?.toDTOv1()
-        ?: throw HttpNotFoundException("Mittagsanbieter mit ID $id nicht gefunden!")
+      ?: throw HttpNotFoundException("Mittagsanbieter mit ID $id nicht gefunden!")
 }
 
 /**

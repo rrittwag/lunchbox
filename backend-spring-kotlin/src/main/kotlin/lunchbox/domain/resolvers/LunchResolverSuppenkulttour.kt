@@ -1,8 +1,5 @@
 package lunchbox.domain.resolvers
 
-import java.net.URL
-import java.time.DayOfWeek
-import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
 import lunchbox.util.date.DateValidator
@@ -14,6 +11,9 @@ import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
 import org.springframework.stereotype.Component
+import java.net.URL
+import java.time.DayOfWeek
+import java.time.LocalDate
 
 @Component
 class LunchResolverSuppenkulttour(
@@ -288,7 +288,7 @@ class LunchResolverSuppenkulttour(
           result += date2name.date to date2name.name
       }
 
-    // Standardfall: "Montag" bis "Freitag" (ohne Datum)
+      // Standardfall: "Montag" bis "Freitag" (ohne Datum)
     } else {
       var currentWeekday = Weekday.MONTAG
       for (tagessuppeString in tagessuppenStrings) {

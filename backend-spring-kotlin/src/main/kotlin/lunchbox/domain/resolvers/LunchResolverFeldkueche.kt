@@ -1,8 +1,5 @@
 package lunchbox.domain.resolvers
 
-import java.net.URL
-import java.time.DayOfWeek
-import java.time.LocalDate
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.FELDKUECHE
 import lunchbox.util.date.DateValidator
@@ -12,6 +9,9 @@ import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser
 import org.joda.money.Money
 import org.springframework.stereotype.Component
+import java.net.URL
+import java.time.DayOfWeek
+import java.time.LocalDate
 
 /**
  * Mittagsangebote von Feldküche Rühlow ermitteln.
@@ -49,7 +49,8 @@ class LunchResolverFeldkueche(
 
     val rawOffers =
       if (Weekday.values().any { contentAsLines.contains(it.label) } &&
-          contentAsLines.any { it.matches(Regex("""^\d+,(\d{2}) *€$""")) })
+        contentAsLines.any { it.matches(Regex("""^\d+,(\d{2}) *€$""")) }
+      )
         resolveOffersWith3rowSplit(contentAsLines)
       else
         resolveOffersWith2rowSplit(contentAsLines)

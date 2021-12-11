@@ -2,9 +2,9 @@
 @file:Suppress("MaxLineLength")
 package lunchbox.domain.models
 
-import java.net.URL
 import lunchbox.domain.models.LunchLocation.BERLIN_SPRINGPFUHL
 import lunchbox.domain.models.LunchLocation.NEUBRANDENBURG
+import java.net.URL
 
 typealias LunchProviderId = Long
 
