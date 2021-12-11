@@ -38,6 +38,6 @@ describe('DaySelectorButton', () => {
     await wrapper.find('button').trigger('click')
 
     expect(wrapper.emitted().click).toBeDefined()
-    expect(wrapper.emitted().click!.length).toBe(1)
+    expect(wrapper.emitted().click?.length).toBe(1)
   })
 })

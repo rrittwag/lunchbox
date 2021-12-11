@@ -5,7 +5,7 @@ exports[`DaySelector renders snapshot 1`] = `
   class="flex justify-between items-center"
 >
   <h2
-    class="flex-grow text-center block text-xl text-neutral-800"
+    class="grow text-center block text-xl text-neutral-800"
   >
     Sonntag 
     <time
@@ -18,7 +18,7 @@ exports[`DaySelector renders snapshot 1`] = `
   <button
     aria-keyshortcuts="ArrowLeft"
     aria-label="Zu vorherigem Tag wechseln"
-    class="text-primary-500 hover:text-primary-600 origin-center transform hover:scale-110 disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed active:text-primary-800 order-first"
+    class="text-primary-500 hover:text-primary-600 origin-center hover:scale-110 disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed active:text-primary-800 order-first"
     title="Zu vorherigem Tag wechseln"
   >
     <!---->
@@ -26,7 +26,7 @@ exports[`DaySelector renders snapshot 1`] = `
   <button
     aria-keyshortcuts="ArrowRight"
     aria-label="Zu nächstem Tag wechseln"
-    class="text-primary-500 hover:text-primary-600 origin-center transform hover:scale-110 disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed active:text-primary-800"
+    class="text-primary-500 hover:text-primary-600 origin-center hover:scale-110 disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed active:text-primary-800"
     title="Zu nächstem Tag wechseln"
   >
     <!---->

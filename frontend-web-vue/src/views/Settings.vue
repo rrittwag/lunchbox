@@ -1,14 +1,7 @@
 <template>
   <div class="sm:p-4">
     <h1
-      class="
-        flex
-        items-center
-        justify-center
-        sm:justify-start sm:h-16
-        px-4
-        text-2xl text-neutral-800
-      "
+      class="flex items-center justify-center sm:justify-start sm:h-16 px-4 text-2xl text-neutral-800"
     >
       Einstellungen
     </h1>
@@ -20,45 +13,17 @@
               <dt class="text-base leading-6 font-medium text-neutral-900 md:col-span-5">Ort</dt>
               <dd class="mt-2 md:mt-0 md:col-span-7">
                 <button
-                  class="
-                    rounded
-                    px-4
-                    h-20
-                    border border-primary-500
-                    text-base
-                    leading-6
-                    text-neutral-800
-                  "
+                  class="rounded px-4 h-20 border border-primary-500 text-base leading-6 text-neutral-800"
                 >
                   Neubrandenburg
                 </button>
                 <button
-                  class="
-                    rounded
-                    ml-2
-                    px-4
-                    h-20
-                    border border-neutral-400
-                    hover:border-neutral-800
-                    text-base
-                    leading-6
-                    text-neutral-500
-                  "
+                  class="rounded ml-2 px-4 h-20 border border-neutral-400 hover:border-neutral-800 text-base leading-6 text-neutral-500"
                 >
                   Neubrandenburg
                 </button>
                 <button
-                  class="
-                    rounded
-                    ml-2
-                    px-4
-                    h-20
-                    border border-neutral-400
-                    hover:border-neutral-800
-                    text-base
-                    leading-6
-                    text-neutral-500
-                  "
+                  class="rounded ml-2 px-4 h-20 border border-neutral-400 hover:border-neutral-800 text-base leading-6 text-neutral-500"
                 >
                   Berlin Springpfuhl
                 </button>
@@ -75,21 +40,7 @@
                 <div class="inline-block relative w-32">
                   <select
                     id="settings-theme"
-                    class="
-                      block
-                      appearance-none
-                      w-full
-                      bg-neutral-200
-                      text-neutral-900
-                      px-4
-                      py-2
-                      pr-8
-                      rounded
-                      leading-tight
-                      border border-neutral-400
-                      hover:border-neutral-800
-                      focus:outline-none focus:ring-4
-                    "
+                    class="block appearance-none w-full bg-neutral-200 text-neutral-900 px-4 py-2 pr-8 rounded leading-tight border border-neutral-400 hover:border-neutral-800 focus:outline-none focus:ring-4"
                     name="theme"
                     :value="currentTheme?.cssClass"
                     @change="onSelectTheme"
@@ -99,16 +50,7 @@
                     </option>
                   </select>
                   <div
-                    class="
-                      pointer-events-none
-                      absolute
-                      inset-y-0
-                      right-0
-                      flex
-                      items-center
-                      px-2
-                      text-neutral-900
-                    "
+                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-neutral-900"
                   >
                     <svg
                       class="fill-current h-4 w-4"

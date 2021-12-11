@@ -1,13 +1,10 @@
 <template>
   <li class="w-full pt-3 sm:pt-4">
     <div class="flex items-baseline w-full">
-      <h4 class="flex-grow text-xl text-neutral-800 leading-tight">
+      <h4 class="grow text-xl text-neutral-800 leading-tight">
         {{ props.offer.name }}
       </h4>
-      <span
-        v-if="props.offer.price"
-        class="flex-shrink-0 pl-2 text-xl text-neutral-800 leading-tight"
-      >
+      <span v-if="props.offer.price" class="shrink-0 pl-2 text-xl text-neutral-800 leading-tight">
         <small class="pl-2 text-lg font-light text-neutral-800"> € </small>
         {{ priceAsString }}
       </span>

@@ -2,7 +2,7 @@
 // https://github.com/visualfanatic/vue-svg-loader/issues/38#issuecomment-407657015
 
 module.exports = {
-  process(content) {
+  process() {
     // TODO: render SVG file
     return 'module.exports = { render: () => {} }'
   },

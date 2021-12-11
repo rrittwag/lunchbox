@@ -1,13 +1,6 @@
 <template>
   <button
-    class="
-      text-primary-500
-      hover:text-primary-600
-      origin-center
-      transform
-      hover:scale-110
-      disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed
-    "
+    class="text-primary-500 hover:text-primary-600 origin-center hover:scale-110 disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed"
     :class="{ 'active:text-primary-800': !props.disabled }"
     :title="title"
     :aria-label="title"

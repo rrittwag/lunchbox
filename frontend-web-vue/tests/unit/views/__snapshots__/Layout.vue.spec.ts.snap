@@ -6,7 +6,7 @@ exports[`Layout renders snapshot 1`] = `
 >
   <header-stub />
   <content-stub
-    class="flex-grow"
+    class="grow"
   />
 </div>
 `;

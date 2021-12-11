@@ -14,7 +14,7 @@ describe('Content', () => {
 
 // --- mocks 'n' stuff
 
-const homeRoute = ({ path: '/', meta: { title: 'Home' } } as unknown) as RouteRecordRaw
+const homeRoute = { path: '/', meta: { title: 'Home' } } as unknown as RouteRecordRaw
 const routes = [homeRoute]
 
 const mockRouter = createRouter({
