@@ -2,6 +2,7 @@ module.exports = {
   root: true,
   env: {
     node: true,
+    'vue/setup-compiler-macros': true,
   },
   extends: [
     'plugin:vue/vue3-recommended',
@@ -16,6 +17,8 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'vue/multi-word-component-names': 'off',
+    'vue/attribute-hyphenation': ['error', 'never', { ignore: ['custom-prop'] }],
+    'vue/v-on-event-hyphenation': ['error', 'never', { ignore: ['custom-event'] }],
   },
   overrides: [
     {

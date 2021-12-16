@@ -3,19 +3,19 @@
     <div class="px-4">
       <h1 class="sr-only">Mittagsangebote</h1>
       <DaySelector
-        :selected-day="selectedDay"
-        :disabled-next="!nextDay"
-        :disabled-prev="!prevDay"
+        :selectedDay="selectedDay"
+        :disabledNext="!nextDay"
+        :disabledPrev="!prevDay"
         class="sm:max-w-sm h-16"
         @change="onDaySelected"
       />
     </div>
-    <transition
+    <Transition
       mode="out-in"
-      leave-active-class="transition-all duration-100 ease-in"
-      :leave-to-class="`opacity-0 ${isDirectionNext ? '-translate-x-12' : 'translate-x-12'}`"
-      enter-active-class="delay-200 transition-all duration-50 ease-out"
-      :enter-from-class="`opacity-0 ${isDirectionNext ? 'translate-x-1' : '-translate-x-1'}`"
+      leaveActiveClass="transition-all duration-100 ease-in"
+      :leaveToClass="`opacity-0 ${isDirectionNext ? '-translate-x-12' : 'translate-x-12'}`"
+      enterActiveClass="delay-200 transition-all duration-50 ease-out"
+      :enterFromClass="`opacity-0 ${isDirectionNext ? 'translate-x-1' : '-translate-x-1'}`"
     >
       <!--       <OfferBoxGroup
         v-touch:swipe="onSwipe"
@@ -25,7 +25,7 @@
       />
 -->
       <OfferBoxGroup :key="selectedDayAsISOString" class="grow pt-4" />
-    </transition>
+    </Transition>
   </div>
   <ContentError v-else-if="loadingFailed" />
   <ContentLoading v-else />

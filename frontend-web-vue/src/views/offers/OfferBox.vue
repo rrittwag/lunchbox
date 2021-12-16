@@ -11,14 +11,14 @@
         v-for="offer in props.offers"
         :key="offer.id"
         :offer="offer"
-        :show-details-in-x-s="showDetails"
+        :showDetailsInXS="showDetails"
       />
     </ul>
   </article>
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 import Offer from '@/views/offers/Offer.vue'
 import { LunchOffer, LunchProvider } from '@/model/lunch'
 

@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineEmits, defineProps, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { formatToISODate, formatToLocalDate, formatToWeekday } from '@/util/formatting'
 import DaySelectorButton from '@/views/offers/dayselector/DaySelectorButton.vue'
 import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'

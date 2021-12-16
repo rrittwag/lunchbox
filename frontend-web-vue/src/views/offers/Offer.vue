@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed } from 'vue'
+import { computed } from 'vue'
 import Badge from '@/views/offers/Badge.vue'
 import { formatEuro } from '@/util/formatting'
 import { LunchOffer } from '@/model/lunch'

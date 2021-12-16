@@ -1,15 +1,15 @@
 <template>
   <main class="w-full h-full">
     <RouterView v-slot="{ Component }">
-      <transition
+      <Transition
         mode="out-in"
-        leave-active-class="transition-opacity duration-150"
-        leave-to-class="opacity-0"
-        enter-active-class="transition-opacity duration-150"
-        enter-from-class="opacity-0"
+        leaveActiveClass="transition-opacity duration-150"
+        leaveToClass="opacity-0"
+        enterActiveClass="transition-opacity duration-150"
+        enterFromClass="opacity-0"
       >
         <component :is="Component" />
-      </transition>
+      </Transition>
     </RouterView>
   </main>
 </template>
