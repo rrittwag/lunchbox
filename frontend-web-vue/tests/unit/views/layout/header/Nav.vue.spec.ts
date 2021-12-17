@@ -17,7 +17,7 @@ describe('Nav', () => {
 
     const navTag = wrapper.get('nav')
     expect(navTag.attributes()['aria-label']).toBeDefined()
-    wrapper.get('nav > ul')
+    wrapper.get('nav > ul') // throws error if not existing
   })
 
   test('renders slot NavLinks', () => {
