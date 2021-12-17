@@ -12,6 +12,7 @@ exports[`NavLink renders snapshot 1`] = `
     title="Mock-Route"
   >
     
+    Link Text
     
   </a>
   

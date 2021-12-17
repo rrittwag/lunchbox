@@ -4,8 +4,8 @@ exports[`Content renders snapshot 1`] = `
 <main
   class="w-full h-full"
 >
-  <transition-stub>
-    <!---->
-  </transition-stub>
+  <router-view-stub
+    name="default"
+  />
 </main>
 `;

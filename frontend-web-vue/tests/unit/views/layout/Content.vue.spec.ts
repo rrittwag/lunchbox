@@ -1,23 +1,24 @@
 import Content from '@/views/layout/Content.vue'
 import { mount } from '@vue/test-utils'
-import { createMemoryHistory, createRouter, RouteRecordRaw } from 'vue-router'
+import { createRouterMock, injectRouterMock } from 'vue-router-mock'
+import { RouterView } from 'vue-router'
 
 describe('Content', () => {
+  const router = createRouterMock({})
+  beforeEach(() => {
+    injectRouterMock(router)
+  })
+
   test('renders snapshot', () => {
-    const wrapper = mount(Content, {
-      global: { plugins: [mockRouter] },
-    })
+    const wrapper = mount(Content)
 
     expect(wrapper.element).toMatchSnapshot()
   })
-})
 
-// --- mocks 'n' stuff
+  test('contains main and RouterView', () => {
+    const wrapper = mount(Content)
 
-const homeRoute = { path: '/', meta: { title: 'Home' } } as unknown as RouteRecordRaw
-const routes = [homeRoute]
-
-const mockRouter = createRouter({
-  history: createMemoryHistory(),
-  routes,
+    const mainTag = wrapper.get('main')
+    mainTag.getComponent(RouterView) // throws error if not existing
+  })
 })
