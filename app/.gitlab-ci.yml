@@ -32,7 +32,7 @@ stages:
     - master
 
 deploy2online:
-  image: docker:git
+  image: docker
   stage: deploy
   variables:
     DEPLOY_HOST: ${SSH_DEPLOY_HOST_ONLINE}
