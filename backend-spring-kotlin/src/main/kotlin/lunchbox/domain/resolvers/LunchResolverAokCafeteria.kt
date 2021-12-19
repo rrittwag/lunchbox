@@ -70,7 +70,9 @@ class LunchResolverAokCafeteria(
     for (offerElem in offerDivs) {
       val typ = offerElem.selectFirst("span")?.text() ?: ""
       val name = offerElem.select("span:nth-of-type(2)").text()
-      if (!typ.contains("Tagesgericht") || name.isEmpty())
+      if (!typ.contains("Tagesgericht"))
+        continue
+      if (name.isEmpty() || listOf("Ferien", "Betriebsferien", "Weihnachten", "Ostern", "Ostermontag").contains(name))
         continue
       val zusatzstoffe = offerElem.select("small").text()
       var (title, description) = StringParser.splitOfferName(

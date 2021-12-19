@@ -117,8 +117,9 @@ class LunchResolverAokCafeteriaTest {
 
     val offers = resolver().resolve(url)
 
-    var week = weekOf("2021-11-15")
     offers shouldHaveSize 30
+
+    var week = weekOf("2021-11-15")
     offers shouldContain LunchOffer(0, "Gemüseschnitzel", "mit Kohlrabi- Möhrengemüse und Kartoffeln", week.monday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Chili con Carne", "Rinderhack, mit Reis, Obst", week.monday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Kotelett", "120g ohne Knochen, mit Bohnengemüse und Kartoffeln", week.monday, null, emptySet(), providerId)
@@ -141,5 +142,42 @@ class LunchResolverAokCafeteriaTest {
     offers.filter { it.day == week.wednesday } shouldHaveSize 3
     offers.filter { it.day == week.thursday } shouldHaveSize 3
     offers.filter { it.day == week.friday } shouldHaveSize 3
+  }
+
+  @Test
+  fun `resolve offers for week of 2021-12-20`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/2021-12-20.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 33
+
+    var week = weekOf("2021-12-13")
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 3
+
+    week = weekOf("2021-12-20")
+    offers.filter { it.day == week.monday } shouldHaveSize 2
+    offers.filter { it.day == week.tuesday } shouldHaveSize 2
+    offers.filter { it.day == week.wednesday } shouldHaveSize 2
+    offers.filter { it.day == week.thursday } shouldHaveSize 2
+    offers.filter { it.day == week.friday } shouldHaveSize 0
+
+    week = weekOf("2021-12-27")
+    offers.filter { it.day == week.monday } shouldHaveSize 0
+    offers.filter { it.day == week.tuesday } shouldHaveSize 0
+    offers.filter { it.day == week.wednesday } shouldHaveSize 0
+    offers.filter { it.day == week.thursday } shouldHaveSize 0
+    offers.filter { it.day == week.friday } shouldHaveSize 0
+
+    week = weekOf("2022-01-03")
+    offers.filter { it.day == week.monday } shouldHaveSize 2
+    offers.filter { it.day == week.tuesday } shouldHaveSize 2
+    offers.filter { it.day == week.wednesday } shouldHaveSize 2
+    offers.filter { it.day == week.thursday } shouldHaveSize 2
+    offers.filter { it.day == week.friday } shouldHaveSize 2
   }
 }
