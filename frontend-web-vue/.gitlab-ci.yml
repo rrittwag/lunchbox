@@ -78,6 +78,7 @@ docker:
   only:
     - master
   script:
+    - cd nginx && ./build.sh && cd ..
     - echo "$DOCKER_REGISTRY_TOKEN" | docker login -u $DOCKER_REGISTRY_USER --password-stdin $DOCKER_REGISTRY_ADDR
     - docker build -t ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest --pull .
     - docker push ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest
