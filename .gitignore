@@ -24,7 +24,6 @@ build/
 .gradletasknamecache
 
 # SBT
-target/
 tmp/
 dist/
 
@@ -39,7 +38,6 @@ logs/
 # Yarn/NPM
 node_modules/
 coverage/
-build/
 es/
 lib/
 demo/dist/
