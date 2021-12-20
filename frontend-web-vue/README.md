@@ -61,6 +61,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
     - Mittagsangebote im LocalStorage halten und bei Neustart die Ladezeit überbrücken
         - https://github.com/robinvdvleuten/vuex-persistedstate
     - Offline-Anzeige der Mittagsangebote
+    - Bug fixen: Fonts laden offline nicht
 - About-View basteln
     - Info: [Alexa Skill von Falko P.](https://www.amazon.de/s/ref=nb_sb_noss_2?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Dalexa-skills&field-keywords=lunchbox) in Infoseite aufnehmen
 - System-Tests: Selenium-Tests schreiben
