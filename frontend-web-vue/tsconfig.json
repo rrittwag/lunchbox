@@ -14,8 +14,7 @@
     "baseUrl": ".",
     "types": [
       "vite/client",
-      "jest",
-      "node" /* FIXME: replacing Vite/ESM's import.meta.env with Node's process.env, assuring Jest support. https://github.com/vitejs/vite/issues/1149#issuecomment-857686209 */
+      "vitest",
     ],
     "paths": {
       "@/*": [

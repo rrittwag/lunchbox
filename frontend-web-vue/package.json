@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test:unit": "cross-env LANG=de_DE.UTF-8 jest tests",
+    "test:unit": "cross-env LANG=de_DE.UTF-8 vitest --watch false",
     "lint": "yarn lint:check --fix",
     "lint:check": "eslint --no-error-on-unmatched-pattern --ext .vue,.ts,.js src/** tests/**",
     "typecheck": "vue-tsc --noEmit"
@@ -17,8 +17,7 @@
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
-    "@pinia/testing": "^0.0.8",
-    "@types/jest": "26.0.24",
+    "@pinia/testing": "^0.0.9",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
     "@vitejs/plugin-vue": "^1.10.2",
@@ -30,16 +29,15 @@
     "eslint": "^8.4.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.2.0",
-    "jest": "26.6.3",
+    "happy-dom": "^2.25.1",
     "prettier": "^2.5.1",
     "sass": "^1.45.0",
     "tailwindcss": "^3.0.6",
-    "ts-jest": "26.5.6",
     "typescript": "~4.5.4",
     "vite": "^2.7.3",
     "vite-plugin-pwa": "^0.11.12",
     "vite-svg-loader": "^3.1.1",
-    "vue-jest": "^5.0.0-alpha.10",
+    "vitest": "^0.0.103",
     "vue-router-mock": "^0.1.3",
     "vue-tsc": "^0.29.8"
   }

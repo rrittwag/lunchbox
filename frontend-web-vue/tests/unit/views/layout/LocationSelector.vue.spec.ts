@@ -2,10 +2,6 @@ import LocationSelector from '@/views/layout/LocationSelector.vue'
 import { mount } from '@vue/test-utils'
 
 describe('LocationSelector', () => {
-  afterEach(() => {
-    jest.clearAllMocks()
-  })
-
   test('renders snapshot', () => {
     const wrapper = mount(LocationSelector)
 

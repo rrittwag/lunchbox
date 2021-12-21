@@ -1,4 +1,10 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
+
+exports[`LocationSelector > renders snapshot 1`] = `
+<div>
+  TODO
+</div>
+`;
 
 exports[`LocationSelector renders snapshot 1`] = `
 <div>

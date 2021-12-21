@@ -1,4 +1,10 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
+
+exports[`ContentError > renders snapshot 1`] = `
+<h1>
+  Error
+</h1>
+`;
 
 exports[`ContentError renders snapshot 1`] = `
 <h1>

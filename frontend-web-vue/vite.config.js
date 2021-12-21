@@ -6,7 +6,14 @@ import { VitePWA } from 'vite-plugin-pwa'
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
-    alias: [{ find: '@', replacement: '/src' }],
+    alias: [
+      { find: '@tests', replacement: '/tests' },
+      { find: '@', replacement: '/src' },
+    ],
+  },
+  test: {
+    global: true,
+    environment: 'happy-dom',
   },
   plugins: [
     vue(),
