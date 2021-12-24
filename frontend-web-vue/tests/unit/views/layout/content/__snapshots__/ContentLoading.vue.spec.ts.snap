@@ -5,9 +5,3 @@ exports[`ContentLoading > renders snapshot 1`] = `
   Loading
 </h1>
 `;
-
-exports[`ContentLoading renders snapshot 1`] = `
-<h1>
-  Loading
-</h1>
-`;

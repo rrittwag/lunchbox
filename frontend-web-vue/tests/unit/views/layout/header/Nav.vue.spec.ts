@@ -1,5 +1,6 @@
 import Nav from '@/views/layout/header/Nav.vue'
 import { mount } from '@vue/test-utils'
+import { describe, test, expect } from 'vitest'
 
 describe('Nav', () => {
   test('renders snapshot', () => {

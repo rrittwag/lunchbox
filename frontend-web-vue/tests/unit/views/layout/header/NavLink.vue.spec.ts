@@ -2,6 +2,7 @@ import NavLink from '@/views/layout/header/NavLink.vue'
 import { mount } from '@vue/test-utils'
 import { RouteRecordRaw, RouterLink } from 'vue-router'
 import { createRouterMock, injectRouterMock } from 'vue-router-mock'
+import { describe, test, expect, beforeEach } from 'vitest'
 
 describe('NavLink', () => {
   beforeEach(() => {

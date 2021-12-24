@@ -2,6 +2,7 @@ import OfferBox from '@/views/offers/OfferBox.vue'
 import { mensa, gyros, soljanka } from '@tests/unit/test-data'
 import Offer from '@/views/offers/Offer.vue'
 import { shallowMount } from '@vue/test-utils'
+import { describe, it, expect } from 'vitest'
 
 describe('OfferBox', () => {
   it('renders snapshot', () => {

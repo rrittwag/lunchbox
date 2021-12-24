@@ -5,9 +5,3 @@ exports[`ContentError > renders snapshot 1`] = `
   Error
 </h1>
 `;
-
-exports[`ContentError renders snapshot 1`] = `
-<h1>
-  Error
-</h1>
-`;

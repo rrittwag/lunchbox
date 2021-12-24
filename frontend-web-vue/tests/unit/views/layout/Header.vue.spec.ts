@@ -3,6 +3,7 @@ import NavLink from '@/views/layout/header/NavLink.vue'
 import Nav from '@/views/layout/header/Nav.vue'
 import { mount } from '@vue/test-utils'
 import { createRouterMock, injectRouterMock } from 'vue-router-mock'
+import { describe, test, expect, beforeEach } from 'vitest'
 
 describe('Header', () => {
   const router = createRouterMock({})

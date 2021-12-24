@@ -1,5 +1,6 @@
 import LocationSelector from '@/views/layout/LocationSelector.vue'
 import { mount } from '@vue/test-utils'
+import { describe, test, expect } from 'vitest'
 
 describe('LocationSelector', () => {
   test('renders snapshot', () => {

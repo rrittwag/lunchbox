@@ -19,7 +19,6 @@ exports[`DaySelector > renders snapshot 1`] = `
     aria-keyshortcuts="ArrowLeft"
     aria-label="Zu vorherigem Tag wechseln"
     class="text-primary-500 hover:text-primary-600 origin-center hover:scale-110 disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed active:text-primary-800 order-first"
-    disabled="false"
     title="Zu vorherigem Tag wechseln"
   >
     <svg
@@ -40,7 +39,6 @@ exports[`DaySelector > renders snapshot 1`] = `
     aria-keyshortcuts="ArrowRight"
     aria-label="Zu nächstem Tag wechseln"
     class="text-primary-500 hover:text-primary-600 origin-center hover:scale-110 disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed active:text-primary-800"
-    disabled="false"
     title="Zu nächstem Tag wechseln"
   >
     <svg
@@ -56,40 +54,6 @@ exports[`DaySelector > renders snapshot 1`] = `
         fill="currentColor"
       />
     </svg>
-  </button>
-</div>
-`;
-
-exports[`DaySelector renders snapshot 1`] = `
-<div
-  class="flex justify-between items-center"
->
-  <h2
-    class="grow text-center block text-xl text-neutral-800"
-  >
-    Sonntag 
-    <time
-      class="block text-lg font-light text-neutral-700"
-      datetime="2019-12-01"
-    >
-      1.12.2019
-    </time>
-  </h2>
-  <button
-    aria-keyshortcuts="ArrowLeft"
-    aria-label="Zu vorherigem Tag wechseln"
-    class="text-primary-500 hover:text-primary-600 origin-center hover:scale-110 disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed active:text-primary-800 order-first"
-    title="Zu vorherigem Tag wechseln"
-  >
-    <!---->
-  </button>
-  <button
-    aria-keyshortcuts="ArrowRight"
-    aria-label="Zu nächstem Tag wechseln"
-    class="text-primary-500 hover:text-primary-600 origin-center hover:scale-110 disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed active:text-primary-800"
-    title="Zu nächstem Tag wechseln"
-  >
-    <!---->
   </button>
 </div>
 `;

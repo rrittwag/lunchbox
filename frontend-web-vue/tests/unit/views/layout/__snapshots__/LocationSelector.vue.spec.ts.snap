@@ -5,9 +5,3 @@ exports[`LocationSelector > renders snapshot 1`] = `
   TODO
 </div>
 `;
-
-exports[`LocationSelector renders snapshot 1`] = `
-<div>
-  TODO
-</div>
-`;

@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import DaySelectorButton from '@/views/offers/dayselector/DaySelectorButton.vue'
 import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
+import { describe, it, expect } from 'vitest'
 
 describe('DaySelectorButton', () => {
   it('renders snapshot for previous day', () => {
