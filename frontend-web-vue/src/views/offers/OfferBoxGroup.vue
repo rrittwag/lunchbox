@@ -26,7 +26,7 @@ const visibleOffers = computed<LunchOffer[]>(() => {
     .map((p) => p.id)
   return offers.value
     .filter((o) => providerIDsForSelectedLocation.includes(o.provider))
-    .filter((o) => new Date(o.day).getTime() === selectedDay.value.getTime())
+    .filter((o) => new Date(o.day).getTime() === selectedDay.value.getTime()) as LunchOffer[]
 })
 
 function visibleOffersOf(provider: LunchProvider): LunchOffer[] {
