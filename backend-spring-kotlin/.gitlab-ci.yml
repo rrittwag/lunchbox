@@ -1,4 +1,4 @@
-image: adoptopenjdk/openjdk8
+image: eclipse-temurin:17-alpine
 
 # Cachen der Dependencies
 # - Der Cache beschleunigt den CI-Lauf durch Vorhalten von Dependencies & anderen Downloads.

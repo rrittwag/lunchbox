@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, readonly } from 'vue'
 import api from '@/api/lunch'
 import { ApiError } from '@/api/http'
 import { today } from '@/util/date'
@@ -68,12 +68,12 @@ export const useLunchStore = defineStore('lunch', () => {
   //  export
   // ---------------------
   return {
-    offers,
-    providers,
-    isLoading,
-    error,
+    offers: readonly(offers),
+    providers: readonly(providers),
+    isLoading: readonly(isLoading),
+    error: readonly(error),
     loadFromApi,
-    locations,
+    locations: readonly(locations),
     selectedLocation,
     selectLocation,
     selectedDay,
