@@ -2,7 +2,7 @@
   <li class="inline-block px-2">
     <RouterLink v-slot="{ navigate, isExactActive, route }" :to="props.to" custom>
       <a
-        class="nav-link flex justify-center items-center w-12 h-12"
+        class="nav-link flex h-12 w-12 items-center justify-center"
         :class="isExactActive ? 'text-neutral-800' : 'text-neutral-300'"
         :href="route.path"
         :title="route.meta.title"
@@ -24,6 +24,6 @@ const props = defineProps<{
 
 <style lang="scss">
 .nav-link > svg {
-  @apply w-8 h-8;
+  @apply h-8 w-8;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-between items-center">
-    <h2 class="grow text-center block text-xl text-neutral-800">
+  <div class="flex items-center justify-between">
+    <h2 class="block grow text-center text-xl text-neutral-800">
       {{ selectedDayAsWeekday }}
       <time class="block text-lg font-light text-neutral-700" :datetime="selectedDayAsISOString">
         {{ selectedDayAsDateString }}
