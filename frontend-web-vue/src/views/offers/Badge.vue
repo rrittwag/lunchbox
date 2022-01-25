@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-full font-light text-neutral-900 px-3 py-1 mr-1" :class="props.color">
+  <div class="mr-1 rounded-full px-3 py-1 font-light text-neutral-900" :class="props.color">
     {{ props.label }}
   </div>
 </template>

@@ -2,7 +2,7 @@
 
 exports[`Content renders snapshot 1`] = `
 <main
-  class="w-full h-full"
+  class="h-full w-full"
 >
   <router-view-stub
     name="default"

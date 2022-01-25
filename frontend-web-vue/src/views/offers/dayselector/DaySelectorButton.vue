@@ -1,6 +1,6 @@
 <template>
   <button
-    class="text-primary-500 hover:text-primary-600 origin-center hover:scale-110 disabled:text-primary-400 disabled:opacity-25 disabled:cursor-not-allowed"
+    class="origin-center text-primary-500 hover:scale-110 hover:text-primary-600 disabled:cursor-not-allowed disabled:text-primary-400 disabled:opacity-25"
     :class="{ 'active:text-primary-800': !props.disabled }"
     :title="title"
     :aria-label="title"
@@ -8,8 +8,8 @@
     :aria-keyshortcuts="isPrevious ? 'ArrowLeft' : 'ArrowRight'"
     @click="onClick"
   >
-    <AngleLeftIcon v-if="isPrevious" class="w-16 h-16" />
-    <AngleRightIcon v-else class="w-16 h-16" />
+    <AngleLeftIcon v-if="isPrevious" class="h-16 w-16" />
+    <AngleRightIcon v-else class="h-16 w-16" />
   </button>
 </template>
 

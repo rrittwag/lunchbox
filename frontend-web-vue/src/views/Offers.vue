@@ -1,12 +1,12 @@
 <template>
-  <div v-if="loadingDone" class="flex flex-col h-full sm:py-4">
+  <div v-if="loadingDone" class="flex h-full flex-col sm:py-4">
     <div class="px-4">
       <h1 class="sr-only">Mittagsangebote</h1>
       <DaySelector
         :selectedDay="selectedDay"
         :disabledNext="!nextDay"
         :disabledPrev="!prevDay"
-        class="sm:max-w-sm h-16"
+        class="h-16 sm:max-w-sm"
         @change="onDaySelected"
       />
     </div>

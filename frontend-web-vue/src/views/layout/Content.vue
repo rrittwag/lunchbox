@@ -1,5 +1,5 @@
 <template>
-  <main class="w-full h-full">
+  <main class="h-full w-full">
     <RouterView v-slot="{ Component }">
       <Transition
         mode="out-in"

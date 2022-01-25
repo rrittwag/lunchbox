@@ -7,7 +7,7 @@ exports[`NavLink renders snapshot 1`] = `
   
   <a
     aria-label="Mock-Route"
-    class="nav-link flex justify-center items-center w-12 h-12 text-neutral-300"
+    class="nav-link flex h-12 w-12 items-center justify-center text-neutral-300"
     href="/mock-route"
     title="Mock-Route"
   >

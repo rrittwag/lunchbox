@@ -1,5 +1,5 @@
 <template>
-  <header class="sm:absolute sm:top-0 sm:right-0 sm:px-8 pt-4 pb-2 sm:pb-4">
+  <header class="pt-4 pb-2 sm:absolute sm:top-0 sm:right-0 sm:px-8 sm:pb-4">
     <Nav>
       <NavLink to="/">
         <OffersIcon />
