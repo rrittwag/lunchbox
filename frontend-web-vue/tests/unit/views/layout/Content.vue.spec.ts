@@ -2,10 +2,9 @@ import Content from '@/views/layout/Content.vue'
 import { mount } from '@vue/test-utils'
 import { createRouterMock, injectRouterMock } from 'vue-router-mock'
 import { RouterView } from 'vue-router'
-import { describe, test, expect, beforeEach } from 'vitest'
 
 describe('Content', () => {
-  const router = createRouterMock({})
+  const router = createRouterMock()
   beforeEach(() => {
     injectRouterMock(router)
   })

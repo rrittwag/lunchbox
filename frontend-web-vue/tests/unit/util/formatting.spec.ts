@@ -1,5 +1,4 @@
 import { formatToWeekday, formatToLocalDate, formatEuro, formatToISODate } from '@/util/formatting'
-import { describe, test, expect } from 'vitest'
 
 describe('formatEuro', () => {
   test('WHEN undefined  THEN empty string', () => {

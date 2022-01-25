@@ -1,6 +1,5 @@
 import Layout from '@/views/Layout.vue'
 import { shallowMount } from '@vue/test-utils'
-import { describe, test, expect } from 'vitest'
 import { createTestingPinia } from '@tests/unit/test-utils'
 
 describe('Layout', () => {

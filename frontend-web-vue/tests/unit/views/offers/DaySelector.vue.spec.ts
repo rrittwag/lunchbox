@@ -2,7 +2,6 @@
 import DaySelector from '@/views/offers/DaySelector.vue'
 import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
 import { mount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
 
 describe('DaySelector', () => {
   it('renders snapshot', () => {

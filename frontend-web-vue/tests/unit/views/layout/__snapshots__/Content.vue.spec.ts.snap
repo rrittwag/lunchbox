@@ -1,4 +1,14 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
+
+exports[`Content > renders snapshot 1`] = `
+<main
+  class="h-full w-full"
+>
+  <router-view-stub
+    name="default"
+  />
+</main>
+`;
 
 exports[`Content renders snapshot 1`] = `
 <main

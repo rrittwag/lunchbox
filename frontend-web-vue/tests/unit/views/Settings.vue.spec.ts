@@ -1,7 +1,6 @@
 import Settings from '@/views/Settings.vue'
 import { useTheme, THEME_RED } from '@/store/theme'
 import { shallowMount } from '@vue/test-utils'
-import { describe, test, expect } from 'vitest'
 import { createTestingPinia } from '@tests/unit/test-utils'
 
 describe('Settings', () => {
