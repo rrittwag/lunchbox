@@ -43,6 +43,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 - Design
     - neues Logo designen
     - Farb-Themes basteln (rot/grün/blau/navy/rosa/neon) + Dark Themes
+    - Fonts lokal laden (aufgrund von Performance und aus [Datenschutzgründen](https://www.golem.de/news/landgericht-muenchen-einbindung-von-google-fonts-ist-rechtswidrig-2202-162826.html)
     - OfferBoxes bei "Überlauf" stapeln, z.B. 6 Anbieter auf 4 oder weniger Spalten verteilen
         - https://tobiasahlin.com/blog/common-flexbox-patterns/#masonry-or-mosaic
         - https://w3bits.com/css-grid-masonry/
