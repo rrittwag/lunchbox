@@ -56,8 +56,6 @@ unit:
     - yarn test:unit:report
   artifacts:
     when: always
-    paths:
-      - frontend-web-vue/tests/unit/report.xml
     reports:
       junit: frontend-web-vue/tests/unit/report.xml
 
