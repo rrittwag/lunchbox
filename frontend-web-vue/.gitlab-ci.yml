@@ -53,7 +53,13 @@ unit:
 #  coverage: '/All files([^|]*\|){4}[^|]*\s+([\d\.]+)/'
   script:
     - "[ ! -d node_modules/ ] && yarn install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
-    - yarn test:unit
+    - yarn test:unit:report
+  artifacts:
+    when: always
+    paths:
+      - frontend-web-vue/tests/unit/report.xml
+    reports:
+      junit: frontend-web-vue/tests/unit/report.xml
 
 # TODO: End-to-End-Tests benötigen Chrome oder Firefox
 .e2e:
