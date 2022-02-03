@@ -17,9 +17,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    Icons({
-      compiler: 'vue3',
-    }),
+    Icons({ compiler: 'vue3' }),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'robots.txt', 'safari-pinned-tab.svg', 'apple-touch-icon.png'],
