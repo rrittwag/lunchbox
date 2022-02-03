@@ -2,24 +2,24 @@
   <header class="pt-4 pb-2 sm:absolute sm:top-0 sm:right-0 sm:px-8 sm:pb-4">
     <Nav>
       <NavLink to="/">
-        <OffersIcon />
+        <OffersIcon aria-hidden="true" />
       </NavLink>
 
       <NavLink to="/settings">
-        <SettingsIcon />
+        <SettingsIcon aria-hidden="true" />
       </NavLink>
 
       <NavLink to="/about">
-        <InfoIcon />
+        <InfoIcon aria-hidden="true" />
       </NavLink>
     </Nav>
   </header>
 </template>
 
 <script setup lang="ts">
-import OffersIcon from '@/assets/icons/offers.svg'
-import SettingsIcon from '@/assets/icons/settings.svg'
-import InfoIcon from '@/assets/icons/info.svg'
+import OffersIcon from '~icons/fa-solid/utensils'
+import SettingsIcon from '~icons/fa-solid/cog'
+import InfoIcon from '~icons/fa-solid/info-circle'
 import NavLink from '@/views/layout/header/NavLink.vue'
 import Nav from '@/views/layout/header/Nav.vue'
 </script>

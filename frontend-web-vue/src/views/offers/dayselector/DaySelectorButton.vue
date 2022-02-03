@@ -8,14 +8,14 @@
     :aria-keyshortcuts="isPrevious ? 'ArrowLeft' : 'ArrowRight'"
     @click="onClick"
   >
-    <AngleLeftIcon v-if="isPrevious" class="h-16 w-16" />
-    <AngleRightIcon v-else class="h-16 w-16" />
+    <AngleLeftIcon v-if="isPrevious" class="h-16 w-16" aria-hidden="true" />
+    <AngleRightIcon v-else class="h-16 w-16" aria-hidden="true" />
   </button>
 </template>
 
 <script setup lang="ts">
-import AngleLeftIcon from '@/assets/icons/angle-left.svg'
-import AngleRightIcon from '@/assets/icons/angle-right.svg'
+import AngleLeftIcon from '~icons/fa-solid/angle-left'
+import AngleRightIcon from '~icons/fa-solid/angle-right'
 import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
 
 const props = defineProps<{

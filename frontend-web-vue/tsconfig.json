@@ -15,6 +15,7 @@
     "types": [
       "vite/client",
       "vitest/globals",
+      "unplugin-icons/types/vue"
     ],
     "paths": {
       "@/*": [
