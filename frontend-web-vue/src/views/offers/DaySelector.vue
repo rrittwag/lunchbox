@@ -13,11 +13,7 @@
       :disabled="props.disabledPrev"
       @click="onClickPrev"
     />
-    <DaySelectorButton
-      :direction="DaySelectorDirection.NEXT"
-      :disabled="props.disabledNext"
-      @click="onClickNext"
-    />
+    <DaySelectorButton :direction="DaySelectorDirection.NEXT" :disabled="props.disabledNext" @click="onClickNext" />
   </div>
 </template>
 

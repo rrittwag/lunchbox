@@ -32,8 +32,7 @@ export const useTheme = defineStore('theme', () => {
     if (newTheme) bodyClasses.add(newTheme.cssClass)
 
     // transition on theme change AFTER initial page load
-    if (currentTheme.value && !bodyClasses.contains('theme-transition'))
-      bodyClasses.add('theme-transition')
+    if (currentTheme.value && !bodyClasses.contains('theme-transition')) bodyClasses.add('theme-transition')
 
     currentTheme.value = newTheme
   }

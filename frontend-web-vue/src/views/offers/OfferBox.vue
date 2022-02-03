@@ -7,12 +7,7 @@
       {{ props.provider.name }}
     </h3>
     <ul class="w-full list-none">
-      <Offer
-        v-for="offer in props.offers"
-        :key="offer.id"
-        :offer="offer"
-        :showDetailsInXS="showDetails"
-      />
+      <Offer v-for="offer in props.offers" :key="offer.id" :offer="offer" :showDetailsInXS="showDetails" />
     </ul>
   </article>
 </template>
