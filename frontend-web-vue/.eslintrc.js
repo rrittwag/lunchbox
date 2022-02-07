@@ -20,12 +20,4 @@ module.exports = {
     'vue/attribute-hyphenation': ['error', 'never', { ignore: ['custom-prop'] }],
     'vue/v-on-event-hyphenation': ['error', 'never', { ignore: ['custom-event'] }],
   },
-  overrides: [
-    {
-      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
-      env: {
-        jest: true,
-      },
-    },
-  ],
 }
