@@ -9,7 +9,6 @@ module.exports = {
     'eslint:recommended',
     '@vue/typescript/recommended',
     '@vue/prettier',
-    '@vue/prettier/@typescript-eslint',
   ],
   rules: {
     'no-console': 'error',
