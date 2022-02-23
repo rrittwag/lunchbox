@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'Chewy';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Chewy'), url(@/assets/fonts/Chewy.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Inter'), url(@/assets/fonts/Inter-300.woff2) format('woff2')
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Inter'), url(@/assets/fonts/Inter-400.woff2) format('woff2')
+}
