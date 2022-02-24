@@ -48,26 +48,6 @@ export default defineConfig({
       workbox: {
         runtimeCaching: [
           {
-            // cache fonts
-            urlPattern: '/.(?:woff2?)$/',
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'fonts',
-              expiration: { maxAgeSeconds: 30 * 24 * 60 * 60, maxEntries: 5 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
-          },
-          {
-            // cache images
-            urlPattern: '/.(?:png|gif|jpg|jpeg|webp|svg)$/',
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'images',
-              expiration: { maxAgeSeconds: 30 * 24 * 60 * 60, maxEntries: 60 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
-          },
-          {
             // cache API calls
             urlPattern: /api/,
             handler: 'NetworkFirst',
