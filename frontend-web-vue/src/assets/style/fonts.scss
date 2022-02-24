@@ -10,12 +10,12 @@
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: local('Inter'), url(@/assets/fonts/Inter-300.woff2) format('woff2')
+  src: local('Inter'), url(@/assets/fonts/Inter-latin+ext-300.woff2) format('woff2')
 }
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: local('Inter'), url(@/assets/fonts/Inter-400.woff2) format('woff2')
+  src: local('Inter'), url(@/assets/fonts/Inter-latin+ext-400.woff2) format('woff2')
 }

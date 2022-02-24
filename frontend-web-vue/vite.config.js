@@ -48,12 +48,12 @@ export default defineConfig({
       workbox: {
         runtimeCaching: [
           {
-            // cache Google Fonts
-            urlPattern: '/^https://fonts.(?:googleapis|gstatic).com//',
+            // cache fonts
+            urlPattern: '/.(?:woff2?)$/',
             handler: 'CacheFirst',
             options: {
-              cacheName: 'google-fonts',
-              expiration: { maxAgeSeconds: 30 * 24 * 60 * 60, maxEntries: 30 },
+              cacheName: 'fonts',
+              expiration: { maxAgeSeconds: 30 * 24 * 60 * 60, maxEntries: 5 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },
