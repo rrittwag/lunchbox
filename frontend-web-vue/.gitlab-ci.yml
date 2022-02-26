@@ -74,10 +74,11 @@ vulnerabilities code:
     GIT_STRATEGY: none
   script:
     - trivy --version
-    - time trivy image --clear-cache
-    - time trivy fs --exit-code 0 --no-progress --format template --template "@/contrib/gitlab.tpl" --output gl-container-scanning-report.json yarn.lock
-    - time trivy fs --exit-code 0 --no-progress yarn.lock
-    - time trivy fs --exit-code 1 --severity CRITICAL --no-progress yarn.lock
+    - trivy fs --clear-cache
+    - ls -hal yarn.lock
+    - trivy fs --exit-code 0 --no-progress --format template --template "@/contrib/gitlab.tpl" --output "gl-container-scanning-report.json" yarn.lock
+    - trivy fs --exit-code 0 --no-progress yarn.lock
+    - trivy fs --exit-code 1 --severity CRITICAL --no-progress yarn.lock
   artifacts:
     when: always
     reports:
