@@ -68,7 +68,7 @@ unit:
 
 vulnerabilities code:
   image:
-    name: aquasec/trivy:0.24.0
+    name: aquasec/trivy:0.23.0
     entrypoint: [""]
   variables:
     GIT_STRATEGY: none
