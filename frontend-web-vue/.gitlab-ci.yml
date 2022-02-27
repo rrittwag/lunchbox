@@ -68,17 +68,17 @@ unit:
 
 vulnerabilities code:
   image:
-    name: docker.io/aquasec/trivy
+    name: aquasec/trivy
     entrypoint: [""]
   variables:
     GIT_STRATEGY: none
   script:
     - trivy --version
     - trivy fs --clear-cache
-    - $(pwd)
-    - trivy fs --exit-code 0 --no-progress --format template --template "@/contrib/gitlab.tpl" --output "gl-container-scanning-report.json" "${CI_PROJECT_DIR}/frontend-web-vue/yarn.lock"
-    - trivy fs --exit-code 0 --no-progress "${CI_PROJECT_DIR}/frontend-web-vue/yarn.lock"
-    - trivy fs --exit-code 1 --severity CRITICAL --no-progress "${CI_PROJECT_DIR}/frontend-web-vue/yarn.lock"
+    - $(pwd) || ls -hal ${CI_PROJECT_DIR}/frontend-web-vue || ls -hla . || true
+    - trivy fs --exit-code 0 --no-progress --format template --template "@/contrib/gitlab.tpl" --output gl-container-scanning-report.json yarn.lock
+    - trivy fs --exit-code 0 --no-progress yarn.lock
+    - trivy fs --exit-code 1 --severity CRITICAL --no-progress yarn.lock
   artifacts:
     when: always
     reports:
