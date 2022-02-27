@@ -68,14 +68,17 @@ unit:
 
 vulnerabilities code:
   image:
-    name: aquasec/trivy:0.23.0
+    name: aquasec/trivy
     entrypoint: [""]
   variables:
     GIT_STRATEGY: none
   script:
     - trivy --version
     - trivy fs --clear-cache
-    - echo $(pwd) || whoami || ls -hal ${CI_PROJECT_DIR}/frontend-web-vue || ls -hla . || true
+    - whoami || true
+    - echo $(pwd) || true
+    - ls -hal ${CI_PROJECT_DIR}/frontend-web-vue || true
+    - ls -hal . || true
     - trivy fs --exit-code 0 --no-progress --format template --template "@/contrib/gitlab.tpl" --output gl-container-scanning-report.json yarn.lock
     - trivy fs --exit-code 0 --no-progress yarn.lock
     - trivy fs --exit-code 1 --severity CRITICAL --no-progress yarn.lock
