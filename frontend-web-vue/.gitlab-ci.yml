@@ -70,8 +70,6 @@ vulnerabilities code:
   image:
     name: aquasec/trivy
     entrypoint: [""]
-  variables:
-    GIT_STRATEGY: none
   script:
     - trivy --version
     - trivy fs --clear-cache
