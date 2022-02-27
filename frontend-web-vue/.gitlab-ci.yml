@@ -73,10 +73,6 @@ vulnerabilities code:
   script:
     - trivy --version
     - trivy fs --clear-cache
-    - whoami || true
-    - echo $(pwd) || true
-    - ls -hal ${CI_PROJECT_DIR}/frontend-web-vue || true
-    - ls -hal . || true
     - trivy fs --exit-code 0 --no-progress --format template --template "@/contrib/gitlab.tpl" --output gl-container-scanning-report.json yarn.lock
     - trivy fs --exit-code 0 --no-progress yarn.lock
     - trivy fs --exit-code 1 --severity CRITICAL --no-progress yarn.lock
