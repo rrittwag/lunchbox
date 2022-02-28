@@ -20,7 +20,7 @@ export default defineConfig({
     Icons({ compiler: 'vue3' }),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'robots.txt', 'safari-pinned-tab.svg', 'apple-touch-icon.png', '*.woff2'],
+      includeAssets: ['favicon.svg', 'robots.txt', 'safari-pinned-tab.svg', 'apple-touch-icon.png', 'fonts/*.woff2'],
       manifest: {
         name: 'Lunchbox',
         short_name: 'Lunchbox',
