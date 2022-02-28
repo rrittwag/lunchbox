@@ -63,7 +63,6 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
   - [ ] Mittagsangebote im LocalStorage halten und bei Neustart die Ladezeit überbrücken
     - https://github.com/robinvdvleuten/vuex-persistedstate
   - [ ] Offline-Anzeige der Mittagsangebote
-  - [ ] Bug fixen: Fonts laden offline nicht
 - About-View
   - [ ] About-View basteln
     - Info: [Alexa Skill von Falko P.](https://www.amazon.de/s/ref=nb_sb_noss_2?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Dalexa-skills&field-keywords=lunchbox) in Infoseite aufnehmen
@@ -73,7 +72,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
   - [ ] [HTML Boilerplate übernehmen](https://www.matuzo.at/blog/html-boilerplate/)
   - [ ] [App-Links in Meta-Info aufnehmen](http://ricostacruz.com/cheatsheets/applinks.html)
   - [ ] Dokumentation & Test von Komponenten: [Storybook](https://github.com/vuesion/vuesion/tree/master/src/app/shared/components/VueButton)
-  - [ ] [Lighthouse-Performance-Index erhöhen](https://blog.checklyhq.com/how-we-got-a-100-lighthouse-performance-score-for-our-vue-js-app/)
+  - [ ] [Lighthouse-Performance-Index testen](https://blog.checklyhq.com/how-we-got-a-100-lighthouse-performance-score-for-our-vue-js-app/)
 
 
 
