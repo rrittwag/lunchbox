@@ -46,6 +46,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
   - [ ] Farb-Themes basteln (rot/grün/blau/navy/rosa/neon) + Dark Themes
   - [x] Fonts lokal laden (aufgrund von Performance und aus [Datenschutzgründen](https://www.golem.de/news/landgericht-muenchen-einbindung-von-google-fonts-ist-rechtswidrig-2202-162826.html)
   - [ ] OfferBoxes bei "Überlauf" stapeln, z.B. 6 Anbieter auf 4 oder weniger Spalten verteilen
+    - https://github.com/shershen08/vue-masonry
     - https://tobiasahlin.com/blog/common-flexbox-patterns/#masonry-or-mosaic
     - https://w3bits.com/css-grid-masonry/
     - https://css-tricks.com/piecing-together-approaches-for-a-css-masonry-layout/
