@@ -45,11 +45,6 @@
     "vue-router-mock": "^0.1.7",
     "vue-tsc": "^0.33.9"
   },
-  "overrides": {
-    "json5@2.2.0": {
-      "minimist": "^1.2.6"
-    }
-  },
   "engines": {
     "node": ">=16.0.0"
   }
