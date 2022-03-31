@@ -45,21 +45,6 @@ export default defineConfig({
           },
         ],
       },
-      workbox: {
-        runtimeCaching: [
-          {
-            // cache API calls
-            urlPattern: /api/,
-            handler: 'NetworkFirst',
-            options: {
-              networkTimeoutSeconds: 10,
-              cacheName: 'api-data',
-              expiration: { maxEntries: 5 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
-          },
-        ],
-      },
     }),
   ],
   server: {

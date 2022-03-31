@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loadingDone" class="flex h-full flex-col sm:py-4">
+  <div v-if="hasOffers || loadingDone" class="flex h-full flex-col sm:py-4">
     <div class="px-4">
       <h1 class="sr-only">Mittagsangebote</h1>
       <DaySelector
@@ -46,6 +46,7 @@ const store = useLunchStore()
 const { isLoading, error, providers, offers, selectedLocation, selectedDay } = storeToRefs(store)
 const isDirectionNext = ref(true)
 
+const hasOffers = computed(() => offers.value.length > 0 && providers.value.length > 0)
 const loadingDone = computed(() => !isLoading.value && !error.value)
 const loadingFailed = computed(() => error.value)
 

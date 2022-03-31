@@ -4,13 +4,14 @@ import { ApiError } from '@/api/http'
 import { today } from '@/util/date'
 import { defineStore } from 'pinia'
 import { LunchLocation, LunchOffer, LunchProvider } from '@/model/lunch'
+import { useStorage } from '@vueuse/core'
 
 export const useLunchStore = defineStore('lunch', () => {
   // --------------------
   //  offers & providers
   // --------------------
-  const offers = ref<LunchOffer[]>([])
-  const providers = ref<LunchProvider[]>([])
+  const offers = useStorage<LunchOffer[]>('offers', [])
+  const providers = useStorage<LunchProvider[]>('providers', [])
   const isLoading = ref(false)
   const error = ref<ApiError | undefined>()
 
