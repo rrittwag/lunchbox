@@ -212,7 +212,8 @@ class LunchResolverSuppenkulttour(
     for (source in sources) {
       if (source.contains("vegan", true)) result += "vegan"
       if (source.contains(Regex("[Vv]ege?t")) ||
-        source.contains(Regex("[Vv]egarisch"))) result += "vegetarisch"
+        source.contains(Regex("[Vv]egarisch"))
+      ) result += "vegetarisch"
     }
     return result
   }
