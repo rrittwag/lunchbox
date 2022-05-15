@@ -40,7 +40,7 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
   - [ ] Versteckte Offer-Details mit Screen Reader wiedergeben
   - [ ] Versteckte Offer-Details tastaturfreundlich gestalten, z.B. Button zum Aufklappen
 - Mobile
-  - [ ] [Mittagsangebote swipen](https://github.com/vueuse/vueuse/blob/main/packages/core/useMouse/index.ts) / [Link2](https://vuejsexamples.com/tag/swipe)
+  - [ ] [Mittagsangebote swipen](https://github.com/vueuse/vueuse/blob/main/packages/core/useMouse/index.ts) / [Link2](https://vuejsexamples.com/tag/swipe) / [Link3](https://gesture.vueuse.org/)
 - Design
   - [ ] neues Logo designen
   - [ ] Farb-Themes basteln (rot/grün/blau/navy/rosa/neon) + Dark Themes
