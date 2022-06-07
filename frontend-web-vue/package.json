@@ -45,6 +45,9 @@
     "vue-router-mock": "^0.1.7",
     "vue-tsc": "^0.37.2"
   },
+  "resolutions": {
+    "ejs": "3.1.7"
+  },
   "engines": {
     "node": ">=16.0.0"
   }
