@@ -11,7 +11,7 @@ spotless {
     eclipse().configFile  "${rootDir}/gradle/format/lunchbox.javaformat.xml"  // Export-Datei des Eclipse Formatters
   }
   kotlin {
-    ktlint().userData(
+    ktlint().editorConfigOverride(
         ['indent_size': '2',
           'continuation_indent_size' : '2',
           'insert_final_newline': 'true',
