@@ -20,7 +20,7 @@ enum class LunchProvider(
 ) {
   SCHWEINESTALL(1, "Schweinestall", NEUBRANDENBURG, URL("https://www.schweinestall-nb.de/mittagstisch-2/")),
   HOTEL_AM_RING(2, "Hotel am Ring", NEUBRANDENBURG, URL("http://www.hotel-am-ring.de/restaurant-rethra.html"), false),
-  AOK_CAFETERIA(3, "AOK Cafeteria", NEUBRANDENBURG, URL("https://www.tfa-bistro.de")),
+  AOK_CAFETERIA(3, "AOK Cafeteria", NEUBRANDENBURG, URL("https://www.tfa-catering.de/")),
   SUPPENKULTTOUR(4, "Suppenkulttour", NEUBRANDENBURG, URL("https://www.suppenkult.com/wochenplan.html")),
   SALT_N_PEPPER(5, "Salt 'n' Pepper", BERLIN_SPRINGPFUHL, URL("https://www.partyservice-rohde.de/bistro-angebot-der-woche")),
   GESUNDHEITSZENTRUM(6, "Gesundheitszentrum", BERLIN_SPRINGPFUHL, URL("https://de-de.facebook.com/pages/Kantine-BQuakatz-Allee-der-Kosmonauten/181190361991823"), false),
