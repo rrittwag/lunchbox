@@ -198,7 +198,7 @@ class LunchResolverSuppenkulttour(
     if (title.isEmpty()) return null
     if (title == "geschlossen") return null
     if (title.split(Regex("[ ()]")).contains("Feiertag")) return null
-    if (title.contains("Personalengpass")) return null
+    if (title.contains("Liebe Gäste")) return null
 
     val description = descriptionList
       .filter { it.isNotEmpty() }
