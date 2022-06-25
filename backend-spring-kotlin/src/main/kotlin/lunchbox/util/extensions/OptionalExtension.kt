@@ -5,7 +5,7 @@ import java.util.Optional
 /**
  * Extension für Umwandlung von Kotlins Nullable in Javas Optional.
  */
-fun <T> T?.toOptional(): Optional<T> = Optional.ofNullable(this)
+fun <T : Any> T?.toOptional(): Optional<T> = Optional.ofNullable(this)
 
 /**
  * Extension für Umwandlung von Javas Optional in Kotlins Nullable.
