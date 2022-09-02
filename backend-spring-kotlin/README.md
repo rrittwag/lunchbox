@@ -40,6 +40,7 @@ Bei Änderungen bitte Unit-Tests schreiben/anpassen. Der folgende Befehl führt 
 - API: bei 4xx-/5xx-Exceptions eine message mitliefern
 - Integrations-Test schreiben
 - Monitoring: wenn Mittagsangebote fehlen, Mail an Admin
+- Feiertage filtern anhand [API](https://github.com/bundesAPI/feiertage-api)
 - Technologien ausprobieren:
   - Webflux & Coroutines [1](https://www.baeldung.com/kotlin-coroutines) [2](https://docs.spring.io/spring/docs/current/spring-framework-reference/languages.html#coroutines)
   - Gradle-Skripte in Kotlin DSL [1](https://github.com/jnizet/gradle-kotlin-dsl-migration-guide) [2](https://github.com/mixitconf/mixit/blob/master/build.gradle.kts)
