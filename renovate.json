@@ -1,0 +1,21 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "groupName": "app patches",
+      "matchPaths": ["app/**"],
+      "matchUpdateTypes": ["minor", "patch", "digest"]
+    },
+    {
+      "groupName": "backend patches",
+      "matchPaths": ["backend-spring-kotlin/**"],
+      "matchUpdateTypes": ["minor", "patch", "digest"]
+    },
+    {
+      "groupName": "frontend patches",
+      "matchPaths": ["frontend-web-vue/**"],
+      "matchUpdateTypes": ["minor", "patch", "digest"]
+    }
+  ],
+  "extends": ["config:base"]
+}
