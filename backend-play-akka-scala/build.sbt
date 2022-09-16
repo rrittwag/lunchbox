@@ -10,7 +10,7 @@ lazy val root = project.in(file(".")).enablePlugins(PlayScala)
 
 // dependencies
 // ~~~~~~~~~~~~
-scalaVersion := "2.12.7"
+scalaVersion := "2.12.16"
 libraryDependencies ++= Seq(
 //  jdbc,
 //  cache,
