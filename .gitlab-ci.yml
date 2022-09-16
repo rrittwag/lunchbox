@@ -7,21 +7,17 @@ build_frontend-web-vue:
   trigger:
     include: frontend-web-vue/.gitlab-ci.yml
     strategy: depend
-  rules:
-    - changes:
-      - frontend-web-vue/**/*
 
 build_backend-spring-kotlin:
   stage: build
   trigger:
     include: backend-spring-kotlin/.gitlab-ci.yml
     strategy: depend
-  rules:
-    - changes:
-      - backend-spring-kotlin/**/*
 
 deploy:
   stage: deploy
   trigger:
     include: app/.gitlab-ci.yml
     strategy: depend
+  only:
+    - master
