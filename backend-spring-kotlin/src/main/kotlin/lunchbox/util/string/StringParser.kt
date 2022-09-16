@@ -49,10 +49,11 @@ object StringParser {
       val (trimmedDateString) = it.destructured
       val yearToday = LocalDate.now().year
       val year =
-        if (LocalDate.now().monthValue == 12 && trimmedDateString.endsWith("01"))
+        if (LocalDate.now().monthValue == 12 && trimmedDateString.endsWith("01")) {
           yearToday + 1
-        else
+        } else {
           yearToday
+        }
       return parseLocalDate("$trimmedDateString.$year", "dd.MM.yyyy")
     }
 

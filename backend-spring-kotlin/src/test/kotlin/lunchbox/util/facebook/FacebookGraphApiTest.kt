@@ -38,7 +38,9 @@ class FacebookGraphApiTest {
     result.images shouldHaveSize 9
     result.images[0].height shouldBeEqualTo 1754
     result.images[0].width shouldBeEqualTo 1240
-    result.images[0].source shouldBeEqualTo URL("https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg")
+    result.images[0].source shouldBeEqualTo URL(
+      "https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg"
+    )
   }
 
   // --- mocks 'n' stuff

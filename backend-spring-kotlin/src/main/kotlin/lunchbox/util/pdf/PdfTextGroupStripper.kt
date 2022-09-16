@@ -16,10 +16,11 @@ class PdfTextGroupStripper : PDFTextStripper() {
     val preText =
       textGroups.find { it.xMax().nearby(text.x) && it.yMin().nearby(text.y) }
 
-    if (preText == null)
+    if (preText == null) {
       textGroups += TextGroup(listOf(text))
-    else
+    } else {
       preText.add(text)
+    }
   }
 
   fun getTextGroups(pDDocument: PDDocument): List<TextGroup> {
@@ -76,10 +77,11 @@ data class TextLine(val y: Float, val texts: List<TextGroup>) {
       val textMap = mutableMapOf<Float, List<TextGroup>>()
       for (text in texts) {
         val entry = textMap.entries.find { text.yIn(it.key) }
-        if (entry == null)
+        if (entry == null) {
           textMap[text.yMid()] = listOf(text)
-        else
+        } else {
           entry.setValue(entry.value + text)
+        }
       }
 
       return textMap.entries

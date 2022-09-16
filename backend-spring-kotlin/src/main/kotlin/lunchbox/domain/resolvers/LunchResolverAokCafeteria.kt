@@ -54,12 +54,16 @@ class LunchResolverAokCafeteria(
   private fun calcDay(dateElem: Element, date: LocalDate): LocalDate? {
     val weekdayString = dateElem.select(".day").text()
     val weekday = Weekday.values().find { weekdayString.startsWith(it.label) }
-    if (weekday != null)
+    if (weekday != null) {
       return date.plusDays(weekday.order)
+    }
     val shortDate = dateElem.select(".short-date").text()
     val year =
-      if (shortDate.trim().endsWith("01.") && date.month == Month.DECEMBER) date.year + 1
-      else date.year
+      if (shortDate.trim().endsWith("01.") && date.month == Month.DECEMBER) {
+        date.year + 1
+      } else {
+        date.year
+      }
     return StringParser.parseLocalDate("$shortDate$year")
   }
 
@@ -70,15 +74,18 @@ class LunchResolverAokCafeteria(
     for (offerElem in offerDivs) {
       val typ = offerElem.selectFirst("span")?.text() ?: ""
       val name = offerElem.select("span:nth-of-type(2)").text()
-      if (!typ.contains("Tagesgericht") && !typ.contains("Menü"))
+      if (!typ.contains("Tagesgericht") && !typ.contains("Menü")) {
         continue
+      }
       if (name.isEmpty() ||
         listOf("Ferien", "Betriebsferien", "Weihnachten", "Ostern", "Ostermontag", "Pfingstmontag").contains(name)
-      )
+      ) {
         continue
+      }
       val zusatzstoffe = offerElem.select("small").text()
       var (title, description) = StringParser.splitOfferName(
-        name, listOf(" auf ", " mit ", " von ", " im ", " in ", " an ", ", ", " (", " und ")
+        name,
+        listOf(" auf ", " mit ", " von ", " im ", " in ", " an ", ", ", " (", " und ")
       )
       description = clearDescription(description)
       val tags = parseTags(name, typ, zusatzstoffe)
@@ -100,13 +107,15 @@ class LunchResolverAokCafeteria(
   private fun parseTags(name: String, typ: String, zusatzstoffe: String): Set<String> {
     val result = mutableSetOf<String>()
 
-    if (name.contains("vegan", ignoreCase = true))
+    if (name.contains("vegan", ignoreCase = true)) {
       result += "vegan"
-    else if (name.contains("vegetarisch", ignoreCase = true) || zusatzstoffe.contains("V"))
+    } else if (name.contains("vegetarisch", ignoreCase = true) || zusatzstoffe.contains("V")) {
       result += "vegetarisch"
+    }
 
-    if (typ.contains("vorbestellen", ignoreCase = true))
+    if (typ.contains("vorbestellen", ignoreCase = true)) {
       result += "auf Vorbestellung"
+    }
 
     return result
   }

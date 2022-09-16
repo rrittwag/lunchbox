@@ -50,10 +50,11 @@ class LunchResolverFeldkueche(
     val rawOffers =
       if (Weekday.values().any { contentAsLines.contains(it.label) } &&
         contentAsLines.any { it.matches(Regex("""^\d+,(\d{2}) *€$""")) }
-      )
+      ) {
         resolveOffersWith3rowSplit(contentAsLines)
-      else
+      } else {
         resolveOffersWith2rowSplit(contentAsLines)
+      }
 
     return rawOffers
       .map { createOffer(it, monday) }

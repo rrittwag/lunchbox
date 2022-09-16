@@ -40,8 +40,9 @@ class LunchResolverKrauthof(
     val pdfContent = PdfExtractor.extractStrings(pdfUrl)
 
     val monday = StringParser.parseMondayOfMostUsedWeek(pdfContent)
-    if (monday == null || !dateValidator.isValid(monday))
+    if (monday == null || !dateValidator.isValid(monday)) {
       return emptyList()
+    }
 
     return resolveFromPdfContent(pdfContent, monday)
       .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }

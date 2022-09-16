@@ -32,7 +32,7 @@ class LunchResolverSchweinestall(
 
     val sectionsByWeek =
       sections // Datum-Section und Offers-Section filtern und je Woche gruppieren
-        .filter { it.text().matches(Regex("""[-–0-9 .]+""")) || it.text().contains("€") }
+        .filter { node -> node.text().matches(Regex("""[-–0-9 .]+""")) || node.text().contains("€") }
         .chunked(2)
         .filter { it.size == 2 }
 

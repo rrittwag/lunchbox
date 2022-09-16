@@ -48,8 +48,9 @@ class LunchResolverSaltNPepper(
       val title = parseName(h4.text())
 
       for (section in OfferSection.values())
-        if (section.label == title)
+        if (section.label == title) {
           section2node += section to div
+        }
     }
 
     val dayNodes = section2node.filterKeys { OfferSection.weekdayValues.contains(it) }
@@ -101,7 +102,7 @@ class LunchResolverSaltNPepper(
     val tags = mutableSetOf<String>()
 
     // Zusatzstoffe entfernen (hochgestellt/sup)
-    nameElem.children().filter { it.tagName() == "sup" }.forEach { it.remove() }
+    nameElem.children().filter { node -> node.nodeName() == "sup" }.forEach { it.remove() }
 
     var name = parseName(nameElem.text())
       .replace(Regex("^Topp-Preis:"), "")

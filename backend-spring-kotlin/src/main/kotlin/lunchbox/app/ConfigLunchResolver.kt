@@ -1,4 +1,4 @@
-package lunchbox._app
+package lunchbox.app
 
 import lunchbox.util.date.DateValidator
 import org.springframework.context.annotation.Bean

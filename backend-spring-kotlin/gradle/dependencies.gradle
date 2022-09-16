@@ -1,7 +1,7 @@
 // -------------------
 //   Abhängigkeiten der Applikation
 // -------------------
-ext.springBootVersion = '2.7.1'
+ext.springBootVersion = '2.7.3'
 
 repositories { mavenCentral() }
 dependencies {
@@ -11,7 +11,7 @@ dependencies {
   // Kotlin
   implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
   implementation 'org.jetbrains.kotlin:kotlin-reflect'
-  implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib'
   implementation 'io.github.microutils:kotlin-logging:2.1.23'
 
   // web
@@ -21,14 +21,14 @@ dependencies {
   implementation 'javax.xml.bind:jaxb-api'
 
   // html/xml/pdf
-  implementation 'org.jsoup:jsoup:1.14.3'
+  implementation 'org.jsoup:jsoup:1.15.3'
   implementation 'org.apache.pdfbox:pdfbox:2.0.26'
 
   // RSS/Atom feed
   implementation 'com.rometools:rome:1.18.0'
 
   // money money money
-  implementation 'org.joda:joda-money:1.0.1'
+  implementation 'org.joda:joda-money:1.0.2'
 
   // Test-Abhängigkeiten sind in test.gradle definiert
 }

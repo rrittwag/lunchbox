@@ -38,8 +38,9 @@ class LunchResolverPhoenixeum(
     for (wochenplanDiv in elements) {
       val monday = resolveMonday(wochenplanDiv, site)
         ?: continue
-      if (!dateValidator.isValid(monday))
+      if (!dateValidator.isValid(monday)) {
         continue
+      }
 
       result += parseOffers(wochenplanDiv, monday)
         .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
@@ -75,13 +76,15 @@ class LunchResolverPhoenixeum(
   private fun splitByOffers(wochenplanDiv: Element): List<String> {
     val pipedWeek = node2text(wochenplanDiv).replace("||", "|")
     return pipedWeek.split("|").fold(emptyList()) { days, elem ->
-      if (days.isEmpty()) days + elem
-      else {
+      if (days.isEmpty()) {
+        days + elem
+      } else {
         val lastDay = days.last()
-        if (Weekday.values().any { elem.contains(it.label) })
+        if (Weekday.values().any { elem.contains(it.label) }) {
           days + elem
-        else
+        } else {
           days.dropLast(1) + "$lastDay|$elem"
+        }
       }
     }
   }
@@ -90,8 +93,9 @@ class LunchResolverPhoenixeum(
     val h3 = node.selectFirst("h3") ?: return null
     var day = StringParser.parseLocalDate(h3.text()) ?: return null
     val jahr = jahr(site)
-    if (jahr != null)
+    if (jahr != null) {
       day = day.withYear(jahr)
+    }
     return day.with(DayOfWeek.MONDAY)
   }
 
@@ -121,8 +125,9 @@ class LunchResolverPhoenixeum(
     monday: LocalDate
   ): List<LunchOffer> {
     val clearedParts = offerAttributesAsStrings.map { cleanUpString(it) }.filter { it.isNotEmpty() }
-    if (clearedParts.size < 3)
+    if (clearedParts.size < 3) {
       return emptyList()
+    }
 
     val weekdayStr = clearedParts.first()
     val priceStr = clearedParts.last()
@@ -132,12 +137,13 @@ class LunchResolverPhoenixeum(
     if (title.contains("Feiertag")) return emptyList()
 
     val weekdays =
-      if (weekdayStr.contains("bis"))
+      if (weekdayStr.contains("bis")) {
         Weekday.values()
           .dropLastWhile { !weekdayStr.contains(it.label) }
           .dropWhile { !weekdayStr.contains(it.label) }
-      else
+      } else {
         Weekday.values().filter { weekdayStr.contains(it.label) }
+      }
 
     if (weekdays.isEmpty()) return emptyList()
 
@@ -168,8 +174,9 @@ class LunchResolverPhoenixeum(
 
   private fun parseZusatzinfo(name: String): Set<String> {
     val result = mutableSetOf<String>()
-    if (name.contains("veget"))
+    if (name.contains("veget")) {
       result.add("vegetarisch")
+    }
     return result
   }
 

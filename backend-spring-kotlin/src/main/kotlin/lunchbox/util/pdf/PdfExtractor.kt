@@ -25,8 +25,9 @@ object PdfExtractor {
 
     try {
       pdfDoc = PDDocument.load(pdfUrl.openStream())
-      if (pdfDoc != null)
+      if (pdfDoc != null) {
         return transform(pdfDoc)
+      }
     } catch (fnf: FileNotFoundException) {
       logger.error { "file $pdfUrl not found" }
     } catch (t: Throwable) {

@@ -117,8 +117,9 @@ class LunchResolverGesundheitszentrum(
       ?: return null
 
     // ... außer es gibt SubAttachments. Dann gewinnt das 1. SubAttachment.
-    if (attachment.subattachments.data.isNotEmpty())
+    if (attachment.subattachments.data.isNotEmpty()) {
       return attachment.subattachments.data[0]
+    }
 
     return attachment
   }
@@ -168,8 +169,9 @@ class LunchResolverGesundheitszentrum(
         result += currentSection to linesForSection
         currentSection = section
         linesForSection = mutableListOf(line.replaceFirst(section.label, "").trim())
-      } else
+      } else {
         linesForSection.add(line)
+      }
     }
 
     return result
@@ -255,8 +257,9 @@ class LunchResolverGesundheitszentrum(
       undone = undone.merge(row)
     }
 
-    if (undone != null && undone.isCompleteOffer())
+    if (undone != null && undone.isCompleteOffer()) {
       result += undone
+    }
 
     return result
   }
@@ -276,8 +279,9 @@ class LunchResolverGesundheitszentrum(
         index += 1
       }
     }
-    if (index < rows.size)
+    if (index < rows.size) {
       result += rows[index]
+    }
 
     return result
   }
@@ -312,10 +316,11 @@ class LunchResolverGesundheitszentrum(
         .replace(Regex("""^\. """), "1. ")
         .replace(Regex("^[0-9]$"), "") // Nummer ist in eigene Zeile gerutscht
 
-    return if (rowWithoutFitness == rowWithCorrectedFitness)
+    return if (rowWithoutFitness == rowWithCorrectedFitness) {
       correctedRowWithoutFitness
-    else
+    } else {
       "Fitness $correctedRowWithoutFitness"
+    }
   }
 
   private fun correctRowPrice(row: String) =

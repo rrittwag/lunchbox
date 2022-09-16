@@ -22,7 +22,9 @@ class LunchOfferApi(val repo: LunchOfferRepository) {
 
   @GetMapping(URL_LUNCHOFFER)
   fun getAll(
-    @RequestParam @DateTimeFormat(iso = ISO.DATE) day: LocalDate?
+    @RequestParam
+    @DateTimeFormat(iso = ISO.DATE)
+    day: LocalDate?
   ): List<LunchOfferDTO> = when (day) {
     null -> repo.findAll()
     else -> repo.findByDay(day)

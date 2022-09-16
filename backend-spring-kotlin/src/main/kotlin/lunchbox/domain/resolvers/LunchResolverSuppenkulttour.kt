@@ -36,8 +36,9 @@ class LunchResolverSuppenkulttour(
 
     for (wochenplanSection in elements) {
       val monday = resolveMonday(wochenplanSection) ?: continue
-      if (!dateValidator.isValid(monday))
+      if (!dateValidator.isValid(monday)) {
         continue
+      }
       result +=
         parseOffers(wochenplanSection, monday)
           .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
@@ -50,8 +51,9 @@ class LunchResolverSuppenkulttour(
     for (toggler in togglers) {
       val togglerText = toggler.text().replace("\n", " ")
       val monday = resolveMonday(togglerText)
-      if (monday != null)
+      if (monday != null) {
         return monday // nicht ganz sauber: nur das erste Datum ist relevant
+      }
     }
     return null
   }
@@ -69,15 +71,17 @@ class LunchResolverSuppenkulttour(
         val wochensuppenString =
           wochenplanString.substring(wochensuppenStart + 16, tagessuppenStart)
         parseWochensuppen(removeLeadingPipes(wochensuppenString), monday)
-      } else
+      } else {
         emptyList()
+      }
 
     val tagessuppen =
       if (tagessuppenStart > -1) {
         val tagessuppenString = wochenplanString.substring(tagessuppenStart + 15)
         parseTagessuppen(removeLeadingPipes(tagessuppenString), monday)
-      } else
+      } else {
         emptyList()
+      }
 
     val multipliedWochensuppen = multiplyWochenangebote(wochensuppen, tagessuppen.map { it.day })
     return tagessuppen + multipliedWochensuppen
@@ -164,8 +168,9 @@ class LunchResolverSuppenkulttour(
     predictedPrice: Money?
   ): RawOffer? {
     val clearedParts = offerAttributesAsStrings.map { cleanUpString(it) }.filter { it.isNotEmpty() }
-    if (clearedParts.isEmpty())
+    if (clearedParts.isEmpty()) {
       return null
+    }
 
     val title = clearedParts.first().trim()
     val remainingParts = clearedParts.drop(1)
@@ -184,16 +189,18 @@ class LunchResolverSuppenkulttour(
       val match = Regex("""(.+) (\d+[.,]\d{2}) ?€? *""").find(part)
       if (match != null) {
         val (portion, priceStr) = match.destructured
-        if (portion.trim() == "mittel")
+        if (portion.trim() == "mittel") {
           price = StringParser.parseMoney(priceStr)
+        }
         continue
       }
 
       descriptionList += part.trim()
     }
 
-    if (price == null)
+    if (price == null) {
       return null
+    }
 
     if (title.isEmpty()) return null
     if (title == "geschlossen") return null
@@ -213,7 +220,9 @@ class LunchResolverSuppenkulttour(
       if (source.contains("vegan", true)) result += "vegan"
       if (source.contains(Regex("[Vv]ege?t")) ||
         source.contains(Regex("[Vv]egarisch"))
-      ) result += "vegetarisch"
+      ) {
+        result += "vegetarisch"
+      }
     }
     return result
   }
@@ -287,8 +296,9 @@ class LunchResolverSuppenkulttour(
     if (tagessuppenStrings.any { StringParser.parseLocalDate(it) != null }) {
       for (tagessuppeString in tagessuppenStrings) {
         val date2name = extractDate(tagessuppeString)
-        if (date2name != null)
+        if (date2name != null) {
           result += date2name.date to date2name.name
+        }
       }
 
       // Standardfall: "Montag" bis "Freitag" (ohne Datum)
@@ -319,8 +329,9 @@ class LunchResolverSuppenkulttour(
     if (match != null) {
       val (weekdayString, remainingText) = match.destructured
       val weekday = Weekday.values().find { it.label == weekdayString }
-      if (weekday != null)
+      if (weekday != null) {
         return Weekday2Name(weekday, remainingText)
+      }
     }
     return Weekday2Name(predictedWeekday, text)
   }
@@ -356,8 +367,9 @@ class LunchResolverSuppenkulttour(
   companion object {
     fun resolveMonday(text: String): LocalDate? {
       var matchOffer = Regex(""".*Suppen .*vom +([\d.]+).*""").find(text)
-      if (matchOffer == null)
+      if (matchOffer == null) {
         matchOffer = Regex("""([\d.]+) bis .*""").find(text) ?: return null
+      }
 
       val (firstDayString) = matchOffer.destructured
       val firstDay = StringParser.parseLocalDate(firstDayString) ?: return null

@@ -25,7 +25,9 @@ class LunchOfferApi(val repo: LunchOfferRepository) {
 
   @GetMapping(URL_LUNCHOFFER)
   fun getAll(
-    @RequestParam @DateTimeFormat(iso = ISO.DATE) day: LocalDate?
+    @RequestParam
+    @DateTimeFormat(iso = ISO.DATE)
+    day: LocalDate?
   ): List<LunchOfferDTO> = when (day) {
     null -> repo.findAll()
     else -> repo.findByDay(day)
@@ -50,11 +52,12 @@ data class LunchOfferDTO(
 
 fun LunchOffer.toDTOv1(): LunchOfferDTO {
   var name = this.name
-  if (this.description.isNotEmpty())
+  if (this.description.isNotEmpty()) {
     name += when (this.provider) {
       LunchProvider.SUPPENKULTTOUR.id -> ": ${this.description}"
       else -> " ${this.description}"
     }
+  }
 
   return LunchOfferDTO(
     id,

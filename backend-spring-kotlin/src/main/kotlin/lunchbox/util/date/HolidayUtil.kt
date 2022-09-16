@@ -12,8 +12,9 @@ import java.time.Month
 object HolidayUtil {
 
   fun isHoliday(day: LocalDate, location: LunchLocation): Boolean {
-    if (Holiday.values().any { it.isHoliday(day, location) })
+    if (Holiday.values().any { it.isHoliday(day, location) }) {
       return true
+    }
 
     // TODO Ostertage, Christi Himmelfahrt & Pfingsten berechnen
 

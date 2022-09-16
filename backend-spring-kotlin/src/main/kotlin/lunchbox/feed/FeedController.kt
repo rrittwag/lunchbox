@@ -117,9 +117,11 @@ class FeedController(
     var result = ""
     for (offer in providerOffers) {
       val price =
-        if (offer.price != null)
+        if (offer.price != null) {
           "%d,%02d €".format(offer.price.amountMajorInt, offer.price.minorPart)
-        else ""
+        } else {
+          ""
+        }
 
       result +=
         """
