@@ -3,19 +3,9 @@
   "ignorePaths": ["**/node_modules/**", "backend-play-akka-scala/**", "frontend-web-angularjs/**"],
   "packageRules": [
     {
-      "groupName": "app patches",
-      "matchPaths": ["app/**"],
-      "matchUpdateTypes": ["minor", "patch", "digest"]
-    },
-    {
-      "groupName": "backend patches",
-      "matchPaths": ["backend-spring-kotlin/**"],
-      "matchUpdateTypes": ["minor", "patch", "digest"]
-    },
-    {
-      "groupName": "frontend patches",
-      "matchPaths": ["frontend-web-vue/**"],
-      "matchUpdateTypes": ["minor", "patch", "digest"]
+      "groupName": "patches",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
     }
   ],
   "extends": ["config:base"]
