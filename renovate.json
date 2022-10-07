@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "ignorePaths": ["**/node_modules/**", "backend-play-akka-scala/**", "frontend-web-angularjs/**"],
+  "ignorePaths": ["**/node_modules/**", "api/**", "backend-play-akka-scala/**", "frontend-web-angularjs/**"],
   "packageRules": [
     {
       "groupName": "patches",
