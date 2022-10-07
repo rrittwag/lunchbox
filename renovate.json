@@ -8,5 +8,6 @@
       "automerge": true
     }
   ],
+  "platformAutomerge": true,
   "extends": ["config:base"]
 }
