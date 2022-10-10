@@ -25,7 +25,6 @@ exports[`DaySelector > renders snapshot 1`] = `
       aria-hidden="true"
       class="h-16 w-16"
       height="1.2em"
-      preserveAspectRatio="xMidYMid meet"
       viewBox="0 0 256 512"
       width="1.2em"
     >
@@ -45,7 +44,6 @@ exports[`DaySelector > renders snapshot 1`] = `
       aria-hidden="true"
       class="h-16 w-16"
       height="1.2em"
-      preserveAspectRatio="xMidYMid meet"
       viewBox="0 0 256 512"
       width="1.2em"
     >

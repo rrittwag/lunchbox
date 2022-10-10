@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
   // JAX RS-Implementierung Jersey + WebServer Grizzly
-  implementation platform('org.glassfish.jersey:jersey-bom:2.27')
+  implementation platform('org.glassfish.jersey:jersey-bom:2.37')
   implementation 'org.glassfish.jersey.containers:jersey-container-grizzly2-http'
   implementation 'org.glassfish.jersey.containers:jersey-container-grizzly2-servlet'
   implementation 'org.glassfish.jersey.inject:jersey-hk2'
@@ -22,8 +22,8 @@ dependencies {
   implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
   // OpenAPI für JAX RS
-  implementation 'io.swagger.core.v3:swagger-jaxrs2:2.2.2'
-  implementation 'io.swagger.core.v3:swagger-jaxrs2-servlet-initializer:2.0.6'
+  implementation 'io.swagger.core.v3:swagger-jaxrs2:2.2.3'
+  implementation 'io.swagger.core.v3:swagger-jaxrs2-servlet-initializer:2.2.3'
 }
 
 run {

@@ -1,7 +1,7 @@
 // -------------------
 //   Abhängigkeiten der Applikation
 // -------------------
-ext.springBootVersion = '2.7.3'
+ext.springBootVersion = '2.7.4'
 
 repositories { mavenCentral() }
 dependencies {
@@ -22,7 +22,7 @@ dependencies {
 
   // html/xml/pdf
   implementation 'org.jsoup:jsoup:1.15.3'
-  implementation 'org.apache.pdfbox:pdfbox:2.0.26'
+  implementation 'org.apache.pdfbox:pdfbox:2.0.27'
 
   // RSS/Atom feed
   implementation 'com.rometools:rome:1.18.0'
