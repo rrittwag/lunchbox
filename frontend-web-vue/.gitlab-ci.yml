@@ -1,4 +1,4 @@
-image: node:gallium-alpine
+image: node:hydrogen-alpine
 
 # Cachen der Dependencies
 # - Der Cache beschleunigt den CI-Lauf durch Vorhalten von Dependencies & anderen Downloads.
