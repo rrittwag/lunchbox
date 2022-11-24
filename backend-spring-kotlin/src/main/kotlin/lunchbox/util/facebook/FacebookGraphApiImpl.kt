@@ -1,13 +1,11 @@
 package lunchbox.util.facebook
 
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.util.retry.Retry.backoff
 import java.time.Duration
 
-@ConstructorBinding
 @ConfigurationProperties("external.facebook")
 data class FacebookConfigProperties(
   val appId: String = "",

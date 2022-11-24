@@ -1,7 +1,7 @@
 // -------------------
 //   Abhängigkeiten der Applikation
 // -------------------
-ext.springBootVersion = '2.7.5'
+ext.springBootVersion = '3.0.0'
 
 repositories { mavenCentral() }
 dependencies {
@@ -18,7 +18,6 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation('org.springframework.boot:spring-boot-starter-undertow') { exclude module: 'undertow-websockets-jsr' }
   implementation 'org.springframework.boot:spring-boot-starter-webflux'
-  implementation 'javax.xml.bind:jaxb-api'
 
   // html/xml/pdf
   implementation 'org.jsoup:jsoup:1.15.3'

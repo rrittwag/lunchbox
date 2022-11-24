@@ -5,6 +5,7 @@ import com.rometools.rome.feed.atom.Entry
 import com.rometools.rome.feed.atom.Feed
 import com.rometools.rome.feed.atom.Link
 import com.rometools.rome.feed.atom.Person
+import jakarta.servlet.http.HttpServletRequest
 import lunchbox.domain.models.LunchLocation
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
@@ -19,7 +20,6 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
-import javax.servlet.http.HttpServletRequest
 
 const val URL_FEED = "/feed"
 
