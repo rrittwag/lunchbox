@@ -4,6 +4,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
+import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.NginxContainer
 import org.testcontainers.containers.wait.strategy.HttpWaitStrategy
 import org.testcontainers.junit.jupiter.Container
@@ -23,7 +24,7 @@ class NginxTest {
     @Container
     private val resourcesContainer =
       KtNginxContainer()
-        .withCustomContent(Paths.get("src/test/resources").toString())
+        .withFileSystemBind(Paths.get("src/test/resources").toString(), "/usr/share/nginx/html", BindMode.READ_ONLY)
         .waitingFor(HttpWaitStrategy())
 
     private fun resourcesHost() = resourcesContainer.getBaseUrl("http", 80)
