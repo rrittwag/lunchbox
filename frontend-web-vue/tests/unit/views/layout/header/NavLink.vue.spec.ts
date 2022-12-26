@@ -23,7 +23,7 @@ describe('NavLink', () => {
     within(listitem).getByText('Link Text')
   })
 
-  it('WHEN route is active THEN has aria-current', async () => {
+  it('is marked as current page WHEN route is active', async () => {
     const user = userEvent.setup()
     const { getByRole, queryByRole } = render(NavLink, {
       props: { to: mockRoute.path },
