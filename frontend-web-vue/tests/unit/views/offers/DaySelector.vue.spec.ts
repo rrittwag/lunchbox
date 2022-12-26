@@ -1,83 +1,83 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import DaySelector from '@/views/offers/DaySelector.vue'
-import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
-import { mount } from '@vue/test-utils'
+import {
+  DaySelectorDirection,
+  LABEL_GO_TO_NEXT_DAY,
+  LABEL_GO_TO_PREVIOUS_DAY,
+} from '@/views/offers/dayselector/DaySelector.values'
+import { render } from '@testing-library/vue'
+import userEvent from '@testing-library/user-event'
 
 describe('DaySelector', () => {
-  it('renders snapshot', () => {
-    const wrapper = mount(DaySelector, {
+  it('renders', () => {
+    const { getByRole } = render(DaySelector, {
       props: { selectedDay: YESTERDAY },
     })
 
-    expect(wrapper.element).toMatchSnapshot()
+    expect(getByRole('heading', { level: 2 })).toHaveTextContent('Sonntag 1.12.2019')
+    expect(getByRole('button', { name: LABEL_GO_TO_PREVIOUS_DAY })).toBeEnabled()
+    expect(getByRole('button', { name: LABEL_GO_TO_NEXT_DAY })).toBeEnabled()
   })
 
-  it('has disabled previous button', () => {
-    const wrapper = mount(DaySelector, {
+  it('renders disabled previous button', () => {
+    const { getByRole } = render(DaySelector, {
       props: { selectedDay: YESTERDAY, disabledPrev: true },
     })
 
-    const buttons = wrapper.findAll('button')
-    expect(buttons[0].attributes()).toHaveProperty('disabled')
-    expect(buttons[1].attributes()).not.toHaveProperty('disabled')
+    expect(getByRole('button', { name: LABEL_GO_TO_PREVIOUS_DAY })).toBeDisabled()
+    expect(getByRole('button', { name: LABEL_GO_TO_NEXT_DAY })).toBeEnabled()
   })
 
-  it('has disabled next button', () => {
-    const wrapper = mount(DaySelector, {
+  it('renders disabled next button', () => {
+    const { getByRole } = render(DaySelector, {
       props: { selectedDay: TOMORROW, disabledNext: true },
     })
 
-    const buttons = wrapper.findAll('button')
-    expect(buttons[0].attributes()).not.toHaveProperty('disabled')
-    expect(buttons[1].attributes()).toHaveProperty('disabled')
+    expect(getByRole('button', { name: LABEL_GO_TO_PREVIOUS_DAY })).toBeEnabled()
+    expect(getByRole('button', { name: LABEL_GO_TO_NEXT_DAY })).toBeDisabled()
   })
 
-  it('emits event WHEN click previous day', async () => {
-    const wrapper = mount(DaySelector, {
+  it('emits change event WHEN click previous day', async () => {
+    const user = userEvent.setup()
+    const { emitted, getByRole } = render(DaySelector, {
       props: { selectedDay: TODAY },
     })
 
-    await wrapper.findAll('button')[0].trigger('click')
+    await user.click(getByRole('button', { name: LABEL_GO_TO_PREVIOUS_DAY }))
 
-    expect(wrapper.emitted().change).toBeDefined()
-    expect(wrapper.emitted().change!.length).toBe(1)
-    expect(wrapper.emitted().change![0]).toEqual([DaySelectorDirection.PREVIOUS])
+    expect(emitted()).toHaveProperty('change', [[DaySelectorDirection.PREVIOUS]])
   })
 
-  it('emits event WHEN click next day', () => {
-    const wrapper = mount(DaySelector, {
+  it('emits change event WHEN click next day', async () => {
+    const user = userEvent.setup()
+    const { emitted, getByRole } = render(DaySelector, {
       props: { selectedDay: TODAY },
     })
 
-    wrapper.findAll('button')[1].trigger('click')
+    await user.click(getByRole('button', { name: LABEL_GO_TO_NEXT_DAY }))
 
-    expect(wrapper.emitted().change).toBeDefined()
-    expect(wrapper.emitted().change!.length).toBe(1)
-    expect(wrapper.emitted().change![0]).toEqual([DaySelectorDirection.NEXT])
+    expect(emitted()).toHaveProperty('change', [[DaySelectorDirection.NEXT]])
   })
 
-  it('emits event WHEN pressing left arrow key', () => {
-    const wrapper = mount(DaySelector, {
+  it('emits change event WHEN pressing left arrow key', async () => {
+    const user = userEvent.setup()
+    const { emitted } = render(DaySelector, {
       props: { days: [YESTERDAY, TODAY, TOMORROW], selectedDay: TODAY },
     })
 
-    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }))
+    await user.keyboard('[ArrowLeft]')
 
-    expect(wrapper.emitted().change).toBeDefined()
-    expect(wrapper.emitted().change!.length).toBe(1)
-    expect(wrapper.emitted().change![0]).toEqual([DaySelectorDirection.PREVIOUS])
+    expect(emitted()).toHaveProperty('change', [[DaySelectorDirection.PREVIOUS]])
   })
 
-  it('emits event WHEN pressing right arrow key', () => {
-    const wrapper = mount(DaySelector, {
+  it('emits change event WHEN pressing right arrow key', async () => {
+    const user = userEvent.setup()
+    const { emitted } = render(DaySelector, {
       props: { days: [YESTERDAY, TODAY, TOMORROW], selectedDay: TODAY },
     })
 
-    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
+    await user.keyboard('[ArrowRight]')
 
-    expect(wrapper.emitted().change).toBeDefined()
-    expect(wrapper.emitted().change!.length).toBe(1)
-    expect(wrapper.emitted().change![0]).toEqual([DaySelectorDirection.NEXT])
+    expect(emitted()).toHaveProperty('change', [[DaySelectorDirection.NEXT]])
   })
 })
 

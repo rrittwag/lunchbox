@@ -16,7 +16,11 @@
 <script setup lang="ts">
 import AngleLeftIcon from '~icons/fa-solid/angle-left'
 import AngleRightIcon from '~icons/fa-solid/angle-right'
-import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
+import {
+  DaySelectorDirection,
+  LABEL_GO_TO_NEXT_DAY,
+  LABEL_GO_TO_PREVIOUS_DAY,
+} from '@/views/offers/dayselector/DaySelector.values'
 
 const props = defineProps<{
   disabled?: boolean
@@ -29,5 +33,5 @@ const emit = defineEmits<{
 const onClick = () => emit('click')
 
 const isPrevious = props.direction === DaySelectorDirection.PREVIOUS
-const title = isPrevious ? 'Zu vorherigem Tag wechseln' : 'Zu nächstem Tag wechseln'
+const title = isPrevious ? LABEL_GO_TO_PREVIOUS_DAY : LABEL_GO_TO_NEXT_DAY
 </script>

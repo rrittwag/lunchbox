@@ -11,10 +11,12 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "noEmit": true,
     "baseUrl": ".",
     "types": [
       "vite/client",
       "vitest/globals",
+      "@testing-library/jest-dom",
       "unplugin-icons/types/vue"
     ],
     "paths": {

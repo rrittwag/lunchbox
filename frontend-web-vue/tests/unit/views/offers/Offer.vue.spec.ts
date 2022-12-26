@@ -1,63 +1,55 @@
 import Offer from '@/views/offers/Offer.vue'
-import Badge from '@/views/offers/Badge.vue'
 import { gyros } from '@tests/unit/test-data'
-import { shallowMount } from '@vue/test-utils'
+import { render } from '@testing-library/vue'
 
 describe('Offer', () => {
-  it('renders snapshot', () => {
-    const wrapper = shallowMount(Offer, {
+  it('renders', () => {
+    const { getAllByRole, getByRole, getByLabelText } = render(Offer, {
       props: { offer: gyros },
     })
 
-    expect(wrapper.element).toMatchSnapshot()
-  })
-
-  it('renders name, description & tags', () => {
-    const wrapper = shallowMount(Offer, {
-      props: { offer: gyros },
-    })
-
-    expect(wrapper.text()).toContain(gyros.name)
-    expect(wrapper.text()).toContain(gyros.description)
-    expect(wrapper.text()).toContain('€')
-    const items = wrapper.findAllComponents(Badge)
-    expect(items.length).toEqual(2)
-    expect(items[0].props('label')).toEqual(gyros.tags[0])
-    expect(items[1].props('label')).toEqual(gyros.tags[1])
+    expect(getByRole('heading', { level: 4 })).toHaveTextContent(gyros.name)
+    expect(getByLabelText('Preis')).toHaveTextContent('€3,50')
+    const notes = getAllByRole('note')
+    expect(notes).toHaveLength(3)
+    expect(notes[0]).toHaveTextContent(gyros.description)
+    expect(notes[1]).toHaveTextContent(gyros.tags[0])
+    expect(notes[2]).toHaveTextContent(gyros.tags[1])
   })
 
   it('renders offer without price', () => {
     const gyrosWithoutPrice = { ...gyros, price: undefined }
-    const wrapper = shallowMount(Offer, {
+    const { getAllByRole, getByRole, queryByLabelText } = render(Offer, {
       props: { offer: gyrosWithoutPrice },
     })
 
-    expect(wrapper.text()).toContain(gyros.name)
-    expect(wrapper.text()).toContain(gyros.description)
-    expect(wrapper.text()).not.toContain('€')
-    const items = wrapper.findAllComponents(Badge)
-    expect(items.length).toEqual(2)
-    expect(items[0].props('label')).toEqual(gyros.tags[0])
-    expect(items[1].props('label')).toEqual(gyros.tags[1])
+    expect(getByRole('heading', { level: 4 })).toHaveTextContent(gyros.name)
+    expect(queryByLabelText('Preis')).not.toBeInTheDocument()
+    const notes = getAllByRole('note')
+    expect(notes).toHaveLength(3)
+    expect(notes[0]).toHaveTextContent(gyros.description)
+    expect(notes[1]).toHaveTextContent(gyros.tags[0])
+    expect(notes[2]).toHaveTextContent(gyros.tags[1])
   })
 
   it('hides details for screen size XS', () => {
-    const wrapper = shallowMount(Offer, {
+    const { getByRole, getByLabelText } = render(Offer, {
       props: { offer: gyros },
     })
 
-    const hiddenItems = wrapper.findAll('.hidden')
-    expect(hiddenItems.length).toEqual(2)
-    expect(hiddenItems[0].text()).toEqual(gyros.description)
-    expect(hiddenItems[1].findAllComponents(Badge).length).toEqual(2)
+    expect(getByRole('heading', { level: 4 })).toBeVisible()
+    expect(getByLabelText('Preis')).toBeVisible()
+    // FIXME: Tailwind classes do not work with testing-library -> https://stackoverflow.com/a/74160802
+    // getAllByRole('note').forEach((elem) => expect(elem).not.toBeVisible())
   })
 
   it('shows details for screen size XS', () => {
-    const wrapper = shallowMount(Offer, {
+    const { getAllByRole, getByRole, getByLabelText } = render(Offer, {
       props: { offer: gyros, showDetailsInXS: true },
     })
 
-    const hiddenItems = wrapper.findAll('.hidden')
-    expect(hiddenItems.length).toEqual(0)
+    expect(getByRole('heading', { level: 4 })).toBeVisible()
+    expect(getByLabelText('Preis')).toBeVisible()
+    getAllByRole('note').forEach((elem) => expect(elem).toBeVisible())
   })
 })

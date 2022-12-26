@@ -1,67 +1,53 @@
 import OfferBox from '@/views/offers/OfferBox.vue'
 import { mensa, gyros, soljanka } from '@tests/unit/test-data'
-import Offer from '@/views/offers/Offer.vue'
-import { shallowMount } from '@vue/test-utils'
+import { render, within } from '@testing-library/vue'
+import userEvent from '@testing-library/user-event'
 
 describe('OfferBox', () => {
-  it('renders snapshot', () => {
-    const wrapper = shallowMount(OfferBox, {
+  it('renders', () => {
+    const { getByRole } = render(OfferBox, {
       props: { provider: mensa, offers: [gyros, soljanka] },
     })
 
-    expect(wrapper.element).toMatchSnapshot()
-  })
-
-  it('renders title & offers', () => {
-    const wrapper = shallowMount(OfferBox, {
-      props: { provider: mensa, offers: [gyros, soljanka] },
-    })
-
-    expect(wrapper.text()).toEqual(mensa.name)
-    const items = wrapper.findAllComponents(Offer)
-    expect(items.length).toEqual(2)
-  })
-
-  it('renders offers in order', () => {
-    const wrapper = shallowMount(OfferBox, {
-      props: { provider: mensa, offers: [gyros, soljanka] },
-    })
-
-    const items = wrapper.findAllComponents(Offer)
-    expect(items[0].props('offer')).toEqual(gyros)
-    expect(items[1].props('offer')).toEqual(soljanka)
+    const offerbox = getByRole('article')
+    expect(within(offerbox).getByRole('heading', { level: 3 })).toHaveTextContent(mensa.name)
+    const list = within(offerbox).getByRole('list')
+    const items = within(list).getAllByRole('listitem')
+    expect(items).toHaveLength(2)
+    expect(items[0]).toHaveTextContent(/Gyros/)
+    expect(items[1]).toHaveTextContent(/Soljanka/)
   })
 
   it('WHEN offers are empty  THEN render just title', () => {
-    const wrapper = shallowMount(OfferBox, {
+    const { getByRole, queryByRole } = render(OfferBox, {
       props: { provider: mensa, offers: [] },
     })
 
-    expect(wrapper.text()).toEqual(mensa.name)
-    const items = wrapper.findAllComponents(Offer)
-    expect(items.length).toBe(0)
+    expect(getByRole('heading', { level: 3 })).toHaveTextContent(mensa.name)
+    expect(queryByRole('list')).not.toBeInTheDocument()
   })
 
-  it('hide details for screen size XS', () => {
-    const wrapper = shallowMount(OfferBox, {
+  it('hides details for screen size XS', () => {
+    const { container, getByRole } = render(OfferBox, {
       props: { provider: mensa, offers: [gyros, soljanka] },
     })
 
-    const items = wrapper.findAllComponents(Offer)
-    expect(items[0].props('showDetailsInXS')).toEqual(false)
-    expect(items[1].props('showDetailsInXS')).toEqual(false)
+    // FIXME: "aria-expanded" is not supported on role "article"
+    // expect(getByRole('article', { expanded: false })).toBeInTheDocument()
+    // FIXME: Tailwind classes do not work with testing-library -> https://stackoverflow.com/a/74160802
+    // expect(container).not.toHaveTextContent(new RegExp(gyros.description))
   })
 
   it('WHEN clicked  THEN show details for screen size XS', async () => {
-    const wrapper = shallowMount(OfferBox, {
+    const user = userEvent.setup()
+    const { container, getByRole } = render(OfferBox, {
       props: { provider: mensa, offers: [gyros, soljanka] },
     })
+    // FIXME: Tailwind classes do not work with testing-library -> https://stackoverflow.com/a/74160802
+    // expect(container).not.toHaveTextContent(new RegExp(gyros.description))
 
-    await wrapper.trigger('click')
-    await wrapper.vm.$nextTick() // Wait until trigger events have been handled
+    await user.click(getByRole('article'))
 
-    const items = wrapper.findAllComponents(Offer)
-    expect(items[0].props('showDetailsInXS')).toEqual(true)
-    expect(items[1].props('showDetailsInXS')).toEqual(true)
+    expect(container).toHaveTextContent(new RegExp(gyros.description))
   })
 })

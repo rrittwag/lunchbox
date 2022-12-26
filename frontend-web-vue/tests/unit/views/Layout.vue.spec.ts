@@ -1,15 +1,17 @@
 import Layout from '@/views/Layout.vue'
-import { shallowMount } from '@vue/test-utils'
 import { createTestingPinia } from '@tests/unit/test-utils'
+import { render } from '@testing-library/vue'
+import router from '@/router'
 
 describe('Layout', () => {
-  test('renders snapshot', () => {
+  test('renders', () => {
     const pinia = createTestingPinia()
 
-    const wrapper = shallowMount(Layout, {
-      global: { plugins: [pinia] },
+    const { getByRole } = render(Layout, {
+      global: { plugins: [pinia, router] },
     })
 
-    expect(wrapper.element).toMatchSnapshot()
+    expect(getByRole('banner')).toBeInTheDocument()
+    expect(getByRole('main')).toBeInTheDocument()
   })
 })

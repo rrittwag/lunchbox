@@ -1,43 +1,52 @@
-import { mount } from '@vue/test-utils'
 import DaySelectorButton from '@/views/offers/dayselector/DaySelectorButton.vue'
-import { DaySelectorDirection } from '@/views/offers/dayselector/DaySelectorDirection'
+import {
+  DaySelectorDirection,
+  LABEL_GO_TO_NEXT_DAY,
+  LABEL_GO_TO_PREVIOUS_DAY,
+} from '@/views/offers/dayselector/DaySelector.values'
+import { render } from '@testing-library/vue'
+import userEvent from '@testing-library/user-event'
 
 describe('DaySelectorButton', () => {
-  it('renders snapshot for previous day', () => {
-    const wrapper = mount(DaySelectorButton, {
+  it('renders as previous day', () => {
+    const { queryByRole } = render(DaySelectorButton, {
       props: { direction: DaySelectorDirection.PREVIOUS },
     })
 
-    expect(wrapper.element).toMatchSnapshot()
+    expect(queryByRole('button', { name: LABEL_GO_TO_PREVIOUS_DAY })).toBeEnabled()
+    expect(queryByRole('button', { name: LABEL_GO_TO_NEXT_DAY })).not.toBeInTheDocument()
   })
 
-  it('renders snapshot for next day', () => {
-    const wrapper = mount(DaySelectorButton, {
+  it('renders as next day', () => {
+    const { queryByRole } = render(DaySelectorButton, {
       props: { direction: DaySelectorDirection.NEXT },
     })
 
-    expect(wrapper.element).toMatchSnapshot()
+    expect(queryByRole('button', { name: LABEL_GO_TO_PREVIOUS_DAY })).not.toBeInTheDocument()
+    expect(queryByRole('button', { name: LABEL_GO_TO_NEXT_DAY })).toBeEnabled()
   })
 
-  it('has no `active` style when disabled', () => {
-    const wrapper = mount(DaySelectorButton, {
+  it('renders disabled', () => {
+    const { getByRole } = render(DaySelectorButton, {
       props: { direction: DaySelectorDirection.PREVIOUS, disabled: true },
     })
 
+    const button = getByRole('button')
+    expect(button).toBeDisabled()
     // Trotz disabled-Zustand kann ein Button bei Klick active werden.
     // -> https://stackoverflow.com/a/12592035
     // Für diesen unschönen Fall unterbinden wir das Stylen des Buttons.
-    expect(wrapper.classes().find((c) => c.startsWith('active'))).toBeUndefined()
+    expect(button.getAttribute('class')).not.toContain('active:')
   })
 
   it('emits click event', async () => {
-    const wrapper = mount(DaySelectorButton, {
+    const user = userEvent.setup()
+    const { emitted, getByRole } = render(DaySelectorButton, {
       props: { direction: DaySelectorDirection.PREVIOUS },
     })
 
-    await wrapper.find('button').trigger('click')
+    await user.click(getByRole('button'))
 
-    expect(wrapper.emitted().click).toBeDefined()
-    expect(wrapper.emitted().click?.length).toBe(1)
+    expect(emitted()).toHaveProperty('click', [[]])
   })
 })

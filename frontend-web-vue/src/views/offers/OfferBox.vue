@@ -6,7 +6,7 @@
     <h3 class="font-display text-3xl text-neutral-700 sm:text-4xl">
       {{ props.provider.name }}
     </h3>
-    <ul class="w-full list-none">
+    <ul v-if="props.offers.length > 0" class="w-full list-none">
       <Offer v-for="offer in props.offers" :key="offer.id" :offer="offer" :showDetailsInXS="showDetails" />
     </ul>
   </article>

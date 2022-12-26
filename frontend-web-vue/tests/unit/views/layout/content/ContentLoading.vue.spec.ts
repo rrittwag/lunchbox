@@ -1,9 +1,10 @@
 import ContentLoading from '@/views/layout/content/ContentLoading.vue'
-import { mount } from '@vue/test-utils'
+import { render } from '@testing-library/vue'
 
 describe('ContentLoading', () => {
-  test('renders snapshot', () => {
-    const wrapper = mount(ContentLoading)
-    expect(wrapper.element).toMatchSnapshot()
+  test('renders loading', () => {
+    const { getByRole } = render(ContentLoading)
+
+    expect(getByRole('heading', { level: 1 })).toHaveTextContent('Loading')
   })
 })

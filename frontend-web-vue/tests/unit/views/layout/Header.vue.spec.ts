@@ -1,35 +1,37 @@
 import Header from '@/views/layout/Header.vue'
-import NavLink from '@/views/layout/header/NavLink.vue'
-import Nav from '@/views/layout/header/Nav.vue'
-import { mount } from '@vue/test-utils'
-import { createRouterMock, injectRouterMock } from 'vue-router-mock'
+import { render, within } from '@testing-library/vue'
+import router from '@/router'
 
 describe('Header', () => {
-  const router = createRouterMock()
-  beforeEach(() => {
-    injectRouterMock(router)
+  beforeEach(async () => {
+    await router.push('/')
   })
 
-  test('renders snapshot', () => {
-    const wrapper = mount(Header)
+  test('renders page header and nav', () => {
+    const { getByRole } = render(Header, {
+      global: {
+        plugins: [router],
+      },
+    })
 
-    expect(wrapper.element).toMatchSnapshot()
+    const banner = getByRole('banner')
+    expect(banner).toBeInTheDocument()
+    within(banner).getByRole('navigation', { name: 'Haupt' })
   })
 
-  test('renders header tag and Nav component', () => {
-    const wrapper = mount(Header)
+  it('renders nav links', () => {
+    const { getByRole } = render(Header, {
+      global: {
+        plugins: [router],
+      },
+    })
 
-    const headerTag = wrapper.get('header')
-    const navTag = headerTag.getComponent(Nav)
-    expect(navTag.findAllComponents(NavLink)).toHaveLength(3)
-  })
-
-  test('has all nav items', () => {
-    const wrapper = mount(Header)
-
-    const navitems = wrapper.findAllComponents(NavLink)
-    expect(navitems[0].props('to')).toEqual('/')
-    expect(navitems[1].props('to')).toEqual('/settings')
-    expect(navitems[2].props('to')).toEqual('/about')
+    const nav = getByRole('navigation', { name: 'Haupt' })
+    const list = within(nav).getByRole('list')
+    const navitems = within(list).getAllByRole('listitem')
+    expect(navitems).toHaveLength(3)
+    expect(within(navitems[0]).getByRole('link', { current: 'page' })).toHaveAccessibleName('Mittagsangebote')
+    expect(within(navitems[1]).getByRole('link', { current: false })).toHaveAccessibleName('Einstellungen')
+    expect(within(navitems[2]).getByRole('link', { current: false })).toHaveAccessibleName('Info')
   })
 })

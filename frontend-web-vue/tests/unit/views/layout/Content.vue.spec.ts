@@ -1,24 +1,31 @@
 import Content from '@/views/layout/Content.vue'
-import { mount } from '@vue/test-utils'
-import { createRouterMock, injectRouterMock } from 'vue-router-mock'
-import { RouterView } from 'vue-router'
+import { render, within } from '@testing-library/vue'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 describe('Content', () => {
-  const router = createRouterMock()
-  beforeEach(() => {
-    injectRouterMock(router)
+  it('renders', async () => {
+    await router.push('/')
+    const { getByRole } = render(Content, {
+      global: {
+        plugins: [router],
+      },
+    })
+
+    const main = getByRole('main')
+    expect(within(main).getByRole('heading')).toHaveTextContent('Some title')
   })
+})
 
-  test('renders snapshot', () => {
-    const wrapper = mount(Content)
+// --- mocks 'n' stuff
 
-    expect(wrapper.element).toMatchSnapshot()
-  })
+const homeRoute = {
+  path: '/',
+  component: {
+    template: '<h1>Some title</h1>',
+  },
+} as unknown as RouteRecordRaw
 
-  test('contains main and RouterView', () => {
-    const wrapper = mount(Content)
-
-    const mainTag = wrapper.get('main')
-    mainTag.getComponent(RouterView) // throws error if not existing
-  })
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [homeRoute],
 })

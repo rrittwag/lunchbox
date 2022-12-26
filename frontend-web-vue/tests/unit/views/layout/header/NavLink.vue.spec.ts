@@ -1,63 +1,60 @@
 import NavLink from '@/views/layout/header/NavLink.vue'
-import { mount } from '@vue/test-utils'
-import { RouteRecordRaw, RouterLink } from 'vue-router'
-import { createRouterMock, injectRouterMock } from 'vue-router-mock'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { render, within } from '@testing-library/vue'
+import userEvent from '@testing-library/user-event'
 
 describe('NavLink', () => {
-  beforeEach(() => {
-    injectRouterMock(mockRouter)
+  beforeEach(async () => {
+    await router.push('/')
   })
 
-  test('renders snapshot', () => {
-    const wrapper = mount(NavLink, {
+  it('renders', () => {
+    const { getByRole } = render(NavLink, {
       props: { to: mockRoute.path },
       slots: { default: 'Link Text' },
       global: {
-        stubs: { RouterLink }, // vue-router-mock defaults RouterLink to stub. But this test needs full render. -> https://github.com/posva/vue-router-mock#stubs
+        plugins: [router],
       },
     })
 
-    expect(wrapper.element).toMatchSnapshot()
+    const listitem = getByRole('listitem')
+    const link = within(listitem).getByRole('link', { name: 'Mock-Route' })
+    expect(link).toHaveAttribute('href', mockRoute.path)
+    within(listitem).getByText('Link Text')
   })
 
-  test('renders link tag for route', () => {
-    const wrapper = mount(NavLink, {
+  it('WHEN route is active THEN has aria-current', async () => {
+    const user = userEvent.setup()
+    const { getByRole, queryByRole } = render(NavLink, {
       props: { to: mockRoute.path },
       slots: { default: 'Link Text' },
       global: {
-        stubs: { RouterLink }, // vue-router-mock defaults RouterLink to stub. But this test needs full render. -> https://github.com/posva/vue-router-mock#stubs
+        plugins: [router],
       },
     })
+    expect(queryByRole('link', { current: 'page' })).not.toBeInTheDocument()
 
-    const link = wrapper.get('li > a')
-    expect(link.attributes()['href']).toBe(mockRoute.path)
-    expect(link.attributes()['title']).toBe(mockRoute.meta?.title)
-    expect(link.attributes()['aria-label']).toBe(mockRoute.meta?.title)
-    expect(link.text()).toBe('Link Text')
-  })
+    const link = getByRole('link', { name: 'Mock-Route' })
+    await user.click(link)
 
-  test('adds aria-current if route is active', async () => {
-    const wrapper = mount(NavLink, {
-      props: { to: mockRoute.path },
-      slots: { default: 'Link Text' },
-      global: {
-        stubs: { RouterLink },
-      },
-    })
-
-    await mockRouter.push(mockRoute.path)
-    await wrapper.vm.$nextTick()
-
-    const link = wrapper.get('a')
-    expect(link.attributes()['aria-current']).toBe('page')
+    expect(queryByRole('link', { current: 'page' })).toHaveAccessibleName('Mock-Route')
   })
 })
 
 // --- mocks 'n' stuff
 
+const homeRoute = {
+  path: '/',
+  meta: { title: 'Home' },
+  component: {},
+} as unknown as RouteRecordRaw
 const mockRoute = {
   path: '/mock-route',
   meta: { title: 'Mock-Route' },
   component: {},
 } as unknown as RouteRecordRaw
-const mockRouter = createRouterMock({ routes: [mockRoute] })
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [homeRoute, mockRoute],
+})
