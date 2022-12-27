@@ -7,7 +7,7 @@ describe('Header', () => {
     await router.push('/')
   })
 
-  test('renders page header and nav', () => {
+  it('renders page header and nav', () => {
     const { getByRole } = render(Header, {
       global: {
         plugins: [router],

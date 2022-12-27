@@ -4,7 +4,7 @@ import { render } from '@testing-library/vue'
 import router from '@/router'
 
 describe('Layout', () => {
-  test('renders', () => {
+  it('renders', () => {
     const pinia = createTestingPinia()
 
     const { getByRole } = render(Layout, {

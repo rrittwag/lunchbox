@@ -4,7 +4,7 @@ import { createTestingPinia } from '@tests/unit/test-utils'
 import { render } from '@testing-library/vue'
 
 describe('Settings', () => {
-  test('renders', () => {
+  it('renders', () => {
     const pinia = createTestingPinia()
     useTheme().$patch({ currentTheme: THEME_RED, colorScheme: 'system' })
 
