@@ -41,7 +41,7 @@ describe('Offer', () => {
 
     expect(getByRole('heading', { level: 4 })).toBeVisible()
     expect(getByLabelText('Preis')).toBeVisible()
-    expect(queryAllByRole('note')).toHaveLength(3)
+    expectNotes(queryAllByRole('note'))
   })
 })
 
