@@ -18,7 +18,7 @@ describe('OfferBox', () => {
     expect(items[1]).toHaveTextContent(/Soljanka/)
   })
 
-  it('WHEN offers are empty  THEN render just title', () => {
+  it('renders just title WHEN offers are empty', () => {
     const { getByRole, queryByRole } = render(OfferBox, {
       props: { provider: mensa, offers: [] },
     })
@@ -28,26 +28,24 @@ describe('OfferBox', () => {
   })
 
   it('hides details for screen size XS', () => {
-    const { container, getByRole } = render(OfferBox, {
+    const { queryAllByRole } = render(OfferBox, {
       props: { provider: mensa, offers: [gyros, soljanka] },
     })
 
     // FIXME: "aria-expanded" is not supported on role "article"
     // expect(getByRole('article', { expanded: false })).toBeInTheDocument()
-    // FIXME: Tailwind classes do not work with testing-library -> https://stackoverflow.com/a/74160802
-    // expect(container).not.toHaveTextContent(new RegExp(gyros.description))
+    expect(queryAllByRole('note')).toHaveLength(0)
   })
 
   it('WHEN clicked  THEN show details for screen size XS', async () => {
     const user = userEvent.setup()
-    const { container, getByRole } = render(OfferBox, {
+    const { getByRole, queryAllByRole } = render(OfferBox, {
       props: { provider: mensa, offers: [gyros, soljanka] },
     })
-    // FIXME: Tailwind classes do not work with testing-library -> https://stackoverflow.com/a/74160802
-    // expect(container).not.toHaveTextContent(new RegExp(gyros.description))
+    expect(queryAllByRole('note')).toHaveLength(0)
 
     await user.click(getByRole('article'))
 
-    expect(container).toHaveTextContent(new RegExp(gyros.description))
+    expect(queryAllByRole('note')).not.toHaveLength(0)
   })
 })
