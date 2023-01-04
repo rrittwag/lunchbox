@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test:unit": "cross-env LANG=de_DE.UTF-8 vitest --watch false",
-    "test:unit:report": "cross-env LANG=de_DE.UTF-8 vitest --watch false --reporter=junit --outputFile=tests/unit/report.xml",
+    "test": "cross-env LANG=de_DE.UTF-8 vitest run",
+    "test:report": "cross-env LANG=de_DE.UTF-8 vitest run --reporter=junit --outputFile=tests/unit/report.xml",
     "lint": "yarn lint:check --fix",
     "lint:check": "eslint --no-error-on-unmatched-pattern --ext .vue,.ts,.js src/** tests/**",
     "typecheck": "vue-tsc"

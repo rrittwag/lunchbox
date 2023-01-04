@@ -1,6 +1,6 @@
 import Settings from '@/views/Settings.vue'
 import { useTheme, THEME_RED } from '@/store/theme'
-import { createTestingPinia } from '@tests/unit/test-utils'
+import { createTestingPinia } from '@tests/test-utils'
 import { render } from '@testing-library/vue'
 
 describe('Settings', () => {

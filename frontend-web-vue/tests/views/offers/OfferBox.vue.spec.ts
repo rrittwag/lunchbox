@@ -1,5 +1,5 @@
 import OfferBox from '@/views/offers/OfferBox.vue'
-import { mensa, gyros, soljanka } from '@tests/unit/test-data'
+import { mensa, gyros, soljanka } from '@tests/test-data'
 import { render, within } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
 

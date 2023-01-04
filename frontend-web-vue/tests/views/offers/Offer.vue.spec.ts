@@ -1,5 +1,5 @@
 import Offer from '@/views/offers/Offer.vue'
-import { gyros } from '@tests/unit/test-data'
+import { gyros } from '@tests/test-data'
 import { render } from '@testing-library/vue'
 
 describe('Offer', () => {

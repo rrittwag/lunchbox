@@ -1,5 +1,5 @@
 import Layout from '@/views/Layout.vue'
-import { createTestingPinia } from '@tests/unit/test-utils'
+import { createTestingPinia } from '@tests/test-utils'
 import { render } from '@testing-library/vue'
 import router from '@/router'
 

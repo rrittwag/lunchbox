@@ -16,6 +16,7 @@ export default defineConfig({
     globals: true,
     setupFiles: '/tests/setup.ts',
     css: true,
+    passWithNoTests: true,
   },
   plugins: [
     vue(),
