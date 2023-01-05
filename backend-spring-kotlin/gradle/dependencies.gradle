@@ -6,7 +6,7 @@ ext.springBootVersion = '3.0.1'
 repositories { mavenCentral() }
 dependencies {
   // Spring Boot BOM
-  implementation(platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}"))
+  implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
 
   // Kotlin
   implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
@@ -33,4 +33,4 @@ dependencies {
 }
 
 // wir nutzen den resourcenschonenden Undertow statt Tomcat
-configurations.all { exclude module: 'spring-boot-starter-tomcat' }
+configurations.configureEach { exclude module: 'spring-boot-starter-tomcat' }

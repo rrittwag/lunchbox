@@ -16,7 +16,7 @@ spotless {
           'continuation_indent_size' : '2',
           'insert_final_newline': 'true',
           'max_line_length': '120',
-          'disable_rules': 'no-wildcard-imports'])
+          'ktlint_standard_no-wildcard-imports': 'disabled'])
   }
   groovyGradle {
     target '*.gradle', 'gradle/*.gradle'

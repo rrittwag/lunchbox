@@ -4,7 +4,7 @@
 apply plugin: "io.gitlab.arturbosch.detekt"
 
 detekt {
-  input = files('src/main/kotlin')
+  source = files('src/main/kotlin')
   config = files('gradle/lint/detekt_config.yml')
 }
 
