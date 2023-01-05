@@ -17,4 +17,9 @@ if (typeof window !== 'undefined') {
   import('./pwa')
 }
 
-createApp(App).use(router).use(createPinia()).mount('#app')
+const app = createApp(App)
+
+app.use(router)
+app.use(createPinia())
+
+router.isReady().then(() => app.mount('#app'))
