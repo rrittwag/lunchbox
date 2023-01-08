@@ -9,21 +9,23 @@ import userEvent from '@testing-library/user-event'
 
 describe('DaySelectorButton', () => {
   it('renders as previous day', () => {
-    const { queryByRole } = render(DaySelectorButton, {
+    const { getByRole } = render(DaySelectorButton, {
       props: { direction: DaySelectorDirection.PREVIOUS },
     })
 
-    expect(queryByRole('button', { name: LABEL_GO_TO_PREVIOUS_DAY })).toBeEnabled()
-    expect(queryByRole('button', { name: LABEL_GO_TO_NEXT_DAY })).not.toBeInTheDocument()
+    const button = getByRole('button')
+    expect(button).toHaveAccessibleName(LABEL_GO_TO_PREVIOUS_DAY)
+    expect(button).toBeEnabled()
   })
 
   it('renders as next day', () => {
-    const { queryByRole } = render(DaySelectorButton, {
+    const { getByRole } = render(DaySelectorButton, {
       props: { direction: DaySelectorDirection.NEXT },
     })
 
-    expect(queryByRole('button', { name: LABEL_GO_TO_PREVIOUS_DAY })).not.toBeInTheDocument()
-    expect(queryByRole('button', { name: LABEL_GO_TO_NEXT_DAY })).toBeEnabled()
+    const button = getByRole('button')
+    expect(button).toHaveAccessibleName(LABEL_GO_TO_NEXT_DAY)
+    expect(button).toBeEnabled()
   })
 
   it('renders disabled', () => {
