@@ -63,8 +63,8 @@ class LunchResolverSuppenkulttour(
     // als Reintext auswerten (mit Pipes als Zeilenumbrüchen)
     val wochenplanString = node2text(wochenplanSection)
 
-    val wochensuppenStart = wochenplanString.indexOf("Die Wochensuppen")
-    val tagessuppenStart = wochenplanString.indexOf("Die Tagessuppen")
+    val wochensuppenStart = wochenplanString.lowercase().indexOf("die wochensuppen")
+    val tagessuppenStart = wochenplanString.lowercase().indexOf("die tagessuppen")
 
     val wochensuppen =
       if (wochensuppenStart > -1 && wochensuppenStart < tagessuppenStart) {
