@@ -94,9 +94,9 @@ vulnerabilities docker:
     - echo $TRIVY_VERSION
     - wget --no-verbose https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz -O - | tar -zxvf -
     - docker build -t $IMAGE --pull .
-    - ./trivy image --exit-code 0 --no-progress --format template --template "@contrib/gitlab.tpl" -o gl-container-scanning-report.json $IMAGE
-    - ./trivy image --exit-code 0 --no-progress --severity HIGH $IMAGE
-    - ./trivy image --exit-code 1 --severity CRITICAL --no-progress $IMAGE
+    - ./trivy image --exit-code 0 --no-progress --format template --template "@contrib/gitlab.tpl" --security-checks vuln -o gl-container-scanning-report.json $IMAGE
+    - ./trivy image --exit-code 0 --no-progress --severity HIGH --security-checks vuln $IMAGE
+    - ./trivy image --exit-code 1 --severity CRITICAL --no-progress --security-checks vuln $IMAGE
   artifacts:
     when: always
     reports:
