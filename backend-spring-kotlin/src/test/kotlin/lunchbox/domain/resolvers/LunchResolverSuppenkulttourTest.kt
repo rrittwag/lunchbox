@@ -589,12 +589,26 @@ class LunchResolverSuppenkulttourTest {
   }
 
   @Test
-  fun `resolve offers for week of 2023-09-01`() {
+  fun `resolve offers for week of 2023-01-09`() {
     val url = javaClass.getResource("/menus/suppenkulttour/2023-01-09.html")
 
     val offers = resolver().resolve(url)
 
     val week = weekOf("2023-01-09")
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 3
+  }
+
+  @Test
+  fun `resolve offers for week of 2023-01-30`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2023-01-30.html")
+
+    val offers = resolver().resolve(url)
+
+    val week = weekOf("2023-01-30")
     offers.filter { it.day == week.monday } shouldHaveSize 3
     offers.filter { it.day == week.tuesday } shouldHaveSize 3
     offers.filter { it.day == week.wednesday } shouldHaveSize 3

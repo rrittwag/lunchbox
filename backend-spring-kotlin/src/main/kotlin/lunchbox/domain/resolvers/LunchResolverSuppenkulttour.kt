@@ -64,7 +64,7 @@ class LunchResolverSuppenkulttour(
     val wochenplanString = node2text(wochenplanSection)
 
     val wochensuppenStart = wochenplanString.lowercase().indexOf("die wochensuppen")
-    val tagessuppenStart = wochenplanString.lowercase().indexOf("die tagessuppen")
+    val tagessuppenStart = wochenplanString.lowercase().indexOfAny(setOf("die tagessuppen", "dietagessuppen"))
 
     val wochensuppen =
       if (wochensuppenStart > -1 && wochensuppenStart < tagessuppenStart) {
@@ -206,6 +206,7 @@ class LunchResolverSuppenkulttour(
     if (title == "geschlossen") return null
     if (title.split(Regex("[ ()]")).contains("Feiertag")) return null
     if (title.contains("Liebe Gäste")) return null
+    if (title.lowercase().contains("klein 300 ml")) return null
 
     val description = descriptionList
       .filter { it.isNotEmpty() }
