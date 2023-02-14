@@ -368,9 +368,12 @@ class LunchResolverSuppenkulttour(
   companion object {
     fun resolveMonday(text: String): LocalDate? {
       var matchOffer = Regex(""".*Suppen .*vom +([\d.]+).*""").find(text)
-      if (matchOffer == null) {
-        matchOffer = Regex("""([\d.]+) bis .*""").find(text) ?: return null
-      }
+      if (matchOffer == null)
+        matchOffer = Regex("""([\d.]+) bis .*""").find(text)
+      if (matchOffer == null)
+        matchOffer = Regex("""([\d.]+) [-–] .*""").find(text)
+      if (matchOffer == null)
+        return null
 
       val (firstDayString) = matchOffer.destructured
       val firstDay = StringParser.parseLocalDate(firstDayString) ?: return null
