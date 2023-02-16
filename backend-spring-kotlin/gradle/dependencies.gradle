@@ -24,7 +24,7 @@ dependencies {
   implementation 'org.apache.pdfbox:pdfbox:2.0.27'
 
   // RSS/Atom feed
-  implementation 'com.rometools:rome:1.18.0'
+  implementation 'com.rometools:rome:1.19.0'
 
   // money money money
   implementation 'org.joda:joda-money:1.0.3'
