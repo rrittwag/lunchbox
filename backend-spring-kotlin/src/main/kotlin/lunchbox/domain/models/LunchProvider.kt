@@ -39,5 +39,6 @@ enum class LunchProvider(
   FELDKUECHE(7, "Feldküche Karow", BERLIN_SPRINGPFUHL, URL("https://www.feldkuechebkarow.de/speiseplan")),
   DAS_KRAUTHOF(8, "Das Krauthof", NEUBRANDENBURG, URL("https://www.daskrauthof.de/karte"), false),
   TABBOULEH(9, "Tabbouleh", BERLIN_SPRINGPFUHL, URL("https://www.restaurant-tabbouleh.de/menu"), false),
-  PHOENIXEUM(10, "Phoenixeum", NEUBRANDENBURG, URL("https://www.suppenkult.com/wochenplan.html"))
+  PHOENIXEUM(10, "Phoenixeum", NEUBRANDENBURG, URL("https://www.suppenkult.com/wochenplan.html")),
+  BOULEVARD_IMBISS(11, "Boulevard Imbiss", NEUBRANDENBURG, URL("https://www.boulevard-imbiss.de/"))
 }

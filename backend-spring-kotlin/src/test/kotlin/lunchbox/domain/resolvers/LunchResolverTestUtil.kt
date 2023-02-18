@@ -14,6 +14,8 @@ fun euro(moneyStr: String): Money = Money.parse("EUR $moneyStr")
 
 fun weekOf(dateString: String): Week = Week(date(dateString))
 
+fun weekOfToday(): Week = Week(LocalDate.now())
+
 data class Week(val dateInWeek: LocalDate) {
   val monday: LocalDate = dateInWeek.with(DayOfWeek.MONDAY)
   val tuesday: LocalDate = dateInWeek.with(DayOfWeek.TUESDAY)
