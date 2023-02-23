@@ -12,21 +12,21 @@
     "typecheck": "vue-tsc"
   },
   "dependencies": {
-    "@vueuse/core": "9.12.0",
+    "@vueuse/core": "9.13.0",
     "focus-visible": "5.2.0",
-    "pinia": "2.0.30",
+    "pinia": "2.0.32",
     "vue": "3.2.47",
     "vue-router": "4.1.6"
   },
   "devDependencies": {
     "@iconify-json/fa-solid": "1.1.4",
-    "@pinia/testing": "0.0.14",
+    "@pinia/testing": "0.0.15",
     "@rushstack/eslint-patch": "1.2.0",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/user-event": "14.4.3",
     "@testing-library/vue": "6.6.1",
     "@vitejs/plugin-vue": "4.0.0",
-    "@vue/eslint-config-prettier": "7.0.0",
+    "@vue/eslint-config-prettier": "7.1.0",
     "@vue/eslint-config-typescript": "11.0.2",
     "autoprefixer": "10.4.13",
     "cross-env": "7.0.3",
@@ -35,17 +35,17 @@
     "jsdom": "21.1.0",
     "prettier": "2.8.4",
     "prettier-plugin-tailwindcss": "0.2.3",
-    "sass": "1.58.1",
-    "tailwindcss": "3.2.6",
+    "sass": "1.58.3",
+    "tailwindcss": "3.2.7",
     "typescript": "4.9.5",
     "unplugin-icons": "0.15.3",
-    "vite": "4.1.1",
+    "vite": "4.1.4",
     "vite-plugin-pwa": "0.14.4",
     "vitest": "0.28.5",
-    "vue-tsc": "1.1.0"
+    "vue-tsc": "1.1.7"
   },
   "resolutions": {
-    "terser": "5.16.3"
+    "terser": "5.16.4"
   },
   "engines": {
     "node": ">=18.0.0"
