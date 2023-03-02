@@ -30,7 +30,7 @@
     "@vue/eslint-config-typescript": "11.0.2",
     "autoprefixer": "10.4.13",
     "cross-env": "7.0.3",
-    "eslint": "8.34.0",
+    "eslint": "8.35.0",
     "eslint-plugin-vue": "9.9.0",
     "jsdom": "21.1.0",
     "prettier": "2.8.4",
@@ -41,11 +41,11 @@
     "unplugin-icons": "0.15.3",
     "vite": "4.1.4",
     "vite-plugin-pwa": "0.14.4",
-    "vitest": "0.28.5",
-    "vue-tsc": "1.1.7"
+    "vitest": "0.29.2",
+    "vue-tsc": "1.2.0"
   },
   "resolutions": {
-    "terser": "5.16.4"
+    "terser": "5.16.5"
   },
   "engines": {
     "node": ">=18.0.0"
