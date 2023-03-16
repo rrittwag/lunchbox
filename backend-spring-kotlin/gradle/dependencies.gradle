@@ -1,7 +1,7 @@
 // -------------------
 //   Abhängigkeiten der Applikation
 // -------------------
-ext.springBootVersion = '3.0.3'
+ext.springBootVersion = '3.0.4'
 
 repositories { mavenCentral() }
 dependencies {
@@ -24,7 +24,7 @@ dependencies {
   implementation 'org.apache.pdfbox:pdfbox:2.0.27'
 
   // RSS/Atom feed
-  implementation 'com.rometools:rome:2.0.0'
+  implementation 'com.rometools:rome:2.1.0'
 
   // money money money
   implementation 'org.joda:joda-money:1.0.3'
