@@ -90,13 +90,16 @@ class LunchResolverPhoenixeum(
   }
 
   private fun resolveMonday(node: Element, site: Document): LocalDate? {
-    val h3 = node.selectFirst("h3") ?: return null
-    var day = StringParser.parseLocalDate(h3.text()) ?: return null
-    val jahr = jahr(site)
-    if (jahr != null) {
-      day = day.withYear(jahr)
+    val headings = node.select("h2,h3")
+    for (heading in headings) {
+      var day = StringParser.parseLocalDate(heading.text()) ?: continue
+      val jahr = jahr(site)
+      if (jahr != null) {
+        day = day.withYear(jahr)
+      }
+      return day.with(DayOfWeek.MONDAY)
     }
-    return day.with(DayOfWeek.MONDAY)
+    return null
   }
 
   private fun node2text(node: Node): String {
@@ -116,6 +119,8 @@ class LunchResolverPhoenixeum(
   private fun adjustText(text: String) =
     text
       .replace("–", "-")
+      .replace(" - ", "|")
+      .replace(" -mit ", " mit ")
       .replace(" , ", ", ")
       .replace("\n", "")
       .replace("\\u00a0", " ") // NO-BREAK SPACE durch normales Leerzeichen ersetzen

@@ -64,7 +64,7 @@ class LunchResolverSuppenkulttour(
     val wochenplanString = node2text(wochenplanSection)
 
     val wochensuppenStart = wochenplanString.lowercase().indexOf("die wochensuppen")
-    val tagessuppenStart = wochenplanString.lowercase().indexOfAny(setOf("die tagessuppen", "dietagessuppen"))
+    val tagessuppenStart = wochenplanString.lowercase().indexOfAny(setOf("die tagessuppen", "dietagessuppen", "montag"))
 
     val wochensuppen =
       if (wochensuppenStart > -1 && wochensuppenStart < tagessuppenStart) {

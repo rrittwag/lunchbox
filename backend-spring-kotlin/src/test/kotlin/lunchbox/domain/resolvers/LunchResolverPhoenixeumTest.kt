@@ -438,4 +438,50 @@ class LunchResolverPhoenixeumTest {
       providerId
     )
   }
+
+  @Test
+  fun `resolve offers for week of 2023-03-20`() {
+    val url = javaClass.getResource("/menus/phoenixeum/2023-03-20.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 4
+    val week = weekOf("2023-03-20")
+    offers shouldContain LunchOffer(
+      0,
+      "buntes Ofengemüse",
+      "mit Olivenöl, Paprika, Zucchini, Champignons, Kartoffeln, Möhren, Sellerie, Süßkartoffeln mit Feta und Sonnenblumenkernen, Zitronenjoghurt als Dip",
+      week.monday,
+      euro("7.50"),
+      emptySet(),
+      providerId
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "buntes Ofengemüse",
+      "mit Olivenöl, Paprika, Zucchini, Champignons, Kartoffeln, Möhren, Sellerie, Süßkartoffeln mit Feta und Sonnenblumenkernen, Zitronenjoghurt als Dip",
+      week.tuesday,
+      euro("7.50"),
+      emptySet(),
+      providerId
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "Currywurst",
+      "mit hausgemachter Currysoße & Wedges",
+      week.wednesday,
+      euro("7.50"),
+      emptySet(),
+      providerId
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "Currywurst",
+      "mit hausgemachter Currysoße & Wedges",
+      week.thursday,
+      euro("7.50"),
+      emptySet(),
+      providerId
+    )
+  }
 }
