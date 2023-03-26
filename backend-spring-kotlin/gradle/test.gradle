@@ -67,7 +67,11 @@ jacocoTestReport {
 
 jacocoTestCoverageVerification {
   violationRules {
-    rule { limit { minimum = 0.5 } } // mindestens 50% Testabdeckung, sonst schlägt Task fehl!
+    rule {
+      limit {
+        minimum = 0.5
+      }
+    } // mindestens 50% Testabdeckung, sonst schlägt Task fehl!
   }
 }
 
