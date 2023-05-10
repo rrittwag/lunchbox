@@ -20,8 +20,8 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
   // html/xml/pdf
-  implementation 'org.jsoup:jsoup:1.15.4'
-  implementation 'org.apache.pdfbox:pdfbox:2.0.27'
+  implementation 'org.jsoup:jsoup:1.16.1'
+  implementation 'org.apache.pdfbox:pdfbox:2.0.28'
 
   // RSS/Atom feed
   implementation 'com.rometools:rome:2.1.0'
