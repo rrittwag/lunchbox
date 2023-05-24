@@ -1,4 +1,4 @@
-package lunchbox.domain.resolvers /* ktlint-disable max-line-length */
+package lunchbox.domain.resolvers
 
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
@@ -51,7 +51,7 @@ class LunchResolverKrauthofTest {
       week.tuesday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -60,7 +60,7 @@ class LunchResolverKrauthofTest {
       week.tuesday,
       euro("5.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -69,7 +69,7 @@ class LunchResolverKrauthofTest {
       week.tuesday,
       euro("6.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -78,7 +78,7 @@ class LunchResolverKrauthofTest {
       week.tuesday,
       euro("6.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -87,7 +87,7 @@ class LunchResolverKrauthofTest {
       week.tuesday,
       euro("7.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -96,7 +96,7 @@ class LunchResolverKrauthofTest {
       week.tuesday,
       euro("6.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -105,7 +105,7 @@ class LunchResolverKrauthofTest {
       week.tuesday,
       euro("3.10"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -131,7 +131,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("3.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -140,7 +140,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -149,7 +149,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("5.10"),
       setOf("vegetarisch"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -158,7 +158,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("7.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -167,7 +167,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("7.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -176,7 +176,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("6.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -185,7 +185,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("2.90"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -221,7 +221,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -247,7 +247,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -256,7 +256,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -265,7 +265,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("5.90"),
       setOf("vegetarisch"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -274,7 +274,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("6.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -283,7 +283,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("6.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -292,7 +292,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("6.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -301,7 +301,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("2.90"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -353,7 +353,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("4.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -362,7 +362,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("5.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -371,7 +371,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("6.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -380,7 +380,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("7.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -389,7 +389,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("7.40"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -398,7 +398,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("6.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -407,7 +407,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("3.10"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -430,7 +430,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("4.30"),
       setOf("vegan"),
-      providerId
+      providerId,
     )
   }
 
@@ -456,7 +456,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("6.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -465,7 +465,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("7.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -474,7 +474,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("6.50"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -500,7 +500,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("5.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -509,7 +509,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("6.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -518,7 +518,7 @@ class LunchResolverKrauthofTest {
       week.monday,
       euro("7.50"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 }

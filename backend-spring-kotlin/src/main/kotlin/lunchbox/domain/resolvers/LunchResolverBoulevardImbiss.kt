@@ -14,7 +14,7 @@ import java.time.LocalDate
 @Component
 class LunchResolverBoulevardImbiss(
   val dateValidator: DateValidator,
-  val htmlParser: HtmlParser
+  val htmlParser: HtmlParser,
 ) : LunchResolver {
 
   override val provider = BOULEVARD_IMBISS
@@ -56,7 +56,7 @@ class LunchResolverBoulevardImbiss(
 
   private fun multiplyWochenangebote(
     wochenOffers: List<LunchOffer>,
-    dates: List<LocalDate>
+    dates: List<LocalDate>,
   ): List<LunchOffer> {
     val sortedDates = dates.toSet().toList().sorted()
     return wochenOffers.flatMap { offer -> sortedDates.map { date -> offer.copy(day = date) } }
@@ -64,12 +64,12 @@ class LunchResolverBoulevardImbiss(
 
   enum class Weekday(
     val label: String,
-    val order: Long
+    val order: Long,
   ) {
     MONTAG("Montag", 0),
     DIENSTAG("Dienstag", 1),
     MITTWOCH("Mittwoch", 2),
     DONNERSTAG("Donnerstag", 3),
-    FREITAG("Freitag", 4);
+    FREITAG("Freitag", 4),
   }
 }

@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.get
 
 @WebMvcTest(LunchProviderApi::class)
 class LunchProviderApiTest(
-  @Autowired val mockMvc: MockMvc
+  @Autowired val mockMvc: MockMvc,
 ) {
 
   @Nested
@@ -65,7 +65,7 @@ class LunchProviderApiTest(
 
 @JsonTest
 class LunchProviderDTOTest(
-  @Autowired val json: JacksonTester<LunchProviderDTO>
+  @Autowired val json: JacksonTester<LunchProviderDTO>,
 ) {
 
   @Test

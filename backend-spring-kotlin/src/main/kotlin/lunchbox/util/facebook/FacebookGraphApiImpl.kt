@@ -9,7 +9,7 @@ import java.time.Duration
 @ConfigurationProperties("external.facebook")
 data class FacebookConfigProperties(
   val appId: String = "",
-  val appSecret: String = ""
+  val appSecret: String = "",
 )
 
 /**
@@ -17,7 +17,7 @@ data class FacebookConfigProperties(
  */
 @Component
 class FacebookGraphApiImpl(
-  val config: FacebookConfigProperties
+  val config: FacebookConfigProperties,
 ) : FacebookGraphApi {
 
   override fun <T : GraphApiResource> query(url: String, clazz: Class<T>): T? {

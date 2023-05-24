@@ -16,7 +16,7 @@ import java.time.LocalDate
 @Component
 class LunchResolverSaltNPepper(
   val dateValidator: DateValidator,
-  val htmlParser: HtmlParser
+  val htmlParser: HtmlParser,
 ) : LunchResolver {
 
   override val provider = SALT_N_PEPPER
@@ -67,7 +67,7 @@ class LunchResolverSaltNPepper(
 
   private fun resolveDayOffers(
     section2node: Map<OfferSection, Element>,
-    monday: LocalDate
+    monday: LocalDate,
   ): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
     for ((section, node) in section2node) {
@@ -79,7 +79,7 @@ class LunchResolverSaltNPepper(
 
   private fun resolveWeekOffers(
     section2node: Map<OfferSection, Element>,
-    days: Set<LocalDate>
+    days: Set<LocalDate>,
   ): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
     for ((_, node) in section2node)
@@ -126,14 +126,15 @@ class LunchResolverSaltNPepper(
 
   enum class OfferSection(
     val label: String,
-    val order: Long
+    val order: Long,
   ) {
     MONTAG("Montag", 0),
     DIENSTAG("Dienstag", 1),
     MITTWOCH("Mittwoch", 2),
     DONNERSTAG("Donnerstag", 3),
     FREITAG("Freitag", 4),
-    WOCHENANGEBOT("Unser Wochenangebot", -1);
+    WOCHENANGEBOT("Unser Wochenangebot", -1),
+    ;
 
     companion object {
       val weekdayValues = listOf(MONTAG, DIENSTAG, MITTWOCH, DONNERSTAG, FREITAG)

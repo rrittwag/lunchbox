@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service
 @Service
 class LunchOfferUpdate(
   val repo: LunchOfferRepository,
-  val worker: LunchOfferUpdateWorker
+  val worker: LunchOfferUpdateWorker,
 ) {
 
   private val logger = KotlinLogging.logger {}
@@ -23,7 +23,7 @@ class LunchOfferUpdate(
   @PostConstruct // Aktualisiere beim Start und ...
   @Schedules(
     Scheduled(cron = "0 0  7 * *   *", zone = "Europe/Berlin"), // jeden Tag um 7 Uhr und ...
-    Scheduled(cron = "0 0 10 * * MON", zone = "Europe/Berlin") // jeden Montag um 10 Uhr
+    Scheduled(cron = "0 0 10 * * MON", zone = "Europe/Berlin"), // jeden Montag um 10 Uhr
   )
   fun updateOffers() {
     logger.info { "starting offer update" }

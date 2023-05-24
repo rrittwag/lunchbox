@@ -1,4 +1,6 @@
-package lunchbox.domain.resolvers /* ktlint-disable max-line-length */
+@file:Suppress("ktlint:max-line-length")
+
+package lunchbox.domain.resolvers
 
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
@@ -30,7 +32,7 @@ class LunchResolverPhoenixeumTest {
       week.monday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -39,7 +41,7 @@ class LunchResolverPhoenixeumTest {
       week.tuesday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -48,7 +50,7 @@ class LunchResolverPhoenixeumTest {
       week.wednesday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -57,7 +59,7 @@ class LunchResolverPhoenixeumTest {
       week.thursday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     week = weekOf("2020-04-13")
@@ -68,7 +70,7 @@ class LunchResolverPhoenixeumTest {
       week.tuesday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -77,7 +79,7 @@ class LunchResolverPhoenixeumTest {
       week.wednesday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -86,7 +88,7 @@ class LunchResolverPhoenixeumTest {
       week.thursday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -106,7 +108,7 @@ class LunchResolverPhoenixeumTest {
       week.tuesday,
       euro("5.00"),
       setOf("vegetarisch"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -115,7 +117,7 @@ class LunchResolverPhoenixeumTest {
       week.wednesday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -124,7 +126,7 @@ class LunchResolverPhoenixeumTest {
       week.thursday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -144,7 +146,7 @@ class LunchResolverPhoenixeumTest {
       week.monday,
       euro("5.00"),
       setOf(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -153,7 +155,7 @@ class LunchResolverPhoenixeumTest {
       week.tuesday,
       euro("5.00"),
       setOf(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -162,7 +164,7 @@ class LunchResolverPhoenixeumTest {
       week.wednesday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -171,7 +173,7 @@ class LunchResolverPhoenixeumTest {
       week.thursday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     week = weekOf("2020-05-11")
@@ -182,7 +184,7 @@ class LunchResolverPhoenixeumTest {
       week.monday,
       euro("5.00"),
       setOf(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -191,7 +193,7 @@ class LunchResolverPhoenixeumTest {
       week.tuesday,
       euro("5.00"),
       setOf(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -200,7 +202,7 @@ class LunchResolverPhoenixeumTest {
       week.wednesday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -209,7 +211,7 @@ class LunchResolverPhoenixeumTest {
       week.thursday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -229,7 +231,7 @@ class LunchResolverPhoenixeumTest {
       week.monday,
       euro("5.00"),
       setOf(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -238,7 +240,7 @@ class LunchResolverPhoenixeumTest {
       week.tuesday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -247,7 +249,7 @@ class LunchResolverPhoenixeumTest {
       week.wednesday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -267,7 +269,7 @@ class LunchResolverPhoenixeumTest {
       week.monday,
       euro("5.00"),
       setOf(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -276,7 +278,7 @@ class LunchResolverPhoenixeumTest {
       week.tuesday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -285,7 +287,7 @@ class LunchResolverPhoenixeumTest {
       week.wednesday,
       euro("6.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -294,7 +296,7 @@ class LunchResolverPhoenixeumTest {
       week.thursday,
       euro("6.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -314,7 +316,7 @@ class LunchResolverPhoenixeumTest {
       week.monday,
       euro("6.50"),
       setOf(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -323,7 +325,7 @@ class LunchResolverPhoenixeumTest {
       week.tuesday,
       euro("6.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -332,7 +334,7 @@ class LunchResolverPhoenixeumTest {
       week.wednesday,
       euro("6.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -341,7 +343,7 @@ class LunchResolverPhoenixeumTest {
       week.thursday,
       euro("6.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -361,7 +363,7 @@ class LunchResolverPhoenixeumTest {
       week.monday,
       euro("6.00"),
       setOf(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -370,7 +372,7 @@ class LunchResolverPhoenixeumTest {
       week.tuesday,
       euro("6.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -379,7 +381,7 @@ class LunchResolverPhoenixeumTest {
       week.wednesday,
       euro("6.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -388,7 +390,7 @@ class LunchResolverPhoenixeumTest {
       week.thursday,
       euro("6.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -408,7 +410,7 @@ class LunchResolverPhoenixeumTest {
       week.monday,
       euro("5.50"),
       setOf(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -417,7 +419,7 @@ class LunchResolverPhoenixeumTest {
       week.tuesday,
       euro("5.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -426,7 +428,7 @@ class LunchResolverPhoenixeumTest {
       week.wednesday,
       euro("5.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -435,7 +437,7 @@ class LunchResolverPhoenixeumTest {
       week.thursday,
       euro("5.50"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -454,7 +456,7 @@ class LunchResolverPhoenixeumTest {
       week.monday,
       euro("7.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -463,7 +465,7 @@ class LunchResolverPhoenixeumTest {
       week.tuesday,
       euro("7.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -472,7 +474,7 @@ class LunchResolverPhoenixeumTest {
       week.wednesday,
       euro("7.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -481,7 +483,7 @@ class LunchResolverPhoenixeumTest {
       week.thursday,
       euro("7.50"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 }

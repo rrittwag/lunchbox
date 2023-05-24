@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service
 @Service
 class LunchOfferUpdateWorker(
   val repo: LunchOfferRepository,
-  val resolvers: List<LunchResolver>
+  val resolvers: List<LunchResolver>,
 ) {
 
   private val logger = KotlinLogging.logger {}

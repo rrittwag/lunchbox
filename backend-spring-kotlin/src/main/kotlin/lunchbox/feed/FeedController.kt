@@ -28,13 +28,13 @@ const val URL_FEED = "/feed"
  */
 @RestController
 class FeedController(
-  val repo: LunchOfferRepository
+  val repo: LunchOfferRepository,
 ) {
 
   @GetMapping(URL_FEED)
   fun feed(
     @RequestParam location: LunchLocation,
-    request: HttpServletRequest
+    request: HttpServletRequest,
   ): Feed =
     // Spring automatically converts Rome feeds
     // -> https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/converter/feed/AtomFeedHttpMessageConverter.html
@@ -42,7 +42,7 @@ class FeedController(
 
   fun createFeed(
     location: LunchLocation,
-    feedLink: String
+    feedLink: String,
   ): Feed {
     val providerIDs = LunchProvider.values().filter { it.location == location }.map { it.id }
     val offersForProviders = repo.findAll().filter { providerIDs.contains(it.provider) }
@@ -54,7 +54,7 @@ class FeedController(
   private fun createFeed(
     location: LunchLocation,
     feedLink: String,
-    offers: List<LunchOffer>
+    offers: List<LunchOffer>,
   ): Feed {
     val offersByDay = offers.groupBy { it.day }.toSortedMap(reverseOrder())
 
@@ -82,7 +82,7 @@ class FeedController(
           Content().apply {
             type = Content.HTML
             value = createHtmlLunchday(offersForDay)
-          }
+          },
         )
       }
       feed.entries.add(entry)

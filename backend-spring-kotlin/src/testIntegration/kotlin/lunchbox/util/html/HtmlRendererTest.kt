@@ -1,4 +1,4 @@
-package lunchbox.util.html /* ktlint-disable max-line-length */
+package lunchbox.util.html
 
 import lunchbox.util.ocr.KtDockerComposeContainer
 import org.amshove.kluent.shouldHaveSize

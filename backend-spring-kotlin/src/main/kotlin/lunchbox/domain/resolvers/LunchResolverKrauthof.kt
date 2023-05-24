@@ -15,7 +15,7 @@ import java.time.LocalDate
 @Component
 class LunchResolverKrauthof(
   val dateValidator: DateValidator,
-  val htmlParser: HtmlParser
+  val htmlParser: HtmlParser,
 ) : LunchResolver {
 
   override val provider = DAS_KRAUTHOF
@@ -117,7 +117,7 @@ class LunchResolverKrauthof(
 
   data class OfferRow(
     val name: String,
-    val price: Money?
+    val price: Money?,
   ) {
     fun merge(otherRow: OfferRow): OfferRow {
       val newName = listOf(name, otherRow.name).filter { it.isNotEmpty() }.joinToString(" ")

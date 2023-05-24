@@ -1,4 +1,6 @@
-package lunchbox.domain.resolvers /* ktlint-disable max-line-length */
+@file:Suppress("ktlint:max-line-length")
+
+package lunchbox.domain.resolvers
 
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
@@ -32,7 +34,7 @@ class LunchResolverSuppenkulttourTest {
         weekday,
         euro("4.70"),
         emptySet(),
-        providerId
+        providerId,
       )
       offers shouldContain LunchOffer(
         0,
@@ -41,7 +43,7 @@ class LunchResolverSuppenkulttourTest {
         weekday,
         euro("4.70"),
         emptySet(),
-        providerId
+        providerId,
       )
       offers shouldContain LunchOffer(
         0,
@@ -50,7 +52,7 @@ class LunchResolverSuppenkulttourTest {
         weekday,
         euro("4.70"),
         setOf("vegan"),
-        providerId
+        providerId,
       )
     }
     offers shouldContain LunchOffer(
@@ -60,7 +62,7 @@ class LunchResolverSuppenkulttourTest {
       week.monday,
       euro("4.70"),
       setOf("vegetarisch", "Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -69,7 +71,7 @@ class LunchResolverSuppenkulttourTest {
       week.tuesday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -78,7 +80,7 @@ class LunchResolverSuppenkulttourTest {
       week.wednesday,
       euro("4.70"),
       setOf("vegan", "Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -87,7 +89,7 @@ class LunchResolverSuppenkulttourTest {
       week.thursday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -96,7 +98,7 @@ class LunchResolverSuppenkulttourTest {
       week.friday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
 
     week = weekOf("2019-01-21")
@@ -108,7 +110,7 @@ class LunchResolverSuppenkulttourTest {
         weekday,
         euro("4.70"),
         emptySet(),
-        providerId
+        providerId,
       )
       offers shouldContain LunchOffer(
         0,
@@ -117,7 +119,7 @@ class LunchResolverSuppenkulttourTest {
         weekday,
         euro("4.70"),
         emptySet(),
-        providerId
+        providerId,
       )
       offers shouldContain LunchOffer(
         0,
@@ -126,7 +128,7 @@ class LunchResolverSuppenkulttourTest {
         weekday,
         euro("4.70"),
         setOf("vegan"),
-        providerId
+        providerId,
       )
     }
     offers shouldContain LunchOffer(
@@ -136,7 +138,7 @@ class LunchResolverSuppenkulttourTest {
       week.monday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -145,7 +147,7 @@ class LunchResolverSuppenkulttourTest {
       week.tuesday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -154,7 +156,7 @@ class LunchResolverSuppenkulttourTest {
       week.wednesday,
       euro("4.70"),
       setOf("vegetarisch", "Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -163,7 +165,7 @@ class LunchResolverSuppenkulttourTest {
       week.thursday,
       euro("4.70"),
       setOf("vegan", "Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -172,7 +174,7 @@ class LunchResolverSuppenkulttourTest {
       week.friday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
   }
 
@@ -197,7 +199,7 @@ class LunchResolverSuppenkulttourTest {
       week.monday,
       euro("4.70"),
       setOf("vegan"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -206,7 +208,7 @@ class LunchResolverSuppenkulttourTest {
       week.thursday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
 
     week = weekOf("2019-02-25")
@@ -222,7 +224,7 @@ class LunchResolverSuppenkulttourTest {
       week.monday,
       euro("4.70"),
       setOf("vegan"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -231,7 +233,7 @@ class LunchResolverSuppenkulttourTest {
       week.monday,
       euro("4.70"),
       setOf("vegetarisch", "Tagessuppe"),
-      providerId
+      providerId,
     )
   }
 
@@ -255,7 +257,7 @@ class LunchResolverSuppenkulttourTest {
       week.tuesday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -264,7 +266,7 @@ class LunchResolverSuppenkulttourTest {
       week.tuesday,
       euro("4.70"),
       setOf("vegan"),
-      providerId
+      providerId,
     )
   }
 
@@ -288,7 +290,7 @@ class LunchResolverSuppenkulttourTest {
       week.friday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
   }
 
@@ -312,7 +314,7 @@ class LunchResolverSuppenkulttourTest {
       week.monday,
       euro("4.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -321,7 +323,7 @@ class LunchResolverSuppenkulttourTest {
       week.monday,
       euro("4.70"),
       setOf("vegan"),
-      providerId
+      providerId,
     )
   }
 
@@ -345,7 +347,7 @@ class LunchResolverSuppenkulttourTest {
       week.friday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
   }
 
@@ -369,7 +371,7 @@ class LunchResolverSuppenkulttourTest {
       week.monday,
       euro("4.50"),
       setOf("vegan", "Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -378,7 +380,7 @@ class LunchResolverSuppenkulttourTest {
       week.tuesday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -387,7 +389,7 @@ class LunchResolverSuppenkulttourTest {
       week.wednesday,
       euro("4.70"),
       setOf("vegan", "Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -396,7 +398,7 @@ class LunchResolverSuppenkulttourTest {
       week.thursday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -405,7 +407,7 @@ class LunchResolverSuppenkulttourTest {
       week.friday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
   }
 
@@ -429,7 +431,7 @@ class LunchResolverSuppenkulttourTest {
       week.friday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -438,7 +440,7 @@ class LunchResolverSuppenkulttourTest {
       week.friday,
       euro("4.70"),
       setOf("vegan"),
-      providerId
+      providerId,
     )
   }
 
@@ -457,7 +459,7 @@ class LunchResolverSuppenkulttourTest {
       week.monday,
       euro("4.70"),
       setOf("Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -466,7 +468,7 @@ class LunchResolverSuppenkulttourTest {
       week.monday,
       euro("4.70"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     week = weekOf("2020-01-02")
@@ -479,7 +481,7 @@ class LunchResolverSuppenkulttourTest {
       week.thursday,
       euro("4.70"),
       setOf("vegan", "Tagessuppe"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -488,7 +490,7 @@ class LunchResolverSuppenkulttourTest {
       week.friday,
       euro("4.70"),
       setOf("vegetarisch", "Tagessuppe"),
-      providerId
+      providerId,
     )
   }
 
@@ -507,7 +509,7 @@ class LunchResolverSuppenkulttourTest {
       week.thursday,
       euro("4.70"),
       setOf("Tagessuppe", "vegetarisch"),
-      providerId
+      providerId,
     )
   }
 

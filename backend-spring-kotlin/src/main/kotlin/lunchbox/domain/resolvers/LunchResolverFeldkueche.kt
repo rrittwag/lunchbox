@@ -20,7 +20,7 @@ import java.time.LocalDate
 class LunchResolverFeldkueche(
   val dateValidator: DateValidator,
   val ocrClient: OcrClient,
-  val htmlParser: HtmlParser
+  val htmlParser: HtmlParser,
 ) : LunchResolver {
 
   override val provider = FELDKUECHE
@@ -65,7 +65,7 @@ class LunchResolverFeldkueche(
     val (title, description) =
       StringParser.splitOfferName(
         raw.name,
-        listOf(" mit ", "Kartoffeln", "Brot", "Nudeln", "Klöße")
+        listOf(" mit ", "Kartoffeln", "Brot", "Nudeln", "Klöße"),
       )
 
     return LunchOffer(
@@ -75,7 +75,7 @@ class LunchResolverFeldkueche(
       monday.plusDays(raw.weekday.order),
       raw.price,
       emptySet(),
-      provider.id
+      provider.id,
     )
   }
 
@@ -159,23 +159,23 @@ class LunchResolverFeldkueche(
 
   data class RawOfferName(
     val weekday: Weekday,
-    val name: String
+    val name: String,
   )
 
   data class RawOffer(
     val weekday: Weekday,
     val name: String,
-    val price: Money
+    val price: Money,
   )
 
   enum class Weekday(
     val label: String,
-    val order: Long
+    val order: Long,
   ) {
     MONTAG("Montag", 0),
     DIENSTAG("Dienstag", 1),
     MITTWOCH("Mittwoch", 2),
     DONNERSTAG("Donnerstag", 3),
-    FREITAG("Freitag", 4);
+    FREITAG("Freitag", 4),
   }
 }

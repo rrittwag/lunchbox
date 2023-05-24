@@ -1,4 +1,6 @@
-package lunchbox.util.ocr /* ktlint-disable max-line-length */
+@file:Suppress("ktlint:max-line-length")
+
+package lunchbox.util.ocr
 
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test

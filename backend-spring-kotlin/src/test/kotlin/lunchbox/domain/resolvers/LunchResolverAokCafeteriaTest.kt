@@ -1,4 +1,4 @@
-package lunchbox.domain.resolvers /* ktlint-disable max-line-length */
+package lunchbox.domain.resolvers
 
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
@@ -31,7 +31,7 @@ class LunchResolverAokCafeteriaTest {
       week.monday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -40,7 +40,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -49,7 +49,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       setOf("vegetarisch"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -58,7 +58,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -67,7 +67,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -76,7 +76,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -85,7 +85,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -94,7 +94,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -103,7 +103,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -112,7 +112,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -121,7 +121,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -130,7 +130,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -139,7 +139,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
 
     week = weekOf("2020-09-07")
@@ -150,7 +150,7 @@ class LunchResolverAokCafeteriaTest {
       week.monday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -159,7 +159,7 @@ class LunchResolverAokCafeteriaTest {
       week.monday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -168,7 +168,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       setOf("vegetarisch"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -177,7 +177,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -186,7 +186,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       setOf("vegetarisch"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -195,7 +195,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -204,7 +204,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -213,7 +213,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -222,7 +222,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -242,7 +242,7 @@ class LunchResolverAokCafeteriaTest {
       week.monday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -251,7 +251,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -260,7 +260,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       setOf("vegetarisch"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -269,7 +269,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       setOf("auf Vorbestellung"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -278,7 +278,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -287,7 +287,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -296,7 +296,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       setOf("auf Vorbestellung"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -305,7 +305,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -314,7 +314,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -323,7 +323,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       setOf("auf Vorbestellung"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -332,7 +332,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -341,7 +341,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -350,7 +350,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       setOf("auf Vorbestellung"),
-      providerId
+      providerId,
     )
 
     week = weekOf("2020-09-07")
@@ -361,7 +361,7 @@ class LunchResolverAokCafeteriaTest {
       week.monday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -370,7 +370,7 @@ class LunchResolverAokCafeteriaTest {
       week.monday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -379,7 +379,7 @@ class LunchResolverAokCafeteriaTest {
       week.monday,
       null,
       setOf("auf Vorbestellung"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -388,7 +388,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       setOf("vegetarisch"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -397,7 +397,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -406,7 +406,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       setOf("auf Vorbestellung"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -415,7 +415,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       setOf("vegetarisch"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -424,7 +424,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -433,7 +433,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       setOf("auf Vorbestellung"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -442,7 +442,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -451,7 +451,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -460,7 +460,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       setOf("auf Vorbestellung"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -469,7 +469,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -478,7 +478,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -487,7 +487,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       setOf("auf Vorbestellung"),
-      providerId
+      providerId,
     )
   }
 
@@ -506,7 +506,7 @@ class LunchResolverAokCafeteriaTest {
       week.monday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -515,7 +515,7 @@ class LunchResolverAokCafeteriaTest {
       week.monday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Sahnegeschnetzeltes", "mit Nudeln", week.tuesday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(
@@ -525,7 +525,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -534,7 +534,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -543,7 +543,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Eierragout", "und Kartoffeln", week.thursday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(
@@ -553,7 +553,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -562,7 +562,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -571,7 +571,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -591,7 +591,7 @@ class LunchResolverAokCafeteriaTest {
       week.monday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -600,7 +600,7 @@ class LunchResolverAokCafeteriaTest {
       week.monday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -609,7 +609,7 @@ class LunchResolverAokCafeteriaTest {
       week.monday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Nudeln Bolognese", "Obst", week.tuesday, null, emptySet(), providerId)
     offers shouldContain LunchOffer(
@@ -619,7 +619,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -628,7 +628,7 @@ class LunchResolverAokCafeteriaTest {
       week.tuesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -637,7 +637,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -646,7 +646,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -655,7 +655,7 @@ class LunchResolverAokCafeteriaTest {
       week.wednesday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -664,7 +664,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -673,7 +673,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -682,7 +682,7 @@ class LunchResolverAokCafeteriaTest {
       week.thursday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -691,7 +691,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -700,7 +700,7 @@ class LunchResolverAokCafeteriaTest {
       week.friday,
       null,
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Wildgulasch", "mit Spätzle", week.friday, null, emptySet(), providerId)
 

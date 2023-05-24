@@ -9,7 +9,7 @@ import org.springframework.boot.test.json.JacksonTester
 
 @JsonTest
 class MoneySerializerTest(
-  @Autowired val json: JacksonTester<TestEntityWithMoney>
+  @Autowired val json: JacksonTester<TestEntityWithMoney>,
 ) {
 
   @Test
@@ -21,5 +21,5 @@ class MoneySerializerTest(
 }
 
 class TestEntityWithMoney(
-  val price: Money
+  val price: Money,
 )

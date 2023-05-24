@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.get
 
 @WebMvcTest(LunchOfferApi::class)
 class LunchOfferApiTest(
-  @Autowired val mockMvc: MockMvc
+  @Autowired val mockMvc: MockMvc,
 ) {
 
   @MockkBean
@@ -120,7 +120,7 @@ class LunchOfferApiTest(
 
 @JsonTest
 class LunchOfferDTOTest(
-  @Autowired val json: JacksonTester<LunchOfferDTO>
+  @Autowired val json: JacksonTester<LunchOfferDTO>,
 ) {
 
   @Test

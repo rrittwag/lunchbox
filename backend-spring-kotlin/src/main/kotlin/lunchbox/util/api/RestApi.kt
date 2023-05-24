@@ -14,6 +14,6 @@ import kotlin.annotation.AnnotationTarget.CLASS
 annotation class RestApi(
 
   @get:AliasFor(annotation = RestController::class)
-  val value: String = ""
+  val value: String = "",
 
 )

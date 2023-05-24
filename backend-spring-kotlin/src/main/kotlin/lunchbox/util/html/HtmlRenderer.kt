@@ -18,7 +18,7 @@ interface HtmlRenderer {
 @Component
 class HtmlRendererImpl(
   @Value("\${external.rendertron.url:http://rendertron:$RENDERTRON_PORT}")
-  val rendertronUrl: String
+  val rendertronUrl: String,
 ) : HtmlRenderer {
 
   override fun render(url: URL): String =

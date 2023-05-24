@@ -40,7 +40,7 @@ class LunchResolverBoulevardImbissTest {
       LocalDate.now(),
       euro("5.00"),
       setOf("Tagesangebot"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -49,7 +49,7 @@ class LunchResolverBoulevardImbissTest {
       week.monday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -58,7 +58,7 @@ class LunchResolverBoulevardImbissTest {
       week.monday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -67,7 +67,7 @@ class LunchResolverBoulevardImbissTest {
       week.monday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -76,7 +76,7 @@ class LunchResolverBoulevardImbissTest {
       week.monday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -85,7 +85,7 @@ class LunchResolverBoulevardImbissTest {
       week.monday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -110,7 +110,7 @@ class LunchResolverBoulevardImbissTest {
       week.monday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -119,7 +119,7 @@ class LunchResolverBoulevardImbissTest {
       week.monday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -128,7 +128,7 @@ class LunchResolverBoulevardImbissTest {
       week.monday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -137,7 +137,7 @@ class LunchResolverBoulevardImbissTest {
       week.monday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -146,7 +146,7 @@ class LunchResolverBoulevardImbissTest {
       week.monday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 }

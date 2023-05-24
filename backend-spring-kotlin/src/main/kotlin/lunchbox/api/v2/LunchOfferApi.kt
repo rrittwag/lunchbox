@@ -24,7 +24,7 @@ class LunchOfferApi(val repo: LunchOfferRepository) {
   fun getAll(
     @RequestParam
     @DateTimeFormat(iso = ISO.DATE)
-    day: LocalDate?
+    day: LocalDate?,
   ): List<LunchOfferDTO> = when (day) {
     null -> repo.findAll()
     else -> repo.findByDay(day)
@@ -46,7 +46,7 @@ data class LunchOfferDTO(
   val day: LocalDate,
   val price: Money?,
   val tags: Set<String>,
-  val provider: LunchProviderId
+  val provider: LunchProviderId,
 )
 
 fun LunchOffer.toDTOv2() = LunchOfferDTO(
@@ -56,5 +56,5 @@ fun LunchOffer.toDTOv2() = LunchOfferDTO(
   day,
   price,
   tags,
-  provider
+  provider,
 )

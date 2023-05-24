@@ -45,10 +45,10 @@ class ConfigUndertow : UndertowWebSocketServletWebServerCustomizer() {
       UndertowBuilderCustomizer { builder: Builder ->
         builder.setWorkerOption(
           Options.WORKER_TASK_CORE_THREADS,
-          if (workerCoreThreads > -1) workerCoreThreads else 2 * cores
+          if (workerCoreThreads > -1) workerCoreThreads else 2 * cores,
         )
         builder.setWorkerOption(Options.WORKER_TASK_KEEPALIVE, workerKeepAlive)
-      }
+      },
     )
   }
 }

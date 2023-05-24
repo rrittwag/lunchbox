@@ -1,6 +1,4 @@
-@file:Suppress("UsePropertyAccessSyntax")
-
-package lunchbox.feed /* ktlint-disable max-line-length */
+package lunchbox.feed
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.clearAllMocks
@@ -28,7 +26,7 @@ import java.time.LocalDate
 @WebMvcTest(FeedController::class)
 class FeedControllerTest(
   @Autowired val mockMvc: MockMvc,
-  @Autowired val testUnit: FeedController
+  @Autowired val testUnit: FeedController,
 ) {
 
   @MockkBean
@@ -152,22 +150,22 @@ class FeedControllerTest(
 
   private val offerYesterday = createOffer(
     provider = SUPPENKULTTOUR.id,
-    day = yesterday
+    day = yesterday,
   )
 
   private val offerToday = createOffer(
     provider = AOK_CAFETERIA.id,
     day = today,
-    price = Money.ofMinor(CurrencyUnit.EUR, 250)
+    price = Money.ofMinor(CurrencyUnit.EUR, 250),
   )
 
   private val offerTomorrow = createOffer(
     provider = AOK_CAFETERIA.id,
-    day = tomorrow
+    day = tomorrow,
   )
 
   private val offerBerlin = createOffer(
     provider = SALT_N_PEPPER.id,
-    day = today
+    day = today,
   )
 }

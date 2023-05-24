@@ -17,14 +17,14 @@ import java.time.Duration
 @Component
 class OcrClient(
   @Value("\${external.ocr.url:http://openocr:$OCR_PORT}")
-  val ocrUrl: String
+  val ocrUrl: String,
 ) {
 
   fun doOCR(imageUrl: URL): String {
     val requestBody = mapOf(
       "img_url" to imageUrl,
       "engine" to "tesseract",
-      "engine_args" to mapOf("lang" to "deu")
+      "engine_args" to mapOf("lang" to "deu"),
     )
 
     return WebClient.create("$ocrUrl/ocr")

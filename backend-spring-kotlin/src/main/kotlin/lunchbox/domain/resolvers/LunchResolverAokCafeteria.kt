@@ -15,7 +15,7 @@ import java.time.Month
 @Component
 class LunchResolverAokCafeteria(
   val dateValidator: DateValidator,
-  val htmlParser: HtmlParser
+  val htmlParser: HtmlParser,
 ) : LunchResolver {
 
   override val provider = AOK_CAFETERIA
@@ -85,7 +85,7 @@ class LunchResolverAokCafeteria(
       val zusatzstoffe = offerElem.select("small").text()
       var (title, description) = StringParser.splitOfferName(
         name,
-        listOf(" auf ", " mit ", " von ", " im ", " in ", " an ", ", ", " (", " und ")
+        listOf(" auf ", " mit ", " von ", " im ", " in ", " an ", ", ", " (", " und "),
       )
       description = clearDescription(description)
       val tags = parseTags(name, typ, zusatzstoffe)
@@ -122,12 +122,12 @@ class LunchResolverAokCafeteria(
 
   enum class Weekday(
     val label: String,
-    val order: Long
+    val order: Long,
   ) {
     MONTAG("Mo", 0),
     DIENSTAG("Di", 1),
     MITTWOCH("Mi", 2),
     DONNERSTAG("Do", 3),
-    FREITAG("Fr", 4);
+    FREITAG("Fr", 4),
   }
 }

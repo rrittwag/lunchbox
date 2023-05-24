@@ -1,4 +1,6 @@
-package lunchbox.domain.resolvers /* ktlint-disable max-line-length */
+@file:Suppress("ktlint:max-line-length")
+
+package lunchbox.domain.resolvers
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.mockk.mockk
@@ -77,7 +79,7 @@ class LunchResolverGesundheitszentrumTest {
       val url = resolver().parseImageLink(image)
 
       url shouldBeEqualTo URL(
-        "https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg"
+        "https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg",
       )
     }
 
@@ -89,7 +91,7 @@ class LunchResolverGesundheitszentrumTest {
       val url = resolver().parseImageLink(image)
 
       url shouldBeEqualTo URL(
-        "https://scontent.xx.fbcdn.net/v/t31.0-8/20233053_1214480778662771_9100409891617048289_o.jpg?oh=a50f5058410183e8a5c631e82919f473&oe=5A09D7B9"
+        "https://scontent.xx.fbcdn.net/v/t31.0-8/20233053_1214480778662771_9100409891617048289_o.jpg?oh=a50f5058410183e8a5c631e82919f473&oe=5A09D7B9",
       )
     }
   }
@@ -106,14 +108,14 @@ class LunchResolverGesundheitszentrumTest {
       wochenplaene shouldContain Wochenplan(
         date("2019-09-16"),
         URL(
-          "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnOmbEvG5WngTMx4RqIMiGBD4jDftJMUMYi2M5uwa3Nu3QAJUdseNXbSEr1Iejl_Ds&_nc_ht=scontent-ber1-1.xx&oh=e40ce027618fa63a5b7f4971fc02b83d&oe=5E06EF54"
-        )
+          "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnOmbEvG5WngTMx4RqIMiGBD4jDftJMUMYi2M5uwa3Nu3QAJUdseNXbSEr1Iejl_Ds&_nc_ht=scontent-ber1-1.xx&oh=e40ce027618fa63a5b7f4971fc02b83d&oe=5E06EF54",
+        ),
       )
       wochenplaene shouldContain Wochenplan(
         date("2019-09-09"),
         URL(
-          "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/69761025_2164731656971007_4787155769139134464_o.jpg?_nc_cat=101&_nc_oc=AQlqnbM_DBfJ-eB1mBQK48kb8M3UWtjmyGo1knDG-9caTgaJAPraVhT6ZuHcff7_5P0&_nc_ht=scontent-ber1-1.xx&oh=77d585b271943105b09845d3ed23c00b&oe=5DF4A077"
-        )
+          "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/69761025_2164731656971007_4787155769139134464_o.jpg?_nc_cat=101&_nc_oc=AQlqnbM_DBfJ-eB1mBQK48kb8M3UWtjmyGo1knDG-9caTgaJAPraVhT6ZuHcff7_5P0&_nc_ht=scontent-ber1-1.xx&oh=77d585b271943105b09845d3ed23c00b&oe=5DF4A077",
+        ),
       )
     }
 
@@ -127,14 +129,14 @@ class LunchResolverGesundheitszentrumTest {
       wochenplaene shouldContain Wochenplan(
         date("2019-09-23"),
         URL(
-          "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70741530_2188809777896528_1685416184234639360_o.jpg?_nc_cat=104&_nc_oc=AQn0voSe6PW2bpXJhANweSiOIyLcrYb0G-NmImMtPJ6Ka4swX6GfSG-Eudtb4LkGCe8&_nc_ht=scontent-ber1-1.xx&oh=be84961d17026c68fc74c1ecf23b2396&oe=5DF929A9"
-        )
+          "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70741530_2188809777896528_1685416184234639360_o.jpg?_nc_cat=104&_nc_oc=AQn0voSe6PW2bpXJhANweSiOIyLcrYb0G-NmImMtPJ6Ka4swX6GfSG-Eudtb4LkGCe8&_nc_ht=scontent-ber1-1.xx&oh=be84961d17026c68fc74c1ecf23b2396&oe=5DF929A9",
+        ),
       )
       wochenplaene shouldContain Wochenplan(
         date("2019-09-16"),
         URL(
-          "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnlw8UTdf_EHJa-WZ3OfYWP7TyOyahpP-xMOhEj_-x_78veJsYvEmYT68pImua8XLA&_nc_ht=scontent-ber1-1.xx&oh=00559a3cb8d8df7486d84dc607a7c2b0&oe=5E2E7C54"
-        )
+          "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnlw8UTdf_EHJa-WZ3OfYWP7TyOyahpP-xMOhEj_-x_78veJsYvEmYT68pImua8XLA&_nc_ht=scontent-ber1-1.xx&oh=00559a3cb8d8df7486d84dc607a7c2b0&oe=5E2E7C54",
+        ),
       )
     }
   }
@@ -155,7 +157,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.40"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -164,7 +166,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -173,7 +175,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -183,7 +185,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -192,7 +194,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -201,7 +203,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -210,7 +212,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Vegetarisches Chili", "", week.wednesday, euro("2.40"), emptySet(), providerId)
@@ -221,7 +223,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -230,7 +232,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -239,7 +241,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -249,7 +251,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("2.40"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -258,7 +260,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -267,7 +269,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Nudel-Gemüse-Auflauf", "", week.thursday, euro("3.90"), emptySet(), providerId)
 
@@ -279,7 +281,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -288,7 +290,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -297,7 +299,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("3.80"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -317,7 +319,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -326,7 +328,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Pasta mit Pilzrahmsauce", "", week.monday, euro("3.80"), emptySet(), providerId)
 
@@ -337,7 +339,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("2.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -346,7 +348,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -355,7 +357,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     ) // OCR erkennt Preis falsch
     offers shouldContain LunchOffer(
       0,
@@ -364,7 +366,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Minestrone", "", week.wednesday, euro("2.40"), emptySet(), providerId)
@@ -375,7 +377,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -384,7 +386,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -393,7 +395,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -403,7 +405,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("2.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -412,7 +414,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -421,7 +423,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -430,7 +432,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Porreeeintopf", "", week.friday, euro("2.40"), emptySet(), providerId)
@@ -441,7 +443,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -450,7 +452,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     ) // OCR erkennt Preis falsch
     offers shouldContain LunchOffer(
       0,
@@ -459,7 +461,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -478,7 +480,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("3.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -487,7 +489,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -496,7 +498,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -505,7 +507,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("3.80"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -515,7 +517,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -524,7 +526,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -533,7 +535,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -542,7 +544,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Gulaschsuppe", "", week.wednesday, euro("3.20"), emptySet(), providerId)
@@ -553,7 +555,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -562,7 +564,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -571,7 +573,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Kohlrabieintopf", "", week.thursday, euro("2.40"), emptySet(), providerId)
@@ -582,7 +584,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -591,7 +593,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -600,7 +602,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -610,7 +612,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("2.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -619,7 +621,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -628,7 +630,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -637,7 +639,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("3.70"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -656,7 +658,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("2.40"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -665,7 +667,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -674,7 +676,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -683,7 +685,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Hefeklöße mit Früchten", "", week.tuesday, euro("3.00"), emptySet(), providerId)
@@ -694,7 +696,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -703,7 +705,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -712,7 +714,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Gelber Erbseneintopf", "", week.wednesday, euro("2.40"), emptySet(), providerId)
@@ -723,7 +725,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -732,7 +734,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -741,7 +743,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -751,7 +753,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("3.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Chinapfanne mit Reis", "", week.thursday, euro("4.20"), emptySet(), providerId)
     offers shouldContain LunchOffer(
@@ -761,7 +763,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -770,7 +772,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers.filter { it.day == week.friday } shouldHaveSize 0
@@ -792,7 +794,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("3.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -801,7 +803,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -810,7 +812,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -819,7 +821,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -829,7 +831,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -838,7 +840,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -847,7 +849,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -856,7 +858,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Gulaschsuppe", "", week.wednesday, euro("3.20"), emptySet(), providerId)
@@ -867,7 +869,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -876,7 +878,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -885,7 +887,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Käse-Lauch-Suppe", "", week.thursday, euro("3.20"), emptySet(), providerId)
@@ -896,7 +898,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -905,7 +907,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -914,7 +916,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Fischtopf", "", week.friday, euro("3.20"), emptySet(), providerId)
@@ -925,7 +927,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -934,7 +936,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -943,7 +945,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("3.80"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -963,7 +965,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("3.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -972,7 +974,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -981,7 +983,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -990,7 +992,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1000,7 +1002,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1009,7 +1011,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1018,7 +1020,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1027,7 +1029,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Brühnudeln", "", week.wednesday, euro("2.50"), emptySet(), providerId)
@@ -1038,7 +1040,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1047,7 +1049,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1056,7 +1058,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1066,7 +1068,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1075,7 +1077,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1084,7 +1086,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1093,7 +1095,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("3.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1102,7 +1104,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("5.10"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Chili con Carne", "", week.friday, euro("3.30"), emptySet(), providerId)
@@ -1114,7 +1116,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1123,7 +1125,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -1143,7 +1145,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("2.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1152,7 +1154,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1161,7 +1163,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1170,7 +1172,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1180,7 +1182,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1189,7 +1191,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1198,7 +1200,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1207,7 +1209,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1217,7 +1219,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("2.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1226,7 +1228,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1235,7 +1237,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1244,7 +1246,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1254,7 +1256,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1263,7 +1265,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1272,7 +1274,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1281,7 +1283,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("3.80"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1291,7 +1293,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("2.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1300,7 +1302,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1309,7 +1311,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1318,7 +1320,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -1339,7 +1341,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Nudel-Broccoli-Auflauf", "", week.monday, euro("3.90"), emptySet(), providerId)
     offers shouldContain LunchOffer(
@@ -1349,7 +1351,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1359,7 +1361,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1368,7 +1370,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1377,7 +1379,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1386,7 +1388,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1396,7 +1398,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("2.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1405,7 +1407,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1414,7 +1416,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1423,7 +1425,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Rosenkohleintopf", "", week.thursday, euro("2.50"), emptySet(), providerId)
@@ -1434,7 +1436,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1443,7 +1445,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1452,7 +1454,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1462,7 +1464,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("3.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1471,7 +1473,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1480,7 +1482,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1489,7 +1491,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -1509,7 +1511,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("3.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1518,7 +1520,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1527,7 +1529,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1536,7 +1538,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.70"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1546,7 +1548,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Schnitzeltag", "", week.tuesday, euro("5.00"), emptySet(), providerId)
 
@@ -1557,7 +1559,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("2.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1566,7 +1568,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("3.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1575,7 +1577,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1584,7 +1586,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.40"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Kohlrabieintopf", "", week.thursday, euro("2.50"), emptySet(), providerId)
@@ -1595,7 +1597,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1604,7 +1606,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1613,7 +1615,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Brühnudeln", "", week.friday, euro("2.50"), emptySet(), providerId)
@@ -1624,7 +1626,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1633,7 +1635,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1642,7 +1644,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -1662,7 +1664,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1671,7 +1673,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("5.10"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -1691,7 +1693,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Gelbe Erbseneintopf", "", week.friday, euro("2.80"), emptySet(), providerId)
   }
@@ -1713,7 +1715,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -1733,7 +1735,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("3.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1742,7 +1744,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Wurstgulasch mit Nudeln", "", week.monday, euro("4.60"), emptySet(), providerId)
     offers shouldContain LunchOffer(
@@ -1752,7 +1754,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1762,7 +1764,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.10"),
       emptySet(),
-      providerId
+      providerId,
     ) // OCR erkennt Preis falsch
     offers shouldContain LunchOffer(
       0,
@@ -1771,7 +1773,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1780,7 +1782,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1789,7 +1791,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1799,7 +1801,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1808,7 +1810,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1817,7 +1819,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1826,7 +1828,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1836,7 +1838,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1845,7 +1847,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1854,7 +1856,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1863,7 +1865,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Karotteneintopf", "", week.friday, euro("3.50"), emptySet(), providerId)
@@ -1874,7 +1876,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -1895,7 +1897,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1904,7 +1906,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.40"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1913,7 +1915,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1923,7 +1925,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1932,7 +1934,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1941,7 +1943,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1950,7 +1952,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Brühreis", "", week.wednesday, euro("3.50"), emptySet(), providerId)
@@ -1961,7 +1963,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1970,7 +1972,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1979,7 +1981,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -1989,7 +1991,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -1998,7 +2000,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2007,7 +2009,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2016,7 +2018,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -2026,7 +2028,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("3.40"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2035,7 +2037,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -2056,7 +2058,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2065,7 +2067,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("4.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2074,7 +2076,7 @@ class LunchResolverGesundheitszentrumTest {
       week.monday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -2084,7 +2086,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("3.40"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2093,7 +2095,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.40"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2102,7 +2104,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2111,7 +2113,7 @@ class LunchResolverGesundheitszentrumTest {
       week.tuesday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Weißkohleintopf", "", week.wednesday, euro("3.50"), emptySet(), providerId)
@@ -2122,7 +2124,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2131,7 +2133,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2140,7 +2142,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Karotteneintopf", "", week.thursday, euro("3.50"), emptySet(), providerId)
@@ -2151,7 +2153,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2160,7 +2162,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2169,7 +2171,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Linseneintopf", "", week.friday, euro("3.50"), emptySet(), providerId)
@@ -2180,7 +2182,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -2199,7 +2201,7 @@ class LunchResolverGesundheitszentrumTest {
       week.wednesday,
       euro("4.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -2208,7 +2210,7 @@ class LunchResolverGesundheitszentrumTest {
       week.thursday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Möhren-Zucchini-Eintopf", "", week.friday, euro("3.50"), emptySet(), providerId)
     offers shouldContain LunchOffer(
@@ -2218,7 +2220,7 @@ class LunchResolverGesundheitszentrumTest {
       week.friday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 

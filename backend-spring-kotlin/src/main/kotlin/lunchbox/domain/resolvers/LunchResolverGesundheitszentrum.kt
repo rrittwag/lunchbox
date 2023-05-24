@@ -28,7 +28,7 @@ class LunchResolverGesundheitszentrum(
   val dateValidator: DateValidator,
   val graphApi: FacebookGraphApi,
   val htmlParser: HtmlParser,
-  val ocrClient: OcrClient
+  val ocrClient: OcrClient,
 ) : LunchResolver {
 
   override val provider = GESUNDHEITSZENTRUM
@@ -180,7 +180,7 @@ class LunchResolverGesundheitszentrum(
   private fun resolveOffersFromSection(
     section: PdfSection,
     lines: List<String>,
-    monday: LocalDate
+    monday: LocalDate,
   ): List<LunchOffer> {
     val rows = convertToRows(lines)
     val mergedRows = mergeRows(rows)
@@ -193,7 +193,7 @@ class LunchResolverGesundheitszentrum(
         monday.plusDays(section.order),
         it.price!!,
         emptySet(),
-        provider.id
+        provider.id,
       )
     }
   }
@@ -226,7 +226,7 @@ class LunchResolverGesundheitszentrum(
         price,
         line != lineWithoutFitnessTag,
         lineWithoutFitnessTag != lineWithoutNumber,
-        lineWithoutPrice != name
+        lineWithoutPrice != name,
       )
     }
 
@@ -366,7 +366,7 @@ class LunchResolverGesundheitszentrum(
 
   enum class PdfSection(
     val label: String,
-    val order: Long
+    val order: Long,
   ) {
     HEADER("<<Header>>", 0),
     MONTAG("Montag", 0),
@@ -374,7 +374,8 @@ class LunchResolverGesundheitszentrum(
     MITTWOCH("Mittwoch", 2),
     DONNERSTAG("Donnerstag", 3),
     FREITAG("Freitag", 4),
-    FOOTER("Für unseren L", 0);
+    FOOTER("Für unseren L", 0),
+    ;
 
     companion object {
       val weekdayValues = listOf(MONTAG, DIENSTAG, MITTWOCH, DONNERSTAG, FREITAG)
@@ -386,7 +387,7 @@ class LunchResolverGesundheitszentrum(
     val price: Money?,
     val hasFitnessTag: Boolean,
     val hasNumber: Boolean,
-    val hasZusatzinfos: Boolean
+    val hasZusatzinfos: Boolean,
   ) {
     fun merge(otherRow: OfferRow) =
       OfferRow(
@@ -394,7 +395,7 @@ class LunchResolverGesundheitszentrum(
         price ?: otherRow.price,
         hasFitnessTag || otherRow.hasFitnessTag,
         hasNumber || otherRow.hasNumber,
-        hasZusatzinfos || otherRow.hasZusatzinfos
+        hasZusatzinfos || otherRow.hasZusatzinfos,
       )
 
     fun hasNumberOrFitnessTag() = hasNumber || hasFitnessTag
@@ -410,11 +411,11 @@ class LunchResolverGesundheitszentrum(
 
   data class WochenplanWithImageId(
     val monday: LocalDate,
-    val mittagsplanImageId: String
+    val mittagsplanImageId: String,
   )
 
   data class Wochenplan(
     val monday: LocalDate,
-    val mittagsplanImageUrl: URL
+    val mittagsplanImageUrl: URL,
   )
 }

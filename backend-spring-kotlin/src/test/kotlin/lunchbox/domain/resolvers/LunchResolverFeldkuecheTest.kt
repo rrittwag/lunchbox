@@ -1,4 +1,4 @@
-package lunchbox.domain.resolvers /* ktlint-disable max-line-length */
+package lunchbox.domain.resolvers
 
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
@@ -65,7 +65,7 @@ class LunchResolverFeldkuecheTest {
       week.monday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -75,7 +75,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -84,7 +84,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("3.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Gulasch", "mit Nudeln", week.wednesday, euro("4.60"), emptySet(), providerId)
@@ -95,7 +95,7 @@ class LunchResolverFeldkuecheTest {
       week.wednesday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -105,7 +105,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -114,7 +114,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -124,7 +124,7 @@ class LunchResolverFeldkuecheTest {
       week.friday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Weißkohl", "mit Brot", week.friday, euro("3.00"), emptySet(), providerId)
   }
@@ -144,7 +144,7 @@ class LunchResolverFeldkuecheTest {
       week.monday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Mohreneintopf", "Brot", week.monday, euro("3.00"), emptySet(), providerId)
 
@@ -155,7 +155,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("4.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -164,7 +164,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -174,7 +174,7 @@ class LunchResolverFeldkuecheTest {
       week.wednesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Kohlrabieintopf", "Brot", week.wednesday, euro("3.00"), emptySet(), providerId)
 
@@ -185,7 +185,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -194,7 +194,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -203,7 +203,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -213,7 +213,7 @@ class LunchResolverFeldkuecheTest {
       week.friday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Wirsingkohleintopf", "Brot", week.friday, euro("3.00"), emptySet(), providerId)
   }
@@ -236,7 +236,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -245,7 +245,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Gulasch", "Klöße Rotkohl", week.wednesday, euro("4.80"), emptySet(), providerId)
@@ -258,7 +258,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -267,7 +267,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Käse - Lauchsuppe", "Brot", week.friday, euro("4.20"), emptySet(), providerId)
@@ -292,7 +292,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Weißkohleintopf", "Brot", week.tuesday, euro("3.00"), emptySet(), providerId)
 
@@ -304,7 +304,7 @@ class LunchResolverFeldkuecheTest {
       week.wednesday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -314,7 +314,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -323,7 +323,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Kesselgulasch", "mit Brot", week.friday, euro("4.20"), emptySet(), providerId)
@@ -346,7 +346,7 @@ class LunchResolverFeldkuecheTest {
       week.monday,
       euro("3.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -356,7 +356,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -365,7 +365,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -375,7 +375,7 @@ class LunchResolverFeldkuecheTest {
       week.wednesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -384,7 +384,7 @@ class LunchResolverFeldkuecheTest {
       week.wednesday,
       euro("3.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -394,7 +394,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("5.00"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -403,7 +403,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Gulasch", "mit Nudeln", week.friday, euro("4.60"), emptySet(), providerId)
@@ -426,7 +426,7 @@ class LunchResolverFeldkuecheTest {
       week.monday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -436,7 +436,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -445,7 +445,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -455,7 +455,7 @@ class LunchResolverFeldkuecheTest {
       week.wednesday,
       euro("4.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -464,7 +464,7 @@ class LunchResolverFeldkuecheTest {
       week.wednesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -474,7 +474,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -483,7 +483,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -493,7 +493,7 @@ class LunchResolverFeldkuecheTest {
       week.friday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Soljanka", "mit Brot", week.friday, euro("3.80"), emptySet(), providerId)
   }
@@ -516,7 +516,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -525,7 +525,7 @@ class LunchResolverFeldkuecheTest {
       week.tuesday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -535,7 +535,7 @@ class LunchResolverFeldkuecheTest {
       week.wednesday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -544,7 +544,7 @@ class LunchResolverFeldkuecheTest {
       week.wednesday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -554,7 +554,7 @@ class LunchResolverFeldkuecheTest {
       week.thursday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Möhreneintopf", "mit Brot", week.thursday, euro("3.50"), emptySet(), providerId)
 
@@ -565,7 +565,7 @@ class LunchResolverFeldkuecheTest {
       week.friday,
       euro("4.80"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -574,7 +574,7 @@ class LunchResolverFeldkuecheTest {
       week.friday,
       euro("4.00"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -614,7 +614,7 @@ class LunchResolverFeldkuecheTest {
       week.monday,
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 

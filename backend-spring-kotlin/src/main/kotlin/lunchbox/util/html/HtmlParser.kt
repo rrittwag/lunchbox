@@ -10,7 +10,7 @@ import java.net.URL
  */
 @Component
 class HtmlParser(
-  val renderer: HtmlRenderer
+  val renderer: HtmlRenderer,
 ) {
 
   fun parse(url: URL): Document {

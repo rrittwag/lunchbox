@@ -31,11 +31,11 @@ class LunchProviderApi {
 class LunchProviderDTO(
   val id: LunchProviderId,
   val name: String,
-  val location: String
+  val location: String,
 )
 
 fun LunchProvider.toDTOv1() = LunchProviderDTO(
   id,
   label,
-  location.label
+  location.label,
 )

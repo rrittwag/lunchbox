@@ -1,4 +1,4 @@
-package lunchbox.util.ocr /* ktlint-disable max-line-length */
+package lunchbox.util.ocr
 
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Disabled
@@ -31,8 +31,8 @@ class OcrClientTest {
   @ValueSource(
     strings = [
       "menus/feldkueche/ocr/2016-10-10.jpg",
-      "menus/feldkueche/ocr/2019-09-02.jpg"
-    ]
+      "menus/feldkueche/ocr/2019-09-02.jpg",
+    ],
   )
   fun `compare jpg OCR to saved OCR text`(file: String) {
     val ocrText =
@@ -47,8 +47,8 @@ class OcrClientTest {
     strings = [
       "menus/gesundheitszentrum/ocr/2019-08-05.jpg",
       "menus/gesundheitszentrum/ocr/2019-09-09.jpg",
-      "menus/gesundheitszentrum/ocr/2019-09-16.jpg"
-    ]
+      "menus/gesundheitszentrum/ocr/2019-09-16.jpg",
+    ],
   )
   @Disabled
   fun `generate and save OCR text`(file: String) {

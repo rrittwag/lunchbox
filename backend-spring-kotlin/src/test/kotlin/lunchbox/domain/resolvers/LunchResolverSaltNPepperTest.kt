@@ -1,4 +1,4 @@
-package lunchbox.domain.resolvers /* ktlint-disable max-line-length */
+package lunchbox.domain.resolvers
 
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
@@ -30,7 +30,7 @@ class LunchResolverSaltNPepperTest {
       week.monday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -39,7 +39,7 @@ class LunchResolverSaltNPepperTest {
       week.monday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -48,7 +48,7 @@ class LunchResolverSaltNPepperTest {
       week.monday,
       euro("5.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -57,7 +57,7 @@ class LunchResolverSaltNPepperTest {
       week.monday,
       euro("5.30"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -66,7 +66,7 @@ class LunchResolverSaltNPepperTest {
       week.monday,
       euro("6.90"),
       setOf("Wochenangebot"),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -76,7 +76,7 @@ class LunchResolverSaltNPepperTest {
       week.tuesday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -85,7 +85,7 @@ class LunchResolverSaltNPepperTest {
       week.tuesday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -94,7 +94,7 @@ class LunchResolverSaltNPepperTest {
       week.tuesday,
       euro("5.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -103,7 +103,7 @@ class LunchResolverSaltNPepperTest {
       week.tuesday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -112,7 +112,7 @@ class LunchResolverSaltNPepperTest {
       week.tuesday,
       euro("6.90"),
       setOf("Wochenangebot"),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -122,7 +122,7 @@ class LunchResolverSaltNPepperTest {
       week.wednesday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -131,7 +131,7 @@ class LunchResolverSaltNPepperTest {
       week.wednesday,
       euro("5.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -140,7 +140,7 @@ class LunchResolverSaltNPepperTest {
       week.wednesday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -149,7 +149,7 @@ class LunchResolverSaltNPepperTest {
       week.wednesday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -158,7 +158,7 @@ class LunchResolverSaltNPepperTest {
       week.wednesday,
       euro("6.90"),
       setOf("Wochenangebot"),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(
@@ -168,7 +168,7 @@ class LunchResolverSaltNPepperTest {
       week.thursday,
       euro("3.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -177,7 +177,7 @@ class LunchResolverSaltNPepperTest {
       week.thursday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -186,7 +186,7 @@ class LunchResolverSaltNPepperTest {
       week.thursday,
       euro("5.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -195,7 +195,7 @@ class LunchResolverSaltNPepperTest {
       week.thursday,
       euro("4.90"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -204,7 +204,7 @@ class LunchResolverSaltNPepperTest {
       week.thursday,
       euro("6.90"),
       setOf("Wochenangebot"),
-      providerId
+      providerId,
     )
 
     offers shouldContain LunchOffer(0, "Spaghetti-Bolognese", "", week.friday, euro("5.20"), emptySet(), providerId)
@@ -215,7 +215,7 @@ class LunchResolverSaltNPepperTest {
       week.friday,
       euro("5.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Sommerpommes", "1 Dessert", week.friday, euro("4.90"), emptySet(), providerId)
     offers shouldContain LunchOffer(
@@ -225,7 +225,7 @@ class LunchResolverSaltNPepperTest {
       week.friday,
       euro("6.90"),
       setOf("Wochenangebot"),
-      providerId
+      providerId,
     )
   }
 
@@ -283,7 +283,7 @@ class LunchResolverSaltNPepperTest {
       week.tuesday,
       euro("5.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -292,7 +292,7 @@ class LunchResolverSaltNPepperTest {
       week.wednesday,
       euro("5.70"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -301,7 +301,7 @@ class LunchResolverSaltNPepperTest {
       week.friday,
       euro("5.20"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -328,7 +328,7 @@ class LunchResolverSaltNPepperTest {
       date("2016-04-11"),
       euro("5.90"),
       setOf("Wochenangebot"),
-      providerId
+      providerId,
     )
   }
 
@@ -346,7 +346,7 @@ class LunchResolverSaltNPepperTest {
       date("2018-09-10"),
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -355,7 +355,7 @@ class LunchResolverSaltNPepperTest {
       date("2018-09-10"),
       euro("5.90"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -373,7 +373,7 @@ class LunchResolverSaltNPepperTest {
       date("2019-03-11"),
       euro("3.50"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -382,7 +382,7 @@ class LunchResolverSaltNPepperTest {
       date("2019-03-11"),
       euro("5.90"),
       setOf("vegetarisch"),
-      providerId
+      providerId,
     )
   }
 
@@ -400,7 +400,7 @@ class LunchResolverSaltNPepperTest {
       date("2019-09-09"),
       euro("5.90"),
       setOf("vegetarisch"),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -409,7 +409,7 @@ class LunchResolverSaltNPepperTest {
       date("2019-09-10"),
       euro("6.30"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 }

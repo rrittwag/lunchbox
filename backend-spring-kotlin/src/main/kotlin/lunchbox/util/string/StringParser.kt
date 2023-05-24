@@ -87,7 +87,7 @@ object StringParser {
    */
   fun splitOfferName(
     name: String,
-    splitBefore: List<String> = listOf(" auf ", " mit ", " von ", " im ", " in ", " an ")
+    splitBefore: List<String> = listOf(" auf ", " mit ", " von ", " im ", " in ", " an "),
   ): OfferName {
     val splitIndex = name.indexOfAny(splitBefore)
 
@@ -104,6 +104,6 @@ object StringParser {
 
   data class OfferName(
     val title: String,
-    val description: String
+    val description: String,
   )
 }

@@ -1,4 +1,4 @@
-package lunchbox.util.facebook /* ktlint-disable max-line-length */
+package lunchbox.util.facebook
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import lunchbox.util.json.createObjectMapper
@@ -39,7 +39,7 @@ class FacebookGraphApiTest {
     result.images[0].height shouldBeEqualTo 1754
     result.images[0].width shouldBeEqualTo 1240
     result.images[0].source shouldBeEqualTo URL(
-      "https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg"
+      "https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg",
     )
   }
 

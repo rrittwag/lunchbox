@@ -18,7 +18,7 @@ import java.time.LocalDate
 @Component
 class LunchResolverPhoenixeum(
   val dateValidator: DateValidator,
-  val htmlParser: HtmlParser
+  val htmlParser: HtmlParser,
 ) : LunchResolver {
 
   override val provider = LunchProvider.PHOENIXEUM
@@ -127,7 +127,7 @@ class LunchResolverPhoenixeum(
 
   private fun parseOfferAttributes(
     offerAttributesAsStrings: List<String>,
-    monday: LocalDate
+    monday: LocalDate,
   ): List<LunchOffer> {
     val clearedParts = offerAttributesAsStrings.map { cleanUpString(it) }.filter { it.isNotEmpty() }
     if (clearedParts.size < 3) {
@@ -195,12 +195,12 @@ class LunchResolverPhoenixeum(
 
   enum class Weekday(
     val label: String,
-    val order: Long
+    val order: Long,
   ) {
     MONTAG("Montag", 0),
     DIENSTAG("Dienstag", 1),
     MITTWOCH("Mittwoch", 2),
     DONNERSTAG("Donnerstag", 3),
-    FREITAG("Freitag", 4);
+    FREITAG("Freitag", 4),
   }
 }

@@ -1,4 +1,4 @@
-package lunchbox.domain.resolvers /* ktlint-disable max-line-length */
+package lunchbox.domain.resolvers
 
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
@@ -31,7 +31,7 @@ class LunchResolverSchweinestallTest {
       week.monday,
       euro("6.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -40,7 +40,7 @@ class LunchResolverSchweinestallTest {
       week.tuesday,
       euro("6.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -49,7 +49,7 @@ class LunchResolverSchweinestallTest {
       week.wednesday,
       euro("5.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -58,7 +58,7 @@ class LunchResolverSchweinestallTest {
       week.thursday,
       euro("5.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -67,7 +67,7 @@ class LunchResolverSchweinestallTest {
       week.friday,
       euro("5.60"),
       emptySet(),
-      providerId
+      providerId,
     )
 
     week = weekOf("2020-01-13")
@@ -78,7 +78,7 @@ class LunchResolverSchweinestallTest {
       week.monday,
       euro("6.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -87,7 +87,7 @@ class LunchResolverSchweinestallTest {
       week.tuesday,
       euro("5.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -96,7 +96,7 @@ class LunchResolverSchweinestallTest {
       week.wednesday,
       euro("6.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -105,7 +105,7 @@ class LunchResolverSchweinestallTest {
       week.thursday,
       euro("5.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -114,7 +114,7 @@ class LunchResolverSchweinestallTest {
       week.friday,
       euro("6.10"),
       emptySet(),
-      providerId
+      providerId,
     )
   }
 
@@ -134,7 +134,7 @@ class LunchResolverSchweinestallTest {
       week.monday,
       euro("6.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -143,7 +143,7 @@ class LunchResolverSchweinestallTest {
       week.tuesday,
       euro("5.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -152,7 +152,7 @@ class LunchResolverSchweinestallTest {
       week.wednesday,
       euro("6.10"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(
       0,
@@ -161,7 +161,7 @@ class LunchResolverSchweinestallTest {
       week.thursday,
       euro("5.60"),
       emptySet(),
-      providerId
+      providerId,
     )
     offers shouldContain LunchOffer(0, "Spaghetti Carbonara", "", week.friday, euro("5.60"), emptySet(), providerId)
   }

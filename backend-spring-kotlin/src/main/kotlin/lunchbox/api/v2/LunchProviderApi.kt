@@ -32,12 +32,12 @@ class LunchProviderDTO(
   val id: LunchProviderId,
   val name: String,
   val location: String,
-  val url: String
+  val url: String,
 )
 
 fun LunchProvider.toDTOv2() = LunchProviderDTO(
   id,
   label,
   location.label,
-  menuUrl.toString()
+  menuUrl.toString(),
 )

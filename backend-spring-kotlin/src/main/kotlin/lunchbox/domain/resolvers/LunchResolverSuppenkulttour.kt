@@ -18,7 +18,7 @@ import java.time.LocalDate
 @Component
 class LunchResolverSuppenkulttour(
   val dateValidator: DateValidator,
-  val htmlParser: HtmlParser
+  val htmlParser: HtmlParser,
 ) : LunchResolver {
 
   override val provider = SUPPENKULTTOUR
@@ -107,7 +107,7 @@ class LunchResolverSuppenkulttour(
         monday,
         rawOffer.price,
         rawOffer.tags,
-        provider.id
+        provider.id,
       )
     }
     return result
@@ -133,7 +133,7 @@ class LunchResolverSuppenkulttour(
         day,
         rawOffer.price,
         rawOffer.tags + "Tagessuppe",
-        provider.id
+        provider.id,
       )
     }
     return result
@@ -165,7 +165,7 @@ class LunchResolverSuppenkulttour(
 
   private fun parseOfferAttributes(
     offerAttributesAsStrings: List<String>,
-    predictedPrice: Money?
+    predictedPrice: Money?,
   ): RawOffer? {
     val clearedParts = offerAttributesAsStrings.map { cleanUpString(it) }.filter { it.isNotEmpty() }
     if (clearedParts.isEmpty()) {
@@ -242,7 +242,7 @@ class LunchResolverSuppenkulttour(
 
   private fun multiplyWochenangebote(
     wochenOffers: List<LunchOffer>,
-    dates: List<LocalDate>
+    dates: List<LocalDate>,
   ): List<LunchOffer> {
     val sortedDates = dates.toSet().toList().sorted()
     return wochenOffers.flatMap { offer -> sortedDates.map { date -> offer.copy(day = date) } }
@@ -282,14 +282,14 @@ class LunchResolverSuppenkulttour(
   private fun isZusatzInfo(string: String): Boolean {
     val zusatzInfos = listOf(
       "vegan", "glutenfrei", "vegetarisch", "veg.", "veget.",
-      "laktosefrei", "veget.gf", "gf", "lf", "enthält", "enthälti", "vegt."
+      "laktosefrei", "veget.gf", "gf", "lf", "enthält", "enthälti", "vegt.",
     )
     return string.split(Regex("[(), ]")).all { it.length < 3 || zusatzInfos.contains(it.trim()) }
   }
 
   private fun groupTagessuppeByDay(
     tagessuppenStrings: List<String>,
-    monday: LocalDate
+    monday: LocalDate,
   ): Map<LocalDate, String> {
     val result = mutableMapOf<LocalDate, String>()
 
@@ -341,28 +341,28 @@ class LunchResolverSuppenkulttour(
     val name: String,
     val description: String,
     val price: Money,
-    val tags: Set<String>
+    val tags: Set<String>,
   )
 
   data class Weekday2Name(
     val weekday: Weekday,
-    val name: String
+    val name: String,
   )
 
   data class Date2Name(
     val date: LocalDate,
-    val name: String
+    val name: String,
   )
 
   enum class Weekday(
     val label: String,
-    val order: Long
+    val order: Long,
   ) {
     MONTAG("Montag", 0),
     DIENSTAG("Dienstag", 1),
     MITTWOCH("Mittwoch", 2),
     DONNERSTAG("Donnerstag", 3),
-    FREITAG("Freitag", 4);
+    FREITAG("Freitag", 4),
   }
 
   companion object {

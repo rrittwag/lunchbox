@@ -17,7 +17,7 @@ import java.time.LocalDate
 @Component
 class LunchResolverSchweinestall(
   val dateValidator: DateValidator,
-  val htmlParser: HtmlParser
+  val htmlParser: HtmlParser,
 ) : LunchResolver {
 
   override val provider = SCHWEINESTALL
@@ -66,7 +66,7 @@ class LunchResolverSchweinestall(
     monday: LocalDate,
     weekdayString: String,
     nameString: String,
-    priceString: String
+    priceString: String,
   ): LunchOffer? {
     val weekday = Weekday.values().find { it.label == weekdayString } ?: return null
     val day = monday.plusDays(weekday.order)
@@ -86,12 +86,12 @@ class LunchResolverSchweinestall(
 
   enum class Weekday(
     val label: String,
-    val order: Long
+    val order: Long,
   ) {
     MONTAG("Montag", 0),
     DIENSTAG("Dienstag", 1),
     MITTWOCH("Mittwoch", 2),
     DONNERSTAG("Donnerstag", 3),
-    FREITAG("Freitag", 4);
+    FREITAG("Freitag", 4),
   }
 }

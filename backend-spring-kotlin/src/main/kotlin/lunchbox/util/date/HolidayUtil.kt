@@ -25,7 +25,7 @@ object HolidayUtil {
 enum class Holiday(
   private val month: Month,
   private val dayOfMonth: Int,
-  private vararg val locations: LunchLocation = LunchLocation.values()
+  private vararg val locations: LunchLocation = LunchLocation.values(),
 ) {
   // bundesdeutsche Feiertage
   NEUJAHR(Month.JANUARY, 1),
@@ -38,7 +38,8 @@ enum class Holiday(
   FRAUENTAG(Month.MARCH, 8, BERLIN_SPRINGPFUHL),
 
   // Feiertage MV
-  REFORMATIONSTAG(Month.OCTOBER, 31, NEUBRANDENBURG);
+  REFORMATIONSTAG(Month.OCTOBER, 31, NEUBRANDENBURG),
+  ;
 
   fun isHoliday(day: LocalDate, location: LunchLocation): Boolean =
     day.month == month && day.dayOfMonth == dayOfMonth && locations.contains(location)

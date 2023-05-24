@@ -4,8 +4,8 @@ package lunchbox.domain.models
  * Ort eines Mittagsanbieters.
  */
 enum class LunchLocation(
-  val label: String
+  val label: String,
 ) {
   NEUBRANDENBURG("Neubrandenburg"),
-  BERLIN_SPRINGPFUHL("Berlin Springpfuhl")
+  BERLIN_SPRINGPFUHL("Berlin Springpfuhl"),
 }

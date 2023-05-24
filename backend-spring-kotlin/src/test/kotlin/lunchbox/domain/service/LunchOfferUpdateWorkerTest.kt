@@ -1,6 +1,4 @@
-@file:Suppress("SameParameterValue")
-
-package lunchbox.domain.service /* ktlint-disable max-line-length */
+package lunchbox.domain.service
 
 import io.mockk.Called
 import io.mockk.Runs
@@ -83,7 +81,7 @@ class LunchOfferUpdateWorkerTest {
 
   private fun mockResolver(
     provider: LunchProvider,
-    offers: List<LunchOffer> = emptyList()
+    offers: List<LunchOffer> = emptyList(),
   ): LunchResolver {
     val resolver = mockk<LunchResolver>()
     every { resolver.provider } returns provider
@@ -106,11 +104,11 @@ class LunchOfferUpdateWorkerTest {
 
   private val offerYesterday = createOffer(
     provider = SCHWEINESTALL.id,
-    day = yesterday
+    day = yesterday,
   )
 
   private val offerToday = createOffer(
     provider = SCHWEINESTALL.id,
-    day = today
+    day = today,
   )
 }

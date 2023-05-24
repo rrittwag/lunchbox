@@ -20,52 +20,52 @@ inline fun <reified T : GraphApiResource> FacebookGraphApi.query(url: String): T
 interface GraphApiResource
 
 data class GraphApiData<T>(
-  val data: List<T>
+  val data: List<T>,
 )
 
 // - posts -
 
 data class Posts(
-  val data: List<Post> = emptyList()
+  val data: List<Post> = emptyList(),
 ) : GraphApiResource
 
 data class Post(
   val message: String,
   val id: String,
-  val attachments: GraphApiData<Attachment> = GraphApiData(emptyList())
+  val attachments: GraphApiData<Attachment> = GraphApiData(emptyList()),
 )
 
 data class Attachment(
   val media: AttachmentMedia?, // ein Attachment enthält entweder media oder subattachments
   val subattachments: GraphApiData<Attachment> = GraphApiData(emptyList()),
   val target: AttachmentTarget,
-  val url: URL
+  val url: URL,
 )
 
 data class AttachmentMedia(
-  val image: AttachmentImage
+  val image: AttachmentImage,
 )
 
 data class AttachmentImage(
   val height: Int,
   val src: URL,
-  val width: Int
+  val width: Int,
 )
 
 data class AttachmentTarget(
   val id: String,
-  val url: URL
+  val url: URL,
 )
 
 // - image -
 
 data class Image(
   val id: String,
-  val images: List<ImageVariant> = emptyList()
+  val images: List<ImageVariant> = emptyList(),
 ) : GraphApiResource
 
 data class ImageVariant(
   val height: Int,
   val width: Int,
-  val source: URL
+  val source: URL,
 )
