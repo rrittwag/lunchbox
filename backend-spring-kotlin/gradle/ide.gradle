@@ -47,8 +47,8 @@ apply plugin: 'idea'
 idea {
   module {
     testSources.from(
-      project.sourceSets.testIntegration.java.srcDirs,
-      project.sourceSets.testIntegration.kotlin.srcDirs,
-      project.sourceSets.testIntegration.resources.srcDirs)
+        project.sourceSets.testIntegration.java.srcDirs,
+        project.sourceSets.testIntegration.kotlin.srcDirs,
+        project.sourceSets.testIntegration.resources.srcDirs)
   }
 }
