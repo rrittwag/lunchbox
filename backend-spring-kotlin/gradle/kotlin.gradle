@@ -29,27 +29,27 @@ configurations {
 // -------------------
 //   Kotlin
 // -------------------
+kotlin {
+  jvmToolchain(17)
+}
 compileKotlin {
-  kotlinOptions {
+  compilerOptions {
     freeCompilerArgs = [
       "-Xjsr305=strict"
     ]
-    jvmTarget = "17"
   }
 }
 compileTestKotlin {
-  kotlinOptions {
+  compilerOptions {
     freeCompilerArgs = [
       "-Xjsr305=strict"
     ]
-    jvmTarget = "17"
   }
 }
 compileTestIntegrationKotlin {
-  kotlinOptions {
+  compilerOptions {
     freeCompilerArgs = [
       "-Xjsr305=strict"
     ]
-    jvmTarget = "17"
   }
 }

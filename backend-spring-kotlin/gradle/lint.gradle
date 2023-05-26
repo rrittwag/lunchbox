@@ -4,8 +4,8 @@
 apply plugin: "io.gitlab.arturbosch.detekt"
 
 detekt {
-  source = files('src/main/kotlin')
-  config = files('gradle/lint/detekt_config.yml')
+  source.setFrom('src/main/kotlin')
+  config.setFrom('gradle/lint/detekt_config.yml')
 }
 
 // Der Task-Name 'lint' ist eingängiger und technologie-neutraler als 'detekt'
