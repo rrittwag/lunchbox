@@ -42,6 +42,8 @@ Bei Änderungen bitte Unit-Tests schreiben/anpassen. Der folgende Befehl führt 
 - Monitoring: wenn Mittagsangebote fehlen, Mail an Admin
 - Feiertage filtern anhand [API](https://github.com/bundesAPI/feiertage-api)
 - Technologien ausprobieren:
+  - OCR in eigenes Go-Backend vefrachten (via gRPC ansprechen)
+  - [Kotlin Assertion Library ersetzen](https://www.novatec-gmbh.de/en/blog/kotlin-assertion-libraries-conclusions)
   - Webflux & Coroutines [1](https://www.baeldung.com/kotlin-coroutines) [2](https://docs.spring.io/spring/docs/current/spring-framework-reference/languages.html#coroutines)
   - Gradle-Skripte in Kotlin DSL [1](https://github.com/jnizet/gradle-kotlin-dsl-migration-guide) [2](https://github.com/mixitconf/mixit/blob/master/build.gradle.kts)
 
