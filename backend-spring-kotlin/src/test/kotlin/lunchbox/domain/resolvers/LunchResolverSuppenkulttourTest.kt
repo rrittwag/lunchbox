@@ -321,7 +321,7 @@ class LunchResolverSuppenkulttourTest {
       "Soupe au Pistou",
       "Gemüsesuppe aus der Provence - grüne Bohnen, weiße Bohnen, Zucchini, Kartoffel, Lauch, Tomaten, wahlweise + Ruccolapesto",
       week.monday,
-      euro("4.70"),
+      null,
       setOf("vegan"),
       providerId,
     )
@@ -648,5 +648,116 @@ class LunchResolverSuppenkulttourTest {
     offers.filter { it.day == week.wednesday } shouldHaveSize 3
     offers.filter { it.day == week.thursday } shouldHaveSize 3
     offers.filter { it.day == week.friday } shouldHaveSize 3
+  }
+
+  @Test
+  fun `resolve offers for week of 2023-05-29 - Pfingsten`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2023-05-29.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 12
+    val week = weekOf("2023-05-29")
+    offers.filter { it.day == week.monday } shouldHaveSize 0
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 3
+    offers shouldContain LunchOffer(
+      0,
+      "pommersche Erbsensuppe",
+      "Der Klassiker ! Erbsen mit Möhren, Kartoffeln, Porree, Pastinaken, Wiener, Thymian",
+      week.tuesday,
+      euro("5.50"),
+      emptySet(),
+      providerId,
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "Spinat-Kartoffel-Topf",
+      "mit Blattspinat, Kartoffel-und Süßkartoffelwürfel, Möhren, Cous Cous, Kokosmilch, rotem Curry",
+      week.tuesday,
+      euro("5.50"),
+      setOf("vegan"),
+      providerId,
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "Pasta „Ossi-Würstchen-Gulasch“",
+      "Nudeln in Tomatensoße mit Würstchen, Paprika, sauren Gurken",
+      week.tuesday,
+      euro("5.50"),
+      setOf("Tagessuppe"),
+      providerId,
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "Curry",
+      "mit roten Linsen, Möhren, Markerbsen, Birne, Kokosmilch, Curry, Ingwer, Lemongras,",
+      week.wednesday,
+      euro("5.50"),
+      setOf("vegan", "Tagessuppe"),
+      providerId,
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "Chicken Tikka Masala",
+      "mit Hühnchen, Zucchini, Auberginen, Tomaten, Möhren Reis, Ingwer, Garam Masala, Koriander, wahlweise Joghurt",
+      week.thursday,
+      euro("5.50"),
+      setOf("Tagessuppe"),
+      providerId,
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "Soljanka",
+      "Wiener, Kassler, Knacker, Paprika, Letschow, saure Gurken, Sauerkraut, Schmand, Zitrone",
+      week.friday,
+      euro("5.50"),
+      setOf("Tagessuppe"),
+      providerId,
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2023-06-12`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2023-06-12.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 30
+    val week = weekOf("2023-06-12")
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 3
+    offers shouldContain LunchOffer(
+      0,
+      "Cheesy Gärtnergulasch",
+      "mit Rinderhackfleisch & Käsecreme, Zucchini, Kohlrabi, Paprika, Gurke, Tomaten, Kräuter, Tomatenmark",
+      week.wednesday,
+      euro("5.50"),
+      emptySet(),
+      providerId,
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "Linsen DAL",
+      "rote Linsen, Möhren, Zuccini, Ingwer, Kokosmilch, Koriander, Curry, schwarzer Sesam",
+      week.wednesday,
+      euro("5.50"),
+      setOf("vegan"),
+      providerId,
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "fruchtige Tomatencremesuppe",
+      "mit Mozzarella, Gnocchi und Basilikum",
+      week.wednesday,
+      euro("5.50"),
+      setOf("Tagessuppe"),
+      providerId,
+    )
   }
 }

@@ -58,162 +58,342 @@ class LunchResolverSuppenkulttour(
     return null
   }
 
+  enum class ContentType {
+    UNKNOWN,
+    WEEKDAY,
+    DATE,
+    ZUSATZINFO,
+    TITLE,
+    DESCRIPTION,
+    PRICES,
+  }
+  sealed interface Text
+  data class Paragraph(val lines: List<TextLine>): Text {
+    fun isValidOffer(): Boolean =
+      // Zeilen für Titel & Preisangaben
+      lines.size >= 2 &&
+      // Die ersten 2 Zeilen beinhalten einen Titel
+      lines.take(2).flatMap { it.segments }.any { it.contentType == ContentType.TITLE } &&
+      // Exakt 1 Titel
+      lines.flatMap { it.segments }.count { it.contentType == ContentType.TITLE } == 1 &&
+      // Mind. 1 nicht fett geschriebener Text (Zusatzinfo, Beschreibung, Preis)
+      lines.flatMap { it.segments }.any { !it.isTitle } &&
+      // beinhaltet nicht Feiertag, Ostermontag o.ä.
+      lines.flatMap { it.segments }.none { it.text.contains(Regex("Feiertag|Betriebsferien|Achtung|Wochenplan|geschlossen")) }
+
+    fun hasTitleLike(title: String): Boolean = lines.any { it.hasTitleLike(title) }
+    fun containsDateOrWeekday(): Boolean = lines.any { it.containsDateOrWeekday() }
+    fun containsEmptyLines(): Boolean = lines.any { it.isEmpty() }
+  }
+  data class TextLine(val segments: List<TextSegment>): Text {
+    fun hasTitle(): Boolean = segments.any { it.isTitle }
+
+    fun hasTitleLike(title: String): Boolean =
+      segments.any { it.isTitle && it.text.contains(title, true) }
+
+    fun containsDateOrWeekday(): Boolean =
+      segments.any { seg -> seg.contentType in setOf(ContentType.WEEKDAY, ContentType.DATE) }
+
+    fun text(): String = segments.joinToString(" ") { it.text }
+    fun isEmpty(): Boolean = segments.isEmpty()
+  }
+  data class TextSegment(
+    val text: String,
+    val isTitle: Boolean = false,
+    val contentType: ContentType = ContentType.UNKNOWN,
+  ): Text
+  object TextBreak: Text
+
+  data class GroupedParagraphs(val wochensuppen: List<Paragraph>, val tagessuppen: Map<LocalDate, Paragraph>)
+
   private fun parseOffers(wochenplanSection: Element, monday: LocalDate): List<LunchOffer> {
-    // die Daten stecken in vielen, undefiniert angeordneten HTML-Elementen, daher lieber
-    // als Reintext auswerten (mit Pipes als Zeilenumbrüchen)
-    val wochenplanString = node2text(wochenplanSection)
+    val paragraphs = node2paragraphs(wochenplanSection)
+    println(paragraphs)
+    val adjustedParagraphs = adjustParagraphs(adjustTextSegments(paragraphs))
+    println(adjustedParagraphs)
+    val groupedParagraphs = groupParagraphs(adjustedParagraphs, monday)
+    println(groupedParagraphs)
 
-    val wochensuppenStart = wochenplanString.lowercase().indexOf("die wochensuppen")
-    val tagessuppenStart = wochenplanString.lowercase().indexOfAny(setOf("die tagessuppen", "dietagessuppen", "montag"))
-
-    val wochensuppen =
-      if (wochensuppenStart > -1 && wochensuppenStart < tagessuppenStart) {
-        val wochensuppenString =
-          wochenplanString.substring(wochensuppenStart + 16, tagessuppenStart)
-        parseWochensuppen(removeLeadingPipes(wochensuppenString), monday)
-      } else {
-        emptyList()
-      }
-
-    val tagessuppen =
-      if (tagessuppenStart > -1) {
-        val tagessuppenString = wochenplanString.substring(tagessuppenStart + 15)
-        parseTagessuppen(removeLeadingPipes(tagessuppenString), monday)
-      } else {
-        emptyList()
-      }
+    val wochensuppen = parseWochensuppen(groupedParagraphs.wochensuppen, monday)
+    val tagessuppen = parseTagessuppen(groupedParagraphs.tagessuppen)
 
     val multipliedWochensuppen = multiplyWochenangebote(wochensuppen, tagessuppen.map { it.day })
     return tagessuppen + multipliedWochensuppen
   }
 
-  private fun parseWochensuppen(text: String, monday: LocalDate): List<LunchOffer> {
+  private fun node2paragraphs(node: Node): List<Paragraph> {
+    if (node is Element && node.tagName() == "p") {
+      val lines = node2textlines(node)
+      return listOf(Paragraph(lines))
+    }
+
+    val result = mutableListOf<Paragraph>()
+    for (child in node.childNodes()) {
+      result += when (child) {
+        is TextNode -> emptyList()
+        else -> node2paragraphs(child)
+      }
+    }
+    return result
+  }
+
+  private fun node2textlines(node: Node): List<TextLine> {
+    val texts = readTexts(node)
+    val lines = mutableListOf<TextLine>()
+    var currentLine = mutableListOf<TextSegment>()
+    for (text in texts) {
+      when (text) {
+        is TextSegment -> currentLine.add(text)
+        is TextBreak -> {
+          lines += TextLine(currentLine)
+          currentLine = mutableListOf()
+        }
+        else -> {}
+      }
+    }
+    if (currentLine.isNotEmpty())
+      lines += TextLine(currentLine)
+    return lines
+  }
+
+  private fun readTexts(node: Node, isTitle: Boolean = false): List<Text> {
+    val result = mutableListOf<Text>()
+    for (child in node.childNodes()) {
+      result += when {
+        child is TextNode -> {
+          val text = adjustText(child.text())
+          if (text.isEmpty()) emptyList() else listOf(TextSegment(text, isTitle))
+        }
+        child is Element && child.tagName() == "br" -> listOf(TextBreak)
+        child is Element && child.tagName() == "strong" -> readTexts(child, true)
+        else -> readTexts(child, isTitle)
+      }
+    }
+    return result
+  }
+
+  private fun adjustTextSegments(paragraphs: List<Paragraph>): List<Paragraph> =
+    paragraphs.map { adjustTextSegments(it) }
+
+  private fun adjustTextSegments(paragraph: Paragraph): Paragraph {
+    // Segmente gruppieren nach isTitle
+    var newLines = paragraph.lines.map { line ->
+      val newSegments = mutableListOf<TextSegment>()
+      var lastSegment: TextSegment? = null
+      for (segment in line.segments) {
+        if (lastSegment == null)
+          lastSegment = segment
+        else if (lastSegment.isTitle == segment.isTitle)
+          lastSegment = lastSegment.copy(text = "${lastSegment.text} ${segment.text}")
+        else {
+          newSegments += lastSegment
+          lastSegment = segment
+        }
+      }
+      if (lastSegment != null)
+        newSegments += lastSegment
+      line.copy(segments = newSegments)
+    }
+
+    // Segmente auf bekannte Pattern und Content untersuchen
+    newLines = newLines.map { line ->
+      val newSegments = line.segments
+        .filter { it.contentType == ContentType.UNKNOWN }
+        .flatMap { adjustTextSegment(it) }
+      line.copy(segments = newSegments)
+    }
+
+    return paragraph.copy(lines = newLines)
+  }
+
+  private fun adjustTextSegment(segment: TextSegment): List<TextSegment> {
+    val regexWeekdays = Weekday.values().joinToString("|", "(", ")") { it.label }
+    val regexDate = """(\d{2}.\d{2}.\d{2,4})"""
+    val regexPrices = """(klein[\d,. €|]+mittel[\d,. €|]+groß[\d,. €|]+)"""
+
+    // split Weekday and Date
+    var result = Regex("""^$regexWeekdays.*$regexDate$""").find(segment.text)
+    if (result != null) {
+      val weekday = TextSegment(result.destructured.component1().trim(), segment.isTitle, ContentType.WEEKDAY)
+      val title = TextSegment(result.destructured.component2().trim(), segment.isTitle, ContentType.DATE)
+      return listOf(weekday, title)
+    }
+
+    // split Weekday and Title
+    result = Regex("""^$regexWeekdays[ -]+(.*)$""").find(segment.text)
+    if (result != null) {
+      val weekday = TextSegment(result.destructured.component1().trim(), segment.isTitle, ContentType.WEEKDAY)
+      val title = TextSegment(result.destructured.component2().trim(), segment.isTitle, ContentType.TITLE)
+      return listOf(weekday, title)
+    }
+
+    // split Description and Prices
+    result = Regex("""^([^€]*) +$regexPrices$""").find(segment.text)
+    if (result != null) {
+      val weekday = TextSegment(result.destructured.component1().trim(), segment.isTitle, ContentType.DESCRIPTION)
+      val title = TextSegment(result.destructured.component2().trim(), segment.isTitle, ContentType.PRICES)
+      return listOf(weekday, title)
+    }
+
+    // contains Prices
+    if (predictPrice(listOf(segment.text)) != null)
+      return listOf(segment.copy(contentType = ContentType.PRICES))
+
+    // Zusatzinfo
+    if (isZusatzInfo(segment.text))
+      return listOf(segment.copy(contentType = ContentType.ZUSATZINFO))
+
+    // must be a Title
+    if (segment.isTitle)
+      return listOf(segment.copy(contentType = ContentType.TITLE))
+
+    return listOf(segment)
+  }
+
+  private fun adjustParagraphs(paragraphs: List<Paragraph>): List<Paragraph> {
+    val result = mutableListOf<Paragraph>()
+    for (paragraph in paragraphs) {
+      if (isMultipleParagraphs(paragraph))
+        result += splitMultiParagraph(paragraph)
+      else if (paragraph.containsEmptyLines()) {
+        removeEmptyLines(paragraph)?.let { result += it }
+      } else
+        result += paragraph
+    }
+    return result
+  }
+
+  private fun isMultipleParagraphs(paragraph: Paragraph): Boolean = splitMultiParagraph(paragraph).size > 1
+
+  private fun splitMultiParagraph(paragraph: Paragraph): List<Paragraph> = splitByEmptyLines(paragraph)
+
+  private fun splitByEmptyLines(paragraph: Paragraph): List<Paragraph> {
+    val result = mutableListOf<Paragraph>()
+    var currentLines = mutableListOf<TextLine>()
+    for (line in paragraph.lines) {
+      if (line.isEmpty()) {
+        if (currentLines.isNotEmpty()) result += Paragraph(currentLines)
+        currentLines = mutableListOf()
+      } else
+        currentLines += line
+    }
+    if (currentLines.isNotEmpty()) result += Paragraph(currentLines)
+    return result
+  }
+
+  private fun removeEmptyLines(paragraph: Paragraph): Paragraph? {
+    val lines = paragraph.lines.filter { it.segments.isNotEmpty() }
+    return if (lines.isNotEmpty()) Paragraph(lines) else null
+  }
+
+  enum class ParagraphGroupState {
+    PRE, WOCHENSUPPEN, TAGESSUPPEN
+  }
+
+  private fun groupParagraphs(paragraphs: List<Paragraph>, monday: LocalDate): GroupedParagraphs {
+    val wochensuppen = mutableListOf<Paragraph>()
+    val tagessuppen = mutableMapOf<LocalDate, Paragraph>()
+    var state = ParagraphGroupState.PRE
+
+    for (paragraph in paragraphs) {
+      when (state) {
+        ParagraphGroupState.PRE -> {
+          if (paragraph.hasTitleLike("Wochensuppen")) {
+            state = ParagraphGroupState.WOCHENSUPPEN
+          } else if (paragraph.containsDateOrWeekday()) {
+            state = ParagraphGroupState.TAGESSUPPEN
+            tagessuppen += parseDateOrWeekday(paragraph, monday) to paragraph
+          } else if (paragraph.isValidOffer()) {
+            state = ParagraphGroupState.WOCHENSUPPEN
+            wochensuppen += paragraph
+          }
+        }
+        ParagraphGroupState.WOCHENSUPPEN -> {
+          if (paragraph.hasTitleLike("Tagessuppen")) {
+            state = ParagraphGroupState.TAGESSUPPEN
+          } else if (paragraph.containsDateOrWeekday()) {
+            state = ParagraphGroupState.TAGESSUPPEN
+            tagessuppen += parseDateOrWeekday(paragraph, monday) to paragraph
+          } else if (paragraph.isValidOffer()) {
+            wochensuppen += paragraph
+          }
+        }
+        ParagraphGroupState.TAGESSUPPEN -> {
+          if (paragraph.containsDateOrWeekday()) {
+            tagessuppen += parseDateOrWeekday(paragraph, monday) to paragraph
+          } else if (paragraph.isValidOffer()) {
+            val date = if (tagessuppen.keys.isNotEmpty())
+              tagessuppen.keys.max().plusDays(1)
+            else
+              monday
+            tagessuppen += date to paragraph
+          }
+        }
+      }
+    }
+
+    val validTagessuppen = tagessuppen.filterValues { it.isValidOffer() }
+
+    return GroupedParagraphs(wochensuppen, validTagessuppen)
+  }
+
+  private fun parseWochensuppen(paragraphs: List<Paragraph>, monday: LocalDate): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
-
-    val wochensuppenStrings =
-      cleanUnnecessaryInfo(highlightOfferBorders(text))
-        .split("|||")
-        .map { cleanUpPipes(it) }
-
-    val predictedPrice = predictPrice(wochensuppenStrings)
-
-    for (wochensuppeString in wochensuppenStrings) {
-      val offerAsStrings = wochensuppeString.split("|").map { it.trim() }
-      val rawOffer = parseOfferAttributes(offerAsStrings, predictedPrice) ?: continue
+    for (paragraph in paragraphs) {
+      val raw = toRawOffer(paragraph) ?: continue
       result += LunchOffer(
         0,
-        rawOffer.name,
-        rawOffer.description,
+        raw.name,
+        raw.description,
         monday,
-        rawOffer.price,
-        rawOffer.tags,
-        provider.id,
+        raw.price,
+        raw.tags,
+        provider.id
       )
     }
     return result
   }
 
-  private fun parseTagessuppen(text: String, monday: LocalDate): List<LunchOffer> {
+  private fun parseTagessuppen(paragraphs: Map<LocalDate, Paragraph>): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
-
-    val tagessuppenStrings =
-      cleanUnnecessaryInfo(highlightOfferBorders(text))
-        .split("|||")
-        .map { cleanUpPipes(it) }
-
-    val predictedPrice = predictPrice(tagessuppenStrings)
-
-    for ((day, tagessuppeString) in groupTagessuppeByDay(tagessuppenStrings, monday)) {
-      val offerAsStrings = tagessuppeString.split("|").map { it.trim() }
-      val rawOffer = parseOfferAttributes(offerAsStrings, predictedPrice) ?: continue
+    for ((date, paragraph) in paragraphs) {
+      val raw = toRawOffer(paragraph) ?: continue
       result += LunchOffer(
         0,
-        rawOffer.name,
-        rawOffer.description,
-        day,
-        rawOffer.price,
-        rawOffer.tags + "Tagessuppe",
-        provider.id,
+        raw.name,
+        raw.description,
+        date,
+        raw.price,
+        raw.tags + "Tagessuppe",
+        provider.id
       )
     }
     return result
   }
 
-  private fun highlightOfferBorders(text: String): String =
-    text
-      .replace(Regex("""\| *\|"""), "||")
-      .replace(Regex("""groß *(\d+[.,]\d{2}) ?€? *\|"""), """groß $1 €||""")
-      .replace(Regex("""([^|]) *\(enthält"""), "$1|(enthält")
+  private fun toRawOffer(para: Paragraph): RawOffer? {
+    val title = para.lines.flatMap { line -> line.segments.filter { it.contentType == ContentType.TITLE } }.firstOrNull()?.text ?: return null
+    val zusatzInfos = para.lines.flatMap { line -> line.segments.filter { it.contentType == ContentType.ZUSATZINFO } }.firstOrNull()?.text ?: ""
+    val descriptionLines = para.lines.dropWhile { line -> line.segments.any{it.contentType in setOf(ContentType.TITLE,ContentType.ZUSATZINFO,ContentType.WEEKDAY,ContentType.DATE ) } }
+    val descriptionSegments = descriptionLines.flatMap { line -> line.segments }.takeWhile { it.contentType != ContentType.PRICES }
+    val description = descriptionSegments.joinToString (" ") { it.text }
+    val priceText = para.lines.flatMap { line -> line.segments.filter { it.contentType == ContentType.PRICES } }.firstOrNull()?.text ?: ""
+    val price = predictPrice(listOf(priceText))
+    val tags = parseVeggie(zusatzInfos, title)
 
-  private fun cleanUnnecessaryInfo(text: String): String =
-    text
-      // unnütze Info "Standort nicht besetzt" entfernen
-      .replace(Regex("""\|{2,3}[^|]*Standort[^|]*\|{2,3} *"""), "||")
-      // unnütze Info "Achtung !!!!Plan gilt auch am" entfernen
-      .replace(Regex("""\|{2,3}[^|]*Achtung\|{2,3} *"""), "||")
-      .replace(Regex("""Achtung *!*\|[^|]*\|{2,3} *"""), "||")
-      .replace(Regex("""\|{2,3}[^|]*Betriebsferien[^|]*\|{2,3} *"""), "||")
-      // TODO: Notbehelfe für krumm formatierte Weihnachtswoche entfernen
-      .replace(Regex("""\.(20\d\d)\|\|\|"""), ".$1||")
-      .replace(Regex("""([a-z]) *klein 3,50 €"""), "$1||klein 3,50 €")
+    return RawOffer(
+      title,
+      description,
+      price,
+      tags,
+    )
+  }
 
   private fun predictPrice(lines: List<String>): Money? =
     lines
       .mapNotNull { Regex("""\| *mittel([\d,. ]*)€.*""").find(it) }
       .mapNotNull { StringParser.parseMoney(it.destructured.component1()) }
       .toSet().firstOrNull()
-
-  private fun parseOfferAttributes(
-    offerAttributesAsStrings: List<String>,
-    predictedPrice: Money?,
-  ): RawOffer? {
-    val clearedParts = offerAttributesAsStrings.map { cleanUpString(it) }.filter { it.isNotEmpty() }
-    if (clearedParts.isEmpty()) {
-      return null
-    }
-
-    val title = clearedParts.first().trim()
-    val remainingParts = clearedParts.drop(1)
-
-    val descriptionList = mutableListOf<String>()
-    var price: Money? = predictedPrice
-
-    var zusatzInfo = ""
-
-    for (part in remainingParts) {
-      if (isZusatzInfo(part)) {
-        zusatzInfo += part
-        continue
-      }
-
-      val match = Regex("""(.+) (\d+[.,]\d{2}) ?€? *""").find(part)
-      if (match != null) {
-        val (portion, priceStr) = match.destructured
-        if (portion.trim() == "mittel") {
-          price = StringParser.parseMoney(priceStr)
-        }
-        continue
-      }
-
-      descriptionList += part.trim()
-    }
-
-    if (price == null) {
-      return null
-    }
-
-    if (title.isEmpty()) return null
-    if (title == "geschlossen") return null
-    if (title.split(Regex("[ ()]")).contains("Feiertag")) return null
-    if (title.contains("Liebe Gäste")) return null
-    if (title.lowercase().contains("klein 300 ml")) return null
-
-    val description = descriptionList
-      .filter { it.isNotEmpty() }
-      .joinToString(separator = " ")
-
-    return RawOffer(title, description, price, parseVeggie(zusatzInfo, title, description))
-  }
 
   private fun parseVeggie(vararg sources: String): Set<String> {
     val result = mutableSetOf<String>()
@@ -228,18 +408,6 @@ class LunchResolverSuppenkulttour(
     return result
   }
 
-  private fun cleanUpString(str: String): String {
-    val replacedStr =
-      str
-        .replace(Regex("""€ *€"""), "€")
-        .replace(Regex("""^[a-zA-Z]$"""), "")
-
-    return replacedStr.split(" ").asSequence()
-      .filter { s -> s != "(" && s != ")" }
-      .filter { it.isNotEmpty() }
-      .joinToString(" ").trim()
-  }
-
   private fun multiplyWochenangebote(
     wochenOffers: List<LunchOffer>,
     dates: List<LocalDate>,
@@ -248,110 +416,46 @@ class LunchResolverSuppenkulttour(
     return wochenOffers.flatMap { offer -> sortedDates.map { date -> offer.copy(day = date) } }
   }
 
-  private fun node2text(node: Node): String {
-    var result = ""
-    // Zeilenumbrüche durch Pipe-Zeichen ausdrücken
-    if (node is Element && node.tagName() in listOf("br", "p")) result += "|"
-
-    for (child in node.childNodes()) {
-      result += when (child) {
-        is TextNode -> adjustText("${child.text()}|")
-        else -> node2text(child)
-      }
-    }
-    return result
+  private fun isZusatzInfo(string: String): Boolean {
+    val zusatzInfos = listOf(
+      "vegan", "glutenfrei", "vegetarisch", "veg.", "veget.", "vegarisch",
+      "laktosefrei", "veget.gf", "gf", "lf", "enthält", "enthälti", "vegt.",
+    )
+    return string.split(Regex("[|(), ]")).all { it.length < 3 || zusatzInfos.contains(it.trim()) }
   }
 
-  private fun cleanUpPipes(text: String) =
-    removeLeadingPipes(text)
-      // add pipe after Zusatzinfos
-      .replaceFirst(Regex("""\) """), ")|")
-
-  private fun removeLeadingPipes(text: String) =
-    text.trim()
-      // remove leading pipes
-      .replaceFirst(Regex("""^[ |]+"""), "")
-
   private fun adjustText(text: String) =
-    text
+    text.trim()
       .replace("–", "-")
       .replace(" , ", ", ")
       .replace("\n", "")
       .replace("\\u00a0", " ") // NO-BREAK SPACE durch normales Leerzeichen ersetzen
+      .trim()
 
-  private fun isZusatzInfo(string: String): Boolean {
-    val zusatzInfos = listOf(
-      "vegan", "glutenfrei", "vegetarisch", "veg.", "veget.",
-      "laktosefrei", "veget.gf", "gf", "lf", "enthält", "enthälti", "vegt.",
-    )
-    return string.split(Regex("[(), ]")).all { it.length < 3 || zusatzInfos.contains(it.trim()) }
-  }
+  private fun parseDateOrWeekday(paragraph: Paragraph, monday: LocalDate): LocalDate {
+    val dateSegments = paragraph.lines.flatMap { line -> line.segments.filter { it.contentType == ContentType.DATE } }
+    if (dateSegments.isNotEmpty()) {
+      val localDate = StringParser.parseLocalDate(dateSegments.first().text)
+      if (localDate != null)
+        return localDate
+    }
 
-  private fun groupTagessuppeByDay(
-    tagessuppenStrings: List<String>,
-    monday: LocalDate,
-  ): Map<LocalDate, String> {
-    val result = mutableMapOf<LocalDate, String>()
-
-    // Wochen mit vielen Feiertagen enthalten ggf. Datumse
-    if (tagessuppenStrings.any { StringParser.parseLocalDate(it) != null }) {
-      for (tagessuppeString in tagessuppenStrings) {
-        val date2name = extractDate(tagessuppeString)
-        if (date2name != null) {
-          result += date2name.date to date2name.name
-        }
-      }
-
-      // Standardfall: "Montag" bis "Freitag" (ohne Datum)
-    } else {
-      var currentWeekday = Weekday.MONTAG
-      for (tagessuppeString in tagessuppenStrings) {
-        val weekday2name = extractWeekday(tagessuppeString, currentWeekday)
-        val weekday = weekday2name.weekday
-        result += monday.plusDays(weekday.order) to weekday2name.name
-        currentWeekday = Weekday.values().find { it.order == weekday.order + 1 } ?: break
+    val weekdaySegments = paragraph.lines.flatMap { line -> line.segments.filter { it.contentType == ContentType.WEEKDAY } }
+    if (weekdaySegments.isNotEmpty()) {
+      for (weekday in Weekday.values()) {
+        if (weekdaySegments.first().text.startsWith(weekday.label))
+          return monday.plusDays(weekday.order)
       }
     }
-    return result
-  }
 
-  private fun extractDate(text: String): Date2Name? {
-    val texts = text.split(Regex("""\|\|"""), 2)
-    if (texts.size < 2) return null
-
-    val (dateString, remainingText) = texts
-    val date = StringParser.parseLocalDate(dateString) ?: return null
-    return Date2Name(date, remainingText)
-  }
-
-  private fun extractWeekday(text: String, predictedWeekday: Weekday): Weekday2Name {
-    val weekdayNames = Weekday.values().joinToString("|") { it.label }
-    val match = Regex("""^ *($weekdayNames) *[-|]*(.*)""").find(text)
-    if (match != null) {
-      val (weekdayString, remainingText) = match.destructured
-      val weekday = Weekday.values().find { it.label == weekdayString }
-      if (weekday != null) {
-        return Weekday2Name(weekday, remainingText)
-      }
-    }
-    return Weekday2Name(predictedWeekday, text)
+    error("no weekday or date")
   }
 
   data class RawOffer(
     val name: String,
     val description: String,
-    val price: Money,
+    val price: Money?,
     val tags: Set<String>,
-  )
-
-  data class Weekday2Name(
-    val weekday: Weekday,
-    val name: String,
-  )
-
-  data class Date2Name(
-    val date: LocalDate,
-    val name: String,
   )
 
   enum class Weekday(
