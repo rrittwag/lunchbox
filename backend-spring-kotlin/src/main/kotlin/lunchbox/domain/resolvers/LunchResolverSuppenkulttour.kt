@@ -70,8 +70,6 @@ class LunchResolverSuppenkulttour(
   sealed interface Text
   data class Paragraph(val lines: List<TextLine>): Text {
     fun isValidOffer(): Boolean =
-      // Zeilen für Titel & Preisangaben
-      lines.size >= 2 &&
       // Die ersten 2 Zeilen beinhalten einen Titel
       lines.take(2).flatMap { it.segments }.any { it.contentType == ContentType.TITLE } &&
       // Exakt 1 Titel
@@ -86,7 +84,6 @@ class LunchResolverSuppenkulttour(
     fun containsEmptyLines(): Boolean = lines.any { it.isEmpty() }
   }
   data class TextLine(val segments: List<TextSegment>): Text {
-    fun hasTitle(): Boolean = segments.any { it.isTitle }
 
     fun hasTitleLike(title: String): Boolean =
       segments.any { it.isTitle && it.text.contains(title, true) }
@@ -108,9 +105,7 @@ class LunchResolverSuppenkulttour(
 
   private fun parseOffers(wochenplanSection: Element, monday: LocalDate): List<LunchOffer> {
     val paragraphs = node2paragraphs(wochenplanSection)
-    println(paragraphs)
     val adjustedParagraphs = adjustParagraphs(adjustTextSegments(paragraphs))
-    println(adjustedParagraphs)
     val groupedParagraphs = groupParagraphs(adjustedParagraphs, monday)
     println(groupedParagraphs)
 
@@ -195,6 +190,9 @@ class LunchResolverSuppenkulttour(
       line.copy(segments = newSegments)
     }
 
+    // falls der Titel falsch gesetzt wurde
+    newLines = adjustTitle(newLines)
+
     // Segmente auf bekannte Pattern und Content untersuchen
     newLines = newLines.map { line ->
       val newSegments = line.segments
@@ -204,6 +202,18 @@ class LunchResolverSuppenkulttour(
     }
 
     return paragraph.copy(lines = newLines)
+  }
+
+  private fun adjustTitle(lines: List<TextLine>): List<TextLine> {
+    if (lines.isEmpty())
+      return lines
+    val firstLine = lines.first()
+    if (firstLine.segments.any { it.isTitle })
+      return lines
+    if (lines.flatMap { it.segments }.none { it.text.contains("€") })
+      return lines
+    val newSegments = firstLine.segments.map { it.copy(isTitle = true) }
+    return listOf(firstLine.copy(segments = newSegments)) + lines.drop(1)
   }
 
   private fun adjustTextSegment(segment: TextSegment): List<TextSegment> {
@@ -374,8 +384,7 @@ class LunchResolverSuppenkulttour(
   private fun toRawOffer(para: Paragraph): RawOffer? {
     val title = para.lines.flatMap { line -> line.segments.filter { it.contentType == ContentType.TITLE } }.firstOrNull()?.text ?: return null
     val zusatzInfos = para.lines.flatMap { line -> line.segments.filter { it.contentType == ContentType.ZUSATZINFO } }.firstOrNull()?.text ?: ""
-    val descriptionLines = para.lines.dropWhile { line -> line.segments.any{it.contentType in setOf(ContentType.TITLE,ContentType.ZUSATZINFO,ContentType.WEEKDAY,ContentType.DATE ) } }
-    val descriptionSegments = descriptionLines.flatMap { line -> line.segments }.takeWhile { it.contentType != ContentType.PRICES }
+    val descriptionSegments = para.lines.flatMap { it.segments }.filter { it.contentType in setOf(ContentType.UNKNOWN, ContentType.DESCRIPTION ) }
     val description = descriptionSegments.joinToString (" ") { it.text }
     val priceText = para.lines.flatMap { line -> line.segments.filter { it.contentType == ContentType.PRICES } }.firstOrNull()?.text ?: ""
     val price = predictPrice(listOf(priceText))

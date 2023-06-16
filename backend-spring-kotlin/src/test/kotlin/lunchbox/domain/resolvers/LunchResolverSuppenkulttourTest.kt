@@ -286,9 +286,9 @@ class LunchResolverSuppenkulttourTest {
     offers shouldContain LunchOffer(
       0,
       "Quark-Kartoffelsuppe",
-      "cremige Suppe, Kartoffeln, Champignons, Wiener, Brokkoli, Kerbel, Schnittlauch, Quark",
+      "(enthält i,g,1,2) cremige Suppe, Kartoffeln, Champignons, Wiener, Brokkoli, Kerbel, Schnittlauch, Quark",
       week.friday,
-      euro("4.70"),
+      null,
       setOf("Tagessuppe"),
       providerId,
     )
@@ -435,7 +435,7 @@ class LunchResolverSuppenkulttourTest {
     )
     offers shouldContain LunchOffer(
       0,
-      "Kürbis-Kokos-Suppe",
+      "Kürbis-Kokos-Suppe (enthält i,e,f,j,k) vegan",
       "mit roten Linsen, Staudensellerie, Kürbis, roter Paprika, Kokosmilch, Kurkuma, Ingwer",
       week.friday,
       euro("4.70"),
