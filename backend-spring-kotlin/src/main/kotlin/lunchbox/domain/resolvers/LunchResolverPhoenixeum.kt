@@ -176,7 +176,10 @@ class LunchResolverPhoenixeum(
       return StringParser.OfferName(titleTemp, descr)
     }
 
-    val offerName = StringParser.splitOfferName(newNameParts[0], listOf(",", " auf ", " mit ", " von ", " im ", " in ", " an "))
+    val offerName = StringParser.splitOfferName(
+      newNameParts[0],
+      listOf(",", " auf ", " mit ", " von ", " im ", " in ", " an "),
+    )
     return offerName.copy(description = offerName.description.replace(Regex("^, *"), ""))
   }
 

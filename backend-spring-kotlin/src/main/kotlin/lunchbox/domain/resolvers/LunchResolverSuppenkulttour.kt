@@ -111,7 +111,7 @@ class LunchResolverSuppenkulttour(
     val paragraphs = node2paragraphs(wochenplanSection)
     val adjustedParagraphs = adjustParagraphs(adjustTextSegments(paragraphs))
     val groupedParagraphs = groupParagraphs(adjustedParagraphs, monday)
-    logger.debug{ groupedParagraphs }
+    logger.debug { groupedParagraphs }
 
     val wochensuppen = parseWochensuppen(groupedParagraphs.wochensuppen, monday)
     val tagessuppen = parseTagessuppen(groupedParagraphs.tagessuppen)
