@@ -162,19 +162,22 @@ class LunchResolverPhoenixeum(
   }
 
   private fun splitOfferName(nameParts: List<String>): StringParser.OfferName {
-    if (nameParts[0].contains(" - ")) {
-      val (titleTemp, behindMinus) = nameParts[0].split(" - ")
-      val descr = "$behindMinus ${nameParts.drop(1).joinToString(" ")}"
+    val newNameParts = nameParts.filterNot { it.trim() == "Portion" }
+
+    if (newNameParts[0].contains(" - ")) {
+      val (titleTemp, behindMinus) = newNameParts[0].split(" - ")
+      val descr = "$behindMinus ${newNameParts.drop(1).joinToString(" ")}"
       return StringParser.OfferName(titleTemp, descr)
     }
 
-    if (nameParts.size > 1) {
-      val titleTemp = nameParts[0]
-      val descr = nameParts.drop(1).joinToString(" ")
+    if (newNameParts.size > 1) {
+      val titleTemp = newNameParts[0]
+      val descr = newNameParts.drop(1).joinToString(" ")
       return StringParser.OfferName(titleTemp, descr)
     }
 
-    return StringParser.splitOfferName(nameParts[0])
+    val offerName = StringParser.splitOfferName(newNameParts[0], listOf(",", " auf ", " mit ", " von ", " im ", " in ", " an "))
+    return offerName.copy(description = offerName.description.replace(Regex("^, *"), ""))
   }
 
   private fun parseZusatzinfo(name: String): Set<String> {

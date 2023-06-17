@@ -486,4 +486,41 @@ class LunchResolverPhoenixeumTest {
       providerId,
     )
   }
+
+  @Test
+  fun `resolve offers for week of 2023-05-29`() {
+    val url = javaClass.getResource("/menus/phoenixeum/2023-05-29.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 3
+    val week = weekOf("2023-05-29")
+    offers shouldContain LunchOffer(
+      0,
+      "Senfei",
+      "2 Bioeier mit Kartoffeln, Soße, roter Beete",
+      week.tuesday,
+      euro("6.50"),
+      emptySet(),
+      providerId,
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "Hühnchenkeule",
+      "mit Kartoffeln und Ofengemüse",
+      week.wednesday,
+      euro("7.50"),
+      emptySet(),
+      providerId,
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "Hühnchenkeule",
+      "mit Kartoffeln und Ofengemüse",
+      week.thursday,
+      euro("7.50"),
+      emptySet(),
+      providerId,
+    )
+  }
 }
