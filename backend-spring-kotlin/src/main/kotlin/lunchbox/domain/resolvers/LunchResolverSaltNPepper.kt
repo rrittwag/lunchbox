@@ -3,7 +3,6 @@ package lunchbox.domain.resolvers
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SALT_N_PEPPER
 import lunchbox.util.date.DateValidator
-import lunchbox.util.date.HolidayUtil
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
 import org.jsoup.nodes.Element
@@ -61,8 +60,7 @@ class LunchResolverSaltNPepper(
 
     val allOffers = dayOffers + weekOffers
     return allOffers
-      .filter { dateValidator.isValid(it.day) }
-      .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
+      .filter { dateValidator.isValid(it.day, provider) }
   }
 
   private fun resolveDayOffers(

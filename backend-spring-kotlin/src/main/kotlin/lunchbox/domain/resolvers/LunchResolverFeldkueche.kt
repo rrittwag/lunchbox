@@ -3,7 +3,6 @@ package lunchbox.domain.resolvers
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.FELDKUECHE
 import lunchbox.util.date.DateValidator
-import lunchbox.util.date.HolidayUtil
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser
@@ -58,7 +57,7 @@ class LunchResolverFeldkueche(
 
     return rawOffers
       .map { createOffer(it, monday) }
-      .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
+      .filter { dateValidator.isValid(it.day, provider) }
   }
 
   private fun createOffer(raw: RawOffer, monday: LocalDate): LunchOffer {
@@ -83,7 +82,7 @@ class LunchResolverFeldkueche(
     val wochenplanZeile = contentAsLines.find { it.contains("Wochenplan") } ?: return null
     val day = StringParser.parseLocalDate(wochenplanZeile) ?: return null
     val monday = day.with(DayOfWeek.MONDAY)
-    return if (dateValidator.isValid(monday)) monday else null
+    return if (dateValidator.isValid(monday, provider)) monday else null
   }
 
   private fun resolveOffersWith2rowSplit(contentAsLines: List<String>): List<RawOffer> {

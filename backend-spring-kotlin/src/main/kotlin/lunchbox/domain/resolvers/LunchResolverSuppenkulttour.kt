@@ -3,7 +3,6 @@ package lunchbox.domain.resolvers
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
 import lunchbox.util.date.DateValidator
-import lunchbox.util.date.HolidayUtil
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
 import mu.KotlinLogging
@@ -39,12 +38,12 @@ class LunchResolverSuppenkulttour(
 
     for (wochenplanSection in elements) {
       val monday = resolveMonday(wochenplanSection) ?: continue
-      if (!dateValidator.isValid(monday)) {
+      if (!dateValidator.isValid(monday, provider)) {
         continue
       }
       result +=
         parseOffers(wochenplanSection, monday)
-          .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
+          .filter { dateValidator.isValid(it.day, provider) }
     }
     return result
   }

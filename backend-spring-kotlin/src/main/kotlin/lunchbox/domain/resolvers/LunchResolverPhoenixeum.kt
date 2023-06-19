@@ -3,7 +3,6 @@ package lunchbox.domain.resolvers
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import lunchbox.util.date.DateValidator
-import lunchbox.util.date.HolidayUtil
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
 import org.jsoup.nodes.Document
@@ -38,12 +37,12 @@ class LunchResolverPhoenixeum(
     for (wochenplanDiv in elements) {
       val monday = resolveMonday(wochenplanDiv, site)
         ?: continue
-      if (!dateValidator.isValid(monday)) {
+      if (!dateValidator.isValid(monday, provider)) {
         continue
       }
 
       result += parseOffers(wochenplanDiv, monday)
-        .filterNot { HolidayUtil.isHoliday(it.day, provider.location) }
+        .filter { dateValidator.isValid(it.day, provider) }
     }
 
     return result

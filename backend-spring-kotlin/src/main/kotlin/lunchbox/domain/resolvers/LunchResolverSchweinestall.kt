@@ -43,7 +43,7 @@ class LunchResolverSchweinestall(
 
   private fun resolveOffers(dateElem: Element, offersElem: Element): List<LunchOffer> {
     val monday: LocalDate = resolveMonday(dateElem) ?: return emptyList()
-    if (!dateValidator.isValid(monday)) return emptyList()
+    if (!dateValidator.isValid(monday, provider)) return emptyList()
 
     val tdsAsText = offersElem.select("td")
       .map { it.text() }

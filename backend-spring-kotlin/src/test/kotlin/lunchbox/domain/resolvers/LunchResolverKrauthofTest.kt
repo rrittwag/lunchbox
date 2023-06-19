@@ -1,5 +1,7 @@
 package lunchbox.domain.resolvers
 
+import io.mockk.clearMocks
+import io.mockk.every
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.DAS_KRAUTHOF
@@ -7,17 +9,26 @@ import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
+import org.hamcrest.Matchers.any
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class LunchResolverKrauthofTest {
 
   private val htmlParser = HtmlParser(mockk())
+  private val dateValidator = mockk<DateValidator>()
   private fun resolver(): LunchResolverKrauthof =
-    LunchResolverKrauthof(DateValidator.alwaysValid(), htmlParser)
+    LunchResolverKrauthof(dateValidator, htmlParser)
 
   private val providerId = DAS_KRAUTHOF.id
 
   private val httpUploadDir = "https://www.daskrauthof.de/wp-content/uploads"
+
+  @BeforeEach
+  fun beforeEach() {
+    clearMocks(dateValidator)
+    every { dateValidator.isValid(any(), any()) } returns true
+  }
 
   @Test
   fun `resolve PDF links for 2017-05-01`() {
@@ -31,6 +42,7 @@ class LunchResolverKrauthofTest {
 
   @Test
   fun `resolve offers for shorter week of 2017-05-01`() {
+    every { dateValidator.isValid(date("2017-05-01"), DAS_KRAUTHOF) } returns false
     val url = javaClass.getResource("/menus/krauthof/pdf/2017-05-01.pdf")
     val week = weekOf("2017-05-01")
 
@@ -317,6 +329,7 @@ class LunchResolverKrauthofTest {
 
   @Test
   fun `resolve offers for week of 2019-09-30`() {
+    every { dateValidator.isValid(date("2019-10-03"), DAS_KRAUTHOF) } returns false
     val url = javaClass.getResource("/menus/krauthof/pdf/2019-09-30.pdf")
     val week = weekOf("2019-09-30")
 
@@ -333,6 +346,7 @@ class LunchResolverKrauthofTest {
 
   @Test
   fun `resolve offers for week of 2019-10-28`() {
+    every { dateValidator.isValid(date("2019-10-31"), DAS_KRAUTHOF) } returns false
     val url = javaClass.getResource("/menus/krauthof/pdf/2019-10-28.pdf")
     val week = weekOf("2019-10-28")
 
@@ -480,6 +494,7 @@ class LunchResolverKrauthofTest {
 
   @Test
   fun `resolve offers for week of 2020-04-27`() {
+    every { dateValidator.isValid(date("2020-05-01"), DAS_KRAUTHOF) } returns false
     val url = javaClass.getResource("/menus/krauthof/pdf/2020-04-27.pdf")
     val week = weekOf("2020-04-27")
 
