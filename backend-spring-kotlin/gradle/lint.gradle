@@ -9,7 +9,8 @@ detekt {
 }
 
 // Der Task-Name 'lint' ist eingängiger und technologie-neutraler als 'detekt'
-task lint(
-    dependsOn: 'detekt',
-    description: 'Führt die statische Code-Analyse aus.',
-    group: 'Verification')
+tasks.register('lint') {
+  description 'Führt die statische Code-Analyse aus.'
+  group 'Verification'
+  dependsOn 'detekt'
+}

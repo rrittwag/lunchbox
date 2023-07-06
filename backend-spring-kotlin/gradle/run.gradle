@@ -22,7 +22,8 @@ bootRun {
 }
 
 // Der Task-Name 'run' ist eingängiger und technologie-neutraler als 'bootRun'
-task run(
-    dependsOn: 'bootRun',
-    description: 'Startet das Backend lokal (Alias für bootRun).',
-    group: 'Application')
+tasks.register('run') {
+  description 'Startet das Backend lokal (Alias für bootRun).'
+  group 'Application'
+  dependsOn 'bootRun'
+}

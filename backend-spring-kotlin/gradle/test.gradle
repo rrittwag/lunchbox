@@ -37,23 +37,24 @@ test {
 // -------------------
 //   Integrations-Tests mit JUnit 5
 // -------------------
-task testIntegration(
-    type: Test,
-    description: 'Führt die Integrations-Tests aus.',
-    group: 'Verification') {
-      shouldRunAfter test
+tasks.register('testIntegration', Test) {
+  description 'Führt die Integrations-Tests aus.'
+  group 'Verification'
+  shouldRunAfter test
 
-      testClassesDirs = sourceSets.testIntegration.output.classesDirs
-      classpath = sourceSets.testIntegration.runtimeClasspath
+  testClassesDirs = sourceSets.testIntegration.output.classesDirs
+  classpath = sourceSets.testIntegration.runtimeClasspath
 
-      useJUnitPlatform()
-      maxParallelForks = (int) (Runtime.runtime.availableProcessors().intdiv(2) ?: 1) // Test-Klassen parallel ausführen
-      testLogging { exceptionFormat = 'full' }
+  useJUnitPlatform()
+  maxParallelForks = (int) (Runtime.runtime.availableProcessors().intdiv(2) ?: 1) // Test-Klassen parallel ausführen
+  testLogging { exceptionFormat = 'full' }
 
-      reports.html.required = false // Report-Generierung frisst unnötig CI-Zeit
-    }
+  reports.html.required = false // Report-Generierung frisst unnötig CI-Zeit
+}
 
-task testAll ( dependsOn: tasks.withType(Test) )
+tasks.register('testAll') {
+  dependsOn tasks.withType(Test)
+}
 
 
 // -------------------
@@ -79,7 +80,8 @@ jacocoTestCoverageVerification {
 }
 
 // Der Task-Name 'testCoverage' ist eingängiger als 'jacocoTestReport' ...
-task testCoverage(
-    dependsOn: 'jacocoTestReport',
-    description: 'Gibt Coverageinformationen aus (Alias für jacocoTestReport).',
-    group: 'Verification')
+tasks.register('testCoverage') {
+  dependsOn 'jacocoTestReport'
+  description 'Gibt Coverageinformationen aus (Alias für jacocoTestReport).'
+  group 'Verification'
+}
