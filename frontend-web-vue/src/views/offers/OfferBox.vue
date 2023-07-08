@@ -1,6 +1,6 @@
 <template>
   <article
-    class="flex flex-col items-center rounded-lg border-l-8 border-primary-500 bg-card px-4 pt-2 pb-3 shadow-xl sm:border-l-0 sm:border-t-8 sm:pt-4 sm:pb-6"
+    class="flex flex-col items-center rounded-lg border-l-8 border-primary-500 bg-card px-4 pb-3 pt-2 shadow-xl sm:border-l-0 sm:border-t-8 sm:pb-6 sm:pt-4"
     @click="onClick"
   >
     <h3 class="font-display text-3xl text-neutral-700 sm:text-4xl">

@@ -11,7 +11,7 @@
 
     <p
       role="note"
-      class="pt-px pl-px font-light leading-snug text-neutral-600 sm:block"
+      class="pl-px pt-px font-light leading-snug text-neutral-600 sm:block"
       :class="props.showDetailsInXS ? 'flex' : 'hidden'"
     >
       {{ props.offer.description }}

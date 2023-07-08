@@ -4,7 +4,7 @@
       Einstellungen
     </h1>
     <div>
-      <div class="mx-auto max-w-screen-xl py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+      <div class="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div class="mt-6 border-t-2 border-neutral-500 pt-6">
           <dl>
             <div class="md:grid md:grid-cols-12 md:gap-8">

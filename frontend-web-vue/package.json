@@ -16,7 +16,7 @@
     "focus-visible": "5.2.0",
     "pinia": "2.1.4",
     "vue": "3.3.4",
-    "vue-router": "4.2.3"
+    "vue-router": "4.2.4"
   },
   "devDependencies": {
     "@iconify-json/fa-solid": "1.1.4",
@@ -39,13 +39,10 @@
     "tailwindcss": "3.3.2",
     "typescript": "5.1.6",
     "unplugin-icons": "0.16.3",
-    "vite": "4.3.9",
+    "vite": "4.4.2",
     "vite-plugin-pwa": "0.16.4",
-    "vitest": "0.32.4",
+    "vitest": "0.33.0",
     "vue-tsc": "1.8.4"
-  },
-  "resolutions": {
-    "terser": "5.18.2"
   },
   "engines": {
     "node": ">=18.0.0"
