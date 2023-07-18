@@ -395,53 +395,6 @@ class LunchResolverPhoenixeumTest {
   }
 
   @Test
-  fun `resolve offers for week of 2020-11-30`() {
-    val url = javaClass.getResource("/menus/phoenixeum/2020-11-30.html")
-
-    val offers = resolver().resolve(url)
-
-    offers shouldHaveSize 4
-
-    val week = weekOf("2020-11-30")
-    offers shouldContain LunchOffer(
-      0,
-      "Bangs & Mash",
-      "Bratwurst in Zwiebelsoße mit grünen Erbsen & Kartoffelstampf",
-      week.monday,
-      euro("5.50"),
-      setOf(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Bangs & Mash",
-      "Bratwurst in Zwiebelsoße mit grünen Erbsen & Kartoffelstampf",
-      week.tuesday,
-      euro("5.50"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Senfei",
-      "2 Bio-Eier in Senfsoße, dazu Kartoffeln",
-      week.wednesday,
-      euro("5.50"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Senfei",
-      "2 Bio-Eier in Senfsoße, dazu Kartoffeln",
-      week.thursday,
-      euro("5.50"),
-      emptySet(),
-      providerId,
-    )
-  }
-
-  @Test
   fun `resolve offers for week of 2023-03-20`() {
     val url = javaClass.getResource("/menus/phoenixeum/2023-03-20.html")
 
@@ -517,6 +470,52 @@ class LunchResolverPhoenixeumTest {
       0,
       "Hühnchenkeule",
       "mit Kartoffeln und Ofengemüse",
+      week.thursday,
+      euro("7.50"),
+      emptySet(),
+      providerId,
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2023-07-17`() {
+    val url = javaClass.getResource("/menus/phoenixeum/2023-07-17.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 4
+    val week = weekOf("2023-07-17")
+    offers shouldContain LunchOffer(
+      0,
+      "Senfei",
+      "2 Bio Eier, Kartoffeln, Rohkost und Soße",
+      week.monday,
+      euro("6.50"),
+      emptySet(),
+      providerId,
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "Senfei",
+      "2 Bio Eier, Kartoffeln, Rohkost und Soße",
+      week.tuesday,
+      euro("6.50"),
+      emptySet(),
+      providerId,
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "gebratene Hühnchenkeule",
+      "mit Buttererbsen, Salzkartoffeln Sauce Hollandaise",
+      week.wednesday,
+      euro("7.50"),
+      emptySet(),
+      providerId,
+    )
+    offers shouldContain LunchOffer(
+      0,
+      "gebratene Hühnchenkeule",
+      "mit Buttererbsen, Salzkartoffeln Sauce Hollandaise",
       week.thursday,
       euro("7.50"),
       emptySet(),

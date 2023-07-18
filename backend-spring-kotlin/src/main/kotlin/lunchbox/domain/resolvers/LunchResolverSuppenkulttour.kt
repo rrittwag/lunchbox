@@ -77,7 +77,7 @@ class LunchResolverSuppenkulttour(
         // Exakt 1 Titel
         lines.flatMap { it.segments }.count { it.contentType == ContentType.TITLE } == 1 &&
         // Mind. 1 nicht fett geschriebener Text (Zusatzinfo, Beschreibung, Preis)
-        lines.flatMap { it.segments }.any { !it.isTitle } &&
+        lines.flatMap { it.segments }.any { !it.isBold } &&
         // beinhaltet nicht Feiertag, Ostermontag o.ä.
         lines.flatMap { it.segments }
           .none { it.text.contains(Regex("Feiertag|Betriebsferien|Achtung|Wochenplan|geschlossen")) }
@@ -89,7 +89,7 @@ class LunchResolverSuppenkulttour(
   data class TextLine(val segments: List<TextSegment>) : Text {
 
     fun hasTitleLike(title: String): Boolean =
-      segments.any { it.isTitle && it.text.contains(title, true) }
+      segments.any { it.isBold && it.text.contains(title, true) }
 
     fun containsDateOrWeekday(): Boolean =
       segments.any { seg -> seg.contentType in setOf(ContentType.WEEKDAY, ContentType.DATE) }
@@ -99,7 +99,7 @@ class LunchResolverSuppenkulttour(
   }
   data class TextSegment(
     val text: String,
-    val isTitle: Boolean = false,
+    val isBold: Boolean = false,
     val contentType: ContentType = ContentType.UNKNOWN,
   ) : Text
   object TextBreak : Text
@@ -182,7 +182,7 @@ class LunchResolverSuppenkulttour(
       for (segment in line.segments) {
         if (lastSegment == null) {
           lastSegment = segment
-        } else if (lastSegment.isTitle == segment.isTitle) {
+        } else if (lastSegment.isBold == segment.isBold) {
           lastSegment = lastSegment.copy(text = "${lastSegment.text} ${segment.text}")
         } else {
           newSegments += lastSegment
@@ -214,14 +214,14 @@ class LunchResolverSuppenkulttour(
       return lines
     }
     val firstLine = lines.first()
-    if (firstLine.segments.any { it.isTitle }) {
+    if (firstLine.segments.any { it.isBold }) {
       return lines
     }
     if (lines.flatMap { it.segments }.none { it.text.contains("€") }) {
       return lines
     }
     // Titel ergänzen, sofern nicht vorhanden und es sich vermutlich um ein Offer handelt
-    val newSegments = firstLine.segments.map { it.copy(isTitle = true) }
+    val newSegments = firstLine.segments.map { it.copy(isBold = true) }
     return listOf(firstLine.copy(segments = newSegments)) + lines.drop(1)
   }
 
@@ -233,24 +233,24 @@ class LunchResolverSuppenkulttour(
     // split Weekday and Date
     var result = Regex("""^$regexWeekdays.*$regexDate$""").find(segment.text)
     if (result != null) {
-      val weekday = TextSegment(result.destructured.component1().trim(), segment.isTitle, ContentType.WEEKDAY)
-      val title = TextSegment(result.destructured.component2().trim(), segment.isTitle, ContentType.DATE)
+      val weekday = TextSegment(result.destructured.component1().trim(), segment.isBold, ContentType.WEEKDAY)
+      val title = TextSegment(result.destructured.component2().trim(), segment.isBold, ContentType.DATE)
       return listOf(weekday, title)
     }
 
     // split Weekday and Title
     result = Regex("""^$regexWeekdays[ -]+(.*)$""").find(segment.text)
     if (result != null) {
-      val weekday = TextSegment(result.destructured.component1().trim(), segment.isTitle, ContentType.WEEKDAY)
-      val title = TextSegment(result.destructured.component2().trim(), segment.isTitle, ContentType.TITLE)
+      val weekday = TextSegment(result.destructured.component1().trim(), segment.isBold, ContentType.WEEKDAY)
+      val title = TextSegment(result.destructured.component2().trim(), segment.isBold, ContentType.TITLE)
       return listOf(weekday, title)
     }
 
     // split Description and Prices
     result = Regex("""^([^€]*) +$regexPrices$""").find(segment.text)
     if (result != null) {
-      val weekday = TextSegment(result.destructured.component1().trim(), segment.isTitle, ContentType.DESCRIPTION)
-      val title = TextSegment(result.destructured.component2().trim(), segment.isTitle, ContentType.PRICES)
+      val weekday = TextSegment(result.destructured.component1().trim(), segment.isBold, ContentType.DESCRIPTION)
+      val title = TextSegment(result.destructured.component2().trim(), segment.isBold, ContentType.PRICES)
       return listOf(weekday, title)
     }
 
@@ -265,7 +265,7 @@ class LunchResolverSuppenkulttour(
     }
 
     // must be a Title
-    if (segment.isTitle) {
+    if (segment.isBold) {
       return listOf(segment.copy(contentType = ContentType.TITLE))
     }
 

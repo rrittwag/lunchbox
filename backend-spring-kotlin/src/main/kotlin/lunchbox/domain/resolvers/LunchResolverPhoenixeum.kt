@@ -48,45 +48,45 @@ class LunchResolverPhoenixeum(
     return result
   }
 
-  fun jahr(site: Document): Int? {
-    val elements = site.select("section.ce_accordionStart")
-    elements.addAll(site.select("section.wrapplan"))
-
-    val dateText = elements.first()?.text() ?: return null
-    val date = LunchResolverSuppenkulttour.resolveMonday(dateText)
-    return date?.year
-  }
-
   private fun parseOffers(wochenplanDiv: Element, monday: LocalDate): List<LunchOffer> {
-    val result = mutableListOf<LunchOffer>()
+    val paragraphs = node2paragraphs(wochenplanDiv)
+    val adjustedParagraphs = adjustParagraphs(adjustTextSegments(paragraphs))
 
-    val pipedOffers = splitByOffers(wochenplanDiv)
+    val validParagraphs = adjustedParagraphs.filter { it.isValidOffer() }
 
-    for (pipedOffer in pipedOffers) {
-      val offerAsStrings = pipedOffer.split("|").map { it.trim() }
-
-      val offers = parseOfferAttributes(offerAsStrings, monday)
-      result += offers
-    }
-
-    return result
+    return toOffers(validParagraphs, monday)
   }
 
-  private fun splitByOffers(wochenplanDiv: Element): List<String> {
-    val pipedWeek = node2text(wochenplanDiv).replace("||", "|")
-    return pipedWeek.split("|").fold(emptyList()) { days, elem ->
-      if (days.isEmpty()) {
-        days + elem
-      } else {
-        val lastDay = days.last()
-        if (Weekday.values().any { elem.contains(it.label) }) {
-          days + elem
-        } else {
-          days.dropLast(1) + "$lastDay|$elem"
-        }
-      }
-    }
+  enum class ContentType {
+    UNKNOWN,
+    DATE,
+    TITLE,
+    DESCRIPTION,
+    PRICE,
   }
+  sealed interface Text
+  data class Paragraph(val lines: List<TextLine>) : Text {
+    fun isValidOffer(): Boolean =
+      // Die erste Zeile beinhaltet ein Datum/Wochentag
+      lines.take(1).flatMap { it.segments }.any { it.contentType == ContentType.DATE } &&
+        // letzte Zeile beinhaltet Preis
+        lines.takeLast(1).flatMap { it.segments }.count { it.contentType == ContentType.PRICE } == 1 &&
+        // Mind. 1 nicht fett geschriebener Text
+        lines.flatMap { it.segments }.any { !it.isBold } &&
+        // beinhaltet nicht Feiertag, Ostermontag o.ä.
+        lines.flatMap { it.segments }
+          .none { it.text.contains(Regex("Feiertag|Betriebsferien|Achtung|Wochenplan|geschlossen")) }
+  }
+  data class TextLine(val segments: List<TextSegment>) : Text {
+    fun text(): String = segments.joinToString(" ") { it.text }
+    fun isEmpty(): Boolean = segments.isEmpty()
+  }
+  data class TextSegment(
+    val text: String,
+    val isBold: Boolean = false,
+    val contentType: ContentType = ContentType.UNKNOWN,
+  ) : Text
+  data object TextBreak : Text
 
   private fun resolveMonday(node: Element, site: Document): LocalDate? {
     val headings = node.select("h2,h3")
@@ -101,44 +101,174 @@ class LunchResolverPhoenixeum(
     return null
   }
 
-  private fun node2text(node: Node): String {
-    var result = ""
-    // Zeilenumbrüche durch Pipe-Zeichen ausdrücken
-    if (node is Element && node.tagName() in listOf("br", "p")) result += "|"
+  fun jahr(site: Document): Int? {
+    val elements = site.select("section.ce_accordionStart")
+    elements.addAll(site.select("section.wrapplan"))
 
+    val dateText = elements.first()?.text() ?: return null
+    val date = LunchResolverSuppenkulttour.resolveMonday(dateText)
+    return date?.year
+  }
+
+  private fun node2paragraphs(node: Node): List<Paragraph> {
+    if (node is Element && node.tagName() == "p") {
+      val lines = node2textlines(node)
+      return listOf(Paragraph(lines))
+    }
+
+    val result = mutableListOf<Paragraph>()
     for (child in node.childNodes()) {
       result += when (child) {
-        is TextNode -> adjustText(child.text())
-        else -> node2text(child)
+        is TextNode -> emptyList()
+        else -> node2paragraphs(child)
       }
     }
     return result
   }
 
+  private fun node2textlines(node: Node): List<TextLine> {
+    val texts = readTexts(node)
+    val lines = mutableListOf<TextLine>()
+    var currentLine = mutableListOf<TextSegment>()
+    for (text in texts) {
+      when (text) {
+        is TextSegment -> currentLine.add(text)
+        is TextBreak -> {
+          lines += TextLine(currentLine)
+          currentLine = mutableListOf()
+        }
+        else -> {}
+      }
+    }
+    if (currentLine.isNotEmpty()) {
+      lines += TextLine(currentLine)
+    }
+    return lines
+  }
+
+  private fun readTexts(node: Node, isTitle: Boolean = false): List<Text> {
+    val result = mutableListOf<Text>()
+    for (child in node.childNodes()) {
+      result += when {
+        child is TextNode -> {
+          val text = adjustText(child.text())
+          if (text.isEmpty()) emptyList() else listOf(TextSegment(text, isTitle))
+        }
+        child is Element && child.tagName() == "br" -> listOf(TextBreak)
+        child is Element && child.tagName() == "strong" -> readTexts(child, true)
+        else -> readTexts(child, isTitle)
+      }
+    }
+    return result
+  }
+
+  private fun adjustParagraphs(paragraphs: List<Paragraph>): List<Paragraph> =
+    paragraphs.mapNotNull { adjustParagraph(it) }
+
+  private fun adjustParagraph(paragraph: Paragraph): Paragraph? {
+    return removeEmptyLines(paragraph)
+  }
+
+  private fun removeEmptyLines(paragraph: Paragraph): Paragraph? {
+    val lines = paragraph.lines.filter { it.segments.isNotEmpty() }
+    return if (lines.isNotEmpty()) Paragraph(lines) else null
+  }
+
+  private fun adjustTextSegments(paragraphs: List<Paragraph>): List<Paragraph> =
+    paragraphs.map { adjustTextSegments(it) }
+
+  private fun adjustTextSegments(paragraph: Paragraph): Paragraph {
+    // Segmente gruppieren nach isBold
+    var newLines = paragraph.lines.map { line ->
+      val newSegments = mutableListOf<TextSegment>()
+      var lastSegment: TextSegment? = null
+      for (segment in line.segments) {
+        if (lastSegment == null) {
+          lastSegment = segment
+        } else if (lastSegment.isBold == segment.isBold) {
+          lastSegment = lastSegment.copy(text = "${lastSegment.text} ${segment.text}")
+        } else {
+          newSegments += lastSegment
+          lastSegment = segment
+        }
+      }
+      if (lastSegment != null) {
+        newSegments += lastSegment
+      }
+      line.copy(segments = newSegments)
+    }
+
+    // Segmente auf bekannte Pattern und Content untersuchen
+    newLines = newLines.map { line ->
+      val newSegments = line.segments
+        .filter { it.contentType == ContentType.UNKNOWN }
+        .flatMap { adjustTextSegment(it) }
+      line.copy(segments = newSegments)
+    }
+
+    return paragraph.copy(lines = newLines)
+  }
+
+  private fun adjustTextSegment(segment: TextSegment): List<TextSegment> {
+    val regexPrice = """([\d,. €|]+)"""
+
+    // split Name and Price
+    var result = Regex("""^(.*) - $regexPrice$""").find(segment.text)
+    if (result != null) {
+      val name = TextSegment(
+        result.destructured.component1().trim(),
+        segment.isBold,
+        ContentType.UNKNOWN,
+      )
+      val price = TextSegment(
+        result.destructured.component2().trim(),
+        segment.isBold,
+        ContentType.PRICE,
+      )
+      return listOf(name, price)
+    }
+
+    // contains Price
+    if (StringParser.parseMoney(segment.text) != null) {
+      return listOf(segment.copy(contentType = ContentType.PRICE))
+    }
+
+    // must be a Title
+    if (segment.isBold && Weekday.values().any {
+        segment.text.contains(it.label) ||
+          segment.text.contains(it.label.substring(0, 2).uppercase())
+      }
+    ) {
+      return listOf(segment.copy(contentType = ContentType.DATE))
+    }
+
+    return listOf(segment)
+  }
+
   private fun adjustText(text: String) =
     text
       .replace("–", "-")
-      .replace(" - ", "|")
       .replace(" -mit ", " mit ")
       .replace(" , ", ", ")
       .replace("\n", "")
       .replace("\\u00a0", " ") // NO-BREAK SPACE durch normales Leerzeichen ersetzen
+      .replace("( ", "(")
+      .replace(" )", ")")
+      .replace(" ,", ",")
+      .trim()
 
-  private fun parseOfferAttributes(
-    offerAttributesAsStrings: List<String>,
-    monday: LocalDate,
-  ): List<LunchOffer> {
-    val clearedParts = offerAttributesAsStrings.map { cleanUpString(it) }.filter { it.isNotEmpty() }
-    if (clearedParts.size < 3) {
-      return emptyList()
-    }
+  private fun toOffers(paragraphs: List<Paragraph>, monday: LocalDate): List<LunchOffer> =
+    paragraphs.flatMap { toOffers(it, monday) }
 
-    val weekdayStr = clearedParts.first()
-    val priceStr = clearedParts.last()
+  private fun toOffers(paragraph: Paragraph, monday: LocalDate): List<LunchOffer> {
+    val segments = paragraph.lines.flatMap { it.segments }
+    val weekdayStr = segments.first { it.contentType == ContentType.DATE }.text
+    val titleDescription = segments.filterNot {
+      it.contentType in setOf(ContentType.DATE, ContentType.PRICE)
+    }.map { it.text }
+    val priceStr = segments.first { it.contentType == ContentType.PRICE }.text
 
-    val nameParts = clearedParts.drop(1).dropLast(1)
-    val (title, description) = splitOfferName(nameParts)
-    if (title.contains("Feiertag")) return emptyList()
+    val (title, description) = splitOfferName(titleDescription)
 
     val weekdays =
       if (weekdayStr.contains("bis")) {
@@ -146,7 +276,9 @@ class LunchResolverPhoenixeum(
           .dropLastWhile { !weekdayStr.contains(it.label) }
           .dropWhile { !weekdayStr.contains(it.label) }
       } else {
-        Weekday.values().filter { weekdayStr.contains(it.label) }
+        Weekday.values().filter {
+          weekdayStr.contains(it.label) || weekdayStr.contains(it.label.substring(0, 2).uppercase())
+        }
       }
 
     if (weekdays.isEmpty()) return emptyList()
@@ -188,14 +320,6 @@ class LunchResolverPhoenixeum(
       result.add("vegetarisch")
     }
     return result
-  }
-
-  private fun cleanUpString(str: String): String {
-    return str
-      .replace("( ", "(")
-      .replace(" )", ")")
-      .replace(" ,", ",")
-      .trim()
   }
 
   enum class Weekday(
