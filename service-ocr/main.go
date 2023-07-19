@@ -23,17 +23,23 @@ func handleUrl(w http.ResponseWriter, req *http.Request) {
 	if imageUrl == "" {
 		log.Println("param q needed")
 		w.WriteHeader(http.StatusBadRequest)
-		io.WriteString(w, "param q needed")
+		if _, err := io.WriteString(w, "param q needed"); err != nil {
+			return
+		}
 		return
 	}
 	text, err := ocr(imageUrl)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
-		io.WriteString(w, err.Error())
+		if _, err := io.WriteString(w, err.Error()); err != nil {
+			return
+		}
 		return
 	}
-	io.WriteString(w, text)
+	if _, err := io.WriteString(w, text); err != nil {
+		return
+	}
 }
 
 func ocr(imageUrl string) (string, error) {
@@ -58,9 +64,15 @@ func downloadImage(imageUrl string) (string, error) {
 	imageFile := fmt.Sprintf("/tempocr/%v", id)
 
 	out, err := os.Create(imageFile)
+	if err != nil {
+		return "", err
+	}
 	defer out.Close()
 
 	resp, err := http.Get(imageUrl)
+	if err != nil {
+		return "", err
+	}
 	defer resp.Body.Close()
 
 	_, err = io.Copy(out, resp.Body)
@@ -72,7 +84,7 @@ func downloadImage(imageUrl string) (string, error) {
 }
 
 func runTesseract(imageFile string) (string, error) {
-	out, err := exec.Command("tesseract", "-l", "deu", imageFile, "stdout").Output()
+	out, err := exec.Command("tesseract", "-l", "eng+deu", imageFile, "stdout").Output()
 	if err != nil {
 		return "", err
 	}
