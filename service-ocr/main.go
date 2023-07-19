@@ -11,12 +11,13 @@ import (
 )
 
 func main() {
-	imageUrl := "https://jeroen.github.io/images/testocr.png"
+	imageUrl := "https://www.feldkuechebkarow.de/s/cc_images/teaserbox_25241614.jpg?t=1689675118"
+	// imageUrl := "https://jeroen.github.io/images/testocr.png"
 	text, err := bla(imageUrl)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(text)
+	fmt.Println(text)
 }
 
 func bla(imageUrl string) (string, error) {
@@ -24,14 +25,12 @@ func bla(imageUrl string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	textFile, err := runOcr(imageFile)
+	text, err := runOcr(imageFile)
 	if err != nil {
 		return "", err
 	}
-	text, err := readText(textFile)
-	if err != nil {
-		return "", err
-	}
+	_ = os.Remove(imageFile)
+
 	return text, nil
 }
 
@@ -57,15 +56,9 @@ func downloadImage(imageUrl string) (string, error) {
 }
 
 func runOcr(imageFile string) (string, error) {
-	cmd := exec.Command("tesseract", "-l", "deu", imageFile, imageFile)
-	err := cmd.Run()
-	return fmt.Sprintf("%v.txt", imageFile), err
-}
-
-func readText(textFile string) (string, error) {
-	content, err := os.ReadFile(textFile)
+	out, err := exec.Command("tesseract", "-l", "deu", imageFile, "stdout").Output()
 	if err != nil {
 		return "", err
 	}
-	return string(content), nil
+	return string(out), nil
 }
