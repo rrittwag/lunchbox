@@ -11,21 +11,37 @@ import (
 )
 
 func main() {
-	imageUrl := "https://www.feldkuechebkarow.de/s/cc_images/teaserbox_25241614.jpg?t=1689675118"
-	// imageUrl := "https://jeroen.github.io/images/testocr.png"
-	text, err := bla(imageUrl)
+	http.HandleFunc("/url", handleUrl)
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(text)
 }
 
-func bla(imageUrl string) (string, error) {
+func handleUrl(w http.ResponseWriter, req *http.Request) {
+	imageUrl := req.URL.Query().Get("q")
+	if imageUrl == "" {
+		log.Println("param q needed")
+		w.WriteHeader(http.StatusBadRequest)
+		io.WriteString(w, "param q needed")
+		return
+	}
+	text, err := ocr(imageUrl)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		io.WriteString(w, err.Error())
+		return
+	}
+	io.WriteString(w, text)
+}
+
+func ocr(imageUrl string) (string, error) {
 	imageFile, err := downloadImage(imageUrl)
 	if err != nil {
 		return "", err
 	}
-	text, err := runOcr(imageFile)
+	text, err := runTesseract(imageFile)
 	if err != nil {
 		return "", err
 	}
@@ -55,7 +71,7 @@ func downloadImage(imageUrl string) (string, error) {
 	return imageFile, nil
 }
 
-func runOcr(imageFile string) (string, error) {
+func runTesseract(imageFile string) (string, error) {
 	out, err := exec.Command("tesseract", "-l", "deu", imageFile, "stdout").Output()
 	if err != nil {
 		return "", err
