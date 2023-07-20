@@ -279,8 +279,9 @@ class LunchResolverSuppenkulttour(
         result += splitMultiParagraph(paragraph)
       } else if (paragraph.containsEmptyLines()) {
         removeEmptyLines(paragraph)?.let { result += it }
-      } else
+      } else {
         result += paragraph
+      }
     }
     return result
   }
@@ -296,8 +297,9 @@ class LunchResolverSuppenkulttour(
       if (line.isEmpty()) {
         if (currentLines.isNotEmpty()) result += Paragraph(currentLines)
         currentLines = mutableListOf()
-      } else
+      } else {
         currentLines += line
+      }
     }
     if (currentLines.isNotEmpty()) result += Paragraph(currentLines)
     return result

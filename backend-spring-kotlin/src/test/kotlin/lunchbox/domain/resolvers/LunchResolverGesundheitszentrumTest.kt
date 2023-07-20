@@ -1,4 +1,4 @@
-@file:Suppress("ktlint:max-line-length")
+@file:Suppress("ktlint:standard:max-line-length")
 
 package lunchbox.domain.resolvers
 
