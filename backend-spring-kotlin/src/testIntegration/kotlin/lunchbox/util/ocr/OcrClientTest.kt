@@ -17,12 +17,12 @@ class OcrClientTest {
     // start open-ocr-2 via Docker Compose (via TestContainers)
     @Container
     private val ocrContainer =
-      KtDockerComposeContainer(File("src/testIntegration/resources/docker-compose.openocr.yml"))
-        .withExposedService("openocr_1", OCR_PORT)
+      KtDockerComposeContainer(File("src/testIntegration/resources/docker-compose.ocr.yml"))
+        .withExposedService("ocr_1", OCR_PORT)
 
     private fun ocrServerUrl(): String {
-      val host = ocrContainer.getServiceHost("openocr_1", OCR_PORT)
-      val port = ocrContainer.getServicePort("openocr_1", OCR_PORT)
+      val host = ocrContainer.getServiceHost("ocr_1", OCR_PORT)
+      val port = ocrContainer.getServicePort("ocr_1", OCR_PORT)
       return "http://$host:$port"
     }
   }

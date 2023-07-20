@@ -2,16 +2,22 @@ stages:
   - build
   - deploy
 
-build_frontend-web-vue:
+build frontend-web-vue:
   stage: build
   trigger:
     include: frontend-web-vue/.gitlab-ci.yml
     strategy: depend
 
-build_backend-spring-kotlin:
+build backend-spring-kotlin:
   stage: build
   trigger:
     include: backend-spring-kotlin/.gitlab-ci.yml
+    strategy: depend
+
+build service-ocr:
+  stage: build
+  trigger:
+    include: service-ocr/.gitlab-ci.yml
     strategy: depend
 
 deploy:

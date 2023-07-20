@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  ocr:
+    image: docker.rori.dev/lunchbox-service-ocr
+#    ports:
+#      - "9292:9292"
+
+  # test/resources müssen via HTTP im selben Netzwerk bereitstehen
+  test-resources:
+    image: nginx:alpine
+    volumes:
+      - ../../test/resources/:/usr/share/nginx/html:ro
+#    ports:
+#      - "80:80"

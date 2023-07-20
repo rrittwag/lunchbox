@@ -31,6 +31,6 @@ RUN apk update \
 
 USER nonroot
 
-EXPOSE 8080
+EXPOSE 9292
 
 ENTRYPOINT ["/runapp"]

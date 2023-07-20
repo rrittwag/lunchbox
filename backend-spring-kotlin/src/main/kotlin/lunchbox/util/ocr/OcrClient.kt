@@ -16,7 +16,7 @@ import java.time.Duration
  */
 @Component
 class OcrClient(
-  @Value("\${external.ocr.url:http://openocr:$OCR_PORT}")
+  @Value("\${external.ocr.url:http://ocr:$OCR_PORT}")
   val ocrUrl: String,
 ) {
 
@@ -27,7 +27,7 @@ class OcrClient(
       "engine_args" to mapOf("lang" to "deu"),
     )
 
-    return WebClient.create("$ocrUrl/ocr")
+    return WebClient.create("$ocrUrl/url")
       .post()
       .body(BodyInserters.fromValue(requestBody))
       .retrieve()

@@ -24,7 +24,7 @@ services:
   backend:
     image: docker.rori.dev/lunchbox-backend:latest
     depends_on:
-      - openocr
+      - ocr
       - rendertron
     networks:
       webgateway:
@@ -40,58 +40,16 @@ services:
       traefik.http.routers.lunchbox-backend-web80.entrypoints: web80
 
   # ---
-  #  OpenOCR
+  #  OCR service
   # ---
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-#    ports:
-#      - "5672:5672"
-    networks:
-      default:
-    restart: unless-stopped
+  ocr:
+    image: docker.rori.dev/lunchbox-service-ocr:latest
     environment:
-      RABBITMQ_DEFAULT_USER: "admin"
-      RABBITMQ_DEFAULT_PASS: "Phaish9oqbaidex6oole"
-
-  strokewidthtransform:
-    image: tleyden5iwx/open-ocr-preprocessor
-    volumes:
-      - ./scripts/:/opt/open-ocr/
+      - PORT=9292
+    restart: unless-stopped
     networks:
       default:
-    dns: ["8.8.8.8"]
-    depends_on:
-      - rabbitmq
-    restart: unless-stopped
-    command: "/opt/open-ocr/open-ocr-preprocessor -amqp_uri amqp://admin:Phaish9oqbaidex6oole@rabbitmq/ -preprocessor stroke-width-transform"
 
-  openocrworker:
-    image: tleyden5iwx/open-ocr-2
-    volumes:
-      - ./scripts/:/opt/open-ocr/
-    networks:
-      default:
-    dns: ["8.8.8.8"]
-    depends_on:
-      - rabbitmq
-    restart: unless-stopped
-    command: "/opt/open-ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9oqbaidex6oole@rabbitmq/"
-
-  openocr:
-    image: tleyden5iwx/open-ocr-2
-    volumes:
-      - ./scripts/:/opt/open-ocr/
-#    ports:
-#      - "9292:9292"
-    networks:
-      default:
-    dns: ["8.8.8.8"]
-    depends_on:
-      - rabbitmq
-      - openocrworker
-      - strokewidthtransform
-    restart: unless-stopped
-    command: "/opt/open-ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9oqbaidex6oole@rabbitmq/ -http_port 9292"
 
   # ---
   #  Rendertron
