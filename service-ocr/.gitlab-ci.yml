@@ -1,3 +1,5 @@
+image: golang:1.20
+
 # Cachen der Dependencies
 # - Der Cache beschleunigt den CI-Lauf durch Vorhalten von Dependencies & anderen Downloads.
 # - key: ${CI_COMMIT_REF_SLUG} cacht für alle CI-Läufe eines Branches, 'any-key' cacht für alle CI-Läufe eines Projekts
@@ -10,20 +12,70 @@ cache:
     - .go/pkg/mod/
   policy: pull
 
+variables:
+  GOPATH: $CI_PROJECT_DIR/.go
+  CGO_ENABLED: 0
+
 before_script:
   - cd service-ocr # Gitlab startet Jobs in Root-Pfad. Die meisten folgenden Aufrufe sind jedoch auf den Sub-Pfad bezogen.
 
 stages:
+  - build
   - test
   - publish
 
+build:
+  stage: build
+  script:
+    - make build.dryrun # just a dry-run, see Dockerfile
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .go/pkg/mod/
+    policy: pull-push
+
+format:
+  stage: test
+  script:
+    - make format.check
+
+lint:
+  image: golangci/golangci-lint:v1.53
+  stage: test
+  script:
+    - make lint
+
 test:
   stage: test
-  image: docker
   services:
-    - docker:dind # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-workflow-with-docker-executor
+    - docker:dind # Notwendig für Volume-Mounts in TestContainers -> https://www.testcontainers.org/supported_docker_environment/continuous_integration/gitlab_ci/
+  variables:
+    DOCKER_HOST: 'tcp://docker:2375'
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
   script:
-    - echo "TODO"
+    - export PATH=$GOPATH/bin:$PATH
+    - go install gotest.tools/gotestsum@latest
+    - make test
+  artifacts:
+    when: always
+    reports:
+      junit: backend/test-report.xml
+
+vulnerabilities code:
+  image:
+    name: docker.io/aquasec/trivy
+    entrypoint: [""]
+  script:
+    - trivy --version
+    - time trivy image --clear-cache
+    - time trivy fs --exit-code 0 --no-progress --format template --template "@/contrib/gitlab.tpl" --output gl-container-scanning-report.json .
+    - time trivy fs --exit-code 0 --no-progress .
+    - time trivy fs --exit-code 1 --severity HIGH --no-progress .
+  artifacts:
+    when: always
+    reports:
+      container_scanning: backend/gl-container-scanning-report.json
 
 docker:
   stage: publish

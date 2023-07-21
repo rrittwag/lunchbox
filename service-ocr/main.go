@@ -12,17 +12,18 @@ import (
 )
 
 func main() {
+	http.HandleFunc("/url", handleUrl)
+	if err := http.ListenAndServe(getServerAddr(), nil); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func getServerAddr() string {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "9292"
 	}
-	serverAddr := fmt.Sprintf(":%v", port)
-
-	http.HandleFunc("/url", handleUrl)
-	err := http.ListenAndServe(serverAddr, nil)
-	if err != nil {
-		log.Fatal(err)
-	}
+	return fmt.Sprintf(":%v", port)
 }
 
 func handleUrl(w http.ResponseWriter, req *http.Request) {
@@ -30,32 +31,11 @@ func handleUrl(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "404 not found.", http.StatusNotFound)
 		return
 	}
-
 	switch req.Method {
-	case http.MethodGet:
-		handleGetUrl(w, req)
 	case http.MethodPost:
 		handlePostUrl(w, req)
 	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-	}
-}
-
-func handleGetUrl(w http.ResponseWriter, req *http.Request) {
-	imageUrl := req.URL.Query().Get("q")
-	if imageUrl == "" {
-		log.Println("param q needed")
-		http.Error(w, "param q needed", http.StatusBadRequest)
-		return
-	}
-	text, err := ocr(imageUrl)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	if _, err := io.WriteString(w, text); err != nil {
-		return
 	}
 }
 
@@ -65,8 +45,7 @@ type PostRequestBody struct {
 
 func handlePostUrl(w http.ResponseWriter, req *http.Request) {
 	reqBody := &PostRequestBody{}
-	err := json.NewDecoder(req.Body).Decode(reqBody)
-	if err != nil {
+	if err := json.NewDecoder(req.Body).Decode(reqBody); err != nil {
 		log.Println(err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -77,9 +56,7 @@ func handlePostUrl(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	if _, err := io.WriteString(w, text); err != nil {
-		return
-	}
+	_, _ = io.WriteString(w, text)
 }
 
 func ocr(imageUrl string) (string, error) {
@@ -87,12 +64,13 @@ func ocr(imageUrl string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
 	text, err := runTesseract(imageFile)
 	if err != nil {
 		return "", err
 	}
-	_ = os.Remove(imageFile)
 
+	_ = os.Remove(imageFile)
 	return text, nil
 }
 
@@ -101,7 +79,7 @@ func downloadImage(imageUrl string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	imageFile := fmt.Sprintf("/tempocr/%v", id)
+	imageFile := fmt.Sprintf("/tempfile/%v", id)
 
 	out, err := os.Create(imageFile)
 	if err != nil {

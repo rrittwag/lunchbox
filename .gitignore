@@ -49,6 +49,9 @@ report.*.json
 /tests/e2e/reports/
 -selenium-debug.log
 
+# test
+test-report.xml
+
 # other
 .DS_Store
 Thumbs.db

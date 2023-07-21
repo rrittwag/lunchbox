@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.7_7-jre-alpine
+FROM eclipse-temurin:17-jre-alpine
 VOLUME /tmp
 COPY build/libs/app.jar app.jar
 RUN apk -U upgrade
