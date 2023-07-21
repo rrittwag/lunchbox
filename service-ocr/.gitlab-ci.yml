@@ -19,6 +19,9 @@ stages:
 
 test:
   stage: test
+  image: docker
+  services:
+    - docker:dind # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-workflow-with-docker-executor
   script:
     - echo "TODO"
 
@@ -32,7 +35,7 @@ docker:
     DOCKER_REGISTRY_ADDR: $DOCKER_REGISTRY_ADDR # wird von Gitlab hereingereicht
     DOCKER_REGISTRY_USER: $DOCKER_REGISTRY_USER # wird von Gitlab hereingereicht
     DOCKER_REGISTRY_TOKEN: $DOCKER_REGISTRY_TOKEN # wird von Gitlab hereingereicht
-    DOCKER_HOST: "tcp://docker:2375'
+    DOCKER_HOST: "tcp://docker:2375"
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   only:
