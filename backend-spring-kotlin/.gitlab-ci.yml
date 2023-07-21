@@ -70,7 +70,7 @@ integration:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   script:
-    - echo "$DOCKER_AUTH_CONFIG" > $HOME/.docker/config.json
+    - mkdir -p $HOME/.docker && echo "$DOCKER_AUTH_CONFIG" > $HOME/.docker/config.json
     - ./gradlew testIntegration
   artifacts:
     reports:
