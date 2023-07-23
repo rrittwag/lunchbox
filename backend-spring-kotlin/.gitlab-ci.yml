@@ -64,7 +64,8 @@ unit:
 integration:
   stage: test
   services:
-    - docker:dind # Notwendig für Volume-Mounts in TestContainers -> https://www.testcontainers.org/supported_docker_environment/continuous_integration/gitlab_ci/
+    - name: docker:dind # Notwendig für Volume-Mounts in TestContainers -> https://www.testcontainers.org/supported_docker_environment/continuous_integration/gitlab_ci/
+      entrypoint: ["/bin/sh", "-c", "mkdir -p ${HOME}/.docker && echo \"${DOCKER_AUTH_CONFIG}\" > $HOME/.docker/config.json && exec dockerd-entrypoint.sh"] # pulling lunchbox-service-ocr image needs login to docker.rori.dev
   variables:
     DOCKER_HOST: 'tcp://docker:2375'
     DOCKER_DRIVER: overlay2
