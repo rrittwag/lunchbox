@@ -71,7 +71,6 @@ integration:
     DOCKER_TLS_CERTDIR: ""
   script:
     - mkdir -p $HOME/.docker && echo "$DOCKER_AUTH_CONFIG" > $HOME/.docker/config.json
-    - apk add docker && docker pull docker.rori.dev/lunchbox-service-ocr # FIXME: how can TestContainers/docker-java login to private repos?
     - ./gradlew testIntegration
   artifacts:
     reports:
