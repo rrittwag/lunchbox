@@ -71,6 +71,7 @@ integration:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   script:
+    - mkdir -p $HOME/.docker && echo "$DOCKER_AUTH_CONFIG" > $HOME/.docker/config.json
     - apk add docker
     - echo "$DOCKER_REGISTRY_TOKEN" | docker login -u $DOCKER_REGISTRY_USER --password-stdin $DOCKER_REGISTRY_ADDR
     - ./gradlew testIntegration
