@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/google/uuid"
 	"io"
 	"log"
 	"net/http"
@@ -75,17 +74,11 @@ func ocr(imageUrl string) (string, error) {
 }
 
 func downloadImage(imageUrl string) (string, error) {
-	id, err := uuid.NewUUID()
+	imageFile, err := os.CreateTemp(os.TempDir(), "tesseract-")
 	if err != nil {
 		return "", err
 	}
-	imageFile := fmt.Sprintf("/tempfile/%v", id)
-
-	out, err := os.Create(imageFile)
-	if err != nil {
-		return "", err
-	}
-	defer out.Close()
+	defer imageFile.Close()
 
 	resp, err := http.Get(imageUrl)
 	if err != nil {
@@ -93,12 +86,12 @@ func downloadImage(imageUrl string) (string, error) {
 	}
 	defer resp.Body.Close()
 
-	_, err = io.Copy(out, resp.Body)
+	_, err = io.Copy(imageFile, resp.Body)
 	if err != nil {
 		return "", err
 	}
 
-	return imageFile, nil
+	return imageFile.Name(), nil
 }
 
 func runTesseract(imageFile string) (string, error) {

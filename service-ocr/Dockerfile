@@ -13,8 +13,6 @@ RUN go build  \
 # Add non root user
 RUN addgroup -S nonroot && adduser -u 1001 -S nonroot -G nonroot -D
 
-RUN mkdir /tempfile
-
 FROM alpine
 LABEL maintainer="rori <mail@rori.info>"
 
@@ -22,7 +20,6 @@ WORKDIR /
 
 COPY --from=build /etc/passwd /etc/passwd
 COPY --from=build /build/runapp /
-COPY --from=build --chown=nonroot /tempfile /tempfile
 
 RUN apk update \
     && apk add --no-cache \
