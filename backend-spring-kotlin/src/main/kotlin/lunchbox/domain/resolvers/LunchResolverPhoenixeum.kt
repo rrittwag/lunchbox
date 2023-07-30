@@ -162,8 +162,37 @@ class LunchResolverPhoenixeum(
     return result
   }
 
-  private fun adjustParagraphs(paragraphs: List<Paragraph>): List<Paragraph> =
-    paragraphs.mapNotNull { adjustParagraph(it) }
+  private fun adjustParagraphs(paragraphs: List<Paragraph>): List<Paragraph> {
+    val paragraphsByDate = mutableListOf<List<Paragraph>>()
+
+    // group paragraphs by date
+    var curParagraphs = listOf<Paragraph>()
+    for (rawParagraph in paragraphs) {
+      val paragraph = adjustParagraph(rawParagraph) ?: continue
+      if (paragraph.isValidOffer() || paragraph.lines.first().segments.any { it.contentType == ContentType.DATE }) {
+        if (curParagraphs.isNotEmpty()) {
+          paragraphsByDate += curParagraphs
+        }
+        curParagraphs = listOf()
+      }
+      curParagraphs = curParagraphs + paragraph
+    }
+    if (curParagraphs.isNotEmpty()) {
+      paragraphsByDate += curParagraphs
+    }
+
+    // merge paragraphs
+    val result = mutableListOf<Paragraph>()
+    for (paragraphList in paragraphsByDate) {
+      val newParagraph = Paragraph(paragraphList.flatMap { it.lines })
+      if (newParagraph.isValidOffer()) {
+        result += newParagraph
+      } else {
+        result += paragraphList
+      }
+    }
+    return result
+  }
 
   private fun adjustParagraph(paragraph: Paragraph): Paragraph? {
     return removeEmptyLines(paragraph)
