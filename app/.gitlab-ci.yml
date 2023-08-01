@@ -27,7 +27,7 @@ stages:
     - scp docker-compose.yml ${DEPLOY_USER}@${DEPLOY_HOST}:${CI_PROJECT_PATH}/
     - scp -r scripts ${DEPLOY_USER}@${DEPLOY_HOST}:${CI_PROJECT_PATH}/
     - ssh ${DEPLOY_USER}@${DEPLOY_HOST} "echo '${DOCKER_REGISTRY_TOKEN}' | docker login -u ${DOCKER_REGISTRY_USER} --password-stdin ${DOCKER_REGISTRY_ADDR}"
-    - ssh ${DEPLOY_USER}@${DEPLOY_HOST} "cd ${CI_PROJECT_PATH} && docker-compose pull --quiet && docker-compose up --detach --remove-orphans"
+    - ssh ${DEPLOY_USER}@${DEPLOY_HOST} "cd ${CI_PROJECT_PATH} && docker compose pull --quiet && docker compose up --detach --remove-orphans"
 
 deploy2online:
   image: docker
@@ -49,4 +49,4 @@ deploy2online:
     - ssh ${DEPLOY_USER}@${DEPLOY_HOST} "cd ${CI_PROJECT_PATH}"' && (for curfile in *.tar ; do docker load --input "$curfile" ; done) && rm -rf *.tar'
     - scp docker-compose.yml ${DEPLOY_USER}@${DEPLOY_HOST}:${CI_PROJECT_PATH}/
     - scp -r scripts ${DEPLOY_USER}@${DEPLOY_HOST}:${CI_PROJECT_PATH}/
-    - ssh ${DEPLOY_USER}@${DEPLOY_HOST} "cd ${CI_PROJECT_PATH} && (docker-compose pull --ignore-pull-failures --quiet || true) && docker-compose up --detach --remove-orphans"
+    - ssh ${DEPLOY_USER}@${DEPLOY_HOST} "cd ${CI_PROJECT_PATH} && (docker compose pull --ignore-pull-failures --quiet || true) && docker compose up --detach --remove-orphans"
