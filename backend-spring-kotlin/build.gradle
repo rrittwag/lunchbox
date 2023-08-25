@@ -3,8 +3,8 @@ plugins {
   id 'com.diffplug.spotless' version '6.20.0'
   id 'io.gitlab.arturbosch.detekt' version '1.23.1'
 
-  id 'org.jetbrains.kotlin.jvm' version '1.9.0'
-  id 'org.jetbrains.kotlin.plugin.spring' version '1.9.0'
+  id 'org.jetbrains.kotlin.jvm' version '1.9.10'
+  id 'org.jetbrains.kotlin.plugin.spring' version '1.9.10'
 }
 
 description = "REST Backend der Lunchbox"
@@ -27,5 +27,5 @@ apply from: "${rootDir}/gradle/run.gradle"
 //   Gradle Wrapper
 // -------------------
 wrapper {
-  gradleVersion = '4.3.3'
+  gradleVersion = '8.3'
 }
