@@ -68,7 +68,10 @@ class LunchResolverAokCafeteria(
   }
 
   private fun resolveByDay(day: LocalDate, offersDiv: Element): List<LunchOffer> {
-    val offerDivs = offersDiv.select(".day-usual")
+    var offerDivs = offersDiv.select(".day-usual")
+    if (offerDivs.isEmpty()) {
+      offerDivs = offersDiv.select(".day-")
+    }
 
     val offers = mutableListOf<LunchOffer>()
     for (offerElem in offerDivs) {
