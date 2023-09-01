@@ -1,8 +1,11 @@
 package lunchbox.util.pdf
 
 import mu.KotlinLogging
+import org.apache.pdfbox.Loader
+import org.apache.pdfbox.io.RandomAccessReadBuffer
 import org.apache.pdfbox.pdmodel.PDDocument
 import java.io.FileNotFoundException
+import java.io.IOException
 import java.net.URL
 
 /**
@@ -24,13 +27,13 @@ object PdfExtractor {
     var pdfDoc: PDDocument? = null
 
     try {
-      pdfDoc = PDDocument.load(pdfUrl.openStream())
+      pdfDoc = Loader.loadPDF(RandomAccessReadBuffer(pdfUrl.openStream()))
       if (pdfDoc != null) {
         return transform(pdfDoc)
       }
     } catch (fnf: FileNotFoundException) {
-      logger.error { "file $pdfUrl not found" }
-    } catch (t: Throwable) {
+      logger.error(fnf) { "file $pdfUrl not found" }
+    } catch (t: IOException) {
       logger.error(t) { "Fehler beim Einlesen von $pdfUrl" }
     } finally {
       pdfDoc?.close()
