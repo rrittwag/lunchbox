@@ -6,6 +6,7 @@ import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import org.amshove.kluent.shouldContain
+import org.amshove.kluent.shouldContainNone
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Test
 
@@ -788,5 +789,24 @@ class LunchResolverAokCafeteriaTest {
     offers.filter { it.day == week.wednesday } shouldHaveSize 3
     offers.filter { it.day == week.thursday } shouldHaveSize 3
     offers.filter { it.day == week.friday } shouldHaveSize 3
+  }
+
+  @Test
+  fun `resolve offers for week of 2023-09-18`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/2023-09-18.html")
+
+    val offers = resolver().resolve(url)
+
+    println(offers)
+    offers shouldHaveSize 20
+
+    val week = weekOf("2023-09-18")
+    offers.filter { it.day == week.monday } shouldHaveSize 2
+    offers.filter { it.day == week.tuesday } shouldHaveSize 2
+    offers.filter { it.day == week.wednesday } shouldHaveSize 2
+    offers.filter { it.day == week.thursday } shouldHaveSize 2
+    offers.filter { it.day == week.friday } shouldHaveSize 2
+
+    offers shouldContainNone { it.name.contains("Nicht bestellbar") }
   }
 }

@@ -81,7 +81,8 @@ class LunchResolverAokCafeteria(
         continue
       }
       if (name.isEmpty() ||
-        listOf("Ferien", "Betriebsferien", "Weihnachten", "Ostern", "Ostermontag", "Pfingstmontag").contains(name)
+        listOf("Ferien", "Betriebsferien", "Weihnachten", "Ostern", "Ostermontag", "Pfingstmontag").contains(name) ||
+        listOf("Nicht bestellbar").contains(name)
       ) {
         continue
       }
