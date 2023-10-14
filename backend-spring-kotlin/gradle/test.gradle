@@ -1,7 +1,7 @@
 // -------------------
 //   Unit-Tests mit JUnit 5
 // -------------------
-ext.testcontainersVersion = '1.19.0'
+ext.testcontainersVersion = '1.19.1'
 
 dependencies {
   // JUnit 5
