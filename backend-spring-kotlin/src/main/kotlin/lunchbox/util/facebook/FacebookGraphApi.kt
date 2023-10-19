@@ -1,3 +1,4 @@
+@file:Suppress("ktlint:standard:discouraged-comment-location")
 package lunchbox.util.facebook
 
 import java.net.URL
