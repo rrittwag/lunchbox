@@ -16,14 +16,11 @@ import java.util.concurrent.CopyOnWriteArrayList
 class LunchOfferRepositoryImplInMemory : LunchOfferRepository {
   val offers = CopyOnWriteArrayList<LunchOffer>()
 
-  override fun findAll(): List<LunchOffer> =
-    offers
+  override fun findAll(): List<LunchOffer> = offers
 
-  override fun findByDay(day: LocalDate): List<LunchOffer> =
-    offers.filter { it.day == day }
+  override fun findByDay(day: LocalDate): List<LunchOffer> = offers.filter { it.day == day }
 
-  override fun findByIdOrNull(id: LunchOfferId): LunchOffer? =
-    offers.find { it.id == id }
+  override fun findByIdOrNull(id: LunchOfferId): LunchOffer? = offers.find { it.id == id }
 
   @Synchronized
   override fun deleteBefore(day: LocalDate) {
@@ -31,16 +28,20 @@ class LunchOfferRepositoryImplInMemory : LunchOfferRepository {
   }
 
   @Synchronized
-  override fun deleteFrom(day: LocalDate, providerId: LunchProviderId) {
+  override fun deleteFrom(
+    day: LocalDate,
+    providerId: LunchProviderId,
+  ) {
     offers.removeIf { it.provider == providerId && it.day >= day }
   }
 
   @Synchronized
   override fun saveAll(newOffers: Iterable<LunchOffer>): Iterable<LunchOffer> {
     val nextId = (offers.map { it.id }.maxOrNull() ?: 0) + 1
-    val newOffersWithId = newOffers.mapIndexed { index, offer ->
-      offer.copy(id = nextId + index)
-    }
+    val newOffersWithId =
+      newOffers.mapIndexed { index, offer ->
+        offer.copy(id = nextId + index)
+      }
     offers += newOffersWithId
     return newOffersWithId
   }

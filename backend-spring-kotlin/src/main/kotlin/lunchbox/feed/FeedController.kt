@@ -30,7 +30,6 @@ const val URL_FEED = "/feed"
 class FeedController(
   val repo: LunchOfferRepository,
 ) {
-
   @GetMapping(URL_FEED)
   fun feed(
     @RequestParam location: LunchLocation,
@@ -59,32 +58,36 @@ class FeedController(
     val offersByDay = offers.groupBy { it.day }.toSortedMap(reverseOrder())
 
     val author = Person().apply { name = "Lunchbox" }
-    val selfLink = Link().apply {
-      rel = "self"
-      href = feedLink
-    }
-    val feed = Feed("atom_1.0").apply {
-      id = "urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157"
-      title = "Mittagstisch ${location.label}"
-      updated = toDateAtNoon(LocalDate.now())
-      authors = listOf(author)
-      alternateLinks = listOf(selfLink)
-    }
+    val selfLink =
+      Link().apply {
+        rel = "self"
+        href = feedLink
+      }
+    val feed =
+      Feed("atom_1.0").apply {
+        id = "urn:uuid:8bee5ffa-ca9b-44b4-979b-058e32d3a157"
+        title = "Mittagstisch ${location.label}"
+        updated = toDateAtNoon(LocalDate.now())
+        authors = listOf(author)
+        alternateLinks = listOf(selfLink)
+      }
 
     for ((day, offersForDay) in offersByDay) {
-      val entry = Entry().apply {
-        id = "urn:date:$day"
-        title = toStringWithWeekday(day)
-        authors = feed.authors
-        published = toDateAtNoon(day)
-        updated = toDateAtNoon(day)
-        contents = listOf(
-          Content().apply {
-            type = Content.HTML
-            value = createHtmlLunchday(offersForDay)
-          },
-        )
-      }
+      val entry =
+        Entry().apply {
+          id = "urn:date:$day"
+          title = toStringWithWeekday(day)
+          authors = feed.authors
+          published = toDateAtNoon(day)
+          updated = toDateAtNoon(day)
+          contents =
+            listOf(
+              Content().apply {
+                type = Content.HTML
+                value = createHtmlLunchday(offersForDay)
+              },
+            )
+        }
       feed.entries.add(entry)
     }
 
@@ -160,6 +163,5 @@ class FeedController(
 
 @Component
 class LunchLocationConverter : Converter<String, LunchLocation> {
-  override fun convert(source: String): LunchLocation? =
-    LunchLocation.values().find { it.label == source }
+  override fun convert(source: String): LunchLocation? = LunchLocation.values().find { it.label == source }
 }

@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.get
 class LunchOfferApiTest(
   @Autowired val mockMvc: MockMvc,
 ) {
-
   @MockkBean
   lateinit var repo: LunchOfferRepository
 
@@ -122,7 +121,6 @@ class LunchOfferApiTest(
 class LunchOfferDTOTest(
   @Autowired val json: JacksonTester<LunchOfferDTO>,
 ) {
-
   @Test
   fun `convert DTO to JSON`() {
     assertThat(json.write(GYROS_AS_DTO)).isEqualTo(GYROS_AS_JSON)

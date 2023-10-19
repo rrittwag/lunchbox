@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import java.time.LocalDate
 
 class StringParserTest {
-
   @Test
   fun `parseMondayOfMostUsedWeek by PDF url`() {
     fun parse(lines: List<String>): LocalDate? = StringParser.parseMondayOfMostUsedWeek(lines)

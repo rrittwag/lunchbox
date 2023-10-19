@@ -13,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class LunchOfferUpdateTest {
-
   private val repo = mockk<LunchOfferRepository>()
   private val worker = mockk<LunchOfferUpdateWorker>()
   private val testUnit = LunchOfferUpdate(repo, worker)

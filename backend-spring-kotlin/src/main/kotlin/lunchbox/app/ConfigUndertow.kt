@@ -31,7 +31,6 @@ import org.xnio.Options
  */
 @Configuration
 class ConfigUndertow : UndertowWebSocketServletWebServerCustomizer() {
-
   @Value("\${server.undertow.worker-core-threads:-1}")
   var workerCoreThreads: Int = -1
 

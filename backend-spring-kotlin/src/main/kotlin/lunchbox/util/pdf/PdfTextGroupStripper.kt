@@ -28,8 +28,7 @@ class PdfTextGroupStripper : PDFTextStripper() {
     return textGroups
   }
 
-  fun getTextLines(pDDocument: PDDocument): List<TextLine> =
-    TextLine.toLines(getTextGroups(pDDocument))
+  fun getTextLines(pDDocument: PDDocument): List<TextLine> = TextLine.toLines(getTextGroups(pDDocument))
 }
 
 data class TextGroup(var positions: List<TextPosition>) {
@@ -43,18 +42,26 @@ data class TextGroup(var positions: List<TextPosition>) {
   }
 
   fun xMin(): Float = positions.map { it.x }.minOrNull() ?: 0f
+
   fun xMax(): Float = positions.map { it.x + it.width }.maxOrNull() ?: 0f
+
   fun yMin(): Float = positions.map { it.y }.minOrNull() ?: 0f
+
   fun yMax(): Float = positions.map { it.y + it.height }.maxOrNull() ?: 0f
+
   fun xMid(): Float = (xMin() + xMax()) / 2
+
   fun yMid(): Float = (yMin() + yMax()) / 2
+
   fun width(): Float = xMax() - xMin()
+
   fun height(): Float = yMax() - yMin()
+
   fun xIn(xVal: Float): Boolean = xMin() <= xVal && xVal <= xMax()
+
   fun yIn(yVal: Float): Boolean = yMin() <= yVal && yVal <= yMax()
 
-  override fun toString(): String =
-    positions.joinToString("").trim()
+  override fun toString(): String = positions.joinToString("").trim()
 
   private fun validate() {
     require(positions.isNotEmpty())
@@ -63,14 +70,11 @@ data class TextGroup(var positions: List<TextPosition>) {
 }
 
 data class TextLine(val y: Float, val texts: List<TextGroup>) {
-  fun oneTextMatches(regex: Regex): Boolean =
-    texts.any { it.toString().matches(regex) }
+  fun oneTextMatches(regex: Regex): Boolean = texts.any { it.toString().matches(regex) }
 
-  fun allTextsMatch(regex: Regex): Boolean =
-    texts.all { it.toString().matches(regex) }
+  fun allTextsMatch(regex: Regex): Boolean = texts.all { it.toString().matches(regex) }
 
-  override fun toString(): String =
-    texts.joinToString(" ")
+  override fun toString(): String = texts.joinToString(" ")
 
   companion object {
     fun toLines(texts: List<TextGroup>): List<TextLine> {

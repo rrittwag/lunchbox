@@ -16,7 +16,6 @@ class LunchResolverKrauthof(
   val dateValidator: DateValidator,
   val htmlParser: HtmlParser,
 ) : LunchResolver {
-
   override val provider = DAS_KRAUTHOF
 
   override fun resolve(): List<LunchOffer> {
@@ -44,7 +43,10 @@ class LunchResolverKrauthof(
       .filter { dateValidator.isValid(it.day, provider) }
   }
 
-  private fun resolveFromPdfContent(pdfContent: List<String>, monday: LocalDate): List<LunchOffer> {
+  private fun resolveFromPdfContent(
+    pdfContent: List<String>,
+    monday: LocalDate,
+  ): List<LunchOffer> {
     val rows = mutableListOf<OfferRow>()
     var currentRow: OfferRow? = null
 
@@ -88,7 +90,10 @@ class LunchResolverKrauthof(
     }
   }
 
-  private fun createLunchOffer(row: OfferRow, monday: LocalDate): LunchOffer {
+  private fun createLunchOffer(
+    row: OfferRow,
+    monday: LocalDate,
+  ): LunchOffer {
     val (title, description) = StringParser.splitOfferName(row.name)
     val titleOhneZusatz = title.replace(Regex("""\([a-z0-9, ]+\)"""), "").trim()
     val tags = parseTags(row.name)
@@ -96,11 +101,12 @@ class LunchResolverKrauthof(
     return LunchOffer(0, titleOhneZusatz, description, monday, row.price!!, tags, provider.id)
   }
 
-  private fun parseTags(name: String): Set<String> = when {
-    name.contains("vegan", ignoreCase = true) -> setOf("vegan")
-    name.contains("vegetarisch", ignoreCase = true) -> setOf("vegetarisch")
-    else -> emptySet()
-  }
+  private fun parseTags(name: String): Set<String> =
+    when {
+      name.contains("vegan", ignoreCase = true) -> setOf("vegan")
+      name.contains("vegetarisch", ignoreCase = true) -> setOf("vegetarisch")
+      else -> emptySet()
+    }
 
   private fun parseName(text: String): String =
     text.trim()

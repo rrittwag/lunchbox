@@ -17,11 +17,9 @@ class LunchResolverSaltNPepper(
   val dateValidator: DateValidator,
   val htmlParser: HtmlParser,
 ) : LunchResolver {
-
   override val provider = SALT_N_PEPPER
 
-  override fun resolve(): List<LunchOffer> =
-    resolve(provider.menuUrl)
+  override fun resolve(): List<LunchOffer> = resolve(provider.menuUrl)
 
   fun resolve(url: URL): List<LunchOffer> {
     val site = htmlParser.parse(url)
@@ -39,7 +37,10 @@ class LunchResolverSaltNPepper(
       ?.let { StringParser.parseLocalDate(it) }
       ?.let { toMonday(it) }
 
-  private fun resolveOffers(divs: Elements, monday: LocalDate): List<LunchOffer> {
+  private fun resolveOffers(
+    divs: Elements,
+    monday: LocalDate,
+  ): List<LunchOffer> {
     val section2node = mutableMapOf<OfferSection, Element>()
 
     for (div in divs) {
@@ -95,18 +96,22 @@ class LunchResolverSaltNPepper(
       .mapNotNull { (nameElem, priceElem) -> resolveOffer(nameElem, priceElem) }
   }
 
-  private fun resolveOffer(nameElem: Element, priceElem: Element): LunchOffer? {
+  private fun resolveOffer(
+    nameElem: Element,
+    priceElem: Element,
+  ): LunchOffer? {
     val price = StringParser.parseMoney(priceElem.text()) ?: return null
     val tags = mutableSetOf<String>()
 
     // Zusatzstoffe entfernen (hochgestellt/sup)
     nameElem.children().filter { node -> node.nodeName() == "sup" }.forEach { it.remove() }
 
-    var name = parseName(nameElem.text())
-      .replace(Regex("^Topp-Preis:"), "")
-      .replace(Regex("^Tipp:"), "")
-      .replace(Regex("[0-9]{1,2}(, [0-9]{1,2})*$"), "")
-      .trim()
+    var name =
+      parseName(nameElem.text())
+        .replace(Regex("^Topp-Preis:"), "")
+        .replace(Regex("^Tipp:"), "")
+        .replace(Regex("[0-9]{1,2}(, [0-9]{1,2})*$"), "")
+        .trim()
 
     if (name.startsWith("Vegetarisch:")) {
       name = name.substring("Vegetarisch:".length)
@@ -117,8 +122,7 @@ class LunchResolverSaltNPepper(
     return LunchOffer(0, title, description, LocalDate.now(), price, tags, provider.id)
   }
 
-  private fun parseName(name: String): String =
-    name.trim().replace("\n", " ").replace("  ", " ")
+  private fun parseName(name: String): String = name.trim().replace("\n", " ").replace("  ", " ")
 
   private fun toMonday(day: LocalDate): LocalDate = day.with(DayOfWeek.MONDAY)
 

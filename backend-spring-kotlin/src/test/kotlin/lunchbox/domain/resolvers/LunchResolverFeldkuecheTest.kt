@@ -12,10 +12,11 @@ import org.junit.jupiter.api.Test
 import java.net.URL
 
 class LunchResolverFeldkuecheTest {
-
   private val ocrClient = mockk<OcrClient>()
   private val htmlParser = HtmlParser(mockk())
+
   private fun resolver() = LunchResolverFeldkueche(DateValidator.alwaysValid(), ocrClient, htmlParser)
+
   private val providerId = FELDKUECHE.id
   private val httpMittagspauseDir = "https://www.feldkuechebkarow.de/s/cc_images"
 
@@ -58,74 +59,81 @@ class LunchResolverFeldkuecheTest {
 
     offers shouldHaveSize 10
     offers shouldContain LunchOffer(0, "Wurstgulasch", "Nudeln", week.monday, euro("4.60"), emptySet(), providerId)
-    offers shouldContain LunchOffer(
-      0,
-      "Kartoffelsuppe",
-      "mit Bockwurst",
-      week.monday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Kartoffelsuppe",
+        "mit Bockwurst",
+        week.monday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Blutwurst Sauerkraut",
-      "Kartoffeln",
-      week.tuesday,
-      euro("4.80"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Grüne Bohneneintopf",
-      "Brot",
-      week.tuesday,
-      euro("3.00"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Blutwurst Sauerkraut",
+        "Kartoffeln",
+        week.tuesday,
+        euro("4.80"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Grüne Bohneneintopf",
+        "Brot",
+        week.tuesday,
+        euro("3.00"),
+        emptySet(),
+        providerId,
+      )
 
     offers shouldContain LunchOffer(0, "Gulasch", "mit Nudeln", week.wednesday, euro("4.60"), emptySet(), providerId)
-    offers shouldContain LunchOffer(
-      0,
-      "Erbseneintopf",
-      "mit Bockwurst",
-      week.wednesday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Erbseneintopf",
+        "mit Bockwurst",
+        week.wednesday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Eisbein Sauerkraut",
-      "Kartoffeln",
-      week.thursday,
-      euro("5.00"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Brühnudeln",
-      "mit Hähnchenfleisch Brot",
-      week.thursday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Eisbein Sauerkraut",
+        "Kartoffeln",
+        week.thursday,
+        euro("5.00"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Brühnudeln",
+        "mit Hähnchenfleisch Brot",
+        week.thursday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Schichtkohl",
-      "mit Kartoffeln",
-      week.friday,
-      euro("4.60"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schichtkohl",
+        "mit Kartoffeln",
+        week.friday,
+        euro("4.60"),
+        emptySet(),
+        providerId,
+      )
     offers shouldContain LunchOffer(0, "Weißkohl", "mit Brot", week.friday, euro("3.00"), emptySet(), providerId)
   }
 
@@ -137,84 +145,92 @@ class LunchResolverFeldkuecheTest {
     val offers = resolver().resolveOffersFromText(text)
 
     offers shouldHaveSize 11
-    offers shouldContain LunchOffer(
-      0,
-      "Jägerschnitzel Tomatensauce",
-      "Nudeln",
-      week.monday,
-      euro("4.60"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Jägerschnitzel Tomatensauce",
+        "Nudeln",
+        week.monday,
+        euro("4.60"),
+        emptySet(),
+        providerId,
+      )
     offers shouldContain LunchOffer(0, "Mohreneintopf", "Brot", week.monday, euro("3.00"), emptySet(), providerId)
 
-    offers shouldContain LunchOffer(
-      0,
-      "Senfeier",
-      "Kartoffeln Krautsalat",
-      week.tuesday,
-      euro("4.20"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Brühreis",
-      "mit Hähnchenfleisch Brot",
-      week.tuesday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Senfeier",
+        "Kartoffeln Krautsalat",
+        week.tuesday,
+        euro("4.20"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Brühreis",
+        "mit Hähnchenfleisch Brot",
+        week.tuesday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Königsberger Klopse",
-      "Kartoffeln",
-      week.wednesday,
-      euro("4.60"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Königsberger Klopse",
+        "Kartoffeln",
+        week.wednesday,
+        euro("4.60"),
+        emptySet(),
+        providerId,
+      )
     offers shouldContain LunchOffer(0, "Kohlrabieintopf", "Brot", week.wednesday, euro("3.00"), emptySet(), providerId)
 
-    offers shouldContain LunchOffer(
-      0,
-      "Eisbein Sauerkraut",
-      "Kartoffeln",
-      week.thursday,
-      euro("5.00"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Linseneintopf",
-      "mit Bockwurst",
-      week.thursday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Linseneintopf",
-      "mit Knacker",
-      week.thursday,
-      euro("3.90"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Eisbein Sauerkraut",
+        "Kartoffeln",
+        week.thursday,
+        euro("5.00"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Linseneintopf",
+        "mit Bockwurst",
+        week.thursday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Linseneintopf",
+        "mit Knacker",
+        week.thursday,
+        euro("3.90"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Sahnegeschnetzeltes",
-      "Nudeln",
-      week.friday,
-      euro("4.60"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Sahnegeschnetzeltes",
+        "Nudeln",
+        week.friday,
+        euro("4.60"),
+        emptySet(),
+        providerId,
+      )
     offers shouldContain LunchOffer(0, "Wirsingkohleintopf", "Brot", week.friday, euro("3.00"), emptySet(), providerId)
   }
 
@@ -229,46 +245,50 @@ class LunchResolverFeldkuecheTest {
     offers shouldContain LunchOffer(0, "Nudeln mit Bolognese", "", week.monday, euro("4.50"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Grüne Bohneneintopf", "Brot", week.monday, euro("3.00"), emptySet(), providerId)
 
-    offers shouldContain LunchOffer(
-      0,
-      "Boulette Mischgemüse",
-      "Kartoffeln",
-      week.tuesday,
-      euro("4.60"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Kartoffelsuppe",
-      "mit Bockwurst",
-      week.tuesday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Boulette Mischgemüse",
+        "Kartoffeln",
+        week.tuesday,
+        euro("4.60"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Kartoffelsuppe",
+        "mit Bockwurst",
+        week.tuesday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
     offers shouldContain LunchOffer(0, "Gulasch", "Klöße Rotkohl", week.wednesday, euro("4.80"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Möhreneintopf", "Brot", week.wednesday, euro("3.00"), emptySet(), providerId)
 
-    offers shouldContain LunchOffer(
-      0,
-      "Eisbein Sauerkraut",
-      "Kartoffeln",
-      week.thursday,
-      euro("5.00"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Erbseneintopf",
-      "mit Bockwurst",
-      week.thursday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Eisbein Sauerkraut",
+        "Kartoffeln",
+        week.thursday,
+        euro("5.00"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Erbseneintopf",
+        "mit Bockwurst",
+        week.thursday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
     offers shouldContain LunchOffer(0, "Käse - Lauchsuppe", "Brot", week.friday, euro("4.20"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Chili con Carne", "Brot", week.friday, euro("4.20"), emptySet(), providerId)
@@ -285,46 +305,50 @@ class LunchResolverFeldkuecheTest {
     offers shouldContain LunchOffer(0, "Wurstgulasch", "mit Nudeln", week.monday, euro("4.60"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Soljanka", "mit Brot", week.monday, euro("3.80"), emptySet(), providerId)
 
-    offers shouldContain LunchOffer(
-      0,
-      "Blutwurst Sauerkraut",
-      "Kartoffeln",
-      week.tuesday,
-      euro("4.80"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Blutwurst Sauerkraut",
+        "Kartoffeln",
+        week.tuesday,
+        euro("4.80"),
+        emptySet(),
+        providerId,
+      )
     offers shouldContain LunchOffer(0, "Weißkohleintopf", "Brot", week.tuesday, euro("3.00"), emptySet(), providerId)
 
     offers shouldContain LunchOffer(0, "Gulasch", "mit Nudeln", week.wednesday, euro("4.60"), emptySet(), providerId)
-    offers shouldContain LunchOffer(
-      0,
-      "Erbseneintopf",
-      "mit Bockwurst",
-      week.wednesday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Erbseneintopf",
+        "mit Bockwurst",
+        week.wednesday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Eisbein Sauerkraut",
-      "Kartoffeln",
-      week.thursday,
-      euro("5.00"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Brühnudeln",
-      "mit Hähnchenfleisch Brot",
-      week.thursday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Eisbein Sauerkraut",
+        "Kartoffeln",
+        week.thursday,
+        euro("5.00"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Brühnudeln",
+        "mit Hähnchenfleisch Brot",
+        week.thursday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
     offers shouldContain LunchOffer(0, "Kesselgulasch", "mit Brot", week.friday, euro("4.20"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Wirsingkohleintopf", "Brot", week.friday, euro("3.00"), emptySet(), providerId)
@@ -339,72 +363,79 @@ class LunchResolverFeldkuecheTest {
 
     offers shouldHaveSize 10
     offers shouldContain LunchOffer(0, "Nudeln Carbonara", "", week.monday, euro("4.60"), emptySet(), providerId)
-    offers shouldContain LunchOffer(
-      0,
-      "Wirsingkohleineintopf",
-      "mit Brot",
-      week.monday,
-      euro("3.00"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Wirsingkohleineintopf",
+        "mit Brot",
+        week.monday,
+        euro("3.00"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Schichtkohl",
-      "mit Kartoffeln",
-      week.tuesday,
-      euro("4.60"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Rosenkohleintopf",
-      "mit Brot",
-      week.tuesday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schichtkohl",
+        "mit Kartoffeln",
+        week.tuesday,
+        euro("4.60"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Rosenkohleintopf",
+        "mit Brot",
+        week.tuesday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Bouletten Mischgemüse",
-      "Kartoffeln",
-      week.wednesday,
-      euro("4.60"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Kohlrabieintopf",
-      "mit Brot",
-      week.wednesday,
-      euro("3.00"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Bouletten Mischgemüse",
+        "Kartoffeln",
+        week.wednesday,
+        euro("4.60"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Kohlrabieintopf",
+        "mit Brot",
+        week.wednesday,
+        euro("3.00"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Eisbein Sauerkraut",
-      "Kartoffeln",
-      week.thursday,
-      euro("5.00"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Kartoffelsuppe",
-      "mit Bockwurst",
-      week.thursday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Eisbein Sauerkraut",
+        "Kartoffeln",
+        week.thursday,
+        euro("5.00"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Kartoffelsuppe",
+        "mit Bockwurst",
+        week.thursday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
     offers shouldContain LunchOffer(0, "Gulasch", "mit Nudeln", week.friday, euro("4.60"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Soljanka", "mit Brot", week.friday, euro("3.80"), emptySet(), providerId)
@@ -419,82 +450,90 @@ class LunchResolverFeldkuecheTest {
 
     offers shouldHaveSize 10
     offers shouldContain LunchOffer(0, "Nudeln Bolognese", "", week.monday, euro("4.60"), emptySet(), providerId)
-    offers shouldContain LunchOffer(
-      0,
-      "Bunter Gemüseeintopf",
-      "Brot",
-      week.monday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Bunter Gemüseeintopf",
+        "Brot",
+        week.monday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Blutwurst Sauerkraut",
-      "Kartoffeln",
-      week.tuesday,
-      euro("4.80"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Brühnudeln",
-      "mit Hähnchenfleisch Brot",
-      week.tuesday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Blutwurst Sauerkraut",
+        "Kartoffeln",
+        week.tuesday,
+        euro("4.80"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Brühnudeln",
+        "mit Hähnchenfleisch Brot",
+        week.tuesday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Jägerschnitzel Tomatensauce",
-      "Nudeln",
-      week.wednesday,
-      euro("4.60"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Erbseneintopf",
-      "mit Bockwurst",
-      week.wednesday,
-      euro("4.00"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Jägerschnitzel Tomatensauce",
+        "Nudeln",
+        week.wednesday,
+        euro("4.60"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Erbseneintopf",
+        "mit Bockwurst",
+        week.wednesday,
+        euro("4.00"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Gulasch",
-      "mit Kartoffeln und Rotkohl",
-      week.thursday,
-      euro("4.80"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Kräuterquark",
-      "Kartoffeln Krautsalat",
-      week.thursday,
-      euro("4.00"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Gulasch",
+        "mit Kartoffeln und Rotkohl",
+        week.thursday,
+        euro("4.80"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Kräuterquark",
+        "Kartoffeln Krautsalat",
+        week.thursday,
+        euro("4.00"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Schweinebraten Sauerkraut",
-      "Kartoffeln",
-      week.friday,
-      euro("4.80"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schweinebraten Sauerkraut",
+        "Kartoffeln",
+        week.friday,
+        euro("4.80"),
+        emptySet(),
+        providerId,
+      )
     offers shouldContain LunchOffer(0, "Soljanka", "mit Brot", week.friday, euro("3.80"), emptySet(), providerId)
   }
 
@@ -509,73 +548,80 @@ class LunchResolverFeldkuecheTest {
     offers shouldContain LunchOffer(0, "Nudeln mit Carbonara", "", week.monday, euro("4.80"), emptySet(), providerId)
     offers shouldContain LunchOffer(0, "Weißkohleintopf", "mit Brot", week.monday, euro("3.50"), emptySet(), providerId)
 
-    offers shouldContain LunchOffer(
-      0,
-      "Blutwurst Sauerkraut",
-      "Kartoffeln",
-      week.tuesday,
-      euro("4.80"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Kartoffelsuppe",
-      "mit Bockwurst",
-      week.tuesday,
-      euro("4.00"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Blutwurst Sauerkraut",
+        "Kartoffeln",
+        week.tuesday,
+        euro("4.80"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Kartoffelsuppe",
+        "mit Bockwurst",
+        week.tuesday,
+        euro("4.00"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Pilz - Gulasch",
-      "mit Nudeln",
-      week.wednesday,
-      euro("4.80"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Brühnudeln",
-      "mit Hähnchenfleisch Brot",
-      week.wednesday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Pilz - Gulasch",
+        "mit Nudeln",
+        week.wednesday,
+        euro("4.80"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Brühnudeln",
+        "mit Hähnchenfleisch Brot",
+        week.wednesday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
 
-    offers shouldContain LunchOffer(
-      0,
-      "Schichtkohl",
-      "mit Kartoffeln",
-      week.thursday,
-      euro("4.80"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schichtkohl",
+        "mit Kartoffeln",
+        week.thursday,
+        euro("4.80"),
+        emptySet(),
+        providerId,
+      )
     offers shouldContain LunchOffer(0, "Möhreneintopf", "mit Brot", week.thursday, euro("3.50"), emptySet(), providerId)
 
-    offers shouldContain LunchOffer(
-      0,
-      "Sahnegeschnetzeltes",
-      "mit Nudeln",
-      week.friday,
-      euro("4.80"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Erbseneintopf",
-      "mit Bockwurst",
-      week.friday,
-      euro("4.00"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Sahnegeschnetzeltes",
+        "mit Nudeln",
+        week.friday,
+        euro("4.80"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Erbseneintopf",
+        "mit Bockwurst",
+        week.friday,
+        euro("4.00"),
+        emptySet(),
+        providerId,
+      )
   }
 
   @Test
@@ -607,15 +653,16 @@ class LunchResolverFeldkuecheTest {
     offers.filter { it.day == week.thursday } shouldHaveSize 3
     offers.filter { it.day == week.friday } shouldHaveSize 2
 
-    offers shouldContain LunchOffer(
-      0,
-      "Wirsingkohleintopf",
-      "mit Brot",
-      week.monday,
-      euro("3.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Wirsingkohleintopf",
+        "mit Brot",
+        week.monday,
+        euro("3.50"),
+        emptySet(),
+        providerId,
+      )
   }
 
   @Test

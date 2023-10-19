@@ -29,7 +29,6 @@ class LunchResolverGesundheitszentrum(
   val htmlParser: HtmlParser,
   val ocrClient: OcrClient,
 ) : LunchResolver {
-
   override val provider = GESUNDHEITSZENTRUM
 
   override fun resolve(): List<LunchOffer> {
@@ -79,8 +78,9 @@ class LunchResolverGesundheitszentrum(
   private fun resolveByGraphApi(): List<LunchOffer> {
     // von der Facebook-Seite der Kantine die Posts als JSON abfragen (beschränkt auf
     // Text und Anhänge)
-    val facebookPosts = graphApi.query<Posts>("181190361991823/posts?fields=message,attachments")
-      ?: return emptyList()
+    val facebookPosts =
+      graphApi.query<Posts>("181190361991823/posts?fields=message,attachments")
+        ?: return emptyList()
 
     val wochenplaene =
       parseWochenplaeneByGraphApi(facebookPosts.data)
@@ -112,8 +112,9 @@ class LunchResolverGesundheitszentrum(
 
   private fun findImageAttachment(post: Post): Attachment? {
     // Der 1. Anhang enthält das Bild mit dem Mittagsplan
-    val attachment = post.attachments.data.getOrNull(0)
-      ?: return null
+    val attachment =
+      post.attachments.data.getOrNull(0)
+        ?: return null
 
     // ... außer es gibt SubAttachments. Dann gewinnt das 1. SubAttachment.
     if (attachment.subattachments.data.isNotEmpty()) {
@@ -124,8 +125,9 @@ class LunchResolverGesundheitszentrum(
   }
 
   private fun parseImageLink(mittagsplanImageId: String): URL? {
-    val facebookImage = graphApi.query<Image>("$mittagsplanImageId?fields=images")
-      ?: return null
+    val facebookImage =
+      graphApi.query<Image>("$mittagsplanImageId?fields=images")
+        ?: return null
     return parseImageLink(facebookImage)
   }
 
@@ -151,7 +153,10 @@ class LunchResolverGesundheitszentrum(
 
   fun doOcr(url: URL?): String = url?.let { ocrClient.doOCR(it) } ?: ""
 
-  fun resolveOffersFromText(monday: LocalDate, text: String): List<LunchOffer> =
+  fun resolveOffersFromText(
+    monday: LocalDate,
+    text: String,
+  ): List<LunchOffer> =
     groupBySection(text)
       .filterKeys { PdfSection.weekdayValues.contains(it) }
       .flatMap { (section, lines) -> resolveOffersFromSection(section, lines, monday) }
@@ -220,13 +225,14 @@ class LunchResolverGesundheitszentrum(
       }
 
       val name = removeZusatzinfos(lineWithoutPrice)
-      result += OfferRow(
-        name,
-        price,
-        line != lineWithoutFitnessTag,
-        lineWithoutFitnessTag != lineWithoutNumber,
-        lineWithoutPrice != name,
-      )
+      result +=
+        OfferRow(
+          name,
+          price,
+          line != lineWithoutFitnessTag,
+          lineWithoutFitnessTag != lineWithoutNumber,
+          lineWithoutPrice != name,
+        )
     }
 
     return result
@@ -360,8 +366,7 @@ class LunchResolverGesundheitszentrum(
       .replace(Regex("""^[acgiınulACDGHIJU]{1,5}$"""), "")
       .trim()
 
-  private fun isWochenplanRelevant(wochenplan: Wochenplan): Boolean =
-    dateValidator.isValid(wochenplan.monday, provider)
+  private fun isWochenplanRelevant(wochenplan: Wochenplan): Boolean = dateValidator.isValid(wochenplan.monday, provider)
 
   enum class PdfSection(
     val label: String,
@@ -398,14 +403,13 @@ class LunchResolverGesundheitszentrum(
       )
 
     fun hasNumberOrFitnessTag() = hasNumber || hasFitnessTag
-    fun isCompleteOffer() =
-      name.isNotEmpty() && price != null && !hasIncompleteStart() && !hasIncompleteEnd()
+
+    fun isCompleteOffer() = name.isNotEmpty() && price != null && !hasIncompleteStart() && !hasIncompleteEnd()
 
     fun hasIncompleteStart(): Boolean =
       name.matches(Regex("[a-züäö]+ .*")) // beginnt klein geschrieben (und, dazu, mit, ...)
 
-    fun hasIncompleteEnd(): Boolean =
-      name.matches(Regex(".* (dazu|mit|und|in|an)")) // endet mit Bindewort
+    fun hasIncompleteEnd(): Boolean = name.matches(Regex(".* (dazu|mit|und|in|an)")) // endet mit Bindewort
   }
 
   data class WochenplanWithImageId(

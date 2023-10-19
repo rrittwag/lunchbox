@@ -17,7 +17,10 @@ import java.time.Year
 class FeiertageApiImpl(
   val baseUrl: String = "https://feiertage-api.de",
 ) : FeiertageApi {
-  override fun queryFeiertage(jahre: Set<Year>, laender: Set<Bundesland>): Set<Feiertag> {
+  override fun queryFeiertage(
+    jahre: Set<Year>,
+    laender: Set<Bundesland>,
+  ): Set<Feiertag> {
     val httpCalls =
       Flux.fromIterable(jahre).flatMap { jahr ->
         Flux.fromIterable(laender).flatMap { land ->

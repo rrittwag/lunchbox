@@ -18,15 +18,15 @@ class LunchOfferUpdateWorker(
   val repo: LunchOfferRepository,
   val resolvers: List<LunchResolver>,
 ) {
-
   private val logger = KotlinLogging.logger {}
 
   @Async
   fun refreshOffersOf(provider: LunchProvider) {
     val offers = resolve(provider)
 
-    val minDay = offers.map { it.day }.minOrNull()
-      ?: return
+    val minDay =
+      offers.map { it.day }.minOrNull()
+        ?: return
 
     repo.deleteFrom(minDay, provider.id)
     repo.saveAll(offers)

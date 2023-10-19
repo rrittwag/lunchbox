@@ -14,16 +14,16 @@ import java.net.URL
 object PdfExtractor {
   private val logger = KotlinLogging.logger {}
 
-  fun extractLines(pdfUrl: URL): List<TextLine> =
-    extract(pdfUrl) { PdfTextGroupStripper().getTextLines(it) }
+  fun extractLines(pdfUrl: URL): List<TextLine> = extract(pdfUrl) { PdfTextGroupStripper().getTextLines(it) }
 
-  fun extractStrings(pdfUrl: URL): List<String> =
-    extractLines(pdfUrl).map { it.toString() }
+  fun extractStrings(pdfUrl: URL): List<String> = extractLines(pdfUrl).map { it.toString() }
 
-  fun extractGroups(pdfUrl: URL): List<TextGroup> =
-    extract(pdfUrl) { PdfTextGroupStripper().getTextGroups(it) }
+  fun extractGroups(pdfUrl: URL): List<TextGroup> = extract(pdfUrl) { PdfTextGroupStripper().getTextGroups(it) }
 
-  private fun <T> extract(pdfUrl: URL, transform: (pdfDoc: PDDocument) -> List<T>): List<T> {
+  private fun <T> extract(
+    pdfUrl: URL,
+    transform: (pdfDoc: PDDocument) -> List<T>,
+  ): List<T> {
     var pdfDoc: PDDocument? = null
 
     try {

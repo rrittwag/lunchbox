@@ -12,7 +12,6 @@ import java.net.URL
 
 @Testcontainers
 class OcrClientTest {
-
   companion object {
     // start open-ocr-2 via Docker Compose (via TestContainers)
     @Container

@@ -20,7 +20,6 @@ import java.time.Duration
  */
 @Testcontainers
 class NginxTest {
-
   companion object {
     // provide test resources in Docker-ed nginx (via TestContainers)
     @Container

@@ -17,7 +17,10 @@ interface LunchOfferRepository {
 
   fun deleteBefore(day: LocalDate)
 
-  fun deleteFrom(day: LocalDate, providerId: LunchProviderId)
+  fun deleteFrom(
+    day: LocalDate,
+    providerId: LunchProviderId,
+  )
 
   fun saveAll(newOffers: Iterable<LunchOffer>): Iterable<LunchOffer>
 }

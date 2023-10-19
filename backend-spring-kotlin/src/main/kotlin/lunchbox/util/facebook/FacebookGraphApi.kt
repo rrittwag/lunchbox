@@ -1,4 +1,5 @@
 @file:Suppress("ktlint:standard:discouraged-comment-location")
+
 package lunchbox.util.facebook
 
 import java.net.URL
@@ -9,7 +10,10 @@ import java.net.URL
  * Das vorliegende Modell beschränkt sich auf die Resourcen Posts und Image der Graph API v2.10.
  */
 interface FacebookGraphApi {
-  fun <T : GraphApiResource> query(url: String, clazz: Class<T>): T?
+  fun <T : GraphApiResource> query(
+    url: String,
+    clazz: Class<T>,
+  ): T?
 }
 
 inline fun <reified T : GraphApiResource> FacebookGraphApi.query(url: String): T? {

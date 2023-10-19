@@ -8,6 +8,5 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class ConfigLunchResolver(val feiertageValidator: FeiertageValidator) {
   @Bean
-  fun dateValidator() =
-    DateValidator.validFromMondayLastWeek().and(feiertageValidator)
+  fun dateValidator() = DateValidator.validFromMondayLastWeek().and(feiertageValidator)
 }

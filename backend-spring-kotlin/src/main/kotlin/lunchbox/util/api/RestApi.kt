@@ -12,8 +12,6 @@ import kotlin.annotation.AnnotationTarget.CLASS
 @Retention(RUNTIME)
 @RestController
 annotation class RestApi(
-
   @get:AliasFor(annotation = RestController::class)
   val value: String = "",
-
 )
