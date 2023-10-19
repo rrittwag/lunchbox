@@ -17,11 +17,9 @@ class LunchResolverAokCafeteria(
   val dateValidator: DateValidator,
   val htmlParser: HtmlParser,
 ) : LunchResolver {
-
   override val provider = AOK_CAFETERIA
 
-  override fun resolve(): List<LunchOffer> =
-    resolve(URL("${provider.menuUrl}/speiseplan/16/ajax/"))
+  override fun resolve(): List<LunchOffer> = resolve(URL("${provider.menuUrl}/speiseplan/16/ajax/"))
 
   fun resolve(htmlUrl: URL): List<LunchOffer> {
     val site = htmlParser.parse(htmlUrl)
@@ -40,7 +38,10 @@ class LunchResolverAokCafeteria(
     return offers
   }
 
-  private fun resolveByWeek(date: LocalDate, weekDiv: Element): List<LunchOffer> {
+  private fun resolveByWeek(
+    date: LocalDate,
+    weekDiv: Element,
+  ): List<LunchOffer> {
     val day2node = weekDiv.children().chunked(2).filter { it.size > 1 }
 
     val offers = mutableListOf<LunchOffer>()
@@ -51,7 +52,10 @@ class LunchResolverAokCafeteria(
     return offers
   }
 
-  private fun calcDay(dateElem: Element, date: LocalDate): LocalDate? {
+  private fun calcDay(
+    dateElem: Element,
+    date: LocalDate,
+  ): LocalDate? {
     val weekdayString = dateElem.select(".day").text()
     val weekday = Weekday.values().find { weekdayString.startsWith(it.label) }
     if (weekday != null) {
@@ -67,7 +71,10 @@ class LunchResolverAokCafeteria(
     return StringParser.parseLocalDate("$shortDate$year")
   }
 
-  private fun resolveByDay(day: LocalDate, offersDiv: Element): List<LunchOffer> {
+  private fun resolveByDay(
+    day: LocalDate,
+    offersDiv: Element,
+  ): List<LunchOffer> {
     var offerDivs = offersDiv.select(".day-usual")
     if (offerDivs.isEmpty()) {
       offerDivs = offersDiv.select(".day-")
@@ -87,10 +94,11 @@ class LunchResolverAokCafeteria(
         continue
       }
       val zusatzstoffe = offerElem.select("small").text()
-      var (title, description) = StringParser.splitOfferName(
-        name,
-        listOf(" auf ", " mit ", " von ", " im ", " in ", " an ", ", ", " (", " und "),
-      )
+      var (title, description) =
+        StringParser.splitOfferName(
+          name,
+          listOf(" auf ", " mit ", " von ", " im ", " in ", " an ", ", ", " (", " und "),
+        )
       description = clearDescription(description)
       val tags = parseTags(name, typ, zusatzstoffe)
       offers += LunchOffer(0, title, description, day, null, tags, provider.id)
@@ -108,7 +116,11 @@ class LunchResolverAokCafeteria(
       .replace(", , ", ", ")
       .trim()
 
-  private fun parseTags(name: String, typ: String, zusatzstoffe: String): Set<String> {
+  private fun parseTags(
+    name: String,
+    typ: String,
+    zusatzstoffe: String,
+  ): Set<String> {
     val result = mutableSetOf<String>()
 
     if (name.contains("vegan", ignoreCase = true)) {

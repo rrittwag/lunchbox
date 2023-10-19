@@ -21,7 +21,6 @@ class LunchResolverFeldkueche(
   val ocrClient: OcrClient,
   val htmlParser: HtmlParser,
 ) : LunchResolver {
-
   override val provider = FELDKUECHE
 
   override fun resolve(): List<LunchOffer> =
@@ -60,7 +59,10 @@ class LunchResolverFeldkueche(
       .filter { dateValidator.isValid(it.day, provider) }
   }
 
-  private fun createOffer(raw: RawOffer, monday: LocalDate): LunchOffer {
+  private fun createOffer(
+    raw: RawOffer,
+    monday: LocalDate,
+  ): LunchOffer {
     val (title, description) =
       StringParser.splitOfferName(
         raw.name,
@@ -100,9 +102,10 @@ class LunchResolverFeldkueche(
       return RawOfferName(weekday, lunchName.replace(Regex(""" \d+,\d{2} *€"""), "").trim())
     }
 
-    val prices = contentAsLines
-      .filter { it.matches(Regex(""".*\d+,(\d{2}) *€""")) }
-      .mapNotNull { StringParser.parseMoney(it) }
+    val prices =
+      contentAsLines
+        .filter { it.matches(Regex(""".*\d+,(\d{2}) *€""")) }
+        .mapNotNull { StringParser.parseMoney(it) }
 
     return offerTexts
       .mapNotNull { splitWeekdayAndName(it) }

@@ -17,6 +17,8 @@ class FeiertageValidator(val api: FeiertageApi) : DateValidator {
     return api.queryFeiertage(setOf(thisYear, nextYear), bundeslaender)
   }
 
-  override fun isValid(day: LocalDate, provider: LunchProvider): Boolean =
-    feiertage.none { it.land == provider.location.bundesland && it.datum == day }
+  override fun isValid(
+    day: LocalDate,
+    provider: LunchProvider,
+  ): Boolean = feiertage.none { it.land == provider.location.bundesland && it.datum == day }
 }

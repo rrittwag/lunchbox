@@ -9,12 +9,11 @@ import org.apache.pdfbox.text.TextPosition
 import org.junit.jupiter.api.Test
 
 class PdfTextGroupStripperTest {
-
   @Test
   fun `should equip TextGroup with one letter`() {
-    val text_a = text(Pos(1.0f, 2.0f), 1.0f, 2.0f, "a")
+    val textA = text(Pos(1.0f, 2.0f), 1.0f, 2.0f, "a")
 
-    val group = TextGroup(listOf(text_a))
+    val group = TextGroup(listOf(textA))
 
     group.toString() shouldBeEqualTo "a"
 
@@ -44,11 +43,11 @@ class PdfTextGroupStripperTest {
 
   @Test
   fun `should equip TextGroup with three letters`() {
-    val text_a = text(Pos(1.0f, 2.0f), 1.0f, 2.0f, "a")
-    val text_b = text(Pos(2.0f, 2.0f), 1.0f, 2.0f, "b")
-    val text_c = text(Pos(3.0f, 2.0f), 1.0f, 2.0f, "c")
+    val textA = text(Pos(1.0f, 2.0f), 1.0f, 2.0f, "a")
+    val textB = text(Pos(2.0f, 2.0f), 1.0f, 2.0f, "b")
+    val textC = text(Pos(3.0f, 2.0f), 1.0f, 2.0f, "c")
 
-    val group = TextGroup(listOf(text_a, text_b, text_c))
+    val group = TextGroup(listOf(textA, textB, textC))
 
     group.toString() shouldBeEqualTo "abc"
 
@@ -84,29 +83,34 @@ class PdfTextGroupStripperTest {
 
     textGroups shouldHaveSize 4
 
-    val text_11 = textGroups.filter { it.toString() == "row 1 column 1" }
-    text_11 shouldHaveSize 1
+    val text11 = textGroups.filter { it.toString() == "row 1 column 1" }
+    text11 shouldHaveSize 1
 
-    val text_12 = textGroups.filter { it.toString() == "row 1 column 2" }
-    text_12 shouldHaveSize 1
+    val text12 = textGroups.filter { it.toString() == "row 1 column 2" }
+    text12 shouldHaveSize 1
 
-    val text_21 = textGroups.filter { it.toString() == "row 2 column 1" }
-    text_21 shouldHaveSize 1
+    val text21 = textGroups.filter { it.toString() == "row 2 column 1" }
+    text21 shouldHaveSize 1
 
-    val text_22 = textGroups.filter { it.toString() == "row 2 column 2" }
-    text_22 shouldHaveSize 1
+    val text22 = textGroups.filter { it.toString() == "row 2 column 2" }
+    text22 shouldHaveSize 1
 
-    text_11[0].xIn(text_12[0].xMid()) shouldBe false
-    text_11[0].yIn(text_12[0].yMid()) shouldBe true
+    text11[0].xIn(text12[0].xMid()) shouldBe false
+    text11[0].yIn(text12[0].yMid()) shouldBe true
 
-    text_11[0].xIn(text_21[0].xMid()) shouldBe true
-    text_11[0].yIn(text_21[0].yMid()) shouldBe false
+    text11[0].xIn(text21[0].xMid()) shouldBe true
+    text11[0].yIn(text21[0].yMid()) shouldBe false
 
-    text_11[0].xIn(text_22[0].xMid()) shouldBe false
-    text_11[0].yIn(text_22[0].yMid()) shouldBe false
+    text11[0].xIn(text22[0].xMid()) shouldBe false
+    text11[0].yIn(text22[0].yMid()) shouldBe false
   }
 
-  private fun text(pos: Pos, width: Float, height: Float, char: String): TextPosition {
+  private fun text(
+    pos: Pos,
+    width: Float,
+    height: Float,
+    char: String,
+  ): TextPosition {
     val mockPos = mockk<TextPosition>()
     every { mockPos.x } returns pos.x
     every { mockPos.y } returns pos.y

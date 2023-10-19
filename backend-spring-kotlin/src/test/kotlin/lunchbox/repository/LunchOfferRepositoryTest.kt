@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class LunchOfferRepositoryTest {
-
   private val repo = LunchOfferRepositoryImplInMemory()
 
   @BeforeEach

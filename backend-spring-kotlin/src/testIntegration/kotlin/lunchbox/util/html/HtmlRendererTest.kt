@@ -12,7 +12,6 @@ import java.net.URL
 
 @Testcontainers
 class HtmlRendererTest {
-
   companion object {
     // start rendertron via Docker Compose (via TestContainers)
     @Container

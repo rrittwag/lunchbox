@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.PathVariable
  */
 @RestApi("lunchProviderApi_v1")
 class LunchProviderApi {
-
   @GetMapping(URL_LUNCHPROVIDER)
   fun getAll(): List<LunchProviderDTO> =
     LunchProvider.values()
       .map { it.toDTOv1() }
 
   @GetMapping("$URL_LUNCHPROVIDER/{id}")
-  fun getById(@PathVariable id: LunchProviderId): LunchProviderDTO =
+  fun getById(
+    @PathVariable id: LunchProviderId,
+  ): LunchProviderDTO =
     LunchProvider.values()
       .find { id == it.id }?.toDTOv1()
       ?: throw HttpNotFoundException("Mittagsanbieter mit ID $id nicht gefunden!")
@@ -34,8 +35,9 @@ class LunchProviderDTO(
   val location: String,
 )
 
-fun LunchProvider.toDTOv1() = LunchProviderDTO(
-  id,
-  label,
-  location.label,
-)
+fun LunchProvider.toDTOv1() =
+  LunchProviderDTO(
+    id,
+    label,
+    location.label,
+  )

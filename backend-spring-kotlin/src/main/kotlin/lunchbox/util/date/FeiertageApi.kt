@@ -5,7 +5,10 @@ import java.time.LocalDate
 import java.time.Year
 
 interface FeiertageApi {
-  fun queryFeiertage(jahre: Set<Year>, laender: Set<Bundesland>): Set<Feiertag>
+  fun queryFeiertage(
+    jahre: Set<Year>,
+    laender: Set<Bundesland>,
+  ): Set<Feiertag>
 }
 
 data class Feiertag(

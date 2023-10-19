@@ -19,11 +19,9 @@ class LunchResolverSchweinestall(
   val dateValidator: DateValidator,
   val htmlParser: HtmlParser,
 ) : LunchResolver {
-
   override val provider = SCHWEINESTALL
 
-  override fun resolve(): List<LunchOffer> =
-    resolve(provider.menuUrl)
+  override fun resolve(): List<LunchOffer> = resolve(provider.menuUrl)
 
   fun resolve(url: URL): List<LunchOffer> {
     val site = htmlParser.parse(url)
@@ -41,12 +39,16 @@ class LunchResolverSchweinestall(
     }
   }
 
-  private fun resolveOffers(dateElem: Element, offersElem: Element): List<LunchOffer> {
+  private fun resolveOffers(
+    dateElem: Element,
+    offersElem: Element,
+  ): List<LunchOffer> {
     val monday: LocalDate = resolveMonday(dateElem) ?: return emptyList()
     if (!dateValidator.isValid(monday, provider)) return emptyList()
 
-    val tdsAsText = offersElem.select("td")
-      .map { it.text() }
+    val tdsAsText =
+      offersElem.select("td")
+        .map { it.text() }
 
     return tdsAsText
       .chunked(6) // 6 td sind ein Offer ...

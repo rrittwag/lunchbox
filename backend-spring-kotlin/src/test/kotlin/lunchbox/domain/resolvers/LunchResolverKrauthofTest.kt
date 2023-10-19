@@ -14,11 +14,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class LunchResolverKrauthofTest {
-
   private val htmlParser = HtmlParser(mockk())
   private val dateValidator = mockk<DateValidator>()
-  private fun resolver(): LunchResolverKrauthof =
-    LunchResolverKrauthof(dateValidator, htmlParser)
+
+  private fun resolver(): LunchResolverKrauthof = LunchResolverKrauthof(dateValidator, htmlParser)
 
   private val providerId = DAS_KRAUTHOF.id
 
@@ -56,69 +55,76 @@ class LunchResolverKrauthofTest {
     offers.filter { it.day == week.thursday } shouldHaveSize 7
     offers.filter { it.day == week.friday } shouldHaveSize 7
 
-    offers shouldContain LunchOffer(
-      0,
-      "Karotten-Orangen-Suppe",
-      "mit gebratenen Hähnchenstreifen",
-      week.tuesday,
-      euro("3.90"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Knackige Blattsalate",
-      "mit Kirschtomaten, Pinienkernen, marinierten Mozzarella, hausgemachtes Balsamicodressing",
-      week.tuesday,
-      euro("5.50"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Gnocci",
-      "mit würziger Blattspinat-Gorgonzolasauce, gerösteten Pinienkernen",
-      week.tuesday,
-      euro("6.60"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Frische Tagliatelle",
-      "mit saftigen Putenbruststreifen in Champignon-Kräuterrahm, mariniertem Ruccola",
-      week.tuesday,
-      euro("6.80"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Gebratenes Rotbarschfilet",
-      "auf Zitronenbuttersauce, Mandelbroccoli, Kräuterkartoffeln",
-      week.tuesday,
-      euro("7.20"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Saftige Schweinesteaks",
-      "mit Kräuterbutter, Wedges, Sour Cream, Salat",
-      week.tuesday,
-      euro("6.90"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Feines Mousse",
-      "von weißer Schokolade mit Kirschragout",
-      week.tuesday,
-      euro("3.10"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Karotten-Orangen-Suppe",
+        "mit gebratenen Hähnchenstreifen",
+        week.tuesday,
+        euro("3.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Knackige Blattsalate",
+        "mit Kirschtomaten, Pinienkernen, marinierten Mozzarella, hausgemachtes Balsamicodressing",
+        week.tuesday,
+        euro("5.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Gnocci",
+        "mit würziger Blattspinat-Gorgonzolasauce, gerösteten Pinienkernen",
+        week.tuesday,
+        euro("6.60"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Frische Tagliatelle",
+        "mit saftigen Putenbruststreifen in Champignon-Kräuterrahm, mariniertem Ruccola",
+        week.tuesday,
+        euro("6.80"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Gebratenes Rotbarschfilet",
+        "auf Zitronenbuttersauce, Mandelbroccoli, Kräuterkartoffeln",
+        week.tuesday,
+        euro("7.20"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Saftige Schweinesteaks",
+        "mit Kräuterbutter, Wedges, Sour Cream, Salat",
+        week.tuesday,
+        euro("6.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Feines Mousse",
+        "von weißer Schokolade mit Kirschragout",
+        week.tuesday,
+        euro("3.10"),
+        emptySet(),
+        providerId,
+      )
   }
 
   @Test
@@ -136,69 +142,76 @@ class LunchResolverKrauthofTest {
     offers.filter { it.day == week.thursday } shouldHaveSize 7
     offers.filter { it.day == week.friday } shouldHaveSize 7
 
-    offers shouldContain LunchOffer(
-      0,
-      "Herzhaftes Kartoffelsüppchen",
-      "mit Scheiben von gebratenen Pfefferbeißern",
-      week.monday,
-      euro("3.70"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Bunte Blattsalate",
-      "mit gegrillter Paprika, eingelegten Artischocken, Kirschtomaten, Kräutern aus dem KRAUTHOF",
-      week.monday,
-      euro("4.90"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Knuspriges Sellerieschnitzel",
-      "auf Tomaten-Zucchini-Gemüse, in Rosmarin geschwenkte Kartoffeln",
-      week.monday,
-      euro("5.10"),
-      setOf("vegetarisch"),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "KRAUTHOF-Pizza",
-      "mit Hähnchen, Hinterschinken, roten Zwiebeln, Strauchtomaten, Champignons, Kräuter-Hollandaise",
-      week.monday,
-      euro("7.10"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Gebratenes Wildlachsfilet",
-      "auf Blattspinat, Kräuterkartoffeln, Zitrone",
-      week.monday,
-      euro("7.30"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Saftiges Schweinesteak",
-      "im Zwiebel-Senf-Mantel mit Bratkartoffeln, Salat",
-      week.monday,
-      euro("6.20"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Fruchtiges Zitronenmousse",
-      "mit Himbeercoulis",
-      week.monday,
-      euro("2.90"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Herzhaftes Kartoffelsüppchen",
+        "mit Scheiben von gebratenen Pfefferbeißern",
+        week.monday,
+        euro("3.70"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Bunte Blattsalate",
+        "mit gegrillter Paprika, eingelegten Artischocken, Kirschtomaten, Kräutern aus dem KRAUTHOF",
+        week.monday,
+        euro("4.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Knuspriges Sellerieschnitzel",
+        "auf Tomaten-Zucchini-Gemüse, in Rosmarin geschwenkte Kartoffeln",
+        week.monday,
+        euro("5.10"),
+        setOf("vegetarisch"),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "KRAUTHOF-Pizza",
+        "mit Hähnchen, Hinterschinken, roten Zwiebeln, Strauchtomaten, Champignons, Kräuter-Hollandaise",
+        week.monday,
+        euro("7.10"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Gebratenes Wildlachsfilet",
+        "auf Blattspinat, Kräuterkartoffeln, Zitrone",
+        week.monday,
+        euro("7.30"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Saftiges Schweinesteak",
+        "im Zwiebel-Senf-Mantel mit Bratkartoffeln, Salat",
+        week.monday,
+        euro("6.20"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Fruchtiges Zitronenmousse",
+        "mit Himbeercoulis",
+        week.monday,
+        euro("2.90"),
+        emptySet(),
+        providerId,
+      )
   }
 
   @Test
@@ -226,15 +239,16 @@ class LunchResolverKrauthofTest {
     offers.filter { it.day == week.thursday } shouldHaveSize 7
     offers.filter { it.day == week.friday } shouldHaveSize 7
 
-    offers shouldContain LunchOffer(
-      0,
-      "Feines Kräutersüppchen",
-      "mit Frühlingsgemüse, marinierten Shrimps",
-      week.monday,
-      euro("3.90"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Feines Kräutersüppchen",
+        "mit Frühlingsgemüse, marinierten Shrimps",
+        week.monday,
+        euro("3.90"),
+        emptySet(),
+        providerId,
+      )
   }
 
   @Test
@@ -252,69 +266,76 @@ class LunchResolverKrauthofTest {
     offers.filter { it.day == week.thursday } shouldHaveSize 7
     offers.filter { it.day == week.friday } shouldHaveSize 7
 
-    offers shouldContain LunchOffer(
-      0,
-      "Geeistes Gurken-Buttermilchsüppchen",
-      "mit Dillspitzen, Shrimps",
-      week.monday,
-      euro("3.90"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Thai-Beef- Salat",
-      "mit Chili, Bohnen, Champignons, Karotten, roten Zwiebeln, Sesam",
-      week.monday,
-      euro("5.20"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Vegetarische Gemüsebolognese",
-      "mit Spaghetti, Kräuterschmand",
-      week.monday,
-      euro("5.90"),
-      setOf("vegetarisch"),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Knuspriges Hähnchenschnitzel",
-      "mit Kohlrabi-Apfelgemüse, Kräuterkartoffeln",
-      week.monday,
-      euro("6.20"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Gebratenes Tilapiafilet",
-      "auf Dillsauce, Gurken-Zwiebelgemüse, Kartoffeln",
-      week.monday,
-      euro("6.50"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Schweinesteak",
-      "mit Feta-Nuss Haube mit Rahmsauce, Blumenkohl, Röstkartoffeln",
-      week.monday,
-      euro("6.90"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Cappuccinomousse",
-      "mit Orangenkompott",
-      week.monday,
-      euro("2.90"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Geeistes Gurken-Buttermilchsüppchen",
+        "mit Dillspitzen, Shrimps",
+        week.monday,
+        euro("3.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Thai-Beef- Salat",
+        "mit Chili, Bohnen, Champignons, Karotten, roten Zwiebeln, Sesam",
+        week.monday,
+        euro("5.20"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Vegetarische Gemüsebolognese",
+        "mit Spaghetti, Kräuterschmand",
+        week.monday,
+        euro("5.90"),
+        setOf("vegetarisch"),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Knuspriges Hähnchenschnitzel",
+        "mit Kohlrabi-Apfelgemüse, Kräuterkartoffeln",
+        week.monday,
+        euro("6.20"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Gebratenes Tilapiafilet",
+        "auf Dillsauce, Gurken-Zwiebelgemüse, Kartoffeln",
+        week.monday,
+        euro("6.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schweinesteak",
+        "mit Feta-Nuss Haube mit Rahmsauce, Blumenkohl, Röstkartoffeln",
+        week.monday,
+        euro("6.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Cappuccinomousse",
+        "mit Orangenkompott",
+        week.monday,
+        euro("2.90"),
+        emptySet(),
+        providerId,
+      )
   }
 
   @Test
@@ -360,69 +381,76 @@ class LunchResolverKrauthofTest {
     offers.filter { it.day == week.thursday } shouldHaveSize 0
     offers.filter { it.day == week.friday } shouldHaveSize 7
 
-    offers shouldContain LunchOffer(
-      0,
-      "Cremige Schwarzwurzelsuppe",
-      "mit marinierte Rote Beete",
-      week.monday,
-      euro("4.10"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Feine Blattsalate",
-      "mit Hähnchenstreifen in Chilimarinade, Mango, Kirschtomaten, Sonnenblumenkernen",
-      week.monday,
-      euro("5.10"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Knuspriges Gemüseschnitzel",
-      "an Karotten in Orangen-Vanillerahm, Kräuterkartoffeln",
-      week.monday,
-      euro("6.80"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Gebratenes Putensteak",
-      "an Gorgonzolasauce, Blattspinat, kleinen Röstis",
-      week.monday,
-      euro("7.20"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Gebratenes Rotbarschfilet",
-      "an Steckrüben in Kräuterschmand, Kräuterkartoffeln",
-      week.monday,
-      euro("7.40"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Knuspriges Schnitzel",
-      "an Kräuter-Champignons, Pommes Frites, Salat",
-      week.monday,
-      euro("6.90"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Grütze",
-      "von gelben Früchten mit Kokos-Vanillecreme",
-      week.monday,
-      euro("3.10"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Cremige Schwarzwurzelsuppe",
+        "mit marinierte Rote Beete",
+        week.monday,
+        euro("4.10"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Feine Blattsalate",
+        "mit Hähnchenstreifen in Chilimarinade, Mango, Kirschtomaten, Sonnenblumenkernen",
+        week.monday,
+        euro("5.10"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Knuspriges Gemüseschnitzel",
+        "an Karotten in Orangen-Vanillerahm, Kräuterkartoffeln",
+        week.monday,
+        euro("6.80"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Gebratenes Putensteak",
+        "an Gorgonzolasauce, Blattspinat, kleinen Röstis",
+        week.monday,
+        euro("7.20"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Gebratenes Rotbarschfilet",
+        "an Steckrüben in Kräuterschmand, Kräuterkartoffeln",
+        week.monday,
+        euro("7.40"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Knuspriges Schnitzel",
+        "an Kräuter-Champignons, Pommes Frites, Salat",
+        week.monday,
+        euro("6.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Grütze",
+        "von gelben Früchten mit Kokos-Vanillecreme",
+        week.monday,
+        euro("3.10"),
+        emptySet(),
+        providerId,
+      )
   }
 
   @Test
@@ -437,15 +465,16 @@ class LunchResolverKrauthofTest {
     offers.filter { it.day == week.wednesday } shouldHaveSize 7
     offers.filter { it.day == week.thursday } shouldHaveSize 7
     offers.filter { it.day == week.friday } shouldHaveSize 7
-    offers shouldContain LunchOffer(
-      0,
-      "Veganes Paprika-Tomatencremesüppchen",
-      "mit Rucolasahne, Sonnenblumenkernen",
-      week.monday,
-      euro("4.30"),
-      setOf("vegan"),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Veganes Paprika-Tomatencremesüppchen",
+        "mit Rucolasahne, Sonnenblumenkernen",
+        week.monday,
+        euro("4.30"),
+        setOf("vegan"),
+        providerId,
+      )
   }
 
   @Test
@@ -463,33 +492,36 @@ class LunchResolverKrauthofTest {
     offers.filter { it.day == week.thursday } shouldHaveSize 3
     offers.filter { it.day == week.friday } shouldHaveSize 3
 
-    offers shouldContain LunchOffer(
-      0,
-      "Grünkernkäsemedaillons",
-      "mit Petersiliensauce, buntem Karottengemüse, Kartoffeln",
-      week.monday,
-      euro("6.90"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Gebratene Hähnchenbrust",
-      "mit Champignons in leichtem Thymianrahm, Pommes frites",
-      week.monday,
-      euro("7.50"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Knuspriges Schnitzel",
-      "mit Spiegelei, Bratkartoffeln, Gurkensalat",
-      week.monday,
-      euro("6.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Grünkernkäsemedaillons",
+        "mit Petersiliensauce, buntem Karottengemüse, Kartoffeln",
+        week.monday,
+        euro("6.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Gebratene Hähnchenbrust",
+        "mit Champignons in leichtem Thymianrahm, Pommes frites",
+        week.monday,
+        euro("7.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Knuspriges Schnitzel",
+        "mit Spiegelei, Bratkartoffeln, Gurkensalat",
+        week.monday,
+        euro("6.50"),
+        emptySet(),
+        providerId,
+      )
   }
 
   @Test
@@ -508,32 +540,35 @@ class LunchResolverKrauthofTest {
     offers.filter { it.day == week.thursday } shouldHaveSize 3
     offers.filter { it.day == week.friday } shouldHaveSize 0
 
-    offers shouldContain LunchOffer(
-      0,
-      "Gefüllte Tomaten",
-      "mit Quinoa, Tomatensauce, Gemüsereis, marinierte Blattsalate",
-      week.monday,
-      euro("5.80"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Tagliatelle",
-      "mit Hähnchenbruststreifen, Paprika-Zwiebelrahm, Champignons, Frühlingszwiebeln",
-      week.monday,
-      euro("6.90"),
-      emptySet(),
-      providerId,
-    )
-    offers shouldContain LunchOffer(
-      0,
-      "Zartes Matjesfilet",
-      "mit roten Zwiebeln, Apfel-Gurken-Creme fraîche, Röstkartoffeln",
-      week.monday,
-      euro("7.50"),
-      emptySet(),
-      providerId,
-    )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Gefüllte Tomaten",
+        "mit Quinoa, Tomatensauce, Gemüsereis, marinierte Blattsalate",
+        week.monday,
+        euro("5.80"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Tagliatelle",
+        "mit Hähnchenbruststreifen, Paprika-Zwiebelrahm, Champignons, Frühlingszwiebeln",
+        week.monday,
+        euro("6.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Zartes Matjesfilet",
+        "mit roten Zwiebeln, Apfel-Gurken-Creme fraîche, Röstkartoffeln",
+        week.monday,
+        euro("7.50"),
+        emptySet(),
+        providerId,
+      )
   }
 }

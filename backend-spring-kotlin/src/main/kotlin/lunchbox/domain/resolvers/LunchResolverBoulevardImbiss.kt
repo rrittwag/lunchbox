@@ -16,11 +16,9 @@ class LunchResolverBoulevardImbiss(
   val dateValidator: DateValidator,
   val htmlParser: HtmlParser,
 ) : LunchResolver {
-
   override val provider = BOULEVARD_IMBISS
 
-  override fun resolve(): List<LunchOffer> =
-    resolve(provider.menuUrl)
+  override fun resolve(): List<LunchOffer> = resolve(provider.menuUrl)
 
   fun resolve(url: URL): List<LunchOffer> {
     val site = htmlParser.parse(url)

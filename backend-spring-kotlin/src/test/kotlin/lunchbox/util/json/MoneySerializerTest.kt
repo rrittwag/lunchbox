@@ -11,7 +11,6 @@ import org.springframework.boot.test.json.JacksonTester
 class MoneySerializerTest(
   @Autowired val json: JacksonTester<TestEntityWithMoney>,
 ) {
-
   @Test
   fun serialize() {
     val entity = TestEntityWithMoney(Money.parse("EUR 15.20"))

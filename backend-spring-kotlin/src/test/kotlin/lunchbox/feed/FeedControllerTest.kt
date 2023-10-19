@@ -28,7 +28,6 @@ class FeedControllerTest(
   @Autowired val mockMvc: MockMvc,
   @Autowired val testUnit: FeedController,
 ) {
-
   @MockkBean
   lateinit var repo: LunchOfferRepository
 
@@ -148,24 +147,28 @@ class FeedControllerTest(
 
   private val yesterday = today.minusDays(1)
 
-  private val offerYesterday = createOffer(
-    provider = SUPPENKULTTOUR.id,
-    day = yesterday,
-  )
+  private val offerYesterday =
+    createOffer(
+      provider = SUPPENKULTTOUR.id,
+      day = yesterday,
+    )
 
-  private val offerToday = createOffer(
-    provider = AOK_CAFETERIA.id,
-    day = today,
-    price = Money.ofMinor(CurrencyUnit.EUR, 250),
-  )
+  private val offerToday =
+    createOffer(
+      provider = AOK_CAFETERIA.id,
+      day = today,
+      price = Money.ofMinor(CurrencyUnit.EUR, 250),
+    )
 
-  private val offerTomorrow = createOffer(
-    provider = AOK_CAFETERIA.id,
-    day = tomorrow,
-  )
+  private val offerTomorrow =
+    createOffer(
+      provider = AOK_CAFETERIA.id,
+      day = tomorrow,
+    )
 
-  private val offerBerlin = createOffer(
-    provider = SALT_N_PEPPER.id,
-    day = today,
-  )
+  private val offerBerlin =
+    createOffer(
+      provider = SALT_N_PEPPER.id,
+      day = today,
+    )
 }

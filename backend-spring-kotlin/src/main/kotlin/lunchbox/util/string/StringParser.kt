@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter
  * Erzeugt Daten aus Zeichenketten.
  */
 object StringParser {
-
   /**
    * Erzeugt ein Money-Objekt (in EURO) aus dem Format "*0,00*"
    *
@@ -18,8 +17,9 @@ object StringParser {
    * @return
    */
   fun parseMoney(moneyString: String): Money? {
-    val matchResult = Regex(""".*(\d+)[.,](\d{2}).*""").find(moneyString)
-      ?: return null
+    val matchResult =
+      Regex(""".*(\d+)[.,](\d{2}).*""").find(moneyString)
+        ?: return null
     val (major, minor) = matchResult.destructured
     return Money.ofMinor(CurrencyUnit.EUR, major.toLong() * 100 + minor.toLong())
   }
@@ -75,7 +75,10 @@ object StringParser {
       ?.key
   }
 
-  private fun parseLocalDate(dateString: String, dateFormat: String): LocalDate? =
+  private fun parseLocalDate(
+    dateString: String,
+    dateFormat: String,
+  ): LocalDate? =
     try {
       LocalDate.from(DateTimeFormatter.ofPattern(dateFormat).parse(dateString))
     } catch (exc: Throwable) {

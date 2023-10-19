@@ -11,7 +11,11 @@ import org.springframework.boot.jackson.JsonComponent
  */
 @JsonComponent
 class MoneySerializer : JsonSerializer<Money>() {
-  override fun serialize(value: Money?, gen: JsonGenerator?, serializers: SerializerProvider?) {
+  override fun serialize(
+    value: Money?,
+    gen: JsonGenerator?,
+    serializers: SerializerProvider?,
+  ) {
     val moneyAsNumber = value?.amountMinorInt ?: 0
     gen?.writeNumber(moneyAsNumber)
   }

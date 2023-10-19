@@ -19,7 +19,6 @@ class LunchResolverPhoenixeum(
   val dateValidator: DateValidator,
   val htmlParser: HtmlParser,
 ) : LunchResolver {
-
   override val provider = LunchProvider.PHOENIXEUM
 
   override fun resolve(): List<LunchOffer> = resolve(provider.menuUrl)
@@ -35,20 +34,25 @@ class LunchResolverPhoenixeum(
     elements.addAll(site.select("#wochenplaene > div.ce_text"))
 
     for (wochenplanDiv in elements) {
-      val monday = resolveMonday(wochenplanDiv, site)
-        ?: continue
+      val monday =
+        resolveMonday(wochenplanDiv, site)
+          ?: continue
       if (!dateValidator.isValid(monday, provider)) {
         continue
       }
 
-      result += parseOffers(wochenplanDiv, monday)
-        .filter { dateValidator.isValid(it.day, provider) }
+      result +=
+        parseOffers(wochenplanDiv, monday)
+          .filter { dateValidator.isValid(it.day, provider) }
     }
 
     return result
   }
 
-  private fun parseOffers(wochenplanDiv: Element, monday: LocalDate): List<LunchOffer> {
+  private fun parseOffers(
+    wochenplanDiv: Element,
+    monday: LocalDate,
+  ): List<LunchOffer> {
     val paragraphs = node2paragraphs(wochenplanDiv)
     val adjustedParagraphs = adjustParagraphs(adjustTextSegments(paragraphs))
 
@@ -64,7 +68,9 @@ class LunchResolverPhoenixeum(
     DESCRIPTION,
     PRICE,
   }
+
   sealed interface Text
+
   data class Paragraph(val lines: List<TextLine>) : Text {
     fun isValidOffer(): Boolean =
       // Die erste Zeile beinhaltet ein Datum/Wochentag
@@ -77,10 +83,13 @@ class LunchResolverPhoenixeum(
         lines.flatMap { it.segments }
           .none { it.text.contains(Regex("Feiertag|Betriebsferien|Achtung|Wochenplan|geschlossen")) }
   }
+
   data class TextLine(val segments: List<TextSegment>) : Text {
     fun text(): String = segments.joinToString(" ") { it.text }
+
     fun isEmpty(): Boolean = segments.isEmpty()
   }
+
   data class TextSegment(
     val text: String,
     val isBold: Boolean = false,
@@ -88,7 +97,10 @@ class LunchResolverPhoenixeum(
   ) : Text
   data object TextBreak : Text
 
-  private fun resolveMonday(node: Element, site: Document): LocalDate? {
+  private fun resolveMonday(
+    node: Element,
+    site: Document,
+  ): LocalDate? {
     val headings = node.select("h2,h3")
     for (heading in headings) {
       var day = StringParser.parseLocalDate(heading.text()) ?: continue
@@ -118,10 +130,11 @@ class LunchResolverPhoenixeum(
 
     val result = mutableListOf<Paragraph>()
     for (child in node.childNodes()) {
-      result += when (child) {
-        is TextNode -> emptyList()
-        else -> node2paragraphs(child)
-      }
+      result +=
+        when (child) {
+          is TextNode -> emptyList()
+          else -> node2paragraphs(child)
+        }
     }
     return result
   }
@@ -146,18 +159,22 @@ class LunchResolverPhoenixeum(
     return lines
   }
 
-  private fun readTexts(node: Node, isTitle: Boolean = false): List<Text> {
+  private fun readTexts(
+    node: Node,
+    isTitle: Boolean = false,
+  ): List<Text> {
     val result = mutableListOf<Text>()
     for (child in node.childNodes()) {
-      result += when {
-        child is TextNode -> {
-          val text = adjustText(child.text())
-          if (text.isEmpty()) emptyList() else listOf(TextSegment(text, isTitle))
+      result +=
+        when {
+          child is TextNode -> {
+            val text = adjustText(child.text())
+            if (text.isEmpty()) emptyList() else listOf(TextSegment(text, isTitle))
+          }
+          child is Element && child.tagName() == "br" -> listOf(TextBreak)
+          child is Element && child.tagName() == "strong" -> readTexts(child, true)
+          else -> readTexts(child, isTitle)
         }
-        child is Element && child.tagName() == "br" -> listOf(TextBreak)
-        child is Element && child.tagName() == "strong" -> readTexts(child, true)
-        else -> readTexts(child, isTitle)
-      }
     }
     return result
   }
@@ -208,32 +225,35 @@ class LunchResolverPhoenixeum(
 
   private fun adjustTextSegments(paragraph: Paragraph): Paragraph {
     // Segmente gruppieren nach isBold
-    var newLines = paragraph.lines.map { line ->
-      val newSegments = mutableListOf<TextSegment>()
-      var lastSegment: TextSegment? = null
-      for (segment in line.segments) {
-        if (lastSegment == null) {
-          lastSegment = segment
-        } else if (lastSegment.isBold == segment.isBold) {
-          lastSegment = lastSegment.copy(text = "${lastSegment.text} ${segment.text}")
-        } else {
-          newSegments += lastSegment
-          lastSegment = segment
+    var newLines =
+      paragraph.lines.map { line ->
+        val newSegments = mutableListOf<TextSegment>()
+        var lastSegment: TextSegment? = null
+        for (segment in line.segments) {
+          if (lastSegment == null) {
+            lastSegment = segment
+          } else if (lastSegment.isBold == segment.isBold) {
+            lastSegment = lastSegment.copy(text = "${lastSegment.text} ${segment.text}")
+          } else {
+            newSegments += lastSegment
+            lastSegment = segment
+          }
         }
+        if (lastSegment != null) {
+          newSegments += lastSegment
+        }
+        line.copy(segments = newSegments)
       }
-      if (lastSegment != null) {
-        newSegments += lastSegment
-      }
-      line.copy(segments = newSegments)
-    }
 
     // Segmente auf bekannte Pattern und Content untersuchen
-    newLines = newLines.map { line ->
-      val newSegments = line.segments
-        .filter { it.contentType == ContentType.UNKNOWN }
-        .flatMap { adjustTextSegment(it) }
-      line.copy(segments = newSegments)
-    }
+    newLines =
+      newLines.map { line ->
+        val newSegments =
+          line.segments
+            .filter { it.contentType == ContentType.UNKNOWN }
+            .flatMap { adjustTextSegment(it) }
+        line.copy(segments = newSegments)
+      }
 
     return paragraph.copy(lines = newLines)
   }
@@ -244,16 +264,18 @@ class LunchResolverPhoenixeum(
     // split Name and Price
     var result = Regex("""^(.*) - $regexPrice$""").find(segment.text)
     if (result != null) {
-      val name = TextSegment(
-        result.destructured.component1().trim(),
-        segment.isBold,
-        ContentType.UNKNOWN,
-      )
-      val price = TextSegment(
-        result.destructured.component2().trim(),
-        segment.isBold,
-        ContentType.PRICE,
-      )
+      val name =
+        TextSegment(
+          result.destructured.component1().trim(),
+          segment.isBold,
+          ContentType.UNKNOWN,
+        )
+      val price =
+        TextSegment(
+          result.destructured.component2().trim(),
+          segment.isBold,
+          ContentType.PRICE,
+        )
       return listOf(name, price)
     }
 
@@ -263,7 +285,8 @@ class LunchResolverPhoenixeum(
     }
 
     // must be a Title
-    if (segment.isBold && Weekday.values().any {
+    if (segment.isBold &&
+      Weekday.values().any {
         segment.text.contains(it.label) ||
           segment.text.contains(it.label.substring(0, 2).uppercase())
       }
@@ -286,15 +309,21 @@ class LunchResolverPhoenixeum(
       .replace(" ,", ",")
       .trim()
 
-  private fun toOffers(paragraphs: List<Paragraph>, monday: LocalDate): List<LunchOffer> =
-    paragraphs.flatMap { toOffers(it, monday) }
+  private fun toOffers(
+    paragraphs: List<Paragraph>,
+    monday: LocalDate,
+  ): List<LunchOffer> = paragraphs.flatMap { toOffers(it, monday) }
 
-  private fun toOffers(paragraph: Paragraph, monday: LocalDate): List<LunchOffer> {
+  private fun toOffers(
+    paragraph: Paragraph,
+    monday: LocalDate,
+  ): List<LunchOffer> {
     val segments = paragraph.lines.flatMap { it.segments }
     val weekdayStr = segments.first { it.contentType == ContentType.DATE }.text
-    val titleDescription = segments.filterNot {
-      it.contentType in setOf(ContentType.DATE, ContentType.PRICE)
-    }.map { it.text }
+    val titleDescription =
+      segments.filterNot {
+        it.contentType in setOf(ContentType.DATE, ContentType.PRICE)
+      }.map { it.text }
     val priceStr = segments.first { it.contentType == ContentType.PRICE }.text
 
     val (title, description) = splitOfferName(titleDescription)
@@ -336,10 +365,11 @@ class LunchResolverPhoenixeum(
       return StringParser.OfferName(titleTemp, descr)
     }
 
-    val offerName = StringParser.splitOfferName(
-      newNameParts[0],
-      listOf(",", " auf ", " mit ", " von ", " im ", " in ", " an "),
-    )
+    val offerName =
+      StringParser.splitOfferName(
+        newNameParts[0],
+        listOf(",", " auf ", " mit ", " von ", " im ", " in ", " an "),
+      )
     return offerName.copy(description = offerName.description.replace(Regex("^, *"), ""))
   }
 

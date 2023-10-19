@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.get
 class LunchProviderApiTest(
   @Autowired val mockMvc: MockMvc,
 ) {
-
   @Nested
   inner class GetAll {
     @Test
@@ -66,7 +65,6 @@ class LunchProviderApiTest(
 class LunchProviderDTOTest(
   @Autowired val json: JacksonTester<LunchProviderDTO>,
 ) {
-
   @Test
   fun `convert DTO to JSON`() {
     assertThat(json.write(SCHWEINESTALL_AS_DTO)).isEqualTo(SCHWEINESTALL_AS_JSON)

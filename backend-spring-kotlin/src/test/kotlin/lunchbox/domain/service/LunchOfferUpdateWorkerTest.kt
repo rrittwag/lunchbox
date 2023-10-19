@@ -22,7 +22,6 @@ import java.lang.RuntimeException
 import java.time.LocalDate
 
 class LunchOfferUpdateWorkerTest {
-
   private val repo = mockk<LunchOfferRepository>()
   private val resolvers = mutableListOf<LunchResolver>()
   private val testUnit = LunchOfferUpdateWorker(repo, resolvers)
@@ -102,13 +101,15 @@ class LunchOfferUpdateWorkerTest {
 
   private val yesterday = today.minusDays(1)
 
-  private val offerYesterday = createOffer(
-    provider = SCHWEINESTALL.id,
-    day = yesterday,
-  )
+  private val offerYesterday =
+    createOffer(
+      provider = SCHWEINESTALL.id,
+      day = yesterday,
+    )
 
-  private val offerToday = createOffer(
-    provider = SCHWEINESTALL.id,
-    day = today,
-  )
+  private val offerToday =
+    createOffer(
+      provider = SCHWEINESTALL.id,
+      day = today,
+    )
 }

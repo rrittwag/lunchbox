@@ -16,16 +16,18 @@ fun createOffer(
   provider: LunchProviderId = LunchProvider.SCHWEINESTALL.id,
 ) = LunchOffer(id, name, description, day, price, tags, provider)
 
-val GYROS = createOffer(
-  name = "Gyros",
-  description = "mit Pommes",
-)
+val GYROS =
+  createOffer(
+    name = "Gyros",
+    description = "mit Pommes",
+  )
 
-val SOLJANKA = createOffer(
-  name = "Soljanka",
-  day = DATE_XMAS,
-  price = Money.parse("EUR 2.50"),
-  provider = LunchProvider.AOK_CAFETERIA.id,
-)
+val SOLJANKA =
+  createOffer(
+    name = "Soljanka",
+    day = DATE_XMAS,
+    price = Money.parse("EUR 2.50"),
+    provider = LunchProvider.AOK_CAFETERIA.id,
+  )
 
 val GYROS_NEXT_DAY = GYROS.copy(day = GYROS.day.plusDays(1))

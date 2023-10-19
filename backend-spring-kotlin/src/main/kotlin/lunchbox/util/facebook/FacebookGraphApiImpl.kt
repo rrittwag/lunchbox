@@ -19,8 +19,10 @@ data class FacebookConfigProperties(
 class FacebookGraphApiImpl(
   val config: FacebookConfigProperties,
 ) : FacebookGraphApi {
-
-  override fun <T : GraphApiResource> query(url: String, clazz: Class<T>): T? {
+  override fun <T : GraphApiResource> query(
+    url: String,
+    clazz: Class<T>,
+  ): T? {
     val resource = url.replaceFirst(Regex("^/"), "")
     val accessToken = "access_token=${config.appId}|{${config.appSecret}}"
 

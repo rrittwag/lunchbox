@@ -17,7 +17,6 @@ import java.time.LocalDate
 import java.time.Year
 
 class FeiertageApiTest {
-
   private lateinit var mockWebServer: MockWebServer
   private lateinit var api: FeiertageApi
 
@@ -47,15 +46,17 @@ class FeiertageApiTest {
 
   @Test
   fun `mehrere Jahre, mehrere Laender`() {
-    mockWebServer.dispatcher = object : Dispatcher() {
-      override fun dispatch(request: RecordedRequest) = when (request.path) {
-        "/api/?jahr=2023&nur_land=MV" -> mockResponse("""{"Neujahrstag":{"datum":"2023-01-01"}}""")
-        "/api/?jahr=2023&nur_land=BE" -> mockResponse("""{"Neujahrstag":{"datum":"2023-01-01"}}""")
-        "/api/?jahr=2024&nur_land=MV" -> mockResponse("""{"Neujahrstag":{"datum":"2024-01-01"}}""")
-        "/api/?jahr=2024&nur_land=BE" -> mockResponse("""{"Neujahrstag":{"datum":"2024-01-01"}}""")
-        else -> MockResponse().setResponseCode(404)
+    mockWebServer.dispatcher =
+      object : Dispatcher() {
+        override fun dispatch(request: RecordedRequest) =
+          when (request.path) {
+            "/api/?jahr=2023&nur_land=MV" -> mockResponse("""{"Neujahrstag":{"datum":"2023-01-01"}}""")
+            "/api/?jahr=2023&nur_land=BE" -> mockResponse("""{"Neujahrstag":{"datum":"2023-01-01"}}""")
+            "/api/?jahr=2024&nur_land=MV" -> mockResponse("""{"Neujahrstag":{"datum":"2024-01-01"}}""")
+            "/api/?jahr=2024&nur_land=BE" -> mockResponse("""{"Neujahrstag":{"datum":"2024-01-01"}}""")
+            else -> MockResponse().setResponseCode(404)
+          }
       }
-    }
 
     val result = api.queryFeiertage(setOf(Year.of(2023), Year.of(2024)), setOf(MECK_POMM, BERLIN))
 
@@ -68,7 +69,8 @@ class FeiertageApiTest {
 
   private fun date(dateStr: String): LocalDate = LocalDate.parse(dateStr)
 
-  private fun mockResponse(content: String) = MockResponse()
-    .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-    .setBody(content)
+  private fun mockResponse(content: String) =
+    MockResponse()
+      .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+      .setBody(content)
 }

@@ -19,19 +19,21 @@ import java.time.LocalDate
  */
 @RestApi
 class LunchOfferApi(val repo: LunchOfferRepository) {
-
   @GetMapping(URL_LUNCHOFFER)
   fun getAll(
     @RequestParam
     @DateTimeFormat(iso = ISO.DATE)
     day: LocalDate?,
-  ): List<LunchOfferDTO> = when (day) {
-    null -> repo.findAll()
-    else -> repo.findByDay(day)
-  }.map { it.toDTOv2() }
+  ): List<LunchOfferDTO> =
+    when (day) {
+      null -> repo.findAll()
+      else -> repo.findByDay(day)
+    }.map { it.toDTOv2() }
 
   @GetMapping("$URL_LUNCHOFFER/{id}")
-  fun getById(@PathVariable id: LunchOfferId): LunchOfferDTO =
+  fun getById(
+    @PathVariable id: LunchOfferId,
+  ): LunchOfferDTO =
     repo.findByIdOrNull(id)?.toDTOv2()
       ?: throw HttpNotFoundException("Mittagsangebot mit ID $id nicht gefunden!")
 }
@@ -49,12 +51,13 @@ data class LunchOfferDTO(
   val provider: LunchProviderId,
 )
 
-fun LunchOffer.toDTOv2() = LunchOfferDTO(
-  id,
-  name,
-  description,
-  day,
-  price,
-  tags,
-  provider,
-)
+fun LunchOffer.toDTOv2() =
+  LunchOfferDTO(
+    id,
+    name,
+    description,
+    day,
+    price,
+    tags,
+    provider,
+  )

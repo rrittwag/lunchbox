@@ -20,7 +20,6 @@ class HtmlRendererImpl(
   @Value("\${external.rendertron.url:http://rendertron:$RENDERTRON_PORT}")
   val rendertronUrl: String,
 ) : HtmlRenderer {
-
   override fun render(url: URL): String =
     WebClient.create("$rendertronUrl/render/$url")
       .get()

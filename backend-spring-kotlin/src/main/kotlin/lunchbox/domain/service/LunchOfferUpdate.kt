@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:discouraged-comment-location")
+
 package lunchbox.domain.service
 
 import jakarta.annotation.PostConstruct
@@ -17,7 +19,6 @@ class LunchOfferUpdate(
   val repo: LunchOfferRepository,
   val worker: LunchOfferUpdateWorker,
 ) {
-
   private val logger = KotlinLogging.logger {}
 
   @PostConstruct // Aktualisiere beim Start und ...
@@ -30,7 +31,7 @@ class LunchOfferUpdate(
 
     removeOutdatedOffers()
 
-    for (provider in LunchProvider.values().filter { it.active })
+    for (provider in LunchProvider.entries.filter { it.active })
       worker.refreshOffersOf(provider)
   }
 

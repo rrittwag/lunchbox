@@ -19,13 +19,13 @@ class OcrClient(
   @Value("\${external.ocr.url:http://ocr:$OCR_PORT}")
   val ocrUrl: String,
 ) {
-
   fun doOCR(imageUrl: URL): String {
-    val requestBody = mapOf(
-      "img_url" to imageUrl,
-      "engine" to "tesseract",
-      "engine_args" to mapOf("lang" to "deu"),
-    )
+    val requestBody =
+      mapOf(
+        "img_url" to imageUrl,
+        "engine" to "tesseract",
+        "engine_args" to mapOf("lang" to "deu"),
+      )
 
     return WebClient.create("$ocrUrl/url")
       .post()
