@@ -1,3 +1,4 @@
+@file:Suppress("ktlint:standard:discouraged-comment-location")
 package lunchbox.domain.service
 
 import jakarta.annotation.PostConstruct
@@ -30,7 +31,7 @@ class LunchOfferUpdate(
 
     removeOutdatedOffers()
 
-    for (provider in LunchProvider.values().filter { it.active })
+    for (provider in LunchProvider.entries.filter { it.active })
       worker.refreshOffersOf(provider)
   }
 
