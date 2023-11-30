@@ -33,7 +33,7 @@
     "cross-env": "7.0.3",
     "eslint": "8.54.0",
     "eslint-plugin-vue": "9.18.1",
-    "jsdom": "22.1.0",
+    "jsdom": "23.0.0",
     "prettier": "3.1.0",
     "prettier-plugin-tailwindcss": "0.5.7",
     "sass": "1.69.5",
