@@ -11,8 +11,10 @@ import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.hamcrest.Matchers.any
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
+@Disabled("pdfbox erzeugt OutOfMemoryError Java heap space")
 class LunchResolverKrauthofTest {
   private val htmlParser = HtmlParser(mockk())
   private val dateValidator = mockk<DateValidator>()
