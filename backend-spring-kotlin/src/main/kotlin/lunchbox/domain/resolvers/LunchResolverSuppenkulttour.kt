@@ -106,6 +106,7 @@ class LunchResolverSuppenkulttour(
     val isBold: Boolean = false,
     val contentType: ContentType = ContentType.UNKNOWN,
   ) : Text
+
   object TextBreak : Text
 
   data class GroupedParagraphs(val wochensuppen: List<Paragraph>, val tagessuppen: Map<LocalDate, Paragraph>)

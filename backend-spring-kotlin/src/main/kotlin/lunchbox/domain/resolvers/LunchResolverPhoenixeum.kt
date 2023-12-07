@@ -95,6 +95,7 @@ class LunchResolverPhoenixeum(
     val isBold: Boolean = false,
     val contentType: ContentType = ContentType.UNKNOWN,
   ) : Text
+
   data object TextBreak : Text
 
   private fun resolveMonday(
