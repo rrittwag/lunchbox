@@ -43,7 +43,7 @@ class FeedController(
     location: LunchLocation,
     feedLink: String,
   ): Feed {
-    val providerIDs = LunchProvider.values().filter { it.location == location }.map { it.id }
+    val providerIDs = LunchProvider.entries.filter { it.location == location }.map { it.id }
     val offersForProviders = repo.findAll().filter { providerIDs.contains(it.provider) }
     val offersTilToday = offersForProviders.filter { it.day <= LocalDate.now() }
 
@@ -101,7 +101,7 @@ class FeedController(
   private fun createHtmlForProviders(offers: List<LunchOffer>): String {
     var result = ""
     for ((providerId, provOffers) in offers.groupBy { it.provider }) {
-      val provider = LunchProvider.values().find { it.id == providerId } ?: continue
+      val provider = LunchProvider.entries.find { it.id == providerId } ?: continue
       result +=
         """
         |<table style="border:0px;">
@@ -163,5 +163,5 @@ class FeedController(
 
 @Component
 class LunchLocationConverter : Converter<String, LunchLocation> {
-  override fun convert(source: String): LunchLocation? = LunchLocation.values().find { it.label == source }
+  override fun convert(source: String): LunchLocation? = LunchLocation.entries.find { it.label == source }
 }

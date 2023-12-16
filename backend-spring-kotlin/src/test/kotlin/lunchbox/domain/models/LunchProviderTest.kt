@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class LunchProviderTest {
   @Test
   fun `no duplicate labels`() {
-    val labels = LunchProvider.values().map { it.label }
+    val labels = LunchProvider.entries.map { it.label }
     assertThat(labels).doesNotHaveDuplicates()
   }
 }

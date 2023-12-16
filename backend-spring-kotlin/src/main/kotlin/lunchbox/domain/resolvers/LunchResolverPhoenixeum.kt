@@ -64,8 +64,6 @@ class LunchResolverPhoenixeum(
   enum class ContentType {
     UNKNOWN,
     DATE,
-    TITLE,
-    DESCRIPTION,
     PRICE,
   }
 
@@ -263,7 +261,7 @@ class LunchResolverPhoenixeum(
     val regexPrice = """([\d,. €|]+)"""
 
     // split Name and Price
-    var result = Regex("""^(.*) - $regexPrice$""").find(segment.text)
+    val result = Regex("""^(.*) - $regexPrice$""").find(segment.text)
     if (result != null) {
       val name =
         TextSegment(
@@ -287,7 +285,7 @@ class LunchResolverPhoenixeum(
 
     // must be a Title
     if (segment.isBold &&
-      Weekday.values().any {
+      Weekday.entries.any {
         segment.text.contains(it.label) ||
           segment.text.contains(it.label.substring(0, 2).uppercase())
       }
@@ -331,11 +329,11 @@ class LunchResolverPhoenixeum(
 
     val weekdays =
       if (weekdayStr.contains("bis")) {
-        Weekday.values()
+        Weekday.entries
           .dropLastWhile { !weekdayStr.contains(it.label) }
           .dropWhile { !weekdayStr.contains(it.label) }
       } else {
-        Weekday.values().filter {
+        Weekday.entries.filter {
           weekdayStr.contains(it.label) || weekdayStr.contains(it.label.substring(0, 2).uppercase())
         }
       }

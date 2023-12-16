@@ -27,7 +27,7 @@ class LunchProviderApiTest(
           status { isOk() }
           content { contentTypeCompatibleWith(APPLICATION_JSON) }
           jsonPath("$") { isArray() }
-          jsonPath("$.length()") { value("${LunchProvider.values().size}") }
+          jsonPath("$.length()") { value("${LunchProvider.entries.size}") }
           jsonPath("$[?(@.id == '${SCHWEINESTALL.id}')]") { exists() }
           jsonPath("$[?(@.id == '${SALT_N_PEPPER.id}')]") { exists() }
         }

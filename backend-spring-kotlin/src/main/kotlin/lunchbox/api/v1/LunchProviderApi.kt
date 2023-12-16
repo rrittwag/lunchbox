@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable
 class LunchProviderApi {
   @GetMapping(URL_LUNCHPROVIDER)
   fun getAll(): List<LunchProviderDTO> =
-    LunchProvider.values()
+    LunchProvider.entries
       .map { it.toDTOv1() }
 
   @GetMapping("$URL_LUNCHPROVIDER/{id}")
   fun getById(
     @PathVariable id: LunchProviderId,
   ): LunchProviderDTO =
-    LunchProvider.values()
+    LunchProvider.entries
       .find { id == it.id }?.toDTOv1()
       ?: throw HttpNotFoundException("Mittagsanbieter mit ID $id nicht gefunden!")
 }

@@ -31,7 +31,7 @@ class LunchResolverBoulevardImbiss(
     val rawWochenangebote = resolveOffers(columnWochenangebote)
     val today = LocalDate.now()
     val monday = today.with(DayOfWeek.MONDAY)
-    val dates = Weekday.values().map { monday.plusDays(it.order) }
+    val dates = Weekday.entries.map { monday.plusDays(it.order) }
     val tagesangebote = rawTagesangebote.map { it.copy(day = today, tags = setOf("Tagesangebot")) }
     val wochenangebote = multiplyWochenangebote(rawWochenangebote, dates)
     return tagesangebote + wochenangebote

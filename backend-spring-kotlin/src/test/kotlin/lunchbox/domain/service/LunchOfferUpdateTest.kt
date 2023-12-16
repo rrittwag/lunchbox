@@ -36,5 +36,5 @@ class LunchOfferUpdateTest {
 
   // --- mocks 'n' stuff
 
-  private val activeProviders = LunchProvider.values().filter { it.active }
+  private val activeProviders = LunchProvider.entries.filter { it.active }
 }

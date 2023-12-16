@@ -5,6 +5,7 @@ import lunchbox.domain.models.LunchProvider.AOK_CAFETERIA
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
+import lunchbox.util.url.UrlUtil.url
 import org.jsoup.nodes.Element
 import org.springframework.stereotype.Component
 import java.net.URL
@@ -19,7 +20,7 @@ class LunchResolverAokCafeteria(
 ) : LunchResolver {
   override val provider = AOK_CAFETERIA
 
-  override fun resolve(): List<LunchOffer> = resolve(URL("${provider.menuUrl}/speiseplan/16/ajax/"))
+  override fun resolve(): List<LunchOffer> = resolve(url("${provider.menuUrl}/speiseplan/16/ajax/"))
 
   fun resolve(htmlUrl: URL): List<LunchOffer> {
     val site = htmlParser.parse(htmlUrl)
@@ -57,7 +58,7 @@ class LunchResolverAokCafeteria(
     date: LocalDate,
   ): LocalDate? {
     val weekdayString = dateElem.select(".day").text()
-    val weekday = Weekday.values().find { weekdayString.startsWith(it.label) }
+    val weekday = Weekday.entries.find { weekdayString.startsWith(it.label) }
     if (weekday != null) {
       return date.plusDays(weekday.order)
     }

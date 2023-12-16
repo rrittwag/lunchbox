@@ -47,7 +47,7 @@ class LunchResolverSaltNPepper(
       val h4 = div.select("h4")
       val title = parseName(h4.text())
 
-      for (section in OfferSection.values())
+      for (section in OfferSection.entries)
         if (section.label == title) {
           section2node += section to div
         }

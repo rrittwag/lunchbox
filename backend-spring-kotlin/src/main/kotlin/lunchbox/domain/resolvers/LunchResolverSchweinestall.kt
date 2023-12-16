@@ -70,7 +70,7 @@ class LunchResolverSchweinestall(
     nameString: String,
     priceString: String,
   ): LunchOffer? {
-    val weekday = Weekday.values().find { it.label == weekdayString } ?: return null
+    val weekday = Weekday.entries.find { it.label == weekdayString } ?: return null
     val day = monday.plusDays(weekday.order)
     val price = StringParser.parseMoney(priceString) ?: return null
     val name = cleanName(nameString)

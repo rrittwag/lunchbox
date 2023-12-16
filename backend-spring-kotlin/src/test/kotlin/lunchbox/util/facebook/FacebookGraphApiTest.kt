@@ -2,13 +2,13 @@ package lunchbox.util.facebook
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import lunchbox.util.json.createObjectMapper
+import lunchbox.util.url.UrlUtil.url
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.amshove.kluent.shouldNotBe
 import org.junit.jupiter.api.Test
-import java.net.URL
 
 class FacebookGraphApiTest {
   @Test
@@ -38,7 +38,7 @@ class FacebookGraphApiTest {
     result.images[0].height shouldBeEqualTo 1754
     result.images[0].width shouldBeEqualTo 1240
     result.images[0].source shouldBeEqualTo
-      URL(
+      url(
         "https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg",
       )
   }

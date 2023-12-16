@@ -16,6 +16,7 @@ import lunchbox.util.html.HtmlParser
 import lunchbox.util.html.HtmlRenderer
 import lunchbox.util.json.createObjectMapper
 import lunchbox.util.ocr.OcrClient
+import lunchbox.util.url.UrlUtil.url
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
@@ -81,7 +82,7 @@ class LunchResolverGesundheitszentrumTest {
       val url = resolver().parseImageLink(image)
 
       url shouldBeEqualTo
-        URL(
+        url(
           "https://scontent.xx.fbcdn.net/hphotos-xtp1/t31.0-8/11709766_723372204440300_7573791609611941912_o.jpg",
         )
     }
@@ -94,7 +95,7 @@ class LunchResolverGesundheitszentrumTest {
       val url = resolver().parseImageLink(image)
 
       url shouldBeEqualTo
-        URL(
+        url(
           "https://scontent.xx.fbcdn.net/v/t31.0-8/20233053_1214480778662771_9100409891617048289_o.jpg?oh=a50f5058410183e8a5c631e82919f473&oe=5A09D7B9",
         )
     }
@@ -112,14 +113,14 @@ class LunchResolverGesundheitszentrumTest {
       wochenplaene shouldContain
         Wochenplan(
           date("2019-09-16"),
-          URL(
+          url(
             "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnOmbEvG5WngTMx4RqIMiGBD4jDftJMUMYi2M5uwa3Nu3QAJUdseNXbSEr1Iejl_Ds&_nc_ht=scontent-ber1-1.xx&oh=e40ce027618fa63a5b7f4971fc02b83d&oe=5E06EF54",
           ),
         )
       wochenplaene shouldContain
         Wochenplan(
           date("2019-09-09"),
-          URL(
+          url(
             "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/69761025_2164731656971007_4787155769139134464_o.jpg?_nc_cat=101&_nc_oc=AQlqnbM_DBfJ-eB1mBQK48kb8M3UWtjmyGo1knDG-9caTgaJAPraVhT6ZuHcff7_5P0&_nc_ht=scontent-ber1-1.xx&oh=77d585b271943105b09845d3ed23c00b&oe=5DF4A077",
           ),
         )
@@ -135,14 +136,14 @@ class LunchResolverGesundheitszentrumTest {
       wochenplaene shouldContain
         Wochenplan(
           date("2019-09-23"),
-          URL(
+          url(
             "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70741530_2188809777896528_1685416184234639360_o.jpg?_nc_cat=104&_nc_oc=AQn0voSe6PW2bpXJhANweSiOIyLcrYb0G-NmImMtPJ6Ka4swX6GfSG-Eudtb4LkGCe8&_nc_ht=scontent-ber1-1.xx&oh=be84961d17026c68fc74c1ecf23b2396&oe=5DF929A9",
           ),
         )
       wochenplaene shouldContain
         Wochenplan(
           date("2019-09-16"),
-          URL(
+          url(
             "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnlw8UTdf_EHJa-WZ3OfYWP7TyOyahpP-xMOhEj_-x_78veJsYvEmYT68pImua8XLA&_nc_ht=scontent-ber1-1.xx&oh=00559a3cb8d8df7486d84dc607a7c2b0&oe=5E2E7C54",
           ),
         )

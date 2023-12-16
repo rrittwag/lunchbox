@@ -12,6 +12,7 @@ import lunchbox.util.facebook.query
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser
+import lunchbox.util.url.UrlUtil.url
 import org.joda.money.Money
 import org.jsoup.nodes.Element
 import org.springframework.stereotype.Component
@@ -72,7 +73,7 @@ class LunchResolverGesundheitszentrum(
         ?.attr("data-ploi")
         ?: return null
 
-    return Wochenplan(monday, URL(imageLink))
+    return Wochenplan(monday, url(imageLink))
   }
 
   private fun resolveByGraphApi(): List<LunchOffer> {
@@ -168,7 +169,7 @@ class LunchResolverGesundheitszentrum(
     var linesForSection = mutableListOf<String>()
 
     for (line in text.split('\n').map { correctWeekday(it) }) {
-      val section = PdfSection.values().find { sec -> line.startsWith(sec.label) }
+      val section = PdfSection.entries.find { sec -> line.startsWith(sec.label) }
       if (section != null) {
         result += currentSection to linesForSection
         currentSection = section

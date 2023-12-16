@@ -6,10 +6,10 @@ import lunchbox.domain.models.LunchProvider.FELDKUECHE
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
+import lunchbox.util.url.UrlUtil.url
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Test
-import java.net.URL
 
 class LunchResolverFeldkuecheTest {
   private val ocrClient = mockk<OcrClient>()
@@ -27,7 +27,7 @@ class LunchResolverFeldkuecheTest {
     val links = resolver().resolveImageLinks(url)
 
     links shouldHaveSize 1
-    links shouldContain URL("$httpMittagspauseDir/teaserbox_25241614.jpg?t=1475778802")
+    links shouldContain url("$httpMittagspauseDir/teaserbox_25241614.jpg?t=1475778802")
   }
 
   @Test
@@ -37,7 +37,7 @@ class LunchResolverFeldkuecheTest {
     val links = resolver().resolveImageLinks(url)
 
     links shouldHaveSize 1
-    links shouldContain URL("$httpMittagspauseDir/teaserbox_25241614.jpg?t=1500138543")
+    links shouldContain url("$httpMittagspauseDir/teaserbox_25241614.jpg?t=1500138543")
   }
 
   @Test
@@ -47,7 +47,7 @@ class LunchResolverFeldkuecheTest {
     val links = resolver().resolveImageLinks(url)
 
     links shouldHaveSize 1
-    links shouldContain URL("$httpMittagspauseDir/teaserbox_25241614.jpg?t=1567365592")
+    links shouldContain url("$httpMittagspauseDir/teaserbox_25241614.jpg?t=1567365592")
   }
 
   @Test

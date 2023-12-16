@@ -11,7 +11,7 @@ class FeiertageValidator(val api: FeiertageApi) : DateValidator {
   val feiertage = loadFeiertage()
 
   private final fun loadFeiertage(): Set<Feiertag> {
-    val bundeslaender = LunchLocation.values().map { it.bundesland }.toSet()
+    val bundeslaender = LunchLocation.entries.map { it.bundesland }.toSet()
     val thisYear = Year.now()
     val nextYear = thisYear.plusYears(1)
     return api.queryFeiertage(setOf(thisYear, nextYear), bundeslaender)

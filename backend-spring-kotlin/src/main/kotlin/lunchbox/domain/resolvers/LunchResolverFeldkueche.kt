@@ -6,6 +6,7 @@ import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser
+import lunchbox.util.url.UrlUtil.url
 import org.joda.money.Money
 import org.springframework.stereotype.Component
 import java.net.URL
@@ -32,7 +33,7 @@ class LunchResolverFeldkueche(
 
     val divsWithContent = site.select("div#content_area")
     val links = divsWithContent.select("a").map { it.attr("href") }
-    return links.map { URL(it) }
+    return links.map { url(it) }
   }
 
   private fun resolveFromImageLinks(imageUrls: List<URL>): List<LunchOffer> =
@@ -46,7 +47,7 @@ class LunchResolverFeldkueche(
     val monday = resolveMonday(contentAsLines) ?: return emptyList()
 
     val rawOffers =
-      if (Weekday.values().any { contentAsLines.contains(it.label) } &&
+      if (Weekday.entries.any { contentAsLines.contains(it.label) } &&
         contentAsLines.any { it.matches(Regex("""^\d+,(\d{2}) *€$""")) }
       ) {
         resolveOffersWith3rowSplit(contentAsLines)
@@ -88,7 +89,7 @@ class LunchResolverFeldkueche(
   }
 
   private fun resolveOffersWith2rowSplit(contentAsLines: List<String>): List<RawOffer> {
-    val weekdaysRegex = Regex("(${Weekday.values().joinToString("|"){ it.label }}) .*")
+    val weekdaysRegex = Regex("(${Weekday.entries.joinToString("|"){ it.label }}) .*")
     val offerTexts =
       contentAsLines
         .filter { it.matches(weekdaysRegex) }
@@ -97,7 +98,7 @@ class LunchResolverFeldkueche(
     fun splitWeekdayAndName(text: String): RawOfferName? {
       val weekdayName = text.takeWhile { it != ' ' }
       val lunchName = text.dropWhile { it != ' ' }
-      val weekday = Weekday.values().find { it.label == weekdayName } ?: return null
+      val weekday = Weekday.entries.find { it.label == weekdayName } ?: return null
 
       return RawOfferName(weekday, lunchName.replace(Regex(""" \d+,\d{2} *€"""), "").trim())
     }
@@ -114,7 +115,7 @@ class LunchResolverFeldkueche(
   }
 
   private fun resolveOffersWith3rowSplit(contentAsRows: List<String>): List<RawOffer> {
-    fun isWeekday(text: String) = Weekday.values().map { it.label }.contains(text)
+    fun isWeekday(text: String) = Weekday.entries.map { it.label }.contains(text)
     val relevantRows =
       contentAsRows
         .filter { it.isNotEmpty() }
@@ -124,7 +125,7 @@ class LunchResolverFeldkueche(
 
     val weekdayRows =
       weekdayTextRows
-        .mapNotNull { row -> Weekday.values().find { it.label == row } }
+        .mapNotNull { row -> Weekday.entries.find { it.label == row } }
 
     val prices =
       followingRows

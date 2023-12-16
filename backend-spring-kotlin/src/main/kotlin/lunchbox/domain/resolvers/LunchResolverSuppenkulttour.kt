@@ -107,7 +107,7 @@ class LunchResolverSuppenkulttour(
     val contentType: ContentType = ContentType.UNKNOWN,
   ) : Text
 
-  object TextBreak : Text
+  data object TextBreak : Text
 
   data class GroupedParagraphs(val wochensuppen: List<Paragraph>, val tagessuppen: Map<LocalDate, Paragraph>)
 
@@ -188,7 +188,7 @@ class LunchResolverSuppenkulttour(
     paragraphs.map { adjustTextSegments(it) }
 
   private fun adjustTextSegments(paragraph: Paragraph): Paragraph {
-    // Segmente gruppieren nach isTitle
+    // Segmente gruppieren nach isBold
     var newLines =
       paragraph.lines.map { line ->
         val newSegments = mutableListOf<TextSegment>()
@@ -215,10 +215,7 @@ class LunchResolverSuppenkulttour(
     // Segmente auf bekannte Pattern und Content untersuchen
     newLines =
       newLines.map { line ->
-        val newSegments =
-          line.segments
-            .filter { it.contentType == ContentType.UNKNOWN }
-            .flatMap { adjustTextSegment(it) }
+        val newSegments = line.segments.flatMap { adjustTextSegment(it) }
         line.copy(segments = newSegments)
       }
 
@@ -242,7 +239,11 @@ class LunchResolverSuppenkulttour(
   }
 
   private fun adjustTextSegment(segment: TextSegment): List<TextSegment> {
-    val regexWeekdays = Weekday.values().joinToString("|", "(", ")") { it.label }
+    if (segment.contentType != ContentType.UNKNOWN) {
+      return listOf(segment)
+    }
+
+    val regexWeekdays = Weekday.entries.joinToString("|", "(", ")") { it.label }
     val regexDate = """(\d{2}.\d{2}.\d{2,4})"""
     val regexPrices = """(klein[\d,. €|]+mittel[\d,. €|]+groß[\d,. €|]+)"""
 
@@ -252,6 +253,13 @@ class LunchResolverSuppenkulttour(
       val weekday = TextSegment(result.destructured.component1().trim(), segment.isBold, ContentType.WEEKDAY)
       val title = TextSegment(result.destructured.component2().trim(), segment.isBold, ContentType.DATE)
       return listOf(weekday, title)
+    }
+
+    // contains Weekday
+    result = Regex("""^$regexWeekdays[ -]+$""").find(segment.text)
+    if (result != null) {
+      val weekday = TextSegment(result.destructured.component1().trim(), segment.isBold, ContentType.WEEKDAY)
+      return listOf(weekday)
     }
 
     // split Weekday and Title
@@ -501,7 +509,7 @@ class LunchResolverSuppenkulttour(
 
     val weekdaySegments = paragraph.lines.flatMap { it.segments }.filter { it.contentType == ContentType.WEEKDAY }
     if (weekdaySegments.isNotEmpty()) {
-      for (weekday in Weekday.values()) {
+      for (weekday in Weekday.entries) {
         if (weekdaySegments.first().text.startsWith(weekday.label)) {
           return monday.plusDays(weekday.order)
         }

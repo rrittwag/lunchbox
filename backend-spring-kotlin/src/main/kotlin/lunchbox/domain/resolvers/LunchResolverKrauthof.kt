@@ -6,6 +6,7 @@ import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.pdf.PdfExtractor
 import lunchbox.util.string.StringParser
+import lunchbox.util.url.UrlUtil.url
 import org.joda.money.Money
 import org.springframework.stereotype.Component
 import java.net.URL
@@ -32,7 +33,7 @@ class LunchResolverKrauthof(
 
   fun resolveFromPdfs(pdfPaths: List<String>): List<LunchOffer> =
     // TODO: parallelize
-    pdfPaths.map { resolveFromPdf(URL(it)) }.flatten()
+    pdfPaths.map { resolveFromPdf(url(it)) }.flatten()
 
   fun resolveFromPdf(pdfUrl: URL): List<LunchOffer> {
     val pdfContent = PdfExtractor.extractStrings(pdfUrl)
