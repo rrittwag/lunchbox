@@ -1,6 +1,7 @@
 package lunchbox.util.html
 
 import lunchbox.util.ocr.KtDockerComposeContainer
+import lunchbox.util.url.UrlUtil.url
 import org.amshove.kluent.shouldHaveSize
 import org.jsoup.Jsoup
 import org.junit.jupiter.api.Disabled
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.Test
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.io.File
-import java.net.URL
 
 @Testcontainers
 class HtmlRendererTest {
@@ -30,7 +30,7 @@ class HtmlRendererTest {
   fun `render webapp`() {
     val renderedHtml =
       HtmlRendererImpl(rendertronUrl())
-        .render(URL("http://miniwebapp/"))
+        .render(url("http://miniwebapp/"))
 
     Jsoup.parse(renderedHtml).select("li") shouldHaveSize 3 // dynamically populated by JavaScript in browser
   }
@@ -40,7 +40,7 @@ class HtmlRendererTest {
   fun `render and save webapp`() {
     val renderedHtml =
       HtmlRendererImpl(rendertronUrl())
-        .render(URL("https://de-de.facebook.com/pages/Kantine-BQuakatz-Allee-der-Kosmonauten/181190361991823"))
+        .render(url("https://de-de.facebook.com/pages/Kantine-BQuakatz-Allee-der-Kosmonauten/181190361991823"))
 
     File("src/test/resources/menus/gesundheitszentrum/html/2019-09-23_posts.html").apply {
       createNewFile()

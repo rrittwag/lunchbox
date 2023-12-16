@@ -1,5 +1,6 @@
 package lunchbox.util.ocr
 
+import lunchbox.util.url.UrlUtil.url
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.params.ParameterizedTest
@@ -8,7 +9,6 @@ import org.testcontainers.containers.DockerComposeContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.io.File
-import java.net.URL
 
 @Testcontainers
 class OcrClientTest {
@@ -36,7 +36,7 @@ class OcrClientTest {
   fun `compare jpg OCR to saved OCR text`(file: String) {
     val ocrText =
       OcrClient(ocrServerUrl())
-        .doOCR(URL("http://test-resources/$file"))
+        .doOCR(url("http://test-resources/$file"))
 
     ocrText shouldBeEqualTo File("src/test/resources/$file.txt").readText()
   }
@@ -53,7 +53,7 @@ class OcrClientTest {
   fun `generate and save OCR text`(file: String) {
     val ocrText =
       OcrClient(ocrServerUrl())
-        .doOCR(URL("http://test-resources/$file"))
+        .doOCR(url("http://test-resources/$file"))
 
     File("src/test/resources/$file.txt").apply {
       createNewFile()
