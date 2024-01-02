@@ -25,11 +25,13 @@ class LunchOfferUpdateWorker(
     val offers = resolve(provider)
 
     val minDay =
-      offers.map { it.day }.minOrNull()
+      offers.minOfOrNull { it.day }
         ?: return
 
+    logger.debug { "offers before refresh ${repo.findAll()}" }
     repo.deleteFrom(minDay, provider.id)
     repo.saveAll(offers)
+    logger.debug { "offers after refresh ${repo.findAll()}" }
   }
 
   private fun resolve(provider: LunchProvider): List<LunchOffer> {
@@ -43,7 +45,8 @@ class LunchOfferUpdateWorker(
 
     return try {
       val offers = resolver.resolve()
-      logger.info { "finished resolving offers for $provider" }
+      logger.info { "finished resolving ${offers.size} offers for $provider" }
+      logger.debug { "resolved offers for $provider: ${offers.joinToString(" ")}" }
       offers
     } catch (e: Throwable) {
       logger.error(e) { "failed resolving offers for $provider" }

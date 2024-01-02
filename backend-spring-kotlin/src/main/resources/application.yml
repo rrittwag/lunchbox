@@ -3,6 +3,10 @@ spring:
     ansi:
       enabled: ALWAYS
 
+  threads:
+    virtual:
+      enabled: true
+
   jackson:
     deserialization:
       fail-on-unknown-properties: false
