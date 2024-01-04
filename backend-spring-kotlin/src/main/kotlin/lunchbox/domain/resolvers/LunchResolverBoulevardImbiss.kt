@@ -34,7 +34,7 @@ class LunchResolverBoulevardImbiss(
     val dates = Weekday.entries.map { monday.plusDays(it.order) }
     val tagesangebote = rawTagesangebote.map { it.copy(day = today, tags = setOf("Tagesangebot")) }
     val wochenangebote = multiplyWochenangebote(rawWochenangebote, dates)
-    return tagesangebote + wochenangebote
+    return (tagesangebote + wochenangebote).filter { dateValidator.isValid(it.day, provider) }
   }
 
   private fun resolveOffers(elem: Element?): List<LunchOffer> {

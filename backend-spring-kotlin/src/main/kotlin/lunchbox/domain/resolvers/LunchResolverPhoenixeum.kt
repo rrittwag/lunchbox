@@ -37,10 +37,6 @@ class LunchResolverPhoenixeum(
       val monday =
         resolveMonday(wochenplanDiv, site)
           ?: continue
-      if (!dateValidator.isValid(monday, provider)) {
-        continue
-      }
-
       result +=
         parseOffers(wochenplanDiv, monday)
           .filter { dateValidator.isValid(it.day, provider) }

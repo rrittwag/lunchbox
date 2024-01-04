@@ -37,9 +37,6 @@ class LunchResolverSuppenkulttour(
 
     for (wochenplanSection in elements) {
       val monday = resolveMonday(wochenplanSection) ?: continue
-      if (!dateValidator.isValid(monday, provider)) {
-        continue
-      }
       result +=
         parseOffers(wochenplanSection, monday)
           .filter { dateValidator.isValid(it.day, provider) }

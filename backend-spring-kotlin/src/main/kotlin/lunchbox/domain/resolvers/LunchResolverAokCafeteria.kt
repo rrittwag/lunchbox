@@ -50,7 +50,7 @@ class LunchResolverAokCafeteria(
       val day = calcDay(dayElem, date) ?: return emptyList()
       offers += resolveByDay(day, offersDiv)
     }
-    return offers
+    return offers.filter { dateValidator.isValid(it.day, provider) }
   }
 
   private fun calcDay(
