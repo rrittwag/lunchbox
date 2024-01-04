@@ -16,7 +16,6 @@ dependencies {
 
   // web
   implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation('org.springframework.boot:spring-boot-starter-undertow') { exclude module: 'undertow-websockets-jsr' }
   implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
   // html/xml/pdf
@@ -32,6 +31,3 @@ dependencies {
 
   // Test-Abhängigkeiten sind in test.gradle definiert
 }
-
-// wir nutzen den resourcenschonenden Undertow statt Tomcat
-configurations.configureEach { exclude module: 'spring-boot-starter-tomcat' }

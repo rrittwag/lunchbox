@@ -2,19 +2,24 @@ package lunchbox.util.date
 
 import lunchbox.domain.models.LunchLocation
 import lunchbox.domain.models.LunchProvider
+import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 import java.time.Year
 
 @Component
 class FeiertageValidator(val api: FeiertageApi) : DateValidator {
+  private val logger = KotlinLogging.logger {}
   val feiertage = loadFeiertage()
 
   private final fun loadFeiertage(): Set<Feiertag> {
     val bundeslaender = LunchLocation.entries.map { it.bundesland }.toSet()
     val thisYear = Year.now()
     val nextYear = thisYear.plusYears(1)
-    return api.queryFeiertage(setOf(thisYear, nextYear), bundeslaender)
+    val result = api.queryFeiertage(setOf(thisYear, nextYear), bundeslaender)
+    logger.info { "${result.size} Feiertage geladen" }
+    logger.debug { "Geladene Feiertage: ${result.joinToString { ", " }}" }
+    return result
   }
 
   override fun isValid(
