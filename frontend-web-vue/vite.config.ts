@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Icons from 'unplugin-icons/vite'
@@ -7,16 +8,9 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   resolve: {
     alias: [
-      { find: '@tests', replacement: '/tests' },
       { find: '@', replacement: '/src' },
+      { find: '@tests', replacement: '/tests' },
     ],
-  },
-  test: {
-    environment: 'jsdom',
-    globals: true,
-    setupFiles: '/tests/setup.ts',
-    css: true,
-    passWithNoTests: true,
   },
   plugins: [
     vue(),
@@ -59,5 +53,12 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+  },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: '/tests/setup.ts',
+    css: true,
+    passWithNoTests: true,
   },
 })
