@@ -1,4 +1,4 @@
-@file:Suppress("ktlint:standard:discouraged-comment-location")
+@file:Suppress("ktlint:standard:value-parameter-comment")
 
 package lunchbox.util.facebook
 

@@ -1,4 +1,4 @@
-@file:Suppress("ktlint:standard:discouraged-comment-location")
+@file:Suppress("ktlint:standard:value-argument-comment")
 
 package lunchbox.domain.service
 
