@@ -1,4 +1,4 @@
-image: golang:1.21
+image: golang:1.22
 
 # Cachen der Dependencies
 # - Der Cache beschleunigt den CI-Lauf durch Vorhalten von Dependencies & anderen Downloads.
@@ -40,7 +40,7 @@ format:
     - make format.check
 
 lint:
-  image: golangci/golangci-lint:v1.55
+  image: golangci/golangci-lint:v1.56
   stage: test
   script:
     - make lint
