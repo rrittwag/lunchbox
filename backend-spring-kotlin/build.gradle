@@ -3,8 +3,8 @@ plugins {
   id 'com.diffplug.spotless' version '6.25.0'
   id 'io.gitlab.arturbosch.detekt' version '1.23.5'
 
-  id 'org.jetbrains.kotlin.jvm' version '1.9.22'
-  id 'org.jetbrains.kotlin.plugin.spring' version '1.9.22'
+  id 'org.jetbrains.kotlin.jvm' version '1.9.23'
+  id 'org.jetbrains.kotlin.plugin.spring' version '1.9.23'
 }
 
 description = "REST Backend der Lunchbox"
