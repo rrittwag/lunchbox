@@ -1568,10 +1568,10 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.6.1.tgz#45785b5caf83200a34a9867ba50d69560880c120"
   integrity sha512-0zfTlFAIhgz8V2G8STq8toAjsYYA6eci1hnXuyOTUFnymrtJwnS6uGKiv3v5UrPZkBlamLvrLV2iiaeqCKzb0A==
 
-"@rushstack/eslint-patch@1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.8.0.tgz#c5545e6a5d2bd5c26b4021c357177a28698c950e"
-  integrity sha512-0HejFckBN2W+ucM6cUOlwsByTKt9/+0tWhqUffNIcHqCXkthY/mZ7AuYPK/2IIaGWhdl0h+tICDO0ssLMd6XMQ==
+"@rushstack/eslint-patch@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.9.0.tgz#6a3b23e6702de1480557f75b7f450d1d0f496519"
+  integrity sha512-AAWymnpvHbGty1BmgbdfbqQDboXs6xN6h2yAacO4yKVyyUUBnpYkp+P9jjPrV9zrAGw7JVVriRtGOHPInnfjZQ==
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
@@ -2870,12 +2870,13 @@ eslint-plugin-prettier@^5.0.0:
     prettier-linter-helpers "^1.0.0"
     synckit "^0.8.5"
 
-eslint-plugin-vue@9.23.0:
-  version "9.23.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.23.0.tgz#1354a33b0cd21e0cb373557ff73c5d7a6698fbcd"
-  integrity sha512-Bqd/b7hGYGrlV+wP/g77tjyFmp81lh5TMw0be9093X02SyelxRRfCI6/IsGq/J7Um0YwB9s0Ry0wlFyjPdmtUw==
+eslint-plugin-vue@9.24.0:
+  version "9.24.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.24.0.tgz#71209f4652ee767f18c0bf56f25991b7cdc5aa46"
+  integrity sha512-9SkJMvF8NGMT9aQCwFc5rj8Wo1XWSMSHk36i7ZwdI614BU7sIOR28ZjuFPKp8YGymZN12BSEbiSwa7qikp+PBw==
   dependencies:
     "@eslint-community/eslint-utils" "^4.4.0"
+    globals "^13.24.0"
     natural-compare "^1.4.0"
     nth-check "^2.1.1"
     postcss-selector-parser "^6.0.15"
@@ -3291,6 +3292,13 @@ globals@^13.19.0:
   version "13.23.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-13.23.0.tgz#ef31673c926a0976e1f61dab4dca57e0c0a8af02"
   integrity sha512-XAmF0RjlrjY23MA51q3HltdlGxUpXPvg0GioKiD9X6HD28iMjo2dKC8Vqwm7lne4GNr78+RHTfliktR6ZH09wA==
+  dependencies:
+    type-fest "^0.20.2"
+
+globals@^13.24.0:
+  version "13.24.0"
+  resolved "https://registry.yarnpkg.com/globals/-/globals-13.24.0.tgz#8432a19d78ce0c1e833949c36adb345400bb1171"
+  integrity sha512-AhO5QUcj8llrbG09iWhPU2B204J1xnPeL8kQmVorSsy+Sjj1sk8gIyh6cUocGmH4L0UuhAJy+hJMRA4mgA4mFQ==
   dependencies:
     type-fest "^0.20.2"
 
@@ -3741,7 +3749,7 @@ jest-worker@^26.2.1:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
-jiti@^1.19.1:
+jiti@^1.21.0:
   version "1.21.0"
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.21.0.tgz#7c97f8fe045724e136a397f7340475244156105d"
   integrity sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==
@@ -4463,10 +4471,10 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier-plugin-tailwindcss@0.5.12:
-  version "0.5.12"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-tailwindcss/-/prettier-plugin-tailwindcss-0.5.12.tgz#655999849344548ecf4d9b47a051ed856f041c72"
-  integrity sha512-o74kiDBVE73oHW+pdkFSluHBL3cYEvru5YgEqNkBMFF7Cjv+w1vI565lTlfoJT4VLWDe0FMtZ7FkE/7a4pMXSQ==
+prettier-plugin-tailwindcss@0.5.13:
+  version "0.5.13"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-tailwindcss/-/prettier-plugin-tailwindcss-0.5.13.tgz#ee3c1e07848c90abdd1edde36a09366327e31e26"
+  integrity sha512-2tPWHCFNC+WRjAC4SIWQNSOdcL1NNkydXim8w7TDqlZi+/ulZYz2OouAI6qMtkggnPt7lGamboj6LcTMwcCvoQ==
 
 prettier@3.2.5:
   version "3.2.5"
@@ -5084,10 +5092,10 @@ synckit@^0.8.5:
     "@pkgr/utils" "^2.4.2"
     tslib "^2.6.2"
 
-tailwindcss@3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.4.1.tgz#f512ca5d1dd4c9503c7d3d28a968f1ad8f5c839d"
-  integrity sha512-qAYmXRfk3ENzuPBakNK0SRrUDipP8NQnEY6772uDhflcQz5EhRdD7JNZxyrFHVQNCwULPBn6FNPp9brpO7ctcA==
+tailwindcss@3.4.3:
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.4.3.tgz#be48f5283df77dfced705451319a5dffb8621519"
+  integrity sha512-U7sxQk/n397Bmx4JHbJx/iSOOv5G+II3f1kpLpY2QeUv5DcPdcTsYLlusZfq1NthHS1c1cZoyFmmkex1rzke0A==
   dependencies:
     "@alloc/quick-lru" "^5.2.0"
     arg "^5.0.2"
@@ -5097,7 +5105,7 @@ tailwindcss@3.4.1:
     fast-glob "^3.3.0"
     glob-parent "^6.0.2"
     is-glob "^4.0.3"
-    jiti "^1.19.1"
+    jiti "^1.21.0"
     lilconfig "^2.1.0"
     micromatch "^4.0.5"
     normalize-path "^3.0.0"
@@ -5430,10 +5438,10 @@ vite-node@1.4.0:
     picocolors "^1.0.0"
     vite "^5.0.0"
 
-vite-plugin-pwa@0.19.5:
-  version "0.19.5"
-  resolved "https://registry.yarnpkg.com/vite-plugin-pwa/-/vite-plugin-pwa-0.19.5.tgz#50692c46abc74d161cdd18c5cf8d21e5ce68563e"
-  integrity sha512-3xJEc2Gmq6SBf730UAV1N2/MqOm+MiyvaLToSTglg+pH9b9qm666yPVxrBBlcOhGoJJWjJpu+Z9tROKek2CODg==
+vite-plugin-pwa@0.19.7:
+  version "0.19.7"
+  resolved "https://registry.yarnpkg.com/vite-plugin-pwa/-/vite-plugin-pwa-0.19.7.tgz#db8e36399a9d508d1deec0d415669c85f26e9df1"
+  integrity sha512-18TECxoGPQE7tVZzKxbf5Icrl5688n1JGMPSgGotTsh89vLDxevY7ICfD3CFVfonZXh8ckuyJXg0NXE5+FAl2A==
   dependencies:
     debug "^4.3.4"
     fast-glob "^3.3.2"
@@ -5441,10 +5449,10 @@ vite-plugin-pwa@0.19.5:
     workbox-build "^7.0.0"
     workbox-window "^7.0.0"
 
-vite@5.2.2:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-5.2.2.tgz#b98f8de352d22e21d99508274ddd053ef82bf238"
-  integrity sha512-FWZbz0oSdLq5snUI0b6sULbz58iXFXdvkZfZWR/F0ZJuKTSPO7v72QPXt6KqYeMFb0yytNp6kZosxJ96Nr/wDQ==
+vite@5.2.6:
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-5.2.6.tgz#fc2ce309e0b4871e938cb0aca3b96c422c01f222"
+  integrity sha512-FPtnxFlSIKYjZ2eosBQamz4CbyrTizbZ3hnGJlh/wMtCrlp1Hah6AzBLjGI5I2urTfNnpovpHdrL6YRuBOPnCA==
   dependencies:
     esbuild "^0.20.1"
     postcss "^8.4.36"
