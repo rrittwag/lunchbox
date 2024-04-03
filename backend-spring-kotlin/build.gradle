@@ -1,7 +1,7 @@
 plugins {
-  id 'org.springframework.boot' version '3.2.3'
+  id 'org.springframework.boot' version '3.2.4'
   id 'com.diffplug.spotless' version '6.25.0'
-  id 'io.gitlab.arturbosch.detekt' version '1.23.5'
+  id 'io.gitlab.arturbosch.detekt' version '1.23.6'
 
   id 'org.jetbrains.kotlin.jvm' version '1.9.23'
   id 'org.jetbrains.kotlin.plugin.spring' version '1.9.23'
