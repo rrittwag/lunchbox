@@ -4,7 +4,7 @@
       <h4 class="grow text-xl leading-tight text-neutral-800">
         {{ props.offer.name }}
       </h4>
-      <span aria-label="Preis" v-if="props.offer.price" class="shrink-0 pl-2 text-xl leading-tight text-neutral-800">
+      <span v-if="props.offer.price" aria-label="Preis" class="shrink-0 pl-2 text-xl leading-tight text-neutral-800">
         <small class="pl-2 pr-1 text-lg font-light text-neutral-800">€</small>{{ priceAsString }}
       </span>
     </div>
@@ -19,9 +19,9 @@
 
     <p class="pt-1 sm:flex" :class="props.showDetailsInXS ? 'flex' : 'hidden'">
       <Badge
-        role="note"
         v-for="tagLabel in sortedTags"
         :key="tagLabel"
+        role="note"
         :label="tagLabel"
         :color="isVeggie(tagLabel) ? 'bg-success-200' : 'bg-accent-200'"
       />
