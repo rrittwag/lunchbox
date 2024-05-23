@@ -61,7 +61,7 @@ describe('DaySelector', () => {
   it('emits change event WHEN pressing left arrow key', async () => {
     const user = userEvent.setup()
     const { emitted } = render(DaySelector, {
-      props: { days: [YESTERDAY, TODAY, TOMORROW], selectedDay: TODAY },
+      props: { selectedDay: TODAY },
     })
 
     await user.keyboard('[ArrowLeft]')
@@ -72,7 +72,7 @@ describe('DaySelector', () => {
   it('emits change event WHEN pressing right arrow key', async () => {
     const user = userEvent.setup()
     const { emitted } = render(DaySelector, {
-      props: { days: [YESTERDAY, TODAY, TOMORROW], selectedDay: TODAY },
+      props: { selectedDay: TODAY },
     })
 
     await user.keyboard('[ArrowRight]')
