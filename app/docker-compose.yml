@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   frontend-v1:
     image: docker.rori.dev/lunchbox-frontend:1.0
@@ -32,11 +30,11 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: "true"
-      traefik.http.routers.lunchbox-backend.rule: Host(`lunchbox.${BASE_DOMAIN}`, `lunchbox2.${BASE_DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/feed`))
+      traefik.http.routers.lunchbox-backend.rule: (Host(`lunchbox.${BASE_DOMAIN}`) || Host(`lunchbox2.${BASE_DOMAIN}`)) && (PathPrefix(`/api`) || PathPrefix(`/feed`))
       traefik.http.routers.lunchbox-backend.entrypoints: web
       traefik.http.services.lunchbox-backend.loadbalancer.server.port: 8080
       # Die Android-App nutzt noch HTTP und kann mit Redirects nicht um
-      traefik.http.routers.lunchbox-backend-web80.rule: Host(`lunchbox.${BASE_DOMAIN}`, `lunchbox2.${BASE_DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/feed`))
+      traefik.http.routers.lunchbox-backend-web80.rule: (Host(`lunchbox.${BASE_DOMAIN}`) || Host(`lunchbox2.${BASE_DOMAIN}`)) && (PathPrefix(`/api`) || PathPrefix(`/feed`))
       traefik.http.routers.lunchbox-backend-web80.entrypoints: web80
 
   # ---
