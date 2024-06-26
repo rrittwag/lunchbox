@@ -1,7 +1,7 @@
 // -------------------
 //   Abhängigkeiten der Applikation
 // -------------------
-ext.springBootVersion = '3.3.0'
+ext.springBootVersion = '3.3.1'
 
 repositories { mavenCentral() }
 dependencies {
