@@ -82,7 +82,7 @@ vulnerabilities code:
     - time trivy fs --exit-code 1 --severity CRITICAL yarn.lock
   cache:
     paths:
-      - .trivycache/
+      - frontend-web-vue/.trivycache/
   artifacts:
     when: always
     reports:
@@ -113,7 +113,7 @@ vulnerabilities docker:
     - ./trivy image --exit-code 1 --severity CRITICAL $IMAGE
   cache:
     paths:
-      - .trivycache/
+      - frontend-web-vue/.trivycache/
   artifacts:
     when: always
     reports:
