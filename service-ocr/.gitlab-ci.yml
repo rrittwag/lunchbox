@@ -71,10 +71,11 @@ vulnerabilities code:
     TRIVY_CACHE_DIR: ".trivycache/"
   script:
     - trivy --version
-    - time trivy image --clear-cache
-    - time trivy fs --exit-code 0 --no-progress --format template --template "@/contrib/gitlab.tpl" --output gl-container-scanning-report.json .
-    - time trivy fs --exit-code 0 --no-progress .
-    - time trivy fs --exit-code 1 --severity HIGH --no-progress .
+    - time trivy clean --scan-cache
+    - time trivy fs --download-db-only
+    - time trivy fs --exit-code 0 --format template --template "@/contrib/gitlab.tpl" --output gl-container-scanning-report.json .
+    - time trivy fs --exit-code 0 .
+    - time trivy fs --exit-code 1 --severity HIGH .
   cache:
     paths:
       - service-ocr/.trivycache/
