@@ -1,4 +1,4 @@
-FROM --platform=$TARGETPLATFORM golang:1.22-alpine AS build
+FROM --platform=$TARGETPLATFORM golang:1.23-alpine AS build
 
 WORKDIR /build
 COPY . .
