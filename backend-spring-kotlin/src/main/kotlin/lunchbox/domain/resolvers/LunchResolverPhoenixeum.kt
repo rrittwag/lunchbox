@@ -354,7 +354,7 @@ class LunchResolverPhoenixeum(
       return StringParser.OfferName(titleTemp, descr)
     }
 
-    if (newNameParts.size > 1) {
+    if (newNameParts.size > 1 && !newNameParts[0].endsWith(",")) {
       val titleTemp = newNameParts[0]
       val descr = newNameParts.drop(1).joinToString(" ")
       return StringParser.OfferName(titleTemp, descr)
@@ -362,8 +362,8 @@ class LunchResolverPhoenixeum(
 
     val offerName =
       StringParser.splitOfferName(
-        newNameParts[0],
-        listOf(",", " auf ", " mit ", " von ", " im ", " in ", " an "),
+        newNameParts.joinToString(" "),
+        listOf(" auf ", " mit ", ",", " von ", " im ", " in ", " an "),
       )
     return offerName.copy(description = offerName.description.replace(Regex("^, *"), ""))
   }

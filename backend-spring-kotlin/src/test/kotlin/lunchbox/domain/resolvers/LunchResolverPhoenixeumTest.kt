@@ -618,4 +618,54 @@ class LunchResolverPhoenixeumTest {
         providerId,
       )
   }
+
+  @Test
+  fun `resolve offers for week of 2024-09-09`() {
+    val url = javaClass.getResource("/menus/phoenixeum/2024-09-09.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 4
+    val week = weekOf("2024-09-09")
+    offers shouldContain
+      LunchOffer(
+        0,
+        "gebratene Hühnchenkeule",
+        "mit Buttererbsen, Salzkartoffeln Sauce Hollandaise",
+        week.monday,
+        euro("8.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "gebratene Hühnchenkeule",
+        "mit Buttererbsen, Salzkartoffeln Sauce Hollandaise",
+        week.tuesday,
+        euro("8.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "leckere Bratwurst 150 g",
+        "Mischgemüse, Kartoffeln",
+        week.wednesday,
+        euro("8.00"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "leckere Bratwurst 150 g",
+        "Mischgemüse, Kartoffeln",
+        week.thursday,
+        euro("8.00"),
+        emptySet(),
+        providerId,
+      )
+  }
 }
