@@ -475,15 +475,6 @@ class LunchResolverSuppenkulttour(
     return wochenOffers.flatMap { offer -> sortedDates.map { date -> offer.copy(day = date) } }
   }
 
-  private fun isZusatzInfo(string: String): Boolean {
-    val zusatzInfos =
-      listOf(
-        "vegan", "glutenfrei", "vegetarisch", "veg.", "veget.", "vegarisch",
-        "laktosefrei", "veget.gf", "gf", "lf", "enthält", "enthälti", "vegt.", "Weizen",
-      )
-    return string.split(Regex("[|(), ]")).all { it.length < 3 || zusatzInfos.contains(it.trim()) }
-  }
-
   private fun adjustText(text: String) =
     text.trim()
       .replace("–", "-")
@@ -558,6 +549,15 @@ class LunchResolverSuppenkulttour(
           else -> firstDay
         }
       return correctedFirstDay.with(DayOfWeek.MONDAY)
+    }
+
+    fun isZusatzInfo(string: String): Boolean {
+      val zusatzInfos =
+        listOf(
+          "vegan", "glutenfrei", "vegetarisch", "veg.", "veget.", "vegarisch",
+          "laktosefrei", "veget.gf", "gf", "lf", "enthält", "enthälti", "vegt.", "Weizen",
+        )
+      return string.split(Regex("[|(), ]")).all { it.length < 3 || zusatzInfos.contains(it.trim()) }
     }
   }
 }

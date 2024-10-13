@@ -59,8 +59,10 @@ class LunchResolverPhoenixeum(
 
   enum class ContentType {
     UNKNOWN,
-    DATE,
+    WEEKDAY,
+    TITLE,
     PRICE,
+    ZUSATZINFO,
   }
 
   sealed interface Text
@@ -68,7 +70,7 @@ class LunchResolverPhoenixeum(
   data class Paragraph(val lines: List<TextLine>) : Text {
     fun isValidOffer(): Boolean =
       // Die erste Zeile beinhaltet ein Datum/Wochentag
-      lines.take(1).flatMap { it.segments }.any { it.contentType == ContentType.DATE } &&
+      lines.take(1).flatMap { it.segments }.any { it.contentType == ContentType.WEEKDAY } &&
         // letzte Zeile beinhaltet Preis
         lines.takeLast(1).flatMap { it.segments }.count { it.contentType == ContentType.PRICE } == 1 &&
         // Mind. 1 nicht fett geschriebener Text
@@ -181,7 +183,7 @@ class LunchResolverPhoenixeum(
     var curParagraphs = listOf<Paragraph>()
     for (rawParagraph in paragraphs) {
       val paragraph = adjustParagraph(rawParagraph) ?: continue
-      if (paragraph.isValidOffer() || paragraph.lines.first().segments.any { it.contentType == ContentType.DATE }) {
+      if (paragraph.isValidOffer() || paragraph.lines.first().segments.any { it.contentType == ContentType.WEEKDAY }) {
         if (curParagraphs.isNotEmpty()) {
           paragraphsByDate += curParagraphs
         }
@@ -279,14 +281,24 @@ class LunchResolverPhoenixeum(
       return listOf(segment.copy(contentType = ContentType.PRICE))
     }
 
-    // must be a Title
+    // Zusatzinfo
+    if (LunchResolverSuppenkulttour.isZusatzInfo(segment.text)) {
+      return listOf(segment.copy(contentType = ContentType.ZUSATZINFO))
+    }
+
+    // Weekday
     if (segment.isBold &&
       Weekday.entries.any {
         segment.text.contains(it.label) ||
           segment.text.contains(it.label.substring(0, 2).uppercase())
       }
     ) {
-      return listOf(segment.copy(contentType = ContentType.DATE))
+      return listOf(segment.copy(contentType = ContentType.WEEKDAY))
+    }
+
+    // must be a Title
+    if (segment.isBold) {
+      return listOf(segment.copy(contentType = ContentType.TITLE))
     }
 
     return listOf(segment)
@@ -314,14 +326,13 @@ class LunchResolverPhoenixeum(
     monday: LocalDate,
   ): List<LunchOffer> {
     val segments = paragraph.lines.flatMap { it.segments }
-    val weekdayStr = segments.first { it.contentType == ContentType.DATE }.text
-    val titleDescription =
-      segments.filterNot {
-        it.contentType in setOf(ContentType.DATE, ContentType.PRICE)
-      }.map { it.text }
+    val weekdayStr = segments.first { it.contentType == ContentType.WEEKDAY }.text
+    val titleStr = segments.filter { it.contentType == ContentType.TITLE }.map { it.text }
+    val remainStr = segments.filter { it.contentType == ContentType.UNKNOWN }.map { it.text }
     val priceStr = segments.first { it.contentType == ContentType.PRICE }.text
+    val zusatzInfoStr = segments.firstOrNull { it.contentType == ContentType.ZUSATZINFO }?.text
 
-    val (title, description) = splitOfferName(titleDescription)
+    val (title, description) = splitOfferName(titleStr, remainStr)
 
     val weekdays =
       if (weekdayStr.contains("bis")) {
@@ -338,15 +349,22 @@ class LunchResolverPhoenixeum(
 
     val price = StringParser.parseMoney(priceStr) ?: return emptyList()
 
+    val zusatzInfo = parseZusatzinfo(zusatzInfoStr ?: "$title $description")
+
     return weekdays.map {
       val day = monday.plusDays(it.order)
-      val zusatzInfo = parseZusatzinfo("$title $description")
       LunchOffer(0, title, description, day, price, zusatzInfo, provider.id)
     }
   }
 
-  private fun splitOfferName(nameParts: List<String>): StringParser.OfferName {
-    val newNameParts = nameParts.filterNot { it.trim() == "Portion" }
+  private fun splitOfferName(
+    titleParts: List<String>,
+    remainingParts: List<String>,
+  ): StringParser.OfferName {
+    val newNameParts = remainingParts.filterNot { it.trim() == "Portion" }
+    if (titleParts.isNotEmpty()) {
+      return StringParser.OfferName(titleParts.joinToString { " " }, newNameParts.joinToString { " " })
+    }
 
     if (newNameParts[0].contains(" - ")) {
       val (titleTemp, behindMinus) = newNameParts[0].split(" - ")
@@ -354,7 +372,9 @@ class LunchResolverPhoenixeum(
       return StringParser.OfferName(titleTemp, descr)
     }
 
-    if (newNameParts.size > 1 && !newNameParts[0].endsWith(",")) {
+    val separators = listOf(" auf ", " mit ", ",", " von ", " im ", " in ", " an ")
+
+    if (newNameParts.size > 1 && !newNameParts[0].endsWith(",") && !separators.any { it in newNameParts[0] }) {
       val titleTemp = newNameParts[0]
       val descr = newNameParts.drop(1).joinToString(" ")
       return StringParser.OfferName(titleTemp, descr)
@@ -363,7 +383,7 @@ class LunchResolverPhoenixeum(
     val offerName =
       StringParser.splitOfferName(
         newNameParts.joinToString(" "),
-        listOf(" auf ", " mit ", ",", " von ", " im ", " in ", " an "),
+        separators,
       )
     return offerName.copy(description = offerName.description.replace(Regex("^, *"), ""))
   }
