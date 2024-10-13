@@ -479,7 +479,7 @@ class LunchResolverSuppenkulttour(
     val zusatzInfos =
       listOf(
         "vegan", "glutenfrei", "vegetarisch", "veg.", "veget.", "vegarisch",
-        "laktosefrei", "veget.gf", "gf", "lf", "enthält", "enthälti", "vegt.",
+        "laktosefrei", "veget.gf", "gf", "lf", "enthält", "enthälti", "vegt.", "Weizen",
       )
     return string.split(Regex("[|(), ]")).all { it.length < 3 || zusatzInfos.contains(it.trim()) }
   }

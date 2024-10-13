@@ -808,4 +808,29 @@ class LunchResolverSuppenkulttourTest {
         providerId,
       )
   }
+
+  @Test
+  fun `resolve offers for week of 2024-10-14`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2024-10-14.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 30
+    val week = weekOf("2024-10-14")
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 3
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Omas Hühnersuppe",
+        "mit Huhn, Wurzelgemüse, Petersilie, Nudeln",
+        week.monday,
+        euro("6.40"),
+        emptySet(),
+        providerId,
+      )
+  }
 }
