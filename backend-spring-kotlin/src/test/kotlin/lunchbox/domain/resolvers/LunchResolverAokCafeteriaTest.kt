@@ -828,7 +828,6 @@ class LunchResolverAokCafeteriaTest {
 
     val offers = resolver().resolve(url)
 
-    println(offers)
     offers shouldHaveSize 27
 
     var week = weekOf("2022-06-07")
@@ -852,7 +851,6 @@ class LunchResolverAokCafeteriaTest {
 
     val offers = resolver().resolve(url)
 
-    println(offers)
     offers shouldHaveSize 30
 
     val week = weekOf("2023-08-28")
@@ -869,7 +867,6 @@ class LunchResolverAokCafeteriaTest {
 
     val offers = resolver().resolve(url)
 
-    println(offers)
     offers shouldHaveSize 20
 
     val week = weekOf("2023-09-18")
@@ -880,5 +877,19 @@ class LunchResolverAokCafeteriaTest {
     offers.filter { it.day == week.friday } shouldHaveSize 2
 
     offers shouldContainNone { it.name.contains("Nicht bestellbar") }
+  }
+
+  @Test
+  fun `resolve offers for week of 2024-10-28 - Brückentag`() {
+    val url = javaClass.getResource("/menus/aok_cafeteria/2024-10-28.html")
+
+    val offers = resolver().resolve(url)
+
+    val week = weekOf("2024-10-28")
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 0
+    offers.filter { it.day == week.friday } shouldHaveSize 0
   }
 }
