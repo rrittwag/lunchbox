@@ -72,7 +72,7 @@ vulnerabilities code:
   script:
     - trivy --version
     - time trivy clean --scan-cache
-    - time trivy fs --download-db-only
+    - time trivy fs --download-db-only --db-repository docker-ghcr.rori.dev/aquasecurity/trivy-db --java-db-repository myregistry.local/trivy-java-db --checks-bundle-repository myregistry.local/trivy-checks
     - time trivy fs --exit-code 0 --format template --template "@/contrib/gitlab.tpl" --output gl-container-scanning-report.json .
     - time trivy fs --exit-code 0 .
     - time trivy fs --exit-code 1 --severity HIGH .
@@ -101,5 +101,5 @@ docker:
     - master
   script:
     - echo "$DOCKER_REGISTRY_TOKEN" | docker login -u $DOCKER_REGISTRY_USER --password-stdin $DOCKER_REGISTRY_ADDR
-    - docker build -t ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest --pull .
+    - docker build --tag ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest --pull .
     - docker push ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest

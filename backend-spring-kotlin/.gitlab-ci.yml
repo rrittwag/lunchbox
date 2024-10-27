@@ -96,9 +96,9 @@ integration:
     - export TRIVY_VERSION=$(wget -qO - "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
     - echo $TRIVY_VERSION
     - wget --no-verbose https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz -O - | tar -zxvf -
-    - docker build -t $IMAGE --pull .
+    - docker build --tag $IMAGE --pull .
     - ./trivy clean --scan-cache
-    - ./trivy image --download-db-only
+    - ./trivy image --download-db-only --db-repository docker-ghcr.rori.dev/aquasecurity/trivy-db --java-db-repository myregistry.local/trivy-java-db --checks-bundle-repository myregistry.local/trivy-checks
     - ./trivy image --exit-code 0 --format template --template "@contrib/gitlab.tpl" -o gl-container-scanning-report.json $IMAGE
     - ./trivy image --exit-code 0 --severity HIGH $IMAGE
     - ./trivy image --exit-code 1 --severity CRITICAL $IMAGE
@@ -127,5 +127,5 @@ docker:
     - master
   script:
     - echo "$DOCKER_REGISTRY_TOKEN" | docker login -u $DOCKER_REGISTRY_USER --password-stdin $DOCKER_REGISTRY_ADDR
-    - docker build -t ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest --pull .
+    - docker build --tag ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest --pull .
     - docker push ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest
