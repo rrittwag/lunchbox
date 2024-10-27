@@ -2,7 +2,13 @@
 
 docker image inspect docker.rori.dev/nginx-brotli:latest >/dev/null
 if [ $? -eq 0 ]; then
-  echo "Image existiert bereits!"
+  echo "Image exists locally"
+  exit 0
+fi
+
+docker image pull docker.rori.dev/nginx-brotli:latest >/dev/null
+if [ $? -eq 0 ]; then
+  echo "Image downloaded"
   exit 0
 fi
 
