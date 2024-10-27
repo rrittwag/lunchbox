@@ -76,7 +76,7 @@ vulnerabilities code:
   script:
     - trivy --version
     - trivy clean --scan-cache
-    - time trivy fs --download-db-only
+    - time trivy fs --download-db-only --db-repository docker-ghcr.rori.dev/aquasecurity/trivy-db --java-db-repository myregistry.local/trivy-java-db --checks-bundle-repository myregistry.local/trivy-checks
     - time trivy fs --exit-code 0 --format template --template "@/contrib/gitlab.tpl" --output gl-container-scanning-report.json yarn.lock
     - time trivy fs --exit-code 0 yarn.lock
     - time trivy fs --exit-code 1 --severity CRITICAL yarn.lock
@@ -107,7 +107,7 @@ vulnerabilities docker:
     - cd nginx && ./build.sh && cd ..
     - docker build -t $IMAGE .
     - ./trivy clean --scan-cache
-    - ./trivy image --download-db-only
+    - ./trivy image --download-db-only --db-repository docker-ghcr.rori.dev/aquasecurity/trivy-db --java-db-repository myregistry.local/trivy-java-db --checks-bundle-repository myregistry.local/trivy-checks
     - ./trivy image --exit-code 0 --format template --template "@contrib/gitlab.tpl" -o gl-container-scanning-report.json $IMAGE
     - ./trivy image --exit-code 0 --severity HIGH $IMAGE
     - ./trivy image --exit-code 1 --severity CRITICAL $IMAGE
