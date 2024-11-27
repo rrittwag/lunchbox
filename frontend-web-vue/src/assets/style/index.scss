@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import 'src/assets/style/animations';
-@import 'src/assets/style/transitions';
-@import 'src/assets/style/themes';
+@import '@/assets/style/animations';
+@import '@/assets/style/transitions';
+@import '@/assets/style/themes';
