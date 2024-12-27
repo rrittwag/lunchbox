@@ -22,8 +22,8 @@ spotless {
 // Der Task-Name 'format' ist eingängiger als 'spotlessApply' ...
 tasks.register('format') {
   dependsOn 'spotlessApply'
-  description 'Formatiert den Quellcode (Alias für spotlessApply).'
-  group 'Verification'
+  description = 'Formatiert den Quellcode (Alias für spotlessApply).'
+  group = 'Verification'
 }
 
 // ... gleiches gilt für 'spotlessCheck'.

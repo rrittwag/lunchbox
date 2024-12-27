@@ -10,7 +10,7 @@ detekt {
 
 // Der Task-Name 'lint' ist eingängiger und technologie-neutraler als 'detekt'
 tasks.register('lint') {
-  description 'Führt die statische Code-Analyse aus.'
-  group 'Verification'
+  description = 'Führt die statische Code-Analyse aus.'
+  group = 'Verification'
   dependsOn 'detekt'
 }

@@ -23,7 +23,7 @@ bootRun {
 
 // Der Task-Name 'run' ist eingängiger und technologie-neutraler als 'bootRun'
 tasks.register('run') {
-  description 'Startet das Backend lokal (Alias für bootRun).'
-  group 'Application'
+  description = 'Startet das Backend lokal (Alias für bootRun).'
+  group = 'Application'
   dependsOn 'bootRun'
 }
