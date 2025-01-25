@@ -1,0 +1,44 @@
+@import url('@/assets/style/transitions.css');
+@import url('@/assets/style/themes.css');
+@import 'tailwindcss';
+
+@theme {
+  --breakpoint-4md: 112rem; /* 4x OfferBox mit max-w-md (siehe OfferBoxGroup) */
+
+  --font-sans: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-display: Chewy, ui-serif, Georgia, Cambria, Times New Roman, Times, serif;
+
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-700: var(--color-primary-700);
+  --color-primary-800: var(--color-primary-800);
+  --color-primary-900: var(--color-primary-900);
+
+  --color-accent-100: #FFFBEA;
+  --color-accent-200: var(--color-accent-200);
+  --color-accent-300: #FCE588;
+  --color-accent-400: #FADB5F;
+  --color-accent-500: #F7C948;
+  --color-accent-600: #F0B429;
+  --color-accent-700: #DE911D;
+  --color-accent-800: #CB6E17;
+  --color-accent-900: #B44D12;
+
+  --color-neutral-100: var(--color-neutral-100);
+  --color-neutral-200: var(--color-neutral-200);
+  --color-neutral-300: var(--color-neutral-300);
+  --color-neutral-400: var(--color-neutral-400);
+  --color-neutral-500: var(--color-neutral-500);
+  --color-neutral-600: var(--color-neutral-600);
+  --color-neutral-700: var(--color-neutral-700);
+  --color-neutral-800: var(--color-neutral-800);
+  --color-neutral-900: var(--color-neutral-900);
+
+  --color-success-200: var(--color-success-200);
+
+  --color-card: var(--color-card);
+}

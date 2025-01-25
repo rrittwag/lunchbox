@@ -1,7 +1,8 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
 import Icons from 'unplugin-icons/vite'
+import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
@@ -14,6 +15,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    tailwindcss(),
     Icons({ compiler: 'vue3' }),
     VitePWA({
       registerType: 'autoUpdate',

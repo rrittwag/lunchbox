@@ -23,7 +23,7 @@ const title = isPrevious ? LABEL_GO_TO_PREVIOUS_DAY : LABEL_GO_TO_NEXT_DAY
 
 <template>
   <button
-    class="origin-center text-primary-500 hover:scale-110 hover:text-primary-600 disabled:cursor-not-allowed disabled:text-primary-400 disabled:opacity-25"
+    class="cursor-pointer origin-center text-primary-500 hover:scale-110 hover:text-primary-600 disabled:cursor-not-allowed disabled:text-primary-400 disabled:opacity-25"
     :class="{ 'active:text-primary-800': !props.disabled }"
     :title="title"
     :aria-label="title"

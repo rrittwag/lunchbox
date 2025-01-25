@@ -27,16 +27,16 @@ function onSelectTheme(event: Event) {
                 Ort
               </dt>
               <dd class="mt-2 md:col-span-7 md:mt-0">
-                <button class="h-20 rounded border border-primary-500 px-4 text-base leading-6 text-neutral-800">
+                <button class="h-20 rounded-sm border border-primary-500 px-4 text-base leading-6 text-neutral-800">
                   Neubrandenburg
                 </button>
                 <button
-                  class="ml-2 h-20 rounded border border-neutral-400 px-4 text-base leading-6 text-neutral-500 hover:border-neutral-800"
+                  class="ml-2 h-20 rounded-sm border border-neutral-400 px-4 text-base leading-6 text-neutral-500 hover:border-neutral-800"
                 >
                   Neubrandenburg
                 </button>
                 <button
-                  class="ml-2 h-20 rounded border border-neutral-400 px-4 text-base leading-6 text-neutral-500 hover:border-neutral-800"
+                  class="ml-2 h-20 rounded-sm border border-neutral-400 px-4 text-base leading-6 text-neutral-500 hover:border-neutral-800"
                 >
                   Berlin Springpfuhl
                 </button>
@@ -50,7 +50,7 @@ function onSelectTheme(event: Event) {
                 <div class="relative inline-block w-32">
                   <select
                     id="settings-theme"
-                    class="block w-full appearance-none rounded border border-neutral-400 bg-neutral-200 px-4 py-2 pr-8 leading-tight text-neutral-900 hover:border-neutral-800 focus:outline-none focus:ring-4"
+                    class="block w-full appearance-none rounded-sm border border-neutral-400 bg-neutral-200 px-4 py-2 pr-8 leading-tight text-neutral-900 hover:border-neutral-800 focus:outline-hidden focus:ring-4"
                     name="theme"
                     :value="currentTheme?.cssClass"
                     @change="onSelectTheme"

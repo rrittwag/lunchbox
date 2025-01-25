@@ -101,7 +101,7 @@
  * Theme: Dark-Variante des theme-blue
  */
 .theme-blue-dark {
-  // TODO: Farbcodes für Farben & Card-Background definieren
+  /* TODO: Farbcodes für Farben & Card-Background definieren */
   --color-primary-900: #f5fbff;
   --color-primary-800: #daedfb;
   --color-primary-700: #b5d9f2;
