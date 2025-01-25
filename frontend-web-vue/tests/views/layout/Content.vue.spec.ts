@@ -3,18 +3,16 @@ import Content from '@/views/layout/Content.vue'
 import { render, within } from '@testing-library/vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
-describe('content', () => {
-  it('renders', async () => {
-    await router.push('/')
-    const { getByRole } = render(Content, {
-      global: {
-        plugins: [router],
-      },
-    })
-
-    const main = getByRole('main')
-    expect(within(main).getByRole('heading')).toHaveTextContent('Some title')
+it('renders', async () => {
+  await router.push('/')
+  const { getByRole } = render(Content, {
+    global: {
+      plugins: [router],
+    },
   })
+
+  const main = getByRole('main')
+  expect(within(main).getByRole('heading')).toHaveTextContent('Some title')
 })
 
 // --- mocks 'n' stuff

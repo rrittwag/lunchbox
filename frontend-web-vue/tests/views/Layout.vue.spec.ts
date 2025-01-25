@@ -3,15 +3,13 @@ import Layout from '@/views/Layout.vue'
 import { render } from '@testing-library/vue'
 import { createTestingPinia } from '@tests/test-utils'
 
-describe('layout', () => {
-  it('renders', () => {
-    const pinia = createTestingPinia()
+it('renders', () => {
+  const pinia = createTestingPinia()
 
-    const { getByRole } = render(Layout, {
-      global: { plugins: [pinia, router] },
-    })
-
-    expect(getByRole('banner')).toBeInTheDocument()
-    expect(getByRole('main')).toBeInTheDocument()
+  const { getByRole } = render(Layout, {
+    global: { plugins: [pinia, router] },
   })
+
+  expect(getByRole('banner')).toBeInTheDocument()
+  expect(getByRole('main')).toBeInTheDocument()
 })
