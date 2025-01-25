@@ -1,13 +1,14 @@
 @import url('@/assets/style/transitions.css');
 @import url('@/assets/style/themes.css');
-@import 'tailwindcss';
+@import 'tailwindcss' source('../../../src/');
 
 @theme {
-  --breakpoint-4md: 112rem; /* 4x OfferBox mit max-w-md (siehe OfferBoxGroup) */
+  --container-4md: 112rem; /* 4x OfferBox mit max-w-md (siehe OfferBoxGroup) */
 
   --font-sans: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   --font-display: Chewy, ui-serif, Georgia, Cambria, Times New Roman, Times, serif;
 
+  --color-*: initial;
   --color-primary-100: var(--color-primary-100);
   --color-primary-200: var(--color-primary-200);
   --color-primary-300: var(--color-primary-300);

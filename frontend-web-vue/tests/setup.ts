@@ -5,7 +5,7 @@ import { afterEach } from 'vitest'
 import '@testing-library/jest-dom/vitest'
 
 // Testing Library uses CSS to determine visible elements
-import '@/assets/style/index.scss'
+import '@/assets/style/index.css'
 
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
