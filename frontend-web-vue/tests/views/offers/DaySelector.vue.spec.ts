@@ -4,10 +4,11 @@ import {
   LABEL_GO_TO_NEXT_DAY,
   LABEL_GO_TO_PREVIOUS_DAY,
 } from '@/views/offers/dayselector/DaySelector.values'
-import { render } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
+import { render } from '@testing-library/vue'
+import { TODAY, TOMORROW, YESTERDAY } from '@tests/test-data'
 
-describe('DaySelector', () => {
+describe('daySelector', () => {
   it('renders', () => {
     const { getByRole } = render(DaySelector, {
       props: { selectedDay: YESTERDAY },
@@ -80,9 +81,3 @@ describe('DaySelector', () => {
     expect(emitted()).toHaveProperty('change', [[DaySelectorDirection.NEXT]])
   })
 })
-
-// mocks 'n' stuff
-
-const YESTERDAY = new Date('2019-12-01')
-const TODAY = new Date('2019-12-02')
-const TOMORROW = new Date('2019-12-03')

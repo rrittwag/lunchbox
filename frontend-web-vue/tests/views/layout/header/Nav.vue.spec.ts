@@ -1,7 +1,7 @@
 import Nav from '@/views/layout/header/Nav.vue'
 import { render, within } from '@testing-library/vue'
 
-describe('Nav', () => {
+describe('nav', () => {
   it('renders', () => {
     const { getByRole } = render(Nav, {
       slots: { default: '<li><a href="/">link1</a></li>  <li><a href="/">link2</a></li>' },

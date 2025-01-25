@@ -1,10 +1,11 @@
-import { ref, readonly } from 'vue'
+import type { ApiError } from '@/api/http'
+import type { LunchOffer, LunchProvider } from '@/model/lunch'
 import api from '@/api/lunch'
-import { ApiError } from '@/api/http'
+import { LunchLocation } from '@/model/lunch'
 import { today } from '@/util/date'
-import { defineStore } from 'pinia'
-import { LunchLocation, LunchOffer, LunchProvider } from '@/model/lunch'
 import { useStorage } from '@vueuse/core'
+import { defineStore } from 'pinia'
+import { readonly, ref } from 'vue'
 
 export const useLunchStore = defineStore('lunch', () => {
   // --------------------
@@ -22,7 +23,8 @@ export const useLunchStore = defineStore('lunch', () => {
       const offersPromise = api.getOffers()
       providers.value = await providersPromise
       offers.value = await offersPromise
-    } catch (e) {
+    }
+    catch (e) {
       error.value = e as ApiError
     }
     isLoading.value = false
@@ -39,20 +41,23 @@ export const useLunchStore = defineStore('lunch', () => {
 
   function loadSelectedLocationFromLocalStorage(): LunchLocation {
     let locationName: string | null = localStorage.getItem('lunchboxWebapp.STORAGEKEY_LOCATION')
-    if (!locationName || locationName === '') return locations[0]
+    if (!locationName || locationName === '')
+      return locations[0]
 
     // die alte Angular-App speicherte den Wert mit ""
     locationName = locationName.replace(/"/g, '')
 
-    const filteredLocation = locations.filter((l) => l.name === locationName)
-    if (filteredLocation.length > 0) return filteredLocation[0]
+    const filteredLocation = locations.filter(l => l.name === locationName)
+    if (filteredLocation.length > 0)
+      return filteredLocation[0]
     return locations[0]
   }
 
   function selectLocation(newLocation: LunchLocation) {
     selectedLocation.value = newLocation
     let locationName = ''
-    if (newLocation) locationName = newLocation.name
+    if (newLocation)
+      locationName = newLocation.name
     localStorage.setItem('lunchboxWebapp.STORAGEKEY_LOCATION', locationName)
   }
 

@@ -1,9 +1,9 @@
+import { THEME_RED, useTheme } from '@/store/theme'
 import Settings from '@/views/Settings.vue'
-import { useTheme, THEME_RED } from '@/store/theme'
-import { createTestingPinia } from '@tests/test-utils'
 import { render } from '@testing-library/vue'
+import { createTestingPinia } from '@tests/test-utils'
 
-describe('Settings', () => {
+describe('settings', () => {
   it('renders', () => {
     const pinia = createTestingPinia()
     useTheme().$patch({ currentTheme: THEME_RED, colorScheme: 'system' })

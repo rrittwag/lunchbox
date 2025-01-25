@@ -1,3 +1,19 @@
+<script setup lang="ts">
+import type { LunchOffer } from '@/model/lunch'
+import { formatEuro } from '@/util/formatting'
+import Badge from '@/views/offers/Badge.vue'
+import { computed } from 'vue'
+
+const props = defineProps<{
+  offer: LunchOffer
+  showDetailsInXS?: boolean
+}>()
+
+const sortedTags = computed(() => props.offer.tags.slice().sort())
+const priceAsString = computed(() => formatEuro(props.offer.price))
+const isVeggie = (tagLabel: string) => tagLabel === 'vegetarisch' || tagLabel === 'vegan'
+</script>
+
 <template>
   <li class="w-full pt-3 sm:pt-4">
     <div class="flex w-full items-baseline">
@@ -28,19 +44,3 @@
     </p>
   </li>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-import Badge from '@/views/offers/Badge.vue'
-import { formatEuro } from '@/util/formatting'
-import { LunchOffer } from '@/model/lunch'
-
-const props = defineProps<{
-  offer: LunchOffer
-  showDetailsInXS?: boolean
-}>()
-
-const sortedTags = computed(() => props.offer.tags.slice().sort())
-const priceAsString = computed(() => formatEuro(props.offer.price))
-const isVeggie = (tagLabel: string) => tagLabel === 'vegetarisch' || tagLabel === 'vegan'
-</script>

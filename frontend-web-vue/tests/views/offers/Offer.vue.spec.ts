@@ -1,8 +1,8 @@
 import Offer from '@/views/offers/Offer.vue'
-import { gyros } from '@tests/test-data'
 import { render } from '@testing-library/vue'
+import { gyros } from '@tests/test-data'
 
-describe('Offer', () => {
+describe('offer', () => {
   it('renders', () => {
     const { getByRole, getByLabelText, queryAllByRole } = render(Offer, {
       props: { offer: gyros, showDetailsInXS: true },

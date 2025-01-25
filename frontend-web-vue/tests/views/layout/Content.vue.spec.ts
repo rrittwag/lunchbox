@@ -1,8 +1,9 @@
+import type { RouteRecordRaw } from 'vue-router'
 import Content from '@/views/layout/Content.vue'
 import { render, within } from '@testing-library/vue'
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
-describe('Content', () => {
+describe('content', () => {
   it('renders', async () => {
     await router.push('/')
     const { getByRole } = render(Content, {

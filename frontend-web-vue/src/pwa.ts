@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// @ts-expect-error virtual import is not ts compatible
 import { registerSW } from 'virtual:pwa-register'
 
 registerSW({

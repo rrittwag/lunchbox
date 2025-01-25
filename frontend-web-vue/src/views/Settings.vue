@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import { useTheme } from '@/store/theme'
+import { storeToRefs } from 'pinia'
+
+const store = useTheme()
+const { themes, currentTheme } = storeToRefs(store)
+
+function onSelectTheme(event: Event) {
+  const selectElem = event.target as HTMLSelectElement
+  const newTheme = themes.value.find(theme => theme.cssClass === selectElem?.value)
+  if (newTheme)
+    store.setCurrentTheme(newTheme)
+}
+</script>
+
 <template>
   <div class="sm:p-4">
     <h1 class="flex items-center justify-center px-4 text-2xl text-neutral-800 sm:h-16 sm:justify-start">
@@ -8,7 +23,9 @@
         <div class="mt-6 border-t-2 border-neutral-500 pt-6">
           <dl>
             <div class="md:grid md:grid-cols-12 md:gap-8">
-              <dt class="text-base font-medium leading-6 text-neutral-900 md:col-span-5">Ort</dt>
+              <dt class="text-base font-medium leading-6 text-neutral-900 md:col-span-5">
+                Ort
+              </dt>
               <dd class="mt-2 md:col-span-7 md:mt-0">
                 <button class="h-20 rounded border border-primary-500 px-4 text-base leading-6 text-neutral-800">
                   Neubrandenburg
@@ -51,13 +68,19 @@
               </dd>
             </div>
             <div class="mt-8 border-t border-neutral-500 pt-6 md:grid md:grid-cols-12 md:gap-8">
-              <dt class="text-base font-medium leading-6 text-neutral-900 md:col-span-5">Dark Mode</dt>
+              <dt class="text-base font-medium leading-6 text-neutral-900 md:col-span-5">
+                Dark Mode
+              </dt>
               <dd class="mt-2 md:col-span-7 md:mt-0">
-                <p class="text-base leading-6 text-neutral-500">ja/nein/System</p>
+                <p class="text-base leading-6 text-neutral-500">
+                  ja/nein/System
+                </p>
               </dd>
             </div>
             <div class="mt-8 border-t border-neutral-500 pt-6 md:grid md:grid-cols-12 md:gap-8">
-              <dt class="text-base font-medium leading-6 text-neutral-900 md:col-span-5">Mittagsanbieter anzeigen</dt>
+              <dt class="text-base font-medium leading-6 text-neutral-900 md:col-span-5">
+                Mittagsanbieter anzeigen
+              </dt>
               <dd class="mt-2 md:col-span-7 md:mt-0">
                 <p class="text-base leading-6 text-neutral-500">
                   Because they're so good at it. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
@@ -78,7 +101,9 @@
               </dd>
             </div>
             <div class="mt-8 border-t border-neutral-500 pt-6 md:grid md:grid-cols-12 md:gap-8">
-              <dt class="text-base font-medium leading-6 text-neutral-900 md:col-span-5">Animationen ausschalten</dt>
+              <dt class="text-base font-medium leading-6 text-neutral-900 md:col-span-5">
+                Animationen ausschalten
+              </dt>
               <dd class="mt-2 md:col-span-7 md:mt-0">
                 <p class="text-base leading-6 text-neutral-500">
                   He couldn't see himself doing it. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet
@@ -93,17 +118,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { useTheme } from '@/store/theme'
-import { storeToRefs } from 'pinia'
-
-const store = useTheme()
-const { themes, currentTheme } = storeToRefs(store)
-
-function onSelectTheme(event: Event) {
-  const selectElem = event.target as HTMLSelectElement
-  const newTheme = themes.value.find((theme) => theme.cssClass === selectElem?.value)
-  if (newTheme) store.setCurrentTheme(newTheme)
-}
-</script>

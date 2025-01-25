@@ -1,8 +1,8 @@
+import router from '@/router'
 import Header from '@/views/layout/Header.vue'
 import { render, within } from '@testing-library/vue'
-import router from '@/router'
 
-describe('Header', () => {
+describe('header', () => {
   beforeEach(async () => {
     await router.push('/')
   })

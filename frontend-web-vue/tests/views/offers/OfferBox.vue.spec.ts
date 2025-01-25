@@ -1,9 +1,9 @@
 import OfferBox from '@/views/offers/OfferBox.vue'
-import { mensa, gyros, soljanka } from '@tests/test-data'
-import { render, within } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
+import { render, within } from '@testing-library/vue'
+import { gyros, mensa, soljanka } from '@tests/test-data'
 
-describe('OfferBox', () => {
+describe('offerBox', () => {
   it('renders', () => {
     const { getByRole } = render(OfferBox, {
       props: { provider: mensa, offers: [gyros, soljanka] },
@@ -37,7 +37,7 @@ describe('OfferBox', () => {
     expect(queryAllByRole('note')).toHaveLength(0)
   })
 
-  it('WHEN clicked  THEN show details for screen size XS', async () => {
+  it('wHEN clicked  THEN show details for screen size XS', async () => {
     const user = userEvent.setup()
     const { getByRole, queryAllByRole } = render(OfferBox, {
       props: { provider: mensa, offers: [gyros, soljanka] },

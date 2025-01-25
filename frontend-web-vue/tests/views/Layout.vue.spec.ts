@@ -1,9 +1,9 @@
-import Layout from '@/views/Layout.vue'
-import { createTestingPinia } from '@tests/test-utils'
-import { render } from '@testing-library/vue'
 import router from '@/router'
+import Layout from '@/views/Layout.vue'
+import { render } from '@testing-library/vue'
+import { createTestingPinia } from '@tests/test-utils'
 
-describe('Layout', () => {
+describe('layout', () => {
   it('renders', () => {
     const pinia = createTestingPinia()
 

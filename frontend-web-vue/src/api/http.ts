@@ -25,7 +25,7 @@ export interface ApiError extends Error {
 export async function fetchWithTimeout(
   url: string,
   options: RequestInit = {},
-  timeoutMillis = 10000
+  timeoutMillis = 10000,
 ): Promise<Response> {
   const controller = new AbortController()
   const config = { ...options, signal: controller.signal }
@@ -40,11 +40,13 @@ export async function fetchWithTimeout(
       // when 4xx/5xx response, Spring backend answers with ApiError (prop 'name' excluded)
       const contentType = response.headers.get('content-type') || ''
       if (contentType.startsWith('application/json'))
+        // eslint-disable-next-line prefer-promise-reject-errors
         return Promise.reject({ name: 'ApiError', ...(await response.json()) })
       return Promise.reject(createApiError(response.status, url, await response.text()))
     }
     return response
-  } catch (error) {
+  }
+  catch (error) {
     // eslint-disable-next-line no-console
     console.log(error)
     return Promise.reject(error)
@@ -54,8 +56,8 @@ export async function fetchWithTimeout(
 function createApiError(status: number, url: string, message: string): ApiError {
   return {
     name: 'ApiError',
-    message: message,
+    message,
     path: url,
-    status: status,
+    status,
   }
 }

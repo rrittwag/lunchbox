@@ -1,5 +1,5 @@
-import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
+import { computed, ref } from 'vue'
 
 export interface Theme {
   cssClass: string
@@ -28,11 +28,14 @@ export const useTheme = defineStore('theme', () => {
   function setCurrentTheme(newTheme?: Theme) {
     // background color works best on <body />, so theme must be set on <body />
     const bodyClasses = window.document.body.classList
-    if (currentTheme.value) bodyClasses.remove(currentTheme.value.cssClass)
-    if (newTheme) bodyClasses.add(newTheme.cssClass)
+    if (currentTheme.value)
+      bodyClasses.remove(currentTheme.value.cssClass)
+    if (newTheme)
+      bodyClasses.add(newTheme.cssClass)
 
     // transition on theme change AFTER initial page load
-    if (currentTheme.value && !bodyClasses.contains('theme-transition')) bodyClasses.add('theme-transition')
+    if (currentTheme.value && !bodyClasses.contains('theme-transition'))
+      bodyClasses.add('theme-transition')
 
     currentTheme.value = newTheme
   }

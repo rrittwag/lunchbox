@@ -1,7 +1,7 @@
 import About from '@/views/About.vue'
 import { render } from '@testing-library/vue'
 
-describe('About', () => {
+describe('about', () => {
   it('renders', () => {
     const { getByRole } = render(About)
 

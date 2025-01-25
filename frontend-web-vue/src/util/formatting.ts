@@ -1,21 +1,25 @@
 export function formatEuro(priceInCent?: number): string {
-  if (!priceInCent) return ''
+  if (!priceInCent)
+    return ''
   const euroString = `${Math.floor(priceInCent / 100)}`
   const centString = `0${priceInCent % 100}`.slice(-2)
   return `${euroString},${centString}`
 }
 
 export function formatToWeekday(date?: Date): string {
-  if (!date) return ''
+  if (!date)
+    return ''
   return date.toLocaleDateString(undefined, { weekday: 'long' })
 }
 
 export function formatToLocalDate(date?: Date): string {
-  if (!date) return ''
+  if (!date)
+    return ''
   return date.toLocaleDateString()
 }
 
 export function formatToISODate(date?: Date): string {
-  if (!date) return ''
+  if (!date)
+    return ''
   return date.toISOString().substring(0, 10)
 }

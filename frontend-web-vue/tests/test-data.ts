@@ -1,4 +1,4 @@
-import { LunchLocation, LunchOffer, LunchProvider } from '@/model/lunch'
+import type { LunchLocation, LunchOffer, LunchProvider } from '@/model/lunch'
 
 // --- test providers ---
 
@@ -42,3 +42,9 @@ export const münchen: LunchLocation = {
   name: 'München',
   shortName: 'M',
 }
+
+// --- date/time ---
+
+export const YESTERDAY = new Date('2019-12-01')
+export const TODAY = new Date('2019-12-02')
+export const TOMORROW = new Date('2019-12-03')

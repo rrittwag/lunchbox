@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import { RouterLink } from 'vue-router'
+
+const props = defineProps<{
+  to: string
+}>()
+</script>
+
 <template>
   <li class="inline-block px-2">
     <RouterLink v-slot="{ navigate, isExactActive, route }" :to="props.to" custom>
@@ -15,14 +23,6 @@
     </RouterLink>
   </li>
 </template>
-
-<script setup lang="ts">
-import { RouterLink } from 'vue-router'
-
-const props = defineProps<{
-  to: string
-}>()
-</script>
 
 <style lang="scss">
 .nav-link > svg {

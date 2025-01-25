@@ -1,10 +1,10 @@
-<template>
-  <Layout />
-</template>
-
 <script setup lang="ts">
-import Layout from '@/views/Layout.vue'
 import { useLunchStore } from '@/store/lunch'
+import Layout from '@/views/Layout.vue'
 
 useLunchStore().loadFromApi()
 </script>
+
+<template>
+  <Layout />
+</template>

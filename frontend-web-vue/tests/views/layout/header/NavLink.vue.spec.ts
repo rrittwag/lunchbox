@@ -1,9 +1,10 @@
+import type { RouteRecordRaw } from 'vue-router'
 import NavLink from '@/views/layout/header/NavLink.vue'
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { render, within } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
+import { render, within } from '@testing-library/vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
-describe('NavLink', () => {
+describe('navLink', () => {
   beforeEach(async () => {
     await router.push('/')
   })

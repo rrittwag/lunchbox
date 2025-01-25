@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import Nav from '@/views/layout/header/Nav.vue'
+import NavLink from '@/views/layout/header/NavLink.vue'
+import SettingsIcon from '~icons/fa-solid/cog'
+import InfoIcon from '~icons/fa-solid/info-circle'
+import OffersIcon from '~icons/fa-solid/utensils'
+</script>
+
 <template>
   <header class="pb-2 pt-4 sm:absolute sm:right-0 sm:top-0 sm:px-8 sm:pb-4">
     <Nav>
@@ -15,11 +23,3 @@
     </Nav>
   </header>
 </template>
-
-<script setup lang="ts">
-import OffersIcon from '~icons/fa-solid/utensils'
-import SettingsIcon from '~icons/fa-solid/cog'
-import InfoIcon from '~icons/fa-solid/info-circle'
-import NavLink from '@/views/layout/header/NavLink.vue'
-import Nav from '@/views/layout/header/Nav.vue'
-</script>
