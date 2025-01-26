@@ -26,8 +26,7 @@ it('renders just title WHEN offers are empty', () => {
   expect(queryByRole('list')).not.toBeInTheDocument()
 })
 
-// FIXME: jsdom does not support Tailwind v4 generated CSS-File, maybe because of @property?
-it.skip('hides details for screen size XS', () => {
+it('hides details for screen size XS', () => {
   const { queryAllByRole } = render(OfferBox, {
     props: { provider: mensa, offers: [gyros, soljanka] },
   })
@@ -37,8 +36,7 @@ it.skip('hides details for screen size XS', () => {
   expect(queryAllByRole('note')).toHaveLength(0)
 })
 
-// FIXME: jsdom does not support Tailwind v4 generated CSS-File, maybe because of @property?
-it.skip('wHEN clicked  THEN show details for screen size XS', async () => {
+it('wHEN clicked  THEN show details for screen size XS', async () => {
   const user = userEvent.setup()
   const { getByRole, queryAllByRole } = render(OfferBox, {
     props: { provider: mensa, offers: [gyros, soljanka] },

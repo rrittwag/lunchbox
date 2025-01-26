@@ -23,8 +23,7 @@ it('renders offer without price', () => {
   expectNotes(queryAllByRole('note'))
 })
 
-// FIXME: jsdom does not support Tailwind v4 generated CSS-File, maybe because of @property?
-it.skip('hides details for screen size XS', () => {
+it('hides details for screen size XS', () => {
   const { getByRole, getByLabelText, queryAllByRole } = render(Offer, {
     props: { offer: gyros },
   })
