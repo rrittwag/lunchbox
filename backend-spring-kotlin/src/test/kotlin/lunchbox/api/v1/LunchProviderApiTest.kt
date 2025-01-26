@@ -22,7 +22,8 @@ class LunchProviderApiTest(
   inner class GetAll {
     @Test
     fun success() {
-      mockMvc.get(URL_LUNCHPROVIDER)
+      mockMvc
+        .get(URL_LUNCHPROVIDER)
         .andExpect {
           status { isOk() }
           content { contentTypeCompatibleWith(APPLICATION_JSON) }
@@ -38,7 +39,8 @@ class LunchProviderApiTest(
   inner class GetOne {
     @Test
     fun `WHEN get schweinestall  THEN success`() {
-      mockMvc.get("$URL_LUNCHPROVIDER/${SCHWEINESTALL.id}")
+      mockMvc
+        .get("$URL_LUNCHPROVIDER/${SCHWEINESTALL.id}")
         .andExpect {
           status { isOk() }
           content { contentTypeCompatibleWith(APPLICATION_JSON) }
@@ -49,7 +51,8 @@ class LunchProviderApiTest(
 
     @Test
     fun `WHEN get unknown  THEN not found`() {
-      mockMvc.get("$URL_LUNCHPROVIDER/404")
+      mockMvc
+        .get("$URL_LUNCHPROVIDER/404")
         .andExpect {
           status { isNotFound() }
         }

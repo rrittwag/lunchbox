@@ -8,7 +8,9 @@ import java.time.LocalDate
 import java.time.Year
 
 @Component
-class FeiertageValidator(val api: FeiertageApi) : DateValidator {
+class FeiertageValidator(
+  val api: FeiertageApi,
+) : DateValidator {
   private val logger = KotlinLogging.logger {}
   val feiertage = loadFeiertage()
 

@@ -16,9 +16,7 @@ interface FacebookGraphApi {
   ): T?
 }
 
-inline fun <reified T : GraphApiResource> FacebookGraphApi.query(url: String): T? {
-  return this.query(url, T::class.java)
-}
+inline fun <reified T : GraphApiResource> FacebookGraphApi.query(url: String): T? = this.query(url, T::class.java)
 
 // --- models ---
 

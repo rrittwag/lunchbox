@@ -67,7 +67,9 @@ class LunchResolverPhoenixeum(
 
   sealed interface Text
 
-  data class Paragraph(val lines: List<TextLine>) : Text {
+  data class Paragraph(
+    val lines: List<TextLine>,
+  ) : Text {
     fun isValidOffer(): Boolean =
       // Die erste Zeile beinhaltet ein Datum/Wochentag
       lines.take(1).flatMap { it.segments }.any { it.contentType == ContentType.WEEKDAY } &&
@@ -76,11 +78,14 @@ class LunchResolverPhoenixeum(
         // Mind. 1 nicht fett geschriebener Text
         lines.flatMap { it.segments }.any { !it.isBold } &&
         // beinhaltet nicht Feiertag, Ostermontag o.ä.
-        lines.flatMap { it.segments }
+        lines
+          .flatMap { it.segments }
           .none { it.text.contains(Regex("Feiertag|Betriebsferien|Achtung|Wochenplan|geschlossen")) }
   }
 
-  data class TextLine(val segments: List<TextSegment>) : Text {
+  data class TextLine(
+    val segments: List<TextSegment>,
+  ) : Text {
     fun text(): String = segments.joinToString(" ") { it.text }
 
     fun isEmpty(): Boolean = segments.isEmpty()
@@ -183,7 +188,12 @@ class LunchResolverPhoenixeum(
     var curParagraphs = listOf<Paragraph>()
     for (rawParagraph in paragraphs) {
       val paragraph = adjustParagraph(rawParagraph) ?: continue
-      if (paragraph.isValidOffer() || paragraph.lines.first().segments.any { it.contentType == ContentType.WEEKDAY }) {
+      if (paragraph.isValidOffer() ||
+        paragraph.lines
+          .first()
+          .segments
+          .any { it.contentType == ContentType.WEEKDAY }
+      ) {
         if (curParagraphs.isNotEmpty()) {
           paragraphsByDate += curParagraphs
         }
@@ -208,9 +218,7 @@ class LunchResolverPhoenixeum(
     return result
   }
 
-  private fun adjustParagraph(paragraph: Paragraph): Paragraph? {
-    return removeEmptyLines(paragraph)
-  }
+  private fun adjustParagraph(paragraph: Paragraph): Paragraph? = removeEmptyLines(paragraph)
 
   private fun removeEmptyLines(paragraph: Paragraph): Paragraph? {
     val lines = paragraph.lines.filter { it.segments.isNotEmpty() }

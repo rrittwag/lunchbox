@@ -293,7 +293,8 @@ class LunchResolverGesundheitszentrum(
   }
 
   private fun correctWeekday(text: String) =
-    text.trim()
+    text
+      .trim()
       .replace("Nlittwoch", "Mittwoch")
       .replace("Freng", "Freitag")
       .replace("Freita;", "Freitag")
@@ -307,7 +308,8 @@ class LunchResolverGesundheitszentrum(
 
   private fun correctRowNumber(row: String): String {
     val rowWithCorrectedFitness =
-      row.trim()
+      row
+        .trim()
         .replace(Regex("""^FlTNESS """), "Fitness ")
 
     val rowWithoutFitness =
@@ -315,7 +317,8 @@ class LunchResolverGesundheitszentrum(
         .replace(Regex("""^FITNESS """), "")
 
     val correctedRowWithoutFitness =
-      rowWithoutFitness.trim()
+      rowWithoutFitness
+        .trim()
         .replace(Regex("""^(\d)[.,:;]* """), "$1. ")
         .replace(Regex("""^[fF][.,:;]* """), "F. ")
         .replace("T. ", "1. ")
@@ -330,14 +333,16 @@ class LunchResolverGesundheitszentrum(
   }
 
   private fun correctRowPrice(row: String) =
-    row.trim()
+    row
+      .trim()
       .replace(Regex(" 40€$"), " 4,90 €") // Hmm, blöd
       .replace(Regex("9 *€$"), "0 €") // Der Preis ist immer in 10er Cents
       .replace(Regex("""(\d+) ?[.,]? ?(\d{2}) ?[€g]?$"""), "$1,$2 €")
       .trim()
 
   private fun correctRowName(row: String) =
-    row.trim()
+    row
+      .trim()
       .replace("*", "\"")
       .replace(Regex("[„“”]"), "\"")
       .replace(Regex(",([a-zA-Z])"), ", $1")
@@ -356,7 +361,8 @@ class LunchResolverGesundheitszentrum(
       .trim()
 
   private fun removeZusatzinfos(name: String) =
-    name.trim()
+    name
+      .trim()
       .replace(Regex(" 3.14 "), " ")
       .replace(Regex(" 2 ?und "), " und ")
       .replace(" kcal", "")

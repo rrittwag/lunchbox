@@ -22,7 +22,8 @@ class LunchProviderApi {
     @PathVariable id: LunchProviderId,
   ): LunchProviderDTO =
     LunchProvider.entries
-      .find { id == it.id }?.toDTOv1()
+      .find { id == it.id }
+      ?.toDTOv1()
       ?: throw HttpNotFoundException("Mittagsanbieter mit ID $id nicht gefunden!")
 }
 

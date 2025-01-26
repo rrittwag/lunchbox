@@ -94,9 +94,8 @@ class FeedController(
     return feed
   }
 
-  private fun createHtmlLunchday(offersForDay: List<LunchOffer>): String {
-    return "<div>${createHtmlForProviders(offersForDay)}</div>"
-  }
+  private fun createHtmlLunchday(offersForDay: List<LunchOffer>): String =
+    "<div>${createHtmlForProviders(offersForDay)}</div>"
 
   private fun createHtmlForProviders(offers: List<LunchOffer>): String {
     var result = ""

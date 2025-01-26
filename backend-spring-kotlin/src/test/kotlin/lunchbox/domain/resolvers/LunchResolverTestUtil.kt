@@ -16,7 +16,9 @@ fun weekOf(dateString: String): Week = Week(date(dateString))
 
 fun weekOfToday(): Week = Week(LocalDate.now())
 
-data class Week(val dateInWeek: LocalDate) {
+data class Week(
+  val dateInWeek: LocalDate,
+) {
   val monday: LocalDate = dateInWeek.with(DayOfWeek.MONDAY)
   val tuesday: LocalDate = dateInWeek.with(DayOfWeek.TUESDAY)
   val wednesday: LocalDate = dateInWeek.with(DayOfWeek.WEDNESDAY)

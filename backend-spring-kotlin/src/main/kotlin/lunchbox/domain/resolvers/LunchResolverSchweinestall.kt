@@ -47,7 +47,8 @@ class LunchResolverSchweinestall(
     if (!dateValidator.isValid(monday, provider)) return emptyList()
 
     val tdsAsText =
-      offersElem.select("td")
+      offersElem
+        .select("td")
         .map { it.text() }
 
     return tdsAsText

@@ -38,7 +38,8 @@ class LunchOfferApiTest(
     fun success() {
       every { repo.findAll() } returns listOf(GYROS, SOLJANKA)
 
-      mockMvc.get(URL_LUNCHOFFER)
+      mockMvc
+        .get(URL_LUNCHOFFER)
         .andExpect {
           status { isOk() }
           content { contentTypeCompatibleWith(APPLICATION_JSON) }
@@ -58,7 +59,8 @@ class LunchOfferApiTest(
     fun success() {
       every { repo.findByDay(GYROS.day) } returns listOf(GYROS)
 
-      mockMvc.get("$URL_LUNCHOFFER?day=${GYROS.day}")
+      mockMvc
+        .get("$URL_LUNCHOFFER?day=${GYROS.day}")
         .andExpect {
           status { isOk() }
           content { contentTypeCompatibleWith(APPLICATION_JSON) }
@@ -75,7 +77,8 @@ class LunchOfferApiTest(
     fun `WHEN wrong day format  THEN 400`() {
       every { repo.findByDay(GYROS.day) } returns listOf(GYROS)
 
-      mockMvc.get("$URL_LUNCHOFFER?day=xmas")
+      mockMvc
+        .get("$URL_LUNCHOFFER?day=xmas")
         .andExpect {
           status { isBadRequest() }
         }
@@ -90,7 +93,8 @@ class LunchOfferApiTest(
     fun success() {
       every { repo.findByIdOrNull(GYROS.id) } returns GYROS
 
-      mockMvc.get("$URL_LUNCHOFFER/${GYROS.id}")
+      mockMvc
+        .get("$URL_LUNCHOFFER/${GYROS.id}")
         .andExpect {
           status { isOk() }
           content { contentTypeCompatibleWith(APPLICATION_JSON) }
@@ -110,7 +114,8 @@ class LunchOfferApiTest(
     fun `not found`() {
       every { repo.findByIdOrNull(GYROS.id) } returns null
 
-      mockMvc.get("$URL_LUNCHOFFER/${GYROS.id}")
+      mockMvc
+        .get("$URL_LUNCHOFFER/${GYROS.id}")
         .andExpect {
           status { isNotFound() }
         }

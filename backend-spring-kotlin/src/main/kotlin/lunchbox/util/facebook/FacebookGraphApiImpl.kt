@@ -26,7 +26,8 @@ class FacebookGraphApiImpl(
     val resource = url.replaceFirst(Regex("^/"), "")
     val accessToken = "access_token=${config.appId}|{${config.appSecret}}"
 
-    return WebClient.create("https://graph.facebook.com/v2.10/$resource?$accessToken")
+    return WebClient
+      .create("https://graph.facebook.com/v2.10/$resource?$accessToken")
       .get()
       .retrieve()
       .bodyToMono(clazz)

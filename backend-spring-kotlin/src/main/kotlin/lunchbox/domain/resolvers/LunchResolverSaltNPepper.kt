@@ -47,10 +47,11 @@ class LunchResolverSaltNPepper(
       val h4 = div.select("h4")
       val title = parseName(h4.text())
 
-      for (section in OfferSection.entries)
+      for (section in OfferSection.entries) {
         if (section.label == title) {
           section2node += section to div
         }
+      }
     }
 
     val dayNodes = section2node.filterKeys { OfferSection.weekdayValues.contains(it) }
@@ -81,10 +82,13 @@ class LunchResolverSaltNPepper(
     days: Set<LocalDate>,
   ): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
-    for ((_, node) in section2node)
-      for (pureOffer in resolveSectionOffers(node))
-        for (weekday in days)
+    for ((_, node) in section2node) {
+      for (pureOffer in resolveSectionOffers(node)) {
+        for (weekday in days) {
           result += pureOffer.copy(day = weekday, tags = pureOffer.tags + "Wochenangebot")
+        }
+      }
+    }
     return result
   }
 

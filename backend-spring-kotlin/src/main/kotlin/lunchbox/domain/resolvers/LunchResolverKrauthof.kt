@@ -110,7 +110,8 @@ class LunchResolverKrauthof(
     }
 
   private fun parseName(text: String): String =
-    text.trim()
+    text
+      .trim()
       .replace("  ", " ")
       .replace("–", "-")
       .replace(Regex(""" *[│|] *"""), ", ")

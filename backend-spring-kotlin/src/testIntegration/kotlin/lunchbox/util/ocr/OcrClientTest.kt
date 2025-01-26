@@ -64,5 +64,6 @@ class OcrClientTest {
 
 // BUGFIX: Kotlin does not support SELF types
 // -> https://github.com/testcontainers/testcontainers-java/issues/1010
-class KtDockerComposeContainer(file: File) :
-  DockerComposeContainer<KtDockerComposeContainer>(file)
+class KtDockerComposeContainer(
+  file: File,
+) : DockerComposeContainer<KtDockerComposeContainer>(file)

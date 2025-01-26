@@ -30,8 +30,9 @@ class LunchOfferUpdateTest {
     testUnit.updateOffers()
 
     verify(exactly = 1) { repo.deleteBefore(DateValidator.mondayLastWeek()) }
-    for (provider in activeProviders)
+    for (provider in activeProviders) {
       verify(exactly = 1) { worker.refreshOffersOf(provider) }
+    }
   }
 
   // --- mocks 'n' stuff

@@ -21,7 +21,8 @@ class HtmlRendererImpl(
   val rendertronUrl: String,
 ) : HtmlRenderer {
   override fun render(url: URL): String =
-    WebClient.create("$rendertronUrl/render/$url")
+    WebClient
+      .create("$rendertronUrl/render/$url")
       .get()
       .retrieve()
       .bodyToMono<String>()

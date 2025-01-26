@@ -21,10 +21,18 @@ class FacebookGraphApiTest {
     result.data[0].id shouldBeEqualTo "181190361991823_723372204440300"
     result.data[0].message shouldContain "10.07.2015"
 
-    result.data[0].attachments.data[0].media shouldNotBe null
-    result.data[0].attachments.data[0].subattachments.data shouldHaveSize 0
-    result.data[4].attachments.data[0].media shouldBe null
-    result.data[4].attachments.data[0].subattachments.data shouldHaveSize 2
+    result.data[0]
+      .attachments.data[0]
+      .media shouldNotBe null
+    result.data[0]
+      .attachments.data[0]
+      .subattachments.data shouldHaveSize 0
+    result.data[4]
+      .attachments.data[0]
+      .media shouldBe null
+    result.data[4]
+      .attachments.data[0]
+      .subattachments.data shouldHaveSize 2
   }
 
   @Test

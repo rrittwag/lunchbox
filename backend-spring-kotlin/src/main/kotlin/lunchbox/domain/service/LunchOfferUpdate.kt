@@ -31,8 +31,9 @@ class LunchOfferUpdate(
 
     removeOutdatedOffers()
 
-    for (provider in LunchProvider.entries.filter { it.active })
+    for (provider in LunchProvider.entries.filter { it.active }) {
       worker.refreshOffersOf(provider)
+    }
   }
 
   private fun removeOutdatedOffers() {

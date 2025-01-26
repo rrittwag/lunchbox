@@ -120,5 +120,8 @@ class PdfTextGroupStripperTest {
     return mockPos
   }
 
-  data class Pos(val x: Float, val y: Float)
+  data class Pos(
+    val x: Float,
+    val y: Float,
+  )
 }

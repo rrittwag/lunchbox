@@ -140,7 +140,8 @@ class LunchResolverFeldkueche(
   }
 
   private fun correctOcrErrors(line: String) =
-    line.trim()
+    line
+      .trim()
       .replace("Wochenglan", "Wochenplan")
       .replace("‚", ",")
       .replace("""l)""", "0")

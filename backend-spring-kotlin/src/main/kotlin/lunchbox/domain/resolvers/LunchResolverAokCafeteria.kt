@@ -26,15 +26,17 @@ class LunchResolverAokCafeteria(
     val site = htmlParser.parse(htmlUrl)
 
     val weekDates =
-      site.select(".child")
+      site
+        .select(".child")
         .mapNotNull { StringParser.parseLocalDate(it.text()) }
         .map { it.with(DayOfWeek.MONDAY) }
 
     val weekDivs = site.select("div[class*=child_menu]")
 
     val offers = mutableListOf<LunchOffer>()
-    for ((date, weekDiv) in weekDates.zip(weekDivs))
+    for ((date, weekDiv) in weekDates.zip(weekDivs)) {
       offers += resolveByWeek(date, weekDiv)
+    }
 
     return offers
   }

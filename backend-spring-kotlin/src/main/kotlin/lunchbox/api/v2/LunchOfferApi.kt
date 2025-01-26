@@ -18,7 +18,9 @@ import java.time.LocalDate
  * REST API-Controller für Mittagsangebote.
  */
 @RestApi
-class LunchOfferApi(val repo: LunchOfferRepository) {
+class LunchOfferApi(
+  val repo: LunchOfferRepository,
+) {
   @GetMapping(URL_LUNCHOFFER)
   fun getAll(
     @RequestParam

@@ -31,7 +31,9 @@ class PdfTextGroupStripper : PDFTextStripper() {
   fun getTextLines(pDDocument: PDDocument): List<TextLine> = TextLine.toLines(getTextGroups(pDDocument))
 }
 
-data class TextGroup(var positions: List<TextPosition>) {
+data class TextGroup(
+  var positions: List<TextPosition>,
+) {
   init {
     validate()
   }
@@ -69,7 +71,10 @@ data class TextGroup(var positions: List<TextPosition>) {
   }
 }
 
-data class TextLine(val y: Float, val texts: List<TextGroup>) {
+data class TextLine(
+  val y: Float,
+  val texts: List<TextGroup>,
+) {
   fun oneTextMatches(regex: Regex): Boolean = texts.any { it.toString().matches(regex) }
 
   fun allTextsMatch(regex: Regex): Boolean = texts.all { it.toString().matches(regex) }

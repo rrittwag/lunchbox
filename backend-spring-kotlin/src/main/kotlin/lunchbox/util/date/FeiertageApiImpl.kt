@@ -24,7 +24,8 @@ class FeiertageApiImpl(
     val httpCalls =
       Flux.fromIterable(jahre).flatMap { jahr ->
         Flux.fromIterable(laender).flatMap { land ->
-          WebClient.create("$baseUrl/api/?jahr=${jahr.value}&nur_land=${land.kuerzel}")
+          WebClient
+            .create("$baseUrl/api/?jahr=${jahr.value}&nur_land=${land.kuerzel}")
             .get()
             .retrieve()
             .bodyToFlux<Map<String, FeiertagDTO>>()

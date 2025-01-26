@@ -42,7 +42,8 @@ class FeedControllerTest(
     fun success() {
       every { repo.findAll() } returns listOf(offerYesterday, offerToday)
 
-      mockMvc.get("$URL_FEED?location=${NEUBRANDENBURG.label}")
+      mockMvc
+        .get("$URL_FEED?location=${NEUBRANDENBURG.label}")
         .andExpect {
           status { isOk() }
           content { contentTypeCompatibleWith(MediaType.APPLICATION_ATOM_XML) }
@@ -58,7 +59,8 @@ class FeedControllerTest(
     fun `WHEN param location is missing  THEN return 400`() {
       every { repo.findAll() } returns listOf(offerYesterday, offerToday)
 
-      mockMvc.get(URL_FEED)
+      mockMvc
+        .get(URL_FEED)
         .andExpect {
           status { isBadRequest() }
         }

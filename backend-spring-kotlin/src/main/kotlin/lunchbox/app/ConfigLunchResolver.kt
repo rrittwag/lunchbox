@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class ConfigLunchResolver(val feiertageValidator: FeiertageValidator) {
+class ConfigLunchResolver(
+  val feiertageValidator: FeiertageValidator,
+) {
   @Bean
   fun dateValidator() = DateValidator.validFromMondayLastWeek().and(feiertageValidator)
 }

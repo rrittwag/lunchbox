@@ -68,7 +68,9 @@ class LunchResolverSuppenkulttour(
 
   sealed interface Text
 
-  data class Paragraph(val lines: List<TextLine>) : Text {
+  data class Paragraph(
+    val lines: List<TextLine>,
+  ) : Text {
     fun isValidOffer(): Boolean =
       // Die ersten 2 Zeilen beinhalten einen Titel
       lines.take(2).flatMap { it.segments }.any { it.contentType == ContentType.TITLE } &&
@@ -77,7 +79,8 @@ class LunchResolverSuppenkulttour(
         // Mind. 1 nicht fett geschriebener Text (Zusatzinfo, Beschreibung, Preis)
         lines.flatMap { it.segments }.any { !it.isBold } &&
         // beinhaltet nicht Feiertag, Ostermontag o.ä.
-        lines.flatMap { it.segments }
+        lines
+          .flatMap { it.segments }
           .none { it.text.contains(Regex("Feiertag|Betriebsferien|Achtung|Wochenplan|geschlossen")) }
 
     fun hasTitleLike(title: String): Boolean = lines.any { it.hasTitleLike(title) }
@@ -87,7 +90,9 @@ class LunchResolverSuppenkulttour(
     fun containsEmptyLines(): Boolean = lines.any { it.isEmpty() }
   }
 
-  data class TextLine(val segments: List<TextSegment>) : Text {
+  data class TextLine(
+    val segments: List<TextSegment>,
+  ) : Text {
     fun hasTitleLike(title: String): Boolean = segments.any { it.isBold && it.text.contains(title, true) }
 
     fun containsDateOrWeekday(): Boolean =
@@ -106,7 +111,10 @@ class LunchResolverSuppenkulttour(
 
   data object TextBreak : Text
 
-  data class GroupedParagraphs(val wochensuppen: List<Paragraph>, val tagessuppen: Map<LocalDate, Paragraph>)
+  data class GroupedParagraphs(
+    val wochensuppen: List<Paragraph>,
+    val tagessuppen: Map<LocalDate, Paragraph>,
+  )
 
   private fun parseOffers(
     wochenplanSection: Element,
@@ -452,7 +460,8 @@ class LunchResolverSuppenkulttour(
     lines
       .mapNotNull { Regex("""\| *mittel([\d,. ]*)€.*""").find(it) }
       .mapNotNull { StringParser.parseMoney(it.destructured.component1()) }
-      .toSet().firstOrNull()
+      .toSet()
+      .firstOrNull()
 
   private fun parseVeggie(vararg sources: String): Set<String> {
     val result = mutableSetOf<String>()
@@ -476,7 +485,8 @@ class LunchResolverSuppenkulttour(
   }
 
   private fun adjustText(text: String) =
-    text.trim()
+    text
+      .trim()
       .replace("–", "-")
       .replace(" , ", ", ")
       .replace("\n", "")
@@ -554,8 +564,20 @@ class LunchResolverSuppenkulttour(
     fun isZusatzInfo(string: String): Boolean {
       val zusatzInfos =
         listOf(
-          "vegan", "glutenfrei", "vegetarisch", "veg.", "veget.", "vegarisch",
-          "laktosefrei", "veget.gf", "gf", "lf", "enthält", "enthälti", "vegt.", "Weizen",
+          "vegan",
+          "glutenfrei",
+          "vegetarisch",
+          "veg.",
+          "veget.",
+          "vegarisch",
+          "laktosefrei",
+          "veget.gf",
+          "gf",
+          "lf",
+          "enthält",
+          "enthälti",
+          "vegt.",
+          "Weizen",
         )
       return string.split(Regex("[|(), ]")).all { it.length < 3 || zusatzInfos.contains(it.trim()) }
     }

@@ -36,7 +36,8 @@ class NginxTest {
     val resourceFile = "menus/feldkueche/ocr/2016-10-10.jpg.txt"
 
     val httpResult =
-      WebClient.create("${resourcesHost()}/$resourceFile")
+      WebClient
+        .create("${resourcesHost()}/$resourceFile")
         .get()
         .retrieve()
         .bodyToMono<String>()

@@ -27,7 +27,8 @@ class OcrClient(
         "engine_args" to mapOf("lang" to "deu"),
       )
 
-    return WebClient.create("$ocrUrl/url")
+    return WebClient
+      .create("$ocrUrl/url")
       .post()
       .body(BodyInserters.fromValue(requestBody))
       .retrieve()
