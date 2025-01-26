@@ -5,7 +5,7 @@
 @theme {
   --container-4md: 112rem; /* 4x OfferBox mit max-w-md (siehe OfferBoxGroup) */
 
-  --font-sans: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-sans: Inter Variable, system-ui, Avenir, Helvetica, Arial, sans-serif;
   --font-display: Chewy, ui-serif, Georgia, Cambria, Times New Roman, Times, serif;
 
   --color-*: initial; /* FIXME: TailwindCSS erhält alle unnützen Variablen -> https://github.com/tailwindlabs/tailwindcss/issues/15714 */
