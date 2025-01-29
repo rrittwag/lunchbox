@@ -1,8 +1,8 @@
 package lunchbox.util.date
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import lunchbox.domain.models.LunchLocation
 import lunchbox.domain.models.LunchProvider
-import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 import java.time.Year

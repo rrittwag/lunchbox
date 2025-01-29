@@ -2,11 +2,11 @@
 
 package lunchbox.domain.service
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.annotation.PostConstruct
 import lunchbox.domain.models.LunchProvider
 import lunchbox.repository.LunchOfferRepository
 import lunchbox.util.date.DateValidator
-import mu.KotlinLogging
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.scheduling.annotation.Schedules
 import org.springframework.stereotype.Service

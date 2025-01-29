@@ -1,11 +1,11 @@
 package lunchbox.domain.resolvers
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.string.StringParser
-import mu.KotlinLogging
 import org.joda.money.Money
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
