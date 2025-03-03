@@ -39,4 +39,5 @@ enum class LunchProvider(
   TABBOULEH(9, "Tabbouleh", BERLIN_SPRINGPFUHL, url("https://www.restaurant-tabbouleh.de/menu"), false),
   PHOENIXEUM(10, "Phoenixeum", NEUBRANDENBURG, url("https://www.suppenkult.com/wochenplan.html")),
   BOULEVARD_IMBISS(11, "Boulevard Imbiss", NEUBRANDENBURG, url("https://www.boulevard-imbiss.de/")),
+  TORNEY(12, "Torney", NEUBRANDENBURG, url("https://www.torney-landfleischerei.de/")),
 }
