@@ -162,18 +162,6 @@ class LunchResolverTorney(
       result += newOffer
     }
 
-    val prices =
-      segments
-        .filterIsInstance<TextSegment>()
-        .filter { it.contentType == ContentType.PRICE }
-        .forEachIndexed { index, text ->
-          if (result.size >
-            index
-          ) {
-            result[index] = result[index].copy(price = StringParser.parseMoney(text.text))
-          }
-        }
-
     return result
   }
 
