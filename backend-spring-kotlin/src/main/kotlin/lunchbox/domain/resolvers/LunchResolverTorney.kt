@@ -137,7 +137,8 @@ class LunchResolverTorney(
           listOf(
             ContentType.DESCRIPTION,
             ContentType.PREPOSITION,
-          ) || prepositionBefore ||
+          ) ||
+          prepositionBefore ||
           !breakBefore
         ) {
           newOffer =
@@ -161,6 +162,17 @@ class LunchResolverTorney(
     if (newOffer != null) {
       result += newOffer
     }
+
+    segments
+      .filterIsInstance<TextSegment>()
+      .filter { it.contentType == ContentType.PRICE }
+      .forEachIndexed { index, text ->
+        if (result.size >
+          index
+        ) {
+          result[index] = result[index].copy(price = StringParser.parseMoney(text.text))
+        }
+      }
 
     return result
   }
