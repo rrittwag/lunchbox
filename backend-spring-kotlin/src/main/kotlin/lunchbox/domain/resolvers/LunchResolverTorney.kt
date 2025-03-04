@@ -8,7 +8,6 @@ import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser
 import lunchbox.util.url.UrlUtil.url
 import org.joda.money.Money
-import org.jsoup.nodes.Element
 import org.springframework.stereotype.Component
 import java.net.URL
 import java.time.DayOfWeek
@@ -88,7 +87,7 @@ class LunchResolverTorney(
       lines
         .map { if (it.isEmpty()) TextBreak else TextSegment(it, ContentType.UNKNOWN) }
         .map { guessContentType(it) }
-        .flatMap { adjustPreposition(it) }
+        .flatMap { adjustSegment(it) }
 
     return segments
   }
@@ -106,19 +105,21 @@ class LunchResolverTorney(
         }
     }
 
-  private fun adjustPreposition(segment: Text): List<Text> =
-    when (segment) {
-      is TextBreak -> listOf(segment)
-      is TextSegment -> {
-        val matchOffer = Regex("""^(.+) (von|mit)$""").find(segment.text)
-        if (matchOffer == null) {
-          listOf(segment)
-        } else {
-          val (pre, post) = matchOffer.destructured
-          listOf(TextSegment(pre, segment.contentType), TextSegment(post, ContentType.PREPOSITION))
-        }
+  private fun adjustSegment(segment: Text): List<Text> {
+    if (segment is TextSegment) {
+      var matchOffer = Regex("""^(.+) ([0-9,]+ *€)$""").find(segment.text)
+      if (matchOffer != null) {
+        val (pre, post) = matchOffer.destructured
+        return listOf(TextSegment(pre, segment.contentType), TextSegment(post, ContentType.PRICE))
+      }
+      matchOffer = Regex("""^(.+) (mit|und)$""").find(segment.text)
+      if (matchOffer != null) {
+        val (pre, post) = matchOffer.destructured
+        return listOf(TextSegment(pre, segment.contentType), TextSegment(post, ContentType.PREPOSITION))
       }
     }
+    return listOf(segment)
+  }
 
   private fun createRawOffers(segments: List<Text>): List<RawOffer> {
     val result = mutableListOf<RawOffer>()
@@ -130,9 +131,13 @@ class LunchResolverTorney(
     for (segment in segments) {
       if (segment is TextBreak) {
         breakBefore = true
-      } else if (segment is TextSegment && segment.contentType != ContentType.PRICE) {
+      } else if (segment is TextSegment) {
         if (newOffer == null) {
           newOffer = RawOffer(segment.text)
+          breakBefore = false
+        } else if (segment.contentType == ContentType.PRICE) {
+          if (!breakBefore) newOffer.price = StringParser.parseMoney(segment.text)
+          breakBefore = false
         } else if (segment.contentType in
           listOf(
             ContentType.DESCRIPTION,
@@ -141,21 +146,18 @@ class LunchResolverTorney(
           prepositionBefore ||
           !breakBefore
         ) {
-          newOffer =
-            newOffer.copy(
-              description =
-                if (newOffer.description ==
-                  null
-                ) {
-                  segment.text
-                } else {
-                  "${newOffer.description} ${segment.text}"
-                },
-            )
+          newOffer.description =
+            if (newOffer.description == null) {
+              segment.text
+            } else {
+              "${newOffer.description} ${segment.text}"
+            }
           prepositionBefore = segment.contentType === ContentType.PREPOSITION
+          breakBefore = false
         } else {
           result += newOffer
           newOffer = RawOffer(segment.text)
+          breakBefore = false
         }
       }
     }
@@ -163,16 +165,16 @@ class LunchResolverTorney(
       result += newOffer
     }
 
-    segments
-      .filterIsInstance<TextSegment>()
-      .filter { it.contentType == ContentType.PRICE }
-      .forEachIndexed { index, text ->
-        if (result.size >
-          index
-        ) {
-          result[index] = result[index].copy(price = StringParser.parseMoney(text.text))
+    if (result.all { it.price == null }) {
+      segments
+        .filterIsInstance<TextSegment>()
+        .filter { it.contentType == ContentType.PRICE }
+        .forEachIndexed { index, text ->
+          if (result.size > index) {
+            result[index].price = StringParser.parseMoney(text.text)
+          }
         }
-      }
+    }
 
     return result
   }
@@ -187,53 +189,13 @@ class LunchResolverTorney(
       }.dropWhile { it.isEmpty() }
       .dropLastWhile { it.isEmpty() }
 
-  private fun resolveOffers(
-    dateElem: Element,
-    offersElem: Element,
-  ): List<LunchOffer> {
-    val monday: LocalDate = resolveMonday(dateElem) ?: return emptyList()
-    if (!dateValidator.isValid(monday, provider)) return emptyList()
-
-    val tdsAsText =
-      offersElem
-        .select("td")
-        .map { it.text() }
-
-    return tdsAsText
-      .chunked(6) // 6 td sind ein Offer ...
-      .filter { it.size >= 4 } // ... nur die erste 4 enthalten Daten
-      .mapNotNull { (weekday, _, offerName, price) ->
-        resolveOffer(monday, weekday, offerName, price)
-      }
-  }
-
-  private fun resolveMonday(dateElem: Element): LocalDate? {
-    val dateString = dateElem.text().replace(" ", "")
-    val day = StringParser.parseLocalDate(dateString) ?: return null
-    return day.with(DayOfWeek.MONDAY)
-  }
-
-  private fun resolveOffer(
-    monday: LocalDate,
-    weekdayString: String,
-    nameString: String,
-    priceString: String,
-  ): LunchOffer? {
-    val weekday = Weekday.entries.find { it.label == weekdayString } ?: return null
-    val day = monday.plusDays(weekday.order)
-    val price = StringParser.parseMoney(priceString) ?: return null
-    val name = nameString
-    val (title, description) = StringParser.splitOfferName(name, listOf(" auf ", " mit "))
-    return LunchOffer(0, title, description, day, price, emptySet(), provider.id)
-  }
-
   private fun correctOcrErrors(line: String) =
     line
       .trim()
       .replace("TACESGERICHTE", "TAGESGERICHTE")
       .replace("‚", ",")
       .replace(";", "")
-      .replace(Regex("^[: ]+"), "")
+      .replace(Regex("^[:\" ]+"), "")
       .replace("—", "-")
       .replace(Regex(" -$"), "")
       .replace(Regex("[ .:;%@”©‘fi{}]+$"), "")
@@ -258,9 +220,9 @@ class LunchResolverTorney(
   data object TextBreak : Text
 
   data class RawOffer(
-    val name: String,
-    val description: String? = null,
-    val price: Money? = null,
+    var name: String,
+    var description: String? = null,
+    var price: Money? = null,
   )
 
   enum class Weekday(

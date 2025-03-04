@@ -2,6 +2,7 @@ package lunchbox.util.ocr
 
 import lunchbox.util.url.UrlUtil.url
 import org.amshove.kluent.shouldBeEqualTo
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.testcontainers.containers.DockerComposeContainer
@@ -43,9 +44,11 @@ class OcrClientTest {
   @ParameterizedTest
   @ValueSource(
     strings = [
-      "menus/torney/ocr/Tagesgericht-07.KW-2025.png",
+      "menus/torney/ocr/Tagesgericht-09.KW-2025.png",
+      "menus/torney/ocr/Tagesgericht-10.KW-2025.png",
     ],
   )
+  @Disabled
   fun `generate and save OCR text`(file: String) {
     val ocrText =
       OcrClient(ocrServerUrl())

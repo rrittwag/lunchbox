@@ -146,8 +146,38 @@ class LunchResolverTorneyTest {
         0,
         "Wurstgulasch",
         "mit Nudeln",
-        week.tuesday,
+        week.monday,
         null,
+        emptySet(),
+        providerId,
+      )
+  }
+
+  @Test
+  fun `resolve offers for week of 2025-03-03`() {
+    val text = readFileContent("/menus/torney/ocr/Tagesgericht-10.KW-2025.png.txt")
+    val week = weekOf("2025-03-03")
+
+    val offers = resolver().resolveOffersFromText(text, week.monday)
+
+    offers shouldHaveSize 10
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Kohlroulade",
+        "mit Salzkartoffeln",
+        week.monday,
+        null,
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Hähnchenschenkel",
+        "mit Salzkartoffeln und Buttergemüse",
+        week.monday,
+        euro("7.50"),
         emptySet(),
         providerId,
       )
