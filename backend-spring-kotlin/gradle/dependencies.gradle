@@ -27,7 +27,7 @@ dependencies {
   implementation 'com.rometools:rome:2.1.0'
 
   // money money money
-  implementation 'org.joda:joda-money:2.0.0'
+  implementation 'org.joda:joda-money:2.0.1'
 
   // Test-Abhängigkeiten sind in test.gradle definiert
 }
