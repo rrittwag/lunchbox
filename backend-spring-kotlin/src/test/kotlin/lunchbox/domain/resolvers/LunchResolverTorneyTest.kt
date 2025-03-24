@@ -183,6 +183,36 @@ class LunchResolverTorneyTest {
       )
   }
 
+  @Test
+  fun `resolve offers for week of 2025-03-24`() {
+    val text = readFileContent("/menus/torney/ocr/Tagesgericht-13.KW-2025.png.txt")
+    val week = weekOf("2025-03-24")
+
+    val offers = resolver().resolveOffersFromText(text, week.monday)
+
+    offers shouldHaveSize 10
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Kohlroulade",
+        "mit Salzkartoffeln",
+        week.monday,
+        euro("7.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schnitzel",
+        "mit Rahmgemüse und Salzkartoffeln",
+        week.monday,
+        null,
+        emptySet(),
+        providerId,
+      )
+  }
+
   private fun readFileContent(path: String): String {
     val url = javaClass.getResource(path)
     return url.readText(Charsets.UTF_8)

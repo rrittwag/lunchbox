@@ -44,8 +44,7 @@ class OcrClientTest {
   @ParameterizedTest
   @ValueSource(
     strings = [
-      "menus/torney/ocr/Tagesgericht-09.KW-2025.png",
-      "menus/torney/ocr/Tagesgericht-10.KW-2025.png",
+      "menus/torney/ocr/Tagesgericht-13.KW-2025.png",
     ],
   )
   @Disabled

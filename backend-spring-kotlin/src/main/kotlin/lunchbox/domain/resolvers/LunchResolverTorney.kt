@@ -200,6 +200,12 @@ class LunchResolverTorney(
       .replace(Regex(" -$"), "")
       .replace(Regex("[ .:;%@”©‘fi{}]+$"), "")
       .replace(Regex(" [a-zA-Z]$"), "")
+      .replace(Regex("mit([A-Z])"), "mit $1")
+      .replace(Regex("und([A-Z])"), "und $1")
+      .replace(Regex("""([0-9,]+) *<"""), "$1 €")
+      .replace(Regex("""([0-9,]+)9 *€"""), "$10 €")
+      .replace(Regex("""\(([0-9,]+) *€"""), "$1 €")
+      .replace(Regex("""([0-9])([0-9]{2}) *€"""), "$1,$2 €")
       .trim()
 
   enum class ContentType {
