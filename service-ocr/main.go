@@ -78,13 +78,13 @@ func downloadImage(imageUrl string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	defer imageFile.Close()
+	defer imageFile.Close() // nolint:errcheck
 
 	resp, err := http.Get(imageUrl)
 	if err != nil {
 		return "", err
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() // nolint:errcheck
 
 	_, err = io.Copy(imageFile, resp.Body)
 	if err != nil {
