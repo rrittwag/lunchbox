@@ -182,7 +182,7 @@ class LunchResolverTorney(
   private fun filterIrrelevantLines(contentAsLines: List<String>) =
     contentAsLines
       .filterNot {
-        it.matches(Regex("^[0-9.-]+$")) ||
+        it.matches(Regex("^[0-9. -]+$")) ||
           it.contains("tagesgericht", true) ||
           it.contains("vorrat", true) ||
           it.contains("torney", true)
@@ -210,6 +210,7 @@ class LunchResolverTorney(
 
   enum class ContentType {
     UNKNOWN,
+    DATE,
     TITLE,
     DESCRIPTION,
     PREPOSITION,
