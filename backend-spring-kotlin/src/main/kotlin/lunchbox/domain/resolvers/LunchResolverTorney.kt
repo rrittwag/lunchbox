@@ -39,6 +39,7 @@ class LunchResolverTorney(
   private fun resolveTextFromImageLink(imageUrl: URL): List<LunchOffer> {
     val monday = parseMonday(imageUrl.toString()) ?: return emptyList()
     return resolveOffersFromText(ocrClient.doOCR(imageUrl), monday)
+      .filter { dateValidator.isValid(it.day, provider) }
   }
 
   fun parseMonday(url: String): LocalDate? {
