@@ -1,12 +1,12 @@
+import userEvent from '@testing-library/user-event'
+import { render } from '@testing-library/vue'
+import { TODAY, TOMORROW, YESTERDAY } from '@tests/test-data'
 import DaySelector from '@/views/offers/DaySelector.vue'
 import {
   DaySelectorDirection,
   LABEL_GO_TO_NEXT_DAY,
   LABEL_GO_TO_PREVIOUS_DAY,
 } from '@/views/offers/dayselector/DaySelector.values'
-import userEvent from '@testing-library/user-event'
-import { render } from '@testing-library/vue'
-import { TODAY, TOMORROW, YESTERDAY } from '@tests/test-data'
 
 it('renders', () => {
   const { getByRole } = render(DaySelector, {

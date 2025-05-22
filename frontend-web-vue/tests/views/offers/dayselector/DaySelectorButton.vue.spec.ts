@@ -1,11 +1,11 @@
+import userEvent from '@testing-library/user-event'
+import { render } from '@testing-library/vue'
 import {
   DaySelectorDirection,
   LABEL_GO_TO_NEXT_DAY,
   LABEL_GO_TO_PREVIOUS_DAY,
 } from '@/views/offers/dayselector/DaySelector.values'
 import DaySelectorButton from '@/views/offers/dayselector/DaySelectorButton.vue'
-import userEvent from '@testing-library/user-event'
-import { render } from '@testing-library/vue'
 
 it('renders as previous day', () => {
   const { getByRole } = render(DaySelectorButton, {

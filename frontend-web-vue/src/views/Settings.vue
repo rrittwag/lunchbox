@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useTheme } from '@/store/theme'
 import { storeToRefs } from 'pinia'
+import { useTheme } from '@/store/theme'
 
 const store = useTheme()
 const { themes, currentTheme } = storeToRefs(store)

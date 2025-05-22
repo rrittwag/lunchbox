@@ -1,5 +1,5 @@
-import About from '@/views/About.vue'
 import { render } from '@testing-library/vue'
+import About from '@/views/About.vue'
 
 it('renders', () => {
   const { getByRole } = render(About)

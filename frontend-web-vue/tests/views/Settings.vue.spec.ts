@@ -1,7 +1,7 @@
-import { THEME_RED, useTheme } from '@/store/theme'
-import Settings from '@/views/Settings.vue'
 import { render } from '@testing-library/vue'
 import { createTestingPinia } from '@tests/test-utils'
+import { THEME_RED, useTheme } from '@/store/theme'
+import Settings from '@/views/Settings.vue'
 
 it('renders', () => {
   const pinia = createTestingPinia()

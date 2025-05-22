@@ -1,11 +1,11 @@
 import type { ApiError } from '@/api/http'
 import type { LunchOffer, LunchProvider } from '@/model/lunch'
-import api from '@/api/lunch'
-import { LunchLocation } from '@/model/lunch'
-import { today } from '@/util/date'
 import { useStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { readonly, ref } from 'vue'
+import api from '@/api/lunch'
+import { LunchLocation } from '@/model/lunch'
+import { today } from '@/util/date'
 
 export const useLunchStore = defineStore('lunch', () => {
   // --------------------

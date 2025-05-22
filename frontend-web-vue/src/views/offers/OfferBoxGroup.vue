@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { LunchOffer, LunchProvider } from '@/model/lunch'
-import { useLunchStore } from '@/store/lunch'
-import OfferBox from '@/views/offers/OfferBox.vue'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
+import { useLunchStore } from '@/store/lunch'
+import OfferBox from '@/views/offers/OfferBox.vue'
 
 const store = useLunchStore()
 const { providers, offers, selectedDay, selectedLocation } = storeToRefs(store)

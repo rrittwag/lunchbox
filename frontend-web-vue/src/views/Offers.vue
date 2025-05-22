@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { DaySelectorDirection } from '@/views/offers/dayselector/DaySelector.values'
+import { storeToRefs } from 'pinia'
+import { computed, ref } from 'vue'
 import { useLunchStore } from '@/store/lunch'
 import { formatToISODate } from '@/util/formatting'
 import ContentError from '@/views/layout/content/ContentError.vue'
 import ContentLoading from '@/views/layout/content/ContentLoading.vue'
 import DaySelector from '@/views/offers/DaySelector.vue'
 import OfferBoxGroup from '@/views/offers/OfferBoxGroup.vue'
-import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
 
 const store = useLunchStore()
 const { isLoading, error, providers, offers, selectedLocation, selectedDay } = storeToRefs(store)

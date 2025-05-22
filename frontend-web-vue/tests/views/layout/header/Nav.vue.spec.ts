@@ -1,5 +1,5 @@
-import Nav from '@/views/layout/header/Nav.vue'
 import { render, within } from '@testing-library/vue'
+import Nav from '@/views/layout/header/Nav.vue'
 
 it('renders', () => {
   const { getByRole } = render(Nav, {

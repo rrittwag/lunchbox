@@ -1,5 +1,5 @@
-import ContentError from '@/views/layout/content/ContentError.vue'
 import { render } from '@testing-library/vue'
+import ContentError from '@/views/layout/content/ContentError.vue'
 
 it('renders', () => {
   const { getByRole } = render(ContentError)
