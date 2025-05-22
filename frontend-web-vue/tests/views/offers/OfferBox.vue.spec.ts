@@ -1,7 +1,7 @@
-import OfferBox from '@/views/offers/OfferBox.vue'
 import userEvent from '@testing-library/user-event'
 import { render, within } from '@testing-library/vue'
 import { gyros, mensa, soljanka } from '@tests/test-data'
+import OfferBox from '@/views/offers/OfferBox.vue'
 
 it('renders', () => {
   const { getByRole } = render(OfferBox, {

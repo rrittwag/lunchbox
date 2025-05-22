@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { LunchOffer } from '@/model/lunch'
+import { computed } from 'vue'
 import { formatEuro } from '@/util/formatting'
 import Badge from '@/views/offers/Badge.vue'
-import { computed } from 'vue'
 
 const props = defineProps<{
   offer: LunchOffer

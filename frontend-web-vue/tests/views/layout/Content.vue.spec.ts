@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router'
-import Content from '@/views/layout/Content.vue'
 import { render, within } from '@testing-library/vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import Content from '@/views/layout/Content.vue'
 
 it('renders', async () => {
   await router.push('/')

@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import AngleLeftIcon from '~icons/fa-solid/angle-left'
+import AngleRightIcon from '~icons/fa-solid/angle-right'
 import {
   DaySelectorDirection,
   LABEL_GO_TO_NEXT_DAY,
   LABEL_GO_TO_PREVIOUS_DAY,
 } from '@/views/offers/dayselector/DaySelector.values'
-import AngleLeftIcon from '~icons/fa-solid/angle-left'
-import AngleRightIcon from '~icons/fa-solid/angle-right'
 
 const props = defineProps<{
   disabled?: boolean

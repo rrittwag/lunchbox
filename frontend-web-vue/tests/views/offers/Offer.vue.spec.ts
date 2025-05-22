@@ -1,6 +1,6 @@
-import Offer from '@/views/offers/Offer.vue'
 import { render } from '@testing-library/vue'
 import { gyros } from '@tests/test-data'
+import Offer from '@/views/offers/Offer.vue'
 
 it('renders', () => {
   const { getByRole, getByLabelText, queryAllByRole } = render(Offer, {

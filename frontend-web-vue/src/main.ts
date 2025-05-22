@@ -1,7 +1,7 @@
-import App from '@/App.vue'
-import router from '@/router'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
+import App from '@/App.vue'
+import router from '@/router'
 import '@/assets/style/index.css'
 
 // Swipe- & Touch-Gesten erkennen
