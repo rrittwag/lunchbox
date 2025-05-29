@@ -37,7 +37,7 @@ class LunchResolverTorney(
     imageUrls.flatMap { resolveTextFromImageLink(it) }
 
   private fun resolveTextFromImageLink(imageUrl: URL): List<LunchOffer> {
-    val monday = parseMonday(imageUrl.toString()) ?: return emptyList()
+    val monday = parseMonday(imageUrl.toString())
     return resolveOffersFromText(ocrClient.doOCR(imageUrl), monday)
       .filter { dateValidator.isValid(it.day, provider) }
   }
@@ -48,6 +48,14 @@ class LunchResolverTorney(
     val date = LocalDate.of(year.toInt(), Month.JANUARY, 10)
     val dayInWeek = date.with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, week.toLong())
     return dayInWeek.with(DayOfWeek.MONDAY)
+  }
+
+  fun parseMonday(
+    lines: List<Text>,
+    mondayByUrl: LocalDate?,
+  ): LocalDate? {
+    val line = lines.filterIsInstance<TextSegment>().find { it.contentType === ContentType.DATE } ?: return mondayByUrl
+    return StringParser.parseLocalDate(line.text)?.with(DayOfWeek.MONDAY) ?: mondayByUrl
   }
 
   fun resolveImageLinks(htmlUrl: URL): List<URL> {
@@ -61,11 +69,12 @@ class LunchResolverTorney(
 
   fun resolveOffersFromText(
     rawText: String,
-    monday: LocalDate,
+    mondayByUrl: LocalDate?,
   ): List<LunchOffer> {
     val rawLines = rawText.split('\n').map { correctOcrErrors(it) }
     val lines = filterIrrelevantLines(rawLines)
     val segments = createSegments(lines)
+    val monday = parseMonday(segments, mondayByUrl) ?: return emptyList()
     val rawOffers = createRawOffers(segments)
 
     return Weekday.entries.flatMap { weekday ->
@@ -101,6 +110,8 @@ class LunchResolverTorney(
           TextSegment(segment.text, ContentType.DESCRIPTION)
         } else if (segment.text.matches(Regex("[0-9,]+ *€"))) {
           TextSegment(segment.text, ContentType.PRICE)
+        } else if (segment.text.matches(Regex(".*[0-9]{2}.[0-9]{2}.[0-9]{4}.*"))) {
+          TextSegment(segment.text, ContentType.DATE)
         } else {
           segment
         }
@@ -133,6 +144,9 @@ class LunchResolverTorney(
       if (segment is TextBreak) {
         breakBefore = true
       } else if (segment is TextSegment) {
+        if (segment.contentType === ContentType.DATE) {
+          continue
+        }
         if (newOffer == null) {
           newOffer = RawOffer(segment.text)
           breakBefore = false
@@ -183,8 +197,7 @@ class LunchResolverTorney(
   private fun filterIrrelevantLines(contentAsLines: List<String>) =
     contentAsLines
       .filterNot {
-        it.matches(Regex("^[0-9. -]+$")) ||
-          it.contains("tagesgericht", true) ||
+        it.contains("tagesgericht", true) ||
           it.contains("vorrat", true) ||
           it.contains("torney", true)
       }.dropWhile { it.isEmpty() }
@@ -199,6 +212,7 @@ class LunchResolverTorney(
       .replace(Regex("^[:\" ]+"), "")
       .replace("—", "-")
       .replace(Regex(" -$"), "")
+      .replace(Regex("Buter"), "Butter")
       .replace(Regex("[ .:;%@”©‘fi{}]+$"), "")
       .replace(Regex(" [a-zA-Z]$"), "")
       .replace(Regex("mit([A-Z])"), "mit $1")
@@ -207,6 +221,7 @@ class LunchResolverTorney(
       .replace(Regex("""([0-9,]+)9 *€"""), "$10 €")
       .replace(Regex("""\(([0-9,]+) *€"""), "$1 €")
       .replace(Regex("""([0-9])([0-9]{2}) *€"""), "$1,$2 €")
+      .replace(Regex("^n+$"), "")
       .trim()
 
   enum class ContentType {
