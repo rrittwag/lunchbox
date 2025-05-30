@@ -134,7 +134,7 @@ class LunchResolverTorney(
   }
 
   private fun createRawOffers(segments: List<Text>): List<RawOffer> {
-    val relevantSegments = segments.filterNot{ it is TextSegment && it.contentType == ContentType.DATE }
+    val relevantSegments = segments.filterNot { it is TextSegment && it.contentType == ContentType.DATE }
 
     val result = mutableListOf<RawOffer>()
     var breakBefore = false
