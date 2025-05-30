@@ -134,19 +134,18 @@ class LunchResolverTorney(
   }
 
   private fun createRawOffers(segments: List<Text>): List<RawOffer> {
+    val relevantSegments = segments.filterNot{ it is TextSegment && it.contentType == ContentType.DATE }
+
     val result = mutableListOf<RawOffer>()
     var breakBefore = false
     var prepositionBefore = false
 
     var newOffer: RawOffer? = null
 
-    for (segment in segments) {
+    for (segment in relevantSegments) {
       if (segment is TextBreak) {
         breakBefore = true
       } else if (segment is TextSegment) {
-        if (segment.contentType === ContentType.DATE) {
-          continue
-        }
         if (newOffer == null) {
           newOffer = RawOffer(segment.text)
           breakBefore = false
@@ -181,7 +180,7 @@ class LunchResolverTorney(
     }
 
     if (result.all { it.price == null }) {
-      segments
+      relevantSegments
         .filterIsInstance<TextSegment>()
         .filter { it.contentType == ContentType.PRICE }
         .forEachIndexed { index, text ->
