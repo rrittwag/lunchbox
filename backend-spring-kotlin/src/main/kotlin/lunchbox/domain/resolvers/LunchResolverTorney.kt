@@ -212,6 +212,7 @@ class LunchResolverTorney(
       .replace("—", "-")
       .replace(Regex(" -$"), "")
       .replace(Regex("Buter"), "Butter")
+      .replace(Regex("^(.+) TORNEY$"), "$1")
       .replace(Regex("[ .:;%@”©‘fi{}]+$"), "")
       .replace(Regex(" [a-zA-Z]$"), "")
       .replace(Regex("mit([A-Z])"), "mit $1")
