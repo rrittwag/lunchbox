@@ -75,7 +75,7 @@ class LunchResolverTorney(
     val lines = filterIrrelevantLines(rawLines)
     val segments = createSegments(lines)
     val monday = parseMonday(segments, mondayByUrl) ?: return emptyList()
-    val rawOffers = createRawOffers(segments)
+    val rawOffers = removeInvalidOffers(createRawOffers(segments))
 
     return Weekday.entries.flatMap { weekday ->
       rawOffers.map {
@@ -91,6 +91,12 @@ class LunchResolverTorney(
       }
     }
   }
+
+  private fun removeInvalidOffers(rawOffers: List<RawOffer>): List<RawOffer> =
+    rawOffers.filterNot {
+      it.name.contains("Betriebsklima") || it.description === null ||
+        it.description!!.contains("Betriebsklima")
+    }
 
   private fun createSegments(lines: List<String>): List<Text> {
     val segments =
@@ -134,7 +140,7 @@ class LunchResolverTorney(
   }
 
   private fun createRawOffers(segments: List<Text>): List<RawOffer> {
-    val relevantSegments = segments.filterNot { it is TextSegment && it.contentType == ContentType.DATE }
+    val relevantSegments = skipDateSegments(segments)
 
     val result = mutableListOf<RawOffer>()
     var breakBefore = false
@@ -191,6 +197,13 @@ class LunchResolverTorney(
     }
 
     return result
+  }
+
+  private fun skipDateSegments(segments: List<Text>): List<Text> {
+    if (segments.none { it is TextSegment && it.contentType == ContentType.DATE }) {
+      return segments
+    }
+    return segments.takeLastWhile { !(it is TextSegment && it.contentType == ContentType.DATE) }
   }
 
   private fun filterIrrelevantLines(contentAsLines: List<String>) =
