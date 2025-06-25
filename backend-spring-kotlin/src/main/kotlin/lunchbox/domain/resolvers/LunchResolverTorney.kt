@@ -94,7 +94,8 @@ class LunchResolverTorney(
 
   private fun removeInvalidOffers(rawOffers: List<RawOffer>): List<RawOffer> =
     rawOffers.filterNot {
-      it.name.contains("Betriebsklima") || it.description === null ||
+      it.name.contains("Betriebsklima") ||
+        it.description === null ||
         it.description!!.contains("Betriebsklima")
     }
 

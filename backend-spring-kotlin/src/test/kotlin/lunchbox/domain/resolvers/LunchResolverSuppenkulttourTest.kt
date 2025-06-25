@@ -833,4 +833,39 @@ class LunchResolverSuppenkulttourTest {
         providerId,
       )
   }
+
+  @Test
+  fun `resolve offers for week of 2025-06-23`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2025-06-23.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 15
+    val week = weekOf("2025-06-23")
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 3
+    offers shouldContain
+      LunchOffer(
+        0,
+        "veganes Dinkel-Kokoscurry",
+        "angeröstetes Dinkelvollkornschrot, Sesam, Karotten, Zucchini, Paprika, Brokkoli, Kichererbsen, Reisnudeln, Tomatenpüree, rotes Curry, Kafir-Limettenblätter, Sojasoße, Kokosmilch",
+        week.wednesday,
+        euro("6.50"),
+        setOf("vegan", "Tagessuppe"),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Kasseler-Bohnen-Eintopf",
+        "mit zartem Kasseler, grünen Bohnen, Kartoffeln, Möhren, Majoran und einem Schuss Apfelessig für die Frische",
+        week.friday,
+        euro("6.50"),
+        setOf("Tagessuppe"),
+        providerId,
+      )
+  }
 }

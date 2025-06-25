@@ -121,9 +121,10 @@ class LunchResolverSuppenkulttour(
     monday: LocalDate,
   ): List<LunchOffer> {
     val paragraphs = node2paragraphs(wochenplanSection)
+    logger.info { paragraphs }
     val adjustedParagraphs = adjustParagraphs(adjustTextSegments(paragraphs))
     val groupedParagraphs = groupParagraphs(adjustedParagraphs, monday)
-    logger.debug { groupedParagraphs }
+    logger.info { groupedParagraphs }
 
     val wochensuppen = parseWochensuppen(groupedParagraphs.wochensuppen, monday)
     val tagessuppen = parseTagessuppen(groupedParagraphs.tagessuppen)
@@ -296,6 +297,11 @@ class LunchResolverSuppenkulttour(
     // must be a Title
     if (segment.isBold) {
       return listOf(segment.copy(contentType = ContentType.TITLE))
+    }
+
+    // is empty line
+    if (segment.text.matches(Regex("^[ _-]+$"))) {
+      return emptyList()
     }
 
     return listOf(segment)
@@ -578,6 +584,7 @@ class LunchResolverSuppenkulttour(
           "enthälti",
           "vegt.",
           "Weizen",
+          "Dinkel",
         )
       return string.split(Regex("[|(), ]")).all { it.length < 3 || zusatzInfos.contains(it.trim()) }
     }
