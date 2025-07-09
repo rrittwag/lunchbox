@@ -27,5 +27,5 @@ apply from: "${rootDir}/gradle/run.gradle"
 //   Gradle Wrapper
 // -------------------
 wrapper {
-  gradleVersion = '4.14.1'
+  gradleVersion = '4.16.2'
 }
