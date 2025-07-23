@@ -40,7 +40,7 @@ format:
     - make format.check
 
 lint:
-  image: golangci/golangci-lint:v2.2
+  image: golangci/golangci-lint:v2.3
   stage: test
   script:
     - make lint
