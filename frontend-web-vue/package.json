@@ -27,7 +27,7 @@
     "@testing-library/user-event": "14.6.1",
     "@testing-library/vue": "8.1.0",
     "@vitejs/plugin-vue": "6.0.0",
-    "cross-env": "7.0.3",
+    "cross-env": "10.0.0",
     "eslint": "9.31.0",
     "jsdom": "26.1.0",
     "tailwindcss": "4.1.11",
