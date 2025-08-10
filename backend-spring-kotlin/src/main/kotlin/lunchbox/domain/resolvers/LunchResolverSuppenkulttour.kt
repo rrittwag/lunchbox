@@ -85,6 +85,8 @@ class LunchResolverSuppenkulttour(
 
     fun hasTitleLike(title: String): Boolean = lines.any { it.hasTitleLike(title) }
 
+    fun hasBoldText(): Boolean = lines.any { it.hasBoldText() }
+
     fun containsDateOrWeekday(): Boolean = lines.any { it.containsDateOrWeekday() }
 
     fun containsEmptyLines(): Boolean = lines.any { it.isEmpty() }
@@ -94,6 +96,8 @@ class LunchResolverSuppenkulttour(
     val segments: List<TextSegment>,
   ) : Text {
     fun hasTitleLike(title: String): Boolean = segments.any { it.isBold && it.text.contains(title, true) }
+
+    fun hasBoldText(): Boolean = segments.any { it.isBold }
 
     fun containsDateOrWeekday(): Boolean =
       segments.any { seg -> seg.contentType in setOf(ContentType.WEEKDAY, ContentType.DATE) }
@@ -215,9 +219,6 @@ class LunchResolverSuppenkulttour(
         line.copy(segments = newSegments)
       }
 
-    // falls der Titel falsch gesetzt wurde
-    newLines = adjustTitle(newLines)
-
     // Segmente auf bekannte Pattern und Content untersuchen
     newLines =
       newLines.map { line ->
@@ -226,22 +227,6 @@ class LunchResolverSuppenkulttour(
       }
 
     return paragraph.copy(lines = newLines)
-  }
-
-  private fun adjustTitle(lines: List<TextLine>): List<TextLine> {
-    if (lines.isEmpty()) {
-      return lines
-    }
-    val firstLine = lines.first()
-    if (firstLine.segments.any { it.isBold }) {
-      return lines
-    }
-    if (lines.flatMap { it.segments }.none { it.text.contains("€") }) {
-      return lines
-    }
-    // Titel ergänzen, sofern nicht vorhanden und es sich vermutlich um ein Offer handelt
-    val newSegments = firstLine.segments.map { it.copy(isBold = true) }
-    return listOf(firstLine.copy(segments = newSegments)) + lines.drop(1)
   }
 
   private fun adjustTextSegment(segment: TextSegment): List<TextSegment> {
@@ -309,7 +294,10 @@ class LunchResolverSuppenkulttour(
 
   private fun adjustParagraphs(paragraphs: List<Paragraph>): List<Paragraph> {
     val result = mutableListOf<Paragraph>()
-    for (paragraph in paragraphs) {
+
+    val mergedParagraphs = mergeParagraphs(paragraphs)
+
+    for (paragraph in mergedParagraphs) {
       if (isMultipleParagraphs(paragraph)) {
         result += splitMultiParagraph(paragraph)
       } else if (paragraph.containsEmptyLines()) {
@@ -318,8 +306,50 @@ class LunchResolverSuppenkulttour(
         result += paragraph
       }
     }
+
+    return result.map { adjustTitle(it) }
+  }
+
+  private fun mergeParagraphs(paragraphs: List<Paragraph>): List<Paragraph> {
+    val result = mutableListOf<Paragraph>()
+    var previous: Paragraph? = null
+    for (paragraph in paragraphs) {
+      if (hasNoTitle(paragraph) && previous != null && hasTitleOnly(previous)) {
+        result += Paragraph(previous.lines + paragraph.lines)
+        previous = null
+        continue
+      }
+
+      if (previous != null) result += previous
+      previous = paragraph
+    }
+    if (previous != null) {
+      result += previous
+    }
     return result
   }
+
+  private fun adjustTitle(paragraph: Paragraph): Paragraph {
+    if (paragraph.lines.isEmpty()) {
+      return paragraph
+    }
+    val firstLine = paragraph.lines.first()
+    if (firstLine.segments.any { it.isBold }) {
+      return paragraph
+    }
+    if (paragraph.lines.flatMap { it.segments }.none { it.text.contains("€") }) {
+      return paragraph
+    }
+    // Titel ergänzen, sofern nicht vorhanden und es sich vermutlich um ein Offer handelt
+    val newSegments = firstLine.segments.map { it.copy(isBold = true, contentType = ContentType.TITLE) }
+    return Paragraph(listOf(firstLine.copy(segments = newSegments)) + paragraph.lines.drop(1))
+  }
+
+  private fun hasTitleOnly(paragraph: Paragraph): Boolean =
+    paragraph.lines.size == 1 && paragraph.lines[0].segments.any { it.isBold }
+
+  private fun hasNoTitle(paragraph: Paragraph): Boolean =
+    !paragraph.hasBoldText() && paragraph.lines.any { l -> l.segments.any { it.contentType == ContentType.PRICES } }
 
   private fun isMultipleParagraphs(paragraph: Paragraph): Boolean = splitMultiParagraph(paragraph).size > 1
 

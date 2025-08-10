@@ -868,4 +868,49 @@ class LunchResolverSuppenkulttourTest {
         providerId,
       )
   }
+
+  @Test
+  fun `resolve offers for week of 2025-08-11`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2025-08-11.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 15
+    val week = weekOf("2025-08-11")
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 3
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Gurken-Kartoffel-Cremesuppe",
+        "mit frischen Salatgurken, Kartoffeln, Dill, Zitronensaft, Crème fraîche, wahlweise mit Croutons oder gebratene Wiener",
+        week.monday,
+        euro("6.50"),
+        setOf("vegetarisch", "Tagessuppe"),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Rheinischer Linseneintopf",
+        "mit Tellerlinsen, Möhren, Kartoffeln, Lauch, Sellerie, gebratene Mettenden & Speck, Lorbeer, Petersilie",
+        week.monday,
+        euro("6.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Kokos-Curry mit Süßkartoffel & Spinat",
+        "Süßkartoffeln, Karotten, Babyspinat, Kokosmilch, grüne Currypaste, Zitronengras, Ingwer, Kurkuma & frischer Limettensaft, ein fein-cremiger, asiatisch gewürzter Eintopf",
+        week.monday,
+        euro("6.50"),
+        setOf("vegan"),
+        providerId,
+      )
+  }
 }
