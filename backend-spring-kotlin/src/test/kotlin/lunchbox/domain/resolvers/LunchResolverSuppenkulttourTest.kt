@@ -913,4 +913,49 @@ class LunchResolverSuppenkulttourTest {
         providerId,
       )
   }
+
+  @Test
+  fun `resolve offers for week of 2025-08-18`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2025-08-18.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 15
+    val week = weekOf("2025-08-18")
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 3
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Frischkäse-Mangosuppe i,g,vegetarisch",
+        "mit Mango, Frischkäse, Frühlingszwiebeln, wahlweise + Sesam oder Hühnchenbrust",
+        week.monday,
+        euro("6.50"),
+        setOf("vegetarisch", "Tagessuppe"),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Karibisches Curry i,e,f,j,k",
+        "herzhaftes Curry mit kräftigem Geschmack, Beef, Pork & Chicken, Karotten, Kartoffeln, Paprika, gelbes Curry, Limetten, Kokos, Koriander, Reis",
+        week.monday,
+        euro("6.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "italienische Tomatensuppe mit Basilikum a,g,1,2",
+        "mit Parmesanspänen und gerösteten Brotwürfeln",
+        week.monday,
+        euro("6.50"),
+        emptySet(),
+        providerId,
+      )
+  }
 }

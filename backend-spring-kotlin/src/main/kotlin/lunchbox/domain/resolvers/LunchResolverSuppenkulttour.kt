@@ -58,6 +58,7 @@ class LunchResolverSuppenkulttour(
 
   enum class ContentType {
     UNKNOWN,
+    SECTION_TITLE,
     WEEKDAY,
     DATE,
     ZUSATZINFO,
@@ -95,7 +96,7 @@ class LunchResolverSuppenkulttour(
   data class TextLine(
     val segments: List<TextSegment>,
   ) : Text {
-    fun hasTitleLike(title: String): Boolean = segments.any { it.isBold && it.text.contains(title, true) }
+    fun hasTitleLike(title: String): Boolean = segments.any { it.isTitleLike(title) }
 
     fun hasBoldText(): Boolean = segments.any { it.isBold }
 
@@ -111,7 +112,9 @@ class LunchResolverSuppenkulttour(
     val text: String,
     val isBold: Boolean = false,
     val contentType: ContentType = ContentType.UNKNOWN,
-  ) : Text
+  ) : Text {
+    fun isTitleLike(title: String): Boolean = isBold && text.contains(title, true)
+  }
 
   data object TextBreak : Text
 
@@ -234,6 +237,10 @@ class LunchResolverSuppenkulttour(
       return listOf(segment)
     }
 
+    if (segment.isBold && (segment.isTitleLike("Tagessuppe") || segment.isTitleLike("Wochensuppe"))) {
+      return listOf(segment.copy(contentType = ContentType.SECTION_TITLE))
+    }
+
     val regexWeekdays = Weekday.entries.joinToString("|", "(", ")") { it.label }
     val regexDate = """(\d{2}.\d{2}.\d{2,4})"""
     val regexPrices = """(klein[\d,. €|]+mittel[\d,. €|]+groß[\d,. €|]+)"""
@@ -334,7 +341,7 @@ class LunchResolverSuppenkulttour(
       return paragraph
     }
     val firstLine = paragraph.lines.first()
-    if (firstLine.segments.any { it.isBold }) {
+    if (firstLine.segments.any { it.isBold || it.contentType === ContentType.TITLE }) {
       return paragraph
     }
     if (paragraph.lines.flatMap { it.segments }.none { it.text.contains("€") }) {
@@ -346,7 +353,8 @@ class LunchResolverSuppenkulttour(
   }
 
   private fun hasTitleOnly(paragraph: Paragraph): Boolean =
-    paragraph.lines.size == 1 && paragraph.lines[0].segments.any { it.isBold }
+    paragraph.lines.size == 1 &&
+      paragraph.lines[0].segments.any { it.isBold && it.contentType != ContentType.SECTION_TITLE }
 
   private fun hasNoTitle(paragraph: Paragraph): Boolean =
     !paragraph.hasBoldText() && paragraph.lines.any { l -> l.segments.any { it.contentType == ContentType.PRICES } }
