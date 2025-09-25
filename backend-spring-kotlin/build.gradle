@@ -1,6 +1,6 @@
 plugins {
   id 'org.springframework.boot' version '3.5.5'
-  id 'com.diffplug.spotless' version '7.2.1'
+  id 'com.diffplug.spotless' version '8.0.0'
   id 'io.gitlab.arturbosch.detekt' version '1.23.8'
 
   id 'org.jetbrains.kotlin.jvm' version '2.2.20'
@@ -27,5 +27,5 @@ apply from: "${rootDir}/gradle/run.gradle"
 //   Gradle Wrapper
 // -------------------
 wrapper {
-  gradleVersion = '9.0.0'
+  gradleVersion = '5.4.1'
 }
