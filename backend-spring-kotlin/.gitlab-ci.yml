@@ -1,4 +1,4 @@
-image: eclipse-temurin:21-alpine
+image: eclipse-temurin:25-alpine
 
 # Cachen der Dependencies
 # - Der Cache beschleunigt den CI-Lauf durch Vorhalten von Dependencies & anderen Downloads.
