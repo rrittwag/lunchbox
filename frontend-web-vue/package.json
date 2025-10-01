@@ -22,21 +22,21 @@
     "@antfu/eslint-config": "5.4.1",
     "@iconify-json/fa-solid": "1.2.2",
     "@pinia/testing": "1.0.2",
-    "@tailwindcss/vite": "4.1.13",
-    "@testing-library/jest-dom": "6.8.0",
+    "@tailwindcss/vite": "4.1.14",
+    "@testing-library/jest-dom": "6.9.1",
     "@testing-library/user-event": "14.6.1",
     "@testing-library/vue": "8.1.0",
     "@vitejs/plugin-vue": "6.0.1",
-    "cross-env": "10.0.0",
+    "cross-env": "10.1.0",
     "eslint": "9.36.0",
     "jsdom": "27.0.0",
-    "tailwindcss": "4.1.13",
-    "typescript": "5.9.2",
-    "unplugin-icons": "22.3.0",
+    "tailwindcss": "4.1.14",
+    "typescript": "5.9.3",
+    "unplugin-icons": "22.4.1",
     "vite": "7.1.7",
     "vite-plugin-pwa": "1.0.3",
     "vitest": "3.2.4",
-    "vue-tsc": "3.0.8"
+    "vue-tsc": "3.1.0"
   },
   "engines": {
     "node": ">=18.0.0"
