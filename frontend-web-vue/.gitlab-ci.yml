@@ -1,4 +1,4 @@
-image: node:jod-alpine
+image: node:krypton-alpine
 
 # Cachen der Dependencies
 # - Der Cache beschleunigt den CI-Lauf durch Vorhalten von Dependencies & anderen Downloads.
