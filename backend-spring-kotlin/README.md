@@ -22,7 +22,7 @@ Voraussetzungen: Es müssen Java (mind. Version 8), Docker und Docker Compose in
 
 Das Auswertung der Mittagsangebote bedarf der externen Dienste OpenOCR & Robotron. Sie werden via Docker Compose bereitgestellt:
                      
-    docker-compose up -d
+    docker compose up -d
 
 Das Backend startet mit dem Befehl
 

@@ -16,7 +16,7 @@ class HtmlRendererTest {
     // start rendertron via Docker Compose (via TestContainers)
     @Container
     private val rendertronContainer =
-      KtDockerComposeContainer(File("src/testIntegration/resources/docker-compose.rendertron.yml"))
+      KtDockerComposeContainer(File("src/testIntegration/resources/compose.rendertron.yml"))
         .withExposedService("rendertron_1", RENDERTRON_PORT)
 
     private fun rendertronUrl(): String {
