@@ -14,15 +14,14 @@ Dieses Sub-Projekt beschreibt die Implementierung eines Lunchbox Web-Clients. Di
 ## Build & Benutzung
 
 - [Node.js installieren](https://nodejs.org/en/download/package-manager/)
-- [yarn installieren](https://yarnpkg.com/lang/en/docs/install)
-- ins Projektverzeichnis stellen und Abhängigkeiten aktualisieren via `yarn install`
-- `yarn start` deployt das Web-App auf einem internen Web-Server. Die Web-App ist unter der Adresse [http://localhost:3000/](http://localhost:3000/) erreichbar. Quellcode-Änderungen werden auto-deployt.
+- ins Projektverzeichnis stellen und Abhängigkeiten aktualisieren via `npm install`
+- `npm run start` deployt das Web-App auf einem internen Web-Server. Die Web-App ist unter der Adresse [http://localhost:3000/](http://localhost:3000/) erreichbar. Quellcode-Änderungen werden auto-deployt.
 
 
 
 ## Distribution
 
-- `yarn build` generiert distributierbare Dateien im Verzeichnis `dist`.
+- `npm run build` generiert distributierbare Dateien im Verzeichnis `dist`.
 
 
 

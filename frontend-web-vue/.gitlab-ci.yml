@@ -14,7 +14,7 @@ cache:
 
 before_script:
   - cd frontend-web-vue # Gitlab startet Jobs in Root-Pfad. Die meisten folgenden Aufrufe sind jedoch auf den Sub-Pfad bezogen.
-  - export CI=true # vermeidet interaktive yarn-Aufrufe
+  - export CI=true # vermeidet interaktive npm-Aufrufe
 
 stages:
   - build
@@ -24,8 +24,8 @@ stages:
 install & build:
   stage: build
   script:
-    - yarn install --non-interactive
-    - yarn build
+    - npm install --non-interactive
+    - npm run build
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
@@ -39,21 +39,21 @@ install & build:
 lint:
   stage: test
   script:
-    - "[ ! -d node_modules/ ] && yarn install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
-    - yarn lint:check
+    - "[ ! -d node_modules/ ] && npm install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
+    - npm run lint:check
 
 typecheck:
   stage: test
   script:
-    - "[ ! -d node_modules/ ] && yarn install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
-    - yarn typecheck
+    - "[ ! -d node_modules/ ] && npm install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
+    - npm run typecheck
 
 unit:
   stage: test
 #  coverage: '/All files([^|]*\|){4}[^|]*\s+([\d\.]+)/'
   script:
-    - "[ ! -d node_modules/ ] && yarn install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
-    - yarn test:report
+    - "[ ! -d node_modules/ ] && npm install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
+    - npm run test:report
   artifacts:
     when: always
     reports:
@@ -63,8 +63,8 @@ unit:
 .e2e:
   stage: test
   script:
-    - "[ ! -d node_modules/ ] && yarn install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
-    - yarn test:e2e
+    - "[ ! -d node_modules/ ] && npm install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
+    - npm run test:e2e
 
 vulnerabilities code:
   image:
@@ -77,9 +77,9 @@ vulnerabilities code:
     - trivy --version
     - trivy clean --scan-cache
     - time trivy fs --download-db-only --db-repository docker-ghcr.rori.dev/aquasecurity/trivy-db --java-db-repository myregistry.local/trivy-java-db --checks-bundle-repository myregistry.local/trivy-checks
-    - time trivy fs --exit-code 0 --format template --template "@/contrib/gitlab.tpl" --output gl-container-scanning-report.json yarn.lock
-    - time trivy fs --exit-code 0 yarn.lock
-    - time trivy fs --exit-code 1 --severity CRITICAL yarn.lock
+    - time trivy fs --exit-code 0 --format template --template "@/contrib/gitlab.tpl" --output gl-container-scanning-report.json package-lock.json
+    - time trivy fs --exit-code 0 package-lock.json
+    - time trivy fs --exit-code 1 --severity CRITICAL package-lock.json
   cache:
     paths:
       - frontend-web-vue/.trivycache/
