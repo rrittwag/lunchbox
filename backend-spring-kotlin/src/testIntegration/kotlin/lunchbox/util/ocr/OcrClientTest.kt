@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource
 import org.testcontainers.containers.ComposeContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.utility.DockerImageName
 import java.io.File
 
 @Testcontainers
@@ -64,4 +65,4 @@ class OcrClientTest {
 // -> https://github.com/testcontainers/testcontainers-java/issues/1010
 class KtComposeContainer(
   file: File,
-) : ComposeContainer(file)
+) : ComposeContainer(DockerImageName.parse("docker"), file)
