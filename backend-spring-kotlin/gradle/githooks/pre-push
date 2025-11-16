@@ -4,7 +4,7 @@
 # Bypass with git push --no-verify
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
-PROTECTED_BRANCHES="^(master|dev|release-*|patch-*)"
+PROTECTED_BRANCHES="^(master|main|dev|release-*|patch-*)"
 
 if [[ "$BRANCH" =~ $PROTECTED_BRANCHES ]]; then
   if [ ! -t 0 ]; then # if no stdin terminal present -> exit

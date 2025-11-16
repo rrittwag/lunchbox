@@ -133,7 +133,7 @@ docker:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   only:
-    - master
+    - main
   script:
     - cd nginx && ./build.sh && cd ..
     - echo "$DOCKER_REGISTRY_TOKEN" | docker login -u $DOCKER_REGISTRY_USER --password-stdin $DOCKER_REGISTRY_ADDR

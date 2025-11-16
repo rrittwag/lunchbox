@@ -26,4 +26,4 @@ deploy:
     include: app/.gitlab-ci.yml
     strategy: depend
   only:
-    - master
+    - main
