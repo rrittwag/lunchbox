@@ -64,13 +64,16 @@ unit:
 integration:
   stage: test
   services:
-    - docker:dind # Notwendig für Volume-Mounts in TestContainers -> https://www.testcontainers.org/supported_docker_environment/continuous_integration/gitlab_ci/
+    - name: docker:dind # Notwendig für Volume-Mounts in TestContainers -> https://www.testcontainers.org/supported_docker_environment/continuous_integration/gitlab_ci/
+      command: ["--tls=false"]
   variables:
     DOCKER_HOST: 'tcp://docker:2375'
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   script:
     - mkdir -p $HOME/.docker && echo "$DOCKER_AUTH_CONFIG" > $HOME/.docker/config.json
+    - docker info
+    - docker pull alpine:latest
     - ./gradlew testIntegration
   artifacts:
     reports:
