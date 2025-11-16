@@ -5,7 +5,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import org.testcontainers.containers.DockerComposeContainer
+import org.testcontainers.containers.ComposeContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.io.File
@@ -16,12 +16,12 @@ class OcrClientTest {
     // start open-ocr-2 via Docker Compose (via TestContainers)
     @Container
     private val ocrContainer =
-      KtDockerComposeContainer(File("src/testIntegration/resources/compose.ocr.yml"))
-        .withExposedService("ocr_1", OCR_PORT)
+      KtComposeContainer(File("src/testIntegration/resources/compose.ocr.yml"))
+        .withExposedService("ocr", OCR_PORT)
 
     private fun ocrServerUrl(): String {
-      val host = ocrContainer.getServiceHost("ocr_1", OCR_PORT)
-      val port = ocrContainer.getServicePort("ocr_1", OCR_PORT)
+      val host = ocrContainer.getServiceHost("ocr", OCR_PORT)
+      val port = ocrContainer.getServicePort("ocr", OCR_PORT)
       return "http://$host:$port"
     }
   }
@@ -62,6 +62,6 @@ class OcrClientTest {
 
 // BUGFIX: Kotlin does not support SELF types
 // -> https://github.com/testcontainers/testcontainers-java/issues/1010
-class KtDockerComposeContainer(
+class KtComposeContainer(
   file: File,
-) : DockerComposeContainer<KtDockerComposeContainer>(file)
+) : ComposeContainer(file)

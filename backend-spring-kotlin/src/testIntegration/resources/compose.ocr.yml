@@ -1,5 +1,3 @@
-version: '2'
-
 services:
   ocr:
     image: docker.rori.dev/lunchbox-service-ocr

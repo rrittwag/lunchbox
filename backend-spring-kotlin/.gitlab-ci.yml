@@ -72,8 +72,6 @@ integration:
     DOCKER_TLS_CERTDIR: ""
   script:
     - mkdir -p $HOME/.docker && echo "$DOCKER_AUTH_CONFIG" > $HOME/.docker/config.json
-    - docker info
-    - docker pull alpine:latest
     - ./gradlew testIntegration
   artifacts:
     reports:

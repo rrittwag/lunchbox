@@ -1,6 +1,6 @@
 package lunchbox.util.html
 
-import lunchbox.util.ocr.KtDockerComposeContainer
+import lunchbox.util.ocr.KtComposeContainer
 import lunchbox.util.url.UrlUtil.url
 import org.amshove.kluent.shouldHaveSize
 import org.jsoup.Jsoup
@@ -16,12 +16,12 @@ class HtmlRendererTest {
     // start rendertron via Docker Compose (via TestContainers)
     @Container
     private val rendertronContainer =
-      KtDockerComposeContainer(File("src/testIntegration/resources/compose.rendertron.yml"))
-        .withExposedService("rendertron_1", RENDERTRON_PORT)
+      KtComposeContainer(File("src/testIntegration/resources/compose.rendertron.yml"))
+        .withExposedService("rendertron", RENDERTRON_PORT)
 
     private fun rendertronUrl(): String {
-      val host = rendertronContainer.getServiceHost("rendertron_1", RENDERTRON_PORT)
-      val port = rendertronContainer.getServicePort("rendertron_1", RENDERTRON_PORT)
+      val host = rendertronContainer.getServiceHost("rendertron", RENDERTRON_PORT)
+      val port = rendertronContainer.getServicePort("rendertron", RENDERTRON_PORT)
       return "http://$host:$port"
     }
   }
