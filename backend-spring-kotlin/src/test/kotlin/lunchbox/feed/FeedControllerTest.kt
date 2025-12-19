@@ -17,15 +17,19 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
+import org.springframework.http.MediaType.APPLICATION_ATOM_XML
+import org.springframework.test.web.servlet.client.RestTestClient
+import org.springframework.test.web.servlet.client.assertj.RestTestClientResponse
 import java.time.LocalDate
 
 @WebMvcTest(FeedController::class)
+@AutoConfigureRestTestClient
 class FeedControllerTest(
-  @Autowired val mockMvc: MockMvc,
+  @Autowired val restClient: RestTestClient,
   @Autowired val testUnit: FeedController,
 ) {
   @MockkBean
@@ -42,16 +46,16 @@ class FeedControllerTest(
     fun success() {
       every { repo.findAll() } returns listOf(offerYesterday, offerToday)
 
-      mockMvc
-        .get("$URL_FEED?location=${NEUBRANDENBURG.label}")
-        .andExpect {
-          status { isOk() }
-          content { contentTypeCompatibleWith(MediaType.APPLICATION_ATOM_XML) }
-          xpath("/feed") { exists() }
-          xpath("/feed/entry") { nodeCount(2) }
-          xpath("/feed/link/@href") { string("http://localhost$URL_FEED?location=${NEUBRANDENBURG.label}") }
-        }
+      val spec = restClient.get().uri("$URL_FEED?location=${NEUBRANDENBURG.label}").exchange()
 
+      val response = RestTestClientResponse.from(spec)
+      assertThat(response).hasStatusOk()
+      assertThat(response).hasContentTypeCompatibleWith(APPLICATION_ATOM_XML)
+      spec.expectBody().apply {
+        xpath("/feed").exists()
+        xpath("/feed/entry").nodeCount(2)
+        xpath("/feed/link/@href").isEqualTo("http://localhost$URL_FEED?location=${NEUBRANDENBURG.label}")
+      }
       verify(exactly = 1) { repo.findAll() }
     }
 
@@ -59,11 +63,10 @@ class FeedControllerTest(
     fun `WHEN param location is missing  THEN return 400`() {
       every { repo.findAll() } returns listOf(offerYesterday, offerToday)
 
-      mockMvc
-        .get(URL_FEED)
-        .andExpect {
-          status { isBadRequest() }
-        }
+      val spec = restClient.get().uri(URL_FEED).exchange()
+
+      val response = RestTestClientResponse.from(spec)
+      assertThat(response).hasStatus(HttpStatus.BAD_REQUEST)
     }
   }
 
