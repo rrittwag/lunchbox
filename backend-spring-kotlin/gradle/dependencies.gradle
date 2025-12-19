@@ -1,7 +1,7 @@
 // -------------------
 //   Abhängigkeiten der Applikation
 // -------------------
-ext.springBootVersion = '3.5.7'
+ext.springBootVersion = '3.5.9'
 
 repositories { mavenCentral() }
 dependencies {
@@ -27,7 +27,7 @@ dependencies {
   implementation 'com.rometools:rome:2.1.0'
 
   // money money money
-  implementation 'org.joda:joda-money:2.0.2'
+  implementation 'org.joda:joda-money:2.0.3'
 
   // Test-Abhängigkeiten sind in test.gradle definiert
 }
