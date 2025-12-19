@@ -6,6 +6,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
+import org.springframework.web.client.toEntity
 import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.wait.strategy.HttpWaitStrategy
 import org.testcontainers.junit.jupiter.Container
@@ -39,8 +40,8 @@ class NginxTest {
         .create("${resourcesHost()}/$resourceFile")
         .get()
         .retrieve()
-        .body<String>() ?: ""
+        .body<ByteArray>() ?: byteArrayOf()
 
-    httpResult shouldBeEqualTo File("src/test/resources/$resourceFile").readText()
+    String(httpResult) shouldBeEqualTo File("src/test/resources/$resourceFile").readText()
   }
 }
