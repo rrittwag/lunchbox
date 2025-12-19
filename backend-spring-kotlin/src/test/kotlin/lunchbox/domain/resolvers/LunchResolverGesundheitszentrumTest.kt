@@ -2,7 +2,6 @@
 
 package lunchbox.domain.resolvers
 
-import com.fasterxml.jackson.module.kotlin.readValue
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.GESUNDHEITSZENTRUM
@@ -22,6 +21,7 @@ import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import tools.jackson.module.kotlin.readValue
 import java.net.URL
 
 class LunchResolverGesundheitszentrumTest {

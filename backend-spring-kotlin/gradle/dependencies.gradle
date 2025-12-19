@@ -9,13 +9,13 @@ dependencies {
   implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
 
   // Kotlin
-  implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+  implementation 'tools.jackson.module:jackson-module-kotlin'
   implementation 'org.jetbrains.kotlin:kotlin-reflect'
   implementation 'org.jetbrains.kotlin:kotlin-stdlib'
   implementation 'io.github.oshai:kotlin-logging:7.0.13'
 
   // web
-  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-webmvc'
   implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
   // html/xml/pdf

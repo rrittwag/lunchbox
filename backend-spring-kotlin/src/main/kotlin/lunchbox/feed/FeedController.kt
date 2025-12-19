@@ -11,6 +11,7 @@ import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import lunchbox.repository.LunchOfferRepository
 import org.springframework.core.convert.converter.Converter
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -30,7 +31,7 @@ const val URL_FEED = "/feed"
 class FeedController(
   val repo: LunchOfferRepository,
 ) {
-  @GetMapping(URL_FEED)
+  @GetMapping(URL_FEED, produces = [MediaType.APPLICATION_ATOM_XML_VALUE])
   fun feed(
     @RequestParam location: LunchLocation,
     request: HttpServletRequest,
@@ -161,6 +162,6 @@ class FeedController(
 }
 
 @Component
-class LunchLocationConverter : Converter<String, LunchLocation> {
+class LunchLocationConverter : Converter<String, LunchLocation?> {
   override fun convert(source: String): LunchLocation? = LunchLocation.entries.find { it.label == source }
 }
