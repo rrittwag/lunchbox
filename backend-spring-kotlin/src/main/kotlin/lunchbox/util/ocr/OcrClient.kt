@@ -1,6 +1,7 @@
 package lunchbox.util.ocr
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.resilience.annotation.Retryable
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
@@ -16,6 +17,7 @@ class OcrClient(
   @Value("\${external.ocr.url:http://ocr:$OCR_PORT}")
   val ocrUrl: String,
 ) {
+  @Retryable(maxRetries = 5, delay = 5000, multiplier = 2.0)
   fun doOCR(imageUrl: URL): String {
     val requestBody =
       mapOf(

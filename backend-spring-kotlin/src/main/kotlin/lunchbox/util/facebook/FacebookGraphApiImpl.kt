@@ -1,6 +1,7 @@
 package lunchbox.util.facebook
 
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.resilience.annotation.Retryable
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 
@@ -17,6 +18,7 @@ data class FacebookConfigProperties(
 class FacebookGraphApiImpl(
   val config: FacebookConfigProperties,
 ) : FacebookGraphApi {
+  @Retryable(maxRetries = 5, delay = 5000, multiplier = 2.0)
   override fun <T : GraphApiResource> query(
     url: String,
     clazz: Class<T>,

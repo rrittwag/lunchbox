@@ -1,6 +1,7 @@
 package lunchbox.util.date
 
 import lunchbox.domain.models.Bundesland
+import org.springframework.resilience.annotation.Retryable
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
@@ -15,6 +16,7 @@ import java.util.concurrent.CompletableFuture
 class FeiertageApiImpl(
   val baseUrl: String = "https://feiertage-api.de",
 ) : FeiertageApi {
+  @Retryable(maxRetries = 5, delay = 5000, multiplier = 2.0)
   override fun queryFeiertage(
     jahre: Set<Year>,
     laender: Set<Bundesland>,

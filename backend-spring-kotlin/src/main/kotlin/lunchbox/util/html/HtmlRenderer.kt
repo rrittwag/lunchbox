@@ -1,6 +1,7 @@
 package lunchbox.util.html
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.resilience.annotation.Retryable
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
@@ -18,6 +19,7 @@ class HtmlRendererImpl(
   @Value("\${external.rendertron.url:http://rendertron:$RENDERTRON_PORT}")
   val rendertronUrl: String,
 ) : HtmlRenderer {
+  @Retryable(maxRetries = 5, delay = 5000, multiplier = 2.0)
   override fun render(url: URL): String =
     RestClient
       .create("$rendertronUrl/render/$url")
