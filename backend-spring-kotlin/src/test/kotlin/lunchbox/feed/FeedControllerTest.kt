@@ -19,8 +19,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
-import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
+import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.MediaType.APPLICATION_ATOM_XML
 import org.springframework.test.web.servlet.client.RestTestClient
 import org.springframework.test.web.servlet.client.assertj.RestTestClientResponse
@@ -66,7 +65,7 @@ class FeedControllerTest(
       val spec = restClient.get().uri(URL_FEED).exchange()
 
       val response = RestTestClientResponse.from(spec)
-      assertThat(response).hasStatus(HttpStatus.BAD_REQUEST)
+      assertThat(response).hasStatus(BAD_REQUEST)
     }
   }
 

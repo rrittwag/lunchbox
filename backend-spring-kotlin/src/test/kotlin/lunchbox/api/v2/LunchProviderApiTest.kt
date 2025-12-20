@@ -11,7 +11,7 @@ import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTe
 import org.springframework.boot.test.autoconfigure.json.JsonTest
 import org.springframework.boot.test.json.JacksonTester
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
-import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.servlet.client.RestTestClient
 import org.springframework.test.web.servlet.client.assertj.RestTestClientResponse
@@ -60,7 +60,7 @@ class LunchProviderApiTest(
       val spec = restClient.get().uri("${URL_LUNCHPROVIDER}/404").exchange()
 
       val response = RestTestClientResponse.from(spec)
-      assertThat(response).hasStatus(HttpStatus.NOT_FOUND)
+      assertThat(response).hasStatus(NOT_FOUND)
     }
   }
 }
