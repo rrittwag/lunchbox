@@ -23,7 +23,7 @@ class OcrClient(
         "engine" to "tesseract",
         "engine_args" to mapOf("lang" to "deu"),
       )
-    println(ocrUrl)
+
     return RestClient
       .create("$ocrUrl/url")
       .post()
