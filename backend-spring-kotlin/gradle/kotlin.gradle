@@ -33,25 +33,12 @@ configurations {
 // -------------------
 kotlin {
   jvmToolchain(21)
-}
-compileKotlin {
-  compilerOptions {
-    freeCompilerArgs = [
-      "-Xjsr305=strict"
-    ]
-  }
-}
-compileTestKotlin {
-  compilerOptions {
-    freeCompilerArgs = [
-      "-Xjsr305=strict"
-    ]
-  }
-}
-compileTestIntegrationKotlin {
-  compilerOptions {
-    freeCompilerArgs = [
-      "-Xjsr305=strict"
-    ]
+  target {
+    compilerOptions {
+      freeCompilerArgs = [
+        "-Xjsr305=strict",
+        "-Xannotation-default-target=param-property"
+      ]
+    }
   }
 }

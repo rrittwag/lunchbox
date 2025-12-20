@@ -1,10 +1,9 @@
 package lunchbox.util.facebook
 
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.resilience.annotation.Retryable
 import org.springframework.stereotype.Component
-import org.springframework.web.reactive.function.client.WebClient
-import reactor.util.retry.Retry.backoff
-import java.time.Duration
+import org.springframework.web.client.RestClient
 
 @ConfigurationProperties("external.facebook")
 data class FacebookConfigProperties(
@@ -19,6 +18,7 @@ data class FacebookConfigProperties(
 class FacebookGraphApiImpl(
   val config: FacebookConfigProperties,
 ) : FacebookGraphApi {
+  @Retryable(maxRetries = 5, delay = 5000, multiplier = 2.0)
   override fun <T : GraphApiResource> query(
     url: String,
     clazz: Class<T>,
@@ -26,12 +26,10 @@ class FacebookGraphApiImpl(
     val resource = url.replaceFirst(Regex("^/"), "")
     val accessToken = "access_token=${config.appId}|{${config.appSecret}}"
 
-    return WebClient
+    return RestClient
       .create("https://graph.facebook.com/v2.10/$resource?$accessToken")
       .get()
       .retrieve()
-      .bodyToMono(clazz)
-      .retryWhen(backoff(5, Duration.ofSeconds(5)))
-      .block()
+      .body(clazz)
   }
 }

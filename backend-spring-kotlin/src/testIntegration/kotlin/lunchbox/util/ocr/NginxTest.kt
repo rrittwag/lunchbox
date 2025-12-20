@@ -4,16 +4,16 @@ package lunchbox.util.ocr
 
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
-import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.bodyToMono
+import org.springframework.web.client.RestClient
+import org.springframework.web.client.body
+import org.springframework.web.client.toEntity
 import org.testcontainers.containers.BindMode
-import org.testcontainers.containers.NginxContainer
 import org.testcontainers.containers.wait.strategy.HttpWaitStrategy
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.nginx.NginxContainer
 import java.io.File
 import java.nio.file.Paths
-import java.time.Duration
 
 /**
  * Der Test ist unsinnig. Er demonstriert nur die Funktionsweise von TestContainers' nginx Modul.
@@ -24,7 +24,7 @@ class NginxTest {
     // provide test resources in Docker-ed nginx (via TestContainers)
     @Container
     private val resourcesContainer =
-      KtNginxContainer()
+      NginxContainer("nginx:alpine")
         .withFileSystemBind(Paths.get("src/test/resources").toString(), "/usr/share/nginx/html", BindMode.READ_ONLY)
         .waitingFor(HttpWaitStrategy())
 
@@ -36,17 +36,12 @@ class NginxTest {
     val resourceFile = "menus/feldkueche/ocr/2016-10-10.jpg.txt"
 
     val httpResult =
-      WebClient
+      RestClient
         .create("${resourcesHost()}/$resourceFile")
         .get()
         .retrieve()
-        .bodyToMono<String>()
-        .block(Duration.ofSeconds(5)) ?: ""
+        .body<ByteArray>() ?: byteArrayOf()
 
-    httpResult shouldBeEqualTo File("src/test/resources/$resourceFile").readText()
+    String(httpResult) shouldBeEqualTo File("src/test/resources/$resourceFile").readText()
   }
 }
-
-// BUGFIX: Kotlin does not support SELF types
-// -> https://github.com/testcontainers/testcontainers-java/issues/1010
-class KtNginxContainer : NginxContainer<KtNginxContainer>("nginx:alpine")

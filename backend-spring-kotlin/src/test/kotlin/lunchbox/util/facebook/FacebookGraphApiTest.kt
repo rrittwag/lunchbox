@@ -1,6 +1,5 @@
 package lunchbox.util.facebook
 
-import com.fasterxml.jackson.module.kotlin.readValue
 import lunchbox.util.json.createObjectMapper
 import lunchbox.util.url.UrlUtil.url
 import org.amshove.kluent.shouldBe
@@ -9,6 +8,7 @@ import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.amshove.kluent.shouldNotBe
 import org.junit.jupiter.api.Test
+import tools.jackson.module.kotlin.readValue
 
 class FacebookGraphApiTest {
   @Test

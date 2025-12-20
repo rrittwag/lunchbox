@@ -7,31 +7,35 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient
 import org.springframework.boot.test.autoconfigure.json.JsonTest
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.json.JacksonTester
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
+import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.MediaType.APPLICATION_JSON
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.client.RestTestClient
+import org.springframework.test.web.servlet.client.assertj.RestTestClientResponse
 
 @WebMvcTest(LunchProviderApi::class)
+@AutoConfigureRestTestClient
 class LunchProviderApiTest(
-  @Autowired val mockMvc: MockMvc,
+  @Autowired val restClient: RestTestClient,
 ) {
   @Nested
   inner class GetAll {
     @Test
     fun success() {
-      mockMvc
-        .get(URL_LUNCHPROVIDER)
-        .andExpect {
-          status { isOk() }
-          content { contentTypeCompatibleWith(APPLICATION_JSON) }
-          jsonPath("$") { isArray() }
-          jsonPath("$.length()") { value("${LunchProvider.entries.size}") }
-          jsonPath("$[?(@.id == '${SCHWEINESTALL.id}')]") { exists() }
-          jsonPath("$[?(@.id == '${SALT_N_PEPPER.id}')]") { exists() }
-        }
+      val spec = restClient.get().uri(URL_LUNCHPROVIDER).exchange()
+
+      val response = RestTestClientResponse.from(spec)
+      assertThat(response).hasStatusOk()
+      assertThat(response).hasContentTypeCompatibleWith(APPLICATION_JSON)
+      spec.expectBody().apply {
+        jsonPath("$").isArray()
+        jsonPath("$.length()").isEqualTo("${LunchProvider.entries.size}")
+        jsonPath("$[?(@.id == '${SCHWEINESTALL.id}')]").exists()
+        jsonPath("$[?(@.id == '${SALT_N_PEPPER.id}')]").exists()
+      }
     }
   }
 
@@ -39,24 +43,24 @@ class LunchProviderApiTest(
   inner class GetOne {
     @Test
     fun `WHEN get schweinestall  THEN success`() {
-      mockMvc
-        .get("$URL_LUNCHPROVIDER/${SCHWEINESTALL.id}")
-        .andExpect {
-          status { isOk() }
-          content { contentTypeCompatibleWith(APPLICATION_JSON) }
-          jsonPath("$.id") { value(SCHWEINESTALL.id) }
-          jsonPath("$.name") { value(SCHWEINESTALL.label) }
-          jsonPath("$.url") { value(SCHWEINESTALL.menuUrl.toString()) }
-        }
+      val spec = restClient.get().uri("$URL_LUNCHPROVIDER/${SCHWEINESTALL.id}").exchange()
+
+      val response = RestTestClientResponse.from(spec)
+      assertThat(response).hasStatusOk()
+      assertThat(response).hasContentTypeCompatibleWith(APPLICATION_JSON)
+      spec.expectBody().apply {
+        jsonPath("$.id").isEqualTo(SCHWEINESTALL.id)
+        jsonPath("$.name").isEqualTo(SCHWEINESTALL.label)
+        jsonPath("$.url").isEqualTo(SCHWEINESTALL.menuUrl.toString())
+      }
     }
 
     @Test
     fun `WHEN get unknown  THEN not found`() {
-      mockMvc
-        .get("$URL_LUNCHPROVIDER/404")
-        .andExpect {
-          status { isNotFound() }
-        }
+      val spec = restClient.get().uri("${URL_LUNCHPROVIDER}/404").exchange()
+
+      val response = RestTestClientResponse.from(spec)
+      assertThat(response).hasStatus(NOT_FOUND)
     }
   }
 }

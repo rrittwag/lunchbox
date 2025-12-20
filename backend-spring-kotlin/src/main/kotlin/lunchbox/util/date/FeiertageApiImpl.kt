@@ -1,14 +1,13 @@
 package lunchbox.util.date
 
 import lunchbox.domain.models.Bundesland
+import org.springframework.resilience.annotation.Retryable
 import org.springframework.stereotype.Component
-import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.bodyToFlux
-import reactor.core.publisher.Flux
-import reactor.util.retry.Retry
-import java.time.Duration
+import org.springframework.web.client.RestClient
+import org.springframework.web.client.body
 import java.time.LocalDate
 import java.time.Year
+import java.util.concurrent.CompletableFuture
 
 /**
  * Ruft Feiertage aus der Feiertage API ab.
@@ -17,33 +16,37 @@ import java.time.Year
 class FeiertageApiImpl(
   val baseUrl: String = "https://feiertage-api.de",
 ) : FeiertageApi {
+  @Retryable(maxRetries = 5, delay = 5000, multiplier = 2.0)
   override fun queryFeiertage(
     jahre: Set<Year>,
     laender: Set<Bundesland>,
   ): Set<Feiertag> {
     val httpCalls =
-      Flux.fromIterable(jahre).flatMap { jahr ->
-        Flux.fromIterable(laender).flatMap { land ->
-          WebClient
-            .create("$baseUrl/api/?jahr=${jahr.value}&nur_land=${land.kuerzel}")
-            .get()
-            .retrieve()
-            .bodyToFlux<Map<String, FeiertagDTO>>()
-            .retryWhen(Retry.backoff(5, Duration.ofSeconds(5)))
-            .map {
-              it.map { entry ->
-                Feiertag(
-                  land = land,
-                  datum = entry.value.datum,
-                  name = entry.key,
-                )
-              }
-            }
+      jahre.flatMap { jahr ->
+        laender.map { land ->
+          CompletableFuture.supplyAsync { fetchFeiertage(jahr, land) }
         }
       }
-    val httpCallsAsMono = httpCalls.collectList().map { it.flatten() }
-    return httpCallsAsMono.block()?.toSet() ?: return emptySet()
+    return httpCalls.flatMap { it.join() }.toSet()
   }
+
+  fun fetchFeiertage(
+    jahr: Year,
+    land: Bundesland,
+  ): List<Feiertag> =
+    RestClient
+      .create("$baseUrl/api/?jahr=${jahr.value}&nur_land=${land.kuerzel}")
+      .get()
+      .retrieve()
+      .body<Map<String, FeiertagDTO>>()
+      .orEmpty()
+      .map { entry ->
+        Feiertag(
+          land = land,
+          datum = entry.value.datum,
+          name = entry.key,
+        )
+      }
 }
 
 private data class FeiertagDTO(
