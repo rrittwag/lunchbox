@@ -2,12 +2,9 @@ package lunchbox.util.ocr
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
-import org.springframework.web.reactive.function.BodyInserters
-import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.bodyToMono
-import reactor.util.retry.Retry.backoff
+import org.springframework.web.client.RestClient
+import org.springframework.web.client.body
 import java.net.URL
-import java.time.Duration
 
 /**
  * Führt Texterkennung (OCR) auf dem übergebenen Bild via OpenOCR aus.
@@ -26,15 +23,13 @@ class OcrClient(
         "engine" to "tesseract",
         "engine_args" to mapOf("lang" to "deu"),
       )
-
-    return WebClient
+    println(ocrUrl)
+    return RestClient
       .create("$ocrUrl/url")
       .post()
-      .body(BodyInserters.fromValue(requestBody))
+      .body(requestBody)
       .retrieve()
-      .bodyToMono<String>()
-      .retryWhen(backoff(5, Duration.ofSeconds(5)))
-      .block() ?: ""
+      .body<String>() ?: ""
   }
 }
 
