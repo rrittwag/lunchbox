@@ -25,8 +25,7 @@ class FeiertageApiImpl(
           CompletableFuture.supplyAsync { fetchFeiertage(jahr, land) }
         }
       }
-    httpCalls.forEach { it.join() }
-    return httpCalls.flatMap { it.get() }.toSet()
+    return httpCalls.flatMap { it.join() }.toSet()
   }
 
   fun fetchFeiertage(
