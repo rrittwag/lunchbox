@@ -35,7 +35,7 @@
     "unplugin-icons": "23.0.1",
     "vite": "7.3.1",
     "vite-plugin-pwa": "1.2.0",
-    "vitest": "4.0.16",
+    "vitest": "4.0.17",
     "vue-tsc": "3.2.2"
   },
   "engines": {
