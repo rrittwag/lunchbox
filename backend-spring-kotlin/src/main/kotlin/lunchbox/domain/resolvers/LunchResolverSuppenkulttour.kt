@@ -502,7 +502,7 @@ class LunchResolverSuppenkulttour(
 
   private fun predictPrice(lines: List<String>): Money? =
     lines
-      .mapNotNull { Regex("""\| *mittel([\d,. ]*)€.*""").find(it) }
+      .mapNotNull { Regex("""[\|\/] *mittel([\d,. ]*)€.*""").find(it) }
       .mapNotNull { StringParser.parseMoney(it.destructured.component1()) }
       .toSet()
       .firstOrNull()
@@ -535,6 +535,7 @@ class LunchResolverSuppenkulttour(
       .replace(" , ", ", ")
       .replace("\n", "")
       .replace("\\u00a0", " ") // NO-BREAK SPACE durch normales Leerzeichen ersetzen
+      .replace("\u2028", ", ")
       .trim()
 
   private fun parseDateOrWeekday(
@@ -621,6 +622,8 @@ class LunchResolverSuppenkulttour(
           "enthält",
           "enthälti",
           "vegt.",
+          "Gluten",
+          "aus",
           "Weizen",
           "Dinkel",
         )

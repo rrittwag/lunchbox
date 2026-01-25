@@ -958,4 +958,49 @@ class LunchResolverSuppenkulttourTest {
         providerId,
       )
   }
+
+  @Test
+  fun `resolve offers for week of 2026-01-26`() {
+    val url = javaClass.getResource("/menus/suppenkulttour/2026-01-26.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 15
+    val week = weekOf("2026-01-26")
+    offers.filter { it.day == week.monday } shouldHaveSize 3
+    offers.filter { it.day == week.tuesday } shouldHaveSize 3
+    offers.filter { it.day == week.wednesday } shouldHaveSize 3
+    offers.filter { it.day == week.thursday } shouldHaveSize 3
+    offers.filter { it.day == week.friday } shouldHaveSize 3
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Brokkoli-Cashew-Cremesuppe",
+        "Brokkolicremesuppe mit Cashewmus, Sahne, Muskat, Radieschensprossen",
+        week.monday,
+        euro("6.50"),
+        setOf("vegetarisch", "Tagessuppe"),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Förster-Frimel-Topf",
+        "kräftiger Eintopf mit Gyrosfleisch, Wurzelgemüse, Champignons, Waldpilzen, Graupen, Kräuter und einem Hauch Wacholder",
+        week.monday,
+        euro("6.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Rosenkohlcurry",
+        "mit Rosenkohl, Süßkartoffeln, Kartoffeln, Möhren, Ingwer, Cous Cous, Kokosmilch, Koriander, Zitronengras",
+        week.monday,
+        euro("6.50"),
+        setOf("vegan"),
+        providerId,
+      )
+  }
 }
