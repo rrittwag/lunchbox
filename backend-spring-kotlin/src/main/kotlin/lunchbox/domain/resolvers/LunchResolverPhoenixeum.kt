@@ -1,5 +1,6 @@
 package lunchbox.domain.resolvers
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import lunchbox.util.date.DateValidator
@@ -22,6 +23,8 @@ class LunchResolverPhoenixeum(
   override val provider = LunchProvider.PHOENIXEUM
 
   override fun resolve(): List<LunchOffer> = resolve(provider.menuUrl)
+
+  private val logger = KotlinLogging.logger {}
 
   fun resolve(url: URL): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
@@ -50,9 +53,11 @@ class LunchResolverPhoenixeum(
     monday: LocalDate,
   ): List<LunchOffer> {
     val paragraphs = node2paragraphs(wochenplanDiv)
+    logger.info { paragraphs }
     val adjustedParagraphs = adjustParagraphs(adjustTextSegments(paragraphs))
 
     val validParagraphs = adjustedParagraphs.filter { it.isValidOffer() }
+    logger.info { validParagraphs }
 
     return toOffers(validParagraphs, monday)
   }
@@ -371,7 +376,7 @@ class LunchResolverPhoenixeum(
   ): StringParser.OfferName {
     val newNameParts = remainingParts.filterNot { it.trim() == "Portion" }
     if (titleParts.isNotEmpty()) {
-      return StringParser.OfferName(titleParts.joinToString { " " }, newNameParts.joinToString { " " })
+      return StringParser.OfferName(titleParts.joinToString(" "), newNameParts.joinToString(" "))
     }
 
     if (newNameParts[0].contains(" - ")) {

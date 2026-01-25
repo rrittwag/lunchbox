@@ -718,4 +718,54 @@ class LunchResolverPhoenixeumTest {
         providerId,
       )
   }
+
+  @Test
+  fun `resolve offers for week of 2026-01-26`() {
+    val url = javaClass.getResource("/menus/phoenixeum/2026-01-26.html")
+
+    val offers = resolver().resolve(url)
+
+    offers shouldHaveSize 4
+    val week = weekOf("2026-01-26")
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Hack’n’Cheese Auflauf",
+        "Rinderhack & Nudeln in Tomaten-Béchamelsauce, Ofengemüse aus Zucchini, Aubergine und Möhren - überbacken mit einer aromatischen Mischung aus Bergkäse, Mozzarella und Cheddar",
+        week.monday,
+        euro("8.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Hack’n’Cheese Auflauf",
+        "Rinderhack & Nudeln in Tomaten-Béchamelsauce, Ofengemüse aus Zucchini, Aubergine und Möhren - überbacken mit einer aromatischen Mischung aus Bergkäse, Mozzarella und Cheddar",
+        week.tuesday,
+        euro("8.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schnitzel",
+        "Knuspriges Schweineschnitzel, dazu cremiger Rahm-Blumenkohl, Kartoffeln",
+        week.wednesday,
+        euro("8.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schnitzel",
+        "Knuspriges Schweineschnitzel, dazu cremiger Rahm-Blumenkohl, Kartoffeln",
+        week.thursday,
+        euro("8.50"),
+        emptySet(),
+        providerId,
+      )
+  }
 }
