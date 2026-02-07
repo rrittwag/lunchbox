@@ -152,11 +152,15 @@ class LunchResolverPhoenixeum(
     var currentLine = mutableListOf<TextSegment>()
     for (text in texts) {
       when (text) {
-        is TextSegment -> currentLine.add(text)
+        is TextSegment -> {
+          currentLine.add(text)
+        }
+
         is TextBreak -> {
           lines += TextLine(currentLine)
           currentLine = mutableListOf()
         }
+
         else -> {}
       }
     }
@@ -178,9 +182,18 @@ class LunchResolverPhoenixeum(
             val text = adjustText(child.text())
             if (text.isEmpty()) emptyList() else listOf(TextSegment(text, isTitle))
           }
-          child is Element && child.tagName() == "br" -> listOf(TextBreak)
-          child is Element && child.tagName() == "strong" -> readTexts(child, true)
-          else -> readTexts(child, isTitle)
+
+          child is Element && child.tagName() == "br" -> {
+            listOf(TextBreak)
+          }
+
+          child is Element && child.tagName() == "strong" -> {
+            readTexts(child, true)
+          }
+
+          else -> {
+            readTexts(child, isTitle)
+          }
         }
     }
     return result

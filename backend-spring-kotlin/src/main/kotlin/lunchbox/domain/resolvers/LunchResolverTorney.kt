@@ -111,8 +111,11 @@ class LunchResolverTorney(
 
   fun guessContentType(segment: Text): Text =
     when (segment) {
-      is TextBreak -> segment
-      is TextSegment ->
+      is TextBreak -> {
+        segment
+      }
+
+      is TextSegment -> {
         if (segment.text.startsWith("und ") || segment.text.startsWith("mit ")) {
           TextSegment(segment.text, ContentType.DESCRIPTION)
         } else if (segment.text.matches(Regex("[0-9,]+ *€"))) {
@@ -122,6 +125,7 @@ class LunchResolverTorney(
         } else {
           segment
         }
+      }
     }
 
   private fun adjustSegment(segment: Text): List<Text> {
