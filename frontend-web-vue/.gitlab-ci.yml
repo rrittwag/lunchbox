@@ -24,7 +24,7 @@ stages:
 install & build:
   stage: build
   script:
-    - npm install --non-interactive
+    - npm ci
     - npm run build
   cache:
     key: ${CI_COMMIT_REF_SLUG}
@@ -39,20 +39,20 @@ install & build:
 lint:
   stage: test
   script:
-    - "[ ! -d node_modules/ ] && npm install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
+    - npm ci
     - npm run lint:check
 
 typecheck:
   stage: test
   script:
-    - "[ ! -d node_modules/ ] && npm install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
+    - npm ci
     - npm run typecheck
 
 unit:
   stage: test
 #  coverage: '/All files([^|]*\|){4}[^|]*\s+([\d\.]+)/'
   script:
-    - "[ ! -d node_modules/ ] && npm install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
+    - npm ci
     - npm run test:report
   artifacts:
     when: always
@@ -63,7 +63,7 @@ unit:
 .e2e:
   stage: test
   script:
-    - "[ ! -d node_modules/ ] && npm install --non-interactive" # falls der CI-Cache nicht greift, Abhängigkeiten neu runterladen
+    - npm ci
     - npm run test:e2e
 
 vulnerabilities code:
