@@ -12,6 +12,7 @@ const props = defineProps<{
   direction: DaySelectorDirection
 }>()
 const emit = defineEmits<{
+  // eslint-disable-next-line unused-imports/no-unused-vars
   (e: 'click'): void
 }>()
 

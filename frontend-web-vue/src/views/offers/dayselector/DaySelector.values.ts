@@ -1,5 +1,7 @@
 export enum DaySelectorDirection {
+  // eslint-disable-next-line unused-imports/no-unused-vars
   PREVIOUS = 'prev',
+  // eslint-disable-next-line unused-imports/no-unused-vars
   NEXT = 'next',
 }
 
