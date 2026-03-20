@@ -45,6 +45,7 @@ export const useLunchStore = defineStore('lunch', () => {
       return locations[0]
 
     // die alte Angular-App speicherte den Wert mit ""
+    // eslint-disable-next-line e18e/prefer-static-regex
     locationName = locationName.replace(/"/g, '')
 
     const filteredLocation = locations.filter(l => l.name === locationName)

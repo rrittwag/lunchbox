@@ -10,6 +10,7 @@ const props = defineProps<{
   disabledNext?: boolean
 }>()
 const emit = defineEmits<{
+  // eslint-disable-next-line unused-imports/no-unused-vars
   (e: 'change', direction: DaySelectorDirection): void
 }>()
 
