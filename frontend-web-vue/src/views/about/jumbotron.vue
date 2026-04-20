@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import appBadges from './components/AppBadges.vue'
+import appBadges from '@/views/about/components/AppBadges.vue'
 </script>
 
 <template>

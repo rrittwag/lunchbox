@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import linkButton from './components/LinkButton.vue'
-import lunchLink from './components/LunchLink.vue'
+import linkButton from '@/views/about/components/LinkButton.vue'
+import lunchLink from '@/views/about/components/LunchLink.vue'
 </script>
 
 <template>

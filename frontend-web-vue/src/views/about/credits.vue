@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Tooltip from './components/Tooltip.vue'
+import Tooltip from '@/views/about/components/Tooltip.vue'
 </script>
 
 <template>

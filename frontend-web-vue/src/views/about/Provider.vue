@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import lunchLink from './components/LunchLink.vue'
+import lunchLink from '@/views/about/components/LunchLink.vue'
 </script>
 
 <template>

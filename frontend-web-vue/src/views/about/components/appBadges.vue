@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import dropdown from './Dropdown.vue'
-import tooltip from './Tooltip.vue'
+import dropdown from '@/views/about/components/Dropdown.vue'
+import tooltip from '@/views/about/components/Tooltip.vue'
 </script>
 
 <template>
