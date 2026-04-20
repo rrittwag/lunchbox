@@ -62,7 +62,7 @@ export default defineConfig({
     setupFiles: '/tests/setup.ts',
     silent: process.env.CI ? 'passed-only' : undefined,
     reporters: process.env.CI ? ['default', 'junit'] : ['default'],
-    outputFile: 'frontend-web-vue/tests/unit/report.xml',
+    outputFile: 'tests/unit/report.xml',
     css: true,
     passWithNoTests: true,
   },

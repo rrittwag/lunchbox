@@ -7,7 +7,6 @@
     "dev": "vite",
     "build": "vite build",
     "test": "cross-env LANG=de_DE.UTF-8 vitest run",
-    "test:report": "cross-env LANG=de_DE.UTF-8 vitest run --reporter=junit --outputFile=tests/unit/report.xml",
     "lint": "npm run lint:check -- --fix",
     "lint:check": "eslint --no-error-on-unmatched-pattern src/** tests/**",
     "typecheck": "vue-tsc"

@@ -53,7 +53,7 @@ unit:
 #  coverage: '/All files([^|]*\|){4}[^|]*\s+([\d\.]+)/'
   script:
     - npm ci
-    - npm run test:report
+    - npm run test
   artifacts:
     when: always
     reports:
