@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import credits from '@/views/about/Credits.vue'
-import dev from '@/views/about/Development.vue'
-import jumbotron from '@/views/about/Jumbotron.vue'
-import providers from '@/views/about/Provider.vue'
+import Credits from '@/views/about/Credits.vue'
+import Development from '@/views/about/Development.vue'
+import Jumbotron from '@/views/about/Jumbotron.vue'
+import Providers from '@/views/about/Providers.vue'
 </script>
 
 <template>
@@ -11,11 +11,11 @@ import providers from '@/views/about/Provider.vue'
     <div class="flex">
       <div class="w-2xl" />
       <div>
-        <jumbotron />
+        <Jumbotron />
         <div class="grid grid-cols-3 gap-4">
-          <providers />
-          <dev />
-          <credits />
+          <Providers />
+          <Development />
+          <Credits />
         </div>
       </div>
     </div>

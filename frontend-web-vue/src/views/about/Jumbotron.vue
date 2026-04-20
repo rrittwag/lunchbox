@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import appBadges from '@/views/about/components/AppBadges.vue'
+import AppBadges from '@/views/about/components/AppBadges.vue'
 </script>
 
 <template>
@@ -10,6 +10,6 @@ import appBadges from '@/views/about/components/AppBadges.vue'
     <p class="mt-4 text-xl text-slate-600 leading-relaxed">
       Aber wo gehen wir essen? Hier hilft Lunchbox.
     </p>
-    <appBadges />
+    <AppBadges />
   </div>
 </template>

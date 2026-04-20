@@ -11,6 +11,6 @@ const inlineClass = `relative z-0 h-12 rounded-full bg-primary-400 px-6 text-neu
 
 <template>
   <p>
-    <a :class="inlineClass" :href="props.href" :target="props.target ?? '_blank'" role="button">{{ props.text }}</a>
+    <a :class="inlineClass" :href="props.href" :target="props.target ?? '_blank'">{{ props.text }}</a>
   </p>
 </template>
