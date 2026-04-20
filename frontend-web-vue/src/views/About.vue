@@ -1,10 +1,24 @@
+<script setup lang="ts">
+import credits from '@/views/about/Credits.vue'
+import dev from '@/views/about/Developement.vue'
+import jumbotron from '@/views/about/Jumbotron.vue'
+import providers from '@/views/about/Provider.vue'
+</script>
+
 <template>
-  <div class="sm:p-4">
-    <h1 class="flex items-center justify-center px-4 text-2xl text-neutral-800 sm:h-16 sm:justify-start">
-      Info
-    </h1>
-    <address>
-      <a href="https://github.com/data-experts/Lunchbox">Github</a>
-    </address>
+  <div class="container text-neutral-900">
+    <div header />
+    <div class="flex">
+      <div class="w-2xl" />
+      <div>
+        <jumbotron />
+        <div class="grid grid-cols-3 gap-4">
+          <providers />
+          <dev />
+          <credits />
+        </div>
+      </div>
+    </div>
+    <div footer />
   </div>
 </template>
