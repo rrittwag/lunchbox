@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import credits from '@/views/about/Credits.vue'
-import dev from '@/views/about/Developement.vue'
+import dev from '@/views/about/Development.vue'
 import jumbotron from '@/views/about/Jumbotron.vue'
 import providers from '@/views/about/Provider.vue'
 </script>
