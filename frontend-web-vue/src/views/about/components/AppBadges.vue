@@ -4,7 +4,7 @@ import Tooltip from '@/views/about/components/Tooltip.vue'
 </script>
 
 <template>
-  <div id="app-badges" class="flex flex-initial w-xl text-center gap-12 mt-4">
+  <div id="app-badges" class="sm:flex flex-initial w-xl text-center sm:gap-12 gap-4 mt-4 grid grid-cols-1">
     <div class="flex gap-12">
       <Tooltip text="Web-App">
         <a class="btn" href="/">
