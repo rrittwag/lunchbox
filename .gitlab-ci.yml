@@ -14,10 +14,10 @@ build backend-spring-kotlin:
     include: backend-spring-kotlin/.gitlab-ci.yml
     strategy: depend
 
-build service-ocr:
+build ocr:
   stage: build
   trigger:
-    include: service-ocr/.gitlab-ci.yml
+    include: ocr/.gitlab-ci.yml
     strategy: depend
 
 deploy:

@@ -14,12 +14,12 @@ jobs:
     uses: ./.forgejo/workflows/backend.yaml
     secrets: inherit
 
-  service-ocr:
-    uses: ./.forgejo/workflows/service-ocr.yaml
+  ocr:
+    uses: ./.forgejo/workflows/ocr.yaml
     secrets: inherit
 
   deploy:
     if: forgejo.ref == 'refs/heads/main'
-    needs: [frontend, backend, service-ocr]
+    needs: [frontend, backend, ocr]
     uses: ./.forgejo/workflows/deploy.yaml
     secrets: inherit
