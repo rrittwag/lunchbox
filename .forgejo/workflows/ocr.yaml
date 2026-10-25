@@ -1,15 +1,15 @@
-name: service-ocr
+name: ocr
 
 on:
   workflow_call:
 
 jobs:
-  service-ocr-build:
+  ocr-build:
     runs-on: docker
     container: container.rori.dev/ci/golang:1.27
     defaults:
       run:
-        working-directory: service-ocr
+        working-directory: ocr
     steps:
       - name: checkout
         uses: actions/checkout@main
@@ -28,13 +28,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-  service-ocr-format:
-    needs: service-ocr-build
+  ocr-format:
+    needs: ocr-build
     runs-on: docker
     container: container.rori.dev/ci/golang:1.27
     defaults:
       run:
-        working-directory: service-ocr
+        working-directory: ocr
     steps:
       - name: checkout
         uses: actions/checkout@main
@@ -48,13 +48,13 @@ jobs:
             ${{ runner.os }}-go-
       - run: make format.check
 
-  service-ocr-lint:
-    needs: service-ocr-build
+  ocr-lint:
+    needs: ocr-build
     runs-on: docker
     container: container.rori.dev/ci/golang:1.27
     defaults:
       run:
-        working-directory: service-ocr
+        working-directory: ocr
     steps:
       - name: checkout
         uses: actions/checkout@main
@@ -68,8 +68,8 @@ jobs:
             ${{ runner.os }}-go-
       - run: make lint
 
-  service-ocr-test:
-    needs: service-ocr-build
+  ocr-test:
+    needs: ocr-build
     runs-on: docker
     container: container.rori.dev/ci/golang:1.27
     env:
@@ -77,7 +77,7 @@ jobs:
       CGO_ENABLED: 0
     defaults:
       run:
-        working-directory: service-ocr
+        working-directory: ocr
     steps:
       - name: checkout
         uses: actions/checkout@main
@@ -91,26 +91,26 @@ jobs:
             ${{ runner.os }}-go-
       - run: make test
 
-  service-ocr-vulnerabilities-code:
-    needs: service-ocr-build
+  ocr-vulnerabilities-code:
+    needs: ocr-build
     runs-on: docker
     container: container.rori.dev/ci/trivy
     defaults:
       run:
-        working-directory: service-ocr
+        working-directory: ocr
     steps:
       - name: checkout
         uses: actions/checkout@main
       - run: trivy fs --exit-code 1 --severity HIGH,CRITICAL --skip-db-update --skip-java-db-update --skip-check-update .
 
-  service-ocr-build-container:
+  ocr-build-container:
     if: forgejo.ref == 'refs/heads/main'
     needs:
-      - service-ocr-build
-      - service-ocr-format
-      - service-ocr-lint
-      - service-ocr-test
-      - service-ocr-vulnerabilities-code
+      - ocr-build
+      - ocr-format
+      - ocr-lint
+      - ocr-test
+      - ocr-vulnerabilities-code
     runs-on: docker
     container: container.rori.dev/ci/buildah
     steps:
@@ -128,7 +128,7 @@ jobs:
         uses: actions/build-container@main
         with:
           tag: ${{ secrets.CONTAINER_REGISTRY_HOST }}/lunchbox/ocr:latest
-          context: service-ocr
+          context: ocr
           push: true
           registry: ${{ secrets.CONTAINER_REGISTRY_HOST }}
           username: ${{ secrets.CONTAINER_REGISTRY_USER }}
