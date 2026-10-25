@@ -1,0 +1,143 @@
+name: frontend-web-vue
+
+on:
+  workflow_call:
+
+jobs:
+  frontend-build:
+    runs-on: docker
+    container: container.rori.dev/ci/node:24
+    defaults:
+      run:
+        working-directory: frontend-web-vue
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - run: npm ci
+      - run: npm run build
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${FORGEJO_OUTPUT}
+      - uses: https://github.com/actions/cache/save@v6
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - uses: https://data.forgejo.org/forgejo/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend-web-vue/dist/
+
+  frontend-lint:
+    needs: frontend-build
+    runs-on: docker
+    container: container.rori.dev/ci/node:24
+    defaults:
+      run:
+        working-directory: frontend-web-vue
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${FORGEJO_OUTPUT}
+      - uses: https://github.com/actions/cache/restore@v6
+        id: cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      - run: npm ci
+      - run: npm run lint:check
+
+  frontend-typecheck:
+    needs: frontend-build
+    runs-on: docker
+    container: container.rori.dev/ci/node:24
+    defaults:
+      run:
+        working-directory: frontend-web-vue
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${FORGEJO_OUTPUT}
+      - uses: https://github.com/actions/cache/restore@v6
+        id: cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      - run: npm ci
+      - run: npm run typecheck
+
+  frontend-unit:
+    needs: frontend-build
+    runs-on: docker
+    container: container.rori.dev/ci/node:24
+    defaults:
+      run:
+        working-directory: frontend-web-vue
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${FORGEJO_OUTPUT}
+      - uses: https://github.com/actions/cache/restore@v6
+        id: cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      - run: npm ci
+      - run: npm run test
+
+  frontend-vulnerabilities-code:
+    needs: frontend-build
+    runs-on: docker
+    container: container.rori.dev/ci/trivy
+    defaults:
+      run:
+        working-directory: frontend-web-vue
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - name: trivy fs
+        run: trivy fs --exit-code 1 --severity HIGH,CRITICAL --skip-db-update --skip-java-db-update --skip-check-update .
+
+  frontend-build-container:
+    if: forgejo.ref == 'refs/heads/main'
+    needs:
+      - frontend-build
+      - frontend-lint
+      - frontend-typecheck
+      - frontend-unit
+      - frontend-vulnerabilities-code
+    runs-on: docker
+    container: container.rori.dev/ci/buildah
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - uses: https://data.forgejo.org/forgejo/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend-web-vue/dist/
+      - name: build nginx base image
+        run: |
+          pushd frontend-web-vue/nginx
+          DOCKER_CLI=buildah ./build.sh
+          popd
+      - name: build container
+        uses: actions/build-container@main
+        with:
+          tag: ${{ secrets.CONTAINER_REGISTRY_HOST }}/lunchbox/frontend:latest
+          context: frontend-web-vue
+          push: true
+          registry: ${{ secrets.CONTAINER_REGISTRY_HOST }}
+          username: ${{ secrets.CONTAINER_REGISTRY_USER }}
+          password: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}

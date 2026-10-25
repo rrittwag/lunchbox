@@ -53,16 +53,16 @@ test:
 	TZ="Europe/Berlin" \
 	gotestsum --junitfile test-report.xml --format testname -- -race -v -timeout 2m -cover -bench=. ./...
 
-.PHONY: docker.build
-docker.build:
-	@docker build -t docker.rori.dev/$(APP_NAME)-backend:test .
+.PHONY: container.build
+container.build:
+	@docker build -t container.rori.dev/$(APP_NAME)/ocr:test .
 
-.PHONY: docker.up
-docker.up:
+.PHONY: container.up
+container.up:
 	@docker compose up -d
 
-.PHONY: docker.down
-docker.down:
+.PHONY: container.down
+container.down:
 	@docker compose down
 
 .PHONY: upgrade

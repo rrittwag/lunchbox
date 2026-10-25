@@ -1,0 +1,129 @@
+name: backend-spring-kotlin
+
+on:
+  workflow_call:
+
+env:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.internal.launcher.welcomeMessageEnabled=false"
+
+jobs:
+  backend-build:
+    runs-on: docker
+    container: container.rori.dev/ci/java:21
+    defaults:
+      run:
+        working-directory: backend-spring-kotlin
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - run: ./gradlew assemble
+      - uses: https://github.com/actions/cache/save@v6
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - uses: https://data.forgejo.org/forgejo/upload-artifact@v4
+        with:
+          name: backend-app.jar
+          path: backend-spring-kotlin/build/libs/app.jar
+
+  backend-lint:
+    needs: backend-build
+    runs-on: docker
+    container: container.rori.dev/ci/java:21
+    defaults:
+      run:
+        working-directory: backend-spring-kotlin
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - uses: https://github.com/actions/cache/restore@v6
+        id: cache
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - run: ./gradlew formatCheck
+      - run: ./gradlew lint
+
+  backend-unit:
+    needs: backend-build
+    runs-on: docker
+    container: container.rori.dev/ci/java:21
+    defaults:
+      run:
+        working-directory: backend-spring-kotlin
+    env:
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.internal.launcher.welcomeMessageEnabled=false"
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - uses: https://github.com/actions/cache/restore@v6
+        id: cache
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - run: ./gradlew test
+
+  backend-integration:
+    needs: backend-build
+    runs-on: docker
+    container:
+      image: container.rori.dev/ci/java:21
+    env:
+      CONTAINER_REGISTRY_AUTH_CONFIG: ${{ secrets.CONTAINER_REGISTRY_AUTH_CONFIG }}
+      TESTCONTAINERS_RYUK_DISABLED: true
+    defaults:
+      run:
+        working-directory: backend-spring-kotlin
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - uses: https://github.com/actions/cache/restore@v6
+        id: cache
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - run: |
+          mkdir -p $HOME/.docker && echo "$CONTAINER_REGISTRY_AUTH_CONFIG" > $HOME/.docker/config.json
+          ./gradlew testIntegration
+
+  backend-build-container:
+    if: forgejo.ref == 'refs/heads/main'
+    needs:
+      - backend-build
+      - backend-lint
+      - backend-unit
+      - backend-integration
+    runs-on: docker
+    container: container.rori.dev/ci/buildah
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - uses: https://data.forgejo.org/forgejo/download-artifact@v4
+        with:
+          name: backend-app.jar
+          path: backend-spring-kotlin/build/libs
+      - name: build container
+        uses: actions/build-container@main
+        with:
+          tag: ${{ secrets.CONTAINER_REGISTRY_HOST }}/lunchbox/backend:latest
+          context: backend-spring-kotlin
+          push: true
+          registry: ${{ secrets.CONTAINER_REGISTRY_HOST }}
+          username: ${{ secrets.CONTAINER_REGISTRY_USER }}
+          password: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}

@@ -1,4 +1,4 @@
-FROM docker.rori.dev/nginx-brotli
+FROM container.rori.dev/runtime/nginx-brotli
 LABEL author="Robert Rittwag <mail@rori.info>"
 
 RUN apk update && apk upgrade --no-cache

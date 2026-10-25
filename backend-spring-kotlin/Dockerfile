@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21.0.11_10-jre-alpine
+FROM docker.io/library/eclipse-temurin:21.0.11_10-jre-alpine
 VOLUME /tmp
 COPY build/libs/app.jar app.jar
 RUN apk -U upgrade

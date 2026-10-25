@@ -9,7 +9,7 @@ services:
   # OCR service
   # ---
   ocr:
-    image: docker.rori.dev/lunchbox-service-ocr
+    image: container.rori.dev/lunchbox/ocr
     ports:
       - "9292:9292"
 
@@ -18,7 +18,7 @@ services:
   # rendertron
   # ---
   rendertron:
-    image: ammobindotca/rendertron
+    image: docker.io/ammobindotca/rendertron
     environment:
       - PORT=3005
     ports:

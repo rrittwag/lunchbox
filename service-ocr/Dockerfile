@@ -1,4 +1,4 @@
-FROM --platform=$TARGETPLATFORM golang:1.26-alpine AS build
+FROM --platform=$TARGETPLATFORM docker.io/library/golang:1.26-alpine AS build
 
 WORKDIR /build
 COPY . .
@@ -13,7 +13,7 @@ RUN go build  \
 # Add non root user
 RUN addgroup -S nonroot && adduser -u 1001 -S nonroot -G nonroot -D
 
-FROM alpine
+FROM docker.io/library/alpine
 LABEL maintainer="rori <mail@rori.info>"
 
 WORKDIR /
