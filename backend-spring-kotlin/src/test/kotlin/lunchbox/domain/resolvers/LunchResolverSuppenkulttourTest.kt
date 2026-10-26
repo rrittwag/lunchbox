@@ -25,7 +25,7 @@ class LunchResolverSuppenkulttourTest {
   inner class ResolveWochenplanImages {
     @Test
     fun `resolve Wochenplaene for website of 2026-08-10`() {
-      val url = javaClass.getResource("/menus/suppenkultour/html/2026-08-10.html")
+      val url = javaClass.getResource("/menus/suppenkulttour/html/2026-08-10.html")
 
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
@@ -35,7 +35,7 @@ class LunchResolverSuppenkulttourTest {
 
     @Test
     fun `resolve Wochenplaene for website of 2026-08-24`() {
-      val url = javaClass.getResource("/menus/suppenkultour/html/2026-08-24.html")
+      val url = javaClass.getResource("/menus/suppenkulttour/html/2026-08-24.html")
 
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
@@ -45,7 +45,7 @@ class LunchResolverSuppenkulttourTest {
 
     @Test
     fun `resolve Wochenplaene for website of 2026-08-24 incl next week`() {
-      val url = javaClass.getResource("/menus/suppenkultour/html/2026-08-24_incl-next-week.html")
+      val url = javaClass.getResource("/menus/suppenkulttour/html/2026-08-24_incl-next-week.html")
 
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
@@ -56,7 +56,7 @@ class LunchResolverSuppenkulttourTest {
 
     @Test
     fun `resolve Wochenplaene for website of 2026-08-31 incl next week`() {
-      val url = javaClass.getResource("/menus/suppenkultour/html/2026-08-31_incl-next-week.html")
+      val url = javaClass.getResource("/menus/suppenkulttour/html/2026-08-31_incl-next-week.html")
 
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
@@ -67,7 +67,7 @@ class LunchResolverSuppenkulttourTest {
 
     @Test
     fun `resolve Wochenplaene for website of 2026-09-14`() {
-      val url = javaClass.getResource("/menus/suppenkultour/html/2026-09-14.html")
+      val url = javaClass.getResource("/menus/suppenkulttour/html/2026-09-14.html")
 
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
@@ -77,7 +77,7 @@ class LunchResolverSuppenkulttourTest {
 
     @Test
     fun `resolve Wochenplaene for website of 2026-10-12`() {
-      val url = javaClass.getResource("/menus/suppenkultour/html/2026-10-12.html")
+      val url = javaClass.getResource("/menus/suppenkulttour/html/2026-10-12.html")
 
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
