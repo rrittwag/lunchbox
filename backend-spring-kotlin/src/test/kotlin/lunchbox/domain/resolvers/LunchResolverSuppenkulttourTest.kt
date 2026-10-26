@@ -5,11 +5,9 @@ package lunchbox.domain.resolvers
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
-import lunchbox.domain.resolvers.LunchResolverGesundheitszentrum.Wochenplan
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
-import lunchbox.util.url.UrlUtil
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Nested
@@ -89,12 +87,12 @@ class LunchResolverSuppenkulttourTest {
   }
 
   @Nested
-  inner class ResolveOffers {
+  inner class ParseOffers {
     @Test
     fun `resolve offers for week of 2026-08-10`() {
-      val url = javaClass.getResource("/menus/suppenkulttour/ocr/2026-08-10_Bildschirmfoto-2026-08-10-um-14.15.33.jpg")
+      val html = readFileContent("/menus/suppenkulttour/ocr/2026-08-10_Bildschirmfoto-2026-08-10-um-14.15.33.jpg.html")
 
-      val offers = resolver().resolve(url)
+      val offers = resolver().parseOffers(html)
 
       offers shouldHaveSize 15
 
@@ -175,9 +173,9 @@ class LunchResolverSuppenkulttourTest {
 
     @Test
     fun `resolve offers for week of 2026-09-14`() {
-      val url = javaClass.getResource("/menus/suppenkulttour/ocr/2026-09-14_Planaktuell.png")
+      val html = readFileContent("/menus/suppenkulttour/ocr/2026-09-14_Planaktuell.png.html")
 
-      val offers = resolver().resolve(url)
+      val offers = resolver().parseOffers(html)
 
       offers shouldHaveSize 15
 
@@ -258,9 +256,9 @@ class LunchResolverSuppenkulttourTest {
 
     @Test
     fun `resolve offers for week of 2026-10-12`() {
-      val url = javaClass.getResource("/menus/suppenkulttour/ocr/2026-10-12_Typografischer-Wochenplan-mit-Gerichten.png")
+      val html = readFileContent("/menus/suppenkulttour/ocr/2026-10-12_Typografischer-Wochenplan-mit-Gerichten.png.html")
 
-      val offers = resolver().resolve(url)
+      val offers = resolver().parseOffers(html)
 
       offers shouldHaveSize 15
 
@@ -338,6 +336,11 @@ class LunchResolverSuppenkulttourTest {
           providerId,
         )
     }
+  }
+
+  private fun readFileContent(path: String): String {
+    val url = javaClass.getResource(path)
+    return url.readText(Charsets.UTF_8)
   }
 
   // --- old implementation ---

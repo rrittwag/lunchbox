@@ -6,6 +6,7 @@ import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
+import lunchbox.util.ocr.OcrOutputFormat
 import lunchbox.util.string.StringParser
 import org.joda.money.Money
 import org.jsoup.nodes.Element
@@ -34,9 +35,9 @@ class LunchResolverSuppenkulttour(
     val result = mutableListOf<LunchOffer>()
 
     for (wochenplanImage in wochenplanImages) {
-      val wochenplanAsOcr = ocrClient.doOCR(wochenplanImage)
+      val wochenplanAsOcrHtml = ocrClient.doOCR(wochenplanImage, OcrOutputFormat.HTML_WITH_TEXT_AND_BOUNDING_BOXES)
       result +=
-        parseOffers(wochenplanAsOcr)
+        parseOffers(wochenplanAsOcrHtml)
           .filter { dateValidator.isValid(it.day, provider) }
     }
     return result
@@ -46,7 +47,7 @@ class LunchResolverSuppenkulttour(
     TODO()
   }
 
-  fun parseOffers(wochenplanAsOcr: String): List<LunchOffer> {
+  fun parseOffers(wochenplanAsOcrHtml: String): List<LunchOffer> {
     TODO()
   }
 
