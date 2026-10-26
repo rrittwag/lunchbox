@@ -1,9 +1,11 @@
 .EXPORT_ALL_VARIABLES:
+PACKAGE_NAME = lunchbox
 APP_NAME = ocr
 APP_VERSION = DEV
 BUILD_DIR = $(PWD)/build
-LDFLAGS = -s -w -X rori.dev/lunchbox/$(APP_NAME)/app.Version=$(APP_VERSION)
+LDFLAGS = -s -w -X rori.dev/$(PACKAGE_NAME)/$(APP_NAME)/app.Version=$(APP_VERSION)
 CGO_ENABLED = 0
+DOCKER_CLI ?= docker
 
 .PHONY: generate
 generate:
@@ -55,15 +57,15 @@ test:
 
 .PHONY: container.build
 container.build:
-	@docker build -t container.rori.dev/$(APP_NAME)/ocr:test .
+	@$(DOCKER_CLI) build -t container.rori.dev/$(PACKAGE_NAME)/$(APP_NAME):latest .
 
 .PHONY: container.up
 container.up:
-	@docker compose up -d
+	@$(DOCKER_CLI) compose up -d
 
 .PHONY: container.down
 container.down:
-	@docker compose down
+	@$(DOCKER_CLI) compose down
 
 .PHONY: upgrade
 upgrade:

@@ -7,6 +7,10 @@ import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 import java.net.URL
 
+enum class OcrOutputFormat(val format: String) {
+  PLAIN_TEXT("text"), HTML_WITH_TEXT_AND_BOUNDING_BOXES("html")
+}
+
 /**
  * Führt Texterkennung (OCR) auf dem übergebenen Bild via OpenOCR aus.
  * <p>
@@ -18,12 +22,11 @@ class OcrClient(
   val ocrUrl: String,
 ) {
   @Retryable(maxRetries = 5, delay = 5000, multiplier = 2.0)
-  fun doOCR(imageUrl: URL): String {
+  fun doOCR(imageUrl: URL, outputFormat: OcrOutputFormat = OcrOutputFormat.PLAIN_TEXT): String {
     val requestBody =
       mapOf(
         "img_url" to imageUrl,
-        "engine" to "tesseract",
-        "engine_args" to mapOf("lang" to "deu"),
+        "format" to outputFormat.format,
       )
 
     return RestClient

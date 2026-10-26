@@ -40,6 +40,7 @@ func handleUrl(w http.ResponseWriter, req *http.Request) {
 
 type PostRequestBody struct {
 	ImageUrl string `json:"img_url"`
+	Format   string `json:"format"`
 }
 
 func handlePostUrl(w http.ResponseWriter, req *http.Request) {
@@ -49,7 +50,11 @@ func handlePostUrl(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	text, err := ocr(reqBody.ImageUrl)
+	if reqBody.Format != "" && reqBody.Format != "text" && reqBody.Format != "html" {
+		http.Error(w, "format must be text or html", http.StatusBadRequest)
+		return
+	}
+	text, err := ocr(reqBody.ImageUrl, reqBody.Format)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -58,13 +63,13 @@ func handlePostUrl(w http.ResponseWriter, req *http.Request) {
 	_, _ = io.WriteString(w, text)
 }
 
-func ocr(imageUrl string) (string, error) {
+func ocr(imageUrl, format string) (string, error) {
 	imageFile, err := downloadImage(imageUrl)
 	if err != nil {
 		return "", err
 	}
 
-	text, err := runTesseract(imageFile)
+	text, err := runTesseract(imageFile, format)
 	if err != nil {
 		return "", err
 	}
@@ -94,8 +99,12 @@ func downloadImage(imageUrl string) (string, error) {
 	return imageFile.Name(), nil
 }
 
-func runTesseract(imageFile string) (string, error) {
-	out, err := exec.Command("tesseract", "-l", "eng+deu", imageFile, "stdout").Output()
+func runTesseract(imageFile, format string) (string, error) {
+	args := []string{"-l", "eng+deu", imageFile, "stdout"}
+	if format == "html" {
+		args = append(args, "hocr")
+	}
+	out, err := exec.Command("tesseract", args...).Output()
 	if err != nil {
 		return "", err
 	}

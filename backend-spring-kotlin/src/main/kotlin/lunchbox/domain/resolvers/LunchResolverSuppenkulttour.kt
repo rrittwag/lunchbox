@@ -5,6 +5,7 @@ import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
+import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser
 import org.joda.money.Money
 import org.jsoup.nodes.Element
@@ -19,6 +20,7 @@ import java.time.LocalDate
 class LunchResolverSuppenkulttour(
   val dateValidator: DateValidator,
   val htmlParser: HtmlParser,
+  val ocrClient: OcrClient,
 ) : LunchResolver {
   override val provider = SUPPENKULTTOUR
 
@@ -27,6 +29,30 @@ class LunchResolverSuppenkulttour(
   private val logger = KotlinLogging.logger {}
 
   fun resolve(url: URL): List<LunchOffer> {
+    val wochenplanImages = resolveWochenplanImages(url)
+
+    val result = mutableListOf<LunchOffer>()
+
+    for (wochenplanImage in wochenplanImages) {
+      val wochenplanAsOcr = ocrClient.doOCR(wochenplanImage)
+      result +=
+        parseOffers(wochenplanAsOcr)
+          .filter { dateValidator.isValid(it.day, provider) }
+    }
+    return result
+  }
+
+  fun resolveWochenplanImages(url: URL): List<URL> {
+    TODO()
+  }
+
+  fun parseOffers(wochenplanAsOcr: String): List<LunchOffer> {
+    TODO()
+  }
+
+  // --- old implementation ---
+
+  fun resolveOld(url: URL): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
 
     val site = htmlParser.parse(url)

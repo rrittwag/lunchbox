@@ -5,22 +5,76 @@ package lunchbox.domain.resolvers
 import io.mockk.mockk
 import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
+import lunchbox.domain.resolvers.LunchResolverGesundheitszentrum.Wochenplan
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
+import lunchbox.util.ocr.OcrClient
+import lunchbox.util.url.UrlUtil
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class LunchResolverSuppenkulttourTest {
   private val htmlParser = HtmlParser(mockk())
+  private val ocrClient = mockk<OcrClient>()
 
-  private fun resolver() = LunchResolverSuppenkulttour(DateValidator.alwaysValid(), htmlParser)
+  private fun resolver() = LunchResolverSuppenkulttour(DateValidator.alwaysValid(), htmlParser, ocrClient)
 
   private val providerId = SUPPENKULTTOUR.id
 
+  @Nested
+  inner class HtmlParsing {
+    @Test
+    fun `resolve Wochenplaene for website of 2019-09-16`() {
+      val url = javaClass.getResource("/menus/suppenkultour/html/2019-09-16_posts.html")
+
+      val wochenplaene = resolver().resolveWochenplanImages(url)
+
+      wochenplaene shouldHaveSize 2
+      wochenplaene shouldContain
+        Wochenplan(
+          date("2019-09-16"),
+          UrlUtil.url(
+            "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnOmbEvG5WngTMx4RqIMiGBD4jDftJMUMYi2M5uwa3Nu3QAJUdseNXbSEr1Iejl_Ds&_nc_ht=scontent-ber1-1.xx&oh=e40ce027618fa63a5b7f4971fc02b83d&oe=5E06EF54",
+          ),
+        )
+      wochenplaene shouldContain
+        Wochenplan(
+          date("2019-09-09"),
+          UrlUtil.url(
+            "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/69761025_2164731656971007_4787155769139134464_o.jpg?_nc_cat=101&_nc_oc=AQlqnbM_DBfJ-eB1mBQK48kb8M3UWtjmyGo1knDG-9caTgaJAPraVhT6ZuHcff7_5P0&_nc_ht=scontent-ber1-1.xx&oh=77d585b271943105b09845d3ed23c00b&oe=5DF4A077",
+          ),
+        )
+    }
+
+    @Test
+    fun `resolve Wochenplaene for posts of 2019-09-23`() {
+      val url = javaClass.getResource("/menus/gesundheitszentrum/html/2019-09-23_posts.html")
+
+      val wochenplaene = resolver().resolveWochenplanImages(url)
+
+      wochenplaene shouldHaveSize 2
+      wochenplaene shouldContain
+        Wochenplan(
+          date("2019-09-23"),
+          UrlUtil.url(
+            "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70741530_2188809777896528_1685416184234639360_o.jpg?_nc_cat=104&_nc_oc=AQn0voSe6PW2bpXJhANweSiOIyLcrYb0G-NmImMtPJ6Ka4swX6GfSG-Eudtb4LkGCe8&_nc_ht=scontent-ber1-1.xx&oh=be84961d17026c68fc74c1ecf23b2396&oe=5DF929A9",
+          ),
+        )
+      wochenplaene shouldContain
+        Wochenplan(
+          date("2019-09-16"),
+          UrlUtil.url(
+            "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnlw8UTdf_EHJa-WZ3OfYWP7TyOyahpP-xMOhEj_-x_78veJsYvEmYT68pImua8XLA&_nc_ht=scontent-ber1-1.xx&oh=00559a3cb8d8df7486d84dc607a7c2b0&oe=5E2E7C54",
+          ),
+        )
+    }
+  }
+
   @Test
   fun `resolve offers for week of 2019-01-14`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2019-01-14.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-01-14.html")
 
     val offers = resolver().resolve(url)
 
@@ -197,7 +251,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2019-02-18`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2019-02-18.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-02-18.html")
 
     val offers = resolver().resolve(url)
 
@@ -260,7 +314,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2019-06-10`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2019-06-10.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-06-10.html")
 
     val offers = resolver().resolve(url)
 
@@ -295,7 +349,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2019-08-26`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2019-08-26.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-08-26.html")
 
     val offers = resolver().resolve(url)
 
@@ -320,7 +374,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2019-09-09`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2019-09-09.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-09-09.html")
 
     val offers = resolver().resolve(url)
 
@@ -355,7 +409,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2019-09-30`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2019-09-30.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-09-30.html")
 
     val offers = resolver().resolve(url)
 
@@ -380,7 +434,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2019-10-07`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2019-10-07.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-10-07.html")
 
     val offers = resolver().resolve(url)
 
@@ -445,7 +499,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2019-10-28`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2019-10-28.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-10-28.html")
 
     val offers = resolver().resolve(url)
 
@@ -480,7 +534,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2020-01-02`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2020-01-02.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2020-01-02.html")
 
     val offers = resolver().resolve(url)
 
@@ -534,7 +588,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2020-03-23`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2020-03-23.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2020-03-23.html")
 
     val offers = resolver().resolve(url)
 
@@ -554,7 +608,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for Corona easter week of 2020-04-06`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2020-04-06.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2020-04-06.html")
 
     val offers = resolver().resolve(url)
 
@@ -575,7 +629,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2020-05-18`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2020-05-18.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2020-05-18.html")
 
     val offers = resolver().resolve(url)
 
@@ -589,7 +643,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2020-11-23`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2020-11-23.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2020-11-23.html")
 
     val offers = resolver().resolve(url)
 
@@ -603,7 +657,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2022-04-04`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2022-04-04.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2022-04-04.html")
 
     val offers = resolver().resolve(url)
 
@@ -617,7 +671,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2022-06-27`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2022-06-27.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2022-06-27.html")
 
     val offers = resolver().resolve(url)
 
@@ -631,7 +685,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2023-01-09`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2023-01-09.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2023-01-09.html")
 
     val offers = resolver().resolve(url)
 
@@ -645,7 +699,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2023-01-30`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2023-01-30.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2023-01-30.html")
 
     val offers = resolver().resolve(url)
 
@@ -659,7 +713,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2023-02-13`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2023-02-13.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2023-02-13.html")
 
     val offers = resolver().resolve(url)
 
@@ -675,7 +729,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2023-03-20`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2023-03-20.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2023-03-20.html")
 
     val offers = resolver().resolve(url)
 
@@ -691,7 +745,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2023-05-29 - Pfingsten`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2023-05-29.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2023-05-29.html")
 
     val offers = resolver().resolve(url)
 
@@ -766,7 +820,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2023-06-12`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2023-06-12.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2023-06-12.html")
 
     val offers = resolver().resolve(url)
 
@@ -811,7 +865,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2024-10-14`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2024-10-14.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2024-10-14.html")
 
     val offers = resolver().resolve(url)
 
@@ -836,7 +890,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2025-06-23`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2025-06-23.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2025-06-23.html")
 
     val offers = resolver().resolve(url)
 
@@ -871,7 +925,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2025-08-11`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2025-08-11.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2025-08-11.html")
 
     val offers = resolver().resolve(url)
 
@@ -916,7 +970,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2025-08-18`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2025-08-18.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2025-08-18.html")
 
     val offers = resolver().resolve(url)
 
@@ -961,7 +1015,7 @@ class LunchResolverSuppenkulttourTest {
 
   @Test
   fun `resolve offers for week of 2026-01-26`() {
-    val url = javaClass.getResource("/menus/suppenkulttour/2026-01-26.html")
+    val url = javaClass.getResource("/menus/suppenkulttour/html_old/2026-01-26.html")
 
     val offers = resolver().resolve(url)
 
