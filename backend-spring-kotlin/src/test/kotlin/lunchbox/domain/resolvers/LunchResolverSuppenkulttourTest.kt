@@ -24,59 +24,329 @@ class LunchResolverSuppenkulttourTest {
   private val providerId = SUPPENKULTTOUR.id
 
   @Nested
-  inner class HtmlParsing {
+  inner class ResolveWochenplanImages {
     @Test
-    fun `resolve Wochenplaene for website of 2019-09-16`() {
-      val url = javaClass.getResource("/menus/suppenkultour/html/2019-09-16_posts.html")
+    fun `resolve Wochenplaene for website of 2026-08-10`() {
+      val url = javaClass.getResource("/menus/suppenkultour/html/2026-08-10.html")
+
+      val wochenplaene = resolver().resolveWochenplanImages(url)
+
+      wochenplaene shouldHaveSize 1
+      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/08/Bildschirmfoto-2026-08-10-um-14.15.33.jpg"
+    }
+
+    @Test
+    fun `resolve Wochenplaene for website of 2026-08-24`() {
+      val url = javaClass.getResource("/menus/suppenkultour/html/2026-08-24.html")
+
+      val wochenplaene = resolver().resolveWochenplanImages(url)
+
+      wochenplaene shouldHaveSize 1
+      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/08/VorlagePlan.png"
+    }
+
+    @Test
+    fun `resolve Wochenplaene for website of 2026-08-24 incl next week`() {
+      val url = javaClass.getResource("/menus/suppenkultour/html/2026-08-24_incl-next-week.html")
 
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
       wochenplaene shouldHaveSize 2
-      wochenplaene shouldContain
-        Wochenplan(
-          date("2019-09-16"),
-          UrlUtil.url(
-            "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnOmbEvG5WngTMx4RqIMiGBD4jDftJMUMYi2M5uwa3Nu3QAJUdseNXbSEr1Iejl_Ds&_nc_ht=scontent-ber1-1.xx&oh=e40ce027618fa63a5b7f4971fc02b83d&oe=5E06EF54",
-          ),
+      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/08/VorlagePlan.png"
+      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/08/Vorlageneu.png"
+    }
+
+    @Test
+    fun `resolve Wochenplaene for website of 2026-08-31 incl next week`() {
+      val url = javaClass.getResource("/menus/suppenkultour/html/2026-08-31_incl-next-week.html")
+
+      val wochenplaene = resolver().resolveWochenplanImages(url)
+
+      wochenplaene shouldHaveSize 2
+      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/08/Vorlageneu.png"
+      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/09/Wochenplan-07-11-09.png"
+    }
+
+    @Test
+    fun `resolve Wochenplaene for website of 2026-09-14`() {
+      val url = javaClass.getResource("/menus/suppenkultour/html/2026-09-14.html")
+
+      val wochenplaene = resolver().resolveWochenplanImages(url)
+
+      wochenplaene shouldHaveSize 1
+      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/09/Planaktuell.png"
+    }
+
+    @Test
+    fun `resolve Wochenplaene for website of 2026-10-12`() {
+      val url = javaClass.getResource("/menus/suppenkultour/html/2026-10-12.html")
+
+      val wochenplaene = resolver().resolveWochenplanImages(url)
+
+      wochenplaene shouldHaveSize 1
+      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/10/Typografischer-Wochenplan-mit-Gerichten.png"
+    }
+  }
+
+  @Nested
+  inner class ResolveOffers {
+    @Test
+    fun `resolve offers for week of 2026-08-10`() {
+      val url = javaClass.getResource("/menus/suppenkulttour/ocr/2026-08-10_Bildschirmfoto-2026-08-10-um-14.15.33.jpg")
+
+      val offers = resolver().resolve(url)
+
+      offers shouldHaveSize 15
+
+      val week = weekOf("2026-08-10")
+      for (weekday in week.lunchDays) {
+        offers shouldContain
+          LunchOffer(
+            0,
+            "Süßkartoffel-Bohnen-Eintopf",
+            "Rinderhack, Süßkartoffeln, grüne Bohnen, gelbe Bohnen, Kartoffeln, Tomaten, Thymian",
+            weekday,
+            euro("6.50"),
+            emptySet(),
+            providerId,
+          )
+        offers shouldContain
+          LunchOffer(
+            0,
+            "Asiatische Gemüsebrühe",
+            "Brokkoli, Blumenkohl, Edamame, Karotten, Pak Choi, Ingwer, Zitronengras, Sojasoße, Glasnudeln, Frühlingslauch, Sesam",
+            weekday,
+            euro("6.50"),
+            setOf("vegan"),
+            providerId,
+          )
+      }
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Goldene Kartoffel-Cremesuppe",
+          "Kartoffeln, Karotten, Sellerie, Wirsing, weiße Bohnen, cremig, püriert mit Hafercuisine, Kurkuma-Curry-Note, wahlweise mit angebratener Wiener",
+          week.monday,
+          euro("6.50"),
+          setOf("vegan", "Tagessuppe"),
+          providerId,
         )
-      wochenplaene shouldContain
-        Wochenplan(
-          date("2019-09-09"),
-          UrlUtil.url(
-            "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/69761025_2164731656971007_4787155769139134464_o.jpg?_nc_cat=101&_nc_oc=AQlqnbM_DBfJ-eB1mBQK48kb8M3UWtjmyGo1knDG-9caTgaJAPraVhT6ZuHcff7_5P0&_nc_ht=scontent-ber1-1.xx&oh=77d585b271943105b09845d3ed23c00b&oe=5DF4A077",
-          ),
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Pasta Ofengemüse & Hähnchen",
+          "Tomatensoße, Zucchini, Paprika, Aubergine, Kürbis, Möhren, Hähnchen, Kräuter, Parmesan",
+          week.tuesday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Afrikanischer Erdnuss-Eintopf",
+          "Süßkartoffeln, Kichererbsen, Spinat, Tomaten, Erdnussbutter, Chili, Limette, geröstete Erdnüsse",
+          week.wednesday,
+          euro("6.50"),
+          setOf("vegan", "Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Hühner-Frikassee",
+          "Hähnchenfleisch, Erbsen, Champignons, Möhren, Kapern, Lorbeer, Sahen, Zitrone, wahlweise + Reis",
+          week.thursday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Gyrossuppe",
+          "Schweinegyros, mit Paprika, Kartoffeln & Rahm, Tomatenmark, Gewürze, kräftige Suppe mit Gyros und cremiger Soße, wahlweise + Brotcroütons",
+          week.friday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
         )
     }
 
     @Test
-    fun `resolve Wochenplaene for posts of 2019-09-23`() {
-      val url = javaClass.getResource("/menus/gesundheitszentrum/html/2019-09-23_posts.html")
+    fun `resolve offers for week of 2026-09-14`() {
+      val url = javaClass.getResource("/menus/suppenkulttour/ocr/2026-09-14_Planaktuell.png")
 
-      val wochenplaene = resolver().resolveWochenplanImages(url)
+      val offers = resolver().resolve(url)
 
-      wochenplaene shouldHaveSize 2
-      wochenplaene shouldContain
-        Wochenplan(
-          date("2019-09-23"),
-          UrlUtil.url(
-            "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70741530_2188809777896528_1685416184234639360_o.jpg?_nc_cat=104&_nc_oc=AQn0voSe6PW2bpXJhANweSiOIyLcrYb0G-NmImMtPJ6Ka4swX6GfSG-Eudtb4LkGCe8&_nc_ht=scontent-ber1-1.xx&oh=be84961d17026c68fc74c1ecf23b2396&oe=5DF929A9",
-          ),
+      offers shouldHaveSize 15
+
+      val week = weekOf("2026-09-14")
+      for (weekday in week.lunchDays) {
+        offers shouldContain
+          LunchOffer(
+            0,
+            "Wrukeneintopf",
+            "„Steckrübe - die Ananas des Nordens“, klarer Eintopf mit Wurzelgemüse, Kartoffeln, Kaßler",
+            weekday,
+            euro("6.50"),
+            emptySet(),
+            providerId,
+          )
+        offers shouldContain
+          LunchOffer(
+            0,
+            "Rosenkohlcurry",
+            "mit Rosenkohl, Süßkartoffeln, Kartoffeln, Möhren, Ingwer, Cous Cous, Kokosmilch, Koriander, Zitronengras",
+            weekday,
+            euro("6.50"),
+            setOf("vegan"),
+            providerId,
+          )
+      }
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Chili con Carne",
+          "Kartoffeln, Karotten, Sellerie, Wirsing, weiße Bohnen, cremig, püriert mit Hafercuisine, Kurkuma-Curry-Note, wahlweise mit angebratener Wiener",
+          week.monday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
         )
-      wochenplaene shouldContain
-        Wochenplan(
-          date("2019-09-16"),
-          UrlUtil.url(
-            "https://scontent-ber1-1.xx.fbcdn.net/v/t1.0-9/70243813_2176643935779779_1905631810474213376_o.jpg?_nc_cat=106&_nc_oc=AQnlw8UTdf_EHJa-WZ3OfYWP7TyOyahpP-xMOhEj_-x_78veJsYvEmYT68pImua8XLA&_nc_ht=scontent-ber1-1.xx&oh=00559a3cb8d8df7486d84dc607a7c2b0&oe=5E2E7C54",
-          ),
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Pasta „Pomodori“",
+          "Möhren, Zucchini, Cherrytomaten in einer cremigen Tomatensoße mit Mozzarella, Basilikum, Thymian, wahlweise + Huhn",
+          week.tuesday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Kürbis-Glückstopf",
+          "mit Kürbis, Banane, Chili, Porree, Süßkartoffeln, Erbsen, Möhren, Curry",
+          week.wednesday,
+          euro("6.50"),
+          setOf("vegan", "Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Soto Ayam",
+          "Indonesischer Erdnuss-Hühncheneintopf mit Glasnudeln und Champignons",
+          week.thursday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Soljanka",
+          "Bratwurst, Kassler, Wiener, Letscho, Sauerkraut, Gurken, Tomaten, Lorbeer, Schmand",
+          week.friday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+    }
+
+    @Test
+    fun `resolve offers for week of 2026-10-12`() {
+      val url = javaClass.getResource("/menus/suppenkulttour/ocr/2026-10-12_Typografischer-Wochenplan-mit-Gerichten.png")
+
+      val offers = resolver().resolve(url)
+
+      offers shouldHaveSize 15
+
+      val week = weekOf("2026-10-12")
+      for (weekday in week.lunchDays) {
+        offers shouldContain
+          LunchOffer(
+            0,
+            "Käse-Lauch-Suppe mit Hackfleisch",
+            "gemischtes Hack, Porree, Karottenstifte, Kartoffelwürfel, Frischkäse, Schmelzkäse, Kräuter",
+            weekday,
+            euro("6.50"),
+            emptySet(),
+            providerId,
+          )
+        offers shouldContain
+          LunchOffer(
+            0,
+            "Süßkartoffel-Curry",
+            "Süßkartoffel, Kokosmilch, Kichererbsen, Gemüse, Curry, Limette, Koriander, wahlweise mit Hähnchen",
+            weekday,
+            euro("6.50"),
+            setOf("vegan"),
+            providerId,
+          )
+      }
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Kürbis-Maronen-Cremesuppe",
+          "Hokkaido- & Butternut-Kürbis, Maronen, Kartoffeln, Möhren, Zwiebeln, Sahne, Muskat, Ingwer, Kürbiskerne, Kürbiskernöl",
+          week.monday,
+          euro("6.50"),
+          setOf("vegetarisch", "Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Pasta „Chicken Stroganoff“",
+          "Hähnchenbrust, Champignons, Zwiebeln, Gewürzgurke, Paprika., Sahnesoße, Senf, Petersilie, Pfeffer, dazu Bio-Pasta",
+          week.tuesday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Kartoffeltopf",
+          "Kartoffeln, Porree, weiße Bohnen, Möhren, Tomaten, Tomatenmark, Wurzelgemüse, Kräuter, Senf, Röstzwiebeln",
+          week.wednesday,
+          euro("6.50"),
+          setOf("vegan", "Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Koreanischer Hackfleisch-Nudeltopf",
+          "Rinderhack, Chinakohl, Möhren, Frühlingszwiebeln, Nudeln, Soja, Ingwer, Knoblauch, Sesam",
+          week.thursday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Enten-Rotkohl-Topf",
+          "Geschmortes Entenfleisch, Rotkohl, Kartoffeln, Wurzelgemüse, Apfel, Gewürze",
+          week.friday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
         )
     }
   }
+
+  // --- old implementation ---
 
   @Test
   fun `resolve offers for week of 2019-01-14`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-01-14.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 40
 
@@ -253,7 +523,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2019-02-18`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-02-18.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 40
 
@@ -316,7 +586,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2019-06-10`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-06-10.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2019-06-10")
     offers.filter { it.day == week.monday } shouldHaveSize 0
@@ -351,7 +621,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2019-08-26`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-08-26.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2019-08-26")
     offers.filter { it.day == week.monday } shouldHaveSize 4
@@ -376,7 +646,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2019-09-09`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-09-09.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2019-09-09")
     offers.filter { it.day == week.monday } shouldHaveSize 4
@@ -411,7 +681,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2019-09-30`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-09-30.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2019-09-30")
     offers.filter { it.day == week.monday } shouldHaveSize 4
@@ -436,7 +706,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2019-10-07`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-10-07.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2019-10-07")
     offers.filter { it.day == week.monday } shouldHaveSize 4
@@ -501,7 +771,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2019-10-28`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2019-10-28.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2019-10-28")
     offers.filter { it.day == week.monday } shouldHaveSize 4
@@ -536,7 +806,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2020-01-02`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2020-01-02.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     var week = weekOf("2019-12-23")
     offers.filter { it.day == week.monday } shouldHaveSize 4
@@ -590,7 +860,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2020-03-23`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2020-03-23.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2020-03-23")
     offers shouldHaveSize 20
@@ -610,7 +880,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for Corona easter week of 2020-04-06`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2020-04-06.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     var week = weekOf("2020-04-06")
     offers.filter { it.day == week.monday } shouldHaveSize 3
@@ -631,7 +901,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2020-05-18`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2020-05-18.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2020-05-18")
     offers.filter { it.day == week.monday } shouldHaveSize 4
@@ -645,7 +915,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2020-11-23`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2020-11-23.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2020-11-23")
     offers.filter { it.day == week.monday } shouldHaveSize 4
@@ -659,7 +929,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2022-04-04`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2022-04-04.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2022-04-04")
     offers.filter { it.day == week.monday } shouldHaveSize 3
@@ -673,7 +943,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2022-06-27`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2022-06-27.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2022-06-27")
     offers.filter { it.day == week.monday } shouldHaveSize 3
@@ -687,7 +957,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2023-01-09`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2023-01-09.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2023-01-09")
     offers.filter { it.day == week.monday } shouldHaveSize 3
@@ -701,7 +971,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2023-01-30`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2023-01-30.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     val week = weekOf("2023-01-30")
     offers.filter { it.day == week.monday } shouldHaveSize 3
@@ -715,7 +985,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2023-02-13`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2023-02-13.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     println(offers)
 
@@ -731,7 +1001,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2023-03-20`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2023-03-20.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     println(offers)
 
@@ -747,7 +1017,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2023-05-29 - Pfingsten`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2023-05-29.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 12
     val week = weekOf("2023-05-29")
@@ -822,7 +1092,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2023-06-12`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2023-06-12.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 30
     val week = weekOf("2023-06-12")
@@ -867,7 +1137,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2024-10-14`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2024-10-14.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 30
     val week = weekOf("2024-10-14")
@@ -892,7 +1162,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2025-06-23`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2025-06-23.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 15
     val week = weekOf("2025-06-23")
@@ -927,7 +1197,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2025-08-11`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2025-08-11.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 15
     val week = weekOf("2025-08-11")
@@ -972,7 +1242,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2025-08-18`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2025-08-18.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 15
     val week = weekOf("2025-08-18")
@@ -1017,7 +1287,7 @@ class LunchResolverSuppenkulttourTest {
   fun `resolve offers for week of 2026-01-26`() {
     val url = javaClass.getResource("/menus/suppenkulttour/html_old/2026-01-26.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 15
     val week = weekOf("2026-01-26")
