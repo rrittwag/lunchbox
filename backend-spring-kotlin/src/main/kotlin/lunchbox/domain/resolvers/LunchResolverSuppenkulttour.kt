@@ -1,4 +1,5 @@
 @file:Suppress("MaxLineLength")
+
 package lunchbox.domain.resolvers
 
 import io.github.oshai.kotlinlogging.KotlinLogging
