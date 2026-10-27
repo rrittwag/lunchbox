@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -140,9 +141,15 @@ func runTesseract(imageFile, format string) (string, error) {
 	if format == "html" {
 		args = append(args, "hocr")
 	}
-	out, err := exec.Command("tesseract", args...).CombinedOutput()
+	cmd := exec.Command("tesseract", args...)
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
+	out, err := cmd.Output()
 	if err != nil {
-		return "", fmt.Errorf("command failed: %w; output: %s", err, out)
+		return "", fmt.Errorf("command failed: %w; stderr: %s", err, stderr.String())
+	}
+	if stderr.Len() > 0 {
+		log.Printf("tesseract warning: %s", stderr.String())
 	}
 	return string(out), nil
 }
