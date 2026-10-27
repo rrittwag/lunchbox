@@ -7,8 +7,11 @@ import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 import java.net.URL
 
-enum class OcrOutputFormat(val format: String) {
-  PLAIN_TEXT("text"), HTML_WITH_TEXT_AND_BOUNDING_BOXES("html")
+enum class OcrOutputFormat(
+  val format: String,
+) {
+  PLAIN_TEXT("text"),
+  HTML_WITH_TEXT_AND_BOUNDING_BOXES("html"),
 }
 
 /**
@@ -22,7 +25,10 @@ class OcrClient(
   val ocrUrl: String,
 ) {
   @Retryable(maxRetries = 5, delay = 5000, multiplier = 2.0)
-  fun doOCR(imageUrl: URL, outputFormat: OcrOutputFormat = OcrOutputFormat.PLAIN_TEXT): String {
+  fun doOCR(
+    imageUrl: URL,
+    outputFormat: OcrOutputFormat = OcrOutputFormat.PLAIN_TEXT,
+  ): String {
     val requestBody =
       mapOf(
         "img_url" to imageUrl,

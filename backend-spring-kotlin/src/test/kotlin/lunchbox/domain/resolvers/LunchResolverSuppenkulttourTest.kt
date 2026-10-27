@@ -30,7 +30,8 @@ class LunchResolverSuppenkulttourTest {
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
       wochenplaene shouldHaveSize 1
-      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/08/Bildschirmfoto-2026-08-10-um-14.15.33.jpg"
+      wochenplaene.map { it.toString() } shouldContain
+        "https://suppenkult.com/wp-content/uploads/2026/08/Bildschirmfoto-2026-08-10-um-14.15.33.jpg"
     }
 
     @Test
@@ -40,7 +41,8 @@ class LunchResolverSuppenkulttourTest {
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
       wochenplaene shouldHaveSize 1
-      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/08/VorlagePlan.png"
+      wochenplaene.map { it.toString() } shouldContain
+        "https://suppenkult.com/wp-content/uploads/2026/08/VorlagePlan.png"
     }
 
     @Test
@@ -50,8 +52,10 @@ class LunchResolverSuppenkulttourTest {
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
       wochenplaene shouldHaveSize 2
-      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/08/VorlagePlan.png"
-      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/08/Vorlageneu.png"
+      wochenplaene.map { it.toString() } shouldContain
+        "https://suppenkult.com/wp-content/uploads/2026/08/VorlagePlan.png"
+      wochenplaene.map { it.toString() } shouldContain
+        "https://suppenkult.com/wp-content/uploads/2026/08/Vorlageneu.png"
     }
 
     @Test
@@ -61,8 +65,10 @@ class LunchResolverSuppenkulttourTest {
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
       wochenplaene shouldHaveSize 2
-      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/08/Vorlageneu.png"
-      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/09/Wochenplan-07-11-09.png"
+      wochenplaene.map { it.toString() } shouldContain
+        "https://suppenkult.com/wp-content/uploads/2026/08/Vorlageneu.png"
+      wochenplaene.map { it.toString() } shouldContain
+        "https://suppenkult.com/wp-content/uploads/2026/09/Wochenplan-07-11-09.png"
     }
 
     @Test
@@ -72,7 +78,8 @@ class LunchResolverSuppenkulttourTest {
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
       wochenplaene shouldHaveSize 1
-      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/09/Planaktuell.png"
+      wochenplaene.map { it.toString() } shouldContain
+        "https://suppenkult.com/wp-content/uploads/2026/09/Planaktuell.png"
     }
 
     @Test
@@ -82,7 +89,8 @@ class LunchResolverSuppenkulttourTest {
       val wochenplaene = resolver().resolveWochenplanImages(url)
 
       wochenplaene shouldHaveSize 1
-      wochenplaene shouldContain "https://suppenkult.com/wp-content/uploads/2026/10/Typografischer-Wochenplan-mit-Gerichten.png"
+      wochenplaene.map { it.toString() } shouldContain
+        "https://suppenkult.com/wp-content/uploads/2026/10/Typografischer-Wochenplan-mit-Gerichten.png"
     }
   }
 
@@ -206,7 +214,7 @@ class LunchResolverSuppenkulttourTest {
         LunchOffer(
           0,
           "Chili con Carne",
-          "Kartoffeln, Karotten, Sellerie, Wirsing, weiße Bohnen, cremig, püriert mit Hafercuisine, Kurkuma-Curry-Note, wahlweise mit angebratener Wiener",
+          "Hackfleisch, Mais, Paprika, Kidney, Tomatenwürfel, Reis, Prise Chili",
           week.monday,
           euro("6.50"),
           setOf("Tagessuppe"),
@@ -256,7 +264,8 @@ class LunchResolverSuppenkulttourTest {
 
     @Test
     fun `resolve offers for week of 2026-10-12`() {
-      val html = readFileContent("/menus/suppenkulttour/ocr/2026-10-12_Typografischer-Wochenplan-mit-Gerichten.png.html")
+      val html =
+        readFileContent("/menus/suppenkulttour/ocr/2026-10-12_Typografischer-Wochenplan-mit-Gerichten.png.html")
 
       val offers = resolver().parseOffers(html)
 
@@ -330,6 +339,90 @@ class LunchResolverSuppenkulttourTest {
           0,
           "Enten-Rotkohl-Topf",
           "Geschmortes Entenfleisch, Rotkohl, Kartoffeln, Wurzelgemüse, Apfel, Gewürze",
+          week.friday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+    }
+
+    @Test
+    fun `resolve offers for week of 2026-10-26`() {
+      val html =
+        readFileContent("/menus/suppenkulttour/ocr/2026-10-26_Foto-22.10.26-07-52-24.png.html")
+
+      val offers = resolver().parseOffers(html)
+
+      offers shouldHaveSize 15
+
+      val week = weekOf("2026-10-26")
+      for (weekday in week.lunchDays) {
+        offers shouldContain
+          LunchOffer(
+            0,
+            "Hühner-Graupen-Topf",
+            "kräftiger Eintopf mit zartem Hühnerfleisch, Graupen und Wurzelgemüse, mit Petersilie",
+            weekday,
+            euro("6.50"),
+            emptySet(),
+            providerId,
+          )
+        offers shouldContain
+          LunchOffer(
+            0,
+            "Chili sin Carne",
+            "herzhaftes Chili mit Kidneybohnen, Mais, Paprika und Quinoa, Dinkelschrot, in würziger Tomatensoße, abgerundet mit Kreuzkümmel und Limette",
+            weekday,
+            euro("6.50"),
+            setOf("vegan"),
+            providerId,
+          )
+      }
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Champignon-Kartoffel-Cremesuppe",
+          "sämige Cremesuppe aus Champignons, Kartoffeln und Creme double, abgeschmeckt mit Thymian und Schnittlauch",
+          week.monday,
+          euro("6.50"),
+          setOf("vegetarisch", "Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Pasta „Chicken-ßrokkoli“",
+          "Bio-Pasta mit Hähnchenbrust, Brokkoli und Möhren in cremiger Käse-Sahnesoße, abgeschmeckt mit Muskat & Petersilie.",
+          week.tuesday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Griechischer Zitronen-Reistopf",
+          "sämiger Gemüseeintopf mit Reis, Blattspinat, Zucchini, Möhren, Blumenkohl und Staudensellerie, abgeschmeckt mit Zitrone, Dill und Petersilie",
+          week.wednesday,
+          euro("6.50"),
+          setOf("vegan", "Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Indonesischer Schweinefleischtopf „Babi Kecap“",
+          "zart geschmortes Schweinefleisch mit Kartoffeln, Möhren, grünen Bohnen, Weißkohl und Zwiebeln in kräftiger, süß-würziger Sojabrühe mit Ingwer und Knoblauch, sämig abgerundet und mit Frühlingszwiebelh verfeinert.",
+          week.thursday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Solianka",
+          "klassischer Würsteintopf mit Wiener, Bratwurst, Kassler, Jagdwurst, Paprika, Gewürzgurken, Tomaten, Lorbeer & Zitrone",
           week.friday,
           euro("6.50"),
           setOf("Tagessuppe"),
