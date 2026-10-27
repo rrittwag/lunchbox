@@ -18,6 +18,10 @@ func TestPostUrlFormat(t *testing.T) {
 	t.Setenv("PATH", binDir+string(os.PathListSeparator)+os.Getenv("PATH"))
 
 	imageServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.UserAgent() != "Mozilla/5.0" {
+			http.Error(w, "missing OCR user agent", http.StatusServiceUnavailable)
+			return
+		}
 		_, _ = w.Write([]byte("image"))
 	}))
 	defer imageServer.Close()
@@ -56,5 +60,19 @@ func TestPostUrlFormat(t *testing.T) {
 				t.Fatalf("unexpected text arguments: %q", args)
 			}
 		})
+	}
+}
+
+func TestRunTesseractIncludesCommandOutputInError(t *testing.T) {
+	binDir := t.TempDir()
+	tesseract := filepath.Join(binDir, "tesseract")
+	if err := os.WriteFile(tesseract, []byte("#!/bin/sh\necho 'invalid image' >&2\nexit 1\n"), 0755); err != nil {
+		t.Fatal(err)
+	}
+	t.Setenv("PATH", binDir+string(os.PathListSeparator)+os.Getenv("PATH"))
+
+	_, err := runTesseract("image.png", "text")
+	if err == nil || !strings.Contains(err.Error(), "invalid image") {
+		t.Fatalf("error = %v, want command output", err)
 	}
 }
