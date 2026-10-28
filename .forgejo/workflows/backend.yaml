@@ -81,7 +81,6 @@ jobs:
     container:
       image: container.rori.dev/ci/java:21
     env:
-      CONTAINER_REGISTRY_AUTH_CONFIG: ${{ secrets.CONTAINER_REGISTRY_AUTH_CONFIG }}
       TESTCONTAINERS_RYUK_DISABLED: true
     defaults:
       run:
@@ -98,9 +97,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - run: |
-          mkdir -p $HOME/.docker && echo "$CONTAINER_REGISTRY_AUTH_CONFIG" > $HOME/.docker/config.json
-          ./gradlew testIntegration
+      - run: ./gradlew testIntegration
 
   backend-build-container:
     if: forgejo.ref == 'refs/heads/main'
