@@ -99,8 +99,9 @@ class LunchResolverSuppenkulttour(
     }
 
     val parsedOffers = offerBlocks.mapNotNull { (offerLines, priceLine) -> parseOffer(offerLines, priceLine) }
+    val orderedOffers = parsedOffers.filter { it.weekday != null } + parsedOffers.filter { it.weekday == null }
     val dates = Weekday.entries.map { monday.plusDays(it.order) }
-    return parsedOffers.flatMap { parsed ->
+    return orderedOffers.flatMap { parsed ->
       val offerDates = parsed.weekday?.let { listOf(monday.plusDays(it.order)) } ?: dates
       offerDates.map { day ->
         LunchOffer(

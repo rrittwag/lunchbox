@@ -8,6 +8,7 @@ import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Nested
@@ -354,6 +355,7 @@ class LunchResolverSuppenkulttourTest {
       val offers = resolver().parseOffers(html)
 
       offers shouldHaveSize 15
+      offers.take(5).map { it.tags.contains("Tagessuppe") } shouldBeEqualTo List(5) { true }
 
       val week = weekOf("2026-10-26")
       for (weekday in week.lunchDays) {
