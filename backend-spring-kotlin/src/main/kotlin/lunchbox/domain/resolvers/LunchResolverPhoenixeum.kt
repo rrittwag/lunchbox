@@ -5,12 +5,16 @@ import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
+import lunchbox.util.ocr.OcrClient
+import lunchbox.util.ocr.OcrOutputFormat
 import lunchbox.util.string.StringParser
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
 import org.springframework.stereotype.Component
+import java.net.URI
 import java.net.URL
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -19,6 +23,7 @@ import java.time.LocalDate
 class LunchResolverPhoenixeum(
   val dateValidator: DateValidator,
   val htmlParser: HtmlParser,
+  val ocrClient: OcrClient,
 ) : LunchResolver {
   override val provider = LunchProvider.PHOENIXEUM
 
@@ -27,6 +32,204 @@ class LunchResolverPhoenixeum(
   private val logger = KotlinLogging.logger {}
 
   fun resolve(url: URL): List<LunchOffer> {
+    val wochenplanImages = resolveWochenplanImages(url)
+
+    val result = mutableListOf<LunchOffer>()
+
+    for (wochenplanImage in wochenplanImages) {
+      val wochenplanAsOcrHtml = ocrClient.doOCR(wochenplanImage, OcrOutputFormat.HTML_WITH_TEXT_AND_BOUNDING_BOXES)
+      result +=
+        parseOffers(wochenplanAsOcrHtml)
+          .filter { dateValidator.isValid(it.day, provider) }
+    }
+    return result
+  }
+
+  fun resolveWochenplanImages(url: URL): List<URL> {
+    val site = htmlParser.parse(url)
+    val referenceDate =
+      Regex("""(\d{4}-\d{2}-\d{2})""")
+        .find(url.path)
+        ?.groupValues
+        ?.get(1)
+        ?.let(LocalDate::parse)
+        ?: LocalDate.now()
+
+    return site
+      .select("#wochenkarte .elementor-widget-image")
+      .mapNotNull { widget ->
+        val image = widget.selectFirst("img") ?: return@mapNotNull null
+        val imageUrl = image.attr("data-src").ifBlank { image.attr("src") }
+        if (imageUrl.isBlank() || imageUrl.startsWith("data:")) return@mapNotNull null
+
+        // Das unbefüllte Widget für die nächste Woche enthält auf der Website noch ein altes Bild.
+        val embeddedDate =
+          Regex("""(\d{4}-\d{2}-\d{2})""")
+            .find(imageUrl)
+            ?.groupValues
+            ?.get(1)
+            ?.let(LocalDate::parse)
+        if (widget.hasClass("sk-week-next") && embeddedDate != null && embeddedDate.isBefore(referenceDate)) {
+          return@mapNotNull null
+        }
+        URI(imageUrl).toURL()
+      }.distinct()
+  }
+
+  fun parseOffers(wochenplanAsOcrHtml: String): List<LunchOffer> {
+    val document = Jsoup.parse(wochenplanAsOcrHtml)
+    val monday =
+      document
+        .select(".ocr_line, .ocr_header, .ocr_textfloat, .ocr_caption")
+        .firstNotNullOfOrNull { resolveOcrDate(it.text()) }
+        ?.with(DayOfWeek.MONDAY)
+        ?: return emptyList()
+
+    val pageWidth =
+      parseBoundingBox(document.selectFirst(".ocr_page")?.attr("title").orEmpty())
+        ?.let { it.right - it.left }
+        ?: return emptyList()
+    val columnBoundary = pageWidth / 2
+    val lines = parseOcrColumnLines(document, columnBoundary)
+    val sectionStart = lines.indexOfFirst { it.fullText.contains("TAGESGERICHT", ignoreCase = true) }
+    if (sectionStart < 0) return emptyList()
+
+    val sectionLines = lines.drop(sectionStart)
+    return parseOcrColumn(sectionLines.mapNotNull { it.leftText }, monday) +
+      parseOcrColumn(sectionLines.mapNotNull { it.rightText }, monday)
+  }
+
+  private data class BoundingBox(
+    val left: Int,
+    val top: Int,
+    val right: Int,
+    val bottom: Int,
+  )
+
+  private data class OcrColumnLine(
+    val top: Int,
+    val fullText: String,
+    val leftText: String?,
+    val rightText: String?,
+  )
+
+  private fun parseOcrColumnLines(
+    document: Document,
+    columnBoundary: Int,
+  ): List<OcrColumnLine> =
+    document
+      .select(".ocr_line, .ocr_header, .ocr_textfloat, .ocr_caption")
+      .mapNotNull { line ->
+        val lineBox = parseBoundingBox(line.attr("title")) ?: return@mapNotNull null
+        val words =
+          line
+            .select(".ocrx_word")
+            .mapNotNull { word ->
+              val box = parseBoundingBox(word.attr("title")) ?: return@mapNotNull null
+              box to word.text().trim()
+            }.filter { it.second.isNotEmpty() }
+        if (words.isEmpty()) return@mapNotNull null
+
+        val leftText = words.filter { (box) -> (box.left + box.right) / 2 < columnBoundary }.joinToText()
+        val rightText = words.filter { (box) -> (box.left + box.right) / 2 >= columnBoundary }.joinToText()
+        OcrColumnLine(
+          top = lineBox.top,
+          fullText = words.joinToText(),
+          leftText = leftText.ifBlank { null },
+          rightText = rightText.ifBlank { null },
+        )
+      }.sortedBy { it.top }
+
+  private fun List<Pair<BoundingBox, String>>.joinToText(): String =
+    sortedBy { (box) -> box.left }.joinToString(" ") { it.second }.replace(Regex("""\s+"""), " ").trim()
+
+  private fun parseOcrColumn(
+    lines: List<String>,
+    monday: LocalDate,
+  ): List<LunchOffer> {
+    val weekdayLineIndex =
+      lines.indexOfFirst { line ->
+        Weekday.entries.any { line.contains(it.label, ignoreCase = true) }
+      }
+    if (weekdayLineIndex < 0) return emptyList()
+    val priceLineIndex =
+      lines
+        .withIndex()
+        .firstOrNull { (index, line) ->
+          index > weekdayLineIndex && line.contains("Portion", ignoreCase = true) && line.contains("€")
+        }?.index ?: -1
+    if (priceLineIndex < 0) return emptyList()
+
+    val content =
+      lines
+        .subList(weekdayLineIndex + 1, priceLineIndex)
+        .filterNot { isOcrAnnotation(it) }
+    if (content.isEmpty()) return emptyList()
+
+    val title = cleanupOcrTitle(content.first())
+    val description = content.drop(1).joinOcrDescription()
+    val price = StringParser.parseMoney(lines[priceLineIndex]) ?: return emptyList()
+    val tags = parseZusatzinfo(content.joinToString(" "))
+    val weekdays = Weekday.entries.filter { lines[weekdayLineIndex].contains(it.label, ignoreCase = true) }
+
+    return weekdays.map { weekday ->
+      LunchOffer(
+        0,
+        title,
+        description,
+        monday.plusDays(weekday.order),
+        price,
+        tags,
+        provider.id,
+      )
+    }
+  }
+
+  private fun List<String>.joinOcrDescription(): String =
+    fold("") { result, line ->
+      when {
+        result.isEmpty() -> line
+        result.last() in setOf(',', '.', ';', ':') -> "$result $line"
+        line.startsWith("und ", ignoreCase = true) || line.startsWith("dazu ", ignoreCase = true) -> "$result $line"
+        line.first().isLowerCase() -> "$result, $line"
+        else -> "$result $line"
+      }
+    }.replace(Regex(",(?=\\S)"), ", ")
+
+  private fun cleanupOcrTitle(title: String): String =
+    title
+      .replace(Regex("""(?i)\s+(?:enth[aä]lt|[a-z](?:\s*,\s*[a-z0-9]+)+).*$"""), "")
+      .trim(' ', ',', ';', '.')
+
+  private fun isOcrAnnotation(text: String): Boolean =
+    text.contains("Gluten", ignoreCase = true) &&
+      !text.contains(Regex("""(?i)mit|in|dazu"""))
+
+  private fun resolveOcrDate(text: String): LocalDate? {
+    StringParser.parseLocalDate(text)?.let { return it }
+    val compactDate = Regex("""(?<!\d)(\d{2})(\d{2})(\d{4})0?(?!\d)""").find(text) ?: return null
+    return runCatching {
+      LocalDate.of(
+        compactDate.groupValues[3].toInt(),
+        compactDate.groupValues[2].toInt(),
+        compactDate.groupValues[1].toInt(),
+      )
+    }.getOrNull()
+  }
+
+  private fun parseBoundingBox(title: String): BoundingBox? {
+    val result = Regex("""bbox (\d+) (\d+) (\d+) (\d+)""").find(title) ?: return null
+    return BoundingBox(
+      result.groupValues[1].toInt(),
+      result.groupValues[2].toInt(),
+      result.groupValues[3].toInt(),
+      result.groupValues[4].toInt(),
+    )
+  }
+
+  // --- old implementation ---
+
+  fun resolveOld(url: URL): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
 
     val site = htmlParser.parse(url)

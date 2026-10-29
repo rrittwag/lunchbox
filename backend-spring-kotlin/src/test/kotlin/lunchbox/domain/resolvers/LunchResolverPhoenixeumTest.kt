@@ -7,22 +7,132 @@ import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
+import lunchbox.util.ocr.OcrClient
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Test
 
 class LunchResolverPhoenixeumTest {
   private val htmlParser = HtmlParser(mockk())
+  private val ocrClient = mockk<OcrClient>()
 
-  private fun resolver() = LunchResolverPhoenixeum(DateValidator.alwaysValid(), htmlParser)
+  private fun resolver() = LunchResolverPhoenixeum(DateValidator.alwaysValid(), htmlParser, ocrClient)
 
   private val providerId = LunchProvider.PHOENIXEUM.id
+
+  @Test
+  fun `resolve offers for week of 2026-10-26`() {
+    val offers =
+      resolver().parseOffers(
+        readFileContent("/menus/suppenkulttour/ocr/2026-10-26_Foto-22.10.26-07-52-24.png.html"),
+      )
+
+    offers shouldHaveSize 4
+
+    val week = weekOf("2026-10-26")
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Paniertes Hühnchenschnitzel",
+        "mit Mischgemüse und Salzkartoffeln",
+        week.monday,
+        euro("8.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Paniertes Hühnchenschnitzel",
+        "mit Mischgemüse und Salzkartoffeln",
+        week.tuesday,
+        euro("8.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Gefüllte Paprikaschote",
+        "gefüllte Paprikaschote in kräftiger Soße, dazu Salzkartoffeln",
+        week.wednesday,
+        euro("9.00"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Gefüllte Paprikaschote",
+        "gefüllte Paprikaschote in kräftiger Soße, dazu Salzkartoffeln",
+        week.thursday,
+        euro("9.00"),
+        emptySet(),
+        providerId,
+      )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-11-02`() {
+    val offers = resolver().parseOffers(readFileContent("/menus/suppenkulttour/ocr/2026-11-02_WPNEU.png.html"))
+
+    offers shouldHaveSize 4
+
+    val week = weekOf("2026-11-02")
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Backfisch",
+        "Backfisch in Maispanade mit Kartoffelgratin und Gurkensalat",
+        week.monday,
+        euro("9.00"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Backfisch",
+        "Backfisch in Maispanade mit Kartoffelgratin und Gurkensalat",
+        week.tuesday,
+        euro("9.00"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schichtkohl",
+        "geschmorter Weisskohl, Rinderhack, Salzkartoffeln, Klecks Schmand",
+        week.wednesday,
+        euro("8.50"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schichtkohl",
+        "geschmorter Weisskohl, Rinderhack, Salzkartoffeln, Klecks Schmand",
+        week.thursday,
+        euro("8.50"),
+        emptySet(),
+        providerId,
+      )
+  }
+
+  private fun readFileContent(path: String): String {
+    val url = javaClass.getResource(path)
+    return url.readText(Charsets.UTF_8)
+  }
+
+  // --- old implementation ---
 
   @Test
   fun `resolve offers for week of 2020-04-06`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-04-06.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 7
 
@@ -105,7 +215,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2020-04-27`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-04-27.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 3
 
@@ -146,7 +256,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2020-05-11`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-05-11.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 8
 
@@ -239,7 +349,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2020-05-18`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-05-18.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 3
 
@@ -280,7 +390,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2020-06-08`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-06-08.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
 
@@ -331,7 +441,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2020-09-07`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-09-07.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
 
@@ -382,7 +492,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2020-11-23`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-11-23.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
 
@@ -433,7 +543,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2023-03-20`() {
     val url = javaClass.getResource("/menus/phoenixeum/2023-03-20.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
     val week = weekOf("2023-03-20")
@@ -483,7 +593,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2023-05-29`() {
     val url = javaClass.getResource("/menus/phoenixeum/2023-05-29.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 3
     val week = weekOf("2023-05-29")
@@ -523,7 +633,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2023-07-17`() {
     val url = javaClass.getResource("/menus/phoenixeum/2023-07-17.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
     val week = weekOf("2023-07-17")
@@ -573,7 +683,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2023-07-31`() {
     val url = javaClass.getResource("/menus/phoenixeum/2023-07-31.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
     val week = weekOf("2023-07-31")
@@ -623,7 +733,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2024-09-09`() {
     val url = javaClass.getResource("/menus/phoenixeum/2024-09-09.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
     val week = weekOf("2024-09-09")
@@ -673,7 +783,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2024-10-14`() {
     val url = javaClass.getResource("/menus/phoenixeum/2024-10-14.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
     val week = weekOf("2024-10-14")
@@ -723,7 +833,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2026-01-26`() {
     val url = javaClass.getResource("/menus/phoenixeum/2026-01-26.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
     val week = weekOf("2026-01-26")
