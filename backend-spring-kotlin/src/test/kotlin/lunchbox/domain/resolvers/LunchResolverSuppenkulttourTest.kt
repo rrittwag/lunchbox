@@ -433,6 +433,182 @@ class LunchResolverSuppenkulttourTest {
     }
 
     @Test
+    fun `resolve offers for week of 2026-09-07`() {
+      assertOcrOffers(
+        "2026-09-07",
+        "2026-09-07_Wochenplan-07-11-09.png.html",
+        weekly =
+          listOf(
+            ExpectedOffer(
+              "Hühner-Gemüsetopf mit Graupen",
+              "Hühnerfleisch, Perlgraupen, Kartoffeln, Möhren, Kohlrabi, Porree, Sellerie, Petersilie & Lorbeer",
+            ),
+            ExpectedOffer(
+              "Bhat Tarkari",
+              "Süßkartoffeln, Cous Cous, rote Linsen, Markerbsen, Kurkuma, Curry, Kokosmilch",
+              setOf("vegan"),
+            ),
+          ),
+        daily =
+          listOf(
+            ExpectedOffer(
+              "Altdeutsche Kartoffelsuppe",
+              "püriert, Kartoffeln, Möhren, Lauch, Pastinaken, Wiener, Schinken, Schnittlauch",
+            ),
+            ExpectedOffer(
+              "Pasta „Chicken Alfredo“",
+              "Bio-Fusilli mit gebratener Hähnchenbrust, Brokkoli, Pariser Möhren, Champignons, in einer cremigen Parmesan-Sahnesoße, Petersilie & schwarzer Pfeffer",
+            ),
+            ExpectedOffer(
+              "Mediterraner Ratatouille-Kartoffeltopf",
+              "Zucchini, Aubergine, Paprika, Kartoffeln, Tomaten, Staudensellerie, gelbe Bohnen, mit Rosmarin, Thymian & frischem Basilikum, wahlweise + Rucolapesto",
+              setOf("vegan"),
+            ),
+            ExpectedOffer(
+              "Ramen-Suppe",
+              "Frühlingszwiebeln, Edamame, halbes Ei Hühnerfleisch, Miso-Brühe, Ramen-Nudeln, Pak Choi, Chinakohl, Shiitake,",
+            ),
+            ExpectedOffer(
+              "Pulled Pork „French Onion“ Soup",
+              "‚geschmortes Hausschwein, Kartoffeln, kräftig geschmorte Zwiebeln und Möhren, in einer herzhaften Rinderbrühe, Thymian",
+            ),
+          ),
+      )
+    }
+
+    @Test
+    fun `resolve offers for week of 2026-09-28`() {
+      assertOcrOffers(
+        "2026-09-28",
+        "2026-09-28_PekingSoup.png.html",
+        weekly =
+          listOf(
+            ExpectedOffer(
+              "Hühnerfleischeintopf",
+              "mit Hühnerbrust in Streifen, Kartoffeln, Möhren, Kohlrabi, Brechbohnen, Staudensellerie & Petersilie",
+            ),
+            ExpectedOffer(
+              "Bohneneintopf Balkanart",
+              "mit dicken weißen Bohnen, Kartoffelwürfeln, roter Paprika, Zucchini, bunten Möhren, Tomatenwürfeln & Ajvar",
+              setOf("vegan"),
+            ),
+          ),
+        daily =
+          listOf(
+            ExpectedOffer(
+              "Mecklenburgischer Wirsingtopf",
+              "mit Rinderhackfleisch, Wirsing, Kartoffeln, Pariser Möhren, Porree, Majoran, einer Senfnote & Muskat",
+            ),
+            ExpectedOffer(
+              "Pasta „Tuscan Chicken“",
+              "Bio Spirelli mit gebratener Hühnchenbrust, Blattspinat, Cherrytomaten &, getrockneten Tomaten in einer cremigen Parmesan-Kräuter-Frischkäse-Soße",
+            ),
+            ExpectedOffer(
+              "Kürbiseintopf",
+              "Thymian & etwas Zitrone, mit Hokkaido- & Butternut-Kürbis, Süßkartoffeln, Karotten",
+              setOf("vegan"),
+            ),
+            ExpectedOffer(
+              "Peking Street Soup",
+              "unsere Interpretation der klassischen Peking-Suppe - süß-säuerlich & pikant mit Hühnerfleisch, Chinakohl, Möhren, Bambus, Shiitake & Champignons, Glasnudeln, Ei, Ingwer, Sojasoße & Frühlingszwiebeln",
+            ),
+            ExpectedOffer(
+              "Burgunder-Rindertopf",
+              "zart geschmortes Rindfleisch mit Kartoffeln, Perlzwiebeln, Möhren, Champignons und Wurzelgemüse in kräftiger dunkler Brühe, mit Thymian & Lorbeer",
+            ),
+          ),
+      )
+    }
+
+    @Test
+    fun `resolve offers for week of 2026-10-05`() {
+      assertOcrOffers(
+        "2026-10-05",
+        "2026-10-05_OktoberersteWoche.png.html",
+        weekly =
+          listOf(
+            ExpectedOffer(
+              "Schmortopf",
+              "Kräftiger Eintopf mit geschmortem Rindfleisch, Schweineschulter, Hühnchenbrust, Kartoffeln, Paprika und Wurzelgemüse, abgeschmeckt mit Majoran und geräucherter Paprika",
+            ),
+            ExpectedOffer(
+              "Indischer DAL",
+              "Linsen, Tomatenwürfel, Zucchini, Asa Foetida, wahlweise mit Joghurt",
+              setOf("vegan"),
+            ),
+          ),
+        daily =
+          listOf(
+            ExpectedOffer(
+              "Altdeutsche Kartoffelsuppe",
+              "Pürierte Variante der Kartoffelsuppe mit Wurzelgemüse, etwas Sahne & Wiener",
+            ),
+            ExpectedOffer(
+              "Pasta „Wild-Bolognese“",
+              "Penne mit langsam geschmorter Wildhackfleischsoße (Hack aus eigener Herstellung), feinem Wurzelgemüse und Tomaten, abgerundet mit Rosmarin und einem Hauch Wacholder",
+            ),
+            ExpectedOffer(
+              "Mie Nudelsuppe",
+              "mit Kürbis, Möhren, Süßkartoffeln, Edamame und Mie Nudeln",
+              setOf("vegan"),
+            ),
+            ExpectedOffer(
+              "Rotes Thai-Curry",
+              "mit Hühnchenbrust, rotem Curry, Thaigemüse, Bambus, Zitronengras, Limette und Reisnudeln",
+            ),
+            ExpectedOffer(
+              "Köttbullar-Topf",
+              "mit Kartoffeln, Möhren und Erbsen, Kohlrabi, Rahm, Hackbällchen und Petersilie, wahlweise mit Preiselbeeren",
+            ),
+          ),
+      )
+    }
+
+    @Test
+    fun `resolve offers for week of 2026-10-19`() {
+      assertOcrOffers(
+        "2026-10-19",
+        "2026-10-19_Woechentlicher-deutscher-Cafeteria-Speiseplan.png.html",
+        weekly =
+          listOf(
+            ExpectedOffer(
+              "Kanadischer „Maple Beef Stew“",
+              "Rinderhackfleisch, Kartoffeln, Möhren, Steckrüben, Lauch, Sellerie, Kidneybohnen, Apfelwürfel, Tomatenmark, Dijon-Senf, Sahne, Ahornsirup, Rosmarin, Thymian, wahlweise + Cheddar",
+            ),
+            ExpectedOffer(
+              "Kichererbsen-Mangold-Topf",
+              "mit Kichererbsen, Mangold, Kirschtomaten, roten Linsen, Möhren, Tomatenpüree, Ingwer und Curry",
+              setOf("vegan"),
+            ),
+          ),
+        daily =
+          listOf(
+            ExpectedOffer(
+              "Ungarische Gulaschsuppe",
+              "Rindergulasch, Schweinegulasch, Kartoffeln, Paprika, Gurken, Pilze, Zwiebeln, wahlweise + Schmand oder frische Petersilie",
+            ),
+            ExpectedOffer(
+              "Pasta „Carne e Caprese“",
+              "Tomaten-Hackfleischsoße mit Rinderhackfleisch, Basilikum, frischen Tomaten, Mozzarella, dazu Nudeln",
+            ),
+            ExpectedOffer(
+              "Kürbiscreme",
+              "l WOC Hokkaidokürbis, Butternut, Kartoffeln, Möhren, vegane Sahne, wahlweise + geröstete Kürbiskerne",
+              setOf("vegan"),
+            ),
+            ExpectedOffer(
+              "Koreanischer „Seoul Chicken Pot“",
+              "g Hähnchenbrust, Chinakohl, Pak Choi, Möhren, Champignons, Frühlingszwiebeln, Glasnudeln, Ingwer, Knoblauch, Sojasoße, Chili, Sesam, wahlweise + gerösteter Sesam",
+            ),
+            ExpectedOffer(
+              "Deftiger Räuber-Kessel",
+              "zartes Schweinegeschnetzeltes, Champignons, Paprika, Kartoffeln, Zwiebeln, Gewürzgurken, Tomatenmark, geräuchertes Paprikapulver, abgerundet mit einem Klecks Schmand, wahlweise + frische Petersilie und Röstzwiebeln",
+            ),
+          ),
+      )
+    }
+
+    @Test
     fun `resolve offers for week of 2026-11-02`() {
       val html = readFileContent("/menus/suppenkulttour/ocr/2026-11-02_WPNEU.png.html")
 
@@ -514,6 +690,50 @@ class LunchResolverSuppenkulttourTest {
           setOf("Tagessuppe"),
           providerId,
         )
+    }
+  }
+
+  private data class ExpectedOffer(
+    val name: String,
+    val description: String,
+    val tags: Set<String> = emptySet(),
+  )
+
+  private fun assertOcrOffers(
+    monday: String,
+    resource: String,
+    weekly: List<ExpectedOffer>,
+    daily: List<ExpectedOffer>,
+  ) {
+    val offers = resolver().parseOffers(readFileContent("/menus/suppenkulttour/ocr/$resource"))
+    val week = weekOf(monday)
+
+    offers shouldHaveSize daily.size + weekly.size * week.lunchDays.size
+    daily.forEachIndexed { index, expected ->
+      offers shouldContain
+        LunchOffer(
+          0,
+          expected.name,
+          expected.description,
+          week.lunchDays[index],
+          euro("6.50"),
+          expected.tags + "Tagessuppe",
+          providerId,
+        )
+    }
+    for (weekday in week.lunchDays) {
+      weekly.forEach { expected ->
+        offers shouldContain
+          LunchOffer(
+            0,
+            expected.name,
+            expected.description,
+            weekday,
+            euro("6.50"),
+            expected.tags,
+            providerId,
+          )
+      }
     }
   }
 
