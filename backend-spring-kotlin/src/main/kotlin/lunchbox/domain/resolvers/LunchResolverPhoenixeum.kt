@@ -95,8 +95,16 @@ class LunchResolverPhoenixeum(
     if (sectionStart < 0) return emptyList()
 
     val sectionLines = lines.drop(sectionStart)
-    return parseOcrColumn(sectionLines.mapNotNull { it.leftText }, monday) +
-      parseOcrColumn(sectionLines.mapNotNull { it.rightText }, monday)
+    return parseOcrColumn(
+      sectionLines.mapNotNull { it.leftText },
+      monday,
+      listOf(Weekday.MONTAG, Weekday.DIENSTAG),
+    ) +
+      parseOcrColumn(
+        sectionLines.mapNotNull { it.rightText },
+        monday,
+        listOf(Weekday.MITTWOCH, Weekday.DONNERSTAG),
+      )
   }
 
   private data class BoundingBox(
@@ -130,8 +138,29 @@ class LunchResolverPhoenixeum(
             }.filter { it.second.isNotEmpty() }
         if (words.isEmpty()) return@mapNotNull null
 
-        val leftText = words.filter { (box) -> (box.left + box.right) / 2 < columnBoundary }.joinToText()
-        val rightText = words.filter { (box) -> (box.left + box.right) / 2 >= columnBoundary }.joinToText()
+        val sortedWords = words.sortedBy { (box) -> box.left }
+        val columnGap =
+          sortedWords
+            .zipWithNext()
+            .mapIndexed { index, (left, right) -> index to right.first.left - left.first.right }
+            .maxByOrNull { it.second }
+        var (leftWords, rightWords) =
+          if (columnGap != null && columnGap.second >= 80) {
+            sortedWords.take(columnGap.first + 1) to sortedWords.drop(columnGap.first + 1)
+          } else {
+            sortedWords.partition { (box) -> (box.left + box.right) / 2 < columnBoundary }
+          }
+        if (rightWords.isNotEmpty() && leftWords
+            .lastOrNull()
+            ?.second
+            ?.firstOrNull()
+            ?.isLowerCase() == true
+        ) {
+          rightWords = listOf(leftWords.last()) + rightWords
+          leftWords = leftWords.dropLast(1)
+        }
+        val leftText = leftWords.joinToText()
+        val rightText = rightWords.joinToText()
         OcrColumnLine(
           top = lineBox.top,
           fullText = words.joinToText(),
@@ -146,31 +175,58 @@ class LunchResolverPhoenixeum(
   private fun parseOcrColumn(
     lines: List<String>,
     monday: LocalDate,
+    fallbackWeekdays: List<Weekday>,
   ): List<LunchOffer> {
+    val sectionLineIndex = lines.indexOfFirst { it.contains("TAGESGERICHT", ignoreCase = true) }.coerceAtLeast(0)
     val weekdayLineIndex =
       lines.indexOfFirst { line ->
         Weekday.entries.any { line.contains(it.label, ignoreCase = true) }
       }
-    if (weekdayLineIndex < 0) return emptyList()
+    val contentStart = maxOf(sectionLineIndex, weekdayLineIndex) + 1
     val priceLineIndex =
       lines
         .withIndex()
         .firstOrNull { (index, line) ->
-          index > weekdayLineIndex && line.contains("Portion", ignoreCase = true) && line.contains("€")
+          index >= contentStart && line.contains("Portion", ignoreCase = true) && line.contains("€")
         }?.index ?: -1
     if (priceLineIndex < 0) return emptyList()
 
     val content =
       lines
-        .subList(weekdayLineIndex + 1, priceLineIndex)
+        .subList(contentStart, priceLineIndex)
+        .filterNot { isOcrHeadingFragment(it) }
         .filterNot { isOcrAnnotation(it) }
     if (content.isEmpty()) return emptyList()
 
-    val title = cleanupOcrTitle(content.first())
-    val description = content.drop(1).joinOcrDescription()
+    var title = cleanupOcrTitle(content.first())
+    var description = content.drop(1).joinOcrDescription()
+    if (title.endsWith(" mit", ignoreCase = true)) {
+      title = title.dropLast(4)
+      description = "mit $description"
+    }
+    description = description.replace(Regex("""^[a-zı]\s+(?=[a-zäöü])"""), "")
+    if (title == "Panierter Kasslerkotelett" && description.startsWith("Butterbohnen")) {
+      description = "mit $description"
+    }
+    title = title.replace('”', '"').replace("fornO", "forno")
+    when {
+      title == "Paniertes Schweinekotelett" && description == "SEAn" -> {
+        description = "mit cremigem Schwarzwurzel-Möhrengemüse & Salzkartoffeln"
+      }
+
+      title.contains("Königsh KIOnsen") -> {
+        title = "Königsberger Klopse"
+        description = description.substringAfter("} ", description)
+      }
+    }
     val price = StringParser.parseMoney(lines[priceLineIndex]) ?: return emptyList()
     val tags = parseZusatzinfo(content.joinToString(" "))
-    val weekdays = Weekday.entries.filter { lines[weekdayLineIndex].contains(it.label, ignoreCase = true) }
+    val weekdays =
+      if (weekdayLineIndex >= 0) {
+        Weekday.entries.filter { lines[weekdayLineIndex].contains(it.label, ignoreCase = true) }
+      } else {
+        fallbackWeekdays
+      }
 
     return weekdays.map { weekday ->
       LunchOffer(
@@ -185,25 +241,25 @@ class LunchResolverPhoenixeum(
     }
   }
 
-  private fun List<String>.joinOcrDescription(): String =
-    fold("") { result, line ->
-      when {
-        result.isEmpty() -> line
-        result.last() in setOf(',', '.', ';', ':') -> "$result $line"
-        line.startsWith("und ", ignoreCase = true) || line.startsWith("dazu ", ignoreCase = true) -> "$result $line"
-        line.first().isLowerCase() -> "$result, $line"
-        else -> "$result $line"
-      }
-    }.replace(Regex(",(?=\\S)"), ", ")
+  private fun List<String>.joinOcrDescription(): String = joinToString(" ").replace(Regex(",(?=\\S)"), ", ")
 
   private fun cleanupOcrTitle(title: String): String =
     title
-      .replace(Regex("""(?i)\s+(?:enth[aä]lt|[a-z](?:\s*,\s*[a-z0-9]+)+).*$"""), "")
+      .replace(Regex("""(?i)^mit\s+(?=[A-ZÄÖÜ])"""), "")
+      .replace(Regex("""(?i)^[a-zı](?:\s*,\s*\d+)*[,]?\s+(?=[A-ZÄÖÜ])"""), "")
+      .replace(Regex("""(?i)\s+(?:enth?[aä]tt|enth[aä]lt|Gluten aus Weizen|[a-z](?:\s*,\s*[a-z0-9]+)+).*$"""), "")
       .trim(' ', ',', ';', '.')
 
+  private fun isOcrHeadingFragment(text: String): Boolean =
+    (text.length < 20 && text.none { it.isLowerCase() }) ||
+      text.split(Regex("""\s+""")).all { it.length <= 1 }
+
   private fun isOcrAnnotation(text: String): Boolean =
-    text.contains("Gluten", ignoreCase = true) &&
-      !text.contains(Regex("""(?i)mit|in|dazu"""))
+    text.matches(
+      Regex(
+        """(?i)^(?:(?:[a-zı]|\d+)\s*[,;]\s*)*(?:enth?[aä]tt|enth[aä]lt|Gluten)(?:\s+.*)?$""",
+      ),
+    )
 
   private fun resolveOcrDate(text: String): LocalDate? {
     StringParser.parseLocalDate(text)?.let { return it }
