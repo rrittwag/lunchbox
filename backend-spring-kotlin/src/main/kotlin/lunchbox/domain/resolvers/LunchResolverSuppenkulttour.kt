@@ -131,20 +131,37 @@ class LunchResolverSuppenkulttour(
     val weekday: Weekday?,
   )
 
-  private fun parseHocrLines(html: String): List<HocrLine> =
-    Jsoup
-      .parse(html)
-      .select(".ocr_line, .ocr_header, .ocr_textfloat, .ocr_caption")
-      .mapNotNull { line ->
-        val bbox = Regex("""bbox (\d+) (\d+) (\d+) (\d+)""").find(line.attr("title")) ?: return@mapNotNull null
-        val text = line.text().replace(Regex("""\s+"""), " ").trim()
-        if (text.isEmpty()) return@mapNotNull null
-        HocrLine(text, bbox.groupValues[2].toInt(), bbox.groupValues[1].toInt())
-      }.sortedWith(compareBy(HocrLine::top, HocrLine::left))
+  private fun parseHocrLines(html: String): List<HocrLine> {
+    val lines =
+      Jsoup
+        .parse(html)
+        .select(".ocr_line, .ocr_header, .ocr_textfloat, .ocr_caption")
+        .mapNotNull { line ->
+          val bbox = Regex("""bbox (\d+) (\d+) (\d+) (\d+)""").find(line.attr("title")) ?: return@mapNotNull null
+          val text = line.text().replace(Regex("""\s+"""), " ").trim()
+          if (text.isEmpty() || text.matches(Regex("""^[\dö]+$""", RegexOption.IGNORE_CASE))) {
+            return@mapNotNull null
+          }
+          HocrLine(text, bbox.groupValues[2].toInt(), bbox.groupValues[1].toInt())
+        }.sortedWith(compareBy(HocrLine::top, HocrLine::left))
+
+    val rows = mutableListOf<MutableList<HocrLine>>()
+    for (line in lines) {
+      val currentRow = rows.lastOrNull()
+      if (currentRow != null && line.top - currentRow.first().top <= 1) {
+        currentRow += line
+      } else {
+        rows += mutableListOf(line)
+      }
+    }
+    return rows.map { row ->
+      val sortedRow = row.sortedBy { it.left }
+      HocrLine(sortedRow.joinToString(" ") { it.text }, sortedRow.minOf { it.top }, sortedRow.first().left)
+    }
+  }
 
   private fun isOfferPrice(text: String): Boolean =
     text.contains("€") &&
-      text.contains("klein", ignoreCase = true) &&
       text.contains("mittel", ignoreCase = true) &&
       text.contains("groß", ignoreCase = true)
 
@@ -180,6 +197,7 @@ class LunchResolverSuppenkulttour(
     val description =
       relevantLines
         .drop(1)
+        .filterNot { isOcrAnnotation(it) }
         .map { removeOcrWeekday(it) }
         .filter { it.isNotBlank() }
         .fold("") { result, line ->
@@ -199,10 +217,14 @@ class LunchResolverSuppenkulttour(
       name = name,
       description = description,
       price = parseOcrPrice(priceLine),
-      tags = parseVeggie(rawTitle),
+      tags = parseVeggie(relevantLines.joinToString(" ")),
       weekday = weekday,
     )
   }
+
+  private fun isOcrAnnotation(text: String): Boolean =
+    text.contains(Regex("""(?i)vegan|vegetarisch""")) &&
+      text.matches(Regex("""(?i)^[a-zı0-9,;.\s]+$"""))
 
   private fun parseOcrPrice(priceLine: String): Money? {
     val priceAfterLabel = Regex("""(?i)mittel\s*(\d+[,.]\d+)""").find(priceLine)?.groupValues?.get(1)
@@ -243,11 +265,11 @@ class LunchResolverSuppenkulttour(
     result =
       result.replace(
         Regex(
-          """(?i)\s+(?:,?\s*(?:enth[aä]lt|enmnätt|enätt)|,\s*(?:vegan|vegetarisch)|[a-z](?:\s*,\s*[a-z0-9;]*)+\s*(?:,?\s*(?:vegan|vegetarisch|enth[aä]lt.*))?|[-—]?\s*(?:vegan|vegetarisch)|;|[iı6](?=[.,\d]|\s*$)|[.]\d).*$""",
+          """(?i)\s+(?:,?\s*(?:enth[aä]lt|enmnätt|enätt)|,\s*(?:vegan|vegetarisch)|[a-z](?:\s*,\s*[a-z0-9;]*)+\s*(?:,?\s*(?:vegan|vegetarisch|enth[aä]lt.*))?|[a-z]\s*\(|[-—]?\s*(?:vegan|vegetarisch)|;|[iı6](?=[.,\d]|\s*$)|[.‚']\d).*$""",
         ),
         "",
       )
-    result = result.replace(Regex("""\s*-\s+"""), "-").trim(' ', ';', '.', '-', '—')
+    result = result.replace(Regex("""\s*-\s*"""), "-").trim(' ', ',', ';', '.', '-', '—')
     if (result.count { it == '„' } > result.count { it == '“' }) result += "“"
     return result
   }

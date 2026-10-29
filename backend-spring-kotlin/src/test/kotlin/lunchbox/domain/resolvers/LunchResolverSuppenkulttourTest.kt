@@ -431,6 +431,90 @@ class LunchResolverSuppenkulttourTest {
           providerId,
         )
     }
+
+    @Test
+    fun `resolve offers for week of 2026-11-02`() {
+      val html = readFileContent("/menus/suppenkulttour/ocr/2026-11-02_WPNEU.png.html")
+
+      val offers = resolver().parseOffers(html)
+
+      offers shouldHaveSize 15
+      offers.take(5).map { it.tags.contains("Tagessuppe") } shouldBeEqualTo List(5) { true }
+
+      val week = weekOf("2026-11-02")
+      for (weekday in week.lunchDays) {
+        offers shouldContain
+          LunchOffer(
+            0,
+            "Altdeutsche Kartoffelsuppe",
+            "die fein pürierte Variante mit Kartoffeln, Wurzelgemüse, Möhren, Sellerie, Pastinaken, Porree, Wiener Würstchen, Bauernschinken, Sahne, Majoran, etwas Muskat und frischer Petersilie",
+            weekday,
+            euro("6.50"),
+            emptySet(),
+            providerId,
+          )
+        offers shouldContain
+          LunchOffer(
+            0,
+            "Blumenkohl-Curry",
+            "aromatisch-cremiger Eintopf mit Kartoffeln, Süßkartoffeln, Blumenkohl, Möhren, Kokosmilch, frischem Koriander, Kurkuma und Ingwer",
+            weekday,
+            euro("6.50"),
+            setOf("vegan"),
+            providerId,
+          )
+      }
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Rote-Bete-Powertopf",
+          "kräftiger Eintopf mit zarten Rindfleischwürfeln, Roter Bete, Weißkohl, Kartoffelwürfeln",
+          week.monday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Pasta „Herbstliches Kürbis-Apfel-Hühnchen“",
+          "Bio-Fusilli mit zarten Hühnchenbruststreifen iı n einer cremigen Kürbis-Apfel-Soße aus Hokkaido und Butternut, verfeinert mit Sahne, einem Hauch Curry, Muskat und frischer Petersilie",
+          week.tuesday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Afrikanischer Erdnusseintopf",
+          "‚würzig-fruchtiger Eintopf mit Kichererbsen, Ki idneybohnen, Lauch, roter Paprika, Weißkohl, Mangosaft, Erdnusspaste, Curry und frischem Ingwer",
+          week.wednesday,
+          euro("6.50"),
+          setOf("vegan", "Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Rotes Thai-Curry mit Hühnchen",
+          "zarte Hühnchenbrust in cremiger roter Thai-Curry-Kokossoße mit buntem Thaigemüse, Möhren, Paprika, Bambussprossen, Zitronengras, Ingwer, frischem Koriander und Basmatireis",
+          week.thursday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+      offers shouldContain
+        LunchOffer(
+          0,
+          "Schwedentopf „2.0“",
+          "herzhaft angebratenes Hackfleisch vom Rind und Schwein mit Möhren, grünen Bohnen, Kartoffeln und Erbsen in einer cremigen Kräut ‚er-Käsesoße, dazu Preiselbeerendip",
+          week.friday,
+          euro("6.50"),
+          setOf("Tagessuppe"),
+          providerId,
+        )
+    }
   }
 
   private fun readFileContent(path: String): String {
