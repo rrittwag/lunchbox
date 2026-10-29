@@ -21,107 +21,6 @@ class LunchResolverPhoenixeumTest {
   private val providerId = LunchProvider.PHOENIXEUM.id
 
   @Test
-  fun `resolve offers for week of 2026-10-26`() {
-    val offers =
-      resolver().parseOffers(
-        readFileContent("/menus/suppenkulttour/ocr/2026-10-26_Foto-22.10.26-07-52-24.png.html"),
-      )
-
-    offers shouldHaveSize 4
-
-    val week = weekOf("2026-10-26")
-    offers shouldContain
-      LunchOffer(
-        0,
-        "Paniertes Hühnchenschnitzel",
-        "mit Mischgemüse und Salzkartoffeln",
-        week.monday,
-        euro("8.50"),
-        emptySet(),
-        providerId,
-      )
-    offers shouldContain
-      LunchOffer(
-        0,
-        "Paniertes Hühnchenschnitzel",
-        "mit Mischgemüse und Salzkartoffeln",
-        week.tuesday,
-        euro("8.50"),
-        emptySet(),
-        providerId,
-      )
-    offers shouldContain
-      LunchOffer(
-        0,
-        "Gefüllte Paprikaschote",
-        "gefüllte Paprikaschote in kräftiger Soße, dazu Salzkartoffeln",
-        week.wednesday,
-        euro("9.00"),
-        emptySet(),
-        providerId,
-      )
-    offers shouldContain
-      LunchOffer(
-        0,
-        "Gefüllte Paprikaschote",
-        "gefüllte Paprikaschote in kräftiger Soße, dazu Salzkartoffeln",
-        week.thursday,
-        euro("9.00"),
-        emptySet(),
-        providerId,
-      )
-  }
-
-  @Test
-  fun `resolve offers for week of 2026-11-02`() {
-    val offers = resolver().parseOffers(readFileContent("/menus/suppenkulttour/ocr/2026-11-02_WPNEU.png.html"))
-
-    offers shouldHaveSize 4
-
-    val week = weekOf("2026-11-02")
-    offers shouldContain
-      LunchOffer(
-        0,
-        "Backfisch",
-        "Backfisch in Maispanade mit Kartoffelgratin und Gurkensalat",
-        week.monday,
-        euro("9.00"),
-        emptySet(),
-        providerId,
-      )
-    offers shouldContain
-      LunchOffer(
-        0,
-        "Backfisch",
-        "Backfisch in Maispanade mit Kartoffelgratin und Gurkensalat",
-        week.tuesday,
-        euro("9.00"),
-        emptySet(),
-        providerId,
-      )
-    offers shouldContain
-      LunchOffer(
-        0,
-        "Schichtkohl",
-        "geschmorter Weisskohl, Rinderhack, Salzkartoffeln, Klecks Schmand",
-        week.wednesday,
-        euro("8.50"),
-        emptySet(),
-        providerId,
-      )
-    offers shouldContain
-      LunchOffer(
-        0,
-        "Schichtkohl",
-        "geschmorter Weisskohl, Rinderhack, Salzkartoffeln, Klecks Schmand",
-        week.thursday,
-        euro("8.50"),
-        emptySet(),
-        providerId,
-      )
-  }
-
-  @Test
   fun `resolve offers for week of 2026-08-10`() {
     assertOcrOffers(
       "2026-08-10",
@@ -255,6 +154,42 @@ class LunchResolverPhoenixeumTest {
         "Königsberger Klopse",
         "hausgemachte Hackfleischklopse in cremiger Kapernsoße, dazu Salzkartoffeln und Rote Bete",
         "9.00",
+      ),
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-10-26`() {
+    assertOcrOffers(
+      "2026-10-26",
+      "2026-10-26_Foto-22.10.26-07-52-24.png.html",
+      ExpectedOcrOffer(
+        "Paniertes Hühnchenschnitzel",
+        "mit Mischgemüse und Salzkartoffeln",
+        "8.50",
+      ),
+      ExpectedOcrOffer(
+        "Gefüllte Paprikaschote",
+        "gefüllte Paprikaschote in kräftiger Soße, dazu Salzkartoffeln",
+        "9.00",
+      ),
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-11-02`() {
+    assertOcrOffers(
+      "2026-11-02",
+      "2026-11-02_WPNEU.png.html",
+      ExpectedOcrOffer(
+        "Backfisch",
+        "Backfisch in Maispanade mit Kartoffelgratin und Gurkensalat",
+        "9.00",
+      ),
+      ExpectedOcrOffer(
+        "Schichtkohl",
+        "geschmorter Weisskohl, Rinderhack, Salzkartoffeln, Klecks Schmand",
+        "8.50",
       ),
     )
   }
