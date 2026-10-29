@@ -8,7 +8,6 @@ import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
-import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Nested
@@ -99,337 +98,175 @@ class LunchResolverSuppenkulttourTest {
   inner class ParseOffers {
     @Test
     fun `resolve offers for week of 2026-08-10`() {
-      val html = readFileContent("/menus/suppenkulttour/ocr/2026-08-10_Bildschirmfoto-2026-08-10-um-14.15.33.jpg.html")
-
-      val offers = resolver().parseOffers(html)
-
-      offers shouldHaveSize 15
-
-      val week = weekOf("2026-08-10")
-      for (weekday in week.lunchDays) {
-        offers shouldContain
-          LunchOffer(
-            0,
-            "Süßkartoffel-Bohnen-Eintopf",
-            "Rinderhack, Süßkartoffeln, grüne Bohnen, gelbe Bohnen, Kartoffeln, Tomaten, Thymian",
-            weekday,
-            euro("6.50"),
-            emptySet(),
-            providerId,
-          )
-        offers shouldContain
-          LunchOffer(
-            0,
-            "Asiatische Gemüsebrühe",
-            "Brokkoli, Blumenkohl, Edamame, Karotten, Pak Choi, Ingwer, Zitronengras, Sojasoße, Glasnudeln, Frühlingslauch, Sesam",
-            weekday,
-            euro("6.50"),
-            setOf("vegan"),
-            providerId,
-          )
-      }
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Goldene Kartoffel-Cremesuppe",
-          "Kartoffeln, Karotten, Sellerie, Wirsing, weiße Bohnen, cremig, püriert mit Hafercuisine, Kurkuma-Curry-Note, wahlweise mit angebratener Wiener",
-          week.monday,
-          euro("6.50"),
-          setOf("vegan", "Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Pasta Ofengemüse & Hähnchen",
-          "Tomatensoße, Zucchini, Paprika, Aubergine, Kürbis, Möhren, Hähnchen, Kräuter, Parmesan",
-          week.tuesday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Afrikanischer Erdnuss-Eintopf",
-          "Süßkartoffeln, Kichererbsen, Spinat, Tomaten, Erdnussbutter, Chili, Limette, geröstete Erdnüsse",
-          week.wednesday,
-          euro("6.50"),
-          setOf("vegan", "Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Hühner-Frikassee",
-          "Hähnchenfleisch, Erbsen, Champignons, Möhren, Kapern, Lorbeer, Sahen, Zitrone, wahlweise + Reis",
-          week.thursday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Gyrossuppe",
-          "Schweinegyros, mit Paprika, Kartoffeln & Rahm, Tomatenmark, Gewürze, kräftige Suppe mit Gyros und cremiger Soße, wahlweise + Brotcroütons",
-          week.friday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
+      assertOcrOffers(
+        "2026-08-10",
+        "2026-08-10_Bildschirmfoto-2026-08-10-um-14.15.33.jpg.html",
+        weekly =
+          listOf(
+            ExpectedOffer(
+              "Süßkartoffel-Bohnen-Eintopf",
+              "Rinderhack, Süßkartoffeln, grüne Bohnen, gelbe Bohnen, Kartoffeln, Tomaten, Thymian",
+            ),
+            ExpectedOffer(
+              "Asiatische Gemüsebrühe",
+              "Brokkoli, Blumenkohl, Edamame, Karotten, Pak Choi, Ingwer, Zitronengras, Sojasoße, Glasnudeln, Frühlingslauch, Sesam",
+              setOf("vegan"),
+            ),
+          ),
+        daily =
+          listOf(
+            ExpectedOffer(
+              "Goldene Kartoffel-Cremesuppe",
+              "Kartoffeln, Karotten, Sellerie, Wirsing, weiße Bohnen, cremig, püriert mit Hafercuisine, Kurkuma-Curry-Note, wahlweise mit angebratener Wiener",
+              setOf("vegan"),
+            ),
+            ExpectedOffer(
+              "Pasta Ofengemüse & Hähnchen",
+              "Tomatensoße, Zucchini, Paprika, Aubergine, Kürbis, Möhren, Hähnchen, Kräuter, Parmesan",
+            ),
+            ExpectedOffer(
+              "Afrikanischer Erdnuss-Eintopf",
+              "Süßkartoffeln, Kichererbsen, Spinat, Tomaten, Erdnussbutter, Chili, Limette, geröstete Erdnüsse",
+              setOf("vegan"),
+            ),
+            ExpectedOffer(
+              "Hühner-Frikassee",
+              "Hähnchenfleisch, Erbsen, Champignons, Möhren, Kapern, Lorbeer, Sahen, Zitrone, wahlweise + Reis",
+            ),
+            ExpectedOffer(
+              "Gyrossuppe",
+              "Schweinegyros, mit Paprika, Kartoffeln & Rahm, Tomatenmark, Gewürze, kräftige Suppe mit Gyros und cremiger Soße, wahlweise + Brotcroütons",
+            ),
+          ),
+      )
     }
 
     @Test
     fun `resolve offers for week of 2026-09-14`() {
-      val html = readFileContent("/menus/suppenkulttour/ocr/2026-09-14_Planaktuell.png.html")
-
-      val offers = resolver().parseOffers(html)
-
-      offers shouldHaveSize 15
-
-      val week = weekOf("2026-09-14")
-      for (weekday in week.lunchDays) {
-        offers shouldContain
-          LunchOffer(
-            0,
-            "Wrukeneintopf",
-            "„Steckrübe - die Ananas des Nordens“, klarer Eintopf mit Wurzelgemüse, Kartoffeln, Kaßler",
-            weekday,
-            euro("6.50"),
-            emptySet(),
-            providerId,
-          )
-        offers shouldContain
-          LunchOffer(
-            0,
-            "Rosenkohlcurry",
-            "mit Rosenkohl, Süßkartoffeln, Kartoffeln, Möhren, Ingwer, Cous Cous, Kokosmilch, Koriander, Zitronengras",
-            weekday,
-            euro("6.50"),
-            setOf("vegan"),
-            providerId,
-          )
-      }
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Chili con Carne",
-          "Hackfleisch, Mais, Paprika, Kidney, Tomatenwürfel, Reis, Prise Chili",
-          week.monday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Pasta „Pomodori“",
-          "Möhren, Zucchini, Cherrytomaten in einer cremigen Tomatensoße mit Mozzarella, Basilikum, Thymian, wahlweise + Huhn",
-          week.tuesday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Kürbis-Glückstopf",
-          "mit Kürbis, Banane, Chili, Porree, Süßkartoffeln, Erbsen, Möhren, Curry",
-          week.wednesday,
-          euro("6.50"),
-          setOf("vegan", "Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Soto Ayam",
-          "Indonesischer Erdnuss-Hühncheneintopf mit Glasnudeln und Champignons",
-          week.thursday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Soljanka",
-          "Bratwurst, Kassler, Wiener, Letscho, Sauerkraut, Gurken, Tomaten, Lorbeer, Schmand",
-          week.friday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
+      assertOcrOffers(
+        "2026-09-14",
+        "2026-09-14_Planaktuell.png.html",
+        weekly =
+          listOf(
+            ExpectedOffer(
+              "Wrukeneintopf",
+              "„Steckrübe - die Ananas des Nordens“, klarer Eintopf mit Wurzelgemüse, Kartoffeln, Kaßler",
+            ),
+            ExpectedOffer(
+              "Rosenkohlcurry",
+              "mit Rosenkohl, Süßkartoffeln, Kartoffeln, Möhren, Ingwer, Cous Cous, Kokosmilch, Koriander, Zitronengras",
+              setOf("vegan"),
+            ),
+          ),
+        daily =
+          listOf(
+            ExpectedOffer("Chili con Carne", "Hackfleisch, Mais, Paprika, Kidney, Tomatenwürfel, Reis, Prise Chili"),
+            ExpectedOffer(
+              "Pasta „Pomodori“",
+              "Möhren, Zucchini, Cherrytomaten in einer cremigen Tomatensoße mit Mozzarella, Basilikum, Thymian, wahlweise + Huhn",
+            ),
+            ExpectedOffer(
+              "Kürbis-Glückstopf",
+              "mit Kürbis, Banane, Chili, Porree, Süßkartoffeln, Erbsen, Möhren, Curry",
+              setOf("vegan"),
+            ),
+            ExpectedOffer("Soto Ayam", "Indonesischer Erdnuss-Hühncheneintopf mit Glasnudeln und Champignons"),
+            ExpectedOffer(
+              "Soljanka",
+              "Bratwurst, Kassler, Wiener, Letscho, Sauerkraut, Gurken, Tomaten, Lorbeer, Schmand",
+            ),
+          ),
+      )
     }
 
     @Test
     fun `resolve offers for week of 2026-10-12`() {
-      val html =
-        readFileContent("/menus/suppenkulttour/ocr/2026-10-12_Typografischer-Wochenplan-mit-Gerichten.png.html")
-
-      val offers = resolver().parseOffers(html)
-
-      offers shouldHaveSize 15
-
-      val week = weekOf("2026-10-12")
-      for (weekday in week.lunchDays) {
-        offers shouldContain
-          LunchOffer(
-            0,
-            "Käse-Lauch-Suppe mit Hackfleisch",
-            "gemischtes Hack, Porree, Karottenstifte, Kartoffelwürfel, Frischkäse, Schmelzkäse, Kräuter",
-            weekday,
-            euro("6.50"),
-            emptySet(),
-            providerId,
-          )
-        offers shouldContain
-          LunchOffer(
-            0,
-            "Süßkartoffel-Curry",
-            "Süßkartoffel, Kokosmilch, Kichererbsen, Gemüse, Curry, Limette, Koriander, wahlweise mit Hähnchen",
-            weekday,
-            euro("6.50"),
-            setOf("vegan"),
-            providerId,
-          )
-      }
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Kürbis-Maronen-Cremesuppe",
-          "Hokkaido- & Butternut-Kürbis, Maronen, Kartoffeln, Möhren, Zwiebeln, Sahne, Muskat, Ingwer, Kürbiskerne, Kürbiskernöl",
-          week.monday,
-          euro("6.50"),
-          setOf("vegetarisch", "Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Pasta „Chicken Stroganoff“",
-          "Hähnchenbrust, Champignons, Zwiebeln, Gewürzgurke, Paprika., Sahnesoße, Senf, Petersilie, Pfeffer, dazu Bio-Pasta",
-          week.tuesday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Kartoffeltopf",
-          "Kartoffeln, Porree, weiße Bohnen, Möhren, Tomaten, Tomatenmark, Wurzelgemüse, Kräuter, Senf, Röstzwiebeln",
-          week.wednesday,
-          euro("6.50"),
-          setOf("vegan", "Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Koreanischer Hackfleisch-Nudeltopf",
-          "Rinderhack, Chinakohl, Möhren, Frühlingszwiebeln, Nudeln, Soja, Ingwer, Knoblauch, Sesam",
-          week.thursday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Enten-Rotkohl-Topf",
-          "Geschmortes Entenfleisch, Rotkohl, Kartoffeln, Wurzelgemüse, Apfel, Gewürze",
-          week.friday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
+      assertOcrOffers(
+        "2026-10-12",
+        "2026-10-12_Typografischer-Wochenplan-mit-Gerichten.png.html",
+        weekly =
+          listOf(
+            ExpectedOffer(
+              "Käse-Lauch-Suppe mit Hackfleisch",
+              "gemischtes Hack, Porree, Karottenstifte, Kartoffelwürfel, Frischkäse, Schmelzkäse, Kräuter",
+            ),
+            ExpectedOffer(
+              "Süßkartoffel-Curry",
+              "Süßkartoffel, Kokosmilch, Kichererbsen, Gemüse, Curry, Limette, Koriander, wahlweise mit Hähnchen",
+              setOf("vegan"),
+            ),
+          ),
+        daily =
+          listOf(
+            ExpectedOffer(
+              "Kürbis-Maronen-Cremesuppe",
+              "Hokkaido- & Butternut-Kürbis, Maronen, Kartoffeln, Möhren, Zwiebeln, Sahne, Muskat, Ingwer, Kürbiskerne, Kürbiskernöl",
+              setOf("vegetarisch"),
+            ),
+            ExpectedOffer(
+              "Pasta „Chicken Stroganoff“",
+              "Hähnchenbrust, Champignons, Zwiebeln, Gewürzgurke, Paprika., Sahnesoße, Senf, Petersilie, Pfeffer, dazu Bio-Pasta",
+            ),
+            ExpectedOffer(
+              "Kartoffeltopf",
+              "Kartoffeln, Porree, weiße Bohnen, Möhren, Tomaten, Tomatenmark, Wurzelgemüse, Kräuter, Senf, Röstzwiebeln",
+              setOf("vegan"),
+            ),
+            ExpectedOffer(
+              "Koreanischer Hackfleisch-Nudeltopf",
+              "Rinderhack, Chinakohl, Möhren, Frühlingszwiebeln, Nudeln, Soja, Ingwer, Knoblauch, Sesam",
+            ),
+            ExpectedOffer(
+              "Enten-Rotkohl-Topf",
+              "Geschmortes Entenfleisch, Rotkohl, Kartoffeln, Wurzelgemüse, Apfel, Gewürze",
+            ),
+          ),
+      )
     }
 
     @Test
     fun `resolve offers for week of 2026-10-26`() {
-      val html =
-        readFileContent("/menus/suppenkulttour/ocr/2026-10-26_Foto-22.10.26-07-52-24.png.html")
-
-      val offers = resolver().parseOffers(html)
-
-      offers shouldHaveSize 15
-      offers.take(5).map { it.tags.contains("Tagessuppe") } shouldBeEqualTo List(5) { true }
-
-      val week = weekOf("2026-10-26")
-      for (weekday in week.lunchDays) {
-        offers shouldContain
-          LunchOffer(
-            0,
-            "Hühner-Graupen-Topf",
-            "kräftiger Eintopf mit zartem Hühnerfleisch, Graupen und Wurzelgemüse, mit Petersilie",
-            weekday,
-            euro("6.50"),
-            emptySet(),
-            providerId,
-          )
-        offers shouldContain
-          LunchOffer(
-            0,
-            "Chili sin Carne",
-            "herzhaftes Chili mit Kidneybohnen, Mais, Paprika und Quinoa, Dinkelschrot, in würziger Tomatensoße, abgerundet mit Kreuzkümmel und Limette",
-            weekday,
-            euro("6.50"),
-            setOf("vegan"),
-            providerId,
-          )
-      }
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Champignon-Kartoffel-Cremesuppe",
-          "sämige Cremesuppe aus Champignons, Kartoffeln und Creme double, abgeschmeckt mit Thymian und Schnittlauch",
-          week.monday,
-          euro("6.50"),
-          setOf("vegetarisch", "Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Pasta „Chicken-ßrokkoli“",
-          "Bio-Pasta mit Hähnchenbrust, Brokkoli und Möhren in cremiger Käse-Sahnesoße, abgeschmeckt mit Muskat & Petersilie.",
-          week.tuesday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Griechischer Zitronen-Reistopf",
-          "sämiger Gemüseeintopf mit Reis, Blattspinat, Zucchini, Möhren, Blumenkohl und Staudensellerie, abgeschmeckt mit Zitrone, Dill und Petersilie",
-          week.wednesday,
-          euro("6.50"),
-          setOf("vegan", "Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Indonesischer Schweinefleischtopf „Babi Kecap“",
-          "zart geschmortes Schweinefleisch mit Kartoffeln, Möhren, grünen Bohnen, Weißkohl und Zwiebeln in kräftiger, süß-würziger Sojabrühe mit Ingwer und Knoblauch, sämig abgerundet und mit Frühlingszwiebelh verfeinert.",
-          week.thursday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Solianka",
-          "klassischer Würsteintopf mit Wiener, Bratwurst, Kassler, Jagdwurst, Paprika, Gewürzgurken, Tomaten, Lorbeer & Zitrone",
-          week.friday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
+      assertOcrOffers(
+        "2026-10-26",
+        "2026-10-26_Foto-22.10.26-07-52-24.png.html",
+        weekly =
+          listOf(
+            ExpectedOffer(
+              "Hühner-Graupen-Topf",
+              "kräftiger Eintopf mit zartem Hühnerfleisch, Graupen und Wurzelgemüse, mit Petersilie",
+            ),
+            ExpectedOffer(
+              "Chili sin Carne",
+              "herzhaftes Chili mit Kidneybohnen, Mais, Paprika und Quinoa, Dinkelschrot, in würziger Tomatensoße, abgerundet mit Kreuzkümmel und Limette",
+              setOf("vegan"),
+            ),
+          ),
+        daily =
+          listOf(
+            ExpectedOffer(
+              "Champignon-Kartoffel-Cremesuppe",
+              "sämige Cremesuppe aus Champignons, Kartoffeln und Creme double, abgeschmeckt mit Thymian und Schnittlauch",
+              setOf("vegetarisch"),
+            ),
+            ExpectedOffer(
+              "Pasta „Chicken-ßrokkoli“",
+              "Bio-Pasta mit Hähnchenbrust, Brokkoli und Möhren in cremiger Käse-Sahnesoße, abgeschmeckt mit Muskat & Petersilie.",
+            ),
+            ExpectedOffer(
+              "Griechischer Zitronen-Reistopf",
+              "sämiger Gemüseeintopf mit Reis, Blattspinat, Zucchini, Möhren, Blumenkohl und Staudensellerie, abgeschmeckt mit Zitrone, Dill und Petersilie",
+              setOf("vegan"),
+            ),
+            ExpectedOffer(
+              "Indonesischer Schweinefleischtopf „Babi Kecap“",
+              "zart geschmortes Schweinefleisch mit Kartoffeln, Möhren, grünen Bohnen, Weißkohl und Zwiebeln in kräftiger, süß-würziger Sojabrühe mit Ingwer und Knoblauch, sämig abgerundet und mit Frühlingszwiebelh verfeinert.",
+            ),
+            ExpectedOffer(
+              "Solianka",
+              "klassischer Würsteintopf mit Wiener, Bratwurst, Kassler, Jagdwurst, Paprika, Gewürzgurken, Tomaten, Lorbeer & Zitrone",
+            ),
+          ),
+      )
     }
 
     @Test
@@ -610,86 +447,46 @@ class LunchResolverSuppenkulttourTest {
 
     @Test
     fun `resolve offers for week of 2026-11-02`() {
-      val html = readFileContent("/menus/suppenkulttour/ocr/2026-11-02_WPNEU.png.html")
-
-      val offers = resolver().parseOffers(html)
-
-      offers shouldHaveSize 15
-      offers.take(5).map { it.tags.contains("Tagessuppe") } shouldBeEqualTo List(5) { true }
-
-      val week = weekOf("2026-11-02")
-      for (weekday in week.lunchDays) {
-        offers shouldContain
-          LunchOffer(
-            0,
-            "Altdeutsche Kartoffelsuppe",
-            "die fein pürierte Variante mit Kartoffeln, Wurzelgemüse, Möhren, Sellerie, Pastinaken, Porree, Wiener Würstchen, Bauernschinken, Sahne, Majoran, etwas Muskat und frischer Petersilie",
-            weekday,
-            euro("6.50"),
-            emptySet(),
-            providerId,
-          )
-        offers shouldContain
-          LunchOffer(
-            0,
-            "Blumenkohl-Curry",
-            "aromatisch-cremiger Eintopf mit Kartoffeln, Süßkartoffeln, Blumenkohl, Möhren, Kokosmilch, frischem Koriander, Kurkuma und Ingwer",
-            weekday,
-            euro("6.50"),
-            setOf("vegan"),
-            providerId,
-          )
-      }
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Rote-Bete-Powertopf",
-          "kräftiger Eintopf mit zarten Rindfleischwürfeln, Roter Bete, Weißkohl, Kartoffelwürfeln",
-          week.monday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Pasta „Herbstliches Kürbis-Apfel-Hühnchen“",
-          "Bio-Fusilli mit zarten Hühnchenbruststreifen iı n einer cremigen Kürbis-Apfel-Soße aus Hokkaido und Butternut, verfeinert mit Sahne, einem Hauch Curry, Muskat und frischer Petersilie",
-          week.tuesday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Afrikanischer Erdnusseintopf",
-          "‚würzig-fruchtiger Eintopf mit Kichererbsen, Ki idneybohnen, Lauch, roter Paprika, Weißkohl, Mangosaft, Erdnusspaste, Curry und frischem Ingwer",
-          week.wednesday,
-          euro("6.50"),
-          setOf("vegan", "Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Rotes Thai-Curry mit Hühnchen",
-          "zarte Hühnchenbrust in cremiger roter Thai-Curry-Kokossoße mit buntem Thaigemüse, Möhren, Paprika, Bambussprossen, Zitronengras, Ingwer, frischem Koriander und Basmatireis",
-          week.thursday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
-      offers shouldContain
-        LunchOffer(
-          0,
-          "Schwedentopf „2.0“",
-          "herzhaft angebratenes Hackfleisch vom Rind und Schwein mit Möhren, grünen Bohnen, Kartoffeln und Erbsen in einer cremigen Kräut ‚er-Käsesoße, dazu Preiselbeerendip",
-          week.friday,
-          euro("6.50"),
-          setOf("Tagessuppe"),
-          providerId,
-        )
+      assertOcrOffers(
+        "2026-11-02",
+        "2026-11-02_WPNEU.png.html",
+        weekly =
+          listOf(
+            ExpectedOffer(
+              "Altdeutsche Kartoffelsuppe",
+              "die fein pürierte Variante mit Kartoffeln, Wurzelgemüse, Möhren, Sellerie, Pastinaken, Porree, Wiener Würstchen, Bauernschinken, Sahne, Majoran, etwas Muskat und frischer Petersilie",
+            ),
+            ExpectedOffer(
+              "Blumenkohl-Curry",
+              "aromatisch-cremiger Eintopf mit Kartoffeln, Süßkartoffeln, Blumenkohl, Möhren, Kokosmilch, frischem Koriander, Kurkuma und Ingwer",
+              setOf("vegan"),
+            ),
+          ),
+        daily =
+          listOf(
+            ExpectedOffer(
+              "Rote-Bete-Powertopf",
+              "kräftiger Eintopf mit zarten Rindfleischwürfeln, Roter Bete, Weißkohl, Kartoffelwürfeln",
+            ),
+            ExpectedOffer(
+              "Pasta „Herbstliches Kürbis-Apfel-Hühnchen“",
+              "Bio-Fusilli mit zarten Hühnchenbruststreifen iı n einer cremigen Kürbis-Apfel-Soße aus Hokkaido und Butternut, verfeinert mit Sahne, einem Hauch Curry, Muskat und frischer Petersilie",
+            ),
+            ExpectedOffer(
+              "Afrikanischer Erdnusseintopf",
+              "‚würzig-fruchtiger Eintopf mit Kichererbsen, Ki idneybohnen, Lauch, roter Paprika, Weißkohl, Mangosaft, Erdnusspaste, Curry und frischem Ingwer",
+              setOf("vegan"),
+            ),
+            ExpectedOffer(
+              "Rotes Thai-Curry mit Hühnchen",
+              "zarte Hühnchenbrust in cremiger roter Thai-Curry-Kokossoße mit buntem Thaigemüse, Möhren, Paprika, Bambussprossen, Zitronengras, Ingwer, frischem Koriander und Basmatireis",
+            ),
+            ExpectedOffer(
+              "Schwedentopf „2.0“",
+              "herzhaft angebratenes Hackfleisch vom Rind und Schwein mit Möhren, grünen Bohnen, Kartoffeln und Erbsen in einer cremigen Kräut ‚er-Käsesoße, dazu Preiselbeerendip",
+            ),
+          ),
+      )
     }
   }
 
