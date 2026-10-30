@@ -1,0 +1,113 @@
+# Die Torney-Android-App ist eine generische App für das Anzeigen und Bestellen von Produkten und Angeboten.
+# Ebenso generisch ist die REST-API, mit Informationen zur App (aid), Firma (kid), Filialen (branch), Kategorien (cat)
+# und Produkten (products/deals).
+#
+# In der APK-Datei enthaltene Grunddaten lauten:
+#{
+#    baseURL: "https://dev.hansenundtoth.de/fleischerhut/",
+#    aid: "71",
+#    kid: "62",
+#    templateVersion: "v2.4.5-100626",
+#    config: {
+#        PATH_SHOP: " "
+#    },
+#    menu: [
+#        "meinefleischerei",
+#        "angebote",
+#        "rezeptuebersicht",
+#        "mittagstisch",
+#        "vorbestellen",
+#        "kundenkarte"
+#    ],
+#    homeButton: "Mein Fleischer",
+#    version: "1.0.60-1299",
+#    name: "Torney Landfleischerei Pripsleben",
+#    defaultPage: "angebote"
+#}
+
+
+### App-Config
+POST https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_load/appConfig
+Content-Type: application/json
+
+{
+  "aid": "71"
+}
+
+### About us
+POST https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_get/aboutus
+Content-Type: application/json
+
+{
+  "aid": "71"
+}
+
+### Filialen abrufen
+POST https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_get/branches
+Content-Type: application/json
+
+{
+  "aid": "71",
+  "kid": "62",
+  "customer": null,
+  "all": true
+}
+
+### Filiale in NB abrufen
+POST https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_get/branch
+Content-Type: application/json
+
+{
+  "aid": "71",
+  "bid": "133"
+}
+
+### Delivery
+POST https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_get/deliveryMethods
+Content-Type: application/json
+
+{
+  "kid": "62"
+}
+
+### Kategorien abrufen
+POST https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_get/categories
+Content-Type: application/json
+
+{
+  "kid": "62",
+  "branch": "133",
+  "cat": null,
+  "deliver": "1"
+}
+
+### Produkte abrufen
+POST https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_search/product
+Content-Type: application/json
+
+{
+  "fid": "133",
+  "q": ""
+}
+
+### Lunch abrufen
+POST https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_get/lunch
+Content-Type: application/json
+
+{
+  "kid": "62",
+  "branch": "133",
+  "cat": "6454",
+  "deliver": "1"
+}
+
+### Angebote abrufen
+POST https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_get/deals
+Content-Type: application/json
+
+{
+  "kid": "62",
+  "branch": "133",
+  "cat": "4558",
+  "deliver": "1"
+}

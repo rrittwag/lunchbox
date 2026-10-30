@@ -29,6 +29,16 @@ class LunchResolverTorney(
   override fun resolve(): List<LunchOffer> = resolve(provider.menuUrl)
 
   fun resolve(url: URL): List<LunchOffer> {
+    TODO() // call https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_get/deals and use resolveFromApi, somehow
+  }
+
+  fun resolveFromApi(url: URL): List<LunchOffer> {
+    TODO()
+  }
+
+  // --- old implementation ---
+
+  fun resolveFromWebsite(url: URL): List<LunchOffer> {
     val tagesgerichteLinks = resolveImageLinks(url)
     return resolveFromImageLinks(tagesgerichteLinks)
   }

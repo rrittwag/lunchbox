@@ -1,0 +1,901 @@
+{
+  "Status": false,
+  "Data": {
+    "data": [
+      {
+        "now": {
+          "date": "2026-10-30 16:11:43.430079",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "start": {
+          "date": "2026-10-30 16:11:43.430079",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "end": {
+          "date": "2026-11-01 23:59:00.000000",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "thisWeek": true,
+        "c": "2026-10-26T00:00:00+01:00",
+        "f": "2026-10-26",
+        "formatted": "26.10.26 - 01.11.26",
+        "p": [
+          {
+            "idProduct": "82881",
+            "name": "Backofenrippchen",
+            "description": "",
+            "fk_idCategory": null,
+            "price": "14.9",
+            "fk_idUnit": "3",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "67",
+            "fk_idVAT": "2",
+            "fk_idStore": "110",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "154",
+            "order_weight": "100",
+            "order_fk_idUnit": "4",
+            "average_weight": "0",
+            "selling_dates": null,
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "34169",
+            "fk_idProduct": "82881",
+            "start": "2026-10-26 00:00:00",
+            "end": "2026-10-30 00:00:00",
+            "newPrice": "14.9",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "5",
+            "created": "2026-10-26 06:49:32",
+            "updated": "2026-10-26 06:49:32",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "19.95",
+            "media": [
+              {
+                "idMedia": "67",
+                "name": "platzhalter.png",
+                "filename": "upload\/5390add1fafd759960c71305b9977d47.png",
+                "thumbnail": "upload\/T_5390add1fafd759960c71305b9977d47.png",
+                "created": "2020-11-20 09:31:41",
+                "type": "image\/png",
+                "size": "7615",
+                "width": "300",
+                "height": "300",
+                "ownerID": null,
+                "mediaCategory": "PIKTO"
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "34169",
+                "fk_idProduct": "82881",
+                "start": "2026-10-26 00:00:00",
+                "end": "2026-10-30 00:00:00",
+                "hidden": "0",
+                "newPrice": "14.9",
+                "fk_idKunde": "62",
+                "fk_idStore": "110",
+                "prominent": "0",
+                "sorder": "5",
+                "created": "2026-10-26 06:49:32",
+                "updated": "2026-10-26 06:49:32",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "3",
+                "name": "kg",
+                "fullname": "Kilogramm",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "1",
+                "multip": "0.001"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "4",
+                "name": "g",
+                "fullname": "Gramm",
+                "preselections": "[{\"name\":\"\",\"count\":100},{\"name\":\"\",\"count\":150},{\"name\":\"\",\"count\":200},{\"name\":\"\",\"count\":250},{\"name\":\"\",\"count\":500}]",
+                "devide": "1",
+                "multip": "1"
+              }
+            ]
+          },
+          {
+            "idProduct": "73989",
+            "name": "Bauernrouladen mit Rotkohl und Salzkartoffeln",
+            "description": "",
+            "fk_idCategory": "6454",
+            "price": "7.9",
+            "fk_idUnit": "7",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "12423",
+            "fk_idVAT": "2",
+            "fk_idStore": "199",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "77041",
+            "order_weight": "1",
+            "order_fk_idUnit": "7",
+            "average_weight": "0",
+            "selling_dates": "0",
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "31271",
+            "fk_idProduct": "73989",
+            "start": "2026-10-26 00:00:00",
+            "end": "2026-10-30 00:00:00",
+            "newPrice": "7.9",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "5",
+            "created": "2026-06-12 09:23:13",
+            "updated": "2026-10-26 06:41:49",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "7.9",
+            "media": [
+              {
+                "idMedia": "12423",
+                "name": "46.png",
+                "filename": "upload\/44a8a4de1b1b6e0d616467cb6fbc596d.png",
+                "thumbnail": "upload\/T_44a8a4de1b1b6e0d616467cb6fbc596d.png",
+                "created": "2026-07-27 13:28:48",
+                "type": "image\/png",
+                "size": "1105326",
+                "width": "940",
+                "height": "788",
+                "ownerID": "62",
+                "mediaCategory": null
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "31271",
+                "fk_idProduct": "73989",
+                "start": "2026-10-26 00:00:00",
+                "end": "2026-10-30 00:00:00",
+                "hidden": "0",
+                "newPrice": "7.9",
+                "fk_idKunde": "62",
+                "fk_idStore": "199",
+                "prominent": "0",
+                "sorder": "5",
+                "created": "2026-06-12 09:23:13",
+                "updated": "2026-10-26 06:41:49",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "7",
+                "name": "Port.",
+                "fullname": "Portion(en)",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "7",
+                "name": "Port.",
+                "fullname": "Portion(en)",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ]
+          },
+          {
+            "idProduct": "82879",
+            "name": "Champignons-Lyoner",
+            "description": "",
+            "fk_idCategory": "4632",
+            "price": "15.9",
+            "fk_idUnit": "3",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "67",
+            "fk_idVAT": "2",
+            "fk_idStore": "110",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "265",
+            "order_weight": "100",
+            "order_fk_idUnit": "4",
+            "average_weight": "0",
+            "selling_dates": null,
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "34167",
+            "fk_idProduct": "82879",
+            "start": "2026-10-26 00:00:00",
+            "end": "2026-10-30 00:00:00",
+            "newPrice": "15.9",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "3",
+            "created": "2026-10-26 06:48:56",
+            "updated": "2026-10-26 06:48:56",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "19.9",
+            "media": [
+              {
+                "idMedia": "67",
+                "name": "platzhalter.png",
+                "filename": "upload\/5390add1fafd759960c71305b9977d47.png",
+                "thumbnail": "upload\/T_5390add1fafd759960c71305b9977d47.png",
+                "created": "2020-11-20 09:31:41",
+                "type": "image\/png",
+                "size": "7615",
+                "width": "300",
+                "height": "300",
+                "ownerID": null,
+                "mediaCategory": "PIKTO"
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "34167",
+                "fk_idProduct": "82879",
+                "start": "2026-10-26 00:00:00",
+                "end": "2026-10-30 00:00:00",
+                "hidden": "0",
+                "newPrice": "15.9",
+                "fk_idKunde": "62",
+                "fk_idStore": "110",
+                "prominent": "0",
+                "sorder": "3",
+                "created": "2026-10-26 06:48:56",
+                "updated": "2026-10-26 06:48:56",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "3",
+                "name": "kg",
+                "fullname": "Kilogramm",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "1",
+                "multip": "0.001"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "4",
+                "name": "g",
+                "fullname": "Gramm",
+                "preselections": "[{\"name\":\"\",\"count\":100},{\"name\":\"\",\"count\":150},{\"name\":\"\",\"count\":200},{\"name\":\"\",\"count\":250},{\"name\":\"\",\"count\":500}]",
+                "devide": "1",
+                "multip": "1"
+              }
+            ]
+          },
+          {
+            "idProduct": "77102",
+            "name": "Hähnchengeschnetzeltes mit Salzkartoffeln\/Nudeln\/Reis",
+            "description": "",
+            "fk_idCategory": "6454",
+            "price": "7.9",
+            "fk_idUnit": "7",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "67",
+            "fk_idVAT": "2",
+            "fk_idStore": "199",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "77018",
+            "order_weight": "1",
+            "order_fk_idUnit": "7",
+            "average_weight": "0",
+            "selling_dates": null,
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "32306",
+            "fk_idProduct": "77102",
+            "start": "2026-10-26 00:00:00",
+            "end": "2026-10-30 00:00:00",
+            "newPrice": "7.9",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "6",
+            "created": "2026-08-03 07:34:42",
+            "updated": "2026-10-26 06:42:01",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "7.9",
+            "media": [
+              {
+                "idMedia": "67",
+                "name": "platzhalter.png",
+                "filename": "upload\/5390add1fafd759960c71305b9977d47.png",
+                "thumbnail": "upload\/T_5390add1fafd759960c71305b9977d47.png",
+                "created": "2020-11-20 09:31:41",
+                "type": "image\/png",
+                "size": "7615",
+                "width": "300",
+                "height": "300",
+                "ownerID": null,
+                "mediaCategory": "PIKTO"
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "32306",
+                "fk_idProduct": "77102",
+                "start": "2026-10-26 00:00:00",
+                "end": "2026-10-30 00:00:00",
+                "hidden": "0",
+                "newPrice": "7.9",
+                "fk_idKunde": "62",
+                "fk_idStore": "199",
+                "prominent": "0",
+                "sorder": "6",
+                "created": "2026-08-03 07:34:42",
+                "updated": "2026-10-26 06:42:01",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "7",
+                "name": "Port.",
+                "fullname": "Portion(en)",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "7",
+                "name": "Port.",
+                "fullname": "Portion(en)",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ]
+          },
+          {
+            "idProduct": "82513",
+            "name": "Hähnchensalat",
+            "description": "",
+            "fk_idCategory": "4631",
+            "price": "9.9",
+            "fk_idUnit": "3",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "67",
+            "fk_idVAT": "2",
+            "fk_idStore": "110",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "02286",
+            "order_weight": "100",
+            "order_fk_idUnit": "4",
+            "average_weight": "0",
+            "selling_dates": null,
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "33547",
+            "fk_idProduct": "82513",
+            "start": "2026-10-19 00:00:00",
+            "end": "2026-10-30 00:00:00",
+            "newPrice": "9.9",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "6",
+            "created": "2026-10-05 08:11:06",
+            "updated": "2026-10-26 06:44:00",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "15.99",
+            "media": [
+              {
+                "idMedia": "67",
+                "name": "platzhalter.png",
+                "filename": "upload\/5390add1fafd759960c71305b9977d47.png",
+                "thumbnail": "upload\/T_5390add1fafd759960c71305b9977d47.png",
+                "created": "2020-11-20 09:31:41",
+                "type": "image\/png",
+                "size": "7615",
+                "width": "300",
+                "height": "300",
+                "ownerID": null,
+                "mediaCategory": "PIKTO"
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "33547",
+                "fk_idProduct": "82513",
+                "start": "2026-10-19 00:00:00",
+                "end": "2026-10-30 00:00:00",
+                "hidden": "0",
+                "newPrice": "9.9",
+                "fk_idKunde": "62",
+                "fk_idStore": "110",
+                "prominent": "0",
+                "sorder": "6",
+                "created": "2026-10-05 08:11:06",
+                "updated": "2026-10-26 06:44:00",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "3",
+                "name": "kg",
+                "fullname": "Kilogramm",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "1",
+                "multip": "0.001"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "4",
+                "name": "g",
+                "fullname": "Gramm",
+                "preselections": "[{\"name\":\"\",\"count\":100},{\"name\":\"\",\"count\":150},{\"name\":\"\",\"count\":200},{\"name\":\"\",\"count\":250},{\"name\":\"\",\"count\":500}]",
+                "devide": "1",
+                "multip": "1"
+              }
+            ]
+          },
+          {
+            "idProduct": "82880",
+            "name": "Hähnchensauerfleisch",
+            "description": "",
+            "fk_idCategory": "4631",
+            "price": "2.9",
+            "fk_idUnit": "6",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "67",
+            "fk_idVAT": "2",
+            "fk_idStore": "110",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "319",
+            "order_weight": "1",
+            "order_fk_idUnit": "6",
+            "average_weight": "150",
+            "selling_dates": null,
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "34168",
+            "fk_idProduct": "82880",
+            "start": "2026-10-26 00:00:00",
+            "end": "2026-10-30 00:00:00",
+            "newPrice": "2.9",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "4",
+            "created": "2026-10-26 06:49:17",
+            "updated": "2026-10-26 06:49:17",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "3.1",
+            "media": [
+              {
+                "idMedia": "67",
+                "name": "platzhalter.png",
+                "filename": "upload\/5390add1fafd759960c71305b9977d47.png",
+                "thumbnail": "upload\/T_5390add1fafd759960c71305b9977d47.png",
+                "created": "2020-11-20 09:31:41",
+                "type": "image\/png",
+                "size": "7615",
+                "width": "300",
+                "height": "300",
+                "ownerID": null,
+                "mediaCategory": "PIKTO"
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "34168",
+                "fk_idProduct": "82880",
+                "start": "2026-10-26 00:00:00",
+                "end": "2026-10-30 00:00:00",
+                "hidden": "0",
+                "newPrice": "2.9",
+                "fk_idKunde": "62",
+                "fk_idStore": "110",
+                "prominent": "0",
+                "sorder": "4",
+                "created": "2026-10-26 06:49:17",
+                "updated": "2026-10-26 06:49:17",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "6",
+                "name": "Stk.",
+                "fullname": "Stück",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "6",
+                "name": "Stk.",
+                "fullname": "Stück",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ]
+          },
+          {
+            "idProduct": "43552",
+            "name": "Kasslerkamm im Stück",
+            "description": "",
+            "fk_idCategory": "4638",
+            "price": "6.9",
+            "fk_idUnit": "3",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "6712",
+            "fk_idVAT": "2",
+            "fk_idStore": "110",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "00102",
+            "order_weight": "1",
+            "order_fk_idUnit": "3",
+            "average_weight": "0",
+            "selling_dates": "0",
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "34165",
+            "fk_idProduct": "43552",
+            "start": "2026-10-26 00:00:00",
+            "end": "2026-10-30 00:00:00",
+            "newPrice": "6.9",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "1",
+            "created": "2026-10-26 06:44:28",
+            "updated": "2026-10-26 06:44:28",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "11.8",
+            "media": [
+              {
+                "idMedia": "6712",
+                "name": "IMG_7809.jpg",
+                "filename": "upload\/aedeff8fd1982ba99c711d63c1ed396f.jpg",
+                "thumbnail": "upload\/T_aedeff8fd1982ba99c711d63c1ed396f.jpg",
+                "created": "2023-09-26 10:39:07",
+                "type": "image\/jpeg",
+                "size": "1787609",
+                "width": "3024",
+                "height": "4032",
+                "ownerID": "62",
+                "mediaCategory": null
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "34165",
+                "fk_idProduct": "43552",
+                "start": "2026-10-26 00:00:00",
+                "end": "2026-10-30 00:00:00",
+                "hidden": "0",
+                "newPrice": "6.9",
+                "fk_idKunde": "62",
+                "fk_idStore": "110",
+                "prominent": "0",
+                "sorder": "1",
+                "created": "2026-10-26 06:44:28",
+                "updated": "2026-10-26 06:44:28",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "3",
+                "name": "kg",
+                "fullname": "Kilogramm",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "1",
+                "multip": "0.001"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "3",
+                "name": "kg",
+                "fullname": "Kilogramm",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "1",
+                "multip": "0.001"
+              }
+            ]
+          },
+          {
+            "idProduct": "67761",
+            "name": "Kasslerkamm in Scheiben",
+            "description": "",
+            "fk_idCategory": "4638",
+            "price": "7.9",
+            "fk_idUnit": "3",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "6712",
+            "fk_idVAT": "2",
+            "fk_idStore": "110",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "00113",
+            "order_weight": "100",
+            "order_fk_idUnit": "4",
+            "average_weight": "0",
+            "selling_dates": "0",
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "34166",
+            "fk_idProduct": "67761",
+            "start": "2026-10-26 00:00:00",
+            "end": "2026-10-30 00:00:00",
+            "newPrice": "7.9",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "2",
+            "created": "2026-10-26 06:44:42",
+            "updated": "2026-10-26 06:44:42",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "12.1",
+            "media": [
+              {
+                "idMedia": "6712",
+                "name": "IMG_7809.jpg",
+                "filename": "upload\/aedeff8fd1982ba99c711d63c1ed396f.jpg",
+                "thumbnail": "upload\/T_aedeff8fd1982ba99c711d63c1ed396f.jpg",
+                "created": "2023-09-26 10:39:07",
+                "type": "image\/jpeg",
+                "size": "1787609",
+                "width": "3024",
+                "height": "4032",
+                "ownerID": "62",
+                "mediaCategory": null
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "34166",
+                "fk_idProduct": "67761",
+                "start": "2026-10-26 00:00:00",
+                "end": "2026-10-30 00:00:00",
+                "hidden": "0",
+                "newPrice": "7.9",
+                "fk_idKunde": "62",
+                "fk_idStore": "110",
+                "prominent": "0",
+                "sorder": "2",
+                "created": "2026-10-26 06:44:42",
+                "updated": "2026-10-26 06:44:42",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "3",
+                "name": "kg",
+                "fullname": "Kilogramm",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "1",
+                "multip": "0.001"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "4",
+                "name": "g",
+                "fullname": "Gramm",
+                "preselections": "[{\"name\":\"\",\"count\":100},{\"name\":\"\",\"count\":150},{\"name\":\"\",\"count\":200},{\"name\":\"\",\"count\":250},{\"name\":\"\",\"count\":500}]",
+                "devide": "1",
+                "multip": "1"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "now": {
+          "date": "2026-10-30 16:11:43.430079",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "start": {
+          "date": "2026-11-02 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "end": {
+          "date": "2026-11-08 23:59:00.000000",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "thisWeek": false,
+        "c": "2026-11-02T00:00:00+01:00",
+        "f": "2026-11-02",
+        "formatted": "02.11.26 - 08.11.26",
+        "p": []
+      }
+    ]
+  },
+  "Msg": null
+}

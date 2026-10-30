@@ -23,6 +23,118 @@ class LunchResolverTorneyTest {
   private val uploadsDir = "${TORNEY.menuUrl}wp-content/uploads"
 
   @Test
+  fun `resolve offers for week of 2026-10-26`() {
+    val url = javaClass.getResource("/menus/torney/json/2026-10-26/deals_branch133_cat6454.json")
+    val week = weekOf("2026-10-26")
+
+    val offers = resolver().resolveFromApi(url)
+
+    offers shouldHaveSize 10
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Bauernroulade",
+        " mit Rotkohl und Salzkartoffeln",
+        week.monday,
+        euro("7.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Bauernroulade",
+        " mit Rotkohl und Salzkartoffeln",
+        week.tuesday,
+        euro("7.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Bauernroulade",
+        " mit Rotkohl und Salzkartoffeln",
+        week.wednesday,
+        euro("7.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Bauernroulade",
+        " mit Rotkohl und Salzkartoffeln",
+        week.thursday,
+        euro("7.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Bauernroulade",
+        " mit Rotkohl und Salzkartoffeln",
+        week.friday,
+        euro("7.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Hähnchengeschnetzeltes",
+        " mit Salzkartoffeln/Nudeln/Reis",
+        week.monday,
+        euro("7.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Hähnchengeschnetzeltes",
+        " mit Salzkartoffeln/Nudeln/Reis",
+        week.tuesday,
+        euro("7.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Hähnchengeschnetzeltes",
+        " mit Salzkartoffeln/Nudeln/Reis",
+        week.wednesday,
+        euro("7.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Hähnchengeschnetzeltes",
+        " mit Salzkartoffeln/Nudeln/Reis",
+        week.thursday,
+        euro("7.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Hähnchengeschnetzeltes",
+        " mit Salzkartoffeln/Nudeln/Reis",
+        week.friday,
+        euro("7.90"),
+        emptySet(),
+        providerId,
+      )
+  }
+
+  // --- old implementation ---
+
+  @Test
   fun `resolve image link for 2025-02-17`() {
     val url = javaClass.getResource("/menus/torney/2025-02-24.html")
 

@@ -1,0 +1,415 @@
+{
+  "Status": false,
+  "Data": {
+    "meta": null,
+    "data": [
+      {
+        "idCategory": "6454",
+        "parent_idCategory": null,
+        "name": "Mittagstisch",
+        "fk_idKunde": "62",
+        "fk_idStore": "199",
+        "fk_idMedia": "41",
+        "specialCategory": "LUNCH",
+        "hidden": "0",
+        "sorder": null,
+        "mtphn": null,
+        "fk_viewmode": "3",
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "41",
+            "name": "icons8-tableware-100.png",
+            "filename": "basic\/ae5071d04989bf1468ba765fc0971d25.png",
+            "thumbnail": "basic\/ae5071d04989bf1468ba765fc0971d25.png",
+            "created": "2020-11-12 00:43:21",
+            "type": "image\/png",
+            "size": "0",
+            "width": null,
+            "height": null,
+            "ownerID": null,
+            "mediaCategory": "PIKTO"
+          }
+        ]
+      },
+      {
+        "idCategory": "5323",
+        "parent_idCategory": null,
+        "name": "Grillspezialitäten",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "33",
+        "specialCategory": null,
+        "hidden": "0",
+        "sorder": "5",
+        "mtphn": "110KRLSPSLTTN",
+        "fk_viewmode": null,
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "33",
+            "name": "icons8-grill-100.png",
+            "filename": "basic\/eea30cfcc16dc28132f3ce93beedd716.png",
+            "thumbnail": "basic\/eea30cfcc16dc28132f3ce93beedd716.png",
+            "created": "2020-11-12 00:43:21",
+            "type": "image\/png",
+            "size": "0",
+            "width": null,
+            "height": null,
+            "ownerID": null,
+            "mediaCategory": "PIKTO"
+          }
+        ]
+      },
+      {
+        "idCategory": "4682",
+        "parent_idCategory": null,
+        "name": "WILD",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "6952",
+        "specialCategory": null,
+        "hidden": "0",
+        "sorder": "6",
+        "mtphn": "110WLTSXWNWX",
+        "fk_viewmode": null,
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "6952",
+            "name": "Wildschwein.png",
+            "filename": "upload\/4105d0fa96dfbf160239d7a023227d42.png",
+            "thumbnail": "upload\/T_4105d0fa96dfbf160239d7a023227d42.png",
+            "created": "2023-11-16 08:35:42",
+            "type": "image\/png",
+            "size": "561078",
+            "width": "1704",
+            "height": "715",
+            "ownerID": "62",
+            "mediaCategory": null
+          }
+        ]
+      },
+      {
+        "idCategory": "4629",
+        "parent_idCategory": null,
+        "name": "Schweinefleisch",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "60",
+        "specialCategory": null,
+        "hidden": "0",
+        "sorder": "7",
+        "mtphn": "110SXWNFLSX",
+        "fk_viewmode": null,
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "60",
+            "name": "schwein_rot.png",
+            "filename": "upload\/eddf189f47ed95b42451d4e1540aee4d.png",
+            "thumbnail": "upload\/T_eddf189f47ed95b42451d4e1540aee4d.png",
+            "created": "2020-11-19 16:18:04",
+            "type": "image\/png",
+            "size": "18352",
+            "width": "300",
+            "height": "300",
+            "ownerID": null,
+            "mediaCategory": "PIKTO"
+          }
+        ]
+      },
+      {
+        "idCategory": "4630",
+        "parent_idCategory": null,
+        "name": "Rindfleisch",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "61",
+        "specialCategory": null,
+        "hidden": "0",
+        "sorder": "8",
+        "mtphn": "110RNTFLSX",
+        "fk_viewmode": null,
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "61",
+            "name": "ochse_rot.png",
+            "filename": "upload\/ec23deb1e4f9438a9684d5a3cc4bd2ae.png",
+            "thumbnail": "upload\/T_ec23deb1e4f9438a9684d5a3cc4bd2ae.png",
+            "created": "2020-11-19 16:20:29",
+            "type": "image\/png",
+            "size": "23675",
+            "width": "300",
+            "height": "300",
+            "ownerID": null,
+            "mediaCategory": "PIKTO"
+          }
+        ]
+      },
+      {
+        "idCategory": "4631",
+        "parent_idCategory": null,
+        "name": "Spezialitäten",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "6951",
+        "specialCategory": null,
+        "hidden": "0",
+        "sorder": "9",
+        "mtphn": "110SPSLTTN",
+        "fk_viewmode": null,
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "6951",
+            "name": "Spieße.png",
+            "filename": "upload\/203e2b41f0f7f60113876ec6e570ee75.png",
+            "thumbnail": "upload\/T_203e2b41f0f7f60113876ec6e570ee75.png",
+            "created": "2023-11-16 08:33:37",
+            "type": "image\/png",
+            "size": "2051753",
+            "width": "1337",
+            "height": "883",
+            "ownerID": "62",
+            "mediaCategory": null
+          }
+        ]
+      },
+      {
+        "idCategory": "4632",
+        "parent_idCategory": null,
+        "name": "Wurst\/Schinken vom Schwein",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "37",
+        "specialCategory": null,
+        "hidden": "0",
+        "sorder": "11",
+        "mtphn": "110WRSTSXNKNFMSXWN",
+        "fk_viewmode": null,
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "37",
+            "name": "icons8-meat-sausage-100.png",
+            "filename": "basic\/925ed115ff2a73bdc2c4fb3b39b43472.png",
+            "thumbnail": "basic\/925ed115ff2a73bdc2c4fb3b39b43472.png",
+            "created": "2020-11-12 00:43:21",
+            "type": "image\/png",
+            "size": "0",
+            "width": null,
+            "height": null,
+            "ownerID": null,
+            "mediaCategory": "PIKTO"
+          }
+        ]
+      },
+      {
+        "idCategory": "4633",
+        "parent_idCategory": null,
+        "name": "Wurst\/Schinken vom Rind",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "34",
+        "specialCategory": null,
+        "hidden": "0",
+        "sorder": "12",
+        "mtphn": "110WRSTSXNKNFMRNT",
+        "fk_viewmode": null,
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "34",
+            "name": "icons8-grilled-sausage-100.png",
+            "filename": "basic\/598090fdc6aa1a1f4e84bfbfb5eb699a.png",
+            "thumbnail": "basic\/598090fdc6aa1a1f4e84bfbfb5eb699a.png",
+            "created": "2020-11-12 00:43:21",
+            "type": "image\/png",
+            "size": "0",
+            "width": null,
+            "height": null,
+            "ownerID": null,
+            "mediaCategory": "PIKTO"
+          }
+        ]
+      },
+      {
+        "idCategory": "4635",
+        "parent_idCategory": null,
+        "name": "schnelle Küche",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "41",
+        "specialCategory": null,
+        "hidden": "0",
+        "sorder": "13",
+        "mtphn": "110SXNLKX",
+        "fk_viewmode": null,
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "41",
+            "name": "icons8-tableware-100.png",
+            "filename": "basic\/ae5071d04989bf1468ba765fc0971d25.png",
+            "thumbnail": "basic\/ae5071d04989bf1468ba765fc0971d25.png",
+            "created": "2020-11-12 00:43:21",
+            "type": "image\/png",
+            "size": "0",
+            "width": null,
+            "height": null,
+            "ownerID": null,
+            "mediaCategory": "PIKTO"
+          }
+        ]
+      },
+      {
+        "idCategory": "4636",
+        "parent_idCategory": null,
+        "name": "Geflügelwurst",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "3791",
+        "specialCategory": null,
+        "hidden": "0",
+        "sorder": "14",
+        "mtphn": "110JFLJLWRST",
+        "fk_viewmode": null,
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "3791",
+            "name": "Huhn.png",
+            "filename": "upload\/6eb7bee4dae738029002ebbc29bd3d73.png",
+            "thumbnail": "upload\/T_6eb7bee4dae738029002ebbc29bd3d73.png",
+            "created": "2022-08-16 09:09:36",
+            "type": "image\/png",
+            "size": "39410",
+            "width": "500",
+            "height": "500",
+            "ownerID": null,
+            "mediaCategory": "PIKTO"
+          }
+        ]
+      },
+      {
+        "idCategory": "4637",
+        "parent_idCategory": null,
+        "name": "Schmalz",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "6950",
+        "specialCategory": null,
+        "hidden": "0",
+        "sorder": "15",
+        "mtphn": "110SXMLS",
+        "fk_viewmode": null,
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "6950",
+            "name": "Schmalz.png",
+            "filename": "upload\/8d7256c2409ea20bad66dba1e6b521b5.png",
+            "thumbnail": "upload\/T_8d7256c2409ea20bad66dba1e6b521b5.png",
+            "created": "2023-11-16 08:32:06",
+            "type": "image\/png",
+            "size": "1965795",
+            "width": "1463",
+            "height": "972",
+            "ownerID": "62",
+            "mediaCategory": null
+          }
+        ]
+      },
+      {
+        "idCategory": "4638",
+        "parent_idCategory": null,
+        "name": "Kassler",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "6711",
+        "specialCategory": null,
+        "hidden": "0",
+        "sorder": "16",
+        "mtphn": "110KSLR",
+        "fk_viewmode": null,
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "6711",
+            "name": "Kasslerkämme2.jpg",
+            "filename": "upload\/462518c056bd68cf5db9ee9e2b24b101.jpg",
+            "thumbnail": "upload\/T_462518c056bd68cf5db9ee9e2b24b101.jpg",
+            "created": "2023-09-26 10:38:22",
+            "type": "image\/jpeg",
+            "size": "771917",
+            "width": "1929",
+            "height": "1433",
+            "ownerID": "62",
+            "mediaCategory": null
+          }
+        ]
+      },
+      {
+        "idCategory": "4684",
+        "parent_idCategory": null,
+        "name": "Feinkost\/ Salate",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "6946",
+        "specialCategory": null,
+        "hidden": "0",
+        "sorder": "17",
+        "mtphn": "110FNKSTSLT",
+        "fk_viewmode": null,
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "6946",
+            "name": "shutterstock_320531906.jpg",
+            "filename": "upload\/204883dcb2dc8125422d298a0cda83d5.jpg",
+            "thumbnail": "upload\/T_204883dcb2dc8125422d298a0cda83d5.jpg",
+            "created": "2023-11-15 07:41:54",
+            "type": "image\/jpeg",
+            "size": "9510245",
+            "width": "4737",
+            "height": "3605",
+            "ownerID": "62",
+            "mediaCategory": null
+          }
+        ]
+      },
+      {
+        "idCategory": "4558",
+        "parent_idCategory": null,
+        "name": "Angebote",
+        "fk_idKunde": "62",
+        "fk_idStore": "110",
+        "fk_idMedia": "88",
+        "specialCategory": "DEAL",
+        "hidden": "0",
+        "sorder": "19",
+        "mtphn": "110ANJBT",
+        "fk_viewmode": "3",
+        "viewmode_options": null,
+        "media": [
+          {
+            "idMedia": "88",
+            "name": "icons8-discount-100.png",
+            "filename": "basic\/7468FA9F38B4500E2FD855D1EA7524C5.png",
+            "thumbnail": "basic\/7468FA9F38B4500E2FD855D1EA7524C5.png",
+            "created": "2020-11-12 00:43:21",
+            "type": "image\/png",
+            "size": "0",
+            "width": null,
+            "height": null,
+            "ownerID": null,
+            "mediaCategory": "PIKTO"
+          }
+        ]
+      }
+    ]
+  },
+  "Msg": null
+}
