@@ -1,4 +1,21 @@
 FROM docker.io/library/eclipse-temurin:21.0.11_10-jre-alpine
+
+ARG VERSION
+ARG BUILD_DATE
+ARG GIT_COMMIT
+
+LABEL org.opencontainers.image.title="Lunchbox-Backend" \
+      org.opencontainers.image.description="Backend für Lunchbox" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.authors="mail@rori.info" \
+      org.opencontainers.image.url="https://code.rori.dev/apps/lunchbox" \
+      org.opencontainers.image.source="https://code.rori.dev/apps/lunchbox" \
+      org.opencontainers.image.documentation="https://code.rori.dev/apps/lunchbox" \
+      org.opencontainers.image.vendor="rori" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.revision="${GIT_COMMIT}"
+
 VOLUME /tmp
 COPY build/libs/app.jar app.jar
 RUN apk -U upgrade
