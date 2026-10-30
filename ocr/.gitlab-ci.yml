@@ -27,7 +27,7 @@ stages:
 build:
   stage: build
   script:
-    - make build.dryrun # just a dry-run, see Dockerfile
+    - make build.dryrun # just a dry-run, see Containerfile
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
