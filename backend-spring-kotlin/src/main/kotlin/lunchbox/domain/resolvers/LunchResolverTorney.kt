@@ -7,8 +7,12 @@ import lunchbox.util.html.HtmlParser
 import lunchbox.util.ocr.OcrClient
 import lunchbox.util.string.StringParser
 import lunchbox.util.url.UrlUtil.url
+import org.joda.money.CurrencyUnit
 import org.joda.money.Money
 import org.springframework.stereotype.Component
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.json.JsonMapper
+import java.net.HttpURLConnection
 import java.net.URL
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -23,18 +27,71 @@ class LunchResolverTorney(
   val dateValidator: DateValidator,
   val ocrClient: OcrClient,
   val htmlParser: HtmlParser,
+  private val apiClient: TorneyApiClient,
 ) : LunchResolver {
   override val provider = TORNEY
 
-  override fun resolve(): List<LunchOffer> = resolve(provider.menuUrl)
+  override fun resolve(): List<LunchOffer> = resolveFromApi(TORNEY_API_URL)
 
-  fun resolve(url: URL): List<LunchOffer> {
-    TODO() // call https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_get/deals and use resolveFromApi, somehow
-  }
+  fun resolve(url: URL): List<LunchOffer> = resolveFromApi(url)
 
   fun resolveFromApi(url: URL): List<LunchOffer> {
-    TODO()
+    val response = apiClient.post(url, API_REQUEST)
+    val weeks = JSON_MAPPER.readTree(response).path("Data").path("data")
+
+    return weeks
+      .flatMap { week ->
+        val monday =
+          week
+            .path("f")
+            .stringValue("")
+            .takeIf(String::isNotBlank)
+            ?.let(LocalDate::parse) ?: return@flatMap emptyList()
+        week
+          .path("p")
+          .filter(::isLunchOffer)
+          .flatMap { product ->
+            val (name, descriptionFromName) = splitOfferName(product.path("name").stringValue(""))
+            val description = product.path("description").stringValue("") + descriptionFromName
+            val price =
+              product
+                .path("price")
+                .stringValue("")
+                .toBigDecimalOrNull()
+                ?.let { Money.of(CurrencyUnit.EUR, it) }
+            Weekday.entries.map { weekday ->
+              LunchOffer(
+                0,
+                normalizeName(name),
+                description,
+                monday.plusDays(weekday.order),
+                price,
+                emptySet(),
+                provider.id,
+              )
+            }
+          }
+      }.filter { dateValidator.isValid(it.day, provider) }
   }
+
+  private fun isLunchOffer(product: JsonNode): Boolean {
+    val price = product.path("price").stringValue("").toBigDecimalOrNull() ?: return false
+    val originalPrice = product.path("original_price").stringValue("").toBigDecimalOrNull() ?: return false
+    return price.compareTo(originalPrice) == 0
+  }
+
+  private fun splitOfferName(rawName: String): Pair<String, String> {
+    val delimiters = listOf(" mit ", " auf ", " von ", " im ", " in ", " an ")
+    val separator =
+      delimiters
+        .mapNotNull { delimiter -> rawName.indexOf(delimiter).takeIf { it >= 0 }?.let { it to delimiter } }
+        .minByOrNull { it.first }
+        ?: return rawName to ""
+    return rawName.substring(0, separator.first) to rawName.substring(separator.first).trimStart()
+  }
+
+  // Torney liefert den Namen im Plural, auf der Mittagskarte steht das Gericht im Singular.
+  private fun normalizeName(name: String): String = name.replace(Regex("Bauernrouladen$"), "Bauernroulade")
 
   // --- old implementation ---
 
@@ -285,5 +342,48 @@ class LunchResolverTorney(
     MITTWOCH("Mittwoch", 2),
     DONNERSTAG("Donnerstag", 3),
     FREITAG("Freitag", 4),
+  }
+
+  companion object {
+    private val TORNEY_API_URL =
+      url("https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_get/deals")
+    private const val API_REQUEST = """{"kid":"62","branch":"133","cat":"6454","deliver":"1"}"""
+    private val JSON_MAPPER = JsonMapper.builder().build()
+  }
+}
+
+/** Führt einen POST-Aufruf an Torneys App-API aus. */
+fun interface TorneyApiClient {
+  fun post(
+    url: URL,
+    body: String,
+  ): String
+}
+
+@Component
+class TorneyHttpApiClient : TorneyApiClient {
+  override fun post(
+    url: URL,
+    body: String,
+  ): String {
+    val connection = url.openConnection() as HttpURLConnection
+    try {
+      connection.requestMethod = "POST"
+      connection.doOutput = true
+      connection.connectTimeout = 10_000
+      connection.readTimeout = 10_000
+      connection.setRequestProperty("Content-Type", "application/json; charset=utf-8")
+      connection.outputStream.bufferedWriter(Charsets.UTF_8).use { it.write(body) }
+      val responseStream =
+        if (connection.responseCode in 200..299) {
+          connection.inputStream
+        } else {
+          connection.errorStream
+        }
+      return responseStream?.bufferedReader(Charsets.UTF_8)?.use { it.readText() }
+        ?: error("Torney-API antwortete mit HTTP ${connection.responseCode}")
+    } finally {
+      connection.disconnect()
+    }
   }
 }

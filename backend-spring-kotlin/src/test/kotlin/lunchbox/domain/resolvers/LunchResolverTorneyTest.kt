@@ -17,7 +17,13 @@ class LunchResolverTorneyTest {
   private val ocrClient = mockk<OcrClient>()
   private val htmlParser = HtmlParser(mockk())
 
-  private fun resolver() = LunchResolverTorney(DateValidator.alwaysValid(), ocrClient, htmlParser)
+  private fun resolver() =
+    LunchResolverTorney(
+      DateValidator.alwaysValid(),
+      ocrClient,
+      htmlParser,
+      TorneyApiClient { url, _ -> url.readText() },
+    )
 
   private val providerId = TORNEY.id
   private val uploadsDir = "${TORNEY.menuUrl}wp-content/uploads"
@@ -34,7 +40,7 @@ class LunchResolverTorneyTest {
       LunchOffer(
         0,
         "Bauernroulade",
-        " mit Rotkohl und Salzkartoffeln",
+        "mit Rotkohl und Salzkartoffeln",
         week.monday,
         euro("7.90"),
         emptySet(),
@@ -44,7 +50,7 @@ class LunchResolverTorneyTest {
       LunchOffer(
         0,
         "Bauernroulade",
-        " mit Rotkohl und Salzkartoffeln",
+        "mit Rotkohl und Salzkartoffeln",
         week.tuesday,
         euro("7.90"),
         emptySet(),
@@ -54,7 +60,7 @@ class LunchResolverTorneyTest {
       LunchOffer(
         0,
         "Bauernroulade",
-        " mit Rotkohl und Salzkartoffeln",
+        "mit Rotkohl und Salzkartoffeln",
         week.wednesday,
         euro("7.90"),
         emptySet(),
@@ -64,7 +70,7 @@ class LunchResolverTorneyTest {
       LunchOffer(
         0,
         "Bauernroulade",
-        " mit Rotkohl und Salzkartoffeln",
+        "mit Rotkohl und Salzkartoffeln",
         week.thursday,
         euro("7.90"),
         emptySet(),
@@ -74,7 +80,7 @@ class LunchResolverTorneyTest {
       LunchOffer(
         0,
         "Bauernroulade",
-        " mit Rotkohl und Salzkartoffeln",
+        "mit Rotkohl und Salzkartoffeln",
         week.friday,
         euro("7.90"),
         emptySet(),
@@ -84,7 +90,7 @@ class LunchResolverTorneyTest {
       LunchOffer(
         0,
         "Hähnchengeschnetzeltes",
-        " mit Salzkartoffeln/Nudeln/Reis",
+        "mit Salzkartoffeln/Nudeln/Reis",
         week.monday,
         euro("7.90"),
         emptySet(),
@@ -94,7 +100,7 @@ class LunchResolverTorneyTest {
       LunchOffer(
         0,
         "Hähnchengeschnetzeltes",
-        " mit Salzkartoffeln/Nudeln/Reis",
+        "mit Salzkartoffeln/Nudeln/Reis",
         week.tuesday,
         euro("7.90"),
         emptySet(),
@@ -104,7 +110,7 @@ class LunchResolverTorneyTest {
       LunchOffer(
         0,
         "Hähnchengeschnetzeltes",
-        " mit Salzkartoffeln/Nudeln/Reis",
+        "mit Salzkartoffeln/Nudeln/Reis",
         week.wednesday,
         euro("7.90"),
         emptySet(),
@@ -114,7 +120,7 @@ class LunchResolverTorneyTest {
       LunchOffer(
         0,
         "Hähnchengeschnetzeltes",
-        " mit Salzkartoffeln/Nudeln/Reis",
+        "mit Salzkartoffeln/Nudeln/Reis",
         week.thursday,
         euro("7.90"),
         emptySet(),
@@ -124,7 +130,7 @@ class LunchResolverTorneyTest {
       LunchOffer(
         0,
         "Hähnchengeschnetzeltes",
-        " mit Salzkartoffeln/Nudeln/Reis",
+        "mit Salzkartoffeln/Nudeln/Reis",
         week.friday,
         euro("7.90"),
         emptySet(),
