@@ -1,4 +1,4 @@
-@file:Suppress("MaxLineLength")
+@file:Suppress("MaxLineLength", "LargeClass")
 
 package lunchbox.domain.resolvers
 
