@@ -19,7 +19,8 @@ ARG VERSION
 ARG BUILD_DATE
 ARG GIT_COMMIT
 
-LABEL org.opencontainers.image.title="Lunchbox-OCR" \
+LABEL maintainer="mail@rori.info" \
+      org.opencontainers.image.title="Lunchbox-OCR" \
       org.opencontainers.image.description="OCR-Service für Lunchbox" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.authors="mail@rori.info" \
