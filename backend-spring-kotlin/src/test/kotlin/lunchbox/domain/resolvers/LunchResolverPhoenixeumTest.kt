@@ -7,22 +7,247 @@ import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
+import lunchbox.util.ocr.OcrClient
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldHaveSize
 import org.junit.jupiter.api.Test
 
 class LunchResolverPhoenixeumTest {
   private val htmlParser = HtmlParser(mockk())
+  private val ocrClient = mockk<OcrClient>()
 
-  private fun resolver() = LunchResolverPhoenixeum(DateValidator.alwaysValid(), htmlParser)
+  private fun resolver() = LunchResolverPhoenixeum(DateValidator.alwaysValid(), htmlParser, ocrClient)
 
   private val providerId = LunchProvider.PHOENIXEUM.id
+
+  @Test
+  fun `resolve offers for week of 2026-08-10`() {
+    assertOcrOffers(
+      "2026-08-10",
+      "2026-08-10_Bildschirmfoto-2026-08-10-um-14.15.33.jpg.html",
+      ExpectedOcrOffer("Panierter Kasslerkotelett", "mit Butterbohnen und Kartoffelgratin", "8.50"),
+      ExpectedOcrOffer("Gefüllte Paprikaschote", "mit Sauce und Salzkartoffeln", "8.50"),
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-08-24`() {
+    assertOcrOffers(
+      "2026-08-24",
+      "2026-08-24_VorlagePlan.png.html",
+      ExpectedOcrOffer(
+        "Schweinegeschnetzeltes",
+        "Gyros-Art mit Rahmchampignons würzig gebratenes Schweinegeschnetzeltes nach Gyros-Art mit cremigen Rahmchampignons, dazu Reis & einen Klecks Gurken-Kräuter-Joghurt",
+        "8.50",
+      ),
+      ExpectedOcrOffer(
+        "Hähnchen-Cordon-Bleu",
+        "mit Sommergemüse paniertes Hähnchen-Cordon-Bleu mit Schinken und Käse gefüllt, dazu buntes Sommergemüse, Kartoffelspalten und Kräuterrahm",
+        "9.00",
+      ),
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-08-31`() {
+    assertOcrOffers(
+      "2026-08-31",
+      "2026-08-31_Vorlageneu.png.html",
+      ExpectedOcrOffer("große, \"Thüringer Bratwurst\"", "mit Sauerkraut & Salzkartoffeln", "8.00"),
+      ExpectedOcrOffer(
+        "Deftiges Gulasch mit Spätzle",
+        "geschmortes Rinder & Schweinefleisch, bunte Paprika, Gemüsezwiebeln, dazu Spätzle",
+        "8.50",
+      ),
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-09-07`() {
+    assertOcrOffers(
+      "2026-09-07",
+      "2026-09-07_Wochenplan-07-11-09.png.html",
+      ExpectedOcrOffer(
+        "Zigeuner-Schnitzel",
+        "paniertes Schweineschnitzel (180 g) mit Pommes & Zigeunersoße",
+        "8.50",
+      ),
+      ExpectedOcrOffer(
+        "Mecklenburger Rollbraten vom heimischen Wild",
+        "klassisch gefüllt, mit Rotkohl & Klößen",
+        "9.50",
+      ),
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-09-14`() {
+    assertOcrOffers(
+      "2026-09-14",
+      "2026-09-14_Planaktuell.png.html",
+      ExpectedOcrOffer("Königsberger Klopse", "Kartoffeln, rote Beete", "8.50"),
+      ExpectedOcrOffer("Lasagne al forno", "herzhafte Lasagne mit würziger Rindfleischsoße und Käsekruste", "9.00"),
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-09-28`() {
+    assertOcrOffers(
+      "2026-09-28",
+      "2026-09-28_PekingSoup.png.html",
+      ExpectedOcrOffer(
+        "Paniertes Schweinekotelett",
+        "mit cremigem Schwarzwurzel-Möhrengemüse & Salzkartoffeln",
+        "8.50",
+      ),
+      ExpectedOcrOffer(
+        "Ungarisches Paprikahuhn",
+        "geschmortes Hühnchenbrustfilet in kräftiger Paprika-Rahmsoße mit Paprika & Gemüsezwiebeln, dazu Butterspätzle",
+        "8.50",
+      ),
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-10-05`() {
+    assertOcrOffers(
+      "2026-10-05",
+      "2026-10-05_OktoberersteWoche.png.html",
+      ExpectedOcrOffer(
+        "Sahniges Nudelgratin mit Rinderhack & Käse",
+        "Cremiges Nudelgratin mit würzigem Rinderhackfleisch, Sahnesoße und Käse überbacken, dazu frischer Tomaten-Gurkensalat",
+        "8.50",
+      ),
+      ExpectedOcrOffer(
+        "Currywurst mit Pommes frites",
+        "Currywurst mit hausgemachter, fruchtig-würziger Currysoße und goldbraunen, knusprigen Pommes",
+        "8.50",
+      ),
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-10-12`() {
+    assertOcrOffers(
+      "2026-10-12",
+      "2026-10-12_Typografischer-Wochenplan-mit-Gerichten.png.html",
+      ExpectedOcrOffer(
+        "Paniertes Seelachsfilet mit Kartoffelgratin",
+        "Seelachsfilet in knuspriger Panade, Kartoffelgratin, Gurkensalat",
+        "9.00",
+      ),
+      ExpectedOcrOffer("Schwalbennest", "cremiges Schwalbennest mit Rotkohl & Salzkartoffeln", "9.00"),
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-10-19`() {
+    assertOcrOffers(
+      "2026-10-19",
+      "2026-10-19_Woechentlicher-deutscher-Cafeteria-Speiseplan.png.html",
+      ExpectedOcrOffer(
+        "Saftiges Ofenhähnchen",
+        "mit buntem Ofengemüse, lockerem Couscous und frischem Zitronen-Joghurt-Dip",
+        "9.00",
+      ),
+      ExpectedOcrOffer(
+        "Königsberger Klopse",
+        "hausgemachte Hackfleischklopse in cremiger Kapernsoße, dazu Salzkartoffeln und Rote Bete",
+        "9.00",
+      ),
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-10-26`() {
+    assertOcrOffers(
+      "2026-10-26",
+      "2026-10-26_Foto-22.10.26-07-52-24.png.html",
+      ExpectedOcrOffer(
+        "Paniertes Hühnchenschnitzel",
+        "mit Mischgemüse und Salzkartoffeln",
+        "8.50",
+      ),
+      ExpectedOcrOffer(
+        "Gefüllte Paprikaschote",
+        "gefüllte Paprikaschote in kräftiger Soße, dazu Salzkartoffeln",
+        "9.00",
+      ),
+    )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-11-02`() {
+    assertOcrOffers(
+      "2026-11-02",
+      "2026-11-02_WPNEU.png.html",
+      ExpectedOcrOffer(
+        "Backfisch",
+        "Backfisch in Maispanade mit Kartoffelgratin und Gurkensalat",
+        "9.00",
+      ),
+      ExpectedOcrOffer(
+        "Schichtkohl",
+        "geschmorter Weisskohl, Rinderhack, Salzkartoffeln, Klecks Schmand",
+        "8.50",
+      ),
+    )
+  }
+
+  private data class ExpectedOcrOffer(
+    val name: String,
+    val description: String,
+    val price: String,
+  )
+
+  private fun assertOcrOffers(
+    monday: String,
+    resource: String,
+    mondayAndTuesday: ExpectedOcrOffer,
+    wednesdayAndThursday: ExpectedOcrOffer,
+  ) {
+    val offers = resolver().parseOffers(readFileContent("/menus/suppenkulttour/ocr/$resource"))
+    val week = weekOf(monday)
+
+    offers shouldHaveSize 4
+    listOf(week.monday, week.tuesday).forEach { day ->
+      offers shouldContain
+        LunchOffer(
+          0,
+          mondayAndTuesday.name,
+          mondayAndTuesday.description,
+          day,
+          euro(mondayAndTuesday.price),
+          emptySet(),
+          providerId,
+        )
+    }
+    listOf(week.wednesday, week.thursday).forEach { day ->
+      offers shouldContain
+        LunchOffer(
+          0,
+          wednesdayAndThursday.name,
+          wednesdayAndThursday.description,
+          day,
+          euro(wednesdayAndThursday.price),
+          emptySet(),
+          providerId,
+        )
+    }
+  }
+
+  private fun readFileContent(path: String): String {
+    val url = javaClass.getResource(path)
+    return url.readText(Charsets.UTF_8)
+  }
+
+  // --- old implementation ---
 
   @Test
   fun `resolve offers for week of 2020-04-06`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-04-06.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 7
 
@@ -105,7 +330,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2020-04-27`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-04-27.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 3
 
@@ -146,7 +371,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2020-05-11`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-05-11.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 8
 
@@ -239,7 +464,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2020-05-18`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-05-18.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 3
 
@@ -280,7 +505,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2020-06-08`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-06-08.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
 
@@ -331,7 +556,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2020-09-07`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-09-07.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
 
@@ -382,7 +607,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2020-11-23`() {
     val url = javaClass.getResource("/menus/phoenixeum/2020-11-23.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
 
@@ -433,7 +658,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2023-03-20`() {
     val url = javaClass.getResource("/menus/phoenixeum/2023-03-20.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
     val week = weekOf("2023-03-20")
@@ -483,7 +708,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2023-05-29`() {
     val url = javaClass.getResource("/menus/phoenixeum/2023-05-29.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 3
     val week = weekOf("2023-05-29")
@@ -523,7 +748,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2023-07-17`() {
     val url = javaClass.getResource("/menus/phoenixeum/2023-07-17.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
     val week = weekOf("2023-07-17")
@@ -573,7 +798,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2023-07-31`() {
     val url = javaClass.getResource("/menus/phoenixeum/2023-07-31.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
     val week = weekOf("2023-07-31")
@@ -623,7 +848,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2024-09-09`() {
     val url = javaClass.getResource("/menus/phoenixeum/2024-09-09.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
     val week = weekOf("2024-09-09")
@@ -673,7 +898,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2024-10-14`() {
     val url = javaClass.getResource("/menus/phoenixeum/2024-10-14.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
     val week = weekOf("2024-10-14")
@@ -723,7 +948,7 @@ class LunchResolverPhoenixeumTest {
   fun `resolve offers for week of 2026-01-26`() {
     val url = javaClass.getResource("/menus/phoenixeum/2026-01-26.html")
 
-    val offers = resolver().resolve(url)
+    val offers = resolver().resolveOld(url)
 
     offers shouldHaveSize 4
     val week = weekOf("2026-01-26")

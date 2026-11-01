@@ -1,0 +1,25 @@
+version: '3'
+
+# ---
+#  Startet alle externen Services, die für den lokalen Betrieb der Lunchbox
+#  via "gradle bootRun" notwendig sind.
+# ---
+services:
+  # ---
+  # OCR service
+  # ---
+  ocr:
+    image: container.rori.dev/lunchbox/ocr
+    ports:
+      - "9292:9292"
+
+
+  # ---
+  # rendertron
+  # ---
+  rendertron:
+    image: docker.io/ammobindotca/rendertron
+    environment:
+      - PORT=3005
+    ports:
+      - "3005:3005"

@@ -1,12 +1,14 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-docker image inspect docker.rori.dev/nginx-brotli:latest >/dev/null
+DOCKER_CLI="${DOCKER_CLI:-docker}"
+
+$DOCKER_CLI inspect container.rori.dev/runtime/nginx-brotli:latest >/dev/null
 if [ $? -eq 0 ]; then
   echo "Image exists locally"
   exit 0
 fi
 
-docker image pull docker.rori.dev/nginx-brotli:latest >/dev/null
+$DOCKER_CLI pull container.rori.dev/runtime/nginx-brotli:latest >/dev/null
 if [ $? -eq 0 ]; then
   echo "Image downloaded"
   exit 0
@@ -14,11 +16,11 @@ fi
 
 # generate Docker image for latest nginx with brotli compression
 # -> https://github.com/nginxinc/docker-nginx/tree/master/modules
-wget -O Dockerfile.nginx https://raw.githubusercontent.com/nginxinc/docker-nginx/master/modules/Dockerfile.alpine
+curl -o Dockerfile.nginx https://raw.githubusercontent.com/nginxinc/docker-nginx/master/modules/Dockerfile.alpine
 
-docker build \
+$DOCKER_CLI build \
   --file Dockerfile.nginx \
-  --build-arg NGINX_FROM_IMAGE=nginx:mainline-alpine-slim \
+  --build-arg NGINX_FROM_IMAGE=docker.io/library/nginx:mainline-alpine-slim \
   --build-arg ENABLED_MODULES="brotli" \
-  --tag docker.rori.dev/nginx-brotli:latest \
+  --tag container.rori.dev/runtime/nginx-brotli:latest \
   --pull .

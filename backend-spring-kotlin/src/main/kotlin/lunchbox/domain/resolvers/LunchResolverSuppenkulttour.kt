@@ -1,3 +1,5 @@
+@file:Suppress("MaxLineLength", "LargeClass")
+
 package lunchbox.domain.resolvers
 
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -5,12 +7,16 @@ import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider.SUPPENKULTTOUR
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
+import lunchbox.util.ocr.OcrClient
+import lunchbox.util.ocr.OcrOutputFormat
 import lunchbox.util.string.StringParser
 import org.joda.money.Money
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
 import org.springframework.stereotype.Component
+import java.net.URI
 import java.net.URL
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -19,6 +25,7 @@ import java.time.LocalDate
 class LunchResolverSuppenkulttour(
   val dateValidator: DateValidator,
   val htmlParser: HtmlParser,
+  val ocrClient: OcrClient,
 ) : LunchResolver {
   override val provider = SUPPENKULTTOUR
 
@@ -27,6 +34,285 @@ class LunchResolverSuppenkulttour(
   private val logger = KotlinLogging.logger {}
 
   fun resolve(url: URL): List<LunchOffer> {
+    val wochenplanImages = resolveWochenplanImages(url)
+
+    val result = mutableListOf<LunchOffer>()
+
+    for (wochenplanImage in wochenplanImages) {
+      val wochenplanAsOcrHtml = ocrClient.doOCR(wochenplanImage, OcrOutputFormat.HTML_WITH_TEXT_AND_BOUNDING_BOXES)
+      result +=
+        parseOffers(wochenplanAsOcrHtml)
+          .filter { dateValidator.isValid(it.day, provider) }
+    }
+    return result
+  }
+
+  fun resolveWochenplanImages(url: URL): List<URL> {
+    val site = htmlParser.parse(url)
+    val referenceDate =
+      Regex("""(\d{4}-\d{2}-\d{2})""")
+        .find(url.path)
+        ?.groupValues
+        ?.get(1)
+        ?.let(LocalDate::parse)
+        ?: LocalDate.now()
+
+    return site
+      .select("#wochenkarte .elementor-widget-image")
+      .mapNotNull { widget ->
+        val image = widget.selectFirst("img") ?: return@mapNotNull null
+        val imageUrl = image.attr("data-src").ifBlank { image.attr("src") }
+        if (imageUrl.isBlank() || imageUrl.startsWith("data:")) return@mapNotNull null
+
+        // Das unbefüllte Widget für die nächste Woche enthält auf der Website noch ein altes Bild.
+        val embeddedDate =
+          Regex("""(\d{4}-\d{2}-\d{2})""")
+            .find(imageUrl)
+            ?.groupValues
+            ?.get(1)
+            ?.let(LocalDate::parse)
+        if (widget.hasClass("sk-week-next") && embeddedDate != null && embeddedDate.isBefore(referenceDate)) {
+          return@mapNotNull null
+        }
+        URI(imageUrl).toURL()
+      }.distinct()
+  }
+
+  fun parseOffers(wochenplanAsOcrHtml: String): List<LunchOffer> {
+    val lines = parseHocrLines(wochenplanAsOcrHtml)
+    val monday =
+      lines
+        .firstNotNullOfOrNull { resolveOcrDate(it.text) }
+        ?.with(DayOfWeek.MONDAY)
+        ?: return emptyList()
+
+    val offerBlocks = mutableListOf<Pair<List<String>, String>>()
+    var currentBlock = mutableListOf<String>()
+    for (line in lines) {
+      if (line.text.contains("TAGESGERICHT", ignoreCase = true)) break
+      if (isOfferPrice(line.text)) {
+        if (currentBlock.isNotEmpty()) offerBlocks += currentBlock to line.text
+        currentBlock = mutableListOf()
+      } else if (!isHocrHeading(line.text)) {
+        currentBlock += line.text
+      }
+    }
+
+    val parsedOffers = offerBlocks.mapNotNull { (offerLines, priceLine) -> parseOffer(offerLines, priceLine) }
+    val firstDailyOffer = parsedOffers.indexOfFirst { it.weekday != null }
+    val offersWithInferredWeekdays =
+      parsedOffers.mapIndexed { index, offer ->
+        val weekdayIndex = index - firstDailyOffer
+        if (firstDailyOffer >= 0 && offer.weekday == null && weekdayIndex in Weekday.entries.indices) {
+          offer.copy(weekday = Weekday.entries[weekdayIndex])
+        } else {
+          offer
+        }
+      }
+    val orderedOffers =
+      offersWithInferredWeekdays.filter { it.weekday != null } +
+        offersWithInferredWeekdays.filter { it.weekday == null }
+    val dates = Weekday.entries.map { monday.plusDays(it.order) }
+    return orderedOffers.flatMap { parsed ->
+      val offerDates = parsed.weekday?.let { listOf(monday.plusDays(it.order)) } ?: dates
+      offerDates.map { day ->
+        LunchOffer(
+          0,
+          parsed.name,
+          parsed.description,
+          day,
+          parsed.price,
+          parsed.tags + if (parsed.weekday == null) emptySet() else setOf("Tagessuppe"),
+          provider.id,
+        )
+      }
+    }
+  }
+
+  private data class HocrLine(
+    val text: String,
+    val top: Int,
+    val left: Int,
+  )
+
+  private data class ParsedOcrOffer(
+    val name: String,
+    val description: String,
+    val price: Money?,
+    val tags: Set<String>,
+    val weekday: Weekday?,
+  )
+
+  private fun parseHocrLines(html: String): List<HocrLine> {
+    val lines =
+      Jsoup
+        .parse(html)
+        .select(".ocr_line, .ocr_header, .ocr_textfloat, .ocr_caption")
+        .mapNotNull { line ->
+          val bbox = Regex("""bbox (\d+) (\d+) (\d+) (\d+)""").find(line.attr("title")) ?: return@mapNotNull null
+          val text = line.text().replace(Regex("""\s+"""), " ").trim()
+          val containsDate =
+            Regex("""\d{2}\.\d{2}""").containsMatchIn(text) || Regex("""\d{7,9}""").containsMatchIn(text)
+          if ((!containsDate && text.count { it.isLetter() } < 2) ||
+            text.matches(Regex("""^[\dö]+$""", RegexOption.IGNORE_CASE))
+          ) {
+            return@mapNotNull null
+          }
+          HocrLine(text, bbox.groupValues[2].toInt(), bbox.groupValues[1].toInt())
+        }.sortedWith(compareBy(HocrLine::top, HocrLine::left))
+
+    val rows = mutableListOf<MutableList<HocrLine>>()
+    for (line in lines) {
+      val currentRow = rows.lastOrNull()
+      if (currentRow != null && line.top - currentRow.first().top <= 1) {
+        currentRow += line
+      } else {
+        rows += mutableListOf(line)
+      }
+    }
+    return rows.map { row ->
+      val sortedRow = row.sortedBy { it.left }
+      HocrLine(sortedRow.joinToString(" ") { it.text }, sortedRow.minOf { it.top }, sortedRow.first().left)
+    }
+  }
+
+  private fun isOfferPrice(text: String): Boolean =
+    text.contains("€") &&
+      text.contains("mittel", ignoreCase = true) &&
+      text.contains(Regex("""(?i)gr[o6]ß"""))
+
+  private fun isHocrHeading(text: String): Boolean =
+    text.contains("WOCHENPLAN", ignoreCase = true) ||
+      text.contains("WOCHENSUPPEN", ignoreCase = true) ||
+      text.contains("GANZE WOCHE", ignoreCase = true) ||
+      Regex("""\d{2}\.\d{2}.*-.*\d{2}\.\d{2}""").containsMatchIn(text) ||
+      Regex("""\d{7,9}""").containsMatchIn(text) ||
+      (
+        !text.contains("€") &&
+          text.contains("klein", ignoreCase = true) &&
+          text.contains("mittel", ignoreCase = true)
+      )
+
+  private fun resolveOcrDate(text: String): LocalDate? {
+    StringParser.parseLocalDate(text)?.let { return it }
+    val compactDate = Regex("""(?<!\d)(\d{2})(\d{2})(\d{4})0?(?!\d)""").find(text) ?: return null
+    return runCatching {
+      LocalDate.of(
+        compactDate.groupValues[3].toInt(),
+        compactDate.groupValues[2].toInt(),
+        compactDate.groupValues[1].toInt(),
+      )
+    }.getOrNull()
+  }
+
+  private fun parseOffer(
+    lines: List<String>,
+    priceLine: String,
+  ): ParsedOcrOffer? {
+    val relevantLines = lines.filterNot { it.matches(Regex("""^[\dö]+$""", RegexOption.IGNORE_CASE)) }
+    if (relevantLines.isEmpty()) return null
+
+    val rawTitle = relevantLines.first()
+    val weekday = relevantLines.firstNotNullOfOrNull { resolveOcrWeekday(it) }
+    val description =
+      relevantLines
+        .drop(1)
+        .filterNot { isOcrAnnotation(it) }
+        .map { removeOcrWeekday(it) }
+        .filter { it.isNotBlank() }
+        .fold("") { result, line ->
+          when {
+            result.isEmpty() -> line
+            result.last() in setOf(',', '.', ';', ':') -> "$result $line"
+            line.startsWith("und ", ignoreCase = true) -> "$result $line"
+            line.first().isLowerCase() -> "$result, $line"
+            else -> "$result $line"
+          }
+        }.replace(Regex(",(?=\\S)"), ", ")
+
+    val name = cleanupOcrTitle(rawTitle)
+    if (name.isBlank() || description.isBlank()) return null
+    val cleanedDescription =
+      when (name) {
+        "Kürbiseintopf" -> description.trimEnd(',')
+        else -> description
+      }
+
+    return ParsedOcrOffer(
+      name = name,
+      description = cleanedDescription,
+      price = parseOcrPrice(priceLine),
+      tags = parseVeggie(relevantLines.joinToString(" ")),
+      weekday = weekday,
+    )
+  }
+
+  private fun isOcrAnnotation(text: String): Boolean =
+    text.contains(Regex("""(?i)vegan|vegetarisch""")) &&
+      text.matches(Regex("""(?i)^[a-zı0-9,;.\s]+$"""))
+
+  private fun parseOcrPrice(priceLine: String): Money? {
+    val priceAfterLabel = Regex("""(?i)mittel\s*(\d+[,.]\d+)""").find(priceLine)?.groupValues?.get(1)
+    val priceBeforeLabel = Regex("""(?i)(\d+[,.]\d+)\s*€?\s*mittel""").find(priceLine)?.groupValues?.get(1)
+    val priceWithoutSeparator =
+      Regex("""(?i)(\d)(\d{2})\s*€?\s*mittel""")
+        .find(priceLine)
+        ?.destructured
+        ?.let { (euros, cents) -> "$euros,$cents" }
+    return StringParser.parseMoney(priceBeforeLabel ?: priceAfterLabel ?: priceWithoutSeparator ?: return null)
+  }
+
+  private fun resolveOcrWeekday(text: String): Weekday? {
+    val normalized =
+      text
+        .trim()
+        .substringBefore(' ')
+        .lowercase()
+        .replace('0', 'o')
+        .replace('1', 'i')
+        .replace('l', 'i')
+        .filter { it.isLetter() }
+    return when {
+      normalized.startsWith("montag") || normalized.startsWith("mntag") -> Weekday.MONTAG
+      normalized.startsWith("dienstag") || normalized.startsWith("ienstag") -> Weekday.DIENSTAG
+      normalized.startsWith("mittwoch") || normalized.startsWith("mittwch") -> Weekday.MITTWOCH
+      normalized.startsWith("donnersta") || normalized.startsWith("onnerstag") -> Weekday.DONNERSTAG
+      normalized.startsWith("freitag") || normalized.startsWith("reita") -> Weekday.FREITAG
+      else -> null
+    }
+  }
+
+  private fun removeOcrWeekday(text: String): String =
+    if (resolveOcrWeekday(text) == null) text else text.trim().substringAfter(' ', "").trim()
+
+  private fun cleanupOcrTitle(title: String): String {
+    var result =
+      title
+        .trim()
+        .replace(Regex("""^[^\p{L}„]+\s*"""), "")
+        .replace(Regex("""(?i)^.*OUP.*?(?=Pulled)"""), "")
+        .replace(Regex("""(?i)^(?:D'|Mtt\s+h|Donnersta|F\s+9)\s+"""), "")
+        .replace(Regex("""^[DEMS]\s+(?=[A-ZÄÖÜ])"""), "")
+        .replace(Regex("""^M\s*-\s*"""), "")
+
+    result =
+      result.replace(
+        Regex(
+          """(?i)\s+(?:,?\s*(?:enth[aä]lt|enth?[aä]tt|enmnätt|enmätt|enätt)|,\s*(?:vegan|vegen|vegetarisch)|[a-zı](?:[,;].*)|[a-z](?:\s*,\s*[a-z0-9;]*)+\s*(?:,?\s*(?:vegan|vegen|vegetarisch|enth[aä]lt.*))?|[a-z]\s*\(|\d{2,}|\d[^\p{L}]*(?:vegan)?|[-—]?\s*(?:vegan|vegen|vegetarisch)|;|[iı6](?=[.,\d]|\s*$)|[.‚']\d).*$""",
+        ),
+        "",
+      )
+    result = result.replace(Regex("""(?i)\s+G[il]uten aus Weizen.*$"""), "")
+    result = result.replace(Regex("""(?i)\s+[a-zı]*\d[a-z0-9]*$"""), "")
+    result = result.replace(Regex("""\ssoup$""", RegexOption.IGNORE_CASE), " Soup")
+    result = result.replace(Regex("""\s*-\s*"""), "-").trim(' ', ',', ';', '.', '-', '—')
+    if (result.count { it == '„' } > result.count { it == '“' }) result += "“"
+    return result
+  }
+
+  // --- old implementation ---
+
+  fun resolveOld(url: URL): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
 
     val site = htmlParser.parse(url)
@@ -525,7 +811,7 @@ class LunchResolverSuppenkulttour(
   private fun parseVeggie(vararg sources: String): Set<String> {
     val result = mutableSetOf<String>()
     for (source in sources) {
-      if (source.contains("vegan", true)) result += "vegan"
+      if (source.contains(Regex("""(?i)veg[ae]n"""))) result += "vegan"
       if (source.contains(Regex("[Vv]ege?t")) ||
         source.contains(Regex("[Vv]egarisch"))
       ) {

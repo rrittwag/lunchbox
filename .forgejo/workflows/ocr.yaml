@@ -1,0 +1,135 @@
+name: ocr
+
+on:
+  workflow_call:
+
+jobs:
+  ocr-build:
+    runs-on: docker
+    container: container.rori.dev/ci/golang:1.27
+    defaults:
+      run:
+        working-directory: ocr
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - run: |
+          go mod download
+          make build.dryrun
+      - run: |
+          ls ~/.cache/go-build || true
+          ls /go/pkg/mod || true
+      - uses: https://github.com/actions/cache/save@v6
+        with:
+          path: |
+            ~/.cache/go-build
+            /go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+  ocr-format:
+    needs: ocr-build
+    runs-on: docker
+    container: container.rori.dev/ci/golang:1.27
+    defaults:
+      run:
+        working-directory: ocr
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - uses: https://github.com/actions/cache/restore@v6
+        with:
+          path: |
+            ~/.cache/go-build
+            /go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - run: make format.check
+
+  ocr-lint:
+    needs: ocr-build
+    runs-on: docker
+    container: container.rori.dev/ci/golang:1.27
+    defaults:
+      run:
+        working-directory: ocr
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - uses: https://github.com/actions/cache/restore@v6
+        with:
+          path: |
+            ~/.cache/go-build
+            /go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - run: make lint
+
+  ocr-test:
+    needs: ocr-build
+    runs-on: docker
+    container: container.rori.dev/ci/golang:1.27
+    env:
+      TESTCONTAINERS_RYUK_DISABLED: true
+      CGO_ENABLED: 0
+    defaults:
+      run:
+        working-directory: ocr
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - uses: https://github.com/actions/cache/restore@v6
+        with:
+          path: |
+            ~/.cache/go-build
+            /go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - run: make test
+
+  ocr-vulnerabilities-code:
+    needs: ocr-build
+    runs-on: docker
+    container: container.rori.dev/ci/trivy
+    defaults:
+      run:
+        working-directory: ocr
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - run: trivy fs --exit-code 1 --severity HIGH,CRITICAL --skip-db-update --skip-java-db-update --skip-check-update .
+
+  ocr-build-container:
+    if: forgejo.ref == 'refs/heads/main'
+    needs:
+      - ocr-build
+      - ocr-format
+      - ocr-lint
+      - ocr-test
+      - ocr-vulnerabilities-code
+    runs-on: docker
+    container: container.rori.dev/ci/buildah
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+      - uses: https://github.com/actions/cache/restore@v6
+        with:
+          path: |
+            ~/.cache/go-build
+            /go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - name: build container
+        uses: actions/build-container@main
+        with:
+          tag: ${{ secrets.CONTAINER_REGISTRY_HOST }}/lunchbox/ocr:latest
+          context: ocr
+          push: true
+          registry: ${{ secrets.CONTAINER_REGISTRY_HOST }}
+          username: ${{ secrets.CONTAINER_REGISTRY_USER }}
+          password: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}

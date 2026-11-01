@@ -1,0 +1,22 @@
+name: app-deploy
+
+on:
+  workflow_call:
+
+jobs:
+  deploy-online:
+    runs-on: docker
+    container: container.rori.dev/ci/docker:latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@main
+      - uses: actions/ssh-deploy@main
+        with:
+          localpath: app
+          host: ${{ secrets.SSH_DEPLOY_HOST_ONLINE }}
+          user: ${{ secrets.SSH_DEPLOY_USER_ONLINE }}
+          sshkey: ${{ secrets.SSH_DEPLOY_KEY_ONLINE }}
+          copy-containers-for-registry: ${{ secrets.CONTAINER_REGISTRY_HOST }}
+          container-registry-user: ${{ secrets.CONTAINER_REGISTRY_USER }}
+          container-registry-token: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}
+          docker-cli: docker

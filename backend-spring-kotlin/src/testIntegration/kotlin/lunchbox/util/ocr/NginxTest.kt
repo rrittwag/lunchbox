@@ -2,18 +2,18 @@
 
 package lunchbox.util.ocr
 
+import lunchbox.util.container.KtGenericContainer
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 import org.springframework.web.client.toEntity
-import org.testcontainers.containers.BindMode
-import org.testcontainers.containers.wait.strategy.HttpWaitStrategy
+import org.testcontainers.containers.Network
+import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import org.testcontainers.nginx.NginxContainer
+import org.testcontainers.utility.MountableFile
 import java.io.File
-import java.nio.file.Paths
 
 /**
  * Der Test ist unsinnig. Er demonstriert nur die Funktionsweise von TestContainers' nginx Modul.
@@ -21,14 +21,18 @@ import java.nio.file.Paths
 @Testcontainers
 class NginxTest {
   companion object {
+    private val network = Network.newNetwork()
+
     // provide test resources in Docker-ed nginx (via TestContainers)
     @Container
     private val resourcesContainer =
-      NginxContainer("nginx:alpine")
-        .withFileSystemBind(Paths.get("src/test/resources").toString(), "/usr/share/nginx/html", BindMode.READ_ONLY)
-        .waitingFor(HttpWaitStrategy())
+      KtGenericContainer("nginxinc/nginx-unprivileged:alpine")
+        .withNetwork(network)
+        .withCopyFileToContainer(MountableFile.forHostPath("src/test/resources"), "/usr/share/nginx/html")
+        .withExposedPorts(8080)
+        .waitingFor(Wait.forHttp("/").forPort(8080))
 
-    private fun resourcesHost() = resourcesContainer.getBaseUrl("http", 80)
+    private fun resourcesHost() = "http://${resourcesContainer.host}:${resourcesContainer.getMappedPort(8080)}"
   }
 
   @Test

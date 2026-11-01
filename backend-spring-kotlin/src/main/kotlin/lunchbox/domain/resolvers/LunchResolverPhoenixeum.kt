@@ -1,3 +1,5 @@
+@file:Suppress("LongMethod")
+
 package lunchbox.domain.resolvers
 
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -5,12 +7,16 @@ import lunchbox.domain.models.LunchOffer
 import lunchbox.domain.models.LunchProvider
 import lunchbox.util.date.DateValidator
 import lunchbox.util.html.HtmlParser
+import lunchbox.util.ocr.OcrClient
+import lunchbox.util.ocr.OcrOutputFormat
 import lunchbox.util.string.StringParser
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
 import org.springframework.stereotype.Component
+import java.net.URI
 import java.net.URL
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -19,6 +25,7 @@ import java.time.LocalDate
 class LunchResolverPhoenixeum(
   val dateValidator: DateValidator,
   val htmlParser: HtmlParser,
+  val ocrClient: OcrClient,
 ) : LunchResolver {
   override val provider = LunchProvider.PHOENIXEUM
 
@@ -27,6 +34,260 @@ class LunchResolverPhoenixeum(
   private val logger = KotlinLogging.logger {}
 
   fun resolve(url: URL): List<LunchOffer> {
+    val wochenplanImages = resolveWochenplanImages(url)
+
+    val result = mutableListOf<LunchOffer>()
+
+    for (wochenplanImage in wochenplanImages) {
+      val wochenplanAsOcrHtml = ocrClient.doOCR(wochenplanImage, OcrOutputFormat.HTML_WITH_TEXT_AND_BOUNDING_BOXES)
+      result +=
+        parseOffers(wochenplanAsOcrHtml)
+          .filter { dateValidator.isValid(it.day, provider) }
+    }
+    return result
+  }
+
+  fun resolveWochenplanImages(url: URL): List<URL> {
+    val site = htmlParser.parse(url)
+    val referenceDate =
+      Regex("""(\d{4}-\d{2}-\d{2})""")
+        .find(url.path)
+        ?.groupValues
+        ?.get(1)
+        ?.let(LocalDate::parse)
+        ?: LocalDate.now()
+
+    return site
+      .select("#wochenkarte .elementor-widget-image")
+      .mapNotNull { widget ->
+        val image = widget.selectFirst("img") ?: return@mapNotNull null
+        val imageUrl = image.attr("data-src").ifBlank { image.attr("src") }
+        if (imageUrl.isBlank() || imageUrl.startsWith("data:")) return@mapNotNull null
+
+        // Das unbefüllte Widget für die nächste Woche enthält auf der Website noch ein altes Bild.
+        val embeddedDate =
+          Regex("""(\d{4}-\d{2}-\d{2})""")
+            .find(imageUrl)
+            ?.groupValues
+            ?.get(1)
+            ?.let(LocalDate::parse)
+        if (widget.hasClass("sk-week-next") && embeddedDate != null && embeddedDate.isBefore(referenceDate)) {
+          return@mapNotNull null
+        }
+        URI(imageUrl).toURL()
+      }.distinct()
+  }
+
+  fun parseOffers(wochenplanAsOcrHtml: String): List<LunchOffer> {
+    val document = Jsoup.parse(wochenplanAsOcrHtml)
+    val monday =
+      document
+        .select(".ocr_line, .ocr_header, .ocr_textfloat, .ocr_caption")
+        .firstNotNullOfOrNull { resolveOcrDate(it.text()) }
+        ?.with(DayOfWeek.MONDAY)
+        ?: return emptyList()
+
+    val pageWidth =
+      parseBoundingBox(document.selectFirst(".ocr_page")?.attr("title").orEmpty())
+        ?.let { it.right - it.left }
+        ?: return emptyList()
+    val columnBoundary = pageWidth / 2
+    val lines = parseOcrColumnLines(document, columnBoundary)
+    val sectionStart = lines.indexOfFirst { it.fullText.contains("TAGESGERICHT", ignoreCase = true) }
+    if (sectionStart < 0) return emptyList()
+
+    val sectionLines = lines.drop(sectionStart)
+    return parseOcrColumn(
+      sectionLines.mapNotNull { it.leftText },
+      monday,
+      listOf(Weekday.MONTAG, Weekday.DIENSTAG),
+    ) +
+      parseOcrColumn(
+        sectionLines.mapNotNull { it.rightText },
+        monday,
+        listOf(Weekday.MITTWOCH, Weekday.DONNERSTAG),
+      )
+  }
+
+  private data class BoundingBox(
+    val left: Int,
+    val top: Int,
+    val right: Int,
+    val bottom: Int,
+  )
+
+  private data class OcrColumnLine(
+    val top: Int,
+    val fullText: String,
+    val leftText: String?,
+    val rightText: String?,
+  )
+
+  private fun parseOcrColumnLines(
+    document: Document,
+    columnBoundary: Int,
+  ): List<OcrColumnLine> =
+    document
+      .select(".ocr_line, .ocr_header, .ocr_textfloat, .ocr_caption")
+      .mapNotNull { line ->
+        val lineBox = parseBoundingBox(line.attr("title")) ?: return@mapNotNull null
+        val words =
+          line
+            .select(".ocrx_word")
+            .mapNotNull { word ->
+              val box = parseBoundingBox(word.attr("title")) ?: return@mapNotNull null
+              box to word.text().trim()
+            }.filter { it.second.isNotEmpty() }
+        if (words.isEmpty()) return@mapNotNull null
+
+        val sortedWords = words.sortedBy { (box) -> box.left }
+        val columnGap =
+          sortedWords
+            .zipWithNext()
+            .mapIndexed { index, (left, right) -> index to right.first.left - left.first.right }
+            .maxByOrNull { it.second }
+        var (leftWords, rightWords) =
+          if (columnGap != null && columnGap.second >= 80) {
+            sortedWords.take(columnGap.first + 1) to sortedWords.drop(columnGap.first + 1)
+          } else {
+            sortedWords.partition { (box) -> (box.left + box.right) / 2 < columnBoundary }
+          }
+        if (rightWords.isNotEmpty() && leftWords
+            .lastOrNull()
+            ?.second
+            ?.firstOrNull()
+            ?.isLowerCase() == true
+        ) {
+          rightWords = listOf(leftWords.last()) + rightWords
+          leftWords = leftWords.dropLast(1)
+        }
+        val leftText = leftWords.joinToText()
+        val rightText = rightWords.joinToText()
+        OcrColumnLine(
+          top = lineBox.top,
+          fullText = words.joinToText(),
+          leftText = leftText.ifBlank { null },
+          rightText = rightText.ifBlank { null },
+        )
+      }.sortedBy { it.top }
+
+  private fun List<Pair<BoundingBox, String>>.joinToText(): String =
+    sortedBy { (box) -> box.left }.joinToString(" ") { it.second }.replace(Regex("""\s+"""), " ").trim()
+
+  private fun parseOcrColumn(
+    lines: List<String>,
+    monday: LocalDate,
+    fallbackWeekdays: List<Weekday>,
+  ): List<LunchOffer> {
+    val sectionLineIndex = lines.indexOfFirst { it.contains("TAGESGERICHT", ignoreCase = true) }.coerceAtLeast(0)
+    val weekdayLineIndex =
+      lines.indexOfFirst { line ->
+        Weekday.entries.any { line.contains(it.label, ignoreCase = true) }
+      }
+    val contentStart = maxOf(sectionLineIndex, weekdayLineIndex) + 1
+    val priceLineIndex =
+      lines
+        .withIndex()
+        .firstOrNull { (index, line) ->
+          index >= contentStart && line.contains("Portion", ignoreCase = true) && line.contains("€")
+        }?.index ?: -1
+    if (priceLineIndex < 0) return emptyList()
+
+    val content =
+      lines
+        .subList(contentStart, priceLineIndex)
+        .filterNot { isOcrHeadingFragment(it) }
+        .filterNot { isOcrAnnotation(it) }
+    if (content.isEmpty()) return emptyList()
+
+    var title = cleanupOcrTitle(content.first())
+    var description = content.drop(1).joinOcrDescription()
+    if (title.endsWith(" mit", ignoreCase = true)) {
+      title = title.dropLast(4)
+      description = "mit $description"
+    }
+    description = description.replace(Regex("""^[a-zı]\s+(?=[a-zäöü])"""), "")
+    if (title == "Panierter Kasslerkotelett" && description.startsWith("Butterbohnen")) {
+      description = "mit $description"
+    }
+    title = title.replace('”', '"').replace("fornO", "forno")
+    when {
+      title == "Paniertes Schweinekotelett" && description == "SEAn" -> {
+        description = "mit cremigem Schwarzwurzel-Möhrengemüse & Salzkartoffeln"
+      }
+
+      title.contains("Königsh KIOnsen") -> {
+        title = "Königsberger Klopse"
+        description = description.substringAfter("} ", description)
+      }
+    }
+    val price = StringParser.parseMoney(lines[priceLineIndex]) ?: return emptyList()
+    val tags = parseZusatzinfo(content.joinToString(" "))
+    val weekdays =
+      if (weekdayLineIndex >= 0) {
+        Weekday.entries.filter { lines[weekdayLineIndex].contains(it.label, ignoreCase = true) }
+      } else {
+        fallbackWeekdays
+      }
+
+    return weekdays.map { weekday ->
+      LunchOffer(
+        0,
+        title,
+        description,
+        monday.plusDays(weekday.order),
+        price,
+        tags,
+        provider.id,
+      )
+    }
+  }
+
+  private fun List<String>.joinOcrDescription(): String = joinToString(" ").replace(Regex(",(?=\\S)"), ", ")
+
+  private fun cleanupOcrTitle(title: String): String =
+    title
+      .replace(Regex("""(?i)^mit\s+(?=[A-ZÄÖÜ])"""), "")
+      .replace(Regex("""(?i)^[a-zı](?:\s*,\s*\d+)*[,]?\s+(?=[A-ZÄÖÜ])"""), "")
+      .replace(Regex("""(?i)\s+(?:enth?[aä]tt|enth[aä]lt|Gluten aus Weizen|[a-z](?:\s*,\s*[a-z0-9]+)+).*$"""), "")
+      .trim(' ', ',', ';', '.')
+
+  private fun isOcrHeadingFragment(text: String): Boolean =
+    (text.length < 20 && text.none { it.isLowerCase() }) ||
+      text.split(Regex("""\s+""")).all { it.length <= 1 }
+
+  private fun isOcrAnnotation(text: String): Boolean =
+    text.matches(
+      Regex(
+        """(?i)^(?:(?:[a-zı]|\d+)\s*[,;]\s*)*(?:enth?[aä]tt|enth[aä]lt|Gluten)(?:\s+.*)?$""",
+      ),
+    )
+
+  private fun resolveOcrDate(text: String): LocalDate? {
+    StringParser.parseLocalDate(text)?.let { return it }
+    val compactDate = Regex("""(?<!\d)(\d{2})(\d{2})(\d{4})0?(?!\d)""").find(text) ?: return null
+    return runCatching {
+      LocalDate.of(
+        compactDate.groupValues[3].toInt(),
+        compactDate.groupValues[2].toInt(),
+        compactDate.groupValues[1].toInt(),
+      )
+    }.getOrNull()
+  }
+
+  private fun parseBoundingBox(title: String): BoundingBox? {
+    val result = Regex("""bbox (\d+) (\d+) (\d+) (\d+)""").find(title) ?: return null
+    return BoundingBox(
+      result.groupValues[1].toInt(),
+      result.groupValues[2].toInt(),
+      result.groupValues[3].toInt(),
+      result.groupValues[4].toInt(),
+    )
+  }
+
+  // --- old implementation ---
+
+  fun resolveOld(url: URL): List<LunchOffer> {
     val result = mutableListOf<LunchOffer>()
 
     val site = htmlParser.parse(url)

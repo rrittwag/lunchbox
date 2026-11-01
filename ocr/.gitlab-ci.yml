@@ -1,0 +1,105 @@
+image: golang:1.26
+
+# Cachen der Dependencies
+# - Der Cache beschleunigt den CI-Lauf durch Vorhalten von Dependencies & anderen Downloads.
+# - key: ${CI_COMMIT_REF_SLUG} cacht für alle CI-Läufe eines Branches, 'any-key' cacht für alle CI-Läufe eines Projekts
+# - Jobs des selben CI-Laufs tauschen ihre Resultate via 'artifacts' aus, nicht per Caching!
+# - ACHTUNG: Das Caching greift nicht zwingend! Jeder Job muss darauf gefasst sein, den Cache neu aufzubauen!
+# - Doku siehe https://docs.gitlab.com/ee/ci/caching/
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .go/pkg/mod/
+  policy: pull
+
+variables:
+  GOPATH: $CI_PROJECT_DIR/.go
+  CGO_ENABLED: 0
+
+before_script:
+  - cd ocr # Gitlab startet Jobs in Root-Pfad. Die meisten folgenden Aufrufe sind jedoch auf den Sub-Pfad bezogen.
+
+stages:
+  - build
+  - test
+  - publish
+
+build:
+  stage: build
+  script:
+    - make build.dryrun # just a dry-run, see Containerfile
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .go/pkg/mod/
+    policy: pull-push
+
+format:
+  stage: test
+  script:
+    - make format.check
+
+lint:
+  image: golangci/golangci-lint:v2.12
+  stage: test
+  script:
+    - make lint
+
+test:
+  stage: test
+  services:
+    - docker:dind # Notwendig für Volume-Mounts in TestContainers -> https://www.testcontainers.org/supported_docker_environment/continuous_integration/gitlab_ci/
+  variables:
+    DOCKER_HOST: 'tcp://docker:2375'
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    - export PATH=$GOPATH/bin:$PATH
+    - go install gotest.tools/gotestsum@latest
+    - make test
+  artifacts:
+    when: always
+    reports:
+      junit: backend/test-report.xml
+
+vulnerabilities code:
+  image:
+    name: docker.io/aquasec/trivy
+    entrypoint: [""]
+  variables:
+    TRIVY_NO_PROGRESS: "true"
+    TRIVY_CACHE_DIR: ".trivycache/"
+  script:
+    - trivy --version
+    - time trivy clean --scan-cache
+    - time trivy fs --download-db-only --db-repository docker-ghcr.rori.dev/aquasecurity/trivy-db --java-db-repository myregistry.local/trivy-java-db --checks-bundle-repository myregistry.local/trivy-checks
+    - time trivy fs --exit-code 0 --format template --template "@/contrib/gitlab.tpl" --output gl-container-scanning-report.json .
+    - time trivy fs --exit-code 0 .
+    - time trivy fs --exit-code 1 --severity HIGH .
+  cache:
+    paths:
+      - ocr/.trivycache/
+  artifacts:
+    when: always
+    reports:
+      container_scanning: backend/gl-container-scanning-report.json
+
+docker:
+  stage: publish
+  image: docker
+  services:
+    - docker:dind # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-workflow-with-docker-executor
+  variables:
+    CONTAINER_NAME: lunchbox/ocr
+    DOCKER_REGISTRY_ADDR: $DOCKER_REGISTRY_ADDR # wird von Gitlab hereingereicht
+    DOCKER_REGISTRY_USER: $DOCKER_REGISTRY_USER # wird von Gitlab hereingereicht
+    DOCKER_REGISTRY_TOKEN: $DOCKER_REGISTRY_TOKEN # wird von Gitlab hereingereicht
+    DOCKER_HOST: "tcp://docker:2375"
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  only:
+    - main
+  script:
+    - echo "$DOCKER_REGISTRY_TOKEN" | docker login -u $DOCKER_REGISTRY_USER --password-stdin $DOCKER_REGISTRY_ADDR
+    - docker build --tag ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest --pull .
+    - docker push ${DOCKER_REGISTRY_ADDR}/${CONTAINER_NAME}:latest

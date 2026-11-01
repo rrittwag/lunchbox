@@ -1,0 +1,23 @@
+FROM container.rori.dev/runtime/nginx-brotli
+
+ARG VERSION
+ARG BUILD_DATE
+ARG GIT_COMMIT
+
+LABEL org.opencontainers.image.title="Lunchbox-Frontend" \
+      org.opencontainers.image.description="Frontend für Lunchbox" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.authors="mail@rori.info" \
+      org.opencontainers.image.url="https://code.rori.dev/apps/lunchbox" \
+      org.opencontainers.image.source="https://code.rori.dev/apps/lunchbox" \
+      org.opencontainers.image.documentation="https://code.rori.dev/apps/lunchbox" \
+      org.opencontainers.image.vendor="rori" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.revision="${GIT_COMMIT}"
+
+RUN apk update && apk upgrade --no-cache
+
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+RUN rm /etc/nginx/conf.d/default.conf
+COPY dist/ /usr/share/nginx/html

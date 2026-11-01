@@ -1,0 +1,25 @@
+name: lunchbox CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  frontend:
+    uses: ./.forgejo/workflows/frontend.yaml
+    secrets: inherit
+
+  backend:
+    uses: ./.forgejo/workflows/backend.yaml
+    secrets: inherit
+
+  ocr:
+    uses: ./.forgejo/workflows/ocr.yaml
+    secrets: inherit
+
+  deploy:
+    if: forgejo.ref == 'refs/heads/main'
+    needs: [frontend, backend, ocr]
+    uses: ./.forgejo/workflows/deploy.yaml
+    secrets: inherit
