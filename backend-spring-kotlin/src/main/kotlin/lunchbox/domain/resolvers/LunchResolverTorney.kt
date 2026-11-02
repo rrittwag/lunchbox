@@ -31,48 +31,68 @@ class LunchResolverTorney(
 ) : LunchResolver {
   override val provider = TORNEY
 
-  override fun resolve(): List<LunchOffer> = resolveFromApi(TORNEY_API_URL)
+  override fun resolve(): List<LunchOffer> {
+    val lunchResponse = fetchFromApi(TORNEY_LUNCH_API_URL, LUNCH_API_REQUEST)
+    return if (lunchResponse.hasProducts) {
+      lunchResponse.offers
+    } else {
+      fetchFromApi(TORNEY_DEALS_API_URL, DEALS_API_REQUEST).offers
+    }
+  }
 
   fun resolve(url: URL): List<LunchOffer> = resolveFromApi(url)
 
-  fun resolveFromApi(url: URL): List<LunchOffer> {
-    val response = apiClient.post(url, API_REQUEST)
-    val weeks = JSON_MAPPER.readTree(response).path("Data").path("data")
+  fun resolveFromApi(url: URL): List<LunchOffer> = fetchFromApi(url, LUNCH_API_REQUEST).offers
 
-    return weeks
-      .flatMap { week ->
-        val monday =
+  private fun fetchFromApi(
+    url: URL,
+    request: String,
+  ): ApiResponse {
+    val response = apiClient.post(url, request)
+    val weeks = JSON_MAPPER.readTree(response).path("Data").path("data")
+    val hasProducts = weeks.any { it.path("p").size() > 0 }
+
+    val offers =
+      weeks
+        .flatMap { week ->
+          val monday =
+            week
+              .path("f")
+              .stringValue("")
+              .takeIf(String::isNotBlank)
+              ?.let(LocalDate::parse) ?: return@flatMap emptyList()
           week
-            .path("f")
-            .stringValue("")
-            .takeIf(String::isNotBlank)
-            ?.let(LocalDate::parse) ?: return@flatMap emptyList()
-        week
-          .path("p")
-          .filter(::isLunchOffer)
-          .flatMap { product ->
-            val (name, descriptionFromName) = splitOfferName(product.path("name").stringValue(""))
-            val description = product.path("description").stringValue("") + descriptionFromName
-            val price =
-              product
-                .path("price")
-                .stringValue("")
-                .toBigDecimalOrNull()
-                ?.let { Money.of(CurrencyUnit.EUR, it) }
-            Weekday.entries.map { weekday ->
-              LunchOffer(
-                0,
-                normalizeName(name),
-                description,
-                monday.plusDays(weekday.order),
-                price,
-                emptySet(),
-                provider.id,
-              )
+            .path("p")
+            .filter(::isLunchOffer)
+            .flatMap { product ->
+              val (name, descriptionFromName) = splitOfferName(product.path("name").stringValue(""))
+              val description = product.path("description").stringValue("") + descriptionFromName
+              val price =
+                product
+                  .path("price")
+                  .stringValue("")
+                  .toBigDecimalOrNull()
+                  ?.let { Money.of(CurrencyUnit.EUR, it) }
+              Weekday.entries.map { weekday ->
+                LunchOffer(
+                  0,
+                  normalizeName(name),
+                  description,
+                  monday.plusDays(weekday.order),
+                  price,
+                  emptySet(),
+                  provider.id,
+                )
+              }
             }
-          }
-      }.filter { dateValidator.isValid(it.day, provider) }
+        }.filter { dateValidator.isValid(it.day, provider) }
+    return ApiResponse(hasProducts, offers)
   }
+
+  private data class ApiResponse(
+    val hasProducts: Boolean,
+    val offers: List<LunchOffer>,
+  )
 
   private fun isLunchOffer(product: JsonNode): Boolean {
     val price = product.path("price").stringValue("").toBigDecimalOrNull() ?: return false
@@ -345,9 +365,12 @@ class LunchResolverTorney(
   }
 
   companion object {
-    private val TORNEY_API_URL =
+    private val TORNEY_LUNCH_API_URL =
+      url("https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_get/lunch")
+    private val TORNEY_DEALS_API_URL =
       url("https://dev.hansenundtoth.de/fleischerhut/api/module_frontend/v/2.3/public_get/deals")
-    private const val API_REQUEST = """{"kid":"62","branch":"133","cat":"6454","deliver":"1"}"""
+    private const val LUNCH_API_REQUEST = """{"kid":"62","branch":"133","cat":"6454","deliver":"1"}"""
+    private const val DEALS_API_REQUEST = """{"kid":"62","branch":"133","cat":"4558","deliver":"1"}"""
     private val JSON_MAPPER = JsonMapper.builder().build()
   }
 }

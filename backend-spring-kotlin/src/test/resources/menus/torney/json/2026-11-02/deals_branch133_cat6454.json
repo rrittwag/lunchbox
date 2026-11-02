@@ -1,0 +1,583 @@
+{
+  "Status": false,
+  "Data": {
+    "data": [
+      {
+        "now": {
+          "date": "2026-11-02 21:19:06.769125",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "start": {
+          "date": "2026-11-02 21:19:06.769125",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "end": {
+          "date": "2026-11-08 23:59:00.000000",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "thisWeek": true,
+        "c": "2026-11-02T00:00:00+01:00",
+        "f": "2026-11-02",
+        "formatted": "02.11.26 - 08.11.26",
+        "p": [
+          {
+            "idProduct": "43462",
+            "name": "Geschnetzeltes nach Gyrosart",
+            "description": "",
+            "fk_idCategory": "4631",
+            "price": "9.9",
+            "fk_idUnit": "3",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "67",
+            "fk_idVAT": "2",
+            "fk_idStore": "110",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "00157",
+            "order_weight": "1",
+            "order_fk_idUnit": "3",
+            "average_weight": "0",
+            "selling_dates": "0",
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "34330",
+            "fk_idProduct": "43462",
+            "start": "2026-11-02 00:00:00",
+            "end": "2026-11-07 00:00:00",
+            "newPrice": "9.9",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "8",
+            "created": "2026-11-02 06:51:27",
+            "updated": "2026-11-02 06:51:27",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "14.8",
+            "media": [
+              {
+                "idMedia": "67",
+                "name": "platzhalter.png",
+                "filename": "upload\/5390add1fafd759960c71305b9977d47.png",
+                "thumbnail": "upload\/T_5390add1fafd759960c71305b9977d47.png",
+                "created": "2020-11-20 09:31:41",
+                "type": "image\/png",
+                "size": "7615",
+                "width": "300",
+                "height": "300",
+                "ownerID": null,
+                "mediaCategory": "PIKTO"
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "34330",
+                "fk_idProduct": "43462",
+                "start": "2026-11-02 00:00:00",
+                "end": "2026-11-07 00:00:00",
+                "hidden": "0",
+                "newPrice": "9.9",
+                "fk_idKunde": "62",
+                "fk_idStore": "110",
+                "prominent": "0",
+                "sorder": "8",
+                "created": "2026-11-02 06:51:27",
+                "updated": "2026-11-02 06:51:27",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "3",
+                "name": "kg",
+                "fullname": "Kilogramm",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "1",
+                "multip": "0.001"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "3",
+                "name": "kg",
+                "fullname": "Kilogramm",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "1",
+                "multip": "0.001"
+              }
+            ]
+          },
+          {
+            "idProduct": "43429",
+            "name": "Hintereisbein",
+            "description": "ca. 1500g",
+            "fk_idCategory": "4629",
+            "price": "6.9",
+            "fk_idUnit": "3",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "416",
+            "fk_idVAT": "2",
+            "fk_idStore": "110",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "00022",
+            "order_weight": "1",
+            "order_fk_idUnit": "6",
+            "average_weight": "1500",
+            "selling_dates": "0",
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "34329",
+            "fk_idProduct": "43429",
+            "start": "2026-11-02 00:00:00",
+            "end": "2026-11-07 00:00:00",
+            "newPrice": "6.9",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "7",
+            "created": "2026-11-02 06:51:03",
+            "updated": "2026-11-02 06:51:03",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "9.7",
+            "media": [
+              {
+                "idMedia": "416",
+                "name": "BL0203602_eisbein_ohne_deko.png",
+                "filename": "basic\/7e98910c0826f9a55c052c1ad3498d35.png",
+                "thumbnail": "basic\/T_7e98910c0826f9a55c052c1ad3498d35.png",
+                "created": "2021-02-02 17:08:42",
+                "type": "image\/png",
+                "size": "441641",
+                "width": "500",
+                "height": "461",
+                "ownerID": null,
+                "mediaCategory": "PIG"
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "34329",
+                "fk_idProduct": "43429",
+                "start": "2026-11-02 00:00:00",
+                "end": "2026-11-07 00:00:00",
+                "hidden": "0",
+                "newPrice": "6.9",
+                "fk_idKunde": "62",
+                "fk_idStore": "110",
+                "prominent": "0",
+                "sorder": "7",
+                "created": "2026-11-02 06:51:03",
+                "updated": "2026-11-02 06:51:03",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "3",
+                "name": "kg",
+                "fullname": "Kilogramm",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "1",
+                "multip": "0.001"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "6",
+                "name": "Stk.",
+                "fullname": "Stück",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ]
+          },
+          {
+            "idProduct": "44261",
+            "name": "Kochschinkensalat",
+            "description": "",
+            "fk_idCategory": "4684",
+            "price": "16.9",
+            "fk_idUnit": "3",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "67",
+            "fk_idVAT": "2",
+            "fk_idStore": "110",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "02264",
+            "order_weight": "100",
+            "order_fk_idUnit": "4",
+            "average_weight": "0",
+            "selling_dates": "0",
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "34333",
+            "fk_idProduct": "44261",
+            "start": "2026-11-02 00:00:00",
+            "end": "2026-11-07 00:00:00",
+            "newPrice": "16.9",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "11",
+            "created": "2026-11-02 06:52:41",
+            "updated": "2026-11-02 06:52:41",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "21.8",
+            "media": [
+              {
+                "idMedia": "67",
+                "name": "platzhalter.png",
+                "filename": "upload\/5390add1fafd759960c71305b9977d47.png",
+                "thumbnail": "upload\/T_5390add1fafd759960c71305b9977d47.png",
+                "created": "2020-11-20 09:31:41",
+                "type": "image\/png",
+                "size": "7615",
+                "width": "300",
+                "height": "300",
+                "ownerID": null,
+                "mediaCategory": "PIKTO"
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "34333",
+                "fk_idProduct": "44261",
+                "start": "2026-11-02 00:00:00",
+                "end": "2026-11-07 00:00:00",
+                "hidden": "0",
+                "newPrice": "16.9",
+                "fk_idKunde": "62",
+                "fk_idStore": "110",
+                "prominent": "0",
+                "sorder": "11",
+                "created": "2026-11-02 06:52:41",
+                "updated": "2026-11-02 06:52:41",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "3",
+                "name": "kg",
+                "fullname": "Kilogramm",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "1",
+                "multip": "0.001"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "4",
+                "name": "g",
+                "fullname": "Gramm",
+                "preselections": "[{\"name\":\"\",\"count\":100},{\"name\":\"\",\"count\":150},{\"name\":\"\",\"count\":200},{\"name\":\"\",\"count\":250},{\"name\":\"\",\"count\":500}]",
+                "devide": "1",
+                "multip": "1"
+              }
+            ]
+          },
+          {
+            "idProduct": "43490",
+            "name": "Lungwurst im Ring",
+            "description": "1 Paket = 2 Stück",
+            "fk_idCategory": "4632",
+            "price": "13.9",
+            "fk_idUnit": "3",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "6655",
+            "fk_idVAT": "2",
+            "fk_idStore": "110",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "00256",
+            "order_weight": "1",
+            "order_fk_idUnit": "9",
+            "average_weight": "260",
+            "selling_dates": "0",
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "34331",
+            "fk_idProduct": "43490",
+            "start": "2026-11-02 00:00:00",
+            "end": "2026-11-07 00:00:00",
+            "newPrice": "13.9",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "9",
+            "created": "2026-11-02 06:51:51",
+            "updated": "2026-11-02 06:51:51",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "17.9",
+            "media": [
+              {
+                "idMedia": "6655",
+                "name": "Lungenwurst (1).jpg",
+                "filename": "upload\/4cb3aaa6285fb9b0522b8582e8abc862.jpg",
+                "thumbnail": "upload\/T_4cb3aaa6285fb9b0522b8582e8abc862.jpg",
+                "created": "2023-09-14 11:30:03",
+                "type": "image\/jpeg",
+                "size": "2842143",
+                "width": "4032",
+                "height": "3024",
+                "ownerID": "62",
+                "mediaCategory": null
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "34331",
+                "fk_idProduct": "43490",
+                "start": "2026-11-02 00:00:00",
+                "end": "2026-11-07 00:00:00",
+                "hidden": "0",
+                "newPrice": "13.9",
+                "fk_idKunde": "62",
+                "fk_idStore": "110",
+                "prominent": "0",
+                "sorder": "9",
+                "created": "2026-11-02 06:51:51",
+                "updated": "2026-11-02 06:51:51",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "3",
+                "name": "kg",
+                "fullname": "Kilogramm",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "1",
+                "multip": "0.001"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "9",
+                "name": "Pck.",
+                "fullname": "Packung",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ]
+          },
+          {
+            "idProduct": "43442",
+            "name": "Roastbeef ohne Knochen",
+            "description": "ca. 2500g",
+            "fk_idCategory": "4630",
+            "price": "29",
+            "fk_idUnit": "3",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "442",
+            "fk_idVAT": "2",
+            "fk_idStore": "110",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "00204",
+            "order_weight": "1",
+            "order_fk_idUnit": "6",
+            "average_weight": "2500",
+            "selling_dates": "0",
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idDeal": "34328",
+            "fk_idProduct": "43442",
+            "start": "2026-11-02 00:00:00",
+            "end": "2026-11-07 00:00:00",
+            "newPrice": "29",
+            "fk_idKunde": "62",
+            "prominent": "0",
+            "sorder": "6",
+            "created": "2026-11-02 06:50:38",
+            "updated": "2026-11-02 06:50:38",
+            "fk_idParent": null,
+            "title": null,
+            "original_price": "36.4",
+            "media": [
+              {
+                "idMedia": "442",
+                "name": "BL0100047_rundes-roastbeef.png",
+                "filename": "basic\/3138192d66d0c40d2ce6ea6f9ca6b365.png",
+                "thumbnail": "basic\/T_3138192d66d0c40d2ce6ea6f9ca6b365.png",
+                "created": "2021-02-02 17:09:11",
+                "type": "image\/png",
+                "size": "200152",
+                "width": "500",
+                "height": "281",
+                "ownerID": null,
+                "mediaCategory": "BEEF"
+              }
+            ],
+            "lunch": [],
+            "dealable": true,
+            "lunchable": false,
+            "deal": [
+              {
+                "idDeal": "34328",
+                "fk_idProduct": "43442",
+                "start": "2026-11-02 00:00:00",
+                "end": "2026-11-07 00:00:00",
+                "hidden": "0",
+                "newPrice": "29",
+                "fk_idKunde": "62",
+                "fk_idStore": "110",
+                "prominent": "0",
+                "sorder": "6",
+                "created": "2026-11-02 06:50:38",
+                "updated": "2026-11-02 06:50:38",
+                "fk_idParent": null,
+                "title": null
+              }
+            ],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "3",
+                "name": "kg",
+                "fullname": "Kilogramm",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "1",
+                "multip": "0.001"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "6",
+                "name": "Stk.",
+                "fullname": "Stück",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "now": {
+          "date": "2026-11-02 21:19:06.769125",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "start": {
+          "date": "2026-11-09 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "end": {
+          "date": "2026-11-15 23:59:00.000000",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "thisWeek": false,
+        "c": "2026-11-09T00:00:00+01:00",
+        "f": "2026-11-09",
+        "formatted": "09.11.26 - 15.11.26",
+        "p": []
+      }
+    ]
+  },
+  "Msg": null
+}

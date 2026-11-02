@@ -17,16 +17,48 @@ class LunchResolverTorneyTest {
   private val ocrClient = mockk<OcrClient>()
   private val htmlParser = HtmlParser(mockk())
 
-  private fun resolver() =
+  private fun resolver(apiClient: TorneyApiClient = TorneyApiClient { url, _ -> url.readText() }) =
     LunchResolverTorney(
       DateValidator.alwaysValid(),
       ocrClient,
       htmlParser,
-      TorneyApiClient { url, _ -> url.readText() },
+      apiClient,
     )
 
   private val providerId = TORNEY.id
   private val uploadsDir = "${TORNEY.menuUrl}wp-content/uploads"
+
+  @Test
+  fun `resolve prefers lunch endpoint when it contains products`() {
+    val lunchJson = javaClass.getResource("/menus/torney/json/2026-11-02/lunch_branch133_cat6454.json").readText()
+    val requestedEndpoints = mutableListOf<String>()
+    val apiClient =
+      TorneyApiClient { url, _ ->
+        requestedEndpoints += url.path.substringAfterLast('/')
+        lunchJson
+      }
+
+    resolver(apiClient).resolve() shouldHaveSize 10
+    requestedEndpoints shouldBeEqualTo listOf("lunch")
+  }
+
+  @Test
+  fun `resolve falls back to deals endpoint when lunch endpoint has no products`() {
+    val dealsJson = javaClass.getResource("/menus/torney/json/2026-10-26/deals_branch133_cat6454.json").readText()
+    val requestedEndpoints = mutableListOf<String>()
+    val apiClient =
+      TorneyApiClient { url, _ ->
+        requestedEndpoints += url.path.substringAfterLast('/')
+        if (url.path.endsWith("/lunch")) {
+          """{"Data":{"data":[{"f":"2026-11-02","p":[]}]}}"""
+        } else {
+          dealsJson
+        }
+      }
+
+    resolver(apiClient).resolve() shouldHaveSize 10
+    requestedEndpoints shouldBeEqualTo listOf("lunch", "deals")
+  }
 
   @Test
   fun `resolve offers for week of 2026-10-26`() {
@@ -133,6 +165,116 @@ class LunchResolverTorneyTest {
         "mit Salzkartoffeln/Nudeln/Reis",
         week.friday,
         euro("7.90"),
+        emptySet(),
+        providerId,
+      )
+  }
+
+  @Test
+  fun `resolve offers for week of 2026-11-02`() {
+    val url = javaClass.getResource("/menus/torney/json/2026-11-02/lunch_branch133_cat6454.json")
+    val week = weekOf("2026-11-02")
+
+    val offers = resolver().resolveFromApi(url)
+
+    offers shouldHaveSize 10
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schichtkohl",
+        "mit Salzkartoffeln",
+        week.monday,
+        euro("6.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schichtkohl",
+        "mit Salzkartoffeln",
+        week.tuesday,
+        euro("6.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schichtkohl",
+        "mit Salzkartoffeln",
+        week.wednesday,
+        euro("6.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schichtkohl",
+        "mit Salzkartoffeln",
+        week.thursday,
+        euro("6.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schichtkohl",
+        "mit Salzkartoffeln",
+        week.friday,
+        euro("6.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schweineschnitzel",
+        "mit Rahmgemüse & Salzkartoffeln",
+        week.monday,
+        euro("8.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schweineschnitzel",
+        "mit Rahmgemüse & Salzkartoffeln",
+        week.tuesday,
+        euro("8.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schweineschnitzel",
+        "mit Rahmgemüse & Salzkartoffeln",
+        week.wednesday,
+        euro("8.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schweineschnitzel",
+        "mit Rahmgemüse & Salzkartoffeln",
+        week.thursday,
+        euro("8.90"),
+        emptySet(),
+        providerId,
+      )
+    offers shouldContain
+      LunchOffer(
+        0,
+        "Schweineschnitzel",
+        "mit Rahmgemüse & Salzkartoffeln",
+        week.friday,
+        euro("8.90"),
         emptySet(),
         providerId,
       )

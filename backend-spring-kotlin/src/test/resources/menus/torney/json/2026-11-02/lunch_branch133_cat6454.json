@@ -1,0 +1,241 @@
+{
+  "Status": false,
+  "Data": {
+    "data": [
+      {
+        "now": {
+          "date": "2026-11-02 21:18:18.393752",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "start": {
+          "date": "2026-11-02 21:18:18.393752",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "end": {
+          "date": "2026-11-08 23:59:00.000000",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "thisWeek": true,
+        "c": "2026-11-02T00:00:00+01:00",
+        "f": "2026-11-02",
+        "formatted": "02.11.26 - 08.11.26",
+        "p": [
+          {
+            "idProduct": "73990",
+            "name": "Schichtkohl mit Salzkartoffeln",
+            "description": "",
+            "fk_idCategory": "6454",
+            "price": "6.9",
+            "fk_idUnit": "7",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "41",
+            "fk_idVAT": "2",
+            "fk_idStore": "199",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "77096",
+            "order_weight": "1",
+            "order_fk_idUnit": "7",
+            "average_weight": "0",
+            "selling_dates": "0",
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idLunch": "24056",
+            "date": "2026-11-02",
+            "dateEnd": "2026-11-07",
+            "fk_idProduct": "73990",
+            "fk_idKunde": "62",
+            "fk_idParent": null,
+            "original_price": "6.9",
+            "media": [
+              {
+                "idMedia": "41",
+                "name": "icons8-tableware-100.png",
+                "filename": "basic\/ae5071d04989bf1468ba765fc0971d25.png",
+                "thumbnail": "basic\/ae5071d04989bf1468ba765fc0971d25.png",
+                "created": "2020-11-12 00:43:21",
+                "type": "image\/png",
+                "size": "0",
+                "width": null,
+                "height": null,
+                "ownerID": null,
+                "mediaCategory": "PIKTO"
+              }
+            ],
+            "lunch": [
+              {
+                "idLunch": "24056",
+                "date": "2026-11-02",
+                "dateEnd": "2026-11-07",
+                "fk_idProduct": "73990",
+                "fk_idStore": "199",
+                "fk_idKunde": "62",
+                "hidden": "0",
+                "fk_idParent": null
+              }
+            ],
+            "dealable": false,
+            "lunchable": true,
+            "deal": [],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "7",
+                "name": "Port.",
+                "fullname": "Portion(en)",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "7",
+                "name": "Port.",
+                "fullname": "Portion(en)",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ]
+          },
+          {
+            "idProduct": "81562",
+            "name": "Schweineschnitzel mit Rahmgemüse & Salzkartoffeln",
+            "description": "",
+            "fk_idCategory": null,
+            "price": "8.9",
+            "fk_idUnit": "7",
+            "weight": "1",
+            "specialPrice": null,
+            "fk_idMedia": "12422",
+            "fk_idVAT": "2",
+            "fk_idStore": "199",
+            "paidPerWeight": "0",
+            "hidden": "0",
+            "postalweight": null,
+            "plu": "77033",
+            "order_weight": "1",
+            "order_fk_idUnit": "7",
+            "average_weight": "0",
+            "selling_dates": "0",
+            "orderable": "1",
+            "orderable_msg": null,
+            "seasonal": "0",
+            "season_start": null,
+            "season_end": null,
+            "order_forerun_min": "0",
+            "min_order_amount": null,
+            "max_order_amount": null,
+            "idLunch": "24057",
+            "date": "2026-11-02",
+            "dateEnd": "2026-11-07",
+            "fk_idProduct": "81562",
+            "fk_idKunde": "62",
+            "fk_idParent": null,
+            "original_price": "8.9",
+            "media": [
+              {
+                "idMedia": "12422",
+                "name": "45.png",
+                "filename": "upload\/0e16717efce5355ded97ce73823bad94.png",
+                "thumbnail": "upload\/T_0e16717efce5355ded97ce73823bad94.png",
+                "created": "2026-07-27 13:28:26",
+                "type": "image\/png",
+                "size": "1087678",
+                "width": "940",
+                "height": "788",
+                "ownerID": "62",
+                "mediaCategory": null
+              }
+            ],
+            "lunch": [
+              {
+                "idLunch": "24057",
+                "date": "2026-11-02",
+                "dateEnd": "2026-11-07",
+                "fk_idProduct": "81562",
+                "fk_idStore": "199",
+                "fk_idKunde": "62",
+                "hidden": "0",
+                "fk_idParent": null
+              }
+            ],
+            "dealable": false,
+            "lunchable": true,
+            "deal": [],
+            "vat": [
+              {
+                "idVAT": "2",
+                "name": "7%",
+                "pc": "0.07",
+                "pcf": "7"
+              }
+            ],
+            "unit": [
+              {
+                "idUnit": "7",
+                "name": "Port.",
+                "fullname": "Portion(en)",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ],
+            "order_unit": [
+              {
+                "idUnit": "7",
+                "name": "Port.",
+                "fullname": "Portion(en)",
+                "preselections": "[{\"name\":\"\",\"count\":1},{\"name\":\"\",\"count\":2},{\"name\":\"\",\"count\":3},{\"name\":\"\",\"count\":4},{\"name\":\"\",\"count\":5}]",
+                "devide": "0",
+                "multip": "1"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "now": {
+          "date": "2026-11-02 21:18:18.393752",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "start": {
+          "date": "2026-11-09 00:00:00.000000",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "end": {
+          "date": "2026-11-15 23:59:00.000000",
+          "timezone_type": 3,
+          "timezone": "Europe\/Berlin"
+        },
+        "thisWeek": false,
+        "c": "2026-11-09T00:00:00+01:00",
+        "f": "2026-11-09",
+        "formatted": "09.11.26 - 15.11.26",
+        "p": []
+      }
+    ]
+  },
+  "Msg": null
+}
