@@ -219,6 +219,7 @@ class LunchResolverSuppenkulttour(
         .drop(1)
         .filterNot { isOcrAnnotation(it) }
         .map { removeOcrWeekday(it) }
+        .map { removeLeadingOcrArtifacts(it) }
         .filter { it.isNotBlank() }
         .fold("") { result, line ->
           when {
@@ -236,7 +237,7 @@ class LunchResolverSuppenkulttour(
       when (name) {
         "Kürbiseintopf" -> description.trimEnd(',')
         else -> description
-      }
+      }.normalizeOcrDescription()
 
     return ParsedOcrOffer(
       name = name,
@@ -246,6 +247,16 @@ class LunchResolverSuppenkulttour(
       weekday = weekday,
     )
   }
+
+  private fun String.normalizeOcrDescription(): String =
+    replace(Regex("""(?i)\biı\s+n\b"""), "in")
+      .replace(Regex("""(?i)\bki\s+idneybohnen\b"""), "Kidneybohnen")
+      .replace(Regex("""(?i)\bkräut\s*‚?er-"""), "Kräuter-")
+
+  private fun removeLeadingOcrArtifacts(text: String): String =
+    text
+      .replace(Regex("""(?i)^l\s+WOC\s+"""), "")
+      .replace(Regex("""^[a-zı]\s+(?=[A-ZÄÖÜ])"""), "")
 
   private fun isOcrAnnotation(text: String): Boolean =
     text.contains(Regex("""(?i)vegan|vegetarisch""")) &&

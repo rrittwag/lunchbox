@@ -430,12 +430,12 @@ class LunchResolverSuppenkulttourTest {
             ),
             ExpectedOffer(
               "Kürbiscreme",
-              "l WOC Hokkaidokürbis, Butternut, Kartoffeln, Möhren, vegane Sahne, wahlweise + geröstete Kürbiskerne",
+              "Hokkaidokürbis, Butternut, Kartoffeln, Möhren, vegane Sahne, wahlweise + geröstete Kürbiskerne",
               setOf("vegan"),
             ),
             ExpectedOffer(
               "Koreanischer „Seoul Chicken Pot“",
-              "g Hähnchenbrust, Chinakohl, Pak Choi, Möhren, Champignons, Frühlingszwiebeln, Glasnudeln, Ingwer, Knoblauch, Sojasoße, Chili, Sesam, wahlweise + gerösteter Sesam",
+              "Hähnchenbrust, Chinakohl, Pak Choi, Möhren, Champignons, Frühlingszwiebeln, Glasnudeln, Ingwer, Knoblauch, Sojasoße, Chili, Sesam, wahlweise + gerösteter Sesam",
             ),
             ExpectedOffer(
               "Deftiger Räuber-Kessel",
@@ -470,11 +470,11 @@ class LunchResolverSuppenkulttourTest {
             ),
             ExpectedOffer(
               "Pasta „Herbstliches Kürbis-Apfel-Hühnchen“",
-              "Bio-Fusilli mit zarten Hühnchenbruststreifen iı n einer cremigen Kürbis-Apfel-Soße aus Hokkaido und Butternut, verfeinert mit Sahne, einem Hauch Curry, Muskat und frischer Petersilie",
+              "Bio-Fusilli mit zarten Hühnchenbruststreifen in einer cremigen Kürbis-Apfel-Soße aus Hokkaido und Butternut, verfeinert mit Sahne, einem Hauch Curry, Muskat und frischer Petersilie",
             ),
             ExpectedOffer(
               "Afrikanischer Erdnusseintopf",
-              "‚würzig-fruchtiger Eintopf mit Kichererbsen, Ki idneybohnen, Lauch, roter Paprika, Weißkohl, Mangosaft, Erdnusspaste, Curry und frischem Ingwer",
+              "‚würzig-fruchtiger Eintopf mit Kichererbsen, Kidneybohnen, Lauch, roter Paprika, Weißkohl, Mangosaft, Erdnusspaste, Curry und frischem Ingwer",
               setOf("vegan"),
             ),
             ExpectedOffer(
@@ -483,7 +483,7 @@ class LunchResolverSuppenkulttourTest {
             ),
             ExpectedOffer(
               "Schwedentopf „2.0“",
-              "herzhaft angebratenes Hackfleisch vom Rind und Schwein mit Möhren, grünen Bohnen, Kartoffeln und Erbsen in einer cremigen Kräut ‚er-Käsesoße, dazu Preiselbeerendip",
+              "herzhaft angebratenes Hackfleisch vom Rind und Schwein mit Möhren, grünen Bohnen, Kartoffeln und Erbsen in einer cremigen Kräuter-Käsesoße, dazu Preiselbeerendip",
             ),
           ),
       )
