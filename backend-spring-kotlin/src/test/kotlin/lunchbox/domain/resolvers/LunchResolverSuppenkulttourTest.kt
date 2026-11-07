@@ -488,6 +488,51 @@ class LunchResolverSuppenkulttourTest {
           ),
       )
     }
+
+    @Test
+    fun `resolve offers for week of 2026-11-09`() {
+      assertOcrOffers(
+        "2026-11-09",
+        "2026-11-09_Plan11.11.png.html",
+        middlePrice = "7.00",
+        weekly =
+          listOf(
+            ExpectedOffer(
+              "Chicken Tikka Masala",
+              "Zartes Hühnchenfleisch mit Zucchini, Auberginen, jungen Möhren, Reis, Ingwer, Garam Masala und frischem Koriander, wahlweise mit Joghurt",
+            ),
+            ExpectedOffer(
+              "Herbstlicher Kürbis-Karotten-Topf",
+              "Gemüseeintopf mit Hokkaidokürbis, Karotten, Kartoffeln, Lauch, Pastinaken, frischer Petersilie und Muskat",
+              setOf("vegan"),
+            ),
+          ),
+        daily =
+          listOf(
+            ExpectedOffer(
+              "American Beef Chili",
+              "Herzhaftes Chili mit 100 % Rindfleisch, Mais, roten Kidneybohnen, Paprika und Tomaten, kräftig abgeschmeckt mit amerikanischen BBQ-Gewürzen",
+            ),
+            ExpectedOffer(
+              "Pasta „Tuscan Chicken“",
+              "Bio-Pasta mit Hähnchenbruststreifen, Blattspinat und Kirschtomaten in einer cremigen Tomaten-Parmesan-Soße & italienischen Kräutern",
+            ),
+            ExpectedOffer(
+              "Mercimek Çorbası",
+              "Türkische Linsensuppe aus roten Linsen, mit Ofengemüse, Kreuzkümmel, frischer Minze, Zitrone",
+              setOf("vegan"),
+            ),
+            ExpectedOffer(
+              "Hühnerfrikassee",
+              "Hühnchen, Champignons, Erbsen, Möhren, Zitrone & Lorberr, Reis",
+            ),
+            ExpectedOffer(
+              "Koreanischer Bulgogi-Nudeltopf",
+              "Marinierte Rindfleischstreifen mit Chinakohl, Karotten, Champignons, Frühlingszwiebeln, Sojasoße, Ingwer, Knoblauch, Sesam und feinen Mie-Nudeln",
+            ),
+          ),
+      )
+    }
   }
 
   private data class ExpectedOffer(
@@ -501,10 +546,12 @@ class LunchResolverSuppenkulttourTest {
     resource: String,
     weekly: List<ExpectedOffer>,
     daily: List<ExpectedOffer>,
+    middlePrice: String = "6.50",
   ) {
     val offers = resolver().parseOffers(readFileContent("/menus/suppenkulttour/ocr/$resource"))
     val week = weekOf(monday)
 
+    offers shouldHaveSize daily.size + weekly.size * week.lunchDays.size
     offers shouldHaveSize daily.size + weekly.size * week.lunchDays.size
     daily.forEachIndexed { index, expected ->
       offers shouldContain
@@ -513,7 +560,7 @@ class LunchResolverSuppenkulttourTest {
           expected.name,
           expected.description,
           week.lunchDays[index],
-          euro("6.50"),
+          euro(middlePrice),
           expected.tags + "Tagessuppe",
           providerId,
         )
@@ -526,7 +573,7 @@ class LunchResolverSuppenkulttourTest {
             expected.name,
             expected.description,
             weekday,
-            euro("6.50"),
+            euro(middlePrice),
             expected.tags,
             providerId,
           )

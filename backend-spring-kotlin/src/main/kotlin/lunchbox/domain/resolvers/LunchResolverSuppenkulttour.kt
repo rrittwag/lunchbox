@@ -178,7 +178,7 @@ class LunchResolverSuppenkulttour(
 
   private fun isOfferPrice(text: String): Boolean =
     text.contains("€") &&
-      text.contains("mittel", ignoreCase = true) &&
+      Regex("""(?i)mitt(?:el|e[!1])""").containsMatchIn(text) &&
       text.contains(Regex("""(?i)gr[o6]ß"""))
 
   private fun isHocrHeading(text: String): Boolean =
@@ -195,6 +195,16 @@ class LunchResolverSuppenkulttour(
 
   private fun resolveOcrDate(text: String): LocalDate? {
     StringParser.parseLocalDate(text)?.let { return it }
+    val separatedDate = Regex("""(?<!\d)(\d{2})[./:-](\d{2})[.:/-](\d{4})(?!\d)""").find(text)
+    if (separatedDate != null) {
+      return runCatching {
+        LocalDate.of(
+          separatedDate.groupValues[3].toInt(),
+          separatedDate.groupValues[2].toInt(),
+          separatedDate.groupValues[1].toInt(),
+        )
+      }.getOrNull()
+    }
     val compactDate = Regex("""(?<!\d)(\d{2})(\d{2})(\d{4})0?(?!\d)""").find(text) ?: return null
     return runCatching {
       LocalDate.of(
@@ -224,9 +234,16 @@ class LunchResolverSuppenkulttour(
         .fold("") { result, line ->
           when {
             result.isEmpty() -> line
+
             result.last() in setOf(',', '.', ';', ':') -> "$result $line"
+
+            Regex("""(?i)\b(?:in|mit|aus|und|oder|für|vom|von|zum|zur|im|am|auf|an|einer|einem|eine|der|die|das)\s*$""")
+              .containsMatchIn(result) -> "$result $line"
+
             line.startsWith("und ", ignoreCase = true) -> "$result $line"
+
             line.first().isLowerCase() -> "$result, $line"
+
             else -> "$result $line"
           }
         }.replace(Regex(",(?=\\S)"), ", ")
@@ -263,10 +280,11 @@ class LunchResolverSuppenkulttour(
       text.matches(Regex("""(?i)^[a-zı0-9,;.\s]+$"""))
 
   private fun parseOcrPrice(priceLine: String): Money? {
-    val priceAfterLabel = Regex("""(?i)mittel\s*(\d+[,.]\d+)""").find(priceLine)?.groupValues?.get(1)
-    val priceBeforeLabel = Regex("""(?i)(\d+[,.]\d+)\s*€?\s*mittel""").find(priceLine)?.groupValues?.get(1)
+    val priceLabel = "mitt(?:el|e[!1])"
+    val priceAfterLabel = Regex("""(?i)$priceLabel\s*(\d+[,.]\d+)""").find(priceLine)?.groupValues?.get(1)
+    val priceBeforeLabel = Regex("""(?i)(\d+[,.]\d+)\s*€?\s*$priceLabel""").find(priceLine)?.groupValues?.get(1)
     val priceWithoutSeparator =
-      Regex("""(?i)(\d)(\d{2})\s*€?\s*mittel""")
+      Regex("""(?i)(\d)(\d{2})\s*€?\s*$priceLabel""")
         .find(priceLine)
         ?.destructured
         ?.let { (euros, cents) -> "$euros,$cents" }
@@ -302,8 +320,7 @@ class LunchResolverSuppenkulttour(
         .trim()
         .replace(Regex("""^[^\p{L}„]+\s*"""), "")
         .replace(Regex("""(?i)^.*OUP.*?(?=Pulled)"""), "")
-        .replace(Regex("""(?i)^(?:D'|Mtt\s+h|Donnersta|F\s+9)\s+"""), "")
-        .replace(Regex("""^[DEMS]\s+(?=[A-ZÄÖÜ])"""), "")
+        .replace(Regex("""(?i)^(?:D'|Mtt\s+h|Donnersta|F\s+9|[CDEMS])\s+(?=[A-ZÄÖÜ„])"""), "")
         .replace(Regex("""^M\s*-\s*"""), "")
 
     result =
@@ -316,6 +333,7 @@ class LunchResolverSuppenkulttour(
     result = result.replace(Regex("""(?i)\s+G[il]uten aus Weizen.*$"""), "")
     result = result.replace(Regex("""(?i)\s+[a-zı]*\d[a-z0-9]*$"""), "")
     result = result.replace(Regex("""\ssoup$""", RegexOption.IGNORE_CASE), " Soup")
+    result = result.replace("Mercimek Corbası", "Mercimek Çorbası", ignoreCase = true)
     result = result.replace(Regex("""\s*-\s*"""), "-").trim(' ', ',', ';', '.', '-', '—')
     if (result.count { it == '„' } > result.count { it == '“' }) result += "“"
     return result
