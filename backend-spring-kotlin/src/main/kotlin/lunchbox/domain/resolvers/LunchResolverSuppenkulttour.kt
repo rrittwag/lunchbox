@@ -197,13 +197,13 @@ class LunchResolverSuppenkulttour(
     StringParser.parseLocalDate(text)?.let { return it }
     val separatedDate = Regex("""(?<!\d)(\d{2})[./:-](\d{2})[.:/-](\d{4})(?!\d)""").find(text)
     if (separatedDate != null) {
-      return runCatching {
+      runCatching {
         LocalDate.of(
           separatedDate.groupValues[3].toInt(),
           separatedDate.groupValues[2].toInt(),
           separatedDate.groupValues[1].toInt(),
         )
-      }.getOrNull()
+      }.getOrNull()?.let { return it }
     }
     val compactDate = Regex("""(?<!\d)(\d{2})(\d{2})(\d{4})0?(?!\d)""").find(text) ?: return null
     return runCatching {

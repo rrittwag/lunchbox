@@ -194,6 +194,24 @@ class LunchResolverPhoenixeumTest {
     )
   }
 
+  @Test
+  fun `resolve offers for week of 2026-11-16`() {
+    assertOcrOffers(
+      "2026-11-16",
+      "2026-11-16_Foto-13.11.26-11-10-51.png.html",
+      ExpectedOcrOffer(
+        "Bauernfrühstück",
+        "Bauernfrühstück mit Bratkartoffeln, Ei, Schinkenwürfeln und Zwiebeln, Gewürzgurke und hausgemachte Remoulade",
+        "9.00",
+      ),
+      ExpectedOcrOffer(
+        "Steak au four vom Schwein",
+        "Saftiges Schweinerückensteak mit Würzfleisch dazu und Käse überbacken, dazu Kartoffelwedges und Coleslaw",
+        "9.00",
+      ),
+    )
+  }
+
   private data class ExpectedOcrOffer(
     val name: String,
     val description: String,

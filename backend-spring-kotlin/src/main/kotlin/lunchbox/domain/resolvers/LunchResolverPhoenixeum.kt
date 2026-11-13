@@ -250,7 +250,7 @@ class LunchResolverPhoenixeum(
       .replace(Regex("""(?i)^mit\s+(?=[A-ZÄÖÜ])"""), "")
       .replace(Regex("""(?i)^[a-zı](?:\s*,\s*\d+)*[,]?\s+(?=[A-ZÄÖÜ])"""), "")
       .replace(Regex("""(?i)\s+(?:enth?[aä]tt|enth[aä]lt|Gluten aus Weizen|[a-z](?:\s*,\s*[a-z0-9]+)+).*$"""), "")
-      .trim(' ', ',', ';', '.')
+      .trim(' ', ',', ';', '.', '_')
 
   private fun isOcrHeadingFragment(text: String): Boolean =
     (text.length < 20 && text.none { it.isLowerCase() }) ||

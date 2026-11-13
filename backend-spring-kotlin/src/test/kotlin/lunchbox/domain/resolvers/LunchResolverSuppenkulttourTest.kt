@@ -533,6 +533,52 @@ class LunchResolverSuppenkulttourTest {
           ),
       )
     }
+
+    @Test
+    fun `resolve offers for week of 2026-11-16`() {
+      assertOcrOffers(
+        "2026-11-16",
+        "2026-11-16_Foto-13.11.26-11-10-51.png.html",
+        middlePrice = "7.00",
+        weekly =
+          listOf(
+            ExpectedOffer(
+              "Deftiger Wirsing-Hackfleisch-Topf , z",
+              "Eintopf mit Rinderhackfleisch, Wirsing, Kartoffeln, Möhren, Porree, mit einer Senf-Sahne-Soße, Majoran und Muskat",
+            ),
+            ExpectedOffer(
+              "Orientalischer Kichererbsen-Spinat-Topf",
+              "Aromatischer Eintopf mit Kichererbsen, roten Linsen, Blattspinat, Süßkartoffeln, Tomaten und Möhren, verfeinert mit Kreuzkümmel, Ras el Hanout, Zitrone und frischer Petersilie",
+              setOf("vegan"),
+            ),
+          ),
+        daily =
+          listOf(
+            ExpectedOffer(
+              "Blumenkohl-Cheddar-Cremesuppe ‘",
+              "Samtige Cremesuppe aus Blumenkohl, Kartoffeln und würzigem Cheddar, abgerundet, mit Muskat und einem Hauch Senf, wahlweise mit Croutons und Sonnenblumenkernen",
+              setOf("vegetarisch"),
+            ),
+            ExpectedOffer(
+              "Pasta „Champignon-Rahm-Huhn“",
+              "Bio-Fusilli mit zarten Hähnchenbruststreifen, gebratenen Champignons und Porree, in einer cremigen Kräuter-Rahmsoße, verfeinert mit Parmesan und frischer Petersilie",
+            ),
+            ExpectedOffer(
+              "Mediterraner Bohnen-Gemüse-Topf",
+              "Herzhafter Eintopf mit weißen Bohnen, Zucchini, Auberginen, Paprika, Tomaten und Kartoffelwürfeln, abgerundet mit Rosmarin, Thymian und frischem Basilikum",
+              setOf("vegan"),
+            ),
+            ExpectedOffer(
+              "Japanischer Teriyaki-Puten-Topf",
+              "Putenbrust, Chinakohl, Karotten, Shiitake-Pilze, Bambussprossen, Bohnen, Paprika und Mie-Nudeln in einer aromatischen Teriyaki-Ingwer-Soße mit Sesam",
+            ),
+            ExpectedOffer(
+              "Ungarischer Paprika-Gulaschtopf",
+              "Geschmortes Rindfleisch und Schweinefleisch mit Paprika, Kartoffeln, Zwiebeln und Tomaten in einer leicht pikanten Paprika-Soße mit gemahlenem Kümmel und etwas Schmand",
+            ),
+          ),
+      )
+    }
   }
 
   private data class ExpectedOffer(
