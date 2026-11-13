@@ -543,7 +543,7 @@ class LunchResolverSuppenkulttourTest {
         weekly =
           listOf(
             ExpectedOffer(
-              "Deftiger Wirsing-Hackfleisch-Topf , z",
+              "Deftiger Wirsing-Hackfleisch-Topf",
               "Eintopf mit Rinderhackfleisch, Wirsing, Kartoffeln, Möhren, Porree, mit einer Senf-Sahne-Soße, Majoran und Muskat",
             ),
             ExpectedOffer(
@@ -555,7 +555,7 @@ class LunchResolverSuppenkulttourTest {
         daily =
           listOf(
             ExpectedOffer(
-              "Blumenkohl-Cheddar-Cremesuppe ‘",
+              "Blumenkohl-Cheddar-Cremesuppe",
               "Samtige Cremesuppe aus Blumenkohl, Kartoffeln und würzigem Cheddar, abgerundet, mit Muskat und einem Hauch Senf, wahlweise mit Croutons und Sonnenblumenkernen",
               setOf("vegetarisch"),
             ),

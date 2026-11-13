@@ -334,7 +334,11 @@ class LunchResolverSuppenkulttour(
     result = result.replace(Regex("""(?i)\s+[a-zı]*\d[a-z0-9]*$"""), "")
     result = result.replace(Regex("""\ssoup$""", RegexOption.IGNORE_CASE), " Soup")
     result = result.replace("Mercimek Corbası", "Mercimek Çorbası", ignoreCase = true)
-    result = result.replace(Regex("""\s*-\s*"""), "-").trim(' ', ',', ';', '.', '-', '—')
+    result =
+      result
+        .replace(Regex("""\s*,\s*[a-zı]$"""), "")
+        .replace(Regex("""\s*-\s*"""), "-")
+        .trim(' ', ',', ';', '.', '-', '—', '‘')
     if (result.count { it == '„' } > result.count { it == '“' }) result += "“"
     return result
   }
