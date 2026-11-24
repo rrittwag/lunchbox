@@ -184,6 +184,7 @@ class LunchResolverSuppenkulttour(
   private fun isHocrHeading(text: String): Boolean =
     text.contains("WOCHENPLAN", ignoreCase = true) ||
       text.contains("WOCHENSUPPEN", ignoreCase = true) ||
+      text.contains("TAGESSUPPEN", ignoreCase = true) ||
       text.contains("GANZE WOCHE", ignoreCase = true) ||
       Regex("""\d{2}\.\d{2}.*-.*\d{2}\.\d{2}""").containsMatchIn(text) ||
       Regex("""\d{7,9}""").containsMatchIn(text) ||

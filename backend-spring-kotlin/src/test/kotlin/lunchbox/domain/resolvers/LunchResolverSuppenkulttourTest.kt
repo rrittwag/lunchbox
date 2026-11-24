@@ -579,6 +579,52 @@ class LunchResolverSuppenkulttourTest {
           ),
       )
     }
+
+    @Test
+    fun `resolve offers for week of 2026-11-23`() {
+      assertOcrOffers(
+        "2026-11-23",
+        "2026-11-23_Wochenplan_-Suppen-und-Tagesgerichte.png.html",
+        middlePrice = "7.00",
+        weekly =
+          listOf(
+            ExpectedOffer(
+              "Pommersche Erbsensuppe",
+              "Grüne Erbsen, Kassler, Wiener Würstchen, Thymian, Kartoffeln, Möhren und Lauch",
+            ),
+            ExpectedOffer(
+              "Afrikanische Süßkartoffelsuppe",
+              "Süßkartoffeln, Riesenbohnen, Kokos, frischer Ingwer, Erdnüsse und Paprika",
+              setOf("vegan"),
+            ),
+          ),
+        daily =
+          listOf(
+            ExpectedOffer(
+              "Grinse-Linse",
+              "Rote und schwarze Linsen, Black Eyed Peas, Ingwerwürfel, Pfirsich, Madras-Curry und eine Prise Kardamom",
+              setOf("vegan"),
+            ),
+            ExpectedOffer(
+              "Pasta mit Ossi-Würstchengulasch",
+              "Pasta mit Würstchengulasch, Letscho, Paprika und fruchtiger Tomatensoße",
+            ),
+            ExpectedOffer(
+              "Cremiger Grünkern-Gemüseeintopf",
+              "Herzhafter Grünkern mit Süßkartoffeln, Mangold, Porree und Tomaten, abgerundet mit Creme fraiche",
+              setOf("vegetarisch"),
+            ),
+            ExpectedOffer(
+              "Soto Bihun-Indonesischer Glasnudeltopf",
+              "Hühnerfleisch, Miso-Brühe, Glasnudeln, Ingwer, Champignons, Karotten, Sprossen, Sojasoße, Sherry",
+            ),
+            ExpectedOffer(
+              "Cremige Cheddar-Hackfleischsuppe",
+              "Rinderhackfleisch mit Kartoffeln, Möhren und Porree in einer cremigen Cheddar-Käse-Suppe, verfeinert mit frischen Kräutern",
+            ),
+          ),
+      )
+    }
   }
 
   private data class ExpectedOffer(
